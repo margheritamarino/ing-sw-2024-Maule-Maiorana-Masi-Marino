@@ -5,7 +5,12 @@ import java.util.Collections;
 import java.util.Random;
 
 
-//Game model
+/**
+ * @author Irene Pia Masi
+ * Game model
+ * The Game class manages the game state, including players, cards, decks, and game progression.
+ * It implements the singleton pattern to ensure only one instance of the game exists.
+ */
 public class Game {
 
 	private static Game instance;
@@ -22,7 +27,11 @@ public class Game {
 	protected boolean isEnded = false;
 	protected boolean gamestarted = false;
 
-//class singleton: private constructor
+	/**
+	 * Private Constructor
+	 * @param playersNumber The number of players in the game.
+	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
+	 */
 	private Game(int playersNumber){
 		//check number of players
 		if(playersNumber < 1 || playersNumber > 4){
@@ -41,7 +50,11 @@ public class Game {
 
 	}
 
-//Singleton
+	/**
+	 * Singleton class
+	 * @param playersNumber The number of players in the game
+	 * @return the game instance.
+	 */
 	public static synchronized Game getInstance(int playersNumber) {
 		if (instance == null) {
 			instance = new Game(playersNumber);
@@ -49,15 +62,26 @@ public class Game {
 		return instance;
 	}
 
+	/**
+	 * Checks if the game is started.
+	 * @return True if the game is started
+	 */
 	public boolean isGamestarted(){
 		return gamestarted;
 	}
 
+	/**
+	 * Checks if the game is ended.
+	 * @return True if the game is ended
+	 */
 	public boolean isEnded(){
 		return isEnded;
 	}
 
-//method to initialize players (firstplayer randomly)
+	/**
+	 * Initializes the players for the game.
+	 */
+
 	public void initializePlayers() {
 		for (int i = 0; i < chosenPlayersNumber; i++) {
 			Player player = new Player("Player " + (i + 1));
@@ -68,6 +92,10 @@ public class Game {
 		currentPlayer = new Random().nextInt(players.size());
 	}
 
+	/**
+	 * Initializes the cards for the game.
+	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
+	 */
 	public void InizializeCards() {
 		for (Player player : players) {
 			Card initialCard = initialCardsDeck.drawCard();
@@ -96,22 +124,34 @@ public class Game {
 		}
 	}
 
-//ritorna l'indice del giocatore corrente nella lista di giocatori
+	/**
+	 * @return index of current player inside players list
+	 */
 	public int getCurrentPlayerIndex(){
 		return this.currentPlayer;
 	}
-//ritorna il giocatore nella posizione dell'indice corrente
+
+	/**
+	 * @return player at "currentIndex" position
+	 */
 	public Player getCurrentPlayer(){
 		return this.players.get(this.currentPlayer);
 	}
 
+	/**
+	 * Sets the current player to the next player in counterclockwise order.
+	 */
 
-//metodo per stabilire il prossimo giocatore in ordine antiorario
 	public void nextTurn() {
 		currentPlayer = (currentPlayer + players.size() - 1) % players.size();
 		System.out.println("Turno del giocatore: " + players.get(currentPlayer).getName());
 	}
 
+	/**
+	 * Starts the game.
+	 * @return An array representing the indices of the players in the shuffled players list.
+	 * @throws NotEnoughPlayers If there are fewer than two players in the game.
+	 */
 	public int[] startGame() throws NotEnoughPlayers {
 		if (chosenPlayersNumber < 2)
 			throw new NotEnoughPlayers("The game cannot start without at least two players");
@@ -127,7 +167,11 @@ public class Game {
 		System.out.println("Game ON");
 	}
 
-//trovo il giocatore che ha raggiunto i 20 punti grazie alla Board
+	/**
+	 * Determines the winner of the game based on the score thanks to the Board.
+	 * @return The player who has reached 20 points, or null.
+	 */
+
 	public Player getWinner() {
 		Player winner = scoretrack.checkWinner(); // Controlla se un giocatore ha raggiunto i 20 punti
 		if (winner != null) {
@@ -137,7 +181,10 @@ public class Game {
 		return null; // Nessun vincitore finora
 	}
 
-	//trovo il vero vincitore sommando i punti delle carte obbiettivo
+	/**
+	 * Checks the scores from objective cards to determine the winner.
+	 */
+
 	public void checkGoals() {
 		// Calcola i punteggi relativi alle carte obiettivo per ciascun giocatore
 		Map<Player, Integer> goalScores = new HashMap<>();

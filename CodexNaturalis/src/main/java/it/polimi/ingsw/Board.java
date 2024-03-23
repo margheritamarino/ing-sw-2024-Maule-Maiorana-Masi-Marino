@@ -3,6 +3,11 @@ package it.polimi.ingsw;
 import java.util.ArrayList;
 public class Board {
 
+	/**
+	 * @author Irene Pia Masi
+	 * Board model
+	 * This class represents the game board that contains decks of cards and cards placed on the board.
+	 */
 	private ArrayList<GoldCard> goldCards; //dimension 2
 	private ArrayList<ResourceCard> resourceCards;
 	private ArrayList<ObjectiveCard> objectiveCards;
@@ -12,7 +17,10 @@ public class Board {
 
 	private final int Max_size = 2;
 
-//board è il tavolo da gioco accanto al segnapunti che contiene due mazzi e 2 carte per ogni tipo, non c'è il mazzo objective
+	/**
+	 * constructor
+	 */
+
 	public Board(){
 		this.goldCard = new ArrayList<>();
 		this.resourceCards = new ArrayList<>();
@@ -21,6 +29,9 @@ public class Board {
 		this.resourcesCardsDeck = new Deck();
 	}
 
+	/**
+	 * Adds a new Gold card to the board.
+	 */
 //metodi set per aggiungere nuove carte alla Board (2 gold, 2 resource, 2 objective)
 	public void setGoldCards() {
 		if (goldCards.size() < MAX_SIZE) { //se non ho 2 carte piazzate allora pesco una carta dal deck corrispondente usando draw
@@ -35,6 +46,10 @@ public class Board {
 			System.out.println("Maximum number of gold cards reached.");
 		}
 	}
+
+	/**
+	 * Adds a new Resource card to the board.
+	 */
 	public void setResourceCards() {
 		if (resourceCards.size() < MAX_SIZE) {
 			ResourceCard resourceCard = resourcesCardsDeck.drawCard();
@@ -49,6 +64,10 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Sets the Objective cards for the board.
+	 * @param objectiveCards The list of Objective cards to set.
+	 */
 	public void setObjectiveCards(ArrayList<ObjectiveCard> objectiveCards) {
 		if (objectiveCards.size() == Max_size) {
 			this.objectiveCards = objectiveCards;
@@ -57,6 +76,11 @@ public class Board {
 			System.out.println("Exactly " + Max_size + " objective cards must be provided.");
 		}
 	}
+
+	/**
+	 * Get methods that return the list of cards located on the board.
+	 * @return the list of cards on the board.
+	 */
 //metodi get per restituire l'elenco delle carte
 	public ArrayList<GoldCard> getGoldCards() {
 		return this.goldCards;
@@ -68,6 +92,9 @@ public class Board {
 		return this.objectiveCards;
 	}
 
+	/**
+	 * Displays the current state of the board, including all placed cards.
+	 */
 	public void showBoardState() {
 		System.out.println("Gold Cards:");
 		for (GoldCard card : goldCards) {
