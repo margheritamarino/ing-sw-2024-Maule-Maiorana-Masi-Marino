@@ -21,7 +21,7 @@ public class Game {
 	protected Deck initialCardsDeck;
 	protected Deck resourceCardsDeck;
 	protected Deck goldCardsDeck;
-	protected Scoretrack scoretrack;
+	protected ScoreTrack scoretrack;
 	private int currentPlayer;
 	protected Board board;
 	protected boolean isEnded = false;
