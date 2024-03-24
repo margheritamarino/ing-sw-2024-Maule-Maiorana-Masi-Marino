@@ -9,7 +9,7 @@ public class Book {
     private ArrayList<Card> bookArray;  //arra
 
     private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
-    private Map<Symbol, Integer> symbolMap; //n° di simboli per tipo
+    private Map<SymbolType, Integer> symbolMap; //n° di simboli per tipo
 
     public Book(Player player) {
         this.player = player;
@@ -44,7 +44,7 @@ public class Book {
     }
 
     // Metodo per creare una mappa che conta il numero di RISORSE per ogni tipo, presenti negli angoli
-    public void updateMap ( Map<ResourceType, Integer> resourceMap, Map<Symbol, Integer> symbolMap,  Card newCard){
+    public void updateMap (Map<ResourceType, Integer> resourceMap, Map<SymbolType, Integer> symbolMap, Card newCard){
         //metodo che quando AGGIUNGO una carta al tabellone aggiorna le rispettive mappe in base
         // al numero di risorse e simboli nella nuovaCarta
         // se una carta viene coperta vengono TOLTE le risorse/simboli dell'angolo coperto

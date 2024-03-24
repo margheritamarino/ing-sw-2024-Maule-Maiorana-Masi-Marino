@@ -1,16 +1,16 @@
 package it.polimi.ingsw;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
 public abstract class Card {
     private int cardID;
     private Map<Corner,Card> cornersMap;
+    private  int numCorners;
+    private ResourceType mainResource;
     private int numResources;
     private int numSymbols;
-    private List<Resource> kingdoms;
-    private List<Symbol> symbols;
+    private List<ResourceType> kingdoms;
+    private List<SymbolType> symbols;
 
 
     public int getCardID() {
