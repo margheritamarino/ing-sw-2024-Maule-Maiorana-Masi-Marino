@@ -103,9 +103,14 @@ NOTA: in un deck ho un array per il front delle carte e un array per il back
       //implementa
         return false;
     }
+    public Card drawCard(){ //NOTA: RESTITUISCE CHE TIPO DI CARTA??
+        //metodo che restituisce una carta pescata RANDOM dal deck rispettivo->
+        // per ogni tipo di deck deve restituire il tipo di carta corrispondente
+        // decrementa il numero di carte del deck
+    }
 
     public Card pickCard(Deck deck, Player player) {
-        //il giocatore pesca (in mano) -> aggiunger al suo playerDeck la prima carta e
+        //il giocatore pesca (in mano) -> aggiunge al suo playerDeck la prima carta e
         // decrementa il numero di carte del deck
 
     }
@@ -116,4 +121,14 @@ NOTA: in un deck ho un array per il front delle carte e un array per il back
         //il deck si deve aggiornare rimuovendo una carta -> METODO PER RIMUOVERE CARTA DAL DECK??
     }
 
+    public ArrayList<Card> getFrontCardList(){ //getter della lista dei front
+        if (frontCardList!= null)
+            return frontCardList;
+        return null;
+    }
+    public ArrayList<Card> getBackCardList(){ //getterLista dei back
+        if (backCardList!= null)
+            return backCardList;
+        return null;
+    }
 }

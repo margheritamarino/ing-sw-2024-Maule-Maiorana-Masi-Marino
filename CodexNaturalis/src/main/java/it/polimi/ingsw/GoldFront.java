@@ -7,12 +7,12 @@ public class GoldFront extends GoldCard{
     final int VictoryPoints;
     final List<Resource> PlacementCondition; //lista di risorse che devono essere presenti nel Book del Player perchè possano essere piazzate
     final int numResources;
-    final SymbolType symbolType;
+    final Symbol symbolType;
     final boolean cornerCondition;
 
     //Methods
     // Costruttore
-    public GoldFront(int victoryPoints, List<Resource> placementCondition, int numResources, SymbolType symbolType, boolean cornerCondition) {
+    public GoldFront(int victoryPoints, List<Resource> placementCondition, int numResources, Symbol symbolType, boolean cornerCondition) {
         this.VictoryPoints = victoryPoints;
         this.PlacementCondition = placementCondition;
         this.numResources = numResources;
@@ -33,7 +33,7 @@ public class GoldFront extends GoldCard{
         return numResources;
     }
 
-    public SymbolType getSymbolType() {
+    public Symbol getSymbolType() {
         return symbolType;
     }
 
