@@ -6,7 +6,8 @@ public class ResourceBack extends ResourceCard {
     final ResourceType Resource; //FINAL perchè gli attributi sulle carte una volta istanziati non possono più essere modificati (è la grafica specifica di ciascuna carta)
 
     // Costruttore
-    public ResourceBack() { //Costruttore che assegna un valore RANDOMICO tra i 4 possibili all'attributo ResourceType
+    public ResourceBack(int cardID) { //Costruttore che assegna un valore RANDOMICO tra i 4 possibili all'attributo ResourceType
+            super.setCardID(cardID); // Chiama il costruttore della classe genitore per inizializzare l'ID della carta
 
         // Ottieni un indice casuale per selezionare un valore casuale dall'enumerazione ResourceType
         Random random = new Random(); //crea un nuovo oggetto della classe Random
