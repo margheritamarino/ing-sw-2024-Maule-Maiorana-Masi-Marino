@@ -35,13 +35,31 @@ public class ScoreTrack {
 
 	}
 
-    /**
+	/**
+	 * Retrieves the score of the specified player.
+	 * @param player The player whose score is to be retrieved.
+	 * @return the score of the player.
+	 */
+	public int getPlayerScore(Player player){
+		return pointsPlayers.getOrDefault(player, 0);
+	}
+
+	/**
+	 * Sets the score of the player.
+	 * @param score the new score for the player.
+	 */
+	public void setPlayerScore(Player player, int score){
+		pointsPlayers.put(player, score);
+	}
+
+
+	/**
      * Checks the points needed by each player to reach 20 points.
      * @return a map containing each player and the points needed to reach a score of 20.
      */
 
 	public Map<Player, Integer> checkTo20() {
-		Map<Player, Integer> pointsTo20 = new Map<>(); //new map with player and point to reach 20
+		Map<Player, Integer> pointsTo20 = new HashMap<>(); //new map with player and point to reach 20
 		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) { //itero la mappa attraverso entrySet ead accedo alle coppie chiave-valore tramite la Map.Entry
 			Player player = entry.getKey();
 			int points = entry.getValue();
