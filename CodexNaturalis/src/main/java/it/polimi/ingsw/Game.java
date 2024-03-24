@@ -38,10 +38,10 @@ public class Game {
 			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
 		}
 		this.chosenPlayersNumber = playersNumber;
-		this.objectiveCardsDeck = new Deck(16);
-		this.initialCardsDeck = new Deck(6);
-		this.goldCardsDeck = new Deck(40);
-		this.resourceCardsDeck = new Deck(40);
+		this.objectiveCardsDeck = new Deck(DeckType.Objective);
+		this.initialCardsDeck = new Deck(DeckType.Initial);
+		this.goldCardsDeck = new Deck(DeckType.Gold);
+		this.resourceCardsDeck = new Deck(DeckType.Resource);
 	//nota: ho fatto il costruttore del deck che ha come parametro
 	// la stringa del tipo di carte -> assegno un numCards diverso(perchè sono diversi il base al tipo di carte)
 
@@ -104,14 +104,20 @@ public class Game {
 			player.addCard(initialCard);
 		}
 //player choose ObjectiveCard
-		ArrayList<Card>  drawnObjectiveCards = new ArrayList<>();
+		/* - pesca dal deck 2 carte casuali
+		 - chiede al player quale carta vuole tra le 2
+		 - aggiunge l'obbiettivo al player
+
+		 */
+		ArrayList<ObjectiveFront>  drawnObjectiveCards = new ArrayList<ObjectiveFront>();
 		for (Player player : players) {
 			for (int i = 0; i < 2; i++) {
-				Card objectiveCard = objectiveCardsDeck.drawCard();
+				ObjectiveFront objectiveCard = (ObjectiveFront) objectiveCardsDeck.drawCard(); //possibile errori di sopraclasse/sottoclasse
+				//drawCard restituisce Card (?)
 				drawnObjectiveCards.add(objectiveCard);
 			}
-			Card chosenObjectiveCard = player.chooseObjectiveCard(drawnObjectiveCards);
-			player.addCard(chosenObjectiveCard);
+			ObjectiveFront chosenObjectiveCard = player.chooseObjectiveCard(drawnObjectiveCards);
+			player.setGoal(chosenObjectiveCard); //assegna al playerGoal la carta obbiettivo scelta
 		}
 
 		for (Player player : players) {
