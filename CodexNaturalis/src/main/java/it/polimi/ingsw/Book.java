@@ -5,15 +5,15 @@ import java.util.Map;
 
 // BOOK: disposizione delle carte di ogni player
 public class Book {
-    private Player player; //riferimento al player di cui è il book
+    //private Player player; //riferimento al player di cui è il book -> il riferimento del book è nel player
     private ArrayList<Card> bookArray;  //arra
 
     private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
     private Map<Symbol, Integer> symbolMap; //n° di simboli per tipo
 
     public Book(Player player) {
-        this.player = player;
         this.bookArray = new ArrayList<>();
+        //mappe??
     }
 
     //METODI GETTER
@@ -21,9 +21,9 @@ public class Book {
         return this.bookArray;
     }
 
-    public Player getPlayer() {
+   /*/ public Player getPlayer() {
         return player;
-    }
+    }*/
 
     public int bookSize(){ //ritorna il numero di carte della lista (presenti nel book)
 

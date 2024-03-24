@@ -12,7 +12,7 @@ public class GoldFront extends GoldCard{
 
     //Methods
     // Costruttore
-    public GoldFront(int victoryPoints, List<Resource> placementCondition, int numResources, Symbol symbolType, boolean cornerCondition) {
+    public GoldFront() {
         this.VictoryPoints = victoryPoints;
         this.PlacementCondition = placementCondition;
         this.numResources = numResources;
