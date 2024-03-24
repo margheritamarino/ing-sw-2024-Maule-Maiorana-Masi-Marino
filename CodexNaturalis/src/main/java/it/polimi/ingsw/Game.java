@@ -104,16 +104,12 @@ public class Game {
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
 	public void InizializeCards() {
+		//CARTE INIZIALI
 		for (Player player : players) {
 			Card initialCard = initialCardsDeck.drawCard();
 			player.addCard(initialCard);
 		}
-//player choose ObjectiveCard
-		/* - pesca dal deck 2 carte casuali
-		 - chiede al player quale carta vuole tra le 2
-		 - aggiunge l'obbiettivo al player
 
-		 */
 		ArrayList<ObjectiveFront>  drawnObjectiveCards = new ArrayList<ObjectiveFront>();
 		for (Player player : players) {
 			for (int i = 0; i < 2; i++) {
@@ -157,7 +153,7 @@ public class Game {
 
 	public void nextTurn() {
 		currentPlayer = (currentPlayer + players.size() - 1) % players.size();
-		System.out.println("Turno del giocatore: " + players.get(currentPlayer).getName());
+		System.out.println("Turno del giocatore: " + players.get(currentPlayer).getNickname();
 	}
 
 	/**
@@ -175,7 +171,7 @@ public class Game {
 
 			// Set the first player randomly
 			currentPlayer = new Random().nextInt(players.size());
-			System.out.println("The first player is: " + players.get(currentPlayer).getName());
+			System.out.println("The first player is: " + players.get(currentPlayer).getNickname();
 
 			gamestarted = true;
 			System.out.println("Game ON");
@@ -217,7 +213,7 @@ public class Game {
 		Map<Player, Integer> goalScores = new HashMap<>();
 		for (Player player : players) {
 			int playerScore = 0;
-			for (ObjectiveCard objectiveCard : player.getObjectiveCards()) {
+			for (ObjectiveCard objectiveCard : player.getGoal() { //rivedere perchè il player ha solo un obbiettivo
 				playerScore += objectiveCard.getPoints();
 			}
 			goalScores.put(player, playerScore);
