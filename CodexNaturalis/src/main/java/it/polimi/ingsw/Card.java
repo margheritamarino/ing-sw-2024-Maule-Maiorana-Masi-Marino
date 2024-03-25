@@ -76,4 +76,6 @@ public abstract class Card {
     public Card getConnectedCard(Corner corner) {
         return cornersMap.get(corner);
     }
+
+
 }
