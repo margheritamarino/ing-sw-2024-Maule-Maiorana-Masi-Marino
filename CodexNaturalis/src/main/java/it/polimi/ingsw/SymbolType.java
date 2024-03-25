@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-public enum Symbol {
+public enum SymbolType {
     QUILL,
     INKWELL,
     MANUSCRIPT;
