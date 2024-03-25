@@ -125,6 +125,16 @@ public class Corner {
             }
     }
 
+    //Setta randomicamente (e senza mandare nessun parametro in ingresso) una ResourceType al corner
+    public void setRandomicResource (){
+
+    }
+
+    //Setta randomicamente (e senza mandare nessun parametro in ingresso) un SymbolType al Corner
+    public void setRandomicSymbol (){
+
+    }
+
     public Card getLinkedCard() {
         return linkedCard;
     }

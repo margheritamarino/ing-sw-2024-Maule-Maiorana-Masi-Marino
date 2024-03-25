@@ -47,7 +47,7 @@ public abstract class Card {
      * @param numCorners number of corners in card
      */
 
-    private void setRandomCornersMap(int numCorners) {
+    public void setRandomCornersMap(int numCorners) {
         List<CornerType> cornerTypes = new ArrayList<>();
         Collections.addAll(cornerTypes, CornerType.values());
         Collections.shuffle(cornerTypes);
@@ -58,8 +58,11 @@ public abstract class Card {
     }
 
 
-
-    private ResourceType setRandomMainResource() {
+    /**
+     * @author Margherita Marino, Martina Maiorana
+     * This method set a randomic MainResource for the Card
+     */
+    public ResourceType setRandomMainResource() {
         List<ResourceType> resourceTypes = new ArrayList<>();
         Collections.addAll(resourceTypes, ResourceType.values());
         Collections.shuffle(resourceTypes);
@@ -69,4 +72,7 @@ public abstract class Card {
     public ResourceType getMainResource() {
         return mainResource;
     }
+
+
+
 }
