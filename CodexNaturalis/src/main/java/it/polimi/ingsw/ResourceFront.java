@@ -11,7 +11,8 @@ public class ResourceFront extends ResourceCard {
 
     /**
      * @author Martina Maiorana
-     * constructor of Card type: ResourceFront
+     * constructor of Card type ResourceFront: it can generate randomically
+     * 3 different types of Resource Front cards
      * @param cardID id of the Card
      * @throws IllegalStateException if random function generate a number out of range
      */

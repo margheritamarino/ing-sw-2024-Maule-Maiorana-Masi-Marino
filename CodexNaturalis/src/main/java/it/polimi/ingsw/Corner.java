@@ -45,12 +45,11 @@ public class Corner {
     }
 
     public void setResource(ResourceType resourceType) {
-        if(resourceType == null){
+        if (resourceType == null) {
             setContainsResource(false);
             this.resource = null;
-        }
-        else{
-            switch(resourceType) {
+        } else {
+            switch (resourceType) {
                 case ANIMALKINGDOM:
                     this.resource = ResourceType.ANIMALKINGDOM;
                     setContainsResource(true);
@@ -72,6 +71,8 @@ public class Corner {
             }
 
         }
+        this.setContainsResource(true);
+    }
 
         public void setSymbol(SymbolType symbolType) {
             if(symbolType == null){
@@ -96,6 +97,7 @@ public class Corner {
                         throw new IllegalArgumentException("Invalid symbolType");
                 }
             }
+            this.setContainsSymbol(true);
         }
 
 
