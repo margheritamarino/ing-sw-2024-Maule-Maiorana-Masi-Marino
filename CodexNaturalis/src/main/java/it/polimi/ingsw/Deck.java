@@ -1,26 +1,14 @@
 package it.polimi.ingsw;
-
-
 import java.util.ArrayList;
-
-//il deck è visto come un array di int (da 1 40 GoldCard, ...) ogniintero rappresenta un cardID che è univoco per front e back di uno stesso tipo di carta
+import java.util.Random;
 
 public class Deck {
-/*
-NOTA: in un deck ho un array per il front delle carte e un array per il back
-        -> nella STESSA POSIZIONE dei due array trovo la STESSA CARTA
-            (es. carta n.6 -> front in frontCardList[6] e back in backCardList[6])*/
-    //private ArrayList<Card> frontCardList;
-    //private ArrayList<Card> backCardList;
     private int numCards;
-    private DeckType deckType;
+    private final DeckType deckType;
+    private static ArrayList<Integer> cardIds;
 
     public Deck( DeckType deckType){
-        //1 array per i front e 1 array per i back
-        //this.frontCardList = new ArrayList<Card>();
-        //this.backCardList = new ArrayList<Card>();
         this.deckType= deckType;
-
         // numero di carte varia in base al tipo di carta
         switch (deckType){
             case Gold, Resource -> {
@@ -34,107 +22,86 @@ NOTA: in un deck ho un array per il front delle carte e un array per il back
                 this.numCards = 16;
             }
         }
+        this.cardIds= new ArrayList<>(numCards);
     }
 
-    public void initializeDeck(Deck deck){
-        if (deck!=null) {
-            switch (deck.deckType){
-                //DECK DELLE GOLD CARDS
-                case (deck.deckType= Gold ) -> {
-                    //istanzio arraylist per il FFRONT
-                    for (int i = 1; i <= deck.numCards; i++) {
-                        int cardID = i;
-                        GoldCard newGoldFront = new GoldFront(cardID); //creo una carta del tipo GoldFront
-                        //deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    //}
-                    //for (int i = 0; i < deck.numCards; i++) {
-                        GoldCard newGoldBack = new GoldBack(); //creo una carta del tipo GoldFront
-                        //deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    }
-                }
-                //DECK DELLE RESOURCE CARDS
-                case (deck.deckType= Resource ) -> {
-                    //istanzio arraylist per il FFRONT
-                    for (int i = 41; i <= deck.numCards + 40; i++) {
-                        //creo una carta del tipo GoldFront
-                        int cardID = i;
-                        ResourceCard newResourceFront = new ResourceFront(cardID); //MODIFICARE COSTRUTTORE
-                        //deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    //}
-                    //for (int i = 0; i < deck.numCards; i++) {
-                        ResourceCard newResourceBack = new ResourceBack(cardID); //creo una carta del tipo GoldFront
-                        //deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    }
-                }
-            /*DECK DELLE OBJECTIVE
-            SOLO array list del FRONT
-            il BACK non è istanziato quindi BackCardList = null
-         -->  RICORDA: quando accedi a un deck verificare se è diverso da null
-            if (deck.backCardList != null)*/
-                case (deck.deckType= Resource ) -> {
-                    //istanzio arraylist per il FFRONT
-                    for (int i = 81; i <= deck.numCards + 80; i++) {
-                        int cardID = i;
-                        ObjectiveCard newObjectiveFront = new ObjectiveFront(cardID); //creo una carta del tipo GoldFront
-                        //deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    }
-                }
+    public void initializeDeck(){
 
-                //DECK delle INITIAL
-                case (deck.deckType= Initial ) -> {
-                    //istanzio arraylist per il FFRONT
-                    for (int i = 98; i <= deck.numCards + 97; i++) {
-                        int cardID = i;
-                        InitialCard newInitialFront = new InitialFront(cardID); //creo una carta del tipo GoldFront
-                        //deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    //}
-                    //for (int i = 0; i < deck.numCards; i++) {
-                        InitialCard newInitialBack = new InitialBack(cardID); //creo una carta del tipo GoldFront
-                        //deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    }
+        switch (deckType) {
+
+            //GoldCards' deck -> CardIds: 1 - 40
+            case Gold:
+                for (int i = 1; i <= numCards; i++) {
+                    //riempio l'array di GoldCard con i cardIds da 1 a 40
+                    cardIds.add(i);
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + deck.deckType);
-            }
+            break;
+            //ResourceCards' deck -> CardIds: 41 - 80
+            case Resource:
+                for (int i = 41; i <= numCards + 40; i++) {
+                    cardIds.add(i);
+
+                }
+            break;
+            //ObjectiveCards's deck-> CardIds: 81 - 97
+            case Objective:
+                for (int i = 81; i <= numCards + 80; i++) {
+                    cardIds.add(i);
+                }
+            break;
+
+            //InitialCArds's deck-> CardIds: 98 - 103
+            case Initial:
+                for (int i = 98; i <= numCards + 97; i++) {
+                    cardIds.add(i);
+                }
+            break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + deckType);
         }
-        else
-            throw new IllegalArgumentException("Deck non può essere null");
     }
 
     public void shuffle(){ //metodo che mescola le carte del deck
-    //implEMENTA
+    //non so se serve
 
     }
-
-    public boolean isEmpty(Deck deck){ //verifica se il mazzo è vuoto
-      //implementa
-        return false;
-    }
-    public Card drawCard(){ //NOTA: RESTITUISCE CHE TIPO DI CARTA??
-        //metodo che restituisce una carta pescata RANDOM dal deck rispettivo->
-        // per ogni tipo di deck deve restituire il tipo di carta corrispondente
-        // decrementa il numero di carte del deck
-    }
-
-    public Card pickCard(Deck deck, Player player) {
-        //il giocatore pesca (in mano) -> aggiunge al suo playerDeck la prima carta e
-        // decrementa il numero di carte del deck
-
+    public boolean checkEndDeck(){
+        if(cardIds!=null){
+            if(numCards>0)
+                return true;
+            else
+                return false;
+        }
+        else
+            throw new IllegalArgumentException("Initialized Deck");
     }
 
-    public void addBoard() { // metodo da aggiungere al BOARD ???
-        //quando il giocatore pesca una carta dal board,
-        // il board si deve aggiornare aggiungendo una carta del deck del tipo che il player ha preso
-        //il deck si deve aggiornare rimuovendo una carta -> METODO PER RIMUOVERE CARTA DAL DECK??
+    //IDEA: creare la Enum CardType che identifica il tipo di carta che voglio creare e restituisco quella
+        public static Card drawCard(CardType cardType) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(cardIds.size());  // Generazione di un indice casuale
+            int cardId = cardIds.get(randomIndex); // Recupero del valore corrispondente all'indice casuale
+            switch (cardType) {
+                case ObjectiveFront:
+                    return new ObjectiveFront(cardId);
+                case ResourceFront:
+                    return new ResourceFront(cardId);
+                case ResourceBack:
+                    return new ResourceBack(cardId);
+                // Aggiungi altri casi per gli altri tipi di carte...
+                default:
+                    throw new IllegalArgumentException("Tipo di carta non supportato: " + cardType);
+            }
+        }
+
+//oppure creo un metodo per ogni sottotipo
+    public ObjectiveFront drawObjectiveCard(){
+        Random random = new Random();
+        int randomIndex = random.nextInt(cardIds.size());  // Generazione di un indice casuale
+        int cardId = cardIds.get(randomIndex); // Recupero del valore corrispondente all'indice casuale
+
+        ObjectiveFront newCard= new ObjectiveFront(cardId); //controllare costruttore
+        return newCard;
     }
 
-    public ArrayList<Card> getFrontCardList(){ //getter della lista dei front
-        if (frontCardList!= null)
-            return frontCardList;
-        return null;
-    }
-    public ArrayList<Card> getBackCardList(){ //getterLista dei back
-        if (backCardList!= null)
-            return backCardList;
-        return null;
-    }
 }

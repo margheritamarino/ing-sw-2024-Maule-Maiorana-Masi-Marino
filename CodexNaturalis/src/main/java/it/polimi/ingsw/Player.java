@@ -87,7 +87,8 @@ public class Player {
     }
 
     public void placeCard(Card chosenCard){
-        //IMPLEMENTA metodo che aggiunge la carta selta tra le 3 del playerDeck
+        //Igiocatore sceglie la carta tra le 3 del playerDeck
+        //
         // al Book del player
         // scelta posizione ?
     }
