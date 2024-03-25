@@ -7,7 +7,7 @@ import java.util.Random;
 public class Player {
 
     private String nickname;
-    private PlayerColor color;
+    private ColorType color;
     private PlayerState state;
     private PlayerDeck playerDeck;
     private Book playerBook;
@@ -17,7 +17,7 @@ public class Player {
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
 
 // CHI DECIDE LO STATO DEI GIOCATORI?
-    public Player(String nickname, PlayerColor color) {
+    public Player(String nickname, ColorType color) {
         this.nickname = nickname;
         this.color = color;
         this.playerGoal = new ObjectiveFront();
@@ -26,21 +26,6 @@ public class Player {
         this.playerDeck = new PlayerDeck();
     };
 
-    public void setNickname(String nickname){
-        this.nickname = nickname;
-    }
-
-    public String getNickname(){
-        return nickname;
-    }
-
-    public void setColor(PlayerColor color){
-        this.color = color;
-    }
-
-    public ColorType getColor(){
-        return color;
-    }
     public void setPlayerState(Player player, PlayerState state) {
          player.state=state;
     }
