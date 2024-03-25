@@ -5,7 +5,7 @@ import java.util.Random;
 public class Deck {
     private int numCards;
     private final DeckType deckType;
-    private ArrayList<Integer> cardIds;
+    private static ArrayList<Integer> cardIds;
 
     public Deck( DeckType deckType){
         this.deckType= deckType;
@@ -76,6 +76,25 @@ public class Deck {
             throw new IllegalArgumentException("Initialized Deck");
     }
 
+    //IDEA: creare la Enum CardType che identifica il tipo di carta che voglio creare e restituisco quella
+        public static Card drawCard(CardType cardType) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(cardIds.size());  // Generazione di un indice casuale
+            int cardId = cardIds.get(randomIndex); // Recupero del valore corrispondente all'indice casuale
+            switch (cardType) {
+                case ObjectiveFront:
+                    return new ObjectiveFront(cardId);
+                case ResourceFront:
+                    return new ResourceFront(cardId);
+                case ResourceBack:
+                    return new ResourceBack(cardId);
+                // Aggiungi altri casi per gli altri tipi di carte...
+                default:
+                    throw new IllegalArgumentException("Tipo di carta non supportato: " + cardType);
+            }
+        }
+
+//oppure creo un metodo per ogni sottotipo
     public ObjectiveFront drawObjectiveCard(){
         Random random = new Random();
         int randomIndex = random.nextInt(cardIds.size());  // Generazione di un indice casuale
