@@ -11,15 +11,12 @@ public class Corner {
     private Card linkedCard;
 
 
-    /**
-     * @author Margherita Marino
-     * @param cornerType type of corner to create
-     * @throws IllegalArgumentException if cornerType is not a valid CornerType
-     */
+
     public Corner(CornerType cornerType, ResourceType resourceType, SymbolType symbolType) {
         setCornerType(cornerType);
         setResource(resourceType);
         setSymbol(symbolType);
+        this.linkedCard = null;
 
     }
 
@@ -43,74 +40,94 @@ public class Corner {
         return symbol;
     }
 
-    public void setSymbol(SymbolType symbol) {
-        this.symbol = symbol;
-    }
-
     public ResourceType getResource() {
         return resource;
     }
 
     public void setResource(ResourceType resourceType) {
-        switch(resourceType) {
-            case null:
-                this.resource = null;
-            case ANIMALKINGDOM:
-                this.resource = ResourceType.ANIMALKINGDOM;
-                break;
-            case FUNGIKINGDOM:
-                this.resource = ResourceType.FUNGIKINGDOM;
-                break;
-            case PLANTKINGDOM:
-                this.resource = ResourceType.PLANTKINGDOM;
-                break;
-            case INSECTKINGDOM:
-                this.resource = ResourceType.INSECTKINGDOM;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid resourceType");
+        if(resourceType == null){
+            setContainsResource(false);
+            this.resource = null;
+        }
+        else{
+            switch(resourceType) {
+                case ANIMALKINGDOM:
+                    this.resource = ResourceType.ANIMALKINGDOM;
+                    setContainsResource(true);
+                    break;
+                case FUNGIKINGDOM:
+                    this.resource = ResourceType.FUNGIKINGDOM;
+                    setContainsResource(true);
+                    break;
+                case PLANTKINGDOM:
+                    this.resource = ResourceType.PLANTKINGDOM;
+                    setContainsResource(true);
+                    break;
+                case INSECTKINGDOM:
+                    this.resource = ResourceType.INSECTKINGDOM;
+                    setContainsResource(true);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid resourceType");
+            }
 
         }
 
         public void setSymbol(SymbolType symbolType) {
-            switch(symbolType) {
-                case null:
-                    this.symbol = null;
-                case QUILL:
-                    this.symbol = SymbolType.QUILL;
-                    break;
-                case INKWELL:
-                    this.symbol = SymbolType.INKWELL;
-                    break;
-                case MANUSCRIPT:
-                    this.symbol = SymbolType.MANUSCRIPT;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid symbolType");
-
+            if(symbolType == null){
+                setContainsSymbol(false);
+                this.symbol = null;
             }
+            else {
+                switch (symbolType) {
+                    case QUILL:
+                        this.symbol = SymbolType.QUILL;
+                        setContainsSymbol(true);
+                        break;
+                    case INKWELL:
+                        this.symbol = SymbolType.INKWELL;
+                        setContainsSymbol(true);
+                        break;
+                    case MANUSCRIPT:
+                        this.symbol = SymbolType.MANUSCRIPT;
+                        setContainsSymbol(true);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid symbolType");
+                }
+            }
+        }
 
 
     public void setCornerType(CornerType cornerType) {
-        switch(cornerType) {
-            case TOPR:
-                this.cornerType = cornerType.TOPR;
-                break;
-            case TOPL:
-                this.cornerType = cornerType.TOPL;
-                break;
-            case LOWR:
-                this.cornerType = cornerType.LOWR;
-                break;
-            case LOWL:
-                this.cornerType = cornerType.LOWL;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid corner type");
-
-        }
+            if(cornerType == null){
+                this.cornerType = null;
+            }
+            else {
+                switch (cornerType) {
+                    case TOPR:
+                        this.cornerType = CornerType.TOPR;
+                        break;
+                    case TOPL:
+                        this.cornerType = CornerType.TOPL;
+                        break;
+                    case LOWR:
+                        this.cornerType = CornerType.LOWR;
+                        break;
+                    case LOWL:
+                        this.cornerType = CornerType.LOWL;
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid corner type");
+                }
+            }
     }
 
+    public Card getLinkedCard() {
+        return linkedCard;
+    }
 
-
+    public void setLinkedCard(Card linkedCard) {
+        this.linkedCard = linkedCard;
+    }
 }
