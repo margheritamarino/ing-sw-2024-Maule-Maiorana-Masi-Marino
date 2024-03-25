@@ -3,20 +3,24 @@ package it.polimi.ingsw;
 
 import java.util.ArrayList;
 
+
+//vedere il deck come un array di valori (da 0 a 40 per le gold, da 41 a 81 le resource, da 81 a 97 le objective, da 98 a 104 le initial)
+//il deck crea metodo che istanzia la carta e la restituisce ad ogni classe che vuole una carta. il costruttore della carta deve passare CardID come parametro.
+//in base a se voglio il front o il back di una carta, istanzio il front o il back.
 public class Deck {
 /*
 NOTA: in un deck ho un array per il front delle carte e un array per il back
         -> nella STESSA POSIZIONE dei due array trovo la STESSA CARTA
             (es. carta n.6 -> front in frontCardList[6] e back in backCardList[6])*/
-    private ArrayList<Card> frontCardList;
-    private ArrayList<Card> backCardList;
+    //private ArrayList<Card> frontCardList;
+    //private ArrayList<Card> backCardList;
     private int numCards;
     private DeckType deckType;
 
     public Deck( DeckType deckType){
         //1 array per i front e 1 array per i back
-        this.frontCardList = new ArrayList<Card>();
-        this.backCardList = new ArrayList<Card>();
+        //this.frontCardList = new ArrayList<Card>();
+        //this.backCardList = new ArrayList<Card>();
         this.deckType= deckType;
 
         // numero di carte varia in base al tipo di carta
@@ -40,26 +44,28 @@ NOTA: in un deck ho un array per il front delle carte e un array per il back
                 //DECK DELLE GOLD CARDS
                 case (deck.deckType= Gold ) -> {
                     //istanzio arraylist per il FFRONT
-                    for (int i = 0; i < deck.numCards; i++) {
-                        GoldCard newCard = new GoldFront(); //creo una carta del tipo GoldFront
-                        deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    }
-                    for (int i = 0; i < deck.numCards; i++) {
-                        GoldCard newCard = new GoldBack(); //creo una carta del tipo GoldFront
-                        deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
+                    for (int i = 1; i < deck.numCards; i++) {
+                        int cardID = i;
+                        GoldCard newGoldFront = new GoldFront(cardID); //creo una carta del tipo GoldFront
+                    //    deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
+                    //}
+                    //for (int i = 0; i < deck.numCards; i++) {
+                        GoldCard newGoldBack = new GoldBack(cardID); //creo una carta del tipo GoldFront
+                    //    deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
                     }
                 }
                 //DECK DELLE RESOURCE CARDS
                 case (deck.deckType= Resource ) -> {
                     //istanzio arraylist per il FFRONT
-                    for (int i = 0; i < deck.numCards; i++) {
+                    for (int i = 41; i < deck.numCards + 40; i++) {
                         //creo una carta del tipo GoldFront
-                        ResourceCard newCard = new ResourceFront(); //MODIFICARE COSTRUTTORE
-                        deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    }
-                    for (int i = 0; i < deck.numCards; i++) {
-                        ResourceCard newCard = new ResourceBack(); //creo una carta del tipo GoldFront
-                        deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
+                        int cardID = i;
+                        ResourceCard newResourceFront= new ResourceFront(cardID); //MODIFICARE COSTRUTTORE
+                        //deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
+                    //}
+                    //for (int i = 0; i < deck.numCards; i++) {
+                        ResourceCard newResourceBack = new ResourceBack(cardID); //creo una carta del tipo GoldFront
+                        //deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
                     }
                 }
             /*DECK DELLE OBJECTIVE
@@ -67,24 +73,26 @@ NOTA: in un deck ho un array per il front delle carte e un array per il back
             il BACK non è istanziato quindi BackCardList = null
          -->  RICORDA: quando accedi a un deck verificare se è diverso da null
             if (deck.backCardList != null)*/
-                case (deck.deckType= Resource ) -> {
+                case (deck.deckType= Objective ) -> {
                     //istanzio arraylist per il FFRONT
-                    for (int i = 0; i < deck.numCards; i++) {
-                        ObjectiveCard newCard = new ObjectiveFront(); //creo una carta del tipo GoldFront
-                        deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
+                    for (int i = 81; i < deck.numCards + 80; i++) {
+                        int cardID = i;
+                        ObjectiveCard newObjectiveFront = new ObjectiveFront(cardID); //creo una carta del tipo GoldFront
+                        //deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
                     }
                 }
 
                 //DECK delle INITIAL
                 case (deck.deckType= Initial ) -> {
                     //istanzio arraylist per il FFRONT
-                    for (int i = 0; i < deck.numCards; i++) {
-                        InitialCard newCard = new InitialFront(); //creo una carta del tipo GoldFront
-                        deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
-                    }
-                    for (int i = 0; i < deck.numCards; i++) {
-                        InitialCard newCard = new InitialBack(); //creo una carta del tipo GoldFront
-                        deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
+                    for (int i = 97; i < deck.numCards + 96; i++) {
+                        int cardID = i;
+                        InitialCard newInitialFront = new InitialFront(cardID); //creo una carta del tipo GoldFront
+                        //deck.frontCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
+                    //}
+                    //for (int i = 0; i < deck.numCards; i++) {
+                        InitialCard newInitialBack = new InitialBack(cardID); //creo una carta del tipo GoldFront
+                        //deck.backCardList.add(newCard); //aggiungo la nuova carta all'arrayList dei front
                     }
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + deck.deckType);
