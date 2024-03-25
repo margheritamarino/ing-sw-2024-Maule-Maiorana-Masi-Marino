@@ -22,7 +22,7 @@ public class Board {
 	 */
 
 	public Board(){
-		this.goldCard = new ArrayList<>();
+		this.goldCards = new ArrayList<>();
 		this.resourceCards = new ArrayList<>();
 		this.objectiveCards = new ArrayList<>();
 		this.goldCardsDeck = new Deck();
@@ -34,7 +34,7 @@ public class Board {
 	 */
 //metodi set per aggiungere nuove carte alla Board (2 gold, 2 resource, 2 objective)
 	public void setGoldCards() {
-		if (goldCards.size() < MAX_SIZE) { //se non ho 2 carte piazzate allora pesco una carta dal deck corrispondente usando draw
+		if (goldCards.size() < Max_size) { //se non ho 2 carte piazzate allora pesco una carta dal deck corrispondente usando draw
 			GoldCard goldCard = goldCardsDeck.drawCard();
 			if (goldCard != null) { //se è stata estratta una carta allora viene poggiata sulla Board (array di due carte)
 				this.goldCards.add(goldCard);
@@ -51,7 +51,7 @@ public class Board {
 	 * Adds a new Resource card to the board.
 	 */
 	public void setResourceCards() {
-		if (resourceCards.size() < MAX_SIZE) {
+		if (Max_size > resourceCards.size()) {
 			ResourceCard resourceCard = resourcesCardsDeck.drawCard();
 			if (resourceCard != null) {
 				this.resourceCards.add(resourceCard);
@@ -88,7 +88,7 @@ public class Board {
 	public ArrayList<ResourceCard> getResourceCards() {
 		return this.resourceCards;
 	}
-	public ArrayList<GoalsCard> getObjectiveCards() {
+	public ArrayList<ObjectiveCard> getObjectiveCards() {
 		return this.objectiveCards;
 	}
 
@@ -107,7 +107,7 @@ public class Board {
 		}
 
 		System.out.println("Objective Cards:");
-		for (GoalsCard card : objectiveCards) {
+		for (ObjectiveCard card : objectiveCards) {
 			System.out.println(card);
 		}
 	}

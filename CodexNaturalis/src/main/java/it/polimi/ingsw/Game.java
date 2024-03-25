@@ -1,8 +1,13 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
+import it.polimi.ingsw.exceptions.IllegalArgumentException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
 
 
 /**
@@ -32,7 +37,7 @@ public class Game {
 	 * @param playersNumber The number of players in the game.
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
-	private Game(int playersNumber){
+	private Game(int playersNumber) throws IllegalArgumentException{
 		//check number of players
 		if(playersNumber < 1 || playersNumber > 4){
 			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
@@ -46,7 +51,7 @@ public class Game {
 	// la stringa del tipo di carte -> assegno un numCards diverso(perchè sono diversi il base al tipo di carte)
 
 		this.players = new ArrayList<>();
-		this.scoretrack = new Scoretrack();
+		this.scoretrack = new ScoreTrack();
 		this.currentPlayer = 0;
 		this.board = new Board();
 
@@ -99,16 +104,12 @@ public class Game {
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
 	public void InizializeCards() {
+		//CARTE INIZIALI
 		for (Player player : players) {
 			Card initialCard = initialCardsDeck.drawCard();
 			player.addCard(initialCard);
 		}
-//player choose ObjectiveCard
-		/* - pesca dal deck 2 carte casuali
-		 - chiede al player quale carta vuole tra le 2
-		 - aggiunge l'obbiettivo al player
 
-		 */
 		ArrayList<ObjectiveFront>  drawnObjectiveCards = new ArrayList<ObjectiveFront>();
 		for (Player player : players) {
 			for (int i = 0; i < 2; i++) {
@@ -152,27 +153,41 @@ public class Game {
 
 	public void nextTurn() {
 		currentPlayer = (currentPlayer + players.size() - 1) % players.size();
-		System.out.println("Turno del giocatore: " + players.get(currentPlayer).getName());
+		System.out.println("Turno del giocatore: " + players.get(currentPlayer).getNickname();
 	}
 
 	/**
 	 * Starts the game.
 	 * @return An array representing the indices of the players in the shuffled players list.
-	 * @throws NotEnoughPlayers If there are fewer than two players in the game.
+	 * @throws NotEnoughPlayersException If there are fewer than two players in the game.
 	 */
-	public int[] startGame() throws NotEnoughPlayers {
-		if (chosenPlayersNumber < 2)
-			throw new NotEnoughPlayers("The game cannot start without at least two players");
+	public int[] startGame() {
+		try {
+			if (chosenPlayersNumber < 2)
+				throw new NotEnoughPlayersException("The game cannot start without at least two players");
 
-		// Shuffle the players list randomly
-		Collections.shuffle(players);
+			// Shuffle the players list randomly
+			Collections.shuffle(players);
 
-		// Set the first player randomly
-		currentPlayer = new Random().nextInt(players.size());
-		System.out.println("The first player is: " + players.get(currentPlayer).getName());
+			// Set the first player randomly
+			currentPlayer = new Random().nextInt(players.size());
+			System.out.println("The first player is: " + players.get(currentPlayer).getNickname();
 
-		gameStarted = true;
-		System.out.println("Game ON");
+			gamestarted = true;
+			System.out.println("Game ON");
+
+			// Return an array of player indices
+			int[] playerIndices = new int[players.size()];
+			for (int i = 0; i < players.size(); i++) {
+				playerIndices[i] = i;
+			}
+			return playerIndices;
+
+		} catch (NotEnoughPlayersException e){
+			System.out.println("Error: " + e.getMessage());
+			System.out.println("The game cannot start without at least two players.");
+			return null;
+		}
 	}
 
 	/**
@@ -193,12 +208,12 @@ public class Game {
 	 * Checks the scores from objective cards to determine the winner.
 	 */
 
-	public void checkGoals() {
+	public Player checkGoals() {
 		// Calcola i punteggi relativi alle carte obiettivo per ciascun giocatore
 		Map<Player, Integer> goalScores = new HashMap<>();
 		for (Player player : players) {
 			int playerScore = 0;
-			for (ObjectiveCard objectiveCard : player.getObjectiveCards()) {
+			for (ObjectiveCard objectiveCard : player.getGoal() { //rivedere perchè il player ha solo un obbiettivo
 				playerScore += objectiveCard.getPoints();
 			}
 			goalScores.put(player, playerScore);
