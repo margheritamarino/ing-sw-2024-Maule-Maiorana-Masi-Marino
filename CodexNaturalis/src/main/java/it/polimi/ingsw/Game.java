@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.exceptions.InvalidColorException;
 import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
 
@@ -8,6 +9,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 
 
 /**
@@ -32,6 +34,9 @@ public class Game {
 	protected boolean isEnded = false;
 	protected boolean gamestarted = false;
 
+	private Scanner scanner;
+
+
 	/**
 	 * Private Constructor
 	 * @param playersNumber The number of players in the game.
@@ -47,13 +52,14 @@ public class Game {
 		this.initialCardsDeck = new Deck(DeckType.Initial);
 		this.goldCardsDeck = new Deck(DeckType.Gold);
 		this.resourceCardsDeck = new Deck(DeckType.Resource);
-	//nota: ho fatto il costruttore del deck che ha come parametro
-	// la stringa del tipo di carte -> assegno un numCards diverso(perchè sono diversi il base al tipo di carte)
+		//nota: ho fatto il costruttore del deck che ha come parametro
+		// la stringa del tipo di carte -> assegno un numCards diverso(perchè sono diversi il base al tipo di carte)
 
 		this.players = new ArrayList<>();
 		this.scoretrack = new ScoreTrack();
 		this.currentPlayer = 0;
 		this.board = new Board();
+		this.scanner = new Scanner(System.in);
 
 	}
 
@@ -63,10 +69,15 @@ public class Game {
 	 * @return the game instance.
 	 */
 	public static synchronized Game getInstance(int playersNumber) {
-		if (instance == null) {
-			instance = new Game(playersNumber);
+		try {
+			if (instance == null) {
+				instance = new Game(playersNumber);
+			}
+			return instance;
+		} catch (IllegalArgumentException e) {
+			System.err.println("Error: " + e.getMessage());
+			return null;
 		}
-		return instance;
 	}
 
 	/**
@@ -88,15 +99,49 @@ public class Game {
 	/**
 	 * Initializes the players for the game.
 	 */
-
 	public void initializePlayers() {
-		for (int i = 0; i < chosenPlayersNumber; i++) {
-			Player player = new Player("Player " + (i + 1));
-			players.add(player);
+		try (Scanner scanner = new Scanner(System.in)) {
+			for (int i = 0; i < chosenPlayersNumber; i++) {
+				System.out.println("Inserisci il nickname " + (i + 1) + ": ");
+				String nickname = scanner.nextLine();
+
+				System.out.println("Scegli il colore per il giocatore " + (i + 1) + ": ");
+				System.out.println("1. Red");
+				System.out.println("2. Blue");
+				System.out.println("3. Green");
+				System.out.println("4. Yellow");
+				int colorChoice = scanner.nextInt();
+
+				PlayerColor color;
+				switch (colorChoice) {
+					case 1:
+						color = PlayerColor.Red;
+						break;
+					case 2:
+						color = PlayerColor.Blue;
+						break;
+					case 3:
+						color = PlayerColor.Green;
+						break;
+					case 4:
+						color = PlayerColor.Yellow;
+						break;
+					default:
+						throw new InvalidColorException("Color not valid" + (i + 1));
+				}
+				scanner.nextLine();
+
+				Player player = new Player(nickname, color);
+				player.setNickname(nickname);
+				player.setColor(color);
+				players.add(player);
+			}
+			Collections.shuffle(players);
+			// first player ramdomly
+			currentPlayer = new Random().nextInt(players.size());
+		} catch (InvalidColorException e) {
+			System.out.println("Error: Color not valic - " + e.getMessage());
 		}
-		Collections.shuffle(players);
-		// first player ramdomly
-		currentPlayer = new Random().nextInt(players.size());
 	}
 
 	/**
@@ -157,7 +202,7 @@ public class Game {
 
 	public void nextTurn() {
 		currentPlayer = (currentPlayer + players.size() - 1) % players.size();
-		System.out.println("Turno del giocatore: " + players.get(currentPlayer).getName());
+		System.out.println("Player's turn: " + players.get(currentPlayer).getColor());
 	}
 
 	/**
@@ -175,7 +220,7 @@ public class Game {
 
 			// Set the first player randomly
 			currentPlayer = new Random().nextInt(players.size());
-			System.out.println("The first player is: " + players.get(currentPlayer).getName());
+			System.out.println("The first player is: " + players.get(currentPlayer).getColor());
 
 			gamestarted = true;
 			System.out.println("Game ON");

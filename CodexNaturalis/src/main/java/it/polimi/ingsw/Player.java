@@ -7,17 +7,17 @@ import java.util.Random;
 public class Player {
 
     private String nickname;
-    private ColorType color;
+    private PlayerColor color;
     private PlayerState state;
     private PlayerDeck playerDeck;
     private Book playerBook;
 
 
-//    private boolean firstPlayer; -> a cosa serve??
+    //    private boolean firstPlayer; -> a cosa serve??
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
 
-// CHI DECIDE LO STATO DEI GIOCATORI?
-    public Player(String nickname, ColorType color) {
+    // CHI DECIDE LO STATO DEI GIOCATORI?
+    public Player(String nickname, PlayerColor color) {
         this.nickname = nickname;
         this.color = color;
         this.playerGoal = new ObjectiveFront();
@@ -26,14 +26,29 @@ public class Player {
         this.playerDeck = new PlayerDeck();
     };
 
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public String getNickname(){
+        return nickname;
+    }
+
+    public void setColor(PlayerColor color){
+        this.color = color;
+    }
+
+    public ColorType getColor(){
+        return color;
+    }
     public void setPlayerState(Player player, PlayerState state) {
-         player.state=state;
+        player.state=state;
     }
     public PlayerState getPlayerState(Player player) {
         return player.state;
     }
 
- //il game passa la carta scelta fra le 2 objectiveCard e setta il goal
+    //il game passa la carta scelta fra le 2 objectiveCard e setta il goal
     public void setGoal(ObjectiveCard chosenCard) {
         this.playerGoal=  chosenCard;
     }
@@ -47,9 +62,9 @@ public class Player {
         //restituisce la carta scelta dal player fra le due
     }
 
-/**
- * @param player
- * @return  type ObjectiveCard -> rapresenting player's goal */
+    /**
+     * @param player
+     * @return  type ObjectiveCard -> rapresenting player's goal */
     public ObjectiveCard getGoal(Player player) {
         return player.playerGoal;
     }
@@ -86,4 +101,4 @@ public class Player {
     }
 
 
- }
+}
