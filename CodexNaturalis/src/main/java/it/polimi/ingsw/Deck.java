@@ -3,6 +3,8 @@ package it.polimi.ingsw;
 
 import java.util.ArrayList;
 
+//il deck è visto come un array di int (da 1 40 GoldCard, ...) ogniintero rappresenta un cardID che è univoco per front e back di uno stesso tipo di carta
+
 public class Deck {
 /*
 NOTA: in un deck ho un array per il front delle carte e un array per il back
