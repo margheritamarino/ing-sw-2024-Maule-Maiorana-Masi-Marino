@@ -32,6 +32,8 @@ public abstract class Card {
         return corner;
     }
 
+
+
     // Aggiungi una carta collegata a un angolo specifico
     public void addConnectedCard(Corner corner, Card connectedCard) {
         cornersMap.put(corner, connectedCard);
@@ -71,6 +73,14 @@ public abstract class Card {
 
     public ResourceType getMainResource() {
         return mainResource;
+    }
+
+    public int getNumCorners() {
+        return numCorners;
+    }
+
+    public void setNumCorners(int numCorners) {
+        this.numCorners = numCorners;
     }
 
 
