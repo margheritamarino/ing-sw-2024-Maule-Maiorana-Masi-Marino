@@ -8,15 +8,14 @@ public class Player {
 
     private String nickname;
     private ColorType color;
-    private PlayerState state;
+    private PlayerState state; // CHI DECIDE LO STATO DEI GIOCATORI?
     private PlayerDeck playerDeck;
     private Book playerBook;
 
-
 //    private boolean firstPlayer; -> a cosa serve??
-    private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
+    private ObjectiveFront playerGoal; //carta OBBIETTIVO che ha il player
 
-// CHI DECIDE LO STATO DEI GIOCATORI?
+
     public Player(String nickname, ColorType color) {
         this.nickname = nickname;
         this.color = color;
@@ -34,7 +33,7 @@ public class Player {
     }
 
  //il game passa la carta scelta fra le 2 objectiveCard e setta il goal
-    public void setGoal(ObjectiveCard chosenCard) {
+    public void setGoal(ObjectiveFront chosenCard) {
         this.playerGoal=  chosenCard;
     }
 
@@ -48,18 +47,17 @@ public class Player {
     }
 
 /**
- * @param player
  * @return  type ObjectiveCard -> rapresenting player's goal */
-    public ObjectiveCard getGoal(Player player) {
-        return player.playerGoal;
+    public ObjectiveFront getGoal() {
+        return playerGoal;
     }
 
     /**
-     * @param player
+     *
      * @return player's nickname
      */
-    public String getNickname(Player player){
-        return player.nickname;
+    public String getNickname(){
+        return this.nickname;
     }
 
     public void addCard(Card newcard) {
@@ -86,4 +84,4 @@ public class Player {
     }
 
 
- }
+}
