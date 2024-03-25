@@ -83,7 +83,7 @@ public class Corner {
                     this.symbol = SymbolType.INKWELL;
                     break;
                 case MANUSCRIPT:
-                    this.resource = SymbolType.MANUSCRIPT;
+                    this.symbol = SymbolType.MANUSCRIPT;
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid symbolType");
