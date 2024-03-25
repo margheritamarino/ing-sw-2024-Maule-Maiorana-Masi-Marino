@@ -3,11 +3,11 @@ package it.polimi.ingsw;
 import java.util.ArrayList;
 public class SymbolCondition extends Goal{
     // Attributi
-    list <Symbol> symbolsList;
+    list <SymbolType> symbolsList;
     int numSymbols;
 
     // Metodi
-    ArrayList<Symbol> getObjective(ObjectiveCard objCard) {
+    ArrayList<SymbolType> getObjective(ObjectiveCard objCard) {
         // Implementazione
     }
 
