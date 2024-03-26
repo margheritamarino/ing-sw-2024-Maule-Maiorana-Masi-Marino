@@ -83,6 +83,44 @@ public abstract class Card {
         this.numCorners = numCorners;
     }
 
+    public Map<Corner, Card> getCornersMap() {
+        return cornersMap;
+    }
 
+    /**
+     * @author Martina Maiorana
+     * This method sets the number of Resources on the Card
+     * @param numResources contains the number of Resources added to the Card
+     */
+    public void setNumResources(int numResources) {
+        this.numResources = numResources;
+    }
+
+    /**
+     * @author Martina Maiorana
+     * This method sets the number of Symbols on the Card
+     * @param numSymbols contains the number of Symbols added to the Card
+     */
+    public void setNumSymbols(int numSymbols) {
+        this.numSymbols = numSymbols;
+    }
+
+    /**
+     * @author Martina Maiorana
+     * This method adds a resourceType to the list 'kingdoms'
+     * @param resourceType the type of the Resource added to the Card
+     */
+    public void addKingdom(ResourceType resourceType) {
+        kingdoms.add(resourceType);
+    }
+
+    /**
+     * @author Martina Maiorana
+     * This method adds a symbolType to the list 'symbols'
+     * @param symbolType the type of the Resource added to the Card
+     */
+    public void addSymbols(SymbolType symbolType) {
+        symbols.add(symbolType);
+    }
 
 }
