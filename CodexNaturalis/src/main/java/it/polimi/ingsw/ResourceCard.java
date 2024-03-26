@@ -1,8 +1,19 @@
 package it.polimi.ingsw;
 
-public abstract class ResourceCard extends Card{
-
+public class ResourceCard extends Card{ //NON è PIU ABSTRACT
+    private ResourceBack Back; // riferimento al Back
+    private ResourceFront Front; //riferimento al Front
     public ResourceCard(int cardId) {
         super(cardId);
+        this.Front =new ResourceFront(cardId);
+        this.Back = new ResourceBack((cardId);
+
     }
+    public ResourceFront getFront(){
+        return this.Front;
+    }
+    public ResourceBack getBack(){
+        return Back;
+    }
+
 }

@@ -26,7 +26,6 @@ public class Deck {
     }
 
     public void initializeDeck(){
-
         switch (deckType) {
 
             //GoldCards' deck -> CardIds: 1 - 40
@@ -77,18 +76,23 @@ public class Deck {
     }
 
     //IDEA: creare la Enum CardType che identifica il tipo di carta che voglio creare e restituisco quella
-        public static Card drawCard(CardType cardType) {
+        public static Card drawCard(DeckType deckType) {
             Random random = new Random();
             int randomIndex = random.nextInt(cardIds.size());  // Generazione di un indice casuale
             int cardId = cardIds.get(randomIndex); // Recupero del valore corrispondente all'indice casuale
-            switch (cardType) {
-                case ObjectiveFront:
+            switch (deckType) {
+                case Objective:
                     return new ObjectiveFront(cardId);
-                case ResourceFront:
-                    return new ResourceFront(cardId);
-                case ResourceBack:
+                    break;
+                case Resource:
+                    return new ResourceFront(cardId); //COME FACCIO A TORNARE ENTRAMBE
                     return new ResourceBack(cardId);
-                // Aggiungi altri casi per gli altri tipi di carte...
+                    break;
+                case Initial:
+                    return new InitialCard(cardId) ; //NON SI PUO PERCHE E' ASTRATTA
+                case Gold:
+
+                     break;
                 default:
                     throw new IllegalArgumentException("Tipo di carta non supportato: " + cardType);
             }
