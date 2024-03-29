@@ -1,0 +1,23 @@
+[
+
+  {
+    "cardID": 1,
+    "cornersList": ["top-left", "top-right", "bottom-left", "bottom-right"],
+    "numResources": 3,
+    "numSymbols": 1,
+    "Resources": ["Plant", "Animal", "Fungi"],
+    "Symbols": ["Quill"],
+    "VictoryPoints": 2
+  },
+
+  {
+  "cardID": 2,
+  "numCorners": 3,
+  "cornersList": ["top-left", "top-right", "bottom-left"],
+  "numResources": 1,
+  "numSymbols": 1,
+  "Resources": ["Insect"],
+  "Symbols": ["Manuscript"],
+  "VictoryPoints": 3
+  }
+]
