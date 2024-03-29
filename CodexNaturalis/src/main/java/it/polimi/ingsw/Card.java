@@ -17,28 +17,25 @@ public abstract class Card {
         this.cardID = cardID;
         this.mainResource = setRandomMainResource();
         this.cornersMap = new HashMap<>();
+        setRandomCornersMap(4);
     }
     public int getCardID() {
         return cardID;
     }
 
 
-    public void setCornersMap(Map<Corner, Card> cornersMap) {
-        this.cornersMap = cornersMap;
-    }
-
-    public Corner createCorner(CornerType cornerType,){
-        corner = new Corner(cornerType);
-        return corner;
+    // Aggiungi le associazioni tra angoli e carte alla mappa
+    public void setCornersMap(Corner corner) {
+        cornersMap.put(corner, null);
     }
 
 
 
     // Aggiungi una carta collegata a un angolo specifico
-    public void addConnectedCard(Corner corner, Card connectedCard) {
-        cornersMap.put(corner, connectedCard);
+    public void setLinkedCard(Corner corner, Card linkedCard) {
+        cornersMap.put(corner, linkedCard);
     }
-    public Card getConnectedCard(Corner corner) {
+    public Card getLinkedCard(Corner corner) {
         return cornersMap.get(corner);
     }
 
@@ -58,6 +55,8 @@ public abstract class Card {
             this.cornersMap.put(new Corner(cornerTypes.get(i), null, null), null);
         }
     }
+
+
 
 
     /**
@@ -86,6 +85,8 @@ public abstract class Card {
     public Map<Corner, Card> getCornersMap() {
         return cornersMap;
     }
+
+
 
     /**
      * @author Martina Maiorana

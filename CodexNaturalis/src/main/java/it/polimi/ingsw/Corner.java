@@ -44,6 +44,12 @@ public class Corner {
         return resource;
     }
 
+    /**
+     * @author Margherita Marino
+     * setter
+     * @param resourceType
+     * @throws IllegalArgumentException if the resourceType is not a valid type
+     */
     public void setResource(ResourceType resourceType) {
         if (resourceType == null) {
             setContainsResource(false);
@@ -74,6 +80,12 @@ public class Corner {
         this.setContainsResource(true);
     }
 
+    /**
+     * @author Margherita Marino
+     * setter
+     * @param symbolType
+     * @throws IllegalArgumentException if the symbolType is not a valid type
+     */
         public void setSymbol(SymbolType symbolType) {
             if(symbolType == null){
                 setContainsSymbol(false);
@@ -100,7 +112,12 @@ public class Corner {
             this.setContainsSymbol(true);
         }
 
-
+    /**
+     * @author Margherita Marino
+     * setter
+     * @param cornerType
+     * @throws IllegalArgumentException if the cornerType is not a valid type
+     */
     public void setCornerType(CornerType cornerType) {
             if(cornerType == null){
                 this.cornerType = null;
@@ -124,6 +141,12 @@ public class Corner {
                 }
             }
     }
+
+    public CornerType getCornerType() {
+        return cornerType;
+    }
+
+
 
     //Setta randomicamente (e senza mandare nessun parametro in ingresso) una ResourceType al corner
     public void setRandomicResource (){
