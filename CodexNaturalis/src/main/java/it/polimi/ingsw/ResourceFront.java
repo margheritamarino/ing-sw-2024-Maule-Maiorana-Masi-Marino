@@ -58,9 +58,8 @@ public class ResourceFront extends ResourceCard {
                 setNumResources(2);
                 setNumSymbols(1);
                 cornerArray[0].setResource(this.getMainResource());
-                //ResourceType temp= new ResourceType(); //manca il costruttore di ResourceType
-
-                cornerArray[1].setResource(getRandomResourceTypeExcluding(this.getMainResource()));
+                ResourceType randomExcludingMain = getMainResource().getRandomResourceTypeExcluding(getMainResource());
+                cornerArray[1].setResource(randomExcludingMain);
                 cornerArray[2].setRandomicSymbol();
                 break;
 

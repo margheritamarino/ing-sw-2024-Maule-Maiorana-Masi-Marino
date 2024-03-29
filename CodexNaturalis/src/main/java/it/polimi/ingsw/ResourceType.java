@@ -34,5 +34,4 @@ public enum ResourceType {
 
     }
 
-
 }
