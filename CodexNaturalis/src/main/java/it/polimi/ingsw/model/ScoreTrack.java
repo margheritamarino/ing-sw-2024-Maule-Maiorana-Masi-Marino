@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Player;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +11,7 @@ import java.util.Map;
  */
 public class ScoreTrack {
 
-	private Map<Player, Integer> pointsPlayers;
+	private final Map<Player, Integer> pointsPlayers;
 	public ScoreTrack(){
         pointsPlayers = new HashMap<>();
     }
@@ -31,12 +29,19 @@ public class ScoreTrack {
      * @param player The player whose score is to be updated
      * @param points The number of points to add to the player's score
      */
-	public void addPoints(Player player, int points) {
+	public void addPoints(Player player, int points, Map<Player, Integer> objectivePoints) {
 		int currentPoints = pointsPlayers.getOrDefault(player, 0);
 		pointsPlayers.put(player, currentPoints + points);
 
+		// Check if the player has reached 20 points even with the points of the current round
+		if (currentPoints + points >= 20) {
+			// Aggiungi i punti delle carte obiettivo al giocatore
+			Integer objectivePointsForPlayer = objectivePoints.get(player);
+			if (objectivePointsForPlayer != null) {
+				pointsPlayers.put(player, currentPoints + objectivePointsForPlayer);
+			}
+		}
 	}
-
 	/**
 	 * Retrieves the score of the specified player.
 	 * @param player The player whose score is to be retrieved.
@@ -54,41 +59,20 @@ public class ScoreTrack {
 		pointsPlayers.put(player, score);
 	}
 
-
-	/**
-     * Checks the points needed by each player to reach 20 points.
-     * @return a map containing each player and the points needed to reach a score of 20.
-     */
-
-	public Map<Player, Integer> checkTo20() {
-		Map<Player, Integer> pointsTo20 = new HashMap<>(); //new map with player and point to reach 20
-		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) { //itero la mappa attraverso entrySet ead accedo alle coppie chiave-valore tramite la Map.Entry
-			Player player = entry.getKey();
-			int points = entry.getValue();
-			int pointsNeeded = Math.max(0, 20 - points);
-			pointsTo20.put(player, pointsNeeded);
-		}
-		return pointsTo20;
-	}
-
     /**
-     * Determines the winner based on the current scores.
-     * @return the player with the highest score equal to or greater than 20, or null if there is no winner yet.
+     * Determines if any player has reached 20 points.
+     * @return the player who has reached 20, or null if no player has reached that score yet.
      */
 
-	public Player checkWinner() {
+	public Player checkTo20() {
 		int winningScore = 20;
-		Player winner = null;
 		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) {
 			Player player = entry.getKey();
 			int points = entry.getValue();
-			if (points >= winningScore) { // Controlla se il giocatore ha raggiunto o superato il punteggio di vittoria
-				if (winner == null || points > pointsPlayers.get(winner)) {
-					winner = player;
-				}
+			if (points >= winningScore) {
+				return player;
 			}
 		}
-		return winner;
+		return null;
 	}
-
 }
