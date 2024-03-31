@@ -35,6 +35,8 @@ public class Game {
 	protected boolean gamestarted = false;
 
 	private Scanner scanner;
+	private Map<Player, Integer> objectivePoints;
+
 
 
 	/**
@@ -60,6 +62,7 @@ public class Game {
 		this.currentPlayer = 0;
 		this.board = new Board();
 		this.scanner = new Scanner(System.in);
+		objectivePoints = new HashMap<>();
 
 	}
 
@@ -200,6 +203,9 @@ public class Game {
 	 * Sets the current player to the next player in counterclockwise order.
 	 */
 
+	public Map<Player, Integer> getObjectivePoints() {
+		return objectivePoints;
+	}
 	public void nextTurn() {
 		currentPlayer = (currentPlayer + players.size() - 1) % players.size();
 		System.out.println("Player's turn: " + players.get(currentPlayer).getColor());
@@ -245,7 +251,7 @@ public class Game {
 	 */
 
 	public Player getWinner() {
-		Player winner = scoretrack.checkWinner(); // Controlla se un giocatore ha raggiunto i 20 punti
+		Player winner = scoretrack.checkTo20(); // Controlla se un giocatore ha raggiunto i 20 punti
 		if (winner != null) {
 			isEnded = true; // Il gioco è terminato
 			return winner;
@@ -289,3 +295,6 @@ public class Game {
 	}
 
 }
+
+//ricordati che quando chiami addPoints devi farlo cosi
+//scoreTrack.addPoints(player, points, game.getObjectivePoints());
