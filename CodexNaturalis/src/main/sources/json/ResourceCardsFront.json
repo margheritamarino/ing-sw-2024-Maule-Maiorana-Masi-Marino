@@ -1,0 +1,33 @@
+[
+  {
+    "cardID": 0,
+    “isFront”: true,
+    “cardType”: “ResourceCard”,
+    “victoryPoints”: 0,
+    “numCorners”: 3,
+    “numResources”: 2,
+    “resourceList”: [“Fungi”, “Fungi”],
+    “mainResource”: [“Fungi”].
+    "TLcorner": resource,
+    "TRcorner": empty,
+    "BRcorner": null,
+    "BLcorner": resource
+
+
+  }
+,
+
+  {
+    "cardID": 4,
+    “isFront”: false (back), true(front)
+    “Cardtype”: Resource,
+    “victoryPoints”: 2
+    “numCorners”: 4,
+    “numResources”: 2,
+    “resourceList”: [ “Plant”, “Animal”]
+    “mainResource”: [“Fungi”]
+    “cardType”: [“ResourceCard”]
+
+  }
+
+]
