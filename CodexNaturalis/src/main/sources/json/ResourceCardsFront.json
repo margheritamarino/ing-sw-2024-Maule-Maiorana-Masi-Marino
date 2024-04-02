@@ -1,33 +1,172 @@
 [
   {
     "cardID": 0,
-    “isFront”: true,
-    “cardType”: “ResourceCard”,
-    “victoryPoints”: 0,
-    “numCorners”: 3,
-    “numResources”: 2,
-    “resourceList”: [“Fungi”, “Fungi”],
-    “mainResource”: [“Fungi”].
-    "TLcorner": resource,
-    "TRcorner": empty,
-    "BRcorner": null,
-    "BLcorner": resource
-
-
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 0,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 2,
+    "resourceList": ["Fungi", "Fungi"],
+    "hasSymbol": false,
+    "symbol": null,
+    "TLCorner": "withResource",
+    "TRCorner": "Empty",
+    "BRCorner": "NoCorner",
+    "BLCorner": "withResource"
   }
 ,
-
+  {
+    "cardID": 1,
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 0,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 2,
+    "resourceList": ["Fungi", "Fungi"],
+    "hasSymbol": false,
+    "symbol": null,
+    "TLCorner": "withResource",
+    "TRCorner": "withResource",
+    "BRCorner": "Empty",
+    "BLCorner": "NoCorner"
+  },
+  {
+    "cardID": 2,
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 0,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 2,
+    "resourceList": ["Fungi", "Fungi"],
+    "hasSymbol": false,
+    "symbol": null,
+    "TLCorner": "Empty",
+    "TRCorner": "NoCorner",
+    "BRCorner": "withResource",
+    "BLCorner": "withResource"
+  },
+  {
+    "cardID": 3,
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 0,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 2,
+    "resourceList": ["Fungi", "Fungi"],
+    "hasSymbol": false,
+    "symbol": null,
+    "TLCorner": "NoCorner",
+    "TRCorner": "withResource",
+    "BRCorner": "withResource",
+    "BLCorner": "Empty"
+  }
+,
   {
     "cardID": 4,
-    “isFront”: false (back), true(front)
-    “Cardtype”: Resource,
-    “victoryPoints”: 2
-    “numCorners”: 4,
-    “numResources”: 2,
-    “resourceList”: [ “Plant”, “Animal”]
-    “mainResource”: [“Fungi”]
-    “cardType”: [“ResourceCard”]
-
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 0,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 2,
+    "resourceList": ["Fungi", "Plant"],
+    "hasSymbol": true,
+    "symbol": "Quill",
+    "TLCorner": "NoCorner",
+    "TRCorner": "withSymbol",
+    "BRCorner": "withResource",
+    "BLCorner": "withResource"
   }
+,
+  {
+    "cardID": 5,
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 0,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 2,
+    "resourceList": ["Fungi", "Animal"],
+    "hasSymbol": true,
+    "symbol": "Inkwell",
+    "TLCorner": "withSymbol",
+    "TRCorner": "withResource",
+    "BRCorner": "withResource",
+    "BLCorner": "NoCorner"
+  }
+,
+  {
+    "cardID": 6,
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 0,
+    "numCorners": 4,
+    "mainResource": "Fungi",
+    "numResources": 2,
+    "resourceList": ["Fungi", "Insect"],
+    "hasSymbol": true,
+    "symbol": "Manuscript",
+    "TLCorner": "withResource",
+    "TRCorner": "withResource",
+    "BRCorner": "Empty",
+    "BLCorner": "withSymbol"
+  }
+,
+  {
+    "cardID": 7,
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 1,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 1,
+    "resourceList": ["Fungi"],
+    "hasSymbol": false,
+    "symbol": null,
+    "TLCorner": "Empty",
+    "TRCorner": "withResource",
+    "BRCorner": "noCorner",
+    "BLCorner": "Empty"
+  }
+,
+  {
+    "cardID": 8,
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 1,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 1,
+    "resourceList": ["Fungi"],
+    "hasSymbol": false,
+    "symbol": null,
+    "TLCorner": "withResource",
+    "TRCorner": "noCorner",
+    "BRCorner": "Empty",
+    "BLCorner": "Empty"
+  }
+,
+  {
+    "cardID": 9,
+    "isFront": true,
+    "cardType": "ResourceCard",
+    "victoryPoints": 1,
+    "numCorners": 3,
+    "mainResource": "Fungi",
+    "numResources": 1,
+    "resourceList": ["Fungi"],
+    "hasSymbol": false,
+    "symbol": null,
+    "TLCorner": "noCorner",
+    "TRCorner": "Empty",
+    "BRCorner": "Empty",
+    "BLCorner": "withResource"
+  }
+
+
 
 ]
