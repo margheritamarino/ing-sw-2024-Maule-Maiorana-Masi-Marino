@@ -93,7 +93,7 @@ public class Board {
      */
     public void showBoardState() {
         // Controllo e aggiornamento delle carte oro
-        while (goldCards.size() < 2 && !goldCardsDeck.checkEndDeck()) {
+        while (goldCards.size() < MAX_SIZE && !goldCardsDeck.checkEndDeck()) {
             PlayableCard[] newCards = goldCardsDeck.returnCard();
             if (newCards != null) {
                 goldCards.add((GoldCard) newCards[0]);
@@ -101,7 +101,7 @@ public class Board {
         }
 
         // Controllo e aggiornamento delle carte risorse
-        while (resourceCards.size() < 2 && !resourcesCardsDeck.checkEndDeck()) {
+        while (resourceCards.size() < MAX_SIZE && !resourcesCardsDeck.checkEndDeck()) {
             PlayableCard[] newCards = resourcesCardsDeck.returnCard();
             if (newCards != null) {
                 resourceCards.add((ResourceCard) newCards[0]);
@@ -111,11 +111,11 @@ public class Board {
         System.out.println("Stato attuale della board:");
         System.out.println("Carte oro:");
         for (GoldCard goldCard : goldCards) {
-            System.out.println(goldCard); // Supponendo che la classe GoldCard abbia un metodo toString() appropriato
+            System.out.println(goldCard);
         }
         System.out.println("Carte risorse:");
         for (ResourceCard resourceCard : resourceCards) {
-            System.out.println(resourceCard); // Supponendo che la classe ResourceCard abbia un metodo toString() appropriato
+            System.out.println(resourceCard);
         }
     }
 
