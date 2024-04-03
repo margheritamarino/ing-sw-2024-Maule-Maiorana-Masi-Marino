@@ -5,7 +5,7 @@ public class Board {
 
 	/**
 	 * @author Irene Pia Masi
-	 * Board model
+	 * Board model class
 	 * This class represents the game board that contains decks of cards and cards placed on the board.
 	 */
 	private ArrayList<GoldCard> goldCards; //dimension 2
@@ -15,101 +15,108 @@ public class Board {
 	private Deck resourcesCardsDeck;
 	private Deck objectiveCardsDeck;
 
-	private final int Max_size = 2;
+	private final int MAX_SIZE = 2;
 
 	/**
-	 * constructor
+	 * Constructor
 	 */
 
 	public Board(){
 		this.goldCards = new ArrayList<>();
 		this.resourceCards = new ArrayList<>();
 		this.objectiveCards = new ArrayList<>();
-		this.goldCardsDeck = new Deck();
-		this.resourcesCardsDeck = new Deck();
+		this.goldCardsDeck = new Deck(CardType.GoldCard);
+		this.resourcesCardsDeck = new Deck(CardType.ResourceCard);
+        this.objectiveCardsDeck = new Deck();
+
+        initializeBoard();
 	}
 
-	/**
-	 * Adds a new Gold card to the board.
-	 */
-//metodi set per aggiungere nuove carte alla Board (2 gold, 2 resource, 2 objective)
-	public void setGoldCards() {
-		if (goldCards.size() < Max_size) { //se non ho 2 carte piazzate allora pesco una carta dal deck corrispondente usando draw
-			GoldCard goldCard = goldCardsDeck.drawCard();
-			if (goldCard != null) { //se è stata estratta una carta allora viene poggiata sulla Board (array di due carte)
-				this.goldCards.add(goldCard);
-				showBoardState(); //visualizzo lo stato aggiornato della Board
-			} else {
-				System.out.println("No more gold cards in the deck.");
-			}
-		} else {
-			System.out.println("Maximum number of gold cards reached.");
-		}
-	}
+    /**
+     * Initializes the board by placing cards on it.
+     */
+    public void initializeBoard(){
+        //posiziono due carte oro e due carte risorsa sul tavolo
+        for (int i = 0; i < MAX_SIZE; i++) {
+            PlayableCard[] goldCards = goldCardsDeck.returnCard();
+            PlayableCard[] resourceCards = resourcesCardsDeck.returnCard();
+            this.goldCards.add((GoldCard) goldCards[0]);
+            this.resourceCards.add((ResourceCard) resourceCards[0]);
+        }
+        //posiziono le carte obbiettivo comuni
+        for (int i = 0; i < MAX_SIZE; i++) {
+            PlayableCard[] objectiveCards = objectiveCardsDeck.returnCard();
+            this.objectiveCards.add((ObjectiveCard) objectiveCards[0]);
+        }
+    }
 
-	/**
-	 * Adds a new Resource card to the board.
-	 */
-	public void setResourceCards() {
-		if (Max_size > resourceCards.size()) {
-			ResourceCard resourceCard = resourcesCardsDeck.drawCard();
-			if (resourceCard != null) {
-				this.resourceCards.add(resourceCard);
-				showBoardState();
-			} else {
-				System.out.println("No more resource cards in the deck.");
-			}
-		} else {
-			System.out.println("Maximum number of resource cards reached.");
-		}
-	}
+    /**
+     * Allows a player to take a card from the board.
+     * @param player The player who is taking the card.
+     * @param cardType The type of card to take.
+     * @param drawFromDeck True if the card should be drawn from the deck, false if it should be taken from the board.
+     */
+    public void takeCardFromBoard(Player player, CardType cardType, boolean drawFromDeck, PlayerDeck playerdeck) {
+        //booleano che mi dice se il giocatore ha deciso di pescare una carta dal mazzo o da uno degli array
+        if (drawFromDeck) {
+            Deck deck = null;
+            if (cardType == CardType.GoldCard) {
+                deck = goldCardsDeck;
+            } else if (cardType == CardType.ResourceCard) {
+                deck = resourcesCardsDeck;
+            }
+            //controllo che il mazzo non è vuoto e pesco una carta da aggiungere al player deck
+            if (deck != null && !deck.checkEndDeck()) {
+                PlayableCard[] newCards = deck.returnCard();
+                if (newCards != null) {
+                    playerdeck.addCard(newCards[0]);
+                }
+            }
+        } else {
+            ArrayList<? extends PlayableCard> cardsOnBoard = null;
+            if (cardType == CardType.GoldCard) {
+                cardsOnBoard = goldCards;
+            } else if (cardType == CardType.ResourceCard) {
+                cardsOnBoard = resourceCards;
+            }
+            //se l'array non è vuoto si rimuove la prima carta dall'array e si aggiunge al player deck
+            if (!cardsOnBoard.isEmpty()) {
+                PlayableCard card = cardsOnBoard.remove(0);
+                playerdeck.addCard(card);
+            }
+        }
+        showBoardState();
+    }
 
-	/**
-	 * Sets the Objective cards for the board.
-	 * @param objectiveCards The list of Objective cards to set.
-	 */
-	public void setObjectiveCards(ArrayList<ObjectiveCard> objectiveCards) {
-		if (objectiveCards.size() == Max_size) {
-			this.objectiveCards = objectiveCards;
-			showBoardState();
-		} else {
-			System.out.println("Exactly " + Max_size + " objective cards must be provided.");
-		}
-	}
+    /**
+     * Displays the current state of the board.
+     */
+    public void showBoardState() {
+        // Controllo e aggiornamento delle carte oro
+        while (goldCards.size() < 2 && !goldCardsDeck.checkEndDeck()) {
+            PlayableCard[] newCards = goldCardsDeck.returnCard();
+            if (newCards != null) {
+                goldCards.add((GoldCard) newCards[0]);
+            }
+        }
 
-	/**
-	 * Get methods that return the list of cards located on the board.
-	 * @return the list of cards on the board.
-	 */
-//metodi get per restituire l'elenco delle carte
-	public ArrayList<GoldCard> getGoldCards() {
-		return this.goldCards;
-	}
-	public ArrayList<ResourceCard> getResourceCards() {
-		return this.resourceCards;
-	}
-	public ArrayList<ObjectiveCard> getObjectiveCards() {
-		return this.objectiveCards;
-	}
+        // Controllo e aggiornamento delle carte risorse
+        while (resourceCards.size() < 2 && !resourcesCardsDeck.checkEndDeck()) {
+            PlayableCard[] newCards = resourcesCardsDeck.returnCard();
+            if (newCards != null) {
+                resourceCards.add((ResourceCard) newCards[0]);
+            }
+        }
 
-	/**
-	 * Displays the current state of the board, including all placed cards.
-	 */
-	public void showBoardState() {
-		System.out.println("Gold Cards:");
-		for (GoldCard card : goldCards) {
-			System.out.println(card);
-		}
-
-		System.out.println("Resource Cards:");
-		for (ResourceCard card : resourceCards) {
-			System.out.println(card);
-		}
-
-		System.out.println("Objective Cards:");
-		for (ObjectiveCard card : objectiveCards) {
-			System.out.println(card);
-		}
-	}
+        System.out.println("Stato attuale della board:");
+        System.out.println("Carte oro:");
+        for (GoldCard goldCard : goldCards) {
+            System.out.println(goldCard); // Supponendo che la classe GoldCard abbia un metodo toString() appropriato
+        }
+        System.out.println("Carte risorse:");
+        for (ResourceCard resourceCard : resourceCards) {
+            System.out.println(resourceCard); // Supponendo che la classe ResourceCard abbia un metodo toString() appropriato
+        }
+    }
 
 }
