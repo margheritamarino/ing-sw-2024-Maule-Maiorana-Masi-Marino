@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.ResourceBack;
 import it.polimi.ingsw.model.ResourceFront;
 
-public class ResourceCard extends Card { //NON è PIU ABSTRACT
+public class ResourceCard extends PlayableCard { //NON è PIU ABSTRACT
     private ResourceBack Back; // riferimento al Back
     private ResourceFront Front; //riferimento al Front
     public ResourceCard(int cardId) {

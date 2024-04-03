@@ -5,25 +5,26 @@ import java.util.Random;
 
 public class Deck {
     private int numCards;
-    private final DeckType deckType;
-    private static ArrayList<Integer> cardIds;
 
-    public Deck( DeckType deckType){
-        this.deckType= deckType;
+    private final CardType cardType;
+
+    private ArrayList<PlayableCard> cards;
+
+    public Deck( CardType cardType){
+        this.cardType = cardType;
         // numero di carte varia in base al tipo di carta
-        switch (deckType){
-            case Gold, Resource -> {
+        switch (cardType){
+            case GoldCard -> {
                 this.numCards = 40;
+                this.cards = new ArrayList<GoldCard>();
+
             }
-            case Initial->{
+            case InitialCard->{
                 this.numCards=6;
 
             }
-            case Objective -> {
-                this.numCards = 16;
-            }
         }
-        this.cardIds= new ArrayList<>(numCards);
+
     }
 
     public void initializeDeck(){
