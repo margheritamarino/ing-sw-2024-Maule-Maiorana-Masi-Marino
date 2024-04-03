@@ -18,7 +18,7 @@ public class Player {
     public Player(String nickname, PlayerColor color) {
         this.nickname = nickname;
         this.color = color;
-        this.playerGoal = new ObjectiveFront();
+        this.playerGoal = new ObjectiveCard();
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
         this.playerBook = new Book();
         this.playerDeck = new PlayerDeck();
