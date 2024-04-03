@@ -15,7 +15,7 @@ public class PlayerDeck {
          initCard = new InitialCard(initCard.cardID) ; //?? dove prendo il CardID
      }
 
-     public void addCard(Card newCard){
+     public void addCard(PlayableCard newCard){
          //controlla se array pieno -> actualNumCards =3
          // altrimenti aggiunge la carta e incrementa numero
               miniDeck.add(newCard);
