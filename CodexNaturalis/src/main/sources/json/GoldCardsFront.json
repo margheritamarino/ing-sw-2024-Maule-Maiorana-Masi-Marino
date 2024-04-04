@@ -239,7 +239,7 @@
     "TRCorner": "NoCorner",
     "BRCorner": "Empty",
     "BLCorner": "Ink",
-    "placementCondition": ["PLant","Plant","Animal"],
+    "placementCondition": ["Plant","Plant","Animal"],
     "pointsCondition":true,
     "symbolCondition":"Ink",
     "cornerCondition":false
