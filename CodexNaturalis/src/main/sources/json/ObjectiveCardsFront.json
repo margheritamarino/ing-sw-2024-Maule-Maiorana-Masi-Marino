@@ -1,0 +1,225 @@
+[
+  {
+    "cardID": 0,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "diagonalPlacement",
+    "victoryPoints": 2,
+    "mainResource": "Fungi",
+    "direction": "bottomLeft",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 1,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "diagonalPlacement",
+    "victoryPoints": 2,
+    "mainResource": "Plant",
+    "direction": "bottomRight",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 2,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "diagonalPlacement",
+    "victoryPoints": 2,
+    "mainResource": "Animal",
+    "direction": "bottomLeft",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 3,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "diagonalPlacement",
+    "victoryPoints": 2,
+    "mainResource": "Insect",
+    "direction": "bottomRight",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 4,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "LPlacement",
+    "victoryPoints": 3,
+    "mainResource": "Fungi",
+    "direction": "topLeft",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": "Plant"
+  },
+
+  {
+    "cardID": 5,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "LPlacement",
+    "victoryPoints": 3,
+    "mainResource": "Plant",
+    "direction": "topRight",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": "Insect"
+  },
+
+  {
+    "cardID": 6,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "LPlacement",
+    "victoryPoints": 3,
+    "mainResource": "Animal",
+    "direction": "bottomLeft",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": "Fungi"
+  },
+
+  {
+    "cardID": 7,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "LPlacement",
+    "victoryPoints": 3,
+    "mainResource": "Insect",
+    "direction": "bottomRight",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": "Animal"
+  },
+
+  {
+    "cardID": 8,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "ResourceCondition",
+    "victoryPoints": 2,
+    "mainResource": "Fungi",
+    "direction": null,
+    "numResources": 3,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 9,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "ResourceCondition",
+    "victoryPoints": 2,
+    "mainResource": "Plant",
+    "direction": null,
+    "numResources": 3,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 10,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "ResourceCondition",
+    "victoryPoints": 2,
+    "mainResource": "Animal",
+    "direction": null,
+    "numResources": 3,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 11,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "ResourceCondition",
+    "victoryPoints": 2,
+    "mainResource": "Insect",
+    "direction": null,
+    "numResources": 3,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 12,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "SymbolCondition",
+    "victoryPoints": 3,
+    "mainResource": null,
+    "direction": null,
+    "numResources": 0,
+    "numSymbols": 3,
+    "symbols": ["Quill","Ink","Manuscript"],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 13,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "SymbolCondition",
+    "victoryPoints": 2,
+    "mainResource": null,
+    "direction": null,
+    "numResources": 0,
+    "numSymbols": 2,
+    "symbols": ["Manuscript","Manuscript"],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 14,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "SymbolCondition",
+    "victoryPoints": 2,
+    "mainResource": null,
+    "direction": null,
+    "numResources": 0,
+    "numSymbols": 2,
+    "symbols": ["Ink","Ink"],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 15,
+    "isFront": true,
+    "cardType": "ObjectiveCard",
+    "goalType": "SymbolCondition",
+    "victoryPoints": 2,
+    "mainResource": null,
+    "direction": null,
+    "numResources": 0,
+    "numSymbols": 2,
+    "symbols": ["Quill","Quill"],
+    "secondResource": null
+  }
+]
