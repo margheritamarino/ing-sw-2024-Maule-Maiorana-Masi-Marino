@@ -1,41 +1,39 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+
+/**
+ * Board model class
+ * This class represents the game board that contains decks of cards and cards placed on the board.
+ * @author Irene Pia Masi
+ */
 public class Board {
+    private ArrayList<PlayableCard> goldCards; //dimension 2
+    private ArrayList<PlayableCard> resourceCards;
+    private ArrayList<ObjectiveCard> objectiveCards;
+    private Deck goldCardsDeck;
+    private Deck resourcesCardsDeck;
+    private Deck objectiveCardsDeck;
+    private int MAX_SIZE = 2;
 
-	/**
-	 * @author Irene Pia Masi
-	 * Board model class
-	 * This class represents the game board that contains decks of cards and cards placed on the board.
-	 */
-	private ArrayList<GoldCard> goldCards; //dimension 2
-	private ArrayList<ResourceCard> resourceCards;
-	private ArrayList<ObjectiveCard> objectiveCards;
-	private Deck goldCardsDeck;
-	private Deck resourcesCardsDeck;
-	private Deck objectiveCardsDeck;
-
-	private final int MAX_SIZE = 2;
-
-	/**
-	 * Constructor
-	 */
-
-	public Board(){
-		this.goldCards = new ArrayList<>();
-		this.resourceCards = new ArrayList<>();
-		this.objectiveCards = new ArrayList<>();
-		this.goldCardsDeck = new Deck(CardType.GoldCard);
-		this.resourcesCardsDeck = new Deck(CardType.ResourceCard);
+    /**
+     * Constructor
+     */
+    public Board() {
+        this.goldCards = new ArrayList<>();
+        this.resourceCards = new ArrayList<>();
+        this.objectiveCards = new ArrayList<>();
+        this.goldCardsDeck = new Deck(CardType.GoldCard);
+        this.resourcesCardsDeck = new Deck(CardType.ResourceCard);
         this.objectiveCardsDeck = new Deck();
 
         initializeBoard();
-	}
+    }
 
     /**
      * Initializes the board by placing cards on it.
      */
-    public void initializeBoard(){
+    public void initializeBoard() {
         //posiziono due carte oro e due carte risorsa sul tavolo
         for (int i = 0; i < MAX_SIZE; i++) {
             PlayableCard[] goldCards = goldCardsDeck.returnCard();
@@ -51,72 +49,77 @@ public class Board {
     }
 
     /**
-     * Allows a player to take a card from the board.
-     * @param player The player who is taking the card.
-     * @param cardType The type of card to take.
+     * Takes a card from the board.
+     *
+     * @param cardType     The type of card to take
      * @param drawFromDeck True if the card should be drawn from the deck, false if it should be taken from the board.
+     * @param pos          The position of the card to take if drawing from the board.
+     * @return The card taken from the board, or null.
      */
-    public void takeCardFromBoard(Player player, CardType cardType, boolean drawFromDeck, PlayerDeck playerdeck) {
-        //booleano che mi dice se il giocatore ha deciso di pescare una carta dal mazzo o da uno degli array
-        if (drawFromDeck) {
-            Deck deck = null;
-            if (cardType == CardType.GoldCard) {
-                deck = goldCardsDeck;
-            } else if (cardType == CardType.ResourceCard) {
-                deck = resourcesCardsDeck;
+    public PlayableCard takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) {
+        if (drawFromDeck) { //booleano per vedere se il giocatore vuole pescare dai mazzi o dagli array
+            // Verifico se il mazzo ha finito le carte prima di pescare
+            if (cardType == CardType.GoldCard && goldCardsDeck.checkEndDeck()) {
+                return null; // Restituisce null se il mazzo di carte è vuoto
+            } else if (cardType == CardType.ResourceCard && resourcesCardsDeck.checkEndDeck()) {
+                return null;
             }
-            //controllo che il mazzo non è vuoto e pesco una carta da aggiungere al player deck
-            if (deck != null && !deck.checkEndDeck()) {
-                PlayableCard[] newCards = deck.returnCard();
-                if (newCards != null) {
-                    playerdeck.addCard(newCards[0]);
-                }
+            switch (cardType) {
+                case GoldCard:
+                    return goldCardsDeck.returnCard()[0];
+                case ResourceCard:
+                    return resourcesCardsDeck.returnCard()[0];
+                default:
+                    return null; //null in caso di tipo di carta non valido
             }
         } else {
-            ArrayList<? extends PlayableCard> cardsOnBoard = null;
-            if (cardType == CardType.GoldCard) {
-                cardsOnBoard = goldCards;
-            } else if (cardType == CardType.ResourceCard) {
-                cardsOnBoard = resourceCards;
+            ArrayList<PlayableCard> cardsOnBoard = null;
+            switch (cardType) {
+                case GoldCard:
+                    cardsOnBoard = goldCards;
+                    break;
+                case ResourceCard:
+                    cardsOnBoard = resourceCards;
+                    break;
+                default:
+                    return null;
             }
-            //se l'array non è vuoto si rimuove la prima carta dall'array e si aggiunge al player deck
-            if (!cardsOnBoard.isEmpty()) {
-                PlayableCard card = cardsOnBoard.remove(0);
-                playerdeck.addCard(card);
+            // Controllo che la posizione sia valida
+            if (pos < 0 || pos > cardsOnBoard.size()) {
+                return null;
             }
+            // Prendo la carta dalla posizione specificata e la rimuovo dall'array
+            PlayableCard selectedCard = cardsOnBoard.get(pos - 1);
+            cardsOnBoard.remove(pos - 1);
+            // Aggiorno l'array e restituisco la carta selezionata
+            updateArray(cardsOnBoard, cardType);
+
+            return selectedCard;
         }
-        showBoardState();
     }
 
     /**
-     * Displays the current state of the board.
+     * Update array.
+     * @param cards The array of cards to update.
+     * @param cardType The type of card for which to update the array.
      */
-    public void showBoardState() {
-        // Controllo e aggiornamento delle carte oro
-        while (goldCards.size() < MAX_SIZE && !goldCardsDeck.checkEndDeck()) {
-            PlayableCard[] newCards = goldCardsDeck.returnCard();
-            if (newCards != null) {
-                goldCards.add((GoldCard) newCards[0]);
-            }
+    public void updateArray(ArrayList<PlayableCard> cards, CardType cardType) {
+        Deck deck = null;
+        switch (cardType) {
+            case GoldCard:
+                deck = goldCardsDeck;
+                break;
+            case ResourceCard:
+                deck = resourcesCardsDeck;
+                break;
+            default:
+                return;
         }
-
-        // Controllo e aggiornamento delle carte risorse
-        while (resourceCards.size() < MAX_SIZE && !resourcesCardsDeck.checkEndDeck()) {
-            PlayableCard[] newCards = resourcesCardsDeck.returnCard();
-            if (newCards != null) {
-                resourceCards.add((ResourceCard) newCards[0]);
-            }
-        }
-
-        System.out.println("Stato attuale della board:");
-        System.out.println("Carte oro:");
-        for (GoldCard goldCard : goldCards) {
-            System.out.println(goldCard);
-        }
-        System.out.println("Carte risorse:");
-        for (ResourceCard resourceCard : resourceCards) {
-            System.out.println(resourceCard);
-        }
+        // Prendo una nuova carta dal deck corrispondente tramite il returnCard
+        PlayableCard newCard = deck.returnCard()[0];
+        // Aggiungo la nuova carta all'array
+        cards.add(newCard);
     }
-
 }
+
+

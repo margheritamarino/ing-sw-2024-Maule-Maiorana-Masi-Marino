@@ -78,7 +78,7 @@ public class Player {
     public void addCard(Card newcard) {
         //IMPLEMENTA METODO che aggiunge la nuova carta passata al PlayerDeck
     }
-    public void pickCard(Board board){
+    public PlayableCard pickCard(){
         //IMPLEMENTA
         /*  METODO che fa fa pescare il giocatore dal Board
             e aggiorna il PlayerDeck */
