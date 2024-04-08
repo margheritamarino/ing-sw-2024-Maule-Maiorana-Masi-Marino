@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model;
-
+import java.util.*;
 import it.polimi.ingsw.model.Card;
 
 public class ObjectiveCard {
