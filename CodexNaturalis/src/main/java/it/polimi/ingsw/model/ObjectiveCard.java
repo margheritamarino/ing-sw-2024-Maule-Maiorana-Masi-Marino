@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.Card;
 
+import java.util.List;
+
 public class ObjectiveCard {
     private int cardID;
     private boolean isFront;
