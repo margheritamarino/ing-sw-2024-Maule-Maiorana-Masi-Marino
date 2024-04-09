@@ -14,9 +14,7 @@ import java.util.Random;
 
 public class Deck {
     private int numCards;
-
     private final CardType cardType;
-
     private ArrayList<PlayableCard> frontCards;
     private ArrayList<PlayableCard> backCards;
 
