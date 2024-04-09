@@ -2,7 +2,6 @@
   {
     "cardID": 0,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -16,7 +15,6 @@
   {
     "cardID": 1,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -30,7 +28,6 @@
   {
     "cardID": 2,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -44,7 +41,6 @@
   {
     "cardID": 3,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -58,7 +54,6 @@
   {
     "cardID": 4,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -72,7 +67,6 @@
   {
     "cardID": 5,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -86,7 +80,6 @@
   {
     "cardID": 6,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -100,7 +93,6 @@
   {
     "cardID": 7,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -114,7 +106,6 @@
   {
     "cardID": 8,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -128,7 +119,6 @@
   {
     "cardID": 9,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -142,7 +132,6 @@
   {
     "cardID": 10,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -156,7 +145,6 @@
   {
     "cardID": 11,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -170,7 +158,6 @@
   {
     "cardID": 12,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -184,7 +171,6 @@
   {
     "cardID": 13,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -197,7 +183,6 @@
   {
     "cardID": 14,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,
@@ -211,7 +196,6 @@
   {
     "cardID": 15,
     "isFront": false,
-    "cardType": "ObjectiveCard",
     "goalType": null,
     "victoryPoints": 0,
     "mainResource": null,

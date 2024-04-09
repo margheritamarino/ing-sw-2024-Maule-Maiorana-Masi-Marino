@@ -2,7 +2,6 @@
   {
     "cardID": 0,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "diagonalPlacement",
     "victoryPoints": 2,
     "mainResource": "Fungi",
@@ -16,7 +15,6 @@
   {
     "cardID": 1,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "diagonalPlacement",
     "victoryPoints": 2,
     "mainResource": "Plant",
@@ -30,7 +28,6 @@
   {
     "cardID": 2,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "diagonalPlacement",
     "victoryPoints": 2,
     "mainResource": "Animal",
@@ -44,7 +41,6 @@
   {
     "cardID": 3,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "diagonalPlacement",
     "victoryPoints": 2,
     "mainResource": "Insect",
@@ -58,7 +54,6 @@
   {
     "cardID": 4,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "LPlacement",
     "victoryPoints": 3,
     "mainResource": "Fungi",
@@ -72,7 +67,6 @@
   {
     "cardID": 5,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "LPlacement",
     "victoryPoints": 3,
     "mainResource": "Plant",
@@ -86,7 +80,6 @@
   {
     "cardID": 6,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "LPlacement",
     "victoryPoints": 3,
     "mainResource": "Animal",
@@ -100,7 +93,6 @@
   {
     "cardID": 7,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "LPlacement",
     "victoryPoints": 3,
     "mainResource": "Insect",
@@ -114,7 +106,6 @@
   {
     "cardID": 8,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "ResourceCondition",
     "victoryPoints": 2,
     "mainResource": "Fungi",
@@ -128,7 +119,6 @@
   {
     "cardID": 9,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "ResourceCondition",
     "victoryPoints": 2,
     "mainResource": "Plant",
@@ -142,7 +132,6 @@
   {
     "cardID": 10,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "ResourceCondition",
     "victoryPoints": 2,
     "mainResource": "Animal",
@@ -156,7 +145,6 @@
   {
     "cardID": 11,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "ResourceCondition",
     "victoryPoints": 2,
     "mainResource": "Insect",
@@ -170,7 +158,6 @@
   {
     "cardID": 12,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "SymbolCondition",
     "victoryPoints": 3,
     "mainResource": null,
@@ -184,7 +171,6 @@
   {
     "cardID": 13,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "SymbolCondition",
     "victoryPoints": 2,
     "mainResource": null,
@@ -198,7 +184,6 @@
   {
     "cardID": 14,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "SymbolCondition",
     "victoryPoints": 2,
     "mainResource": null,
@@ -212,7 +197,6 @@
   {
     "cardID": 15,
     "isFront": true,
-    "cardType": "ObjectiveCard",
     "goalType": "SymbolCondition",
     "victoryPoints": 2,
     "mainResource": null,
