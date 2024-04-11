@@ -14,8 +14,8 @@
     "TRCorner": "Empty",
     "BRCorner": "NoCorner",
     "BLCorner": "withResource"
-  }
-,
+  },
+
   {
     "cardID": 1,
     "isFront": true,

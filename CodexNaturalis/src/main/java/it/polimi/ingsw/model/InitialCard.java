@@ -10,7 +10,19 @@ public class InitialCard extends PlayableCard {
     int numResources;
     List<ResourceType> resourceList;
 
+    public List<ResourceType> getCentralResources() {
+        return centralResources;
+    }
 
+    public int getNumCentralResources() {
+        return numCentralResources;
+    }
 
+    public int getNumResources() {
+        return numResources;
+    }
 
+    public List<ResourceType> getResourceList() {
+        return resourceList;
+    }
 }

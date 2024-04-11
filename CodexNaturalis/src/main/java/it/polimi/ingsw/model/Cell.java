@@ -23,11 +23,11 @@ public class Cell {
 
     //metodo chiamato DOPO che ho piazzato una carta in questa cella
     // ?? CONTROLLA
+
     public void updateCell(PlayableCard newCard){
         this.available = false;
         this.cardPointer = newCard;
     }
-
 
 
     // Metodi getter e setter
