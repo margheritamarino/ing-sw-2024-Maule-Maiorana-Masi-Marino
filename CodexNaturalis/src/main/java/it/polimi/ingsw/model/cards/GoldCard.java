@@ -1,4 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.cards;
+
+import it.polimi.ingsw.model.CornerLabel;
+import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.SymbolType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,14 @@ public class GoldCard extends PlayableCard {
     }
 
 
+    /**
+     * Retrieves the content of the initial corners of the card as a list of strings.
+     * Each string represents the content of a corner in the following order:
+     * top-left, top-right, bottom-right, bottom-left.
+     * @author Margherita Marino
+     * @return A list containing the corner content strings.
+     */
+    @Override
     public List<String> getGoldCornerContent() { // Metodo per ottenere una lista di stringhe rappresentanti il contenuto degli angoli
         List<String> cornerContent = new ArrayList<>();
 
@@ -66,6 +78,13 @@ public class GoldCard extends PlayableCard {
         return cornerContent;
     }
 
+    /**
+     * Retrieves the string representation of the content of a corner.
+     *
+     * @param cornerLabel The label indicating the type of content in the corner.
+     * @return The string representing the corner content.
+     * @throws IllegalArgumentException If an invalid corner label is provided.
+     */
     private String getCornerContentString(CornerLabel cornerLabel) {
         switch (cornerLabel) {
             case Empty:

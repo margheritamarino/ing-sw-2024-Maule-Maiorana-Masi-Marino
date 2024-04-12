@@ -1,5 +1,5 @@
-package it.polimi.ingsw.model;
-import java.util.*;
+package it.polimi.ingsw.model.cards;
+import it.polimi.ingsw.model.*;
 
 
 import java.util.List;

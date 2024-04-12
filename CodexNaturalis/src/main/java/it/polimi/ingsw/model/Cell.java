@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.PlayableCard;
+
 public class Cell {
     private int row; // indice della matrice
     private int column; // indice della matrice
-
+    private boolean wall;
     private boolean available;
     //dice se la cella è disponibile per il piazzamento della carta.
     // inizialmente setto tutto a false -> diventa true se c’è angolo nella carta piazzata
@@ -17,6 +19,7 @@ public class Cell {
         this.row = row;
         this.column = column;
         this.available = false; // Inizialmente la cella non è disponibile
+        this.wall = true; //inizialmente non c'è alcun wall
         this.cardPointer = null; // Inizialmente non c'è nessuna carta posizionata sulla cella
     }
 
@@ -63,7 +66,15 @@ public class Cell {
         this.cardPointer = cardPointer;
     }
 
+    public boolean isWall() {
+        return wall;
+    }
 
+    public PlayableCard getCardPointer() {
+        return cardPointer;
+    }
 
-
+    public void setWall(boolean wall) {
+        this.wall = wall;
+    }
 }

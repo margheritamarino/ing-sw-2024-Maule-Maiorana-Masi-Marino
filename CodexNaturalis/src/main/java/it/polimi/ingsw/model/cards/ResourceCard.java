@@ -1,4 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.cards;
+import it.polimi.ingsw.model.CornerLabel;
+import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.SymbolType;
+import it.polimi.ingsw.model.cards.PlayableCard;
+
 import java.util.*;
 
 public class ResourceCard extends PlayableCard {
@@ -34,7 +39,14 @@ public class ResourceCard extends PlayableCard {
    }
 
 
-
+   /**
+    * Retrieves the content of the initial corners of the card as a list of strings.
+    * Each string represents the content of a corner in the following order:
+    * top-left, top-right, bottom-right, bottom-left.
+    * @author Margherita Marino
+    * @return A list containing the corner content strings.
+    */
+   @Override
    public List<String> getResourceCornerContent() {
       List<String> cornerContent = new ArrayList<>();
       int i = 0;
@@ -66,6 +78,14 @@ public class ResourceCard extends PlayableCard {
       return cornerContent;
    }
 
+   /**
+    * Retrieves the string representation of the content of a corner.
+    *
+    * @param cornerLabel The label indicating the type of content in the corner.
+    * @param i           An index used to retrieve the actual resource in case of 'WithResource' label.
+    * @return The string representing the corner content.
+    * @throws IllegalArgumentException If an invalid corner label is provided.
+    */
    // Metodo per ottenere la stringa rappresentante il contenuto di un angolo
    private String getCornerContentString(CornerLabel cornerLabel, int i) {
       switch (cornerLabel) {
@@ -73,7 +93,7 @@ public class ResourceCard extends PlayableCard {
             return "Empty";
          case WithResource:
             // Se l'angolo contiene una risorsa, restituisci la risorsa effettiva
-           resourceList.get(i).toString();
+           return resourceList.get(i).toString();
          case WithSymbol:
             // Se l'angolo contiene un simbolo, restituisci il simbolo effettivo
             return symbol.toString();

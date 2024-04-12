@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
+
 import java.util.ArrayList;
 
 public class Player {
@@ -20,7 +23,7 @@ public class Player {
         this.color = color;
         this.playerGoal = new ObjectiveCard();
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
-        this.playerBook = new Book();
+        this.playerBook = new Book(40, 40); //ho messo 40 x 40 solo per verificare la correttezza del metodo, questo valore dobbiamo poi renderlo variabile in base al numero di giocatori
         this.playerDeck = new PlayerDeck();
     };
 

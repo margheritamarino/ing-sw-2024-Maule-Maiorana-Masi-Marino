@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.InvalidColorException;
 import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 
 import java.util.ArrayList;
 import java.util.Collections;
