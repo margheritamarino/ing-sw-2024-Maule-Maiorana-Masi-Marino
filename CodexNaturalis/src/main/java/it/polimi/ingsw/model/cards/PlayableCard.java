@@ -90,7 +90,9 @@ public abstract class PlayableCard {
      * @author Margherita Marino
      * @return A list containing the gold corner content strings.
      */
-    public abstract List<String> getGoldCornerContent();
+    public  List<String> getGoldCornerContent(){
+       return null;
+    }
 
     /**
      * Retrieves the content of the gold corners of the card as a list of strings.
@@ -99,7 +101,9 @@ public abstract class PlayableCard {
      * @author Margherita Marino
      * @return A list containing the gold corner content strings.
      */
-    public abstract List<String> getResourceCornerContent();
+    public  List<String> getResourceCornerContent(){
+        return null;
+    }
 
     /**
      * Retrieves the content of the gold corners of the card as a list of strings.
@@ -114,13 +118,15 @@ public abstract class PlayableCard {
 
     /**
      * Returns the number of victory points associated with this card.
-     * This method must be implemented in subclasses to provide specific
+     * This method is intended to be overridden in subclasses to provide specific behavior.
      * functionality based on the type of card.
      *
      * @author Margherita Marino
      * @return The number of victory points associated with this card.
      */
-    public abstract int getVictoryPoints();
+    public int getVictoryPoints(){
+        return 0;
+    }
 
     /**
      * Calculates and returns the number of points of the provided PlayableCard.
