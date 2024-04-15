@@ -167,8 +167,8 @@ public class Book {
      * @param cell The cell where the card is placed.
      */
     public void updateMaps(PlayableCard card, Cell cell){ //metodo per aggiornare la mappa dei simboli e la mappa delle risorse quando aggiungo una nuova carta
-        updateNewCardCorners(card);
-        updateCoveredCorners(cell);
+        updateNewCardCorners(card); //Aggiunge Simboli e Risorse della Carta appena piazzata nel Book
+        updateCoveredCorners(cell); //Decrementa simboli e risorse che sono stati coperti dalla nuova carta piazzata
     }
 
     /**
@@ -284,5 +284,48 @@ public class Book {
 
     public void setSymbolMap(Map<SymbolType, Integer> symbolMap) {
         this.symbolMap = symbolMap;
+    }
+
+    /**
+     * This method checks on the player's Book how many times he achieved his own Goal.
+     * It also calculates calculates how many points the player obtained achieving his Goal.
+     *
+     * @param objectiveCard Is the player's own ObjectiveCard.
+     * @throws IllegalArgumentException If an invalid GoalType label is set on the objectiveCard attribute.
+     * @author Martina Maiorana
+     */
+    public int checkGoal(ObjectiveCard objectiveCard) {
+        switch (objectiveCard.getGoalType()) {
+            case ResourceCondition:
+                return checkResourceCondition(objectiveCard);
+            case SymbolCondition:
+                return checkSymbolCondition(objectiveCard);
+            case DiagonalPlacement:
+                return checkDiagonalPlacement(objectiveCard);
+            case LPlacement:
+                return checkLPlacement(objectiveCard);
+            default:
+                throw new IllegalArgumentException("Invalid GoalType");
+        }
+    }
+
+    private int checkResourceCondition(ObjectiveCard objectiveCard) {
+        // Implementa la logica per controllare se è verificata la condizione di risorsa
+        // ritorna la somma di punti ottenuti dal giocatore
+    }
+
+    private int checkSymbolCondition(ObjectiveCard objectiveCard) {
+        // Implementa la logica per controllare se è verificata la condizione di simbolo
+        // ritorna la somma di punti ottenuti dal giocatore
+    }
+
+    private int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
+        // Implementa la logica per controllare se è verificata la disposizione diagonale
+        // ritorna la somma di punti ottenuti dal giocatore
+    }
+
+    private int checkLPlacement(ObjectiveCard objectiveCard) {
+        // Implementa la logica per controllare se è verificata la disposizione a L
+        // ritorna la somma di punti ottenuti dal giocatore
     }
 }
