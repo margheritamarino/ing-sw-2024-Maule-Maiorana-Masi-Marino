@@ -288,7 +288,7 @@ public class Book {
 
     /**
      * This method checks on the player's Book how many times he achieved his own Goal.
-     * It also calculates calculates how many points the player obtained achieving his Goal.
+     * It also calculates how many points the player obtained achieving his Goal.
      *
      * @param objectiveCard Is the player's own ObjectiveCard.
      * @throws IllegalArgumentException If an invalid GoalType label is set on the objectiveCard attribute.
@@ -309,23 +309,63 @@ public class Book {
         }
     }
 
+
+    /**
+     * @return Victory Points obtained by the player reaching the Resource condition required by his Objective card.
+     * @param objectiveCard The player's own ObjectiveCard.
+     * @author Martina Maiorana
+     */
     private int checkResourceCondition(ObjectiveCard objectiveCard) {
-        // Implementa la logica per controllare se è verificata la condizione di risorsa
-        // ritorna la somma di punti ottenuti dal giocatore
+
+        ResourceType mainResourceType = objectiveCard.getMainResource(); //ResourceType required by the card
+        int numMainResources = resourceMap.getOrDefault(mainResourceType, 0);
+        int numTriplets = numMainResources / 3; //Groups of 3 required Resource on the player's Book
+        return numTriplets * objectiveCard.getVictoryPoints();
+
     }
 
+    /**
+     * @return Victory Points obtained by the player reaching the Symbol condition required by his Objective card.
+     * @param objectiveCard The player's own ObjectiveCard.
+     * @author Martina Maiorana
+     */
     private int checkSymbolCondition(ObjectiveCard objectiveCard) {
-        // Implementa la logica per controllare se è verificata la condizione di simbolo
-        // ritorna la somma di punti ottenuti dal giocatore
-    }
 
-    private int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
-        // Implementa la logica per controllare se è verificata la disposizione diagonale
-        // ritorna la somma di punti ottenuti dal giocatore
-    }
+        switch (objectiveCard.getVictoryPoints()) {
+            case 2:
+                SymbolType symbolToCheck = objectiveCard.getSymbols().get(0);
+                int numSymbol = symbolMap.getOrDefault(symbolToCheck, 0);
+                int numPairs = numSymbol / 2;
+                return numPairs * 2;
+            case 3:
+                int numQuill = symbolMap.getOrDefault(SymbolType.Quill, 0);
+                int numInk = symbolMap.getOrDefault(SymbolType.Ink, 0);
+                int numManuscript = symbolMap.getOrDefault(SymbolType.Manuscript, 0);
+                int minSymbolCount = Math.min(numQuill, Math.min(numInk, numManuscript)); //gets the MINIMUM of the 3 symbols quantities
+                int numTriplets = minSymbolCount / 3;
+                return numTriplets * 3;
+                throw new IllegalArgumentException("Invalid victoryPoints");
 
-    private int checkLPlacement(ObjectiveCard objectiveCard) {
-        // Implementa la logica per controllare se è verificata la disposizione a L
-        // ritorna la somma di punti ottenuti dal giocatore
-    }
+        }
+
+        /**
+         * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
+         * @param objectiveCard The player's own ObjectiveCard.
+         * @author Martina Maiorana
+         */
+        private int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
+            // Implementa la logica per controllare se è verificata la disposizione diagonale
+            // ritorna la somma di punti ottenuti dal giocatore
+        }
+
+        /**
+         * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
+         * @param objectiveCard The player's own ObjectiveCard.
+         * @author Martina Maiorana
+         */
+        private int checkLPlacement(ObjectiveCard objectiveCard) {
+            // Implementa la logica per controllare se è verificata la disposizione a L
+            // ritorna la somma di punti ottenuti dal giocatore
+        }
+
 }
