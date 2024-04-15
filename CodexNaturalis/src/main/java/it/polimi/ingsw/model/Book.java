@@ -25,6 +25,7 @@ public class Book {
         // Inizializza le mappe di risorse e simboli
         this.resourceMap = new HashMap<>();
         this.symbolMap = new HashMap<>();
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 assert false;
