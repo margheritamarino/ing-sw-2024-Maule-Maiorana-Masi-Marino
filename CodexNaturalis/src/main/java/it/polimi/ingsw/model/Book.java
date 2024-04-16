@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model;
+
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.SymbolType;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +36,14 @@ public class Book {
         }
     }
 
-
+    /**
+     * Places a card into the game and returns the points of that card (if it has points, otherwise returns 0).
+     *
+     * @author Margherita Marino
+     * @param card The PlayableCard to be placed.
+     * @param cell The Cell where the card will be placed.
+     * @return The points of the card placed, or 0 if the card has no points.
+     */
     public int addCard(PlayableCard card, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
         int numPoints = 0;
         try {
@@ -229,6 +234,8 @@ public class Book {
                 bookMatrix[i][j].setCardPointer(null);
                 // Imposta la disponibilità della cella a true
                 bookMatrix[i][j].setAvailable(true);
+                // Imposta l'attributo wall delle celle a false
+                bookMatrix[i][j].setWall(false);
             }
         }
     }
@@ -320,7 +327,7 @@ public class Book {
      * @param objectiveCard The player's own ObjectiveCard.
      * @author Martina Maiorana
      */
-    private int checkResourceCondition(ObjectiveCard objectiveCard) {
+    public int checkResourceCondition(ObjectiveCard objectiveCard) {
 
         ResourceType mainResourceType = objectiveCard.getMainResource(); //ResourceType required by the card
         int numMainResources = resourceMap.getOrDefault(mainResourceType, 0);
@@ -334,8 +341,7 @@ public class Book {
      * @param objectiveCard The player's own ObjectiveCard.
      * @author Martina Maiorana
      */
-    private int checkSymbolCondition(ObjectiveCard objectiveCard) {
-
+    public int checkSymbolCondition(ObjectiveCard objectiveCard) {
         switch (objectiveCard.getVictoryPoints()) {
             case 2:
                 SymbolType symbolToCheck = objectiveCard.getSymbols().get(0);
@@ -343,34 +349,35 @@ public class Book {
                 int numPairs = numSymbol / 2;
                 return numPairs * 2;
             case 3:
-                int numQuill = symbolMap.getOrDefault(SymbolType.Quill, 0);
-                int numInk = symbolMap.getOrDefault(SymbolType.Ink, 0);
-                int numManuscript = symbolMap.getOrDefault(SymbolType.Manuscript, 0);
+                int numQuill = symbolMap.getOrDefault(SymbolType.QUILL, 0);
+                int numInk = symbolMap.getOrDefault(SymbolType.INK, 0);
+                int numManuscript = symbolMap.getOrDefault(SymbolType.MANUSCRIPT, 0);
                 int minSymbolCount = Math.min(numQuill, Math.min(numInk, numManuscript)); //gets the MINIMUM of the 3 symbols quantities
                 int numTriplets = minSymbolCount / 3;
                 return numTriplets * 3;
-                throw new IllegalArgumentException("Invalid victoryPoints");
-
         }
+        return 0;
+    }
 
-        /**
-         * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
-         * @param objectiveCard The player's own ObjectiveCard.
-         * @author Martina Maiorana
-         */
-        private int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
-            // Implementa la logica per controllare se è verificata la disposizione diagonale
-            // ritorna la somma di punti ottenuti dal giocatore
-        }
+    /**
+     * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
+     * @param objectiveCard The player's own ObjectiveCard.
+     * @author Martina Maiorana
+     */
+    public int checkDiagonalPlacement(ObjectiveCard objectiveCard){
+        // Implementa la logica per controllare se è verificata la disposizione diagonale
+        // ritorna la somma di punti ottenuti dal giocatore
+        return 0;
+    }
 
-        /**
-         * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
-         * @param objectiveCard The player's own ObjectiveCard.
-         * @author Martina Maiorana
-         */
-        private int checkLPlacement(ObjectiveCard objectiveCard) {
-            // Implementa la logica per controllare se è verificata la disposizione a L
-            // ritorna la somma di punti ottenuti dal giocatore
-        }
-
+    /**
+     * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
+     * @param objectiveCard The player's own ObjectiveCard.
+     * @author Martina Maiorana
+     */
+    public int checkLPlacement(ObjectiveCard objectiveCard){
+        // Implementa la logica per controllare se è verificata la disposizione a L
+        // ritorna la somma di punti ottenuti dal giocatore
+        return 0;
+    }
 }
