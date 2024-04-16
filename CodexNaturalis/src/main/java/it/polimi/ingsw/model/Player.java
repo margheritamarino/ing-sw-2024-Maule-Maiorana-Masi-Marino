@@ -13,8 +13,6 @@ public class Player {
     private PlayerDeck playerDeck;
     private Book playerBook;
 
-
-    //    private boolean firstPlayer; -> a cosa serve??
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
 
     // CHI DECIDE LO STATO DEI GIOCATORI?
