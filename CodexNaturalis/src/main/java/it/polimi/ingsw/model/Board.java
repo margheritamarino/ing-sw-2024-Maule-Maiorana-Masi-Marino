@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
-
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.GoldCard;
+import it.polimi.ingsw.model.cards.ResourceCard;
+import java.util.ArrayList;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 /**
  * Board model class
@@ -18,7 +21,7 @@ public class Board {
     private Deck goldCardsDeck;
     private Deck resourcesCardsDeck;
     private ObjectiveDeck objectiveCardsDeck;
-    private int MAX_SIZE = 2;
+    private final int MAX_SIZE = 2;
 
     /**
      * Constructor
@@ -125,3 +128,5 @@ public class Board {
         cards.add(newCard);
     }
 }
+
+

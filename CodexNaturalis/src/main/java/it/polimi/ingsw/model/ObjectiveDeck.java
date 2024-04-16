@@ -1,6 +1,16 @@
 package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import it.polimi.ingsw.exceptions.FileCastException;
+import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.JSONParsingException;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+
+import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -15,7 +25,7 @@ public class ObjectiveDeck {
     private ArrayList<ObjectiveCard> frontCards;
     private ArrayList<ObjectiveCard> backCards;
 
-    public ObjectiveDeck(){
+    public ObjectiveDeck() throws FileReadException, FileNotFoundException {
         this.frontCards = new ArrayList<>();
         this.backCards = new ArrayList<>();
         this.numCards = 40;
@@ -29,13 +39,14 @@ public class ObjectiveDeck {
      * and populates the frontCards and backCards lists with the read cards.
      * @author Irene Pia Masi
      */
-    public void initializeDeck(){
+    public void initializeDeck() throws FileReadException, FileNotFoundException {
         String frontFileName = "ObjectiveCardsFront.json";
         String backFileName = "ObjectiveCardsBack.json";
 
         try {
             Gson gson = new Gson();
-            Type objectivecardListType = new TypeToken<ArrayList<ObjectiveCard>>() {}.getType();
+            Type objectivecardListType = new TypeToken<ArrayList<ObjectiveCard>>() {
+            }.getType();
 
             FileReader frontReader = new FileReader(frontFileName);
             ArrayList<ObjectiveCard> frontCardList = gson.fromJson(frontReader, objectivecardListType);
@@ -46,8 +57,29 @@ public class ObjectiveDeck {
             ArrayList<ObjectiveCard> backCardList = gson.fromJson(backReader, objectivecardListType);
             backCards.addAll(backCardList);
             backReader.close();
+        } catch (FileNotFoundException e) {
+            // Eccezione lanciata se il file non viene trovato
+            throw new FileNotFoundException("File not found: " + e.getMessage());
+
         } catch (IOException e) {
-            e.printStackTrace();
+            // Eccezione lanciata in caso di problemi durante la lettura del file
+            throw new FileReadException("Error reading file: " + e.getMessage());
+
+        } catch (JsonSyntaxException | JsonIOException e) {
+            // Eccezione lanciata se ci sono problemi di parsing JSON
+            throw new JSONParsingException("JSON file parsing error: " + e.getMessage());
+
+        } catch (ClassCastException e) {
+            // Eccezione lanciata se ci sono problemi di casting durante l'accesso ai dati JSON
+            throw new FileCastException("CASTING error accessing JSON file data: " + e.getMessage());
+
+        } catch (NullPointerException e) {
+            // Eccezione lanciata se ci sono valori nulli non gestiti correttamente
+            throw new NullPointerException("Error null values not handled correctly: " + e.getMessage());
+
+        } catch (Exception e) {
+            // Eccezione generica per gestire altri tipi di eccezioni
+            throw new FileReadException("Generic exception: " + e.getMessage());
         }
     }
 
@@ -64,7 +96,6 @@ public class ObjectiveDeck {
     /**
      * @author Irene Pia Masi
      * @return an array containing two cards (one front and one back) drawn from the deck
-     *
      * Returns two cards from the deck at a random position (position = CardID).
      * Decreases the numCards attribute of the deck.
      * Removes the cards from the arrays
