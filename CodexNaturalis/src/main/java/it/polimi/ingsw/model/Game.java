@@ -7,6 +7,9 @@ import it.polimi.ingsw.exceptions.IllegalArgumentException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerColor;
+import it.polimi.ingsw.model.player.PlayerDeck;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
