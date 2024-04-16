@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.cards.*;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -13,19 +17,19 @@ public class Board {
     private ArrayList<ObjectiveCard> objectiveCards;
     private Deck goldCardsDeck;
     private Deck resourcesCardsDeck;
-    private Deck objectiveCardsDeck;
+    private ObjectiveDeck objectiveCardsDeck;
     private int MAX_SIZE = 2;
 
     /**
      * Constructor
      */
-    public Board() {
+    public Board() throws FileNotFoundException, FileReadException {
         this.goldCards = new ArrayList<>();
         this.resourceCards = new ArrayList<>();
         this.objectiveCards = new ArrayList<>();
         this.goldCardsDeck = new Deck(CardType.GoldCard);
         this.resourcesCardsDeck = new Deck(CardType.ResourceCard);
-        this.objectiveCardsDeck = new Deck();
+        this.objectiveCardsDeck = new ObjectiveDeck();
 
         initializeBoard();
     }
@@ -43,7 +47,7 @@ public class Board {
         }
         //posiziono le carte obbiettivo comuni
         for (int i = 0; i < MAX_SIZE; i++) {
-            PlayableCard[] objectiveCards = objectiveCardsDeck.returnCard();
+            ObjectiveCard[] objectiveCards = objectiveCardsDeck.returnCard();
             this.objectiveCards.add((ObjectiveCard) objectiveCards[0]);
         }
     }
@@ -121,5 +125,3 @@ public class Board {
         cards.add(newCard);
     }
 }
-
-
