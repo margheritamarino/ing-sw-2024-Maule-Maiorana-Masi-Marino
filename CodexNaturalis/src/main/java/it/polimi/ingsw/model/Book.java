@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.SymbolType;
+
 import java.util.HashMap;
 import java.util.Map;
 
