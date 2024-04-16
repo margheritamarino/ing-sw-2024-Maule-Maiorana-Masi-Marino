@@ -4,6 +4,6 @@ import java.util.Random;
 
 public enum SymbolType {
     QUILL,
-    INKWELL,
+    INK,
     MANUSCRIPT;
 }

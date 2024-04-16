@@ -1,32 +1,54 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.InitialCard;
+
+import it.polimi.ingsw.model.cards.PlayableCard;
 
 import java.util.ArrayList;
 
 public class PlayerDeck {
-     public  ArrayList<Card> miniDeck;
-     public InitialCard initCard;
+     public  ArrayList<PlayableCard> miniDeck;
+
      public int actualnumCards;
 
      public PlayerDeck(){
-         miniDeck= new ArrayList<>(3);
-         initCard = new InitialCard(initCard.cardID) ; //?? dove prendo il CardID
+         miniDeck= new ArrayList<>(6);
+         actualnumCards=0;
      }
 
-     public void addCard(PlayableCard newCard){
-         //controlla se array pieno -> actualNumCards =3
-         // altrimenti aggiunge la carta e incrementa numero
-              miniDeck.add(newCard);
+     public ArrayList<PlayableCard> getMiniDeck(){
+          return this.miniDeck;
      }
-     public void removeCard(Card newCard){
-         //quando la carta viene piazzata deve essere rimossaa dal playerDeck
-         //decremento actualNumCards
-     }
-     public void showPlayerDeck(){
-         //fa vedere le carte del deck
-         // nelle carte ci devono essere i metodi che mostrano (fronte e retro)
+     public int getNumCards(){
+          return this.actualnumCards;
      }
 
+     /**
+      * Adds a new card to the mini deck if there is space available.
+      *@author Sofia Maule
+      * @param newCard The new card to be added to the mini deck.
+      */
+     public void addCard(PlayableCard[] newCard) {
+          if (actualnumCards < 3) {
+               miniDeck.add(newCard);
+               actualnumCards++;
+               //notifyCardAdded(); // Notifica il successo
+          } else {
+              // notifyCardAdditionFailed(); // Notifica il fallimento
+          }
+     }
+
+     /**
+      * Removes a card from the mini deck if it exists.
+      * @author Sofia Maule
+      * @param cardToRemove The card to be removed from the mini deck.
+      */
+     public void removeCard(PlayableCard[] cardToRemove) {
+          if (miniDeck.remove(cardToRemove)) {
+               actualnumCards--;
+               // Notifica il successo ->  notifyCardRemoved();
+          } else {
+               // Notifica il fallimento
+               //notifyCardRemovalFailed();
+          }
+     }
 }

@@ -1,9 +1,14 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.InvalidColorException;
 import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
+import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -26,7 +31,7 @@ public class Game {
 
 	private final int chosenPlayersNumber;
 	protected ArrayList<Player> players;
-	protected Deck objectiveCardsDeck;
+	protected ObjectiveDeck objectiveCardsDeck;
 	protected Deck initialCardsDeck;
 	protected Deck resourceCardsDeck;
 	protected Deck goldCardsDeck;
@@ -46,18 +51,16 @@ public class Game {
 	 * @param playersNumber The number of players in the game.
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
-	private Game(int playersNumber) throws IllegalArgumentException{
+	private Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException {
 		//check number of players
 		if(playersNumber < 1 || playersNumber > 4){
 			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
 		}
 		this.chosenPlayersNumber = playersNumber;
-		this.objectiveCardsDeck = new Deck(DeckType.Objective);
-		this.initialCardsDeck = new Deck(DeckType.Initial);
-		this.goldCardsDeck = new Deck(DeckType.Gold);
-		this.resourceCardsDeck = new Deck(DeckType.Resource);
-		//nota: ho fatto il costruttore del deck che ha come parametro
-		// la stringa del tipo di carte -> assegno un numCards diverso(perchè sono diversi il base al tipo di carte)
+		this.objectiveCardsDeck = new ObjectiveDeck();
+		this.initialCardsDeck = new Deck(CardType.InitialCard);
+		this.goldCardsDeck = new Deck(CardType.GoldCard);
+		this.resourceCardsDeck = new Deck(CardType.ResourceCard);
 
 		this.players = new ArrayList<>();
 		this.scoretrack = new ScoreTrack();
@@ -155,8 +158,10 @@ public class Game {
 	 */
 	public void InizializeCards() {
 		for (Player player : players) {
-			Card initialCard = initialCardsDeck.drawCard();
-			player.addCard(initialCard);
+			PlayableCard[] initialCard = initialCardsDeck.returnCard();
+			PlayerDeck playerDeck= player.getPlayerDeck();
+			playerDeck.addCard(initialCard);
+
 		}
 //player choose ObjectiveCard
 		/* - pesca dal deck 2 carte casuali

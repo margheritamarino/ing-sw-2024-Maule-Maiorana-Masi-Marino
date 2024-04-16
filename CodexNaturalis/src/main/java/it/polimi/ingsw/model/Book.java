@@ -1,45 +1,35 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.exceptions.CellNotAvailableException;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.SymbolType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 // BOOK: disposizione delle carte di ogni player
 public class Book {
-
-//    private ArrayList<PlayableCard> bookArray;
-
-    //private ArrayList<ArrayList<Cell>> bookMatrix; //matrice di celle
     private Cell[][] bookMatrix; //matrice di celle
     private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
     private Map<SymbolType, Integer> symbolMap; //n° di simboli per tipo
-    // Costruttore
 
 
-    /*
-    //NOTA: passare max numero di righe e colonne che si vogliono istanziare
-    public Book(int rows, int columns) {
-        // Inizializza la matrice di celle con le dimensioni fornite
-        this.bookMatrix = new ArrayList<>(rows);
-        for (int i = 0; i < rows; i++) {
-            ArrayList<Cell> rowList = new ArrayList<>(columns);
-            for (int j = 0; j < columns; j++) {
-                rowList.add(new Cell(i, j));
-            }
-            this.bookMatrix.add(rowList);
-        }
-
-        // Inizializza le mappe di risorse e simboli
-        this.resourceMap = new HashMap<>();
-        this.symbolMap = new HashMap<>();
-    }
-
+    /**
+     * Constructs a Book object with the specified number of rows, columns, and a PlayableCard.
+     * Initializes the resource and symbol maps and sets up the book matrix with Cell objects.
+     * Each Cell object is initialized with its row and column indices and is marked as unavailable.
+     *
+     * @author Margherita Marino
+     * @param rows    The number of rows in the book.
+     * @param columns The number of columns in the book.
      */
-
-    public Book(int rows, int columns, PlayableCard card){
+    public Book(int rows, int columns){
         // Inizializza le mappe di risorse e simboli
         this.resourceMap = new HashMap<>();
         this.symbolMap = new HashMap<>();
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 assert false;
@@ -49,79 +39,241 @@ public class Book {
     }
 
     public int addCard(PlayableCard card, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
-        if (cell.isAvailable()){
+        int numPoints = 0;
+        try {
+            if(!cell.isAvailable()){
+                throw new CellNotAvailableException("This Cell is not Available");
+            }
             cell.setCardPointer(card); //setto il puntatore della cella alla carta che ho appena piazzato
             cell.setAvailable(false); //setto disponibilità cella a false
-            updateCoveredCorners(cell);
-
-
+            updateMaps(card, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
+            updateBook(card, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
+            numPoints = card.getCardPoints();
+        }catch (CellNotAvailableException e){
+            System.err.println("Unable to place the card: " + e.getMessage());
         }
-
+        return numPoints;
     }
 
+    /**
+     * Updates the covered corners of the neighboring cards of the specified cell.
+     * If a neighboring cell contains a card and its corner is not empty,
+     * the corresponding resource or symbol in the book's resource/symbol map is decremented.
+     *
+     * @author Margherita Marino
+     * @param cell The cell for which to update the covered corners of neighboring cards.
+     * @return True if any corner was covered, false otherwise.
+     */
     public boolean updateCoveredCorners(Cell cell){
         boolean cornerCovered = false;
         if(cell.getCard()!=null){
            int i = cell.getRow();
            int j = cell.getColumn();
-           if((bookMatrix[i-1][j-1].getCard() != null && bookMatrix[i-1][j-1].getCard().getBRCorner().equals("WithSymbol") || bookMatrix[i-1][j-1].getCard().getBRCorner().equals("WithResource")))
 
+           if(bookMatrix[i-1][j-1].getCard() != null && !(bookMatrix[i-1][j-1].getCard().getCornerContent(CornerType.BRCorner).equals("Empty"))){
+                coverCorner(bookMatrix[i-1][j-1].getCard(), CornerType.BRCorner);
+           }
+           if(bookMatrix[i-1][j+1].getCard() != null && !(bookMatrix[i-1][j+1].getCard().getCornerContent(CornerType.BLCorner).equals("Empty"))){
+               coverCorner(bookMatrix[i-1][j+1].getCard(), CornerType.BLCorner);
+           }
+           if(bookMatrix[i+1][j+1].getCard() != null && !(bookMatrix[i+1][j+1].getCard().getCornerContent(CornerType.TLCorner).equals("Empty"))){
+               coverCorner(bookMatrix[i+1][j+1].getCard(), CornerType.TLCorner);
+           }
+           if(bookMatrix[i+1][j-1].getCard() != null && !(bookMatrix[i+1][j-1].getCard().getCornerContent(CornerType.TRCorner).equals("Empty"))){
+               coverCorner(bookMatrix[i+1][j-1].getCard(), CornerType.TRCorner);
+           }
        }
         return cornerCovered;
     }
 
-    public boolean checkCorner(int i, int j) { //funzione che verifica se, posizionata una carta sulla cella i,j, questa copre gli angoli di altre carte posizionate in gioco
-        if ((bookMatrix[i - 1][j - 1].getCard() != null && bookMatrix[i - 1][j - 1].getCard().getBRCorner().equals("WithSymbol") || bookMatrix[i - 1][j - 1].getCard().getBRCorner().equals("WithResource"))){
+    /**
+     * Covers the resource or symbol of a specified corner on a PlayableCard.
+     * Decreases the quantity of the corresponding resource or symbol in the book's resource/symbol map.
+     *
+     * @author Margherita Marino
+     * @param card    The PlayableCard for which the corner is to be covered.
+     * @param corner  The type of corner to cover.
+     */
+    public void coverCorner(PlayableCard card, CornerType corner){ //funzione che "copre" la risorsa o il simbolo di una carta passata la carta e l'angolo coperto. decrementa il valore della risorsa/simbolo nella mappa dei simboli risorse del book
+        if(card.getCornerContent(corner).equals("Fungi")){
+            decreaseResource(ResourceType.FUNGI);
+        }
+        else if(card.getCornerContent(corner).equals("Animal")){
+            decreaseResource(ResourceType.ANIMAL);
+        }else if(card.getCornerContent(corner).equals("Insect")){
+            decreaseResource(ResourceType.INSECT);
+        }else if(card.getCornerContent(corner).equals("Insect")){
+            decreaseResource(ResourceType.PLANT);
+        }else if(card.getCornerContent(corner).equals("Ink")){
+            decreaseSymbol(SymbolType.INK);
+        }else if(card.getCornerContent(corner).equals("Quill")){
+            decreaseSymbol(SymbolType.QUILL);
+        }else decreaseSymbol(SymbolType.MANUSCRIPT);
+    }
+
+    /**
+     * Decreases the quantity of the specified type of resource by one.
+     *
+     * @author Margherita Marino
+     * @param resourceType The type of resource to decrease.
+     */
+    public void decreaseResource(ResourceType resourceType){ //funzione che decrementa la risorsa passata per parametro
+        int numResources = resourceMap.get(resourceType);
+        numResources = (numResources == 0) ? 0 : numResources - 1;
+        resourceMap.put(resourceType, numResources);
+    }
+
+    /**
+     * Decreases the quantity of the specified type of symbol by one.
+     *
+     * @author Margherita Marino
+     * @param symbolType The type of symbol to decrease.
+     */
+    public void decreaseSymbol(SymbolType symbolType){ //funzione che decrementa la risorsa passata per parametro
+        int numSymbols = symbolMap.get(symbolType);
+        numSymbols = (numSymbols == 0) ? 0 : numSymbols - 1;
+        symbolMap.put(symbolType, numSymbols);
+    }
+
+    /**
+     * Increases the quantity of the specified type of resource by one.
+     *
+     * @author Margherita Marino
+     * @param resourceType The type of resource to increase.
+     */
+    public void increaseResource(ResourceType resourceType){ //funzione che incrementa la risorsa passata per parametro
+        int numResources = resourceMap.get(resourceType);
+        numResources++;
+        resourceMap.put(resourceType, numResources);
+    }
+
+    /**
+     * Increases the quantity of the specified type of symbol by one.
+     *
+     * @author Margherita Marino
+     * @param symbolType The type of symbol to increase.
+     */
+    public void increaseSymbol(SymbolType symbolType){ //funzione che incrementa il simbolo passato per parametro
+        int numSymbols = symbolMap.get(symbolType);
+        numSymbols++;
+        symbolMap.put(symbolType, numSymbols);
+    }
+
+    /**
+     * Updates the symbol map and the resource map when adding a new card to the book.
+     * This method updates the symbol map and the resource map by calling the
+     * {@link #updateNewCardCorners(PlayableCard)} method to incorporate symbols and/or resources
+     * from the newly added card, and the {@link #updateCoveredCorners(Cell)} method to adjust
+     * the resource and symbol counts based on the neighboring cards of the specified cell.
+     *
+     * @author Margherita Marino
+     * @param card The PlayableCard to add to the book.
+     * @param cell The cell where the card is placed.
+     */
+    public void updateMaps(PlayableCard card, Cell cell){ //metodo per aggiornare la mappa dei simboli e la mappa delle risorse quando aggiungo una nuova carta
+        updateNewCardCorners(card); //Aggiunge Simboli e Risorse della Carta appena piazzata nel Book
+        updateCoveredCorners(cell); //Decrementa simboli e risorse che sono stati coperti dalla nuova carta piazzata
+    }
+
+    /**
+     * Updates the resource and symbol maps with the symbols and/or resources present on a card
+     * when it is placed in the book.
+     *
+     * @author Margherita Marino
+     * @param card The PlayableCard to update the resource and symbol maps with.
+     */
+    public void updateNewCardCorners(PlayableCard card) {
+        for (CornerType corner : CornerType.values()) {
+            String content = card.getCornerContent(corner);
+            switch (content) {
+                case "Fungi":
+                    increaseResource(ResourceType.FUNGI);
+                    break;
+                case "Animal":
+                    increaseResource(ResourceType.ANIMAL);
+                    break;
+                case "Insect":
+                    increaseResource(ResourceType.INSECT);
+                    break;
+                case "Plant":
+                    increaseResource(ResourceType.PLANT);
+                    break;
+                case "Ink":
+                    increaseSymbol(SymbolType.INK);
+                    break;
+                case "Quill":
+                    increaseSymbol(SymbolType.QUILL);
+                    break;
+                case "Manuscript":
+                    increaseSymbol(SymbolType.MANUSCRIPT);
+                    break;
+                default:
+                    // Handle the case when the content is not recognized or empty
+                    break;
+            }
         }
     }
 
 
-
-    // Metodo per creare una mappa che conta il numero di RISORSE per ogni tipo, presenti negli angoli
-    public void updateMap (Map<ResourceType, Integer> resourceMap, Map<SymbolType, Integer> symbolMap, PlayableCard newCard){
-        //metodo che quando AGGIUNGO una carta al tabellone aggiorna le rispettive mappe in base
-        // al numero di risorse e simboli nella nuovaCarta
-        // se una carta viene coperta vengono TOLTE le risorse/simboli dell'angolo coperto
+    /**
+     * Removes all cards from the book.
+     * This method clears the book of all cards, leaving it empty.
+     * @author Margherita Marino
+     */
+    public void clear(){ //elimina tutte le carte dal book
+        // Itera attraverso tutte le celle del book
+        for (int i = 0; i < bookMatrix.length; i++) {
+            for (int j = 0; j < bookMatrix[i].length; j++) {
+                // Imposta il puntatore della carta della cella a null
+                bookMatrix[i][j].setCardPointer(null);
+                // Imposta la disponibilità della cella a true
+                bookMatrix[i][j].setAvailable(true);
+            }
+        }
     }
 
 
-    public void clear(){
-        //RIMUOVE TUTTE LE CARTE DAL BOOK
+    /**
+     * Updates the availability of cells surrounding the newly placed card.
+     * This method adjusts the availability of cells surrounding the newly placed card
+     * based on the presence of corners on the card. If a corner exists on the card and
+     * the adjacent diagonal cell does not have its wall attribute set to true,
+     * it sets the adjacent diagonal cell to available. If the corner does not exist (NoCorner),
+     * the availability of the cell remains false, and the cell's wall attribute is set to true,
+     * indicating that no further cards can be placed in that cell in the future.
+     *
+     * @param newCard The PlayableCard that has been placed.
+     * @param cell The Cell where the card is placed.
+     */
+    public void updateBook(PlayableCard newCard, Cell cell){ //metodo che imposta la disponibilità delle celle attorno alla carta appena piazzata,passata per parametro, mettendole a false se non è presente un angolo
+        int i = cell.getRow();
+        int j = cell.getColumn();
+
+        if(newCard.getTLCorner() == CornerLabel.NoCorner){
+            cell.setWall(true);
+        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j-1].isWall())){
+            bookMatrix[i-1][j-1].setAvailable(true);
+        }
+
+        if(newCard.getTLCorner() == CornerLabel.NoCorner){
+            cell.setWall(true);
+        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j+1].isWall())){
+            bookMatrix[i-1][j+1].setAvailable(true);
+        }
+
+        if(newCard.getBRCorner() == CornerLabel.NoCorner){
+            cell.setWall(true);
+        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j+1].isWall())){
+            bookMatrix[i+1][j+1].setAvailable(true);
+        }
+
+        if(newCard.getBLCorner() == CornerLabel.NoCorner){
+            cell.setWall(true);
+        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j-1]).isWall()){
+            bookMatrix[i+1][j-1].setAvailable(true);
+        }
     }
 
-
-    public void updateBook(){
-/* metodo che chiamo DOPO CHE è STATA PIAZZATA UNA CARTA:
-    1) guardo il riferimento agli angoli
-        ->  se l’angolo esiste -> Available = true
-    2) imposto le celle intorno alla carta
-    Available = false && cardPointer = null -> cella mai disponibile (X) (quelle lato carta dove non ci sono gli angoli)
-    Available= true && CardPointer = null -> ANGOLO LIBERO dove piazzare una prossima carta cella disponibile e non c’è nessuna carta piazzata */
-    }
-
-
-    public void checknewCorner(){
-    // metodo che controlla gli angoli della carta appena piazzata (newCard)
-    // se c’è un simbolo/risorsa -> aggiorna mappa (+)
-    }
-
-    public void checkCoveredCorner() {
-        /*
-        metodo che controlla se l’angolo relativo
-        alla cella dove ho piazzato(angolo coperto) la carta conteneva risorse/simboli
-        -> se sì (sono stati coperti) -> decremento la mappa) */
-    }
-
-
-    /*// Metodi getter e setter
-    public ArrayList<ArrayList<Cell>> getBookMatrix() {
-        return bookMatrix;
-    }
-
-    public void setBookMatrix(ArrayList<ArrayList<Cell>> bookMatrix) {
-        this.bookMatrix = bookMatrix;
-    }
-*/
     public Map<ResourceType, Integer> getResourceMap() {
         return resourceMap;
     }
@@ -138,8 +290,86 @@ public class Book {
         this.symbolMap = symbolMap;
     }
 
+    /**
+     * This method checks on the player's Book how many times he achieved his own Goal.
+     * It also calculates how many points the player obtained achieving his Goal.
+     *
+     * @param objectiveCard Is the player's own ObjectiveCard.
+     * @throws IllegalArgumentException If an invalid GoalType label is set on the objectiveCard attribute.
+     * @author Martina Maiorana
+     */
+    public int checkGoal(ObjectiveCard objectiveCard) {
+        switch (objectiveCard.getGoalType()) {
+            case ResourceCondition:
+                return checkResourceCondition(objectiveCard);
+            case SymbolCondition:
+                return checkSymbolCondition(objectiveCard);
+            case DiagonalPlacement:
+                return checkDiagonalPlacement(objectiveCard);
+            case LPlacement:
+                return checkLPlacement(objectiveCard);
+            default:
+                throw new IllegalArgumentException("Invalid GoalType");
+        }
+    }
 
 
+    /**
+     * @return Victory Points obtained by the player reaching the Resource condition required by his Objective card.
+     * @param objectiveCard The player's own ObjectiveCard.
+     * @author Martina Maiorana
+     */
+    private int checkResourceCondition(ObjectiveCard objectiveCard) {
 
+        ResourceType mainResourceType = objectiveCard.getMainResource(); //ResourceType required by the card
+        int numMainResources = resourceMap.getOrDefault(mainResourceType, 0);
+        int numTriplets = numMainResources / 3; //Groups of 3 required Resource on the player's Book
+        return numTriplets * objectiveCard.getVictoryPoints();
+
+    }
+
+    /**
+     * @return Victory Points obtained by the player reaching the Symbol condition required by his Objective card.
+     * @param objectiveCard The player's own ObjectiveCard.
+     * @author Martina Maiorana
+     */
+    private int checkSymbolCondition(ObjectiveCard objectiveCard) {
+
+        switch (objectiveCard.getVictoryPoints()) {
+            case 2:
+                SymbolType symbolToCheck = objectiveCard.getSymbols().get(0);
+                int numSymbol = symbolMap.getOrDefault(symbolToCheck, 0);
+                int numPairs = numSymbol / 2;
+                return numPairs * 2;
+            case 3:
+                int numQuill = symbolMap.getOrDefault(SymbolType.Quill, 0);
+                int numInk = symbolMap.getOrDefault(SymbolType.Ink, 0);
+                int numManuscript = symbolMap.getOrDefault(SymbolType.Manuscript, 0);
+                int minSymbolCount = Math.min(numQuill, Math.min(numInk, numManuscript)); //gets the MINIMUM of the 3 symbols quantities
+                int numTriplets = minSymbolCount / 3;
+                return numTriplets * 3;
+                throw new IllegalArgumentException("Invalid victoryPoints");
+
+        }
+
+        /**
+         * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
+         * @param objectiveCard The player's own ObjectiveCard.
+         * @author Martina Maiorana
+         */
+        private int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
+            // Implementa la logica per controllare se è verificata la disposizione diagonale
+            // ritorna la somma di punti ottenuti dal giocatore
+        }
+
+        /**
+         * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
+         * @param objectiveCard The player's own ObjectiveCard.
+         * @author Martina Maiorana
+         */
+        private int checkLPlacement(ObjectiveCard objectiveCard) {
+            // Implementa la logica per controllare se è verificata la disposizione a L
+            // ritorna la somma di punti ottenuti dal giocatore
+        }
 
 }

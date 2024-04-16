@@ -1,5 +1,5 @@
-package it.polimi.ingsw.model;
-import java.util.*;
+package it.polimi.ingsw.model.cards;
+import it.polimi.ingsw.model.*;
 
 
 import java.util.List;
@@ -7,7 +7,6 @@ import java.util.List;
 public class ObjectiveCard {
     private int cardID;
     private boolean isFront;
-    private CardType cardType;
     private GoalType goalType;
     private int victoryPoints;
     private int numSymbols;
@@ -23,10 +22,6 @@ public class ObjectiveCard {
 
     public boolean isFront() {
         return isFront;
-    }
-
-    public CardType getCardType() {
-        return cardType;
     }
 
     public GoalType getGoalType() {

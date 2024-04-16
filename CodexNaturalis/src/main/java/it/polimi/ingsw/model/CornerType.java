@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 public enum CornerType {
-    TRCorneer,
+    TRCorner,
     TLCorner,
     BRCorner,
     BLCorner;
