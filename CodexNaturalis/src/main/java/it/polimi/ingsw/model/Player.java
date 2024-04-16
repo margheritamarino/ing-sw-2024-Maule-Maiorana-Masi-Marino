@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
@@ -13,11 +14,9 @@ public class Player {
     private PlayerDeck playerDeck;
     private Book playerBook;
 
-
-    //    private boolean firstPlayer; -> a cosa serve??
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
 
-    // CHI DECIDE LO STATO DEI GIOCATORI?
+
     public Player(String nickname, PlayerColor color) {
         this.nickname = nickname;
         this.color = color;
@@ -27,80 +26,118 @@ public class Player {
         this.playerDeck = new PlayerDeck();
     };
 
-    public void setNickname(String nickname){
+    /**
+     * Sets the nickname of the player.
+     * @param nickname -> the nickname chosen by the player to rappresent him.
+     */
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public String getNickname(){
+    /**
+     * Retrieves the nickname of the player.
+     * @return The nickname of the player.
+     */
+    public String getNickname() {
         return nickname;
     }
 
-    public void setColor(PlayerColor color){
+    /**
+     * Sets the color of the player -> the color rapresenting the player's piece.
+     * @param color The color chosen by the player.
+     */
+    public void setColor(PlayerColor color) {
         this.color = color;
     }
 
-    public PlayerColor getColor(){
+    /**
+     * Retrieves the color of the player rapresenting the color of the player's piece.
+     * @return The color of the player.
+     */
+    public PlayerColor getColor() {
         return color;
     }
-    public void setPlayerState(Player player, PlayerState state) {
-        player.state=state;
-    }
-    public PlayerState getPlayerState(Player player) {
-        return player.state;
+
+    /**
+     * Sets the state of the player
+     * @param state -> the actual state of the player
+     */
+    public void setPlayerState(PlayerState state) {
+        this.state = state;
     }
 
-    //il game passa la carta scelta fra le 2 objectiveCard e setta il goal
+    /**
+     * Retrieves the state of the player.
+     * @return The state of the player.
+     */
+    public PlayerState getPlayerState() {
+        return this.state;
+    }
+
+    /**
+     * Sets the player's Objective card rapresenting the player's goal.
+     * @param chosenCard is the objective card chosen between 2 Objective Cards
+     */
     public void setGoal(ObjectiveCard chosenCard) {
         this.playerGoal=  chosenCard;
     }
 
+   public ObjectiveCard getGoal(){
+        return this.playerGoal;
+   }
 
-    //IMPLEMENTA
-    public ObjectiveFront chooseObjectiveCard(ArrayList<ObjectiveFront> drawnObjectiveCards){
-        //metodo che prende in ingresso le 2 carte Obbiettivo pescate dal player
-        // mostra a video le due carte
-        //chiede al player quale vuole
-        //restituisce la carta scelta dal player fra le due
-    }
+   public Book getPlayerBook(){
+        return this.playerBook;
+   }
 
-    /**
-     * @param player
-     * @return  type ObjectiveCard -> rapresenting player's goal */
-    public ObjectiveCard getGoal(Player player) {
-        return player.playerGoal;
-    }
+   public PlayerDeck getPlayerDeck(){
+        return this.playerDeck;
+   }
 
-    /**
-     * @param player
-     * @return player's nickname
+
+    /**@author Sofia Maule
+     * Chooses a card from the player's deck at the specified position,
+     * removes it from the playerDeck and returns it.
+     *
+     * @param pos The position of the card to choose.
+     * @return The card from the player's deck at the specified position,
+     * or null if the deck is empty or the position is invalid.
      */
-    public String getNickname(Player player){
-        return player.nickname;
+    /* CONTROLLA SE SERVE -> può farlo direttamente controller
+    *  DA CORREGGERE!!
+    *    */
+    public PlayableCard chooseCard(int pos) {
+        ArrayList<PlayableCard> miniDeck = playerDeck.getMiniDeck();
+
+        // Verifies if the deck contains cards and if the position is valid
+        if (miniDeck.isEmpty() || pos < 0 || pos >= miniDeck.size()) {
+            return null; // Returns null if the deck is empty or the position is invalid
+        }
+
+        // Gets the card from the deck at the specified position
+        PlayableCard chosenCard = miniDeck.get(pos);
+
+        // Removes the chosen card from the mini deck
+        playerDeck.removeCard(chosenCard);
+        return chosenCard;
     }
 
-    public void addCard(Card newcard) {
-        //IMPLEMENTA METODO che aggiunge la nuova carta passata al PlayerDeck
-    }
-    public PlayableCard pickCard(){
-        //IMPLEMENTA
-        /*  METODO che fa fa pescare il giocatore dal Board
-            e aggiorna il PlayerDeck */
-    }
-
-    public void placeCard(Card chosenCard){
-        //Igiocatore sceglie la carta tra le 3 del playerDeck
-        //
-        // al Book del player
-        // scelta posizione ?
+    /* CONTROLLA SE SERVE -> può farlo direttamente controller
+    *
+    *  DA CORREGGERE!!!!
+    *  */
+    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos){
+        PlayableCard pickedCard = board.takeCardfromBoard(cardType, drawFromDeck, pos);
+        if (pickedCard != null) {
+            playerDeck.addCard(pickedCard);
+        }
     }
 
-    public void showPlayerDeck(){
-        //IMPLEMENTA METODO CHE STAMPA LE CARTE DEL PLAYERDECK
+    public void placeCard(PlayableCard chosenCard){
+
     }
 
-    public void showPlayerBook(){
-        //IMPLEMENTA METODO CHE STAMPA LE CARTE presenti nel BOOK
-    }
+
 
 
 }
