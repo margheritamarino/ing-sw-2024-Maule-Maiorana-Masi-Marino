@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
+import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -97,6 +98,65 @@ public class Player {
    }
 
 
+
+
+    /**
+     * Picks a card from the board and adds it to the player's deck.
+     *
+     * @param board         The board from which to pick the card.
+     * @param cardType      The type of card to pick.
+     * @param drawFromDeck  Indicates whether to draw the card from the deck or the discard pile.
+     * @param pos           The position of the card to pick from the board.
+     * @throws IllegalArgumentException If the specified card type is invalid.
+     * @throws IndexOutOfBoundsException If the position is out of range or the card cannot be picked.
+     */
+    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException {
+        // Take a card from the board
+        PlayableCard[] pickedCard;
+        try {
+            pickedCard = board.takeCardfromBoard(cardType, drawFromDeck, pos);
+        } catch (IllegalArgumentException e) {
+            // Handle invalid card type exception
+            throw new IllegalArgumentException("Invalid card type", e);
+        } catch (IndexOutOfBoundsException e) {
+            // Handle out of range or unpickable card exception
+            throw new IndexOutOfBoundsException("Position is out of range or the card cannot be picked");
+        }
+
+        // Check if a card is successfully picked
+        if (pickedCard != null) {
+            // Add the picked card to the player's deck
+            try {
+                playerDeck.addCard(pickedCard);
+            } catch (IllegalArgumentException e) {
+                // Handle invalid card addition exception
+                throw new IllegalArgumentException("Invalid card addition to the player's deck", e);
+            }
+        }
+    }
+
+    /**
+     * Chooses a cell from the available positions shown by the player's book.
+     *
+     * @param pos The position of the cell to choose.
+     * @return The chosen cell.
+     * @throws IndexOutOfBoundsException If the position is out of range.
+     */
+    public Cell chooseCell(int pos) throws IndexOutOfBoundsException {
+        // Get the available positions from the player's book
+        ArrayList<Cell> availablePositions = playerBook.showAvailablePositions();
+
+        // Verify if the position is valid
+        if (pos < 0 || pos >= availablePositions.size()) {
+            throw new IndexOutOfBoundsException("Position is out of range");
+        }
+
+        // Get the cell at the specified position
+        Cell chosenCell = availablePositions.get(pos);
+
+        // Return the chosen cell
+        return chosenCell;
+    }
     /**@author Sofia Maule
      * Chooses a card from the player's deck at the specified position,
      * removes it from the playerDeck and returns it.
@@ -105,41 +165,46 @@ public class Player {
      * @return The card from the player's deck at the specified position,
      * or null if the deck is empty or the position is invalid.
      */
-    /* CONTROLLA SE SERVE -> può farlo direttamente controller
-    *  DA CORREGGERE!!
-    *    */
-    public PlayableCard chooseCard(int pos) {
-        ArrayList<PlayableCard> miniDeck = playerDeck.getMiniDeck();
 
-        // Verifies if the deck contains cards and if the position is valid
-        if (miniDeck.isEmpty() || pos < 0 || pos >= miniDeck.size()) {
-            return null; // Returns null if the deck is empty or the position is invalid
+    public PlayableCard chooseCard(int pos) throws IndexOutOfBoundsException {
+        // Verifies if the position is valid
+        if (pos < 0 || pos >= playerDeck.getNumCards()) {
+            throw new IndexOutOfBoundsException("Position is out of range");
         }
 
-        // Gets the card from the deck at the specified position
-        PlayableCard chosenCard = miniDeck.get(pos);
+        // Retrieve the card at the specified position from the player's deck
+        PlayableCard chosenCard = playerDeck.getMiniDeck().get(pos);
 
-        // Removes the chosen card from the mini deck
-        playerDeck.removeCard(chosenCard);
+        // Remove the chosen card from the player's deck
+        try {
+            playerDeck.removeCard(pos);
+        } catch (IndexOutOfBoundsException e) {
+            // Handle the exception if the position is out of bounds after removing the card
+            throw new IndexOutOfBoundsException("Position is out of range after card removal");
+        }
+
+        // Return the chosen card
         return chosenCard;
     }
 
-    /* CONTROLLA SE SERVE -> può farlo direttamente controller
-    *
-    *  DA CORREGGERE!!!!
-    *  */
-    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos){
-        PlayableCard pickedCard = board.takeCardfromBoard(cardType, drawFromDeck, pos);
-        if (pickedCard != null) {
-            playerDeck.addCard(pickedCard);
-        }
+    /*
+     DA RIVEDERE PERCHè LA CELLA E LA CARTA DA PRENDERE DAL PLAYERDECK DEVONO
+     ESSERE PASSATI COME PARAMETRI IN INPUT (DALLA VIEW) ????
+     */
+    public int placeCard(int posCell, int posCard) throws IndexOutOfBoundsException {
+        // Choose a cell and a card
+        Cell chosenCell = chooseCell(posCell); // Choose the first cell
+        PlayableCard chosenCard = chooseCard(posCard); // Choose the first card
+
+        // Place the chosen card on the chosen cell using the addCard method of the player's book
+        return playerBook.addCard(chosenCard, chosenCell);
     }
 
-    public void placeCard(PlayableCard chosenCard){
+    public int checkGoal(Board board){}
+    /* in base al tipo di obbiettivo della Objective Card chiama i metodi del book per controllare se è verificato
+        restituisce i punti fatti
+        è gia nel BOOK (CONTROLLA)     */
 
-    }
-
-
-
+    //GESTISCI PLAYERSTATE
 
 }
