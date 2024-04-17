@@ -30,16 +30,14 @@ import java.util.*;
 public class Game {
 
 	private static Game instance;
-
-	private final int chosenPlayersNumber;
+	private final int playersNumber;
 	protected ArrayList<Player> players;
 	protected ScoreTrack scoretrack;
 	private Player currentPlayer;
-
-	private Deck InitialCard;
+	private Deck initialCardsDeck;
 	protected Board board;
-	protected boolean gameended = false;
-	protected boolean gamestarted = false;
+	protected boolean gameEnded = false;
+	protected boolean gameStarted = false;
 
 
 	/**
@@ -47,20 +45,16 @@ public class Game {
 	 * @param playersNumber The number of players in the game.
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
-	private Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException {
+	private Game(int playersNumber) throws IllegalArgumentException {
 		//check number of players
 		if(playersNumber < 1 || playersNumber > 4){
 			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
 		}
-		this.chosenPlayersNumber = playersNumber;
-		this.objectiveCardsDeck = new ObjectiveDeck();
+		this.playersNumber = playersNumber;
 		this.initialCardsDeck = new Deck(CardType.InitialCard);
-		this.goldCardsDeck = new Deck(CardType.GoldCard);
-		this.resourceCardsDeck = new Deck(CardType.ResourceCard);
-
 		this.players = new ArrayList<>();
 		this.scoretrack = new ScoreTrack();
-		this.currentPlayer = 0;
+		this.currentPlayer = null;
 		this.board = new Board();
 
 	}
@@ -72,7 +66,7 @@ public class Game {
 	 */
 	public static synchronized Game getInstance(int playersNumber) {
 		try {
-			if (instance == null) {
+			if (instance == null || instance.playersNumber != playersNumber) {
 				instance = new Game(playersNumber);
 			}
 			return instance;
@@ -87,7 +81,7 @@ public class Game {
 	 * @return True if the game is started
 	 */
 	public boolean isGamestarted(){
-		return gamestarted;
+		return gameStarted;
 	}
 
 	/**
@@ -95,7 +89,7 @@ public class Game {
 	 * @return True if the game is ended
 	 */
 	public boolean isEnded(){
-		return gameended;
+		return gameEnded;
 	}
 
 	/**
