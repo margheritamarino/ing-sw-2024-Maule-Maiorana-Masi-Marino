@@ -66,6 +66,8 @@ public class ScoreTrack {
      * @return the player who has reached 20, or null if no player has reached that score yet.
      */
 
+
+	//cambia -> boolean
 	public Player checkTo20() {
 		int winningScore = 20;
 		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) {

@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Scanne;
 
 import java.util.*;
 
@@ -34,19 +33,13 @@ public class Game {
 
 	private final int chosenPlayersNumber;
 	protected ArrayList<Player> players;
-	protected ObjectiveDeck objectiveCardsDeck;
-	protected Deck initialCardsDeck;
-	protected Deck resourceCardsDeck;
-	protected Deck goldCardsDeck;
 	protected ScoreTrack scoretrack;
-	private int currentPlayer;
+	private Player currentPlayer;
+
+	private Deck InitialCard;
 	protected Board board;
-	protected boolean isEnded = false;
+	protected boolean gameended = false;
 	protected boolean gamestarted = false;
-
-	private Scanner scanner;
-	private Map<Player, Integer> objectivePoints;
-
 
 
 	/**
@@ -69,8 +62,6 @@ public class Game {
 		this.scoretrack = new ScoreTrack();
 		this.currentPlayer = 0;
 		this.board = new Board();
-		this.scanner = new Scanner(System.in);
-		objectivePoints = new HashMap<>();
 
 	}
 
@@ -104,7 +95,7 @@ public class Game {
 	 * @return True if the game is ended
 	 */
 	public boolean isEnded(){
-		return isEnded;
+		return gameended;
 	}
 
 	/**
@@ -231,15 +222,11 @@ public class Game {
 			if (chosenPlayersNumber < 2)
 				throw new NotEnoughPlayersException("The game cannot start without at least two players");
 
-			// Shuffle the players list randomly
-			Collections.shuffle(players);
-
 			// Set the first player randomly
 			currentPlayer = new Random().nextInt(players.size());
-			System.out.println("The first player is: " + players.get(currentPlayer).getColor());
 
 			gamestarted = true;
-			System.out.println("Game ON");
+
 
 			// Return an array of player indices
 			int[] playerIndices = new int[players.size()];
