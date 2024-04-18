@@ -41,15 +41,15 @@ public class Board {
     public void initializeBoard() {
         //posiziono due carte oro e due carte risorsa sul tavolo
         for (int i = 0; i < MAX_SIZE; i++) {
-            PlayableCard[] goldCardsPair = goldCardsDeck.returnCard();
-            PlayableCard[] resourceCardsPair = resourcesCardsDeck.returnCard();
-            this.goldCards.add(goldCardsPair);
-            this.resourceCards.add(resourceCardsPair);
+            PlayableCard[] goldCards = goldCardsDeck.returnCard();
+            PlayableCard[] resourceCards = resourcesCardsDeck.returnCard();
+            this.goldCards.add(goldCards);
+            this.resourceCards.add(resourceCards);
         }
         //posiziono le carte obbiettivo comuni
         for (int i = 0; i < MAX_SIZE; i++) {
-            ObjectiveCard[] objectiveCardsPair = objectiveCardsDeck.returnCard();
-            this.objectiveCards.add(objectiveCardsPair);
+            ObjectiveCard[] objectiveCards = objectiveCardsDeck.returnCard();
+            this.objectiveCards.add(objectiveCards);
         }
     }
 
@@ -95,7 +95,7 @@ public class Board {
             }
             // Prelevo front e back card dalla board e creo l'array risultante
             PlayableCard[] selectedCards = new PlayableCard[2];
-            int startIndex = pos * 2; // Calcola l'indice di partenza
+            int startIndex = pos * 2; //indice di partenza deve essere quello del front delle carte
             selectedCards[0] = cardsOnBoard.get(startIndex)[0];
             selectedCards[1] = cardsOnBoard.get(startIndex + 1)[0];
 
