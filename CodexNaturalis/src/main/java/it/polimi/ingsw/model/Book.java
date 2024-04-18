@@ -282,6 +282,11 @@ public class Book {
         }
     }
 
+    public Cell[] showAvailableCells(){ //ritorna array di celle disponibili
+        //Cell[]
+        //return cell;
+    }
+
     public Map<ResourceType, Integer> getResourceMap() {
         return resourceMap;
     }
