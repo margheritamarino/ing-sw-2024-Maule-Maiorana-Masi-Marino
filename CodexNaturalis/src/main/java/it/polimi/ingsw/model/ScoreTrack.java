@@ -63,18 +63,16 @@ public class ScoreTrack {
 
     /**
      * Determines if any player has reached 20 points.
-     * @return the player who has reached 20, or null if no player has reached that score yet.
+     * @return true if there is a player who has reached 20, or false otherwise.
      */
-
-	public Player checkTo20() {
+	public boolean checkTo20() {
 		int winningScore = 20;
 		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) {
-			Player player = entry.getKey();
 			int points = entry.getValue();
 			if (points >= winningScore) {
-				return player;
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 }

@@ -3,8 +3,6 @@ import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.GoldCard;
-import it.polimi.ingsw.model.cards.ResourceCard;
 import java.util.ArrayList;
 
 import java.io.FileNotFoundException;
@@ -15,13 +13,13 @@ import java.io.FileNotFoundException;
  * @author Irene Pia Masi
  */
 public class Board {
-    private ArrayList<PlayableCard> goldCards; //dimension 2
-    private ArrayList<PlayableCard> resourceCards;
-    private ArrayList<ObjectiveCard> objectiveCards;
+    private ArrayList<PlayableCard[]> goldCards;
+    private ArrayList<PlayableCard[]> resourceCards;
+    private ArrayList<ObjectiveCard[]> objectiveCards;
     private Deck goldCardsDeck;
     private Deck resourcesCardsDeck;
     private ObjectiveDeck objectiveCardsDeck;
-    private final int MAX_SIZE = 2;
+    private final int MAX_SIZE = 2; //perchè la board ha 2 coppie di carte per ciascuna tipologia di carta
 
     /**
      * Constructor
@@ -45,13 +43,13 @@ public class Board {
         for (int i = 0; i < MAX_SIZE; i++) {
             PlayableCard[] goldCards = goldCardsDeck.returnCard();
             PlayableCard[] resourceCards = resourcesCardsDeck.returnCard();
-            this.goldCards.add((GoldCard) goldCards[0]);
-            this.resourceCards.add((ResourceCard) resourceCards[0]);
+            this.goldCards.add(goldCards);
+            this.resourceCards.add(resourceCards);
         }
         //posiziono le carte obbiettivo comuni
         for (int i = 0; i < MAX_SIZE; i++) {
             ObjectiveCard[] objectiveCards = objectiveCardsDeck.returnCard();
-            this.objectiveCards.add((ObjectiveCard) objectiveCards[0]);
+            this.objectiveCards.add(objectiveCards);
         }
     }
 
@@ -63,7 +61,7 @@ public class Board {
      * @param pos          The position of the card to take if drawing from the board.
      * @return The card taken from the board, or null.
      */
-    public PlayableCard takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) {
+    public PlayableCard[] takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) {
         if (drawFromDeck) { //booleano per vedere se il giocatore vuole pescare dai mazzi o dagli array
             // Verifico se il mazzo ha finito le carte prima di pescare
             if (cardType == CardType.GoldCard && goldCardsDeck.checkEndDeck()) {
@@ -73,14 +71,14 @@ public class Board {
             }
             switch (cardType) {
                 case GoldCard:
-                    return goldCardsDeck.returnCard()[0];
+                    return goldCardsDeck.returnCard();
                 case ResourceCard:
-                    return resourcesCardsDeck.returnCard()[0];
+                    return resourcesCardsDeck.returnCard();
                 default:
                     return null; //null in caso di tipo di carta non valido
             }
         } else {
-            ArrayList<PlayableCard> cardsOnBoard = null;
+            ArrayList<PlayableCard[]> cardsOnBoard = null;
             switch (cardType) {
                 case GoldCard:
                     cardsOnBoard = goldCards;
@@ -92,16 +90,23 @@ public class Board {
                     return null;
             }
             // Controllo che la posizione sia valida
-            if (pos < 0 || pos > cardsOnBoard.size()) {
+            if (pos < 0 || pos >= cardsOnBoard.size()) {
                 return null;
             }
-            // Prendo la carta dalla posizione specificata e la rimuovo dall'array
-            PlayableCard selectedCard = cardsOnBoard.get(pos - 1);
-            cardsOnBoard.remove(pos - 1);
+            // Prelevo front e back card dalla board e creo l'array risultante
+            PlayableCard[] selectedCards = new PlayableCard[2];
+            int startIndex = pos * 2; //indice di partenza deve essere quello del front delle carte
+            selectedCards[0] = cardsOnBoard.get(startIndex)[0];
+            selectedCards[1] = cardsOnBoard.get(startIndex + 1)[0];
+
+            // Rimuovi front e back card dall'array
+            cardsOnBoard.remove(startIndex);
+            cardsOnBoard.remove(startIndex); // Rimuovi anche il successivo perché abbiamo già scalato di 2
+
             // Aggiorno l'array e restituisco la carta selezionata
             updateArray(cardsOnBoard, cardType);
 
-            return selectedCard;
+            return selectedCards;
         }
     }
 
@@ -110,7 +115,7 @@ public class Board {
      * @param cards The array of cards to update.
      * @param cardType The type of card for which to update the array.
      */
-    public void updateArray(ArrayList<PlayableCard> cards, CardType cardType) {
+    public void updateArray(ArrayList<PlayableCard[]> cards, CardType cardType) {
         Deck deck = null;
         switch (cardType) {
             case GoldCard:
@@ -123,7 +128,7 @@ public class Board {
                 return;
         }
         // Prendo una nuova carta dal deck corrispondente tramite il returnCard
-        PlayableCard newCard = deck.returnCard()[0];
+        PlayableCard[] newCard = deck.returnCard();
         // Aggiungo la nuova carta all'array
         cards.add(newCard);
     }

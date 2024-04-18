@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Scanne;
 
 import java.util.*;
 
@@ -31,22 +30,14 @@ import java.util.*;
 public class Game {
 
 	private static Game instance;
-
-	private final int chosenPlayersNumber;
+	private final int playersNumber;
 	protected ArrayList<Player> players;
-	protected ObjectiveDeck objectiveCardsDeck;
-	protected Deck initialCardsDeck;
-	protected Deck resourceCardsDeck;
-	protected Deck goldCardsDeck;
 	protected ScoreTrack scoretrack;
-	private int currentPlayer;
+	private Player currentPlayer;
+	private Deck initialCardsDeck;
 	protected Board board;
-	protected boolean isEnded = false;
-	protected boolean gamestarted = false;
-
-	private Scanner scanner;
-	private Map<Player, Integer> objectivePoints;
-
+	protected boolean gameEnded = false;
+	protected boolean gameStarted = false;
 
 
 	/**
@@ -54,23 +45,17 @@ public class Game {
 	 * @param playersNumber The number of players in the game.
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
-	private Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException {
+	private Game(int playersNumber) throws IllegalArgumentException {
 		//check number of players
 		if(playersNumber < 1 || playersNumber > 4){
 			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
 		}
-		this.chosenPlayersNumber = playersNumber;
-		this.objectiveCardsDeck = new ObjectiveDeck();
+		this.playersNumber = playersNumber;
 		this.initialCardsDeck = new Deck(CardType.InitialCard);
-		this.goldCardsDeck = new Deck(CardType.GoldCard);
-		this.resourceCardsDeck = new Deck(CardType.ResourceCard);
-
 		this.players = new ArrayList<>();
 		this.scoretrack = new ScoreTrack();
-		this.currentPlayer = 0;
+		this.currentPlayer = null;
 		this.board = new Board();
-		this.scanner = new Scanner(System.in);
-		objectivePoints = new HashMap<>();
 
 	}
 
@@ -81,7 +66,7 @@ public class Game {
 	 */
 	public static synchronized Game getInstance(int playersNumber) {
 		try {
-			if (instance == null) {
+			if (instance == null || instance.playersNumber != playersNumber) {
 				instance = new Game(playersNumber);
 			}
 			return instance;
@@ -96,7 +81,7 @@ public class Game {
 	 * @return True if the game is started
 	 */
 	public boolean isGamestarted(){
-		return gamestarted;
+		return gameStarted;
 	}
 
 	/**
@@ -104,7 +89,7 @@ public class Game {
 	 * @return True if the game is ended
 	 */
 	public boolean isEnded(){
-		return isEnded;
+		return gameEnded;
 	}
 
 	/**
@@ -231,15 +216,11 @@ public class Game {
 			if (chosenPlayersNumber < 2)
 				throw new NotEnoughPlayersException("The game cannot start without at least two players");
 
-			// Shuffle the players list randomly
-			Collections.shuffle(players);
-
 			// Set the first player randomly
 			currentPlayer = new Random().nextInt(players.size());
-			System.out.println("The first player is: " + players.get(currentPlayer).getColor());
 
 			gamestarted = true;
-			System.out.println("Game ON");
+
 
 			// Return an array of player indices
 			int[] playerIndices = new int[players.size()];
