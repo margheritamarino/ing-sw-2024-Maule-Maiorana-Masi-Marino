@@ -292,7 +292,7 @@ public class Book {
      * @author Margherita Marino
      * @return An array of Cell objects representing the available cells in the book matrix.
      */
-    public Cell[] showAvailableCells() {
+    public List<Cell> showAvailableCells() {
         List<Cell> availableCellsList = new ArrayList<>();
 
         // Scorre la matrice e aggiunge le celle disponibili alla lista
@@ -303,12 +303,7 @@ public class Book {
                 }
             }
         }
-
-        // Converte la lista di celle disponibili in un array
-        Cell[] availableCellsArray = new Cell[availableCellsList.size()];
-        availableCellsArray = availableCellsList.toArray(availableCellsArray);
-
-        return availableCellsArray;
+        return availableCellsList;
     }
 
     public Map<ResourceType, Integer> getResourceMap() {
