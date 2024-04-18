@@ -26,15 +26,6 @@ public class Deck {
     private int numCards;
     private final CardType cardType;
     private ArrayList<PlayableCard> frontCards;
-
-    public ArrayList<PlayableCard> getFrontCards() {
-        return frontCards;
-    }
-
-    public ArrayList<PlayableCard> getBackCards() {
-        return backCards;
-    }
-
     private ArrayList<PlayableCard> backCards;
 
     public Deck(CardType cardType) throws FileNotFoundException, FileReadException {
@@ -53,6 +44,16 @@ public class Deck {
         }
         initializeDeck(cardType);
     }
+
+
+    public ArrayList<PlayableCard> getFrontCards() {
+        return frontCards;
+    }
+
+    public ArrayList<PlayableCard> getBackCards() {
+        return backCards;
+    }
+
 
     /** Initializes the deck of cards (arrayList of PlayableCards) of the specified type.
      *  Reads the JSON files of the specified Card Type containing the front and back cards,

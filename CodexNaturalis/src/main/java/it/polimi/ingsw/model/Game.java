@@ -29,6 +29,7 @@ import java.util.*;
  */
 public class Game {
 
+	private int gameID;
 	private static Game instance;
 	private final int playersNumber;
 	protected ArrayList<Player> players;
@@ -286,6 +287,3 @@ public class Game {
 	}
 
 }
-
-//ricordati che quando chiami addPoints devi farlo cosi
-//scoreTrack.addPoints(player, points, game.getObjectivePoints());
