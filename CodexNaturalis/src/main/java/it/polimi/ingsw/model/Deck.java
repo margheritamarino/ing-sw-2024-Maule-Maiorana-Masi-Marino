@@ -26,6 +26,15 @@ public class Deck {
     private int numCards;
     private final CardType cardType;
     private ArrayList<PlayableCard> frontCards;
+
+    public ArrayList<PlayableCard> getFrontCards() {
+        return frontCards;
+    }
+
+    public ArrayList<PlayableCard> getBackCards() {
+        return backCards;
+    }
+
     private ArrayList<PlayableCard> backCards;
 
     public Deck(CardType cardType) throws FileNotFoundException, FileReadException {

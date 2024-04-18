@@ -3,7 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -282,9 +285,30 @@ public class Book {
         }
     }
 
-    public Cell[] showAvailableCells(){ //ritorna array di celle disponibili
-        //Cell[]
-        //return cell;
+    /**
+     * Returns an array of available cells in the book matrix.
+     * A cell is considered available if its 'isAvailable' attribute is set to true.
+     *
+     * @author Margherita Marino
+     * @return An array of Cell objects representing the available cells in the book matrix.
+     */
+    public Cell[] showAvailableCells() {
+        List<Cell> availableCellsList = new ArrayList<>();
+
+        // Scorre la matrice e aggiunge le celle disponibili alla lista
+        for (int i = 0; i < bookMatrix.length; i++) {
+            for (int j = 0; j < bookMatrix.length; j++) {
+                if (bookMatrix[i][j].isAvailable()) {
+                    availableCellsList.add(bookMatrix[i][j]);
+                }
+            }
+        }
+
+        // Converte la lista di celle disponibili in un array
+        Cell[] availableCellsArray = new Cell[availableCellsList.size()];
+        availableCellsArray = availableCellsList.toArray(availableCellsArray);
+
+        return availableCellsArray;
     }
 
     public Map<ResourceType, Integer> getResourceMap() {
