@@ -13,13 +13,12 @@ import java.io.FileNotFoundException;
  * @author Irene Pia Masi
  */
 public class Board {
-    private ArrayList<PlayableCard[]> goldCards;
-    private ArrayList<PlayableCard[]> resourceCards;
-    private ArrayList<ObjectiveCard[]> objectiveCards;
-    private Deck goldCardsDeck;
-    private Deck resourcesCardsDeck;
-    private ObjectiveDeck objectiveCardsDeck;
-    private final int MAX_SIZE = 2; //perchè la board ha 2 coppie di carte per ciascuna tipologia di carta
+    private final ArrayList<PlayableCard[]> goldCards;
+    private final ArrayList<PlayableCard[]> resourceCards;
+    private final ObjectiveCard[] objectiveCards; //commonGoals
+    private final Deck goldCardsDeck;
+    private final Deck resourcesCardsDeck;
+    private final ObjectiveDeck objectiveCardsDeck;
 
     /**
      * Constructor
@@ -27,7 +26,7 @@ public class Board {
     public Board() throws FileNotFoundException, FileReadException {
         this.goldCards = new ArrayList<>();
         this.resourceCards = new ArrayList<>();
-        this.objectiveCards = new ArrayList<>();
+        this.objectiveCards = new ObjectiveCard[2];
         this.goldCardsDeck = new Deck(CardType.GoldCard);
         this.resourcesCardsDeck = new Deck(CardType.ResourceCard);
         this.objectiveCardsDeck = new ObjectiveDeck();
@@ -37,25 +36,32 @@ public class Board {
 
     /**
      * Initializes the board by placing cards on it.
+     * Sets the common Goals
      */
     public void initializeBoard() {
         //posiziono due carte oro e due carte risorsa sul tavolo
+        //perchè la board ha 2 coppie di carte per ciascuna tipologia di carta
+        int MAX_SIZE = 2;
         for (int i = 0; i < MAX_SIZE; i++) {
             PlayableCard[] goldCards = goldCardsDeck.returnCard();
             PlayableCard[] resourceCards = resourcesCardsDeck.returnCard();
             this.goldCards.add(goldCards);
             this.resourceCards.add(resourceCards);
         }
-        //posiziono le carte obbiettivo comuni
+        //posiziono le carte obbiettivo comun
         for (int i = 0; i < MAX_SIZE; i++) {
-            ObjectiveCard[] objectiveCards = objectiveCardsDeck.returnCard();
-            this.objectiveCards.add(objectiveCards);
+            ObjectiveCard objectiveCard = objectiveCardsDeck.returnCard();
+            this.objectiveCards[i] =objectiveCard;
         }
     }
+
+    /*
+    takes an ObjectiveCard from the Board
+     */
     public ObjectiveCard takeObjectiveCard(){
-        ObjectiveCard pickedCard= objectiveCardsDeck.returnCard();
-        return pickedCard;
+        return objectiveCardsDeck.returnCard();
     }
+
     /**
      * Takes a card from the board.
      *
@@ -81,7 +87,7 @@ public class Board {
                     return null; //null in caso di tipo di carta non valido
             }
         } else {
-            ArrayList<PlayableCard[]> cardsOnBoard = null;
+            ArrayList<PlayableCard[]> cardsOnBoard ;
             switch (cardType) {
                 case GoldCard:
                     cardsOnBoard = goldCards;

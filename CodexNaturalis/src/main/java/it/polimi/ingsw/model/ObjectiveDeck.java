@@ -22,14 +22,12 @@ import java.util.Random;
  */
 public class ObjectiveDeck {
     private int numCards;
-    private ArrayList<ObjectiveCard> frontCards;
-    private ArrayList<ObjectiveCard> backCards;
+    private final ArrayList<ObjectiveCard> frontCards;
+
 
     public ObjectiveDeck() throws FileReadException, FileNotFoundException {
         this.frontCards = new ArrayList<>();
-        this.backCards = new ArrayList<>();
-        this.numCards = 40;
-
+        this.numCards = 16;
         initializeDeck();
     }
 
@@ -41,7 +39,6 @@ public class ObjectiveDeck {
      */
     public void initializeDeck() throws FileReadException, FileNotFoundException {
         String frontFileName = "ObjectiveCardsFront.json";
-        String backFileName = "ObjectiveCardsBack.json";
 
         try {
             Gson gson = new Gson();
@@ -53,10 +50,6 @@ public class ObjectiveDeck {
             frontCards.addAll(frontCardList);
             frontReader.close();
 
-            FileReader backReader = new FileReader(backFileName);
-            ArrayList<ObjectiveCard> backCardList = gson.fromJson(backReader, objectivecardListType);
-            backCards.addAll(backCardList);
-            backReader.close();
         } catch (FileNotFoundException e) {
             // Eccezione lanciata se il file non viene trovato
             throw new FileNotFoundException("File not found: " + e.getMessage());
@@ -94,26 +87,22 @@ public class ObjectiveDeck {
 
 
     /**
-     * @author Irene Pia Masi
-     * @return an array containing two cards (one front and one back) drawn from the deck
-     * Returns two cards from the deck at a random position (position = CardID).
-     * Decreases the numCards attribute of the deck.
-     * Removes the cards from the arrays
+     * Returns a random objective card from the deck.
+     * The method selects a random card from the  deck, decreases the
+     * number of cards in the deck, and removes the selected card from the deck.
+     * @return the randomly selected objective card.
      */
-    public ObjectiveCard[] returnCard() {
+    public ObjectiveCard returnCard() {
         Random rand = new Random();
         int randomIndex = rand.nextInt(frontCards.size());
 
         ObjectiveCard frontCard = frontCards.get(randomIndex);
-        ObjectiveCard backCard = backCards.get(randomIndex);
         // Decrease the numCards attribute of the deck
         numCards--;
 
         // Remove the retrieved cards from the deck
         frontCards.remove(randomIndex);
-        backCards.remove(randomIndex);
-
-        return new ObjectiveCard[]{frontCard, backCard};
+        return frontCard;
     }
 
 
