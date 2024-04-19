@@ -52,7 +52,10 @@ public class Board {
             this.objectiveCards.add(objectiveCards);
         }
     }
-
+    public ObjectiveCard takeObjectiveCard(){
+        ObjectiveCard pickedCard= objectiveCardsDeck.returnCard();
+        return pickedCard;
+    }
     /**
      * Takes a card from the board.
      *

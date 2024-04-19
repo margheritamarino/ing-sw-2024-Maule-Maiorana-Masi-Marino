@@ -47,6 +47,7 @@ public class Book {
      * @param cell The Cell where the card will be placed.
      * @return The points of the card placed, or 0 if the card has no points.
      */
+    //CONTROLLARE LA CONDIZIONI DI PIAZZAMENTO DELLE GOLD CARD (controlla mappa)
     public int addCard(PlayableCard card, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
         int numPoints = 0;
         try {
@@ -292,8 +293,8 @@ public class Book {
      * @author Margherita Marino
      * @return An array of Cell objects representing the available cells in the book matrix.
      */
-    public List<Cell> showAvailableCells() {
-        List<Cell> availableCellsList = new ArrayList<>();
+    public ArrayList<Cell> showAvailableCells() {
+        ArrayList<Cell> availableCellsList = new ArrayList<>();
 
         // Scorre la matrice e aggiunge le celle disponibili alla lista
         for (int i = 0; i < bookMatrix.length; i++) {
@@ -328,6 +329,7 @@ public class Book {
      *
      * @param objectiveCard Is the player's own ObjectiveCard.
      * @throws IllegalArgumentException If an invalid GoalType label is set on the objectiveCard attribute.
+     * @return Victory Points obtained by the player reaching the goal required by his Objective card.
      * @author Martina Maiorana
      */
     public int checkGoal(ObjectiveCard objectiveCard) {

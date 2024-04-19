@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.ScoreTrack;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -12,30 +13,21 @@ import java.util.ArrayList;
 public class Player {
 
     private String nickname;
-    private PlayerColor color;
+
     private PlayerState state;
-    private PlayerDeck playerDeck;
-    private Book playerBook;
+    private final PlayerDeck playerDeck;
+    private final Book playerBook;
 
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
 
 
-    public Player(String nickname, PlayerColor color) {
+    public Player(String nickname) {
         this.nickname = nickname;
-        this.color = color;
         this.playerGoal = new ObjectiveCard();
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
         this.playerBook = new Book(40, 40); //ho messo 40 x 40 solo per verificare la correttezza del metodo, questo valore dobbiamo poi renderlo variabile in base al numero di giocatori
         this.playerDeck = new PlayerDeck();
     };
-
-    /**
-     * Sets the nickname of the player.
-     * @param nickname -> the nickname chosen by the player to rappresent him.
-     */
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 
     /**
      * Retrieves the nickname of the player.
@@ -45,21 +37,6 @@ public class Player {
         return nickname;
     }
 
-    /**
-     * Sets the color of the player -> the color rapresenting the player's piece.
-     * @param color The color chosen by the player.
-     */
-    public void setColor(PlayerColor color) {
-        this.color = color;
-    }
-
-    /**
-     * Retrieves the color of the player rapresenting the color of the player's piece.
-     * @return The color of the player.
-     */
-    public PlayerColor getColor() {
-        return color;
-    }
 
     /**
      * Sets the state of the player
@@ -111,6 +88,8 @@ public class Player {
      * @throws IndexOutOfBoundsException If the position is out of range or the card cannot be picked.
      */
     public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException {
+
+        setPlayerState(PlayerState.Pick);
         // Take a card from the board
         PlayableCard[] pickedCard;
         try {
@@ -144,7 +123,7 @@ public class Player {
      */
     public Cell chooseCell(int pos) throws IndexOutOfBoundsException {
         // Get the available positions from the player's book
-        ArrayList<Cell> availablePositions = playerBook.showAvailablePositions();
+        ArrayList<Cell> availablePositions = playerBook.showAvailableCells();
 
         // Verify if the position is valid
         if (pos < 0 || pos >= availablePositions.size()) {
@@ -187,24 +166,24 @@ public class Player {
         return chosenCard;
     }
 
-    /*
-     DA RIVEDERE PERCHè LA CELLA E LA CARTA DA PRENDERE DAL PLAYERDECK DEVONO
-     ESSERE PASSATI COME PARAMETRI IN INPUT (DALLA VIEW) ????
-     */
-    public int placeCard(int posCell, int posCard) throws IndexOutOfBoundsException {
+/**
+ * Places a card at the specified position in the player's book.
+ * taking the reference to the cell and card of the playerDeck chosen
+ * calling the respective methods and passes them as parameters to the method of the book
+ * @param posCell the position of the cell in the book where the card should be placed.
+ * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
+ * @return the victoryPoints of the placed card
+ * */
+    public int placeCard(ScoreTrack scoreTrack, int posCell, int posCard) throws IndexOutOfBoundsException {
+        setPlayerState(PlayerState.Place);
         // Choose a cell and a card
         Cell chosenCell = chooseCell(posCell); // Choose the first cell
         PlayableCard chosenCard = chooseCard(posCard); // Choose the first card
 
         // Place the chosen card on the chosen cell using the addCard method of the player's book
         return playerBook.addCard(chosenCard, chosenCell);
+       // scoreTrack.addPoints(this, points); //?? rivedere
     }
 
-    public int checkGoal(Board board){}
-    /* in base al tipo di obbiettivo della Objective Card chiama i metodi del book per controllare se è verificato
-        restituisce i punti fatti
-        è gia nel BOOK (CONTROLLA)     */
-
-    //GESTISCI PLAYERSTATE
 
 }
