@@ -141,6 +141,9 @@ public class Board {
         // Aggiungo la nuova carta all'array
         cards.add(newCard);
     }
-}
 
+    public ObjectiveCard[] getObjectiveCards() {
+        return this.objectiveCards;
+    }
+}
 
