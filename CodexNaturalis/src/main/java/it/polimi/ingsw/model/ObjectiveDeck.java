@@ -111,5 +111,4 @@ public class ObjectiveDeck {
         return frontCard;
     }
 
-
 }

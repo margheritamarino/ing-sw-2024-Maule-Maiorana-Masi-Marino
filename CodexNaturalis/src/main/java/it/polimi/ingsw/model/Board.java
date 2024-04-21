@@ -54,10 +54,12 @@ public class Board {
             this.objectiveCards[i] =objectiveCard;
         }
     }
+    public ObjectiveDeck getObjectiveCardsDeck(){
+        return this.objectiveCardsDeck;
+    }
 
     /*
-    takes an ObjectiveCard from the Board
-     */
+    takes an ObjectiveCard from the Board     */
     public ObjectiveCard takeObjectiveCard(){
         return objectiveCardsDeck.returnCard();
     }

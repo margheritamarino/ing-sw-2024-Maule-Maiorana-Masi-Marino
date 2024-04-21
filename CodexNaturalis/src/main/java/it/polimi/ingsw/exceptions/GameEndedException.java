@@ -1,6 +1,8 @@
 package it.polimi.ingsw.exceptions;
-
-public class GameEndedException extends Exception {
+/**
+ * This exception is thrown when the game is ended
+ */
+public class GameEndedException extends Exception{
     public GameEndedException() {
         super();
     }
