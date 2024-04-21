@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
+import it.polimi.ingsw.exceptions.GameEndedException;
+import it.polimi.ingsw.exceptions.GameNotStartedException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -109,7 +111,7 @@ public class Game {
 	/**
 	 * @return the game id
 	 */
-	public Integer getGameId() {
+	public int getGameId() {
 		return gameID;
 	}
 
@@ -118,7 +120,7 @@ public class Game {
 	 *
 	 * @param gameID new game id
 	 */
-	public void setGameId(Integer gameID) {
+	public void setGameId(int gameID) {
 		this.gameID = gameID;
 	}
 
@@ -239,8 +241,6 @@ public class Game {
 	 * Starts the game by randomly selecting the first player and
 	 * sets up the game order creating an array of order indices for the next turns.
 	 * Initializes the game board and cards and returns the order array.
-	 *
-	 * @return an array representing the order of players, starting from the first player.
 	 * @throws NotEnoughPlayersException if the number of players is less than two.
 	 */
 	public void startGame() throws NotEnoughPlayersException {
@@ -268,7 +268,7 @@ public class Game {
 
 	/**
 	 * Sets the game status
-	 * @param status
+	 * @param status is the status of the game
 	 */
 	//copiato da quello dell'anno scorso -> da modificare
 	public void setStatus(GameStatus status) {
@@ -287,7 +287,7 @@ public class Game {
 				listenersHandler.notify_GameStarted(this);
 				listenersHandler.notify_nextTurn(this);
 			} else if (status == GameStatus.ENDED) {
-				findWinner(); //Find winner
+				getWinner(); //Find winner
 				listenersHandler.notify_GameEnded(this);
 			} else if (status == GameStatus.LAST_CIRCLE) {
 				listenersHandler.notify_LastCircle(this);
@@ -296,7 +296,7 @@ public class Game {
 	}
 
 
-	public void nextTurn(){
+	public void nextTurn() throws GameEndedException, GameNotStartedException {
 		if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
 			// Trova l'indice dell'attuale currentPlayer in orderArray
 			int currentIndex = -1;
@@ -343,7 +343,6 @@ public class Game {
 
 	/**
 	 * Checks the personal goal and common goals of the currentPlayer.
-	 *
 	 * This method first checks the personal goal of the current player, and then
 	 * verifies the common goals present on the board. If any errors occur during the
 	 * checks, such as invalid points or player not found, the exceptions
@@ -473,9 +472,9 @@ public class Game {
 
 
 
-	/**
-	 * Checks the scores from objective cards to determine the winner.
-	 */
+//	/**
+//	 * Checks the scores from objective cards to determine the winner.
+//	 */
 
 	/*public Player checkGoals() {
 		// Calcola i punteggi relativi alle carte obiettivo per ciascun giocatore
