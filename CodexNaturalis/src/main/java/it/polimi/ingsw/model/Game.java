@@ -10,6 +10,10 @@ import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
 
+import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.ListenersHandler;
+
+
 import java.io.FileNotFoundException;
 import java.lang.IllegalStateException;
 import java.util.*;
@@ -37,6 +41,12 @@ public class Game {
 	private GameStatus status;
 	private int[] orderArray;
 	private Integer firstFinishedPlayer = -1;
+
+	/**
+	 * Listener handler that handles the listeners
+	 */
+	private transient ListenersHandler listenersHandler;
+
 	/**
 	 * Private Constructor
 	 * @param playersNumber The number of players in the game.
@@ -55,6 +65,8 @@ public class Game {
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
+
+		listenersHandler = new ListenersHandler();
 	}
 
 	/**
