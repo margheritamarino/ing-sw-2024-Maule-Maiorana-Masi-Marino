@@ -437,11 +437,6 @@ public class Game {
 	}
 	/**
 	 * Retrieves the available cells for the current player.
-	 *
-	 * This method returns an ArrayList of cells that are avilable to place a card
-	 * It retrieves the available cells from
-	 * the current player's player book and provides them as a list.
-	 *
 	 * @return an ArrayList of available cells for the current player.
 	 */
 	public ArrayList<Cell> getCurrentPlayerCells(){
@@ -457,68 +452,72 @@ public class Game {
 	public void PlaceCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException {
 		int points= currentPlayer.placeCard(scoretrack, posCell, posCard);
 		scoretrack.addPoints(currentPlayer, points);
-		//NOTIFICARE
+		// Notifica gli ascoltatori dell'evento di piazzamento carta
+		listenersHandler.notify_CardPlaced(this, currentPlayer, posCell, posCard);
+
 	}
+
+
 
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos){
 		currentPlayer.pickCard(board, cardType, drawFromDeck, pos);
-		//NOTIFICARE
+		// Notifica ai listeners che una carta è stata pescata
+		listenersHandler.notify_CardDrawn(this);
+	}
+
+	public Board getBoard(){
+		return this.board;
+	}
+	/**
+	 * Gets the list of gold cards on the board.
+	 * @return an ArrayList of PlayableCard arrays representing the gold cards on the board.
+	 */
+	public ArrayList<PlayableCard[]> getBoardGoldCards() {
+		return board.getGoldCards();
+	}
+	/**
+	 * Gets the list of resource cards on the board.
+	 *
+	 * @return an ArrayList of PlayableCard arrays representing the resource cards on the board.
+	 */
+	public ArrayList<PlayableCard[]> getBoardResourceCards() {
+		return board.getResourceCards();
+	}
+
+	/**
+	 * Gets the array of objective cards on the board.
+	 *
+	 * @return an array of ObjectiveCard objects representing the common goals on the board.
+	 */
+	public ObjectiveCard[] getCommonGoals() {
+		return board.getObjectiveCards();
+	}
+
+	/**
+	 * Gets the gold cards deck on the board.
+	 * @return a Deck object representing the gold cards deck on the board.
+	 */
+	public Deck getGoldCardsDeck() {
+		return board.getGoldCardsDeck();
+	}
+
+	/**
+	 * Gets the resources cards deck on the board.
+	 *
+	 * @return a Deck object representing the resources cards deck on the board.
+	 */
+	public Deck getResourcesCardsDeck() {
+		return board.getResourcesCardsDeck();
+	}
+
+	/**
+	 * Gets the objective cards deck on the board.
+	 * @return an ObjectiveDeck object representing the objective cards deck on the board.
+	 */
+	public ObjectiveDeck getObjectiveCardsDeck() {
+		return board.getObjectiveCardsDeck();
 	}
 
 
-
-
-//---------------------------------------------------------------------------
-	//fino a qui
-
-
-	/*public Map<Player, Integer> getObjectivePoints() {
-		return objectivePoints;
-	}
-	/*
-	public void nextTurn() {
-		currentPlayer = (currentPlayer + players.size() - 1) % players.size();
-		System.out.println("Player's turn: " + players.get(currentPlayer).getColor());
-	}*/
-
-
-
-
-
-
-//	/**
-//	 * Checks the scores from objective cards to determine the winner.
-//	 */
-
-	/*public Player checkGoals() {
-		// Calcola i punteggi relativi alle carte obiettivo per ciascun giocatore
-		Map<Player, Integer> goalScores = new HashMap<>();
-		for (Player player : players) {
-			int playerScore = 0;
-			ObjectiveCard objectiveCard = player.getGoal();
-			playerScore += objectiveCard.getVictoryPoints();
-
-			goalScores.put(player, playerScore);
-		}
-		// Trova il giocatore con il punteggio più alto
-		Player winner = null;
-		int maxScore = Integer.MIN_VALUE;
-		for (Map.Entry<Player, Integer> entry : goalScores.entrySet()) {
-			Player player = entry.getKey();
-			int score = entry.getValue();
-			if (score > maxScore) {
-				maxScore = score;
-				winner = player;
-			}
-		}
-		// Aggiungi i punteggi delle carte obiettivo ai punteggi generali
-		for (Player player : players) {
-			int totalScore = scoretrack.getPlayerScore(player) + goalScores.getOrDefault(player, 0);
-			scoretrack.setPlayerScore(player, totalScore);
-		}
-
-		isEnded = true;
-		return winner;
-	}*/
 
 }
