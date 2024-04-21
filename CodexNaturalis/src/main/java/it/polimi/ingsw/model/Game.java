@@ -107,6 +107,22 @@ public class Game {
 	}
 
 	/**
+	 * @return the game id
+	 */
+	public Integer getGameId() {
+		return gameID;
+	}
+
+	/**
+	 * Sets the game id
+	 *
+	 * @param gameID new game id
+	 */
+	public void setGameId(Integer gameID) {
+		this.gameID = gameID;
+	}
+
+	/**
 	 * @return the book of the CurrentPlayer	 */
 	public Book getCurrentPlayerBook(){
 		return currentPlayer.getPlayerBook();
