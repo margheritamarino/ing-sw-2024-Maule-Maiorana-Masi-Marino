@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Listener;
+package it.polimi.ingsw.listener;
 
 public interface GameListener {
 }
