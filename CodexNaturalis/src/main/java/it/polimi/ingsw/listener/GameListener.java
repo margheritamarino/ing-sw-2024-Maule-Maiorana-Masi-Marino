@@ -1,6 +1,7 @@
 package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.model.GameModelImmutable;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
@@ -88,6 +89,32 @@ public interface GameListener extends Remote {
      * @throws RemoteException if the reference could not be accessed
      */
     void gameEnded(GameModelImmutable model) throws RemoteException;
+
+    /**
+     * This method is used to notify that a card has been placed on the book
+     * @param model is the game model
+     * @param player is the Player who placed the card
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void cardPlaced(GameModelImmutable model, Player player, int posCell, int posCard) throws RemoteException;
+
+    /**
+     * This method is used to notify that a card has been drawn
+     * @param model is the game model
+     * @param cardType is the type of the card drawn
+     * @param drawFromDeck indicates if the card was drawn from the deck or from the arrays
+     * @param pos is the position of the array from which the card was drawn
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void cardDrawn(GameModelImmutable model, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException;
+
+
+    /**
+     * This method is used to notify that the next turn triggered
+     * @param model is the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void nextTurn(GameModelImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify that a player has disconnected

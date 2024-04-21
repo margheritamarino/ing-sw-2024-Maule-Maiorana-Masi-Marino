@@ -2,6 +2,7 @@ package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameModelImmutable;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
@@ -175,6 +176,59 @@ public class ListenersHandler {
         }
     }
 
+        /** The notify_CardPlaced method notifies that a card has been placed on the board
+     * @param model is the Game to pass as a new GameModelImmutable
+     * @param player is the Player who placed the card
+     */
+    public synchronized void notify_CardPlaced(Game model, Player player, int posCell, int posCard) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.cardPlaced(new GameModelImmutable(model), player, posCell, posCard);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_CardPlaced, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    /**
+     * The notify_CardDrawn method notifies that a card has been drawn
+     * @param model is the Game to pass as a new GameModelImmutable
+     * @param cardType is the type of the card drawn
+     * @param drawFromDeck indicates whether the card was drawn from the deck
+     * @param pos is the position from which the card was drawn
+     */
+    public synchronized void notify_CardDrawn(Game model, CardType cardType, boolean drawFromDeck, int pos) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.cardDrawn(new GameModelImmutable(model), cardType, drawFromDeck, pos);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_CardDrawn, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    /**
+     * The notify_nextTurn method notifies that the next turn has started
+     * @param model is the Game to pass as a new GameModelImmutable
+     */
+    public synchronized void notify_nextTurn(Game model) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.nextTurn(new GameModelImmutable(model));
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_nextTurn, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
     /**
      * The notify_extractedCommonCard method notifies that a common card has been extracted
      * @param gamemodel is the Game to pass as a new GameModelImmutable

@@ -470,7 +470,6 @@ public class Game {
 	}
 
 
-
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos){
 		currentPlayer.pickCard(board, cardType, drawFromDeck, pos);
 		// Notifica ai listeners che una carta è stata pescata
