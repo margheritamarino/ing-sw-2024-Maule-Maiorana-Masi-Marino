@@ -31,9 +31,9 @@ public class Game {
 	protected Board board;
 	protected boolean gameEnded = false;
 	protected boolean gameStarted = false;
-
+	private GameStatus status;
 	private int[] orderArray;
-
+	private Integer firstFinishedPlayer = -1;
 	/**
 	 * Private Constructor
 	 * @param playersNumber The number of players in the game.
@@ -51,6 +51,7 @@ public class Game {
 		this.currentPlayer = null;
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
+		this.status = GameStatus.WAIT;
 	}
 
 	/**
@@ -87,21 +88,31 @@ public class Game {
 	public boolean isEnded(){
 		return gameEnded;
 	}
+
+	/**
+	 * Returns the number of players.
+	 * @return the number of players as an integer.
+	 */
 	public int getNumPlayers(){
 		return this.playersNumber;
 	}
 
 	//PLAYERS
+
+	/**
+	 * return the player who is playing the current turn
+	 * @return the current player as a `Player` object	 */
 	public Player getCurrentPlayer(){
 		return this.currentPlayer;
 	}
 
 	/**
-	 * @return the book of the CurrentPlayer
-	 */
+	 * @return the book of the CurrentPlayer	 */
 	public Book getCurrentPlayerBook(){
 		return currentPlayer.getPlayerBook();
 	}
+	/**
+	 * @return the Goal (ObjectiveCard of the CurrentPlayer	 */
 	public ObjectiveCard getCurrentPlayerGoal(){
 		return currentPlayer.getGoal();
 	}
@@ -109,7 +120,6 @@ public class Game {
 
 	/**
 	 * Returns the player at the specified position in the list of players.
-	 *
 	 * @param pos The position of the player to retrieve
 	 * @return The player at the specified position in the list.**/
 	public Player getPlayer(int pos) {
@@ -117,10 +127,12 @@ public class Game {
 	}
 
 
-
 	/**
-	 * @param nickname nickname of player who want to enter
-	 * @return true if thers no space of nickname already taken
+	 * Checks if the game is full or if the provided nickname is already taken.
+	 *
+	 * @param nickname the nickname of the player who wants to enter.
+	 * @return true if the game is full (i.e., there are already 4 players),
+	 * the game has started, or the nickname is already taken; otherwise, returns false.
 	 */
 	public boolean isFull(String nickname) {
 		return (this.playersNumber==4 || gameStarted || checkNickname(nickname));
@@ -130,36 +142,41 @@ public class Game {
 	 * @param nickname nickname to check
 	 * @return true if already exist
 	 */
-	public boolean checkNickname(String nickname) {
-		for(Player p : this.players)
-		{
-			if(nickname.equals(p.getNickname())) return true;
+	public boolean checkNickname(String nickname)  {
+		for(Player p : this.players) {
+			if(nickname.equals(p.getNickname())) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
-	 * function to add a new player to the game
-	 * @param nickname the nickname of the player
-	 * @throws Exception
+	 * Adds a new player to the game.
+	 * after checking if there is space in the match and if the nickname is available
+	 * @param nickname the nickname of the player to be added.
+	 * @throws NicknameAlreadyTaken if the provided nickname is already taken.
+	 * @throws MatchFull if the game is full and cannot accommodate more players.
 	 */
 	public void addPlayer(String nickname) throws Exception {
-		if(playersNumber<4) {
-			for (Player p: players) { //check if there is already this nickname
-				if(p.getNickname().equals(nickname))
-					throw new NicknameAlreadyTaken(nickname);
-			}
+		// Check if the game is not full and the nickname is not taken
+		if (!isFull(nickname)) {
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname);
+
 			// Add the new player to the list of players
 			players.add(newPlayer);
+
 			// Add the new player to the score track
 			scoretrack.addPlayer(newPlayer);
+
 			// Increment the number of players
 			playersNumber++;
-		}
-		else
+		} else if (checkNickname(nickname)) {
+			throw new NicknameAlreadyTaken(nickname);
+		} else {
 			throw new MatchFull("There are already 4 players");
+		}
 	}
 
 	/**
@@ -210,7 +227,7 @@ public class Game {
 	 * @return an array representing the order of players, starting from the first player.
 	 * @throws NotEnoughPlayersException if the number of players is less than two.
 	 */
-	public int[] startGame() throws NotEnoughPlayersException {
+	public void startGame() throws NotEnoughPlayersException {
 
 		if (playersNumber < 2)
 			throw new NotEnoughPlayersException("The game cannot start without at least two players");
@@ -220,21 +237,51 @@ public class Game {
 
 		// Assegna il primo giocatore selezionato casualmente a `currentPlayer`
 		currentPlayer = players.get(orderArray[0]);
-
-		gameStarted = true;
+		gameStarted = true; //controlla se serve
+		setStatus(GameStatus.RUNNING);
 		board.initializeBoard();
 		inizializeCards();
-		return orderArray;
 	}
 
-	/*
-	 * Trova il giocatore successivo impostando un nuovo currentPlayer.
-	 * Il nuovo currentPlayer sarà il giocatore nell'array di giocatori
-	 * che si trova nella posizione successiva a quella di orderArray del currentPlayer attuale.*/
-	/** TO DO: gestisce il passaggio al turno successivo di un giocatore, tenendo conto dello stato di connessione DEI GIOCatori
-	 delle tessere in mano, e delle condizioni di fine gioco	 */
-	public void setnextPlayer() {
-		if (gameStarted) {
+	/**
+	 * @return the game status
+	 */
+	public GameStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * Sets the game status
+	 * @param status
+	 */
+	//copiato da quello dell'anno scorso -> da modificare
+	public void setStatus(GameStatus status) {
+		//If I want to set the gameStatus to "RUNNING", there needs to be at least
+		// DefaultValue.minNumberOfPlayers -> (2) in lobby
+		if (status.equals(GameStatus.RUNNING) &&
+				((players.size() < DefaultValue.minNumOfPlayer
+						|| getNumOfCommonCards() != DefaultValue.NumOfCommonCards
+						|| !doAllPlayersHaveGoalCard())
+						|| currentPlaying == -1)) {
+			throw new NotReadyToRunException();
+		} else {
+			this.status = status;
+
+			if (status == GameStatus.RUNNING) {
+				listenersHandler.notify_GameStarted(this);
+				listenersHandler.notify_nextTurn(this);
+			} else if (status == GameStatus.ENDED) {
+				findWinner(); //Find winner
+				listenersHandler.notify_GameEnded(this);
+			} else if (status == GameStatus.LAST_CIRCLE) {
+				listenersHandler.notify_LastCircle(this);
+			}
+		}
+	}
+
+
+	public void nextTurn(){
+		if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
 			// Trova l'indice dell'attuale currentPlayer in orderArray
 			int currentIndex = -1;
 			for (int i = 0; i < orderArray.length; i++) {
@@ -244,31 +291,51 @@ public class Game {
 				}
 			}
 
+			if (scoretrack.checkTo20()) { //= true -> un giocatore è arrivato alla fine (chiamo ultimo turno)
+				setStatus(GameStatus.LAST_CIRCLE); //viene notificato qui
+				setFinishedPlayer(currentIndex);
+			}
+
 			// Calcola l'indice del giocatore successivo
 			int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
-
-			// Imposta il nuoo currentPlayer
+			// Imposta il nuovo currentPlayer
 			currentPlayer = players.get(orderArray[nextIndex]);
+
+			// Verifica se è arrivato alla fine del giro a partire da firstFinishedPlayer
+			if (status.equals(GameStatus.LAST_CIRCLE) && currentIndex == firstFinishedPlayer) {
+				// Se si verifica questa condizione, il gioco termina
+				setStatus(GameStatus.ENDED);
+				throw new GameEndedException();
+			}
+			listenersHandler.notify_nextTurn(this);
+		}
+
+		else if (status.equals(GameStatus.ENDED)) {
+			throw new GameEndedException();
+		} else {
+			throw new GameNotStartedException();
 		}
 	}
-
-	public void nextTurn(){
-		if(!scoretrack.checkTo20()) { //=false -> se nessun giocatore è arrivato alla fine
-			//vado avanti con il gioco _> chiamo prossimo turno
-			setnextPlayer();
-			//NOTIFICA IL PROSSIMO TURNO
-		}
-		else{ //un giocatore è arrivato a 20
-			//gameStatus = lastTurn; ((creare variabile così))
-			setnextPlayer(); //imposto il prossimo giocatore
-				//faccio partire l'ultimo turno
-			// lastTurn();	?? chiamo gia
-			//NOTIFICA ULTIMO TURNO
-		}
+	/**
+	 * @param indexPlayer sets the indexPlayer as the index of the first player to fill his shelf
+	 */
+	public void setFinishedPlayer(Integer indexPlayer) {
+		firstFinishedPlayer = indexPlayer;
 	}
 
 
-	/**controlla il goal personale e i goal comuni del currentPlayer*/
+
+	/**
+	 * Checks the personal goal and common goals of the currentPlayer.
+	 *
+	 * This method first checks the personal goal of the current player, and then
+	 * verifies the common goals present on the board. If any errors occur during the
+	 * checks, such as invalid points or player not found, the exceptions
+	 * `InvalidPointsException` and `PlayerNotFoundException` will be thrown.
+	 *
+	 * @throws InvalidPointsException if there are errors related to points during the goal checks.
+	 * @throws PlayerNotFoundException if the current player is not found.
+	 */
 	public void LastTurn() throws InvalidPointsException, PlayerNotFoundException { //
 		// Controlla l'obiettivo del giocatore corrente
 		checkGoal(currentPlayer.getGoal());
@@ -278,7 +345,7 @@ public class Game {
 		for (ObjectiveCard commonGoal : commonGoals) {
 			checkGoal(commonGoal);
 		}
-		//NOTIFICARE
+
 	}
 
 	//risale al playerbook del giocatore corrente e
@@ -287,38 +354,38 @@ public class Game {
 		Book currentBook = currentPlayer.getPlayerBook();
 		int goalPoints = currentBook.checkGoal(goalToCheck);
 		scoretrack.addPoints(currentPlayer, goalPoints);
-		//NOTIFICARE
 	}
-
-	/** Determines the winner of the game based on the score thanks to the Board.
-	 * @return The player WINNER
-	 */
-	public Player getWinner() throws NoPlayersException {
-		Player winner = scoretrack.getWinner();
-		if (winner != null) {
-			gameEnded = true; // Il gioco è terminato
-			//NOTIFICA FINE GIOCO
-		}
-		return winner;
-	}
-
 
 
 	/**
 	 * Initializes the cards for the game.
+	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
 	public void inizializeCards() {
 		//pick an InitialCard
 		for (Player player : players) {
+			//INITIAL CARDS
 			PlayableCard[] initialCard = initialCardsDeck.returnCard();
 			PlayerDeck playerDeck= player.getPlayerDeck();
 			playerDeck.addCard(initialCard);
+
+			//GOLD CARD E RESOURCE CARD
+			for (int i = 0; i < 2; i++) {
+				player.pickCard(board, CardType.ResourceCard, true, 0);
+			}
+			player.pickCard(board, CardType.GoldCard, true, 0);
+
+			initializeGoals(player);
 		}
-		//player choose ObjectiveCard
+
+	}
+	//player choose ObjectiveCard
 		/* - pesca dal deck 2 carte casuali
 		 - chiede al player quale carta vuole tra le 2
 		 - aggiunge l'obbiettivo al player		 */
+	//DA MODIFICARE
+	public void initializeGoals(Player player){
 		ArrayList<ObjectiveCard>  drawnObjectiveCards = new ArrayList<ObjectiveCard>();
 		for (Player player : players) {
 			for (int i = 0; i < 2; i++) {
@@ -329,19 +396,32 @@ public class Game {
 			ObjectiveCard chosenObjectiveCard = chooseObjectiveCard(drawnObjectiveCards);
 			player.setGoal(chosenObjectiveCard); //assegna al playerGoal la carta obbiettivo scelta
 		}
-
-		for (Player player : players) {
-			for (int i = 0; i < 2; i++) {
-				player.pickCard(board, CardType.ResourceCard, true, 0);
-			}
-			player.pickCard(board, CardType.GoldCard, true, 0);
-		}
 	}
 
+	/** Determines the winner of the game based on the score thanks to the Board.
+	 * @return The player WINNER
+	 */
+	//DA MODIFICARE
+	public Player getWinner() throws NoPlayersException {
+		Player winner = scoretrack.getWinner();
+		return winner;
+	}
+	/**
+	 * Retrieves the available cells for the current player.
+	 *
+	 * This method returns an ArrayList of cells that are avilable to place a card
+	 * It retrieves the available cells from
+	 * the current player's player book and provides them as a list.
+	 *
+	 * @return an ArrayList of available cells for the current player.
+	 */
 	public ArrayList<Cell> getCurrentPlayerCells(){
 		return currentPlayer.getPlayerBook().showAvailableCells();
 	}
 
+	/**
+	 * @return the current player's player Deck
+	 */
 	public PlayerDeck getCurrentPlayerDeck(){
 		return currentPlayer.getPlayerDeck();
 	}
@@ -362,11 +442,6 @@ public class Game {
 //---------------------------------------------------------------------------
 	//fino a qui
 
-	//METODO DA IMPLEMENTARE
-	// mostra 2 carte all'utente che deve sceglierle per settare il playerGoaal
-	public ObjectiveCard chooseObjectiveCard(ArrayList<ObjectiveCard> drawnObjectiveCards){
-		return ;
-	}
 
 	/*public Map<Player, Integer> getObjectivePoints() {
 		return objectivePoints;
