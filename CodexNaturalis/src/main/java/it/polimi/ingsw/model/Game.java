@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
 
 import java.io.FileNotFoundException;
+import java.lang.IllegalStateException;
 import java.util.*;
 
 /**
@@ -243,7 +244,7 @@ public class Game {
 	 * Initializes the game board and cards and returns the order array.
 	 * @throws NotEnoughPlayersException if the number of players is less than two.
 	 */
-	public void startGame() throws NotEnoughPlayersException {
+	public void startGame() throws NotEnoughPlayersException, NoPlayersException {
 
 		if (playersNumber < 2)
 			throw new NotEnoughPlayersException("The game cannot start without at least two players");
@@ -271,7 +272,7 @@ public class Game {
 	 * @param status is the status of the game
 	 */
 	//copiato da quello dell'anno scorso -> da modificare
-	public void setStatus(GameStatus status) {
+	public void setStatus(GameStatus status) throws NoPlayersException {
 		//If I want to set the gameStatus to "RUNNING", there needs to be at least
 		// DefaultValue.minNumberOfPlayers -> (2) in lobby
 		if (status.equals(GameStatus.RUNNING) &&
@@ -287,8 +288,8 @@ public class Game {
 				listenersHandler.notify_GameStarted(this);
 				listenersHandler.notify_nextTurn(this);
 			} else if (status == GameStatus.ENDED) {
-				getWinner(); //Find winner
-				listenersHandler.notify_GameEnded(this);
+				Player winner = getWinner(); //Find winner
+				listenersHandler.notify_GameEnded(this, winner);
 			} else if (status == GameStatus.LAST_CIRCLE) {
 				listenersHandler.notify_LastCircle(this);
 			}
@@ -351,7 +352,7 @@ public class Game {
 	 * @throws InvalidPointsException if there are errors related to points during the goal checks.
 	 * @throws PlayerNotFoundException if the current player is not found.
 	 */
-	public void LastTurn() throws InvalidPointsException, PlayerNotFoundException { //
+	public void LastTurnCheck() throws InvalidPointsException, PlayerNotFoundException { //
 		// Controlla l'obiettivo del giocatore corrente
 		checkGoal(currentPlayer.getGoal());
 
@@ -385,38 +386,51 @@ public class Game {
 			PlayerDeck playerDeck= player.getPlayerDeck();
 			playerDeck.addCard(initialCard);
 
+
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
 				player.pickCard(board, CardType.ResourceCard, true, 0);
 			}
 			player.pickCard(board, CardType.GoldCard, true, 0);
 
-			initializeGoals(player);
-		}
 
+			// Inizializza gli obiettivi
+			ArrayList<ObjectiveCard> drawnCards = drawObjectiveCards(); //restituisce due carte dal deck ObjectiveCards
+
+
+			// Chiama il controller per mostrare le carte al giocatore
+			controller.showObjectiveCardsToPlayer(player, drawnCards);
+
+
+			//poi il controller dentro quest metodo chiama: model.setPlayerGoal
+		}
 	}
-	//player choose ObjectiveCard
-		/* - pesca dal deck 2 carte casuali
-		 - chiede al player quale carta vuole tra le 2
-		 - aggiunge l'obbiettivo al player		 */
-	//DA MODIFICARE
-	public void initializeGoals(Player player){
-		ArrayList<ObjectiveCard>  drawnObjectiveCards = new ArrayList<ObjectiveCard>();
-		for (Player player : players) {
+
+	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException {
+		ArrayList<ObjectiveCard> drawnCards = new ArrayList<ObjectiveCard>();
+
+		// Controlla che il gioco sia in uno stato valido per pescare carte obiettivo
+		if (status.equals(GameStatus.WAIT)) {
+			// Pesca due carte obiettivo
 			for (int i = 0; i < 2; i++) {
 				ObjectiveCard objectiveCard = board.takeObjectiveCard();
-				drawnObjectiveCards.add(objectiveCard);
+				drawnCards.add(objectiveCard);
 			}
-			//rivedi
-			ObjectiveCard chosenObjectiveCard = chooseObjectiveCard(drawnObjectiveCards);
-			player.setGoal(chosenObjectiveCard); //assegna al playerGoal la carta obbiettivo scelta
 		}
+		else
+			throw new IllegalStateException("Game already started");
+		return drawnCards;
 	}
+
+	public void setPlayerGoal(Player player, ObjectiveCard chosenCard) {
+		player.setGoal(chosenCard);
+	}
+
+
 
 	/** Determines the winner of the game based on the score thanks to the Board.
 	 * @return The player WINNER
 	 */
-	//DA MODIFICARE
 	public Player getWinner() throws NoPlayersException {
 		Player winner = scoretrack.getWinner();
 		return winner;
