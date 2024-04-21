@@ -7,6 +7,10 @@ import it.polimi.ingsw.model.player.Player;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
+/**
+ * Defines methods to notify the client about different game events
+ */
 public interface GameListener extends Remote {
 
     /**
@@ -101,12 +105,9 @@ public interface GameListener extends Remote {
     /**
      * This method is used to notify that a card has been drawn
      * @param model is the game model
-     * @param cardType is the type of the card drawn
-     * @param drawFromDeck indicates if the card was drawn from the deck or from the arrays
-     * @param pos is the position of the array from which the card was drawn
      * @throws RemoteException if the reference could not be accessed
      */
-    void cardDrawn(GameModelImmutable model, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException;
+    void cardDrawn(GameModelImmutable model) throws RemoteException;
 
 
     /**

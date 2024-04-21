@@ -138,6 +138,27 @@ public class Game {
 	}
 
 	/**
+	 * @return the list of listeners
+	 */
+	public List<GameListener> getListeners() {
+		return listenersHandler.getListeners();
+	}
+
+	/**
+	 * @param listener adds the listener to the list
+	 */
+	public void addListener(GameListener listener) {
+		listenersHandler.addListener(listener);
+	}
+
+	/**
+	 * @param listener removes listener from list
+	 */
+	public void removeListener(GameListener listener) {
+		listenersHandler.removeListener(listener);
+	}
+
+	/**
 	 * @return the book of the CurrentPlayer	 */
 	public Book getCurrentPlayerBook(){
 		return currentPlayer.getPlayerBook();
@@ -157,6 +178,15 @@ public class Game {
 		return players.get(pos);
 	}
 
+
+	//AGGIUNGERE SETREADYTOSTART AL PLAYER ??
+//	/**
+//	 * @param p is set as ready, then everyone is notified
+//	 */
+//	public void playerIsReadyToStart(Player p) {
+//		p.setReadyToStart();
+//		listenersHandler.notify_PlayerIsReadyToStart(this, p.getNickname());
+//	}
 
 	/**
 	 * Checks if the game is full or if the provided nickname is already taken.
@@ -190,23 +220,36 @@ public class Game {
 	 * @throws MatchFull if the game is full and cannot accommodate more players.
 	 */
 	public void addPlayer(String nickname) throws Exception {
-		// Check if the game is not full and the nickname is not taken
-		if (!isFull(nickname)) {
-			// Create a new player with the given nickname
-			Player newPlayer = new Player(nickname);
+		Player newPlayer = null;
+		try {
+			// Check if the game is not full and the nickname is not taken
+			if (!isFull(nickname)) {
+				// Create a new player with the given nickname
+				newPlayer = new Player(nickname);
 
-			// Add the new player to the list of players
-			players.add(newPlayer);
+				// Add the new player to the list of players
+				players.add(newPlayer);
 
-			// Add the new player to the score track
-			scoretrack.addPlayer(newPlayer);
+				// Add the new player to the score track
+				scoretrack.addPlayer(newPlayer);
 
-			// Increment the number of players
-			playersNumber++;
-		} else if (checkNickname(nickname)) {
-			throw new NicknameAlreadyTaken(nickname);
-		} else {
-			throw new MatchFull("There are already 4 players");
+				// Increment the number of players
+				playersNumber++;
+
+				// Notify listeners that a player has joined the game
+				listenersHandler.notify_PlayerJoined(this, nickname);
+
+			} else if (checkNickname(nickname)) {
+				// Notify listeners that the nickname is already taken
+				listenersHandler.notify_JoinUnableNicknameAlreadyIn(newPlayer);
+				throw new NicknameAlreadyTaken(nickname);
+			} else {
+				// Notify listeners that the game is full
+				listenersHandler.notify_JoinUnableGameFull(newPlayer, this);
+				throw new MatchFull("There are already 4 players");
+			}
+		} catch (Exception e) {
+			// Gestione delle eccezioni
 		}
 	}
 
@@ -244,6 +287,7 @@ public class Game {
 			if (players.get(i).getNickname().equals(nickname)) {
 				scoretrack.removePlayer(players.get(i));
 				players.remove(i);
+				listenersHandler.notify_PlayerLeft(this, nickname);
 				return;
 			}
 		}
@@ -301,7 +345,7 @@ public class Game {
 				listenersHandler.notify_nextTurn(this);
 			} else if (status == GameStatus.ENDED) {
 				Player winner = getWinner(); //Find winner
-				listenersHandler.notify_GameEnded(this, winner);
+				listenersHandler.notify_GameEnded(this);
 			} else if (status == GameStatus.LAST_CIRCLE) {
 				listenersHandler.notify_LastCircle(this);
 			}
@@ -309,7 +353,7 @@ public class Game {
 	}
 
 
-	public void nextTurn() throws GameEndedException, GameNotStartedException {
+	public void nextTurn() throws GameEndedException, GameNotStartedException, NoPlayersException {
 		if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
 			// Trova l'indice dell'attuale currentPlayer in orderArray
 			int currentIndex = -1;

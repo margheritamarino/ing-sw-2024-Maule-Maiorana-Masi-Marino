@@ -55,7 +55,7 @@ public class ListenersHandler {
      * The notifyPlayerJoined method notifies the view that a player has joined the game
      * @param model is the Game to pass as a new GameModelImmutable
      */
-    public synchronized void notifyPlayerJoined(Game model) {
+    public synchronized void notify_PlayerJoined(Game model, String nickname) {
         Iterator<GameListener> i = listeners.iterator();
         while (i.hasNext()) {
             GameListener l = i.next();
@@ -67,6 +67,25 @@ public class ListenersHandler {
             }
         }
     }
+
+    /**
+     * The notify_PlayerLeft method notifies that a player has left the game
+     * @param model is the Game to pass as a new GameModelImmutable
+     * @param nickname is the nickname of the player that has left
+     */
+    public synchronized void notify_PlayerLeft(Game model, String nickname) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.playerLeft(new GameModelImmutable(model), nickname);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_PlayerLeft, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
 
     /**
      * The notify_playerReconnected method notifies the view that a player has reconnected to the game
@@ -117,6 +136,40 @@ public class ListenersHandler {
                 l.joinUnableNicknameAlreadyIn(playerWantedToJoin);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_JoinUnableNicknameAlreadyIn, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    /**
+     * The notify_GameIdNotExists method notifies that a game with the specified ID does not exist
+     * @param gameid is the ID of the game that does not exist
+     */
+    public synchronized void notify_GameIdNotExists(int gameid) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.gameIdNotExists(gameid);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_GameIdNotExists, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    /**
+     * The notify_GenericErrorWhenEnteringGame method notifies a generic error that can happen when a player is entering the game
+     * @param why is the reason why the error happened
+     */
+    public synchronized void notify_GenericErrorWhenEnteringGame(String why) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.genericErrorWhenEnteringGame(why);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_GenericErrorWhenEnteringGame, a disconnection has been detected before heartbeat");
                 i.remove();
             }
         }
@@ -196,16 +249,13 @@ public class ListenersHandler {
     /**
      * The notify_CardDrawn method notifies that a card has been drawn
      * @param model is the Game to pass as a new GameModelImmutable
-     * @param cardType is the type of the card drawn
-     * @param drawFromDeck indicates whether the card was drawn from the deck
-     * @param pos is the position from which the card was drawn
      */
-    public synchronized void notify_CardDrawn(Game model, CardType cardType, boolean drawFromDeck, int pos) {
+    public synchronized void notify_CardDrawn(Game model) {
         Iterator<GameListener> i = listeners.iterator();
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.cardDrawn(new GameModelImmutable(model), cardType, drawFromDeck, pos);
+                l.cardDrawn(new GameModelImmutable(model);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_CardDrawn, a disconnection has been detected before heartbeat");
                 i.remove();
