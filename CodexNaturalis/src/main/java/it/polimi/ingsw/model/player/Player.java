@@ -174,7 +174,7 @@ public class Player {
  * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
  * @return the victoryPoints of the placed card
  * */
-    public int placeCard(ScoreTrack scoreTrack, int posCell, int posCard) throws IndexOutOfBoundsException {
+    public int placeCard( int posCell, int posCard) throws IndexOutOfBoundsException {
         setPlayerState(PlayerState.Place);
         // Choose a cell and a card
         Cell chosenCell = chooseCell(posCell); // Choose the first cell

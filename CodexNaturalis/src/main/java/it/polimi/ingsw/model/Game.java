@@ -40,7 +40,7 @@ public class Game {
 	protected boolean gameStarted = false;
 	private GameStatus status;
 	private int[] orderArray;
-	private Integer firstFinishedPlayer = -1;
+
 	private PlayableCard[] temporaryInitialCard;
 
 	/**
@@ -104,6 +104,9 @@ public class Game {
 	 */
 	public boolean isEnded(){
 		return gameEnded;
+	}
+	public ScoreTrack getScoretrack(){
+		return this.scoretrack;
 	}
 
 	/**
@@ -356,7 +359,7 @@ public class Game {
 	}
 
 
-	public void nextTurn() throws GameEndedException, GameNotStartedException, NoPlayersException {
+	public void nextTurn() throws GameEndedException, GameNotStartedException, NoPlayersException, InvalidPointsException, PlayerNotFoundException {
 		if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
 			// Trova l'indice dell'attuale currentPlayer in orderArray
 			int currentIndex = -1;
@@ -366,40 +369,33 @@ public class Game {
 					break;
 				}
 			}
+			if(currentIndex == playersNumber - 1){
+				if (scoretrack.checkTo20()) { //= true -> un giocatore è arrivato alla fine (chiamo ultimo turno)
+					setStatus(GameStatus.LAST_CIRCLE); //viene notificato qui
+				}
+			}
+			if (status.equals(GameStatus.LAST_CIRCLE)){
+				lastTurnGoalCheck();
 
-			if (scoretrack.checkTo20()) { //= true -> un giocatore è arrivato alla fine (chiamo ultimo turno)
-				setStatus(GameStatus.LAST_CIRCLE); //viene notificato qui
-				setFinishedPlayer(currentIndex);
+				//condizione FINE GIOCO
+				if(currentIndex == playersNumber-1) {
+					setStatus(GameStatus.ENDED);
+					throw new GameEndedException(); //TERMINA IL GIOCO
+				}
 			}
 
 			// Calcola l'indice del giocatore successivo
 			int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
 			// Imposta il nuovo currentPlayer
 			currentPlayer = players.get(orderArray[nextIndex]);
-
-			// Verifica se è arrivato alla fine del giro a partire da firstFinishedPlayer
-			if (status.equals(GameStatus.LAST_CIRCLE) && currentIndex == firstFinishedPlayer) {
-				// Se si verifica questa condizione, il gioco termina
-				setStatus(GameStatus.ENDED);
-				throw new GameEndedException();
-			}
 			listenersHandler.notify_nextTurn(this);
 		}
-
 		else if (status.equals(GameStatus.ENDED)) {
 			throw new GameEndedException();
 		} else {
 			throw new GameNotStartedException();
 		}
 	}
-	/**
-	 * @param indexPlayer sets the indexPlayer as the index of the first player to fill his shelf
-	 */
-	public void setFinishedPlayer(Integer indexPlayer) {
-		firstFinishedPlayer = indexPlayer;
-	}
-
-
 
 	/**
 	 * Checks the personal goal and common goals of the currentPlayer.
@@ -411,7 +407,7 @@ public class Game {
 	 * @throws InvalidPointsException if there are errors related to points during the goal checks.
 	 * @throws PlayerNotFoundException if the current player is not found.
 	 */
-	public void LastTurnCheck() throws InvalidPointsException, PlayerNotFoundException { //
+	public void lastTurnGoalCheck() throws InvalidPointsException, PlayerNotFoundException { //
 		// Controlla l'obiettivo del giocatore corrente
 		checkGoal(currentPlayer.getGoal());
 
@@ -444,12 +440,6 @@ public class Game {
 			temporaryInitialCard = initialCardsDeck.returnCard();
 			listenersHandler.notify_requireInitial(this);
 
-			Book playerBook= player.getPlayerBook();
-			playerBook.addCard(initialCard);
-
-			/*NON VANNO AGGIUTE AL PLAYERDECK MA PIAZZATE AL CENTRO DEL BOOK
-			 */
-
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
 				player.pickCard(board, CardType.ResourceCard, true, 0);
@@ -470,16 +460,22 @@ public class Game {
 		return temporaryInitialCard;
 	}
 
-	/*
-	 risale al fronte o al retro della carta iniziale (in base alla scelta dell'utente
-	 pos= 0: fronte - 1 retro
-	 chiama metodo addInitial del rispettivo book del player per piazzare direttamente carta	 */
+	/**
+	 * Sets the initial card front or back chosen
+	 * in the book of the given player
+	 * @param player The player for whom the initial card will be set.
+	 * @param pos The position of the temporary initial card to choose from.
+	 *            This index is used to fetch the card from the `temporaryInitialCard` array.
+	 */
 	public void setInitialCard(Player player, int pos){
 		PlayableCard chosenInitialCard = temporaryInitialCard[pos];
 		Book playerBook= player.getPlayerBook();
 		playerBook.addInitial(chosenInitialCard);
 
-	}
+	}/*
+	 risale al fronte o al retro della carta iniziale (in base alla scelta dell'utente
+	 pos= 0: fronte - 1 retro
+	 chiama metodo addInitial del rispettivo book del player per piazzare direttamente carta	 */
 
 	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException {
 		ArrayList<ObjectiveCard> drawnCards = new ArrayList<ObjectiveCard>();
@@ -516,7 +512,9 @@ public class Game {
 	public ArrayList<Cell> getCurrentPlayerCells(){
 		return currentPlayer.getPlayerBook().showAvailableCells();
 	}
-
+	public Book getBook(){
+		return currentPlayer.getPlayerBook();
+	}
 	/**
 	 * @return the current player's player Deck
 	 */
@@ -524,14 +522,13 @@ public class Game {
 		return currentPlayer.getPlayerDeck();
 	}
 
-	public void PlaceCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException {
-		int points= currentPlayer.placeCard(scoretrack, posCell, posCard);
+	public void placeCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException {
+		int points= currentPlayer.placeCard(posCell, posCard);
 		scoretrack.addPoints(currentPlayer, points);
 		// Notifica gli ascoltatori dell'evento di piazzamento carta
 		listenersHandler.notify_CardPlaced(this, currentPlayer, posCell, posCard);
 
 	}
-
 
 
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos){
@@ -561,7 +558,6 @@ public class Game {
 
 	/**
 	 * Gets the array of objective cards on the board.
-	 *
 	 * @return an array of ObjectiveCard objects representing the common goals on the board.
 	 */
 	public ObjectiveCard[] getCommonGoals() {
