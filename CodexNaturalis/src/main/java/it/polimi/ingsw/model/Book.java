@@ -368,6 +368,7 @@ public class Book {
      * @author Martina Maiorana
      */
     public int checkSymbolCondition(ObjectiveCard objectiveCard) {
+
         switch (objectiveCard.getVictoryPoints()) {
             case 2:
                 SymbolType symbolToCheck = objectiveCard.getSymbols().get(0);
@@ -381,29 +382,135 @@ public class Book {
                 int minSymbolCount = Math.min(numQuill, Math.min(numInk, numManuscript)); //gets the MINIMUM of the 3 symbols quantities
                 int numTriplets = minSymbolCount / 3;
                 return numTriplets * 3;
+            throw new IllegalArgumentException("Invalid victoryPoints");
+
         }
-        return 0;
     }
 
-    /**
-     * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
-     * @param objectiveCard The player's own ObjectiveCard.
-     * @author Martina Maiorana
-     */
-    public int checkDiagonalPlacement(ObjectiveCard objectiveCard){
-        // Implementa la logica per controllare se è verificata la disposizione diagonale
-        // ritorna la somma di punti ottenuti dal giocatore
-        return 0;
-    }
+        /**
+         * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
+         * @param objectiveCard The player's own ObjectiveCard.
+         * @author Martina Maiorana
+         */
+        public int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
+            int count = 0;
+            ResourceType mainResource = objectiveCard.getMainResource();
+            CornerType direction = objectiveCard.getDirection();
 
-    /**
-     * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
-     * @param objectiveCard The player's own ObjectiveCard.
-     * @author Martina Maiorana
-     */
-    public int checkLPlacement(ObjectiveCard objectiveCard){
-        // Implementa la logica per controllare se è verificata la disposizione a L
-        // ritorna la somma di punti ottenuti dal giocatore
-        return 0;
-    }
+            int rows = bookMatrix.length;
+            int columns = bookMatrix[0].length;
+
+            if (direction == CornerType.BRCorner) {
+                // Scansione dalla riga 0 alla penultima e dalla colonna 0 alla penultima
+                for (int i = 0; i < rows - 2; i++) {
+                    for (int j = 0; j < columns - 2; j++) {
+                        // Controllo se le tre celle consecutive sono diagonalmente disposte
+                        if (bookMatrix[i][j].getCardPointer() != null &&
+                                bookMatrix[i + 1][j + 1].getCardPointer() != null &&
+                                bookMatrix[i + 2][j + 2].getCardPointer() != null &&
+                                bookMatrix[i][j].getCardPointer().getMainResource() == mainResource &&
+                                bookMatrix[i + 1][j + 1].getCardPointer().getMainResource() == mainResource &&
+                                bookMatrix[i + 2][j + 2].getCardPointer().getMainResource() == mainResource) {
+                            count++;
+                        }
+                    }
+                }
+            } else if (direction == CornerType.BLCorner) {
+                // Scansione dalla riga 0 alla penultima e dalla colonna 2 alla ultima
+                for (int i = 0; i < rows - 2; i++) {
+                    for (int j = 2; j < columns; j++) {
+                        // Controllo se le tre celle consecutive sono diagonalmente disposte
+                        if (bookMatrix[i][j].getCardPointer() != null &&
+                                bookMatrix[i + 1][j - 1].getCardPointer() != null &&
+                                bookMatrix[i + 2][j - 2].getCardPointer() != null &&
+                                bookMatrix[i][j].getCardPointer().getMainResource() == mainResource &&
+                                bookMatrix[i + 1][j - 1].getCardPointer().getMainResource() == mainResource &&
+                                bookMatrix[i + 2][j - 2].getCardPointer().getMainResource() == mainResource) {
+                            count++;
+                        }
+                    }
+                }
+            }
+
+            // Ritorna il numero di gruppi trovati moltiplicato per 2 (punti vittoria guadagnati per ogni tripletta in diagonale che doddisfa i requisiti
+            return count * 2;
+        }
+        /*ALTRO METODO con cui potresti implementare checkDiagonalPlacement è scansionare bookMatrix per righe e
+         fermarti su ogni cella che contiene una PlayableCard che abbia la mainResource uguale a quella della ObjectiveCard,
+         se è così allora controllo le due celle consecutive in diagonale: se contengono carte del regno richiesto, incremento il count*/
+
+
+
+        /**
+         * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
+         * @param objectiveCard The player's own ObjectiveCard.
+         * @author Martina Maiorana
+         */
+        public int checkLPlacement(ObjectiveCard objectiveCard) {
+            private int checkLPlacement(ObjectiveCard objectiveCard) {
+                int count = 0;
+                ResourceType mainResource = objectiveCard.getMainResource();
+                ResourceType secondResource = objectiveCard.getSecondResource();
+
+                switch (objectiveCard.getDirection()) { //i 4 possibili valori che può assumere 'direction' danno luogo alle 4 casistiche:
+                    case TopLeft:
+                        for (int i = 2; i < bookMatrix.length; i++) {
+                            for (int j = 1; j < bookMatrix[i].length - 1; j++) {
+                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
+                                    if (bookMatrix[i - 1][j - 1].getCard() != null && bookMatrix[i - 2][j - 1].getCardPointer() != null &&
+                                            bookMatrix[i - 1][j - 1].getCard().getMainResource() == secondResource &&
+                                            bookMatrix[i - 2][j - 1].getCard().getMainResource() == secondResource) {
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        break; //capisci se togliere il break
+                    case TopRight:
+                        for (int i = 2; i < bookMatrix.length; i++) {
+                            for (int j = 0; j < bookMatrix[i].length - 2; j++) {
+                                if (bookMatrix[i][j].getCardPointer() != null && bookMatrix[i][j].getCardPointer().getMainResource() == mainResource) {
+                                    if (bookMatrix[i - 1][j + 1].getCardPointer() != null && bookMatrix[i - 2][j + 1].getCardPointer() != null &&
+                                            bookMatrix[i - 1][j + 1].getCardPointer().getMainResource() == secondResource &&
+                                            bookMatrix[i - 2][j + 1].getCardPointer().getMainResource() == secondResource) {
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case BottomLeft:
+                        for (int i = 0; i < bookMatrix.length - 2; i++) {
+                            for (int j = 1; j < bookMatrix[i].length - 1; j++) {
+                                if (bookMatrix[i][j].getCardPointer() != null && bookMatrix[i][j].getCardPointer().getMainResource() == mainResource) {
+                                    if (bookMatrix[i + 1][j - 1].getCardPointer() != null && bookMatrix[i + 2][j - 1].getCardPointer() != null &&
+                                            bookMatrix[i + 1][j - 1].getCardPointer().getMainResource() == secondResource &&
+                                            bookMatrix[i + 2][j - 1].getCardPointer().getMainResource() == secondResource) {
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case BottomRight:
+                        for (int i = 0; i < bookMatrix.length - 2; i++) {
+                            for (int j = 0; j < bookMatrix[i].length - 2; j++) {
+                                if (bookMatrix[i][j].getCardPointer() != null && bookMatrix[i][j].getCardPointer().getMainResource() == mainResource) {
+                                    if (bookMatrix[i + 1][j + 1].getCardPointer() != null && bookMatrix[i + 2][j + 1].getCardPointer() != null &&
+                                            bookMatrix[i + 1][j + 1].getCardPointer().getMainResource() == secondResource &&
+                                            bookMatrix[i + 2][j + 1].getCardPointer().getMainResource() == secondResource) {
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid direction");
+                }
+
+                return count*3;
+            }
+
+        }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.CornerLabel;
 import it.polimi.ingsw.model.CornerType;
+import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.cards.CardType;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 public abstract class PlayableCard {
     private int cardID;
+    private ResourceType mainResource; //nelle initial lo settiamo a null !
     private int numCorners;
     private Map<CornerType, PlayableCard> linkedCard; //bispgna creare un metodo per linkare le carte quando sono piazzate
     private boolean isFront;
@@ -24,6 +26,10 @@ public abstract class PlayableCard {
 
     public int getNumCorners() {
         return numCorners;
+    }
+
+    public ResourceType getMainResource() {
+        return mainResource;
     }
 
     public boolean isFront() {
