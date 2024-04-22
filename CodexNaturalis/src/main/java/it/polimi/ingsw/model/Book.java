@@ -54,7 +54,7 @@ public class Book {
      * @author Margherita Marino
      * @param card The PlayableCard to be placed.
      * @param cell The Cell where the card will be placed.
-     * @return The points of the card placed, or 0 if the card has no points.
+     * @return The points of the card placed, or 0   if the card has no points.
      */
     //CONTROLLARE LA CONDIZIONI DI PIAZZAMENTO DELLE GOLD CARD (controlla mappa)
     public int addCard(PlayableCard card, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
@@ -418,9 +418,9 @@ public class Book {
                         if (bookMatrix[i][j].getCard() != null &&
                                 bookMatrix[i + 1][j + 1].getCard() != null &&
                                 bookMatrix[i + 2][j + 2].getCard() != null &&
-                                bookMatrix[i][j].getCard().getCardMainResource() == mainResource &&
-                                bookMatrix[i + 1][j + 1].getCard().getCardMainResource() == mainResource &&
-                                bookMatrix[i + 2][j + 2].getCard().getCardMainResource() == mainResource) {
+                                bookMatrix[i][j].getCard().getMainResource() == mainResource &&
+                                bookMatrix[i + 1][j + 1].getCard().getMainResource() == mainResource &&
+                                bookMatrix[i + 2][j + 2].getCard().getMainResource() == mainResource) {
                             count++;
                         }
                     }
@@ -433,9 +433,9 @@ public class Book {
                         if (bookMatrix[i][j].getCard() != null &&
                                 bookMatrix[i + 1][j - 1].getCard() != null &&
                                 bookMatrix[i + 2][j - 2].getCard() != null &&
-                                bookMatrix[i][j].getCard().getCardMainResource() == mainResource &&
-                                bookMatrix[i + 1][j - 1].getCard().getCardMainResource() == mainResource &&
-                                bookMatrix[i + 2][j - 2].getCard().getCardMainResource() == mainResource) {
+                                bookMatrix[i][j].getCard().getMainResource() == mainResource &&
+                                bookMatrix[i + 1][j - 1].getCard().getMainResource() == mainResource &&
+                                bookMatrix[i + 2][j - 2].getCard().getMainResource() == mainResource) {
                             count++;
                         }
                     }
@@ -465,10 +465,10 @@ public class Book {
                     case TLCorner:
                         for (int i = 2; i < bookMatrix.length; i++) {
                             for (int j = 1; j < bookMatrix[i].length - 1; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getCardMainResource() == mainResource) {
+                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
                                     if (bookMatrix[i - 1][j - 1].getCard() != null && bookMatrix[i - 2][j - 1].getCard() != null &&
-                                            bookMatrix[i - 1][j - 1].getCard().getCardMainResource() == secondResource &&
-                                            bookMatrix[i - 2][j - 1].getCard().getCardMainResource() == secondResource) {
+                                            bookMatrix[i - 1][j - 1].getCard().getMainResource() == secondResource &&
+                                            bookMatrix[i - 2][j - 1].getCard().getMainResource() == secondResource) {
                                         count++;
                                     }
                                 }
@@ -478,10 +478,10 @@ public class Book {
                     case TRCorner:
                         for (int i = 2; i < bookMatrix.length; i++) {
                             for (int j = 0; j < bookMatrix[i].length - 2; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getCardMainResource() == mainResource) {
+                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
                                     if (bookMatrix[i - 1][j + 1].getCard() != null && bookMatrix[i - 2][j + 1].getCard() != null &&
-                                            bookMatrix[i - 1][j + 1].getCard().getCardMainResource() == secondResource &&
-                                            bookMatrix[i - 2][j + 1].getCard().getCardMainResource() == secondResource) {
+                                            bookMatrix[i - 1][j + 1].getCard().getMainResource() == secondResource &&
+                                            bookMatrix[i - 2][j + 1].getCard().getMainResource() == secondResource) {
                                         count++;
                                     }
                                 }
@@ -491,10 +491,10 @@ public class Book {
                     case BLCorner:
                         for (int i = 0; i < bookMatrix.length - 2; i++) {
                             for (int j = 1; j < bookMatrix[i].length - 1; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getCardMainResource() == mainResource) {
+                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
                                     if (bookMatrix[i + 1][j - 1].getCard() != null && bookMatrix[i + 2][j - 1].getCard() != null &&
-                                            bookMatrix[i + 1][j - 1].getCard().getCardMainResource() == secondResource &&
-                                            bookMatrix[i + 2][j - 1].getCard().getCardMainResource() == secondResource) {
+                                            bookMatrix[i + 1][j - 1].getCard().getMainResource() == secondResource &&
+                                            bookMatrix[i + 2][j - 1].getCard().getMainResource() == secondResource) {
                                         count++;
                                     }
                                 }
@@ -504,10 +504,10 @@ public class Book {
                     case BRCorner:
                         for (int i = 0; i < bookMatrix.length - 2; i++) {
                             for (int j = 0; j < bookMatrix[i].length - 2; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getCardMainResource() == mainResource) {
+                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
                                     if (bookMatrix[i + 1][j + 1].getCard() != null && bookMatrix[i + 2][j + 1].getCard() != null &&
-                                            bookMatrix[i + 1][j + 1].getCard().getCardMainResource() == secondResource &&
-                                            bookMatrix[i + 2][j + 1].getCard().getCardMainResource() == secondResource) {
+                                            bookMatrix[i + 1][j + 1].getCard().getMainResource() == secondResource &&
+                                            bookMatrix[i + 2][j + 1].getCard().getMainResource() == secondResource) {
                                         count++;
                                     }
                                 }
