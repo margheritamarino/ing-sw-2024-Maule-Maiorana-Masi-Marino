@@ -329,27 +329,25 @@ public class Game {
 		return status;
 	}
 
+
 	/**
 	 * Sets the game status
 	 * @param status is the status of the game
 	 */
-	//copiato da quello dell'anno scorso -> da modificare
-	public void setStatus(GameStatus status) throws NoPlayersException {
+	public void setStatus(GameStatus status) throws NoPlayersException, BoardSetupException, NotReadyToRunException {
 		//If I want to set the gameStatus to "RUNNING", there needs to be at least
 		// DefaultValue.minNumberOfPlayers -> (2) in lobby
-		if (status.equals(GameStatus.RUNNING) &&
-				((players.size() < 2
-						|| getNumOfCommonCards() != DefaultValue.NumOfCommonCards
-						|| !doAllPlayersHaveGoalCard())
-						|| currentPlayer != null) {
-				throw new NotReadyToRunException();
+		if (this.status==GameStatus.WAIT && status.equals(GameStatus.RUNNING) && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
+				players.size() >= 2
+				&& checkBoard()
+				&& currentPlayer == null)
+				{
+					this.status = status;
 		} else {
-			this.status = status;
+			throw new NotReadyToRunException("The Game cannot start");
+		}
 
-			if (status == GameStatus.RUNNING) {
-				listenersHandler.notify_GameStarted(this);
-
-			} else if (status == GameStatus.ENDED) {
+			 if (status == GameStatus.ENDED) {
 				listenersHandler.notify_GameEnded(this);
 
 			} else if (status == GameStatus.LAST_CIRCLE) {
@@ -357,6 +355,25 @@ public class Game {
 			}
 		}
 	}
+		/**
+		 * Check the board for correct setup
+		 * @throws BoardSetupException if any of the board setups is incorrect
+		 */
+		public boolean checkBoard() throws BoardSetupException {
+			// Verifying all conditions together
+			if (!(board.verifyGoldCardsNumber() &&
+					board.verifyResourceCardsNumber() &&
+					board.verifyObjectiveCardsNumber() &&
+					board.verifyGoldDeckSize(playersNumber) &&
+					board.verifyResourceDeckSize(playersNumber) &&
+					board.verifyObjectiveDeckSize(playersNumber))) {
+				throw new BoardSetupException("Board setup is incorrect");
+				}
+
+			// All verifications passed, return true
+			return true;
+
+		}
 
 
 	public void nextTurn() throws GameEndedException, GameNotStartedException, NoPlayersException, InvalidPointsException, PlayerNotFoundException {
