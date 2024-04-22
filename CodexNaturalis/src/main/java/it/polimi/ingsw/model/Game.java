@@ -403,7 +403,7 @@ public class Game {
 	 * Initializes the game board and cards and returns the order array.
 	 * @throws NotEnoughPlayersException if the number of players is less than two.
 	 */
-	public void startGame() throws NotEnoughPlayersException, NoPlayersException {
+	public void startGame() throws NotEnoughPlayersException, NoPlayersException, NotReadyToRunException, BoardSetupException {
 		if (playersNumber < 2)
 			throw new NotEnoughPlayersException("The game cannot start without at least two players");
 
@@ -417,7 +417,7 @@ public class Game {
 		board.initializeBoard();
 		initializeCards();
 
-		setStatus(GameStatus.RUNNING);
+		setInitialStatus(); //sets gameStatus.RUNNING
 	}
 
 	/**
@@ -429,28 +429,33 @@ public class Game {
 
 
 	/**
-	 * Sets the game status
-	 * @param status is the status of the game
+	 * Sets the initial RUNNING game status
+	 * If I want to set the gameStatus to "RUNNING", there needs to be at least
+	 * DefaultValue.minNumberOfPlayers -> (2) in lobby, the right number of Cards on the Board and a valid currentPlayer
 	 */
-	public void setStatus(GameStatus status) throws NoPlayersException, BoardSetupException, NotReadyToRunException {
-		//If I want to set the gameStatus to "RUNNING", there needs to be at least
-		// DefaultValue.minNumberOfPlayers -> (2) in lobby
-		if (this.status==GameStatus.WAIT && status.equals(GameStatus.RUNNING) && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
+	public void setInitialStatus() throws NoPlayersException, BoardSetupException, NotReadyToRunException {
+		if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
 				players.size() >= 2
 				&& checkBoard()
-				&& currentPlayer == null)
-				{
-					this.status = status;
+				&& currentPlayer != null) {
+			this.status = GameStatus.RUNNING;
 		} else {
 			throw new NotReadyToRunException("The Game cannot start");
 		}
+	}
 
-			 if (status == GameStatus.ENDED) {
+	/**
+	 * Sets the game status in case of ENDED or LAST_CIRCLE
+	 * @param status is the status of the game
+	 */
+	public void setStatus(GameStatus status) {
+		this.status = status;
+
+		if (status == GameStatus.ENDED) {
 				listenersHandler.notify_GameEnded(this);
 
-			} else if (status == GameStatus.LAST_CIRCLE) {
+		} else if (status == GameStatus.LAST_CIRCLE) {
 				listenersHandler.notify_LastCircle(this);
-			}
 		}
 	}
 		/**
@@ -470,7 +475,6 @@ public class Game {
 
 			// All verifications passed, return true
 			return true;
-
 		}
 
 
