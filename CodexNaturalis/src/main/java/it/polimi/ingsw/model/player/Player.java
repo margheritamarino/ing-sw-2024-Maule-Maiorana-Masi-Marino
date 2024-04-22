@@ -182,7 +182,6 @@ public class Player {
 
         // Place the chosen card on the chosen cell using the addCard method of the player's book
         return playerBook.addCard(chosenCard, chosenCell);
-       // scoreTrack.addPoints(this, points); //?? rivedere
     }
 
 

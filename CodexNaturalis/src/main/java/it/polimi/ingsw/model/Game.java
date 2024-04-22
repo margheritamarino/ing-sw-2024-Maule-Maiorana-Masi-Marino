@@ -41,11 +41,12 @@ public class Game {
 	private GameStatus status;
 	private int[] orderArray;
 	private Integer firstFinishedPlayer = -1;
+	private PlayableCard[] temporaryInitialCard;
 
 	/**
 	 * Listener handler that handles the listeners
 	 */
-	private transient ListenersHandler listenersHandler;
+	private final transient ListenersHandler listenersHandler;
 
 	/**
 	 * Private Constructor
@@ -65,8 +66,9 @@ public class Game {
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
-
+		this.temporaryInitialCard= new PlayableCard[2];
 		listenersHandler = new ListenersHandler();
+
 	}
 
 	/**
@@ -301,7 +303,6 @@ public class Game {
 	 * @throws NotEnoughPlayersException if the number of players is less than two.
 	 */
 	public void startGame() throws NotEnoughPlayersException, NoPlayersException {
-
 		if (playersNumber < 2)
 			throw new NotEnoughPlayersException("The game cannot start without at least two players");
 
@@ -310,10 +311,12 @@ public class Game {
 
 		// Assegna il primo giocatore selezionato casualmente a `currentPlayer`
 		currentPlayer = players.get(orderArray[0]);
-		gameStarted = true; //controlla se serve
-		setStatus(GameStatus.RUNNING);
+
+
 		board.initializeBoard();
-		inizializeCards();
+		initializeCards();
+
+		setStatus(GameStatus.RUNNING);
 	}
 
 	/**
@@ -332,20 +335,20 @@ public class Game {
 		//If I want to set the gameStatus to "RUNNING", there needs to be at least
 		// DefaultValue.minNumberOfPlayers -> (2) in lobby
 		if (status.equals(GameStatus.RUNNING) &&
-				((players.size() < DefaultValue.minNumOfPlayer
+				((players.size() < 2
 						|| getNumOfCommonCards() != DefaultValue.NumOfCommonCards
 						|| !doAllPlayersHaveGoalCard())
-						|| currentPlaying == -1)) {
-			throw new NotReadyToRunException();
+						|| currentPlayer != null) {
+				throw new NotReadyToRunException();
 		} else {
 			this.status = status;
 
 			if (status == GameStatus.RUNNING) {
 				listenersHandler.notify_GameStarted(this);
-				listenersHandler.notify_nextTurn(this);
+
 			} else if (status == GameStatus.ENDED) {
-				Player winner = getWinner(); //Find winner
 				listenersHandler.notify_GameEnded(this);
+
 			} else if (status == GameStatus.LAST_CIRCLE) {
 				listenersHandler.notify_LastCircle(this);
 			}
@@ -434,14 +437,18 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void inizializeCards() {
+	public void initializeCards() {
 		//pick an InitialCard
 		for (Player player : players) {
-			//INITIAL CARDS
-			PlayableCard[] initialCard = initialCardsDeck.returnCard();
-			PlayerDeck playerDeck= player.getPlayerDeck();
-			playerDeck.addCard(initialCard);
 
+			temporaryInitialCard = initialCardsDeck.returnCard();
+			listenersHandler.notify_requireInitial(this);
+
+			Book playerBook= player.getPlayerBook();
+			playerBook.addCard(initialCard);
+
+			/*NON VANNO AGGIUTE AL PLAYERDECK MA PIAZZATE AL CENTRO DEL BOOK
+			 */
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
@@ -451,15 +458,27 @@ public class Game {
 
 
 			// Inizializza gli obiettivi
-			ArrayList<ObjectiveCard> drawnCards = drawObjectiveCards(); //restituisce due carte dal deck ObjectiveCards
-
-
-			// Chiama il controller per mostrare le carte al giocatore
-			controller.showObjectiveCardsToPlayer(player, drawnCards);
+			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrare
+														//con il metodo drawObjectiveCards()
 
 
 			//poi il controller dentro quest metodo chiama: model.setPlayerGoal
 		}
+		listenersHandler.notify_cardsReady(this);
+	}
+	public PlayableCard[] getInitialCard(){
+		return temporaryInitialCard;
+	}
+
+	/*
+	 risale al fronte o al retro della carta iniziale (in base alla scelta dell'utente
+	 pos= 0: fronte - 1 retro
+	 chiama metodo addInitial del rispettivo book del player per piazzare direttamente carta	 */
+	public void setInitialCard(Player player, int pos){
+		PlayableCard chosenInitialCard = temporaryInitialCard[pos];
+		Book playerBook= player.getPlayerBook();
+		playerBook.addInitial(chosenInitialCard);
+
 	}
 
 	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException {
@@ -483,7 +502,6 @@ public class Game {
 	}
 
 
-
 	/** Determines the winner of the game based on the score thanks to the Board.
 	 * @return The player WINNER
 	 */
@@ -505,6 +523,7 @@ public class Game {
 	public PlayerDeck getCurrentPlayerDeck(){
 		return currentPlayer.getPlayerDeck();
 	}
+
 	public void PlaceCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException {
 		int points= currentPlayer.placeCard(scoretrack, posCell, posCard);
 		scoretrack.addPoints(currentPlayer, points);
@@ -512,6 +531,7 @@ public class Game {
 		listenersHandler.notify_CardPlaced(this, currentPlayer, posCell, posCard);
 
 	}
+
 
 
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos){
