@@ -62,7 +62,7 @@ public class Book {
             cell.setAvailable(false); //setto disponibilità cella a false
             updateMaps(card, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
             updateBook(card, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
-            numPoints = card.getCardPoints();
+            numPoints = card.getVictoryPoints();
         }catch (CellNotAvailableException e){
             System.err.println("Unable to place the card: " + e.getMessage());
         }
@@ -85,17 +85,17 @@ public class Book {
            int i = cell.getRow();
            int j = cell.getColumn();
 
-           if(bookMatrix[i-1][j-1].getCard() != null && !(bookMatrix[i-1][j-1].getCard().getCornerContent(CornerType.BRCorner).equals("Empty"))){
-                coverCorner(bookMatrix[i-1][j-1].getCard(), CornerType.BRCorner);
+           if(bookMatrix[i-1][j-1].getCard() != null && !(bookMatrix[i-1][j-1].getCard().getCornerContent(2).equals("Empty"))){
+                coverCorner(bookMatrix[i-1][j-1].getCard(),2);
            }
-           if(bookMatrix[i-1][j+1].getCard() != null && !(bookMatrix[i-1][j+1].getCard().getCornerContent(CornerType.BLCorner).equals("Empty"))){
-               coverCorner(bookMatrix[i-1][j+1].getCard(), CornerType.BLCorner);
+           if(bookMatrix[i-1][j+1].getCard() != null && !(bookMatrix[i-1][j+1].getCard().getCornerContent(3).equals("Empty"))){
+               coverCorner(bookMatrix[i-1][j+1].getCard(), 3);
            }
-           if(bookMatrix[i+1][j+1].getCard() != null && !(bookMatrix[i+1][j+1].getCard().getCornerContent(CornerType.TLCorner).equals("Empty"))){
-               coverCorner(bookMatrix[i+1][j+1].getCard(), CornerType.TLCorner);
+           if(bookMatrix[i+1][j+1].getCard() != null && !(bookMatrix[i+1][j+1].getCard().getCornerContent(0).equals("Empty"))){
+               coverCorner(bookMatrix[i+1][j+1].getCard(), 0);
            }
-           if(bookMatrix[i+1][j-1].getCard() != null && !(bookMatrix[i+1][j-1].getCard().getCornerContent(CornerType.TRCorner).equals("Empty"))){
-               coverCorner(bookMatrix[i+1][j-1].getCard(), CornerType.TRCorner);
+           if(bookMatrix[i+1][j-1].getCard() != null && !(bookMatrix[i+1][j-1].getCard().getCornerContent(1).equals("Empty"))){
+               coverCorner(bookMatrix[i+1][j-1].getCard(), 1);
            }
        }
         return cornerCovered;
@@ -107,9 +107,9 @@ public class Book {
      *
      * @author Margherita Marino
      * @param card    The PlayableCard for which the corner is to be covered.
-     * @param corner  The type of corner to cover.
+     * @param corner  The type of corner to cover (0: TLCorner, 1: TRCorner, 2: BRCorner, 3: BLCorner).
      */
-    public void coverCorner(PlayableCard card, CornerType corner){ //funzione che "copre" la risorsa o il simbolo di una carta passata la carta e l'angolo coperto. decrementa il valore della risorsa/simbolo nella mappa dei simboli risorse del book
+    public void coverCorner(PlayableCard card, int corner){ //funzione che "copre" la risorsa o il simbolo di una carta passata la carta e l'angolo coperto. decrementa il valore della risorsa/simbolo nella mappa dei simboli risorse del book
         if(card.getCornerContent(corner).equals("Fungi")){
             decreaseResource(ResourceType.FUNGI);
         }
@@ -198,8 +198,8 @@ public class Book {
      * @param card The PlayableCard to update the resource and symbol maps with.
      */
     public void updateNewCardCorners(PlayableCard card) {
-        for (CornerType corner : CornerType.values()) {
-            String content = card.getCornerContent(corner);
+        for (int i = 0; i < 4; i++) {
+            String content = card.getCornerContent(i);
             switch (content) {
                 case "Fungi":
                     increaseResource(ResourceType.FUNGI);
