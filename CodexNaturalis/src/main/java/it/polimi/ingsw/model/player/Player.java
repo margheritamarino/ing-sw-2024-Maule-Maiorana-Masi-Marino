@@ -19,7 +19,8 @@ public class Player {
     private final Book playerBook;
 
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
-
+    private boolean connected;
+    private boolean readyToStart = false;
 
     public Player(String nickname) {
         this.nickname = nickname;
@@ -27,6 +28,7 @@ public class Player {
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
         this.playerBook = new Book(40, 40); //ho messo 40 x 40 solo per verificare la correttezza del metodo, questo valore dobbiamo poi renderlo variabile in base al numero di giocatori
         this.playerDeck = new PlayerDeck();
+        this.connected = false;
     };
 
     /**
@@ -37,6 +39,40 @@ public class Player {
         return nickname;
     }
 
+    /**
+     * @return the player's connection status
+     */
+    public boolean isConnected(){
+        return connected;
+    }
+
+    /**
+     * @param connected sets the player's connection
+     */
+    public void setConnected(boolean connected){
+        this.connected = connected;
+    }
+
+    /**
+     * @return the player's readiness to start
+     */
+    public boolean getReadyToStart() {
+        return readyToStart;
+    }
+
+    /**
+     * Sets the player as ready to play
+     */
+    public void setReadyToStart() {
+        readyToStart = true;
+    }
+
+    /**
+     * Sets the player as not ready to play
+     */
+    public void setNotReadyToStart() {
+        readyToStart = false;
+    }
 
     /**
      * Sets the state of the player
