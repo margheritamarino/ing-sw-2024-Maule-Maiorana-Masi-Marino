@@ -54,9 +54,29 @@ public class Board {
             this.objectiveCards[i] =objectiveCard;
         }
     }
+    public ObjectiveDeck getObjectiveCardsDeck(){
+        return this.objectiveCardsDeck;
+    }
+    public ObjectiveCard[] getObjectiveCards() {
+        return this.objectiveCards;
+    } //OBBIETTIVI COMUNI
+    public ArrayList<PlayableCard[]> getGoldCards() {
+        return goldCards;
+    }
+    public ArrayList<PlayableCard[]> getResourceCards() {
+        return resourceCards;
+    }
+    public Deck getGoldCardsDeck() {
+        return goldCardsDeck;
+    }
+    public Deck getResourcesCardsDeck() {
+        return resourcesCardsDeck;
+    }
 
-    /*
-    takes an ObjectiveCard from the Board
+
+    /**
+     * RETRIEVES A CARD FROM THE OBJECTIVECARDS DECK
+     * @return an ObjectiveCard picked from Objective Cards' deck
      */
     public ObjectiveCard takeObjectiveCard(){
         return objectiveCardsDeck.returnCard();
@@ -142,8 +162,6 @@ public class Board {
         cards.add(newCard);
     }
 
-    public ObjectiveCard[] getObjectiveCards() {
-        return this.objectiveCards;
-    }
+
 }
 

@@ -31,6 +31,12 @@ public class ObjectiveDeck {
         initializeDeck();
     }
 
+
+    public ArrayList<ObjectiveCard> getFrontCards() {
+        return frontCards;
+    }
+
+
     /**
     Initializes the deck of objectiveCard.
      * Reads the JSON files containing the front and back cards,
@@ -104,6 +110,5 @@ public class ObjectiveDeck {
         frontCards.remove(randomIndex);
         return frontCard;
     }
-
 
 }
