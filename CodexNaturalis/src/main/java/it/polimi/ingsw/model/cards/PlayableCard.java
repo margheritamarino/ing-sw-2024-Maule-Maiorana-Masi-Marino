@@ -10,9 +10,7 @@ import java.util.Map;
 
 public abstract class PlayableCard {
     private int cardID;
-    private ResourceType mainResource; //nelle initial lo settiamo a null !
     private int numCorners;
-    private Map<CornerType, PlayableCard> linkedCard; //bispgna creare un metodo per linkare le carte quando sono piazzate
     private boolean isFront;
     private CardType cardType;
     private CornerLabel TLCorner;
@@ -26,10 +24,6 @@ public abstract class PlayableCard {
 
     public int getNumCorners() {
         return numCorners;
-    }
-
-    public ResourceType getMainResource() {
-        return mainResource;
     }
 
     public boolean isFront() {
@@ -155,10 +149,6 @@ public abstract class PlayableCard {
     }
 
 
-    public ResourceType getMainResource() {
-        return null;
-    }
-
     public int getNumResources() {
         return 0;
     }
@@ -171,14 +161,14 @@ public abstract class PlayableCard {
         return false;
     }
 
-    public static ResourceType getMainResource(PlayableCard card) {
-        if (card instanceof GoldCard) {
-            return ((GoldCard) card).getMainResource();
-        } else if (card instanceof ResourceCard) {
-            return ((ResourceCard) card).getMainResource();
+    public ResourceType getCardMainResource() {
+        ResourceType mainResource = null;
+        switch(cardType){
+            case GoldCard, ResourceCard -> {
+                mainResource = getMainResource();
+            }
+            case InitialCard -> {}
         }
-        // Gestire altri tipi di carte se necessario
-        return null;
-    }
+        return mainResource;
 
 }
