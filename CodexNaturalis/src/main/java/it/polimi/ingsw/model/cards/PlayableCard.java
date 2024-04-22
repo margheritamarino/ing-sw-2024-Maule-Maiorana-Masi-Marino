@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.CornerLabel;
 import it.polimi.ingsw.model.CornerType;
+import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.cards.CardType;
 
 import java.util.List;
@@ -116,6 +117,7 @@ public abstract class PlayableCard {
         return null;
     }
 
+
     /**
      * Returns the number of victory points associated with this card.
      * This method is intended to be overridden in subclasses to provide specific behavior.
@@ -145,6 +147,33 @@ public abstract class PlayableCard {
             case InitialCard -> {}
         }
         return points;
+    }
+
+
+    public ResourceType getMainResource() {
+        return null;
+    }
+
+    public int getNumResources() {
+        return 0;
+    }
+
+    public Object getSymbol() {
+        return null;
+    }
+
+    public boolean hasSymbol() {
+        return false;
+    }
+
+    public static ResourceType getMainResource(PlayableCard card) {
+        if (card instanceof GoldCard) {
+            return ((GoldCard) card).getMainResource();
+        } else if (card instanceof ResourceCard) {
+            return ((ResourceCard) card).getMainResource();
+        }
+        // Gestire altri tipi di carte se necessario
+        return null;
     }
 
 }

@@ -19,18 +19,22 @@ public class GoldCard extends PlayableCard {
     private SymbolType symbolCondition;
 
 
+    @Override
     public ResourceType getMainResource() {
         return mainResource;
     }
 
-    public boolean isHasSymbol() {
+
+    public boolean HasSymbol() {
         return hasSymbol;
     }
 
+    @Override
     public SymbolType getSymbol() {
         return symbol;
     }
 
+    @Override
     public int getVictoryPoints() {
         return victoryPoints;
     }

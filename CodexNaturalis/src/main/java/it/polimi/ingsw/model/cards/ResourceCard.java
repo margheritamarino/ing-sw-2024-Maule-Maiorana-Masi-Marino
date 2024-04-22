@@ -14,14 +14,17 @@ public class ResourceCard extends PlayableCard {
    private boolean hasSymbol;
    private SymbolType symbol;
 
+   @Override
    public ResourceType getMainResource() {
       return mainResource;
    }
 
+   @Override
    public int getVictoryPoints() {
       return victoryPoints;
    }
 
+   @Override
    public int getNumResources() {
       return numResources;
    }

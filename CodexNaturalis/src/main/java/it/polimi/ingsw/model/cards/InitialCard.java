@@ -20,6 +20,7 @@ public class InitialCard extends PlayableCard {
         return numCentralResources;
     }
 
+    @Override
     public int getNumResources() {
         return numResources;
     }
