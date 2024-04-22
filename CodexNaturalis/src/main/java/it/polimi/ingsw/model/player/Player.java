@@ -114,57 +114,7 @@ public class Player {
         }
     }
 
-    /**
-     * Chooses a cell from the available positions shown by the player's book.
-     *
-     * @param pos The position of the cell to choose.
-     * @return The chosen cell.
-     * @throws IndexOutOfBoundsException If the position is out of range.
-     */
-    public Cell chooseCell(int pos) throws IndexOutOfBoundsException {
-        // Get the available positions from the player's book
-        ArrayList<Cell> availablePositions = playerBook.showAvailableCells();
 
-        // Verify if the position is valid
-        if (pos < 0 || pos >= availablePositions.size()) {
-            throw new IndexOutOfBoundsException("Position is out of range");
-        }
-
-        // Get the cell at the specified position
-        Cell chosenCell = availablePositions.get(pos);
-
-        // Return the chosen cell
-        return chosenCell;
-    }
-    /**@author Sofia Maule
-     * Chooses a card from the player's deck at the specified position,
-     * removes it from the playerDeck and returns it.
-     *
-     * @param pos The position of the card to choose.
-     * @return The card from the player's deck at the specified position,
-     * or null if the deck is empty or the position is invalid.
-     */
-
-    public PlayableCard chooseCard(int pos) throws IndexOutOfBoundsException {
-        // Verifies if the position is valid
-        if (pos < 0 || pos >= playerDeck.getNumCards()) {
-            throw new IndexOutOfBoundsException("Position is out of range");
-        }
-
-        // Retrieve the card at the specified position from the player's deck
-        PlayableCard chosenCard = playerDeck.getMiniDeck().get(pos);
-
-        // Remove the chosen card from the player's deck
-        try {
-            playerDeck.removeCard(pos);
-        } catch (IndexOutOfBoundsException e) {
-            // Handle the exception if the position is out of bounds after removing the card
-            throw new IndexOutOfBoundsException("Position is out of range after card removal");
-        }
-
-        // Return the chosen card
-        return chosenCard;
-    }
 
 /**
  * Places a card at the specified position in the player's book.
@@ -175,14 +125,16 @@ public class Player {
  * @return the victoryPoints of the placed card
  * */
     public int placeCard( int posCell, int posCard) throws IndexOutOfBoundsException {
-        setPlayerState(PlayerState.Place);
-        // Choose a cell and a card
-        Cell chosenCell = chooseCell(posCell); // Choose the first cell
-        PlayableCard chosenCard = chooseCard(posCard); // Choose the first card
+
+        Cell chosenCell = playerBook.showAvailableCells().get(posCell); // Choose the cell
+
+        // Retrieve the card at the specified position from the player's deck
+        PlayableCard chosenCard = playerDeck.getMiniDeck().get(posCard);
+        playerDeck.removeCard(posCard);
+
 
         // Place the chosen card on the chosen cell using the addCard method of the player's book
         return playerBook.addCard(chosenCard, chosenCell);
     }
-
 
 }
