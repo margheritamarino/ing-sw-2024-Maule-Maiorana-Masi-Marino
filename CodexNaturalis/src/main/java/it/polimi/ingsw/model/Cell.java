@@ -70,10 +70,6 @@ public class Cell {
         return wall;
     }
 
-    public PlayableCard getCardPointer() {
-        return cardPointer;
-    }
-
     public void setWall(boolean wall) {
         this.wall = wall;
     }

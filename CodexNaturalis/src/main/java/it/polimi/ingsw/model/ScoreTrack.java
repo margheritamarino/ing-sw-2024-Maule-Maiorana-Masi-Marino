@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.InvalidPointsException;
+import it.polimi.ingsw.exceptions.NoPlayersException;
+import it.polimi.ingsw.exceptions.PlayerNotFoundException;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.HashMap;
@@ -26,24 +29,40 @@ public class ScoreTrack {
 		pointsPlayers.put(player, 0);
 	}
 
-    /**
-     * Adds points to the specified player's score
-     * @param player The player whose score is to be updated
-     * @param points The number of points to add to the player's score
-     */
-	public void addPoints(Player player, int points, Map<Player, Integer> objectivePoints) {
-		int currentPoints = pointsPlayers.getOrDefault(player, 0);
-		pointsPlayers.put(player, currentPoints + points);
-
-		// Check if the player has reached 20 points even with the points of the current round
-		if (currentPoints + points >= 20) {
-			// Aggiungi i punti delle carte obiettivo al giocatore
-			Integer objectivePointsForPlayer = objectivePoints.get(player);
-			if (objectivePointsForPlayer != null) {
-				pointsPlayers.put(player, currentPoints + objectivePointsForPlayer);
-			}
+	/**
+	 * Removes a player from the score tracking system.
+	 * @param player The player to be removed.
+	 */
+	public void removePlayer(Player player) {
+		// Check if the player exists in the map
+		if (pointsPlayers.containsKey(player)) {
+			// Remove the player from the map
+			pointsPlayers.remove(player);
 		}
 	}
+	/**
+	 * Adds points to the specified player's score.
+	 * @param player The player whose score is to be updated.
+	 * @param points The number of points to add to the player's score.
+	 * @throws PlayerNotFoundException If the player is not found in the map.
+	 * @throws InvalidPointsException If the points to add are negative.
+	 */
+	public void addPoints(Player player, int points) throws PlayerNotFoundException, InvalidPointsException {
+		// Controlla se il giocatore è presente nella mappa
+		if (!pointsPlayers.containsKey(player)) {
+			throw new PlayerNotFoundException("Player not found in the map.");
+		}
+
+		// Controlla se i punti sono negativi
+		if (points < 0) {
+			throw new InvalidPointsException("Cannot add negative points.");
+		}
+
+		// Aggiungi i punti al punteggio corrente del giocatore
+		int currentPoints = pointsPlayers.get(player);
+		pointsPlayers.put(player, currentPoints + points);
+	}
+
 	/**
 	 * Retrieves the score of the specified player.
 	 * @param player The player whose score is to be retrieved.
@@ -63,18 +82,46 @@ public class ScoreTrack {
 
     /**
      * Determines if any player has reached 20 points.
-     * @return the player who has reached 20, or null if no player has reached that score yet.
+     * @return true if there is a player who has reached 20, or false otherwise.
      */
-
-	public Player checkTo20() {
+	public boolean checkTo20() {
 		int winningScore = 20;
 		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) {
-			Player player = entry.getKey();
 			int points = entry.getValue();
 			if (points >= winningScore) {
-				return player;
+				return true;
 			}
 		}
-		return null;
+		return false;
+	}
+
+	/**
+	* Returns the player with the maximum score in the map.
+	* @return The player with the highest score, or null if there are no players.			*/
+	public Player getWinner() throws NoPlayersException {
+		// Variabile per tenere traccia del giocatore con il punteggio massimo
+		Player maxPlayer = null;
+		// Variabile per tenere traccia del punteggio massimo
+		int maxScore = Integer.MIN_VALUE;
+
+		// Controlla se ci sono giocatori nella mappa
+		if (pointsPlayers.isEmpty()) {
+			throw new NoPlayersException("There are no players in the map.");
+		}
+		// Itera sulla mappa dei punteggi dei giocatori
+		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) {
+			// Ottieni il giocatore e il punteggio corrente dall'entry della mappa
+			Player player = entry.getKey();
+			int score = entry.getValue();
+
+			// Confronta il punteggio corrente con il punteggio massimo
+			if (score > maxScore) {
+				// Se il punteggio corrente è superiore, aggiorna il giocatore e il punteggio massimo
+				maxScore = score;
+				maxPlayer = player;
+			}
+		}
+		// Ritorna il giocatore con il punteggio massimo
+		return maxPlayer;
 	}
 }

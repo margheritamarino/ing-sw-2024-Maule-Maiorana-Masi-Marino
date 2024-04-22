@@ -45,6 +45,16 @@ public class Deck {
         initializeDeck(cardType);
     }
 
+
+    public ArrayList<PlayableCard> getFrontCards() {
+        return frontCards;
+    }
+
+    public ArrayList<PlayableCard> getBackCards() {
+        return backCards;
+    }
+
+
     /** Initializes the deck of cards (arrayList of PlayableCards) of the specified type.
      *  Reads the JSON files of the specified Card Type containing the front and back cards,
      * and populates the frontCards and backCards lists with the read cards.
