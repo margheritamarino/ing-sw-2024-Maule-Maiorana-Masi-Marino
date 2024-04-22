@@ -39,8 +39,13 @@ public class Book {
         }
     }
 
-    public int addInitial(PlayableCard card) { //DA IMPLEMENTARE
-        //riceve la carta Initial da settare al CENTRO del Book
+
+    public void addInitial(PlayableCard card){ //cella 35x35
+        Cell initialCell = bookMatrix[35][35];
+        initialCell.setAvailable(true);
+        initialCell.setCardPointer(card);
+        initialCell.setAvailable(false); //setto disponibilità cella a false
+        //fai i metodi update maps per le initial: devo fare update sia per le initial che hanno le risorse negli angoli sia pe rle initial che hanno le risorse al centro
     }
 
     /**
