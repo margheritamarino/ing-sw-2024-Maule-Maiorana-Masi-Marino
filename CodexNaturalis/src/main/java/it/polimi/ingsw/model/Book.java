@@ -39,6 +39,10 @@ public class Book {
         }
     }
 
+    public int addInitial(PlayableCard card) { //DA IMPLEMENTARE
+        //riceve la carta Initial da settare al CENTRO del Book
+    }
+
     /**
      * Places a card into the game and returns the points of that card (if it has points, otherwise returns 0).
      *
@@ -64,6 +68,7 @@ public class Book {
         }
         return numPoints;
     }
+
 
     /**
      * Updates the covered corners of the neighboring cards of the specified cell.
