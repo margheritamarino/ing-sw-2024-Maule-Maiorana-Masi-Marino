@@ -18,7 +18,6 @@ public class ResourceCard extends PlayableCard {
    public ResourceType getMainResource() {
       return mainResource;
    }
-
    @Override
    public int getVictoryPoints() {
       return victoryPoints;
@@ -28,19 +27,17 @@ public class ResourceCard extends PlayableCard {
    public int getNumResources() {
       return numResources;
    }
-
    public List<ResourceType> getResourceList() {
       return resourceList;
    }
 
-   public boolean isHasSymbol() {
+   public boolean hasSymbol() {
       return hasSymbol;
    }
 
    public SymbolType getSymbol() {
       return symbol;
    }
-
 
    /**
     * Retrieves the content of the initial corners of the card as a list of strings.
@@ -50,7 +47,7 @@ public class ResourceCard extends PlayableCard {
     * @return A list containing the corner content strings.
     */
    @Override
-   public List<String> getResourceCornerContent() {
+   public List<String> getCornerContent() {
       List<String> cornerContent = new ArrayList<>();
       int i = 0;
 
@@ -105,6 +102,13 @@ public class ResourceCard extends PlayableCard {
          default:
             throw new IllegalArgumentException();
       }
+   }
+
+   public List<ResourceType> getCentralResources() {
+      return null;
+   }
+   public int getNumCentralResources() {
+      return 0;
    }
 
 }

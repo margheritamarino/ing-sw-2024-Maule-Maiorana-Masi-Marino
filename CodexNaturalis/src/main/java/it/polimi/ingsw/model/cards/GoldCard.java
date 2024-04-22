@@ -20,20 +20,22 @@ public class GoldCard extends PlayableCard {
 
 
     @Override
+    public int getNumResources() {
+        return 0;
+    }
+    @Override
     public ResourceType getMainResource() {
         return mainResource;
     }
 
 
-    public boolean HasSymbol() {
+    public boolean hasSymbol() {
         return hasSymbol;
     }
-
     @Override
     public SymbolType getSymbol() {
         return symbol;
     }
-
     @Override
     public int getVictoryPoints() {
         return victoryPoints;
@@ -64,7 +66,7 @@ public class GoldCard extends PlayableCard {
      * @return A list containing the corner content strings.
      */
     @Override
-    public List<String> getGoldCornerContent() { // Metodo per ottenere una lista di stringhe rappresentanti il contenuto degli angoli
+    public List<String> getCornerContent() { // Metodo per ottenere una lista di stringhe rappresentanti il contenuto degli angoli
         List<String> cornerContent = new ArrayList<>();
 
         // Angolo in alto a SX
@@ -101,6 +103,16 @@ public class GoldCard extends PlayableCard {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public List<ResourceType> getCentralResources() {
+        return null;
+    }
+    public int getNumCentralResources() {
+        return 0;
+    }
+    public List<ResourceType> getResourceList() {
+        return null;
     }
 }
 

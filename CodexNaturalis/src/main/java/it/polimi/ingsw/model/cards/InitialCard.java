@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.CornerLabel;
 import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.SymbolType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,25 @@ public class InitialCard extends PlayableCard {
     public int getNumResources() {
         return numResources;
     }
+    public SymbolType getSymbol() {
+        return null;
+    }
+    @Override
+    public int getVictoryPoints() {
+        return 0;
+    }
 
+    @Override
     public List<ResourceType> getResourceList() {
         return resourceList;
+    }
+    @Override
+    public boolean hasSymbol() {
+        return false;
+    }
+    @Override
+    public ResourceType getMainResource() {
+        return null;
     }
 
 
@@ -38,7 +55,7 @@ public class InitialCard extends PlayableCard {
      * @return A list containing the corner content strings.
      */
     @Override
-    public List<String> getInitialCornerContent() {
+    public List<String> getCornerContent() {
         List<String> cornerContent = new ArrayList<>();
         int i = 0;
 
