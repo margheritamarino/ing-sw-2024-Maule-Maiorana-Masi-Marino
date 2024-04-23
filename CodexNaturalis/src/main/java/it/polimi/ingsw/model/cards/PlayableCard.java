@@ -88,4 +88,16 @@ public abstract class PlayableCard {
     public abstract boolean isPointsCondition();
     public abstract boolean isCornerCondition();
     public abstract SymbolType getSymbolCondition();
+
+    public PlayableCard() {
+        this.cardID = 0;
+        this.isFront = true;
+        this.cardType = null;
+        this.numCorners = 0;
+        this.TLCorner = null;
+        this.TRCorner = null;
+        this.BRCorner = null;
+        this.BLCorner = null;
+    }
+
 }

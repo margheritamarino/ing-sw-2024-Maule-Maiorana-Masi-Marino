@@ -7,16 +7,16 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.exceptions.FileCastException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.JSONParsingException;
-import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.*;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 // RICORDA - DA FARE
@@ -25,12 +25,12 @@ import java.util.Random;
 public class Deck {
     private int numCards;
     private final CardType cardType;
-    private ArrayList<PlayableCard> frontCards;
-    private ArrayList<PlayableCard> backCards;
+    private final ArrayList<PlayableCard> frontCards;
+    private final ArrayList<PlayableCard> backCards;
 
     public Deck(CardType cardType) throws FileNotFoundException, FileReadException {
         this.cardType = cardType;
-        this.frontCards = new ArrayList<PlayableCard>();
+        this.frontCards = new ArrayList<>();
         this.backCards = new ArrayList<PlayableCard>();
 
         // numero di carte varia in base al tipo di carta
@@ -56,7 +56,9 @@ public class Deck {
     public ArrayList<PlayableCard> getBackCards() {
         return backCards;
     }
-
+    public CardType getCardType(){
+        return cardType;
+    }
 
     /** Initializes the deck of cards (arrayList of PlayableCards) of the specified type.
      *  Reads the JSON files of the specified Card Type containing the front and back cards,
@@ -67,25 +69,62 @@ public class Deck {
      *  @throws FileNotFoundException if any of the JSON files are not found.
      *  @throws FileReadException if there is an error while reading the files.
      */
+
     private void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
-        String frontFileName = cardType.toString() + "CardsFront.json";
-        String backFileName = cardType.toString() + "CardsBack.json";
+        Reader frontReader =null;
+        Reader backReader = null;
+
         Gson gson = new Gson();
+
+        //   frontFileName = this.getClass().getResourceAsStream("/json/InitialCardsFront.json").toString();
+        //   backFileName = this.getClass().getResourceAsStream("/json/InitialCardsBack.json").toString();
+
         try {
             // Leggi dal file JSON frontCards
-            FileReader frontReader = new FileReader(frontFileName);
-            Type frontCardListType = new TypeToken<ArrayList<PlayableCard>>() {}.getType();
+            ArrayList<InitialCard> frontCardList = null;
+            ArrayList<InitialCard> backCardList = null;
+            switch (cardType) {
+                case InitialCard:
+                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
+                    Type initialCardType = new TypeToken<ArrayList<InitialCard>>() {
+                    }.getType();
+                    frontCardList = gson.fromJson(frontReader, initialCardType);
+                    frontCards.addAll(frontCardList);
+                    frontReader.close();
 
-            ArrayList<PlayableCard> frontCardList = gson.fromJson(frontReader, frontCardListType);
-            //deserializza le info lette nel file nel frontCardListType corretto (es.GoldCard)
-            frontCards.addAll(frontCardList);
-            frontReader.close();
+                    backCardList = gson.fromJson(backReader, initialCardType);
+                    backCards.addAll(backCardList);
+                    backReader.close();
 
-            // Leggi dal file JSON backCards
-            FileReader backReader = new FileReader(backFileName);
-            ArrayList<PlayableCard> backCardList = gson.fromJson(backReader, frontCardListType);
-            backCards.addAll(backCardList);
-            backReader.close();
+                case ResourceCard:
+                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
+                    Type resourceCardType = new TypeToken<ArrayList<ResourceCard>>() {
+                    }.getType();
+                    frontCardList = gson.fromJson(frontReader, resourceCardType);
+                    frontCards.addAll(frontCardList);
+                    frontReader.close();
+
+                    backCardList = gson.fromJson(backReader, resourceCardType);
+                    backCards.addAll(backCardList);
+                    backReader.close();
+
+                case GoldCard:
+                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
+                    Type goldCardType = new TypeToken<ArrayList<GoldCard>>() {
+                    }.getType();
+                    frontCardList = gson.fromJson(frontReader, goldCardType);
+                    frontCards.addAll(frontCardList);
+                    frontReader.close();
+
+                    backCardList = gson.fromJson(backReader, goldCardType);
+                    backCards.addAll(backCardList);
+                    backReader.close();
+                    break;
+            }
+
 
         } catch (FileNotFoundException e) {
             // Eccezione lanciata se il file non viene trovato
@@ -112,7 +151,6 @@ public class Deck {
             throw new FileReadException("Generic exception: " + e.getMessage());
         }
     }
-
 
     /** @author Sofia Maule
      * Checks the deck's numCards to see if the deck has ended

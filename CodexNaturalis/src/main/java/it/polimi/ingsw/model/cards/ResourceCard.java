@@ -123,4 +123,13 @@ public class ResourceCard extends PlayableCard {
       return null;
    }
 
+   public ResourceCard() {
+      super();
+      this.victoryPoints = 0; //
+      this.mainResource = null;
+      this.numResources = 0;
+      this.resourceList = new ArrayList<>();
+      this.hasSymbol = false;
+      this.symbol = null;
+   }
 }

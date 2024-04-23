@@ -45,7 +45,7 @@
   "victoryPoints": 1,
   "mainResource": "Fungi",
   "numCorners": 3,
-  "hasSymbol": 1,
+  "hasSymbol": true, //MODIFICATO
   "symbol": "Manuscript",
   "TLCorner": "Symbol",
   "TRCorner": "Empty",

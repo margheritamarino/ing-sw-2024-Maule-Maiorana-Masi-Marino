@@ -114,5 +114,18 @@ public class GoldCard extends PlayableCard {
     public List<ResourceType> getResourceList() {
         return null;
     }
+
+    public GoldCard() {
+        // Chiama il costruttore della classe base PlayableCard
+        super();
+        this.victoryPoints = 0;
+        this.mainResource = null;
+        this.hasSymbol = false;
+        this.symbol = null;
+        this.placementCondition = new ArrayList<>();
+        this.pointsCondition = false;
+        this.cornerCondition = false;
+        this.symbolCondition = null;
+    }
 }
 

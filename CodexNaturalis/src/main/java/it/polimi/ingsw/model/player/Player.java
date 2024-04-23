@@ -24,7 +24,7 @@ public class Player {
 
     public Player(String nickname) {
         this.nickname = nickname;
-        this.playerGoal = new ObjectiveCard();
+        this.playerGoal = null;
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
         this.playerBook = new Book(40, 40); //ho messo 40 x 40 solo per verificare la correttezza del metodo, questo valore dobbiamo poi renderlo variabile in base al numero di giocatori
         this.playerDeck = new PlayerDeck();
@@ -155,7 +155,6 @@ public class Player {
 /**
  * Places a card at the specified position in the player's book.
  * taking the reference to the cell and card of the playerDeck chosen
- * calling the respective methods and passes them as parameters to the method of the book
  * @param posCell the position of the cell in the book where the card should be placed.
  * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
  * @return the victoryPoints of the placed card
