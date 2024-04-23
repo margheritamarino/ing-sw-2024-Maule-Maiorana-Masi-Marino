@@ -1,7 +1,7 @@
 package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameModelImmutable;
+import it.polimi.ingsw.model.GameImmutable;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
@@ -62,7 +62,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.playerJoined(new GameModelImmutable(model), nickname);
+                l.playerJoined(new GameImmutable(model), nickname);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_playerJoined, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -80,7 +80,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.playerLeft(new GameModelImmutable(model), nickname);
+                l.playerLeft(new GameImmutable(model), nickname);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_PlayerLeft, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -99,7 +99,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.playerReconnected(new GameModelImmutable(model), nickPlayerReconnected);
+                l.playerReconnected(new GameImmutable(model), nickPlayerReconnected);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_playerReconnected, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -118,7 +118,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.joinUnableGameFull(playerWantedToJoin, new GameModelImmutable(model));
+                l.joinUnableGameFull(playerWantedToJoin, new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -179,7 +179,7 @@ public class ListenersHandler {
 
     /**
      * The notify_PlayerIsReadyToStart method notifies that a player is ready to start the game
-     * @param model is the GameModel to pass as a new GameModelImmutable {@link GameModelImmutable}
+     * @param model is the GameModel to pass as a new GameModelImmutable {@link GameImmutable}
      * @param nick is the nickname of the player that is ready to start the game
      */
     public synchronized void notify_PlayerIsReadyToStart(Game model, String nick) {
@@ -187,7 +187,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.playerIsReadyToStart(new GameModelImmutable(model), nick);
+                l.playerIsReadyToStart(new GameImmutable(model), nick);
             } catch (IOException e) {
                 printAsync("During notification of notify_PlayerIsReadyToStart, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -206,7 +206,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.gameStarted(new GameModelImmutable(model)); //ogni listener riceve una copia immutabile del game model
+                l.gameStarted(new GameImmutable(model)); //ogni listener riceve una copia immutabile del game model
             } catch (RemoteException e) {
                 printAsync("During notification of notify_GameStarted, a disconnection has been detected before heartbeat");
                 i.remove(); //metodo remove dell'iteratore che rimuove i listener che si sono disconnessi
@@ -223,7 +223,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.gameEnded(new GameModelImmutable(model));
+                l.gameEnded(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_GameEnded, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -236,7 +236,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.requireInitialReady(new GameModelImmutable(model), initialCards);
+                l.requireInitialReady(new GameImmutable(model), initialCards);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -251,7 +251,7 @@ public class ListenersHandler {
             try {
                 // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
                 ArrayList<ObjectiveCard> objectiveCards = model.drawObjectiveCards();
-                l.requireGoalsReady(new GameModelImmutable(model), objectiveCards);
+                l.requireGoalsReady(new GameImmutable(model), objectiveCards);
             } catch (RemoteException | IllegalStateException e) {
                 printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -264,7 +264,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.cardsReady(new GameModelImmutable(model));
+                l.cardsReady(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -281,7 +281,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.cardPlaced(new GameModelImmutable(model), player, posCell, posCard);
+                l.cardPlaced(new GameImmutable(model), player, posCell, posCard);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_CardPlaced, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -298,7 +298,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.cardDrawn(new GameModelImmutable(model));
+                l.cardDrawn(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_CardDrawn, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -315,7 +315,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.nextTurn(new GameModelImmutable(model));
+                l.nextTurn(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_nextTurn, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -331,7 +331,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.commonCardsExtracted(new GameModelImmutable(gamemodel));
+                l.commonCardsExtracted(new GameImmutable(gamemodel));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_extractedCommonCard, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -349,7 +349,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.playerDisconnected(new GameModelImmutable(gamemodel), nick);
+                l.playerDisconnected(new GameImmutable(gamemodel), nick);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_playerDisconnected, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -366,7 +366,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.lastCircle(new GameModelImmutable(model));
+                l.lastCircle(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_LastCircle, a disconnection has been detected before heartbeat");
                 i.remove();

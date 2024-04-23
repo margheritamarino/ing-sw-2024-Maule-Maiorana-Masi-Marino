@@ -1,6 +1,6 @@
 package it.polimi.ingsw.listener;
 
-import it.polimi.ingsw.model.GameModelImmutable;
+import it.polimi.ingsw.model.GameImmutable;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
@@ -20,15 +20,15 @@ public interface GameListener extends Remote {
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void playerJoined(GameModelImmutable model) throws RemoteException;
+    void playerJoined(GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has left the game
-     * @param model is the game model {@link GameModelImmutable}
+     * @param model is the game model {@link GameImmutable}
      * @param nickname is the nickname of the player that has left
      * @throws RemoteException if the reference could not be accessed
      */
-    void playerLeft(GameModelImmutable model, String nickname) throws RemoteException;
+    void playerLeft(GameImmutable model, String nickname) throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has tried to join the game but the game is full
@@ -36,7 +36,7 @@ public interface GameListener extends Remote {
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void joinUnableGameFull(Player player, GameModelImmutable model) throws RemoteException;
+    void joinUnableGameFull(Player player, GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has reconnected to the game
@@ -44,7 +44,7 @@ public interface GameListener extends Remote {
      * @param nickPlayerReconnected is the nickname of the player that has reconnected
      * @throws RemoteException if the reference could not be accessed
      */
-    void playerReconnected(GameModelImmutable model, String nickPlayerReconnected) throws RemoteException;
+    void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has tried to join the game but the nickname is already in use
@@ -73,28 +73,28 @@ public interface GameListener extends Remote {
      * @param nick is the nickname of the player that is ready to start
      * @throws IOException if the reference could not be accessed
      */
-    void playerIsReadyToStart(GameModelImmutable model, String nick) throws IOException;
+    void playerIsReadyToStart(GameImmutable model, String nick) throws IOException;
 
     /**
      * This method is used to notify the client that the common cards have been extracted
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void commonCardsExtracted(GameModelImmutable model) throws RemoteException;
+    void commonCardsExtracted(GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify the client that the game has started
-     * @param model is the game model {@link GameModelImmutable}
+     * @param model is the game model {@link GameImmutable}
      * @throws RemoteException if the reference could not be accessed
      */
-    void gameStarted(GameModelImmutable model) throws RemoteException;
+    void gameStarted(GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify the client that the game has ended
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void gameEnded(GameModelImmutable model) throws RemoteException;
+    void gameEnded(GameImmutable model) throws RemoteException;
 
     /**
      * Notifies the listeners that initial cards are ready to be displayed.
@@ -103,7 +103,7 @@ public interface GameListener extends Remote {
      * @param initialCards An array of initial cards.
      * @throws RemoteException if the reference could not be accessed
      */
-    void requireInitialReady(GameModelImmutable model, PlayableCard[] initialCards) throws RemoteException;
+    void requireInitialReady(GameImmutable model, PlayableCard[] initialCards) throws RemoteException;
 
     /**
      * Notifies the listeners that objective cards are ready
@@ -111,14 +111,14 @@ public interface GameListener extends Remote {
      * @param objectiveCards An array list of objective cards
      * @throws RemoteException if the reference could not be accessed
      */
-    void requireGoalsReady(GameModelImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException;
+    void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException;
 
     /**
      * Notifies the listeners that all cards are ready
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void cardsReady(GameModelImmutable model) throws RemoteException;
+    void cardsReady(GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify that a card has been placed on the book
@@ -126,14 +126,14 @@ public interface GameListener extends Remote {
      * @param player is the Player who placed the card
      * @throws RemoteException if the reference could not be accessed
      */
-    void cardPlaced(GameModelImmutable model, Player player, int posCell, int posCard) throws RemoteException;
+    void cardPlaced(GameImmutable model, Player player, int posCell, int posCard) throws RemoteException;
 
     /**
      * This method is used to notify that a card has been drawn
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void cardDrawn(GameModelImmutable model) throws RemoteException;
+    void cardDrawn(GameImmutable model) throws RemoteException;
 
 
     /**
@@ -141,7 +141,7 @@ public interface GameListener extends Remote {
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void nextTurn(GameModelImmutable model) throws RemoteException;
+    void nextTurn(GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify that a player has disconnected
@@ -149,14 +149,14 @@ public interface GameListener extends Remote {
      * @param nick is the nickname of the player that has disconnected
      * @throws RemoteException if the reference could not be accessed
      */
-    void playerDisconnected(GameModelImmutable model, String nick) throws RemoteException;
+    void playerDisconnected(GameImmutable model, String nick) throws RemoteException;
 
     /**
      * This method is used to notify that the last circle has started
-     * @param model is the game model {@link GameModelImmutable}
+     * @param model is the game model {@link GameImmutable}
      * @throws RemoteException if the reference could not be accessed
      */
-    void lastCircle(GameModelImmutable model) throws RemoteException;
+    void lastCircle(GameImmutable model) throws RemoteException;
 
 
 
