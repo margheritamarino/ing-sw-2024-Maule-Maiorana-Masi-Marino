@@ -1,59 +1,52 @@
 package it.polimi.ingsw.modelTest;
+
 import com.google.gson.Gson;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-
+import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
 
 public class PlayableCardTest {
+    private Deck goldCardsDeck;
+    private  Deck ResourceCardsDeck;
+    private  Deck InitialcardsDeck;
+    private ArrayList<PlayableCard> goldCardsFront = new ArrayList<>();
+    private ArrayList<PlayableCard> goldCardsBack = new ArrayList<>();
 
     @Test
-    public void testGoldCardAttributes() {
-        try {
-            // Load the test JSON file containing the data for GoldCard with cardID = 0
-            String testJsonFile = "goldCard_0.json"; // Update with the actual file name
-            PlayableCard goldCard = loadGoldCardFromJson(testJsonFile);
+    void testInitializeGoldDeck() throws FileNotFoundException, FileReadException {
+        // Creazione di un oggetto Deck
+        goldCardsDeck= new Deck(CardType.GoldCard);
+        goldCardsFront = goldCardsDeck.getFrontCards();
+        goldCardsBack = goldCardsDeck.getBackCards();
 
-            // Assert the attributes of the gold card
-            Assertions.assertEquals(0, goldCard.getCardID());
-            Assertions.assertTrue(goldCard.isFront());
-            Assertions.assertEquals(CardType.ResourceCard, goldCard.getCardType());
-            Assertions.assertEquals(0, goldCard.getVictoryPoints());
-            Assertions.assertEquals(3, goldCard.getNumCorners());
-            Assertions.assertEquals("Fungi", goldCard.getMainResource());
-            Assertions.assertEquals(2, goldCard.getNumResources());
-            Assertions.assertEquals("withResource", goldCard.getTLCorner());
-            Assertions.assertEquals("Empty", goldCard.getTRCorner());
-            Assertions.assertEquals("NoCorner", goldCard.getBRCorner());
-            Assertions.assertEquals("withResource", goldCard.getBLCorner());
-            Assertions.assertFalse(goldCard.hasSymbol());
-            Assertions.assertNull(goldCard.getSymbol());
+        assertTrue(goldCardsFront.get(0).getCardID() == 0);
 
-        } catch (FileNotFoundException e) {
-            Assertions.fail("Test JSON file not found: " + e.getMessage());
-        }
+
     }
-    // Helper method to load a GoldCard object from a JSON file
-    private PlayableCard loadGoldCardFromJson(String fileName) throws FileNotFoundException {
+    @Test
+    void JSONBlueDevelopmentArray() {
         Gson gson = new Gson();
+        JsonReader reader = null;
+
         try {
-            // Read the JSON file and deserialize the PlayableCard object
-            FileReader reader = new FileReader(fileName);
-            PlayableCard goldCard = gson.fromJson(reader, PlayableCard.class);
-            reader.close();
-            return goldCard;
+            reader = new JsonReader(new FileReader("./src/main/resources/json/GoldCardsFront.json"));
         } catch (FileNotFoundException e) {
-            // Handle the exception if the file is not found
-            throw new FileNotFoundException("Test JSON file not found: " + e.getMessage());
-        } catch (Exception e) {
-            // Handle other exceptions that might occur during deserialization
-            throw new RuntimeException("Error loading GoldCard from JSON: " + e.getMessage());
+            e.printStackTrace();
         }
+        Type DevelopmentArray = new TypeToken<ArrayList<DevelopmentCard>>() {}.getType();
+        ArrayList<DevelopmentCard> blueDevCards = gson.fromJson(reader, DevelopmentArray);
+        assertTrue(blueDevCards.get(0).getVictoryPoints() == 12);
+        assertTrue(blueDevCards.get(0).getLevel() == 3);
+        assertTrue(blueDevCards.get(0).getColor() == CardColor.BLUE);
     }
 
 }
