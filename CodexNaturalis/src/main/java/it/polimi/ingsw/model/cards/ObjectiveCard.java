@@ -56,4 +56,16 @@ public class ObjectiveCard {
         return secondResource;
     }
 
+    public ObjectiveCard(int cardID, boolean isFront, GoalType goalType, int victoryPoints, int numSymbols, List<SymbolType> symbols, int numResources, ResourceType mainResource, CornerType direction, ResourceType secondResource) {
+        this.cardID = cardID;
+        this.isFront = isFront;
+        this.goalType = goalType;
+        this.victoryPoints = victoryPoints;
+        this.numSymbols = numSymbols;
+        this.symbols = symbols;
+        this.numResources = numResources;
+        this.mainResource = mainResource;
+        this.direction = direction;
+        this.secondResource = secondResource;
+    }
 }

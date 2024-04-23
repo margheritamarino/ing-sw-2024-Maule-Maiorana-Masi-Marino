@@ -121,4 +121,11 @@ public class InitialCard extends PlayableCard {
         return null;
     }
 
+    public InitialCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, List<ResourceType> centralResources, int numCentralResources, int numResources, List<ResourceType> resourceList) {
+        super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
+        this.centralResources = centralResources;
+        this.numCentralResources = numCentralResources;
+        this.numResources = numResources;
+        this.resourceList = resourceList;
+    }
 }
