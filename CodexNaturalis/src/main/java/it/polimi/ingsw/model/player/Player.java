@@ -24,7 +24,7 @@ public class Player {
 
     public Player(String nickname) {
         this.nickname = nickname;
-        this.playerGoal = new ObjectiveCard();
+        this.playerGoal = null;
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
         this.playerBook = new Book(40, 40); //ho messo 40 x 40 solo per verificare la correttezza del metodo, questo valore dobbiamo poi renderlo variabile in base al numero di giocatori
         this.playerDeck = new PlayerDeck();
