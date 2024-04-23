@@ -73,4 +73,8 @@ public class Cell {
     public void setWall(boolean wall) {
         this.wall = wall;
     }
+
+    public int size(int numRows, int numColums) {
+        return numRows*numColums;
+    }
 }

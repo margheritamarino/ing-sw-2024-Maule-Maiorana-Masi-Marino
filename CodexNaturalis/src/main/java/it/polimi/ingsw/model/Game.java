@@ -399,7 +399,7 @@ public class Game {
 	 * Initializes the game board and cards and returns the order array.
 	 * @throws NotEnoughPlayersException if the number of players is less than two.
 	 */
-	public void startGame() throws NotEnoughPlayersException, NoPlayersException, NotReadyToRunException, BoardSetupException {
+	public void startGame() throws NotEnoughPlayersException, NoPlayersException, NotReadyToRunException, BoardSetupException, FileNotFoundException {
 		if (playersNumber < 2)
 			throw new NotEnoughPlayersException("The game cannot start without at least two players");
 
@@ -556,7 +556,7 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void initializeCards() {
+	public void initializeCards() throws FileNotFoundException {
 		//pick an InitialCard
 		for (Player player : players) {
 
@@ -657,7 +657,11 @@ public class Game {
 
 
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos){
-		currentPlayer.pickCard(board, cardType, drawFromDeck, pos);
+		try {
+			currentPlayer.pickCard(board, cardType, drawFromDeck, pos);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		// Notifica ai listeners che una carta è stata pescata
 	//	listenersHandler.notify_CardDrawn(this);
 	}

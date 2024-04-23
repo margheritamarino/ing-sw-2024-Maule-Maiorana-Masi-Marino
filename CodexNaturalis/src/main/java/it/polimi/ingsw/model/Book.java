@@ -31,9 +31,9 @@ public class Book {
         this.resourceMap = new HashMap<>();
         this.symbolMap = new HashMap<>();
 
+        this.bookMatrix = new Cell[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                assert false;
                 bookMatrix[i][j] = new Cell(i, j); // Costruttore che inizializza righe e colonne e imposta isAvailable a false
             }
         }
@@ -341,7 +341,7 @@ public class Book {
 
         // Scorre la matrice e aggiunge le celle disponibili alla lista
         for (int i = 0; i < bookMatrix.length; i++) {
-            for (int j = 0; j < bookMatrix.length; j++) {
+            for (int j = 0; j < bookMatrix[i].length; j++) {
                 if (bookMatrix[i][j].isAvailable()) {
                     availableCellsList.add(bookMatrix[i][j]);
                 }

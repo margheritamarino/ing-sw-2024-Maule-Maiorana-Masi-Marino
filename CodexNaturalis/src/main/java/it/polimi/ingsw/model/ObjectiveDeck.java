@@ -9,11 +9,10 @@ import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.JSONParsingException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -44,17 +43,19 @@ public class ObjectiveDeck {
      * @author Irene Pia Masi
      */
     public void initializeDeck() throws FileReadException, FileNotFoundException {
-        String frontFileName = "ObjectiveCardsFront.json";
+        Reader frontReader = null;
+        Gson gson = new Gson();
 
         try {
-            Gson gson = new Gson();
-            Type objectivecardListType = new TypeToken<ArrayList<ObjectiveCard>>() {
-            }.getType();
+            // Leggi dal file JSON frontCards
+            ArrayList<ObjectiveCard> frontCardList = null;
 
-            FileReader frontReader = new FileReader(frontFileName);
-            ArrayList<ObjectiveCard> frontCardList = gson.fromJson(frontReader, objectivecardListType);
-            frontCards.addAll(frontCardList);
-            frontReader.close();
+                    frontReader = new InputStreamReader(ObjectiveDeck.class.getResourceAsStream("/json/ObjectiveCardsFront.json"), StandardCharsets.UTF_8);
+                    Type objectiveCardType = new TypeToken<ArrayList<ObjectiveCard>>() {
+                    }.getType();
+                    frontCardList = gson.fromJson(frontReader, objectiveCardType);
+                    frontCards.addAll(frontCardList);
+                    frontReader.close();
 
         } catch (FileNotFoundException e) {
             // Eccezione lanciata se il file non viene trovato

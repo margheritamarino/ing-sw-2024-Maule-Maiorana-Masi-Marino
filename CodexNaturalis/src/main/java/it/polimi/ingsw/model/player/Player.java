@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import java.io.FileNotFoundException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
@@ -123,7 +124,7 @@ public class Player {
      * @throws IllegalArgumentException If the specified card type is invalid.
      * @throws IndexOutOfBoundsException If the position is out of range or the card cannot be picked.
      */
-    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException {
+    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException, FileNotFoundException {
 
         setPlayerState(PlayerState.Pick);
         // Take a card from the board
@@ -160,8 +161,21 @@ public class Player {
  * @return the victoryPoints of the placed card
  * */
     public int placeCard( int posCell, int posCard) throws IndexOutOfBoundsException {
+        ArrayList<Cell> availableCells = playerBook.showAvailableCells();
 
-        Cell chosenCell = playerBook.showAvailableCells().get(posCell); // Choose the cell
+        // Check if the cell position is valid
+        if (posCell < 0 || posCell >= availableCells.size()) {
+            throw new IndexOutOfBoundsException("Invalid cell position");
+        }
+
+        // Check if the card position is valid
+        ArrayList<PlayableCard> miniDeck = playerDeck.getMiniDeck();
+        if (posCard < 0 || posCard >= miniDeck.size()) {
+            throw new IndexOutOfBoundsException("Invalid card position");
+        }
+
+        // Retrieve the cell at the specified position from the available cells list
+        Cell chosenCell = availableCells.get(posCell);
 
         // Retrieve the card at the specified position from the player's deck
         PlayableCard chosenCard = playerDeck.getMiniDeck().get(posCard);
