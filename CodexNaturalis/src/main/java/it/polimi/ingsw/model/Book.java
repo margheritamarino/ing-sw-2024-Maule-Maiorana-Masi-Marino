@@ -39,13 +39,46 @@ public class Book {
         }
     }
 
-
-    public void addInitial(PlayableCard card){ //cella 35x35
+    /**
+     * Adds the initial card to the center of the player's book matrix.
+     * This method adds the initial card to the center of the book matrix, which represents the player's book.
+     * The book matrix has dimensions of 70x70 cells. The initial card is placed in the center cell (at index [35][35]).
+     * After placing the card, the cell's availability is set to false to indicate it's occupied.
+     * Then, the resource map is updated based on the resources present on the initial card, both on the corners
+     * and in the central part, and the surrounding cells' availability is updated accordingly.
+     *
+     * @author Margherita Marino
+     * @param initialCard The initial card to add to the center of the book matrix.
+     */
+    public void addInitial(PlayableCard initialCard){ //cella 35x35
         Cell initialCell = bookMatrix[35][35];
         initialCell.setAvailable(true);
-        initialCell.setCardPointer(card);
+        initialCell.setCardPointer(initialCard);
         initialCell.setAvailable(false); //setto disponibilità cella a false
-        //fai i metodi update maps per le initial: devo fare update sia per le initial che hanno le risorse negli angoli sia pe rle initial che hanno le risorse al centro
+        UpdateMapInitial(initialCard); //aggiorno la mappa delle risorse presenti sul book in base alle risorse presenti sugli angoli e o nel centro della initialCard
+        updateBook(initialCard, initialCell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata in base alla presenza o meno degli angoli
+    }
+
+    /**
+     * Updates the resource map based on the provided initial card.
+     *
+     * This method evaluates the presence of resources in the initial card, which can have resources
+     * both on the corners of the card and in the central part.
+     *
+     * @author Margherita Marino
+     * @param initialCard The initial card to update the resource map with.
+     */
+    public void UpdateMapInitial(PlayableCard initialCard){
+        if(initialCard.getNumCentralResources() != 0){
+            for(int i = 0; i < initialCard.getNumCentralResources(); i++){
+                increaseResource(initialCard.getCentralResources().get(i));
+            }
+        }
+        if(initialCard.getNumResources() != 0){
+            for(int i = 0; i < initialCard.getNumResources(); i++){
+                increaseResource(initialCard.getResourceList().get(i));
+            }
+        }
     }
 
     /**
