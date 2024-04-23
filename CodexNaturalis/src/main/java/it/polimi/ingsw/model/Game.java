@@ -40,13 +40,9 @@ public class Game {
 	protected boolean gameStarted = false;
 	private GameStatus status;
 	private int[] orderArray;
-
 	private PlayableCard[] temporaryInitialCard;
-
-	/**
-	 * Listener handler that handles the listeners
-	 */
 	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
+
 
 	/**
 	 * Private Constructor

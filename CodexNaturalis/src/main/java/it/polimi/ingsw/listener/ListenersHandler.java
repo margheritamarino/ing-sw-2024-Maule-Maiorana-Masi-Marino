@@ -21,6 +21,7 @@ import java.rmi.RemoteException;
 public class ListenersHandler {
     private List<GameListener> listeners;
 
+
     /**
      * Constructor
      */
