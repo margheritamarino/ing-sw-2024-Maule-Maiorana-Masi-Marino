@@ -1,12 +1,14 @@
 package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.model.GameModelImmutable;
-import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  * Defines methods to notify the client about different game events
@@ -93,6 +95,30 @@ public interface GameListener extends Remote {
      * @throws RemoteException if the reference could not be accessed
      */
     void gameEnded(GameModelImmutable model) throws RemoteException;
+
+    /**
+     * Notifies the listeners that initial cards are ready to be displayed.
+     *
+     * @param model       is the game model
+     * @param initialCards An array of initial cards.
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void requireInitialReady(GameModelImmutable model, PlayableCard[] initialCards) throws RemoteException;
+
+    /**
+     * Notifies the listeners that objective cards are ready
+     * @param model is the game model
+     * @param objectiveCards An array list of objective cards
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void requireGoalsReady(GameModelImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException;
+
+    /**
+     * Notifies the listeners that all cards are ready
+     * @param model is the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void cardsReady(GameModelImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify that a card has been placed on the book

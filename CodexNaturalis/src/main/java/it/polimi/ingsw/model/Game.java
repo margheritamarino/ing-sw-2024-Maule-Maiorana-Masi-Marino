@@ -418,6 +418,7 @@ public class Game {
 		initializeCards();
 
 		setInitialStatus(); //sets gameStatus.RUNNING
+		listenersHandler.notify_GameStarted(this);
 	}
 
 	/**
@@ -557,7 +558,7 @@ public class Game {
 		for (Player player : players) {
 
 			temporaryInitialCard = initialCardsDeck.returnCard();
-			listenersHandler.notify_requireInitial(this);
+			listenersHandler.notify_requireInitial(this, temporaryInitialCard);
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {

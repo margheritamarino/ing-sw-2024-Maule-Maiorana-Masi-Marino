@@ -2,7 +2,8 @@ package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameModelImmutable;
-import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.rmi.RemoteException;
 
-import static polimi.ingsw.networking.PrintAsync.printAsync;
+// import static polimi.ingsw.networking.PrintAsync.printAsync;
 
 /**
  * ListenersHandler class is responsible for managing a List of GameListener objects
@@ -60,7 +61,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.playerJoined(new GameModelImmutable(model));
+                l.playerJoined(new GameModelImmutable(model), nickname);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_playerJoined, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -229,6 +230,47 @@ public class ListenersHandler {
         }
     }
 
+    public synchronized void notify_requireInitial(Game model, PlayableCard[] initialCards){
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.requireInitialReady(new GameModelImmutable(model), initialCards);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    public synchronized void notify_requireGoals(Game model){
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
+                ArrayList<ObjectiveCard> objectiveCards = model.drawObjectiveCards();
+                l.requireGoalsReady(new GameModelImmutable(model), objectiveCards);
+            } catch (RemoteException | IllegalStateException e) {
+                printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    public synchronized void notify_cardsReady(Game model){
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.cardsReady(new GameModelImmutable(model));
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
         /** The notify_CardPlaced method notifies that a card has been placed on the board
      * @param model is the Game to pass as a new GameModelImmutable
      * @param player is the Player who placed the card
@@ -255,7 +297,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListener l = i.next();
             try {
-                l.cardDrawn(new GameModelImmutable(model);
+                l.cardDrawn(new GameModelImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_CardDrawn, a disconnection has been detected before heartbeat");
                 i.remove();
