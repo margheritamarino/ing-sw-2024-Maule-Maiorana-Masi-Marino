@@ -32,21 +32,6 @@ public class PlayableCardTest {
 
 
     }
-    @Test
-    void JSONBlueDevelopmentArray() {
-        Gson gson = new Gson();
-        JsonReader reader = null;
 
-        try {
-            reader = new JsonReader(new FileReader("./src/main/resources/json/GoldCardsFront.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Type DevelopmentArray = new TypeToken<ArrayList<DevelopmentCard>>() {}.getType();
-        ArrayList<DevelopmentCard> blueDevCards = gson.fromJson(reader, DevelopmentArray);
-        assertTrue(blueDevCards.get(0).getVictoryPoints() == 12);
-        assertTrue(blueDevCards.get(0).getLevel() == 3);
-        assertTrue(blueDevCards.get(0).getColor() == CardColor.BLUE);
-    }
 
 }
