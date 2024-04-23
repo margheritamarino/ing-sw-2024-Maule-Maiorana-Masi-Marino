@@ -45,6 +45,9 @@ public class Deck {
         initializeDeck(cardType);
     }
 
+    public int getNumCards() {
+        return numCards;
+    }
 
     public ArrayList<PlayableCard> getFrontCards() {
         return frontCards;

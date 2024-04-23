@@ -111,4 +111,8 @@ public class ObjectiveDeck {
         return frontCard;
     }
 
+    public int getNumCards() {
+        return numCards;
+    }
+
 }

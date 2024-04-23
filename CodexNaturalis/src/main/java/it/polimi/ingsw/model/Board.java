@@ -19,6 +19,10 @@ public class Board {
     private final Deck goldCardsDeck;
     private final Deck resourcesCardsDeck;
     private final ObjectiveDeck objectiveCardsDeck;
+    private final int totalGoldCards; // Total number of goldCards on the Board
+    private final int totalResourceCards; // Total number of resourceCards
+    private final int totalObjectiveCards; // Total number of objectiveCards
+
 
     /**
      * Constructor
@@ -30,6 +34,11 @@ public class Board {
         this.goldCardsDeck = new Deck(CardType.GoldCard);
         this.resourcesCardsDeck = new Deck(CardType.ResourceCard);
         this.objectiveCardsDeck = new ObjectiveDeck();
+
+        // Initializing total numbers of cards
+        this.totalGoldCards = 2;
+        this.totalResourceCards = 2;
+        this.totalObjectiveCards = 2;
 
         initializeBoard();
     }
@@ -162,6 +171,57 @@ public class Board {
         cards.add(newCard);
     }
 
+
+    /**
+     * Verify the number of Gold cards
+     * @return TRUE if there's a correct number of Gold Cards on the Board
+     */
+    public boolean verifyGoldCardsNumber() {
+        return goldCards.size() == totalGoldCards;
+    }
+
+    /**
+     * Verify the number of Resource cards
+     * @return TRUE if there's a correct number of Resource Cards on the Board
+     */
+    public boolean verifyResourceCardsNumber() {
+        return resourceCards.size() == totalResourceCards;
+    }
+
+    /**
+     * Verify the number of Objective cards
+     * @return TRUE if there's a correct number of Objective Cards on the Board
+     */
+    public boolean verifyObjectiveCardsNumber() {
+        return objectiveCards.length == totalObjectiveCards;
+    }
+
+    /**
+     * Verify the number of Gold cards
+     * @return TRUE if there's a correct number of Gold Cards on the Board
+     * @param playersNumber to calculate the right number of Cards
+     */
+    public boolean verifyGoldDeckSize(int playersNumber) {
+        return goldCardsDeck.getNumCards() == 38 - playersNumber;
+    }
+
+    /**
+     * Verify the number of Resource cards in the relative Deck
+     * @return TRUE if there's a correct number of Resource Cards in the Deck on the Board
+     * @param playersNumber to calculate the right number of Cards
+     */
+    public boolean verifyResourceDeckSize(int playersNumber) {
+        return resourcesCardsDeck.getNumCards() == 38 - (2 * playersNumber);
+    }
+
+    /**
+     * Verify the number of Objective cards in the relative Deck
+     * @return TRUE if there's a correct number of Objective Cards in the Deck on the Board
+     * @param playersNumber to calculate the right number of Cards
+     */
+    public boolean verifyObjectiveDeckSize(int playersNumber) {
+        return objectiveCardsDeck.getNumCards() == 16 - 2 - playersNumber;
+    }
 
 }
 

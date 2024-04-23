@@ -46,7 +46,7 @@ public class Game {
 	/**
 	 * Listener handler that handles the listeners
 	 */
-	private final transient ListenersHandler listenersHandler;
+	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
 
 	/**
 	 * Private Constructor
@@ -110,14 +110,26 @@ public class Game {
 	}
 
 	/**
-	 * Returns the number of players.
+	 * Returns the number of players registered for the game
 	 * @return the number of players as an integer.
 	 */
 	public int getNumPlayers(){
 		return this.playersNumber;
 	}
 
-	//PLAYERS
+	/**
+	 * Returns the number of players who are currently online.
+	 * @return the number of players online
+	 */
+	public int getNumPlayersOnline() { //serve perché uno dei giocatori iscritto al gioco potrebbe accidentalmente perdere la connessione
+		int numplayers = 0;
+		for (Player player : players) {
+			if (player.isConnected()) {
+				numplayers++;
+			}
+		}
+		return numplayers;
+	}
 
 	/**
 	 * return the player who is playing the current turn
@@ -164,12 +176,14 @@ public class Game {
 	}
 
 	/**
-	 * @return the book of the CurrentPlayer	 */
+	 * @return the book of the CurrentPlayer
+	 */
 	public Book getCurrentPlayerBook(){
 		return currentPlayer.getPlayerBook();
 	}
 	/**
-	 * @return the Goal (ObjectiveCard of the CurrentPlayer	 */
+	 * @return the Goal (ObjectiveCard of the CurrentPlayer
+	 */
 	public ObjectiveCard getCurrentPlayerGoal(){
 		return currentPlayer.getGoal();
 	}
@@ -183,15 +197,13 @@ public class Game {
 		return players.get(pos);
 	}
 
-
-	//AGGIUNGERE SETREADYTOSTART AL PLAYER ??
-//	/**
-//	 * @param p is set as ready, then everyone is notified
-//	 */
-//	public void playerIsReadyToStart(Player p) {
-//		p.setReadyToStart();
-//		listenersHandler.notify_PlayerIsReadyToStart(this, p.getNickname());
-//	}
+	/**
+	 * @param player is set as ready, then everyone is notified
+	 */
+	public void playerIsReadyToStart(Player player) {
+		player.setReadyToStart();
+		listenersHandler.notify_PlayerIsReadyToStart(this, player.getNickname());
+	}
 
 	/**
 	 * Checks if the game is full or if the provided nickname is already taken.
@@ -224,13 +236,11 @@ public class Game {
 	 * @throws NicknameAlreadyTaken if the provided nickname is already taken.
 	 * @throws MatchFull if the game is full and cannot accommodate more players.
 	 */
-	public void addPlayer(String nickname) throws Exception {
-		Player newPlayer = null;
-		try {
+	public void addPlayer(String nickname) throws NicknameAlreadyTaken, MatchFull {
 			// Check if the game is not full and the nickname is not taken
 			if (!isFull(nickname)) {
 				// Create a new player with the given nickname
-				newPlayer = new Player(nickname);
+				Player newPlayer = new Player(nickname);
 
 				// Add the new player to the list of players
 				players.add(newPlayer);
@@ -246,16 +256,13 @@ public class Game {
 
 			} else if (checkNickname(nickname)) {
 				// Notify listeners that the nickname is already taken
-				listenersHandler.notify_JoinUnableNicknameAlreadyIn(newPlayer);
+				listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
 				throw new NicknameAlreadyTaken(nickname);
 			} else {
 				// Notify listeners that the game is full
-				listenersHandler.notify_JoinUnableGameFull(newPlayer, this);
+				listenersHandler.notify_JoinUnableGameFull(null, this);
 				throw new MatchFull("There are already 4 players");
 			}
-		} catch (Exception e) {
-			// Gestione delle eccezioni
-		}
 	}
 
 	/**
@@ -300,12 +307,103 @@ public class Game {
 	}
 
 	/**
+	 * @return true if the player in turn is online
+	 */
+	private boolean isTheCurrentPlayerOnline() {
+		return currentPlayer.isConnected();
+	}
+
+	/**
+	 * Sets the player with the specified nickname as disconnected.
+	 * Removes the player disconnected from the game and notifies listeners.
+	 *
+	 * @param nickname the nickname of the player to set as disconnected.
+	 */
+	public void setPlayerDisconnected(String nickname) {
+		// Trova il giocatore disconnesso nella lista dei giocatori
+		Player disconnectedPlayer = null;
+		for (Player player : players) {
+			if (player.getNickname().equals(nickname)) {
+				disconnectedPlayer = player;
+				break;
+			}
+		}
+		// Se il giocatore disconnesso è stato trovato
+		if (disconnectedPlayer != null) {
+			// Imposta il giocatore come disconnesso e come non pronto a giocare
+			disconnectedPlayer.setConnected(false);
+			disconnectedPlayer.setNotReadyToStart();
+
+			// Notifica tutti gli altri giocatori sulla disconnessione
+			for (Player player : players) {
+				if (!player.getNickname().equals(nickname)) {
+					listenersHandler.notify_playerDisconnected(this, nickname);
+				}
+			}
+
+			//DA GESTIRE
+			// Che succede se il giocatore disconnesso è il current player? il gioco si ferma in attesa del ritorno del player?
+			//se invece è un giocatore diverso dal current player ? il gioco continua finché non arrivo al giocatore disconnesso ?
+
+
+		}
+	}
+
+
+	/**
+	 * @param nickname is the name of player that wants to reconnect
+	 * @throws PlayerAlreadyInException player is already in
+	 * @throws MaxPlayersInException    there's already 4 players in game
+	 * @throws GameEndedException       the game has ended
+	 */
+	public boolean reconnectPlayer(String nickname) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException, PlayerNotFoundException, GameNotStartedException, InvalidPointsException, NoPlayersException {
+		// Check if the game has ended (serve perché se il gioco è finito è meglio evitare che dei giocatori si riconnettano e magari modifichino il risultato finale)
+		if (gameEnded) {
+			throw new GameEndedException();
+		}
+		// Check if the player is already in the game
+		if (checkNickname(nickname)) {
+			throw new PlayerAlreadyInException();
+		}
+		// Check if the game is full
+		if (players.size() >= 4) {
+			throw new MaxPlayersInException();
+		}
+		// Find the player by nickname in the list of players
+		Player playerToReconnect = null;
+		for (Player player : players) {
+			if (player.getNickname().equals(nickname)) {
+				playerToReconnect = player;
+				break;
+			}
+		}
+		// If player not found, throw exception
+		if (playerToReconnect == null) {
+			throw new PlayerNotFoundException("Player not found with the given nickname.");
+		}
+		// Reconnect the player
+		playerToReconnect.setConnected(true);
+		listenersHandler.notify_playerReconnected(this, nickname);
+
+		//DA GESTIRE TURNI APPENA SI RICONNETTE
+//		// If the reconnected player is not the current player, advance to the next turn
+//		if (!playerToReconnect.equals(currentPlayer)) {
+//			nextTurn(); //faccio avanzare il turno solo se il giocatore riconnesso non è quello corrente quindi nel frattempo vado avanti
+//		}
+//		// If the reconnected player is not online, go to next turn
+//		if (!isTheCurrentPlayerOnline()) {
+//			nextTurn();
+//		}
+		return true;
+	}
+
+	/**
 	 * Starts the game by randomly selecting the first player and
 	 * sets up the game order creating an array of order indices for the next turns.
 	 * Initializes the game board and cards and returns the order array.
 	 * @throws NotEnoughPlayersException if the number of players is less than two.
 	 */
-	public void startGame() throws NotEnoughPlayersException, NoPlayersException {
+	public void startGame() throws NotEnoughPlayersException, NoPlayersException, NotReadyToRunException, BoardSetupException {
 		if (playersNumber < 2)
 			throw new NotEnoughPlayersException("The game cannot start without at least two players");
 
@@ -319,7 +417,7 @@ public class Game {
 		board.initializeBoard();
 		initializeCards();
 
-		setStatus(GameStatus.RUNNING);
+		setInitialStatus(); //sets gameStatus.RUNNING
 	}
 
 	/**
@@ -329,34 +427,55 @@ public class Game {
 		return status;
 	}
 
+
 	/**
-	 * Sets the game status
-	 * @param status is the status of the game
+	 * Sets the initial RUNNING game status
+	 * If I want to set the gameStatus to "RUNNING", there needs to be at least
+	 * DefaultValue.minNumberOfPlayers -> (2) in lobby, the right number of Cards on the Board and a valid currentPlayer
 	 */
-	//copiato da quello dell'anno scorso -> da modificare
-	public void setStatus(GameStatus status) throws NoPlayersException {
-		//If I want to set the gameStatus to "RUNNING", there needs to be at least
-		// DefaultValue.minNumberOfPlayers -> (2) in lobby
-		if (status.equals(GameStatus.RUNNING) &&
-				((players.size() < 2
-						|| getNumOfCommonCards() != DefaultValue.NumOfCommonCards
-						|| !doAllPlayersHaveGoalCard())
-						|| currentPlayer != null) {
-				throw new NotReadyToRunException();
+	public void setInitialStatus() throws NoPlayersException, BoardSetupException, NotReadyToRunException {
+		if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
+				players.size() >= 2
+				&& checkBoard()
+				&& currentPlayer != null) {
+			this.status = GameStatus.RUNNING;
 		} else {
-			this.status = status;
-
-			if (status == GameStatus.RUNNING) {
-				listenersHandler.notify_GameStarted(this);
-
-			} else if (status == GameStatus.ENDED) {
-				listenersHandler.notify_GameEnded(this);
-
-			} else if (status == GameStatus.LAST_CIRCLE) {
-				listenersHandler.notify_LastCircle(this);
-			}
+			throw new NotReadyToRunException("The Game cannot start");
 		}
 	}
+
+	/**
+	 * Sets the game status in case of ENDED or LAST_CIRCLE
+	 * @param status is the status of the game
+	 */
+	public void setStatus(GameStatus status) {
+		this.status = status;
+
+		if (status == GameStatus.ENDED) {
+				listenersHandler.notify_GameEnded(this);
+
+		} else if (status == GameStatus.LAST_CIRCLE) {
+				listenersHandler.notify_LastCircle(this);
+		}
+	}
+		/**
+		 * Check the board for correct setup
+		 * @throws BoardSetupException if any of the board setups is incorrect
+		 */
+		public boolean checkBoard() throws BoardSetupException {
+			// Verifying all conditions together
+			if (!(board.verifyGoldCardsNumber() &&
+					board.verifyResourceCardsNumber() &&
+					board.verifyObjectiveCardsNumber() &&
+					board.verifyGoldDeckSize(playersNumber) &&
+					board.verifyResourceDeckSize(playersNumber) &&
+					board.verifyObjectiveDeckSize(playersNumber))) {
+				throw new BoardSetupException("Board setup is incorrect");
+				}
+
+			// All verifications passed, return true
+			return true;
+		}
 
 
 	public void nextTurn() throws GameEndedException, GameNotStartedException, NoPlayersException, InvalidPointsException, PlayerNotFoundException {
