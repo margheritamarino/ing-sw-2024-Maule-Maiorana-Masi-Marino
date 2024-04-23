@@ -27,8 +27,8 @@
     "resourceList": ["Fungi", "Fungi"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
-    "TRCorner": "withResource",
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
     "BRCorner": "Empty",
     "BLCorner": "NoCorner"
   },
@@ -45,8 +45,8 @@
     "symbol": null,
     "TLCorner": "Empty",
     "TRCorner": "NoCorner",
-    "BRCorner": "withResource",
-    "BLCorner": "withResource"
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource"
   },
   {
     "cardID": 3,
@@ -60,8 +60,8 @@
     "hasSymbol": false,
     "symbol": null,
     "TLCorner": "NoCorner",
-    "TRCorner": "withResource",
-    "BRCorner": "withResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
     "BLCorner": "Empty"
   }
 ,
@@ -77,9 +77,9 @@
     "hasSymbol": true,
     "symbol": "Quill",
     "TLCorner": "NoCorner",
-    "TRCorner": "withSymbol",
-    "BRCorner": "withResource",
-    "BLCorner": "withResource"
+    "TRCorner": "WithSymbol",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -93,9 +93,9 @@
     "resourceList": ["Fungi", "Animal"],
     "hasSymbol": true,
     "symbol": "Inkwell",
-    "TLCorner": "withSymbol",
-    "TRCorner": "withResource",
-    "BRCorner": "withResource",
+    "TLCorner": "WithSymbol",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
     "BLCorner": "NoCorner"
   }
 ,
@@ -110,10 +110,10 @@
     "resourceList": ["Fungi", "Insect"],
     "hasSymbol": true,
     "symbol": "Manuscript",
-    "TLCorner": "withResource",
-    "TRCorner": "withResource",
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
     "BRCorner": "Empty",
-    "BLCorner": "withSymbol"
+    "BLCorner": "WithSymbol"
   }
 ,
   {
@@ -128,8 +128,8 @@
     "hasSymbol": false,
     "symbol": null,
     "TLCorner": "Empty",
-    "TRCorner": "withResource",
-    "BRCorner": "noCorner",
+    "TRCorner": "WithResource",
+    "BRCorner": "NoCorner",
     "BLCorner": "Empty"
   }
 ,
@@ -144,8 +144,8 @@
     "resourceList": ["Fungi"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
-    "TRCorner": "noCorner",
+    "TLCorner": "WithResource",
+    "TRCorner": "NoCorner",
     "BRCorner": "Empty",
     "BLCorner": "Empty"
   }
@@ -161,10 +161,10 @@
     "resourceList": ["Fungi"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "noCorner",
+    "TLCorner": "NoCorner",
     "TRCorner": "Empty",
     "BRCorner": "Empty",
-    "BLCorner": "withResource"
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -178,10 +178,10 @@
     "resourceList": ["Plant", "Plant"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
+    "TLCorner": "WithResource",
     "TRCorner": "Empty",
-    "BRCorner": "noCorner",
-    "BLCorner": "withResource"
+    "BRCorner": "NoCorner",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -195,10 +195,10 @@
     "resourceList": ["Plant", "Plant"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
-    "TRCorner": "withResource",
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
     "BRCorner": "Empty",
-    "BLCorner": "noCorner"
+    "BLCorner": "NoCorner"
   }
 ,
   {
@@ -213,9 +213,9 @@
     "hasSymbol": false,
     "symbol": null,
     "TLCorner": "Empty",
-    "TRCorner": "noCorner",
-    "BRCorner": "withResource",
-    "BLCorner": "withResource"
+    "TRCorner": "NoCorner",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -229,9 +229,9 @@
     "resourceList": ["Plant", "Plant"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "noCorner",
-    "TRCorner": "withResource",
-    "BRCorner": "withResource",
+    "TLCorner": "NoCorner",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
     "BLCorner": "Empty"
   }
 ,
@@ -246,10 +246,10 @@
     "resourceList": ["Insect", "Plant"],
     "hasSymbol": true,
     "symbol": "Quill",
-    "TLCorner": "noCorner",
-    "TRCorner": "withResource",
-    "BRCorner": "withResource",
-    "BLCorner": "withSymbol"
+    "TLCorner": "NoCorner",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithSymbol"
   }
 ,
   {
@@ -263,10 +263,10 @@
     "resourceList": ["Fungi", "Plant"],
     "hasSymbol": true,
     "symbol": "Inkwell",
-    "TLCorner": "withResource",
-    "TRCorner": "withResource",
-    "BRCorner": "withSymbol",
-    "BLCorner": "noCorner"
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithSymbol",
+    "BLCorner": "NoCorner"
   }
 ,
   {
@@ -280,10 +280,10 @@
     "resourceList": ["Animal", "Plant"],
     "hasSymbol": true,
     "symbol": "Manuscript",
-    "TLCorner": "withSymbol",
-    "TRCorner": "noCorner",
-    "BRCorner": "withResource",
-    "BLCorner": "withResource"
+    "TLCorner": "WithSymbol",
+    "TRCorner": "NoCorner",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -299,8 +299,8 @@
     "symbol": null,
     "TLCorner": "Empty",
     "TRCorner": "Empty",
-    "BRCorner": "noCorner",
-    "BLCorner": "withResource"
+    "BRCorner": "NoCorner",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -316,8 +316,8 @@
     "symbol": null,
     "TLCorner": "Empty",
     "TRCorner": "Empty",
-    "BRCorner": "withResource",
-    "BLCorner": "noCorner"
+    "BRCorner": "WithResource",
+    "BLCorner": "NoCorner"
   }
 ,
   {
@@ -331,8 +331,8 @@
     "resourceList": ["Plant"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "noCorner",
-    "TRCorner": "withResource",
+    "TLCorner": "NoCorner",
+    "TRCorner": "WithResource",
     "BRCorner": "Empty",
     "BLCorner": "Empty"
   }
@@ -348,8 +348,8 @@
     "resourceList": ["Animal", "Animal"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
-    "TRCorner": "withResource",
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
     "BRCorner": "NoCorner",
     "BLCorner": "Empty"
   }
@@ -367,8 +367,8 @@
     "symbol": null,
     "TLCorner": "NoCorner",
     "TRCorner": "Empty",
-    "BRCorner": "withResource",
-    "BLCorner": "withResource"
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -382,10 +382,10 @@
     "resourceList": ["Animal", "Animal"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
+    "TLCorner": "WithResource",
     "TRCorner": "NoCorner",
     "BRCorner": "Empty",
-    "BLCorner": "withResource"
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -400,8 +400,8 @@
     "hasSymbol": false,
     "symbol": null,
     "TLCorner": "Empty",
-    "TRCorner": "withResource",
-    "BRCorner": "withResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
     "BLCorner": "NoCorner"
   }
 ,
@@ -417,9 +417,9 @@
     "hasSymbol": true,
     "symbol": "Inkwell",
     "TLCorner": "NoCorner",
-    "TRCorner": "withResource",
-    "BRCorner": "withResource",
-    "BLCorner": "withSymbol"
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithSymbol"
   }
 ,
   {
@@ -433,9 +433,9 @@
     "resourceList": ["Plant", "Animal"],
     "hasSymbol": true,
     "symbol": "Manuscript",
-    "TLCorner": "withResource",
-    "TRCorner": "withResource",
-    "BRCorner": "withSymbol",
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithSymbol",
     "BLCorner": "NoCorner"
   }
 ,
@@ -450,10 +450,10 @@
     "resourceList": ["Fungi", "Animal"],
     "hasSymbol": true,
     "symbol": "Quill",
-    "TLCorner": "withSymbol",
-    "TRCorner": "noCorner",
-    "BRCorner": "withResource",
-    "BLCorner": "withResource"
+    "TLCorner": "WithSymbol",
+    "TRCorner": "NoCorner",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -467,10 +467,10 @@
     "resourceList": ["Animal"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "noCorner",
+    "TLCorner": "NoCorner",
     "TRCorner": "Empty",
     "BRCorner": "Empty",
-    "BLCorner": "withResource"
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -485,8 +485,8 @@
     "hasSymbol": false,
     "symbol": null,
     "TLCorner": "Empty",
-    "TRCorner": "noCorner",
-    "BRCorner": "withResource",
+    "TRCorner": "NoCorner",
+    "BRCorner": "WithResource",
     "BLCorner": "Empty"
   }
 ,
@@ -502,8 +502,8 @@
     "hasSymbol": false,
     "symbol": null,
     "TLCorner": "Empty",
-    "TRCorner": "withResource",
-    "BRCorner": "noCorner",
+    "TRCorner": "WithResource",
+    "BRCorner": "NoCorner",
     "BLCorner": "Empty"
   }
   ,
@@ -518,8 +518,8 @@
     "resourceList": ["Insect", "Insect"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
-    "TRCorner": "withResource",
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
     "BRCorner": "NoCorner",
     "BLCorner": "Empty"
   }
@@ -537,8 +537,8 @@
     "symbol": null,
     "TLCorner": "NoCorner",
     "TRCorner": "Empty",
-    "BRCorner": "withResource",
-    "BLCorner": "withResource"
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -552,10 +552,10 @@
     "resourceList": ["Insect", "Insect"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
+    "TLCorner": "WithResource",
     "TRCorner": "NoCorner",
     "BRCorner": "Empty",
-    "BLCorner": "withResource"
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -570,8 +570,8 @@
     "hasSymbol": false,
     "symbol": null,
     "TLCorner": "Empty",
-    "TRCorner": "withResource",
-    "BRCorner": "withResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
     "BLCorner": "NoCorner"
   }
 ,
@@ -587,9 +587,9 @@
     "hasSymbol": true,
     "symbol": "Quill",
     "TLCorner": "NoCorner",
-    "TRCorner": "withSymbol",
-    "BRCorner": "withResource",
-    "BLCorner": "withResource"
+    "TRCorner": "WithSymbol",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource"
   }
 ,
   {
@@ -603,9 +603,9 @@
     "resourceList": ["Insect", "Fungi"],
     "hasSymbol": true,
     "symbol": "Manuscript",
-    "TLCorner": "withSymbol",
-    "TRCorner": "withResource",
-    "BRCorner": "withResource",
+    "TLCorner": "WithSymbol",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
     "BLCorner": "NoCorner"
   }
 ,
@@ -620,10 +620,10 @@
     "resourceList": ["Insect", "Plant"],
     "hasSymbol": true,
     "symbol": "Inkwell",
-    "TLCorner": "withResource",
-    "TRCorner": "withResource",
-    "BRCorner": "noCorner",
-    "BLCorner": "withSymbol"
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "NoCorner",
+    "BLCorner": "WithSymbol"
   }
 ,
   {
@@ -637,8 +637,8 @@
     "resourceList": ["Insect"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
-    "TRCorner": "noCorner",
+    "TLCorner": "WithResource",
+    "TRCorner": "NoCorner",
     "BRCorner": "Empty",
     "BLCorner": "Empty"
   }
@@ -656,8 +656,8 @@
     "symbol": null,
     "TLCorner": "Empty",
     "TRCorner": "Empty",
-    "BRCorner": "withResource",
-    "BLCorner": "noCorner"
+    "BRCorner": "WithResource",
+    "BLCorner": "NoCorner"
   }
 ,
   {
@@ -671,8 +671,8 @@
     "resourceList": ["Insect"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "noCorner",
-    "TRCorner": "withResource",
+    "TLCorner": "NoCorner",
+    "TRCorner": "WithResource",
     "BRCorner": "Empty",
     "BLCorner": "Empty"
   }
