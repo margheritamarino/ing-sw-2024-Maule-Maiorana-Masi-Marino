@@ -10,14 +10,14 @@ import it.polimi.ingsw.exceptions.JSONParsingException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 // RICORDA - DA FARE
@@ -57,7 +57,9 @@ public class Deck {
     public ArrayList<PlayableCard> getBackCards() {
         return backCards;
     }
-
+    public CardType getCardType(){
+        return cardType;
+    }
 
     /** Initializes the deck of cards (arrayList of PlayableCards) of the specified type.
      *  Reads the JSON files of the specified Card Type containing the front and back cards,
@@ -68,20 +70,35 @@ public class Deck {
      *  @throws FileNotFoundException if any of the JSON files are not found.
      *  @throws FileReadException if there is an error while reading the files.
      */
+
     private void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
-        // Specifica il percorso completo dei file JSON
-        String baseDirectory = "./src/main/sources/json/"; this.getClass().getResourceAsStream("./src/main/resources/json/GoldCardsFront.json");
+        Reader frontReader =null;
+        Reader backReader = null;
 
-        //String frontFileName = Paths.get(baseDirectory+ cardType + "sFront.json").toString();
-        //String backFileName = Paths.get(baseDirectory+ cardType+ "sBack.json").toString();
-
-
-       // String frontFileName = cardType.toString() + "CardsFront.json";
-        //String backFileName = cardType.toString() + "CardsBack.json";
         Gson gson = new Gson();
+
+        //   frontFileName = this.getClass().getResourceAsStream("/json/InitialCardsFront.json").toString();
+        //   backFileName = this.getClass().getResourceAsStream("/json/InitialCardsBack.json").toString();
+
         try {
             // Leggi dal file JSON frontCards
-            FileReader frontReader = new FileReader(baseDirectory);
+            switch (cardType){
+                case InitialCard:
+                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
+                    Type initialCardType = new TypeToken<ArrayList<InitialCard>>() {}.getType();
+                    frontCardList = gson.fromJson(frontReader, initialCardType);
+                    backCardList = gson.fromJson(backReader, initialCardType);
+
+                    case ResourceCard:
+                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
+                case GoldCard:
+                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
+                break;
+            }
+
             Type frontCardListType = new TypeToken<ArrayList<PlayableCard>>() {}.getType();
 
             ArrayList<PlayableCard> frontCardList = gson.fromJson(frontReader, frontCardListType);
@@ -89,8 +106,7 @@ public class Deck {
             frontCards.addAll(frontCardList);
             frontReader.close();
 
-            // Leggi dal file JSON backCards
-            FileReader backReader = new FileReader(backFileName);
+
             ArrayList<PlayableCard> backCardList = gson.fromJson(backReader, frontCardListType);
             backCards.addAll(backCardList);
             backReader.close();
@@ -120,7 +136,6 @@ public class Deck {
             throw new FileReadException("Generic exception: " + e.getMessage());
         }
     }
-
 
     /** @author Sofia Maule
      * Checks the deck's numCards to see if the deck has ended

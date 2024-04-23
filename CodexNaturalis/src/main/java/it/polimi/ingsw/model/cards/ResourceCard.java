@@ -123,13 +123,15 @@ public class ResourceCard extends PlayableCard {
       return null;
    }
 
-   public ResourceCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, int victoryPoints, int numResources, List<ResourceType> resourceList, boolean hasSymbol, SymbolType symbol) {
-      super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
-      this.mainResource = mainResource;
-      this.victoryPoints = victoryPoints;
-      this.numResources = numResources;
-      this.resourceList = resourceList;
-      this.hasSymbol = hasSymbol;
-      this.symbol = symbol;
+   public ResourceCard() {
+      super();
+
+      // Inizializza i campi specifici con valori predefiniti o null, se necessario
+      this.mainResource = null; // Esempio di inizializzazione
+      this.victoryPoints = 0; // Esempio di inizializzazione
+      this.numResources = 0; // Esempio di inizializzazione
+      this.resourceList = new ArrayList<>(); // Inizializzazione di una lista vuota
+      this.hasSymbol = false; // Esempio di inizializzazione
+      this.symbol = null; // Esempio di inizializzazione
    }
 }
