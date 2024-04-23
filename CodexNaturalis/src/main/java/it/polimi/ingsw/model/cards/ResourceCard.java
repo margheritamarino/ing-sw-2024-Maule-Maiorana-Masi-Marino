@@ -127,11 +127,12 @@ public class ResourceCard extends PlayableCard {
       super();
 
       // Inizializza i campi specifici con valori predefiniti o null, se necessario
-      this.mainResource = null; // Esempio di inizializzazione
-      this.victoryPoints = 0; // Esempio di inizializzazione
-      this.numResources = 0; // Esempio di inizializzazione
-      this.resourceList = new ArrayList<>(); // Inizializzazione di una lista vuota
-      this.hasSymbol = false; // Esempio di inizializzazione
-      this.symbol = null; // Esempio di inizializzazione
+
+      this.victoryPoints = 0; //
+      this.mainResource = null;
+      this.numResources = 0;
+      this.resourceList = new ArrayList<>();
+      this.hasSymbol = false;
+      this.symbol = null;
    }
 }

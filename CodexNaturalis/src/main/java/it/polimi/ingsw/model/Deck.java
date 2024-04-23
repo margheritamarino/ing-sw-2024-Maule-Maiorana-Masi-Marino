@@ -7,8 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.exceptions.FileCastException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.JSONParsingException;
-import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.*;
 
 import java.io.*;
 
@@ -82,34 +81,60 @@ public class Deck {
 
         try {
             // Leggi dal file JSON frontCards
-            switch (cardType){
+            ArrayList<InitialCard> frontCardList = null;
+            ArrayList<InitialCard> backCardList = null;
+            switch (cardType) {
                 case InitialCard:
                     frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
                     backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
-                    Type initialCardType = new TypeToken<ArrayList<InitialCard>>() {}.getType();
+                    Type initialCardType = new TypeToken<ArrayList<InitialCard>>() {
+                    }.getType();
                     frontCardList = gson.fromJson(frontReader, initialCardType);
-                    backCardList = gson.fromJson(backReader, initialCardType);
+                    frontCards.addAll(frontCardList);
+                    frontReader.close();
 
-                    case ResourceCard:
+                    backCardList = gson.fromJson(backReader, initialCardType);
+                    backCards.addAll(backCardList);
+                    backReader.close();
+
+                case ResourceCard:
                     frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
                     backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
+                    Type resourceCardType = new TypeToken<ArrayList<ResourceCard>>() {
+                    }.getType();
+                    frontCardList = gson.fromJson(frontReader, resourceCardType);
+                    frontCards.addAll(frontCardList);
+                    frontReader.close();
+
+                    backCardList = gson.fromJson(backReader, resourceCardType);
+                    backCards.addAll(backCardList);
+                    backReader.close();
+
                 case GoldCard:
                     frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
                     backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
-                break;
+                    Type goldCardType = new TypeToken<ArrayList<GoldCard>>() {
+                    }.getType();
+                    frontCardList = gson.fromJson(frontReader, goldCardType);
+                    frontCards.addAll(frontCardList);
+                    frontReader.close();
+
+
+                    backCardList = gson.fromJson(backReader, goldCardType);
+                    backCards.addAll(backCardList);
+                    backReader.close();
+                    break;
             }
 
-            Type frontCardListType = new TypeToken<ArrayList<PlayableCard>>() {}.getType();
-
-            ArrayList<PlayableCard> frontCardList = gson.fromJson(frontReader, frontCardListType);
+            // Type frontCardListType = new TypeToken<ArrayList<PlayableCard>>() {}.getType();
+            // ArrayList<PlayableCard> frontCardList = gson.fromJson(frontReader, frontCardListType);
             //deserializza le info lette nel file nel frontCardListType corretto (es.GoldCard)
-            frontCards.addAll(frontCardList);
-            frontReader.close();
+          //  frontCards.addAll(frontCardList);
+           // frontReader.close();
 
-
-            ArrayList<PlayableCard> backCardList = gson.fromJson(backReader, frontCardListType);
-            backCards.addAll(backCardList);
-            backReader.close();
+            // ArrayList<PlayableCard> backCardList = gson.fromJson(backReader, frontCardListType);
+         //   backCards.addAll(backCardList);
+         //   backReader.close();
 
         } catch (FileNotFoundException e) {
             // Eccezione lanciata se il file non viene trovato

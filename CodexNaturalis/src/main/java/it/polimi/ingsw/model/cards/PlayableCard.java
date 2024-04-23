@@ -91,9 +91,11 @@ public abstract class PlayableCard {
 
     public PlayableCard() {
         this.cardID = 0;
-        this.numCorners = 0;
         this.isFront = true;
         this.cardType = null;
+        this.numCorners = 0;
+
+
         this.TLCorner = null;
         this.TRCorner = null;
         this.BRCorner = null;
