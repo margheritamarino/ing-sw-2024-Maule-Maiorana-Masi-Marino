@@ -108,4 +108,17 @@ public class InitialCard extends PlayableCard {
         }
     }
 
+    public List<ResourceType> getPlacementCondition() {
+        return null;
+    }
+    public boolean isPointsCondition() {
+        return false;
+    }
+    public boolean isCornerCondition() {
+        return false;
+    }
+    public SymbolType getSymbolCondition() {
+        return null;
+    }
+
 }

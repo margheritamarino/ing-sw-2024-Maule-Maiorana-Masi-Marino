@@ -55,4 +55,5 @@ public class ObjectiveCard {
     public ResourceType getSecondResource() {
         return secondResource;
     }
+
 }
