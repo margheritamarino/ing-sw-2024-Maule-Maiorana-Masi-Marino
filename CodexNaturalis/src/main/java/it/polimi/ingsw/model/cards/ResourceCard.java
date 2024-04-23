@@ -110,5 +110,17 @@ public class ResourceCard extends PlayableCard {
    public int getNumCentralResources() {
       return 0;
    }
+   public List<ResourceType> getPlacementCondition() {
+      return null;
+   }
+   public boolean isPointsCondition() {
+      return false;
+   }
+   public boolean isCornerCondition() {
+      return false;
+   }
+   public SymbolType getSymbolCondition() {
+      return null;
+   }
 
 }

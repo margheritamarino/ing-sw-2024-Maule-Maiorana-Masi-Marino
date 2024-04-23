@@ -84,4 +84,8 @@ public abstract class PlayableCard {
     public abstract List<ResourceType> getCentralResources();
     public abstract int getNumCentralResources();
     public abstract List<ResourceType> getResourceList();
+    public abstract List<ResourceType> getPlacementCondition();
+    public abstract boolean isPointsCondition();
+    public abstract boolean isCornerCondition();
+    public abstract SymbolType getSymbolCondition();
 }
