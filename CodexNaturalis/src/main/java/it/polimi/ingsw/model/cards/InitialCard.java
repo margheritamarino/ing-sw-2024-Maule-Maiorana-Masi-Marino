@@ -123,7 +123,7 @@ public class InitialCard extends PlayableCard {
 
     public InitialCard() {
         super();
-        this.resourceList = new ArrayList<>();
+        this.resourceList = new ArrayList<ResourceType>();
         this.numCentralResource = 0;
         this.numResources = 0;
         this.centralResources = new ArrayList<>();

@@ -119,22 +119,12 @@ public class Deck {
                     frontCards.addAll(frontCardList);
                     frontReader.close();
 
-
                     backCardList = gson.fromJson(backReader, goldCardType);
                     backCards.addAll(backCardList);
                     backReader.close();
                     break;
             }
 
-            // Type frontCardListType = new TypeToken<ArrayList<PlayableCard>>() {}.getType();
-            // ArrayList<PlayableCard> frontCardList = gson.fromJson(frontReader, frontCardListType);
-            //deserializza le info lette nel file nel frontCardListType corretto (es.GoldCard)
-          //  frontCards.addAll(frontCardList);
-           // frontReader.close();
-
-            // ArrayList<PlayableCard> backCardList = gson.fromJson(backReader, frontCardListType);
-         //   backCards.addAll(backCardList);
-         //   backReader.close();
 
         } catch (FileNotFoundException e) {
             // Eccezione lanciata se il file non viene trovato
