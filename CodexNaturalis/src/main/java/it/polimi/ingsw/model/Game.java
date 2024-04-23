@@ -414,7 +414,6 @@ public class Game {
 		initializeCards();
 
 		setInitialStatus(); //sets gameStatus.RUNNING
-		listenersHandler.notify_GameStarted(this);
 	}
 
 	/**
@@ -423,7 +422,6 @@ public class Game {
 	public GameStatus getStatus() {
 		return status;
 	}
-
 
 	/**
 	 * Sets the initial RUNNING game status
@@ -434,8 +432,10 @@ public class Game {
 		if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
 				players.size() >= 2
 				&& checkBoard()
+				&& checkPlayers()
 				&& currentPlayer != null) {
 			this.status = GameStatus.RUNNING;
+            listenersHandler.notify_GameStarted(this);
 		} else {
 			throw new NotReadyToRunException("The Game cannot start");
 		}
@@ -474,6 +474,13 @@ public class Game {
 			return true;
 		}
 
+		public boolean checkPlayers() {
+			for ( Player p: players) {
+				if (!p.getReadyToStart())
+					return false;
+			}
+			return true;
+		}
 
 	public void nextTurn() throws GameEndedException, GameNotStartedException, NoPlayersException, InvalidPointsException, PlayerNotFoundException {
 		if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
@@ -568,7 +575,8 @@ public class Game {
 														//con il metodo drawObjectiveCards()
 
 
-			//poi il controller dentro quest metodo chiama: model.setPlayerGoal
+			//poi il controller dentro questo metodo chiama: model.setPlayerGoal
+
 		}
 		listenersHandler.notify_cardsReady(this);
 	}
@@ -611,6 +619,7 @@ public class Game {
 
 	public void setPlayerGoal(Player player, ObjectiveCard chosenCard) {
 		player.setGoal(chosenCard);
+		player.setReadyToStart(); //The player has all the Cards in the Deck: he's ready to start
 	}
 
 
