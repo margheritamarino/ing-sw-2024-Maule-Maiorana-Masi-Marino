@@ -10,10 +10,10 @@
     "resourceList": ["Fungi", "Fungi"],
     "hasSymbol": false,
     "symbol": null,
-    "TLCorner": "withResource",
+    "TLCorner": "WithResource",
     "TRCorner": "Empty",
     "BRCorner": "NoCorner",
-    "BLCorner": "withResource"
+    "BLCorner": "WithResource"
   },
 
   {
