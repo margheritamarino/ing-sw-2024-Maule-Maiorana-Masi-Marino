@@ -414,7 +414,6 @@ public class Game {
 		initializeCards();
 
 		setInitialStatus(); //sets gameStatus.RUNNING
-		listenersHandler.notify_GameStarted(this);
 	}
 
 	/**
@@ -423,7 +422,6 @@ public class Game {
 	public GameStatus getStatus() {
 		return status;
 	}
-
 
 	/**
 	 * Sets the initial RUNNING game status
@@ -437,6 +435,7 @@ public class Game {
 				&& checkPlayers()
 				&& currentPlayer != null) {
 			this.status = GameStatus.RUNNING;
+            listenersHandler.notify_GameStarted(this);
 		} else {
 			throw new NotReadyToRunException("The Game cannot start");
 		}
