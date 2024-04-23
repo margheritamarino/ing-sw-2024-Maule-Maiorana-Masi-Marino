@@ -151,4 +151,6 @@ public class PlayableCardTest {
         assertTrue(initialCardsBack.get(0).getNumResources() == 4);
         assertTrue(initialCardsBack.get(0).getCentralResources() == null);
     }
+
+
 }

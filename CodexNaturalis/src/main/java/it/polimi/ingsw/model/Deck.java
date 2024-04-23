@@ -70,9 +70,10 @@ public class Deck {
      */
     private void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
         // Specifica il percorso completo dei file JSON
-        String baseDirectory = "./src/main/sources/json/";
-        String frontFileName = Paths.get(baseDirectory+ cardType + "sFront.json").toString();
-        String backFileName = Paths.get(baseDirectory+ cardType+ "sBack.json").toString();
+        String baseDirectory = "./src/main/sources/json/"; this.getClass().getResourceAsStream("./src/main/resources/json/GoldCardsFront.json");
+
+        //String frontFileName = Paths.get(baseDirectory+ cardType + "sFront.json").toString();
+        //String backFileName = Paths.get(baseDirectory+ cardType+ "sBack.json").toString();
 
 
        // String frontFileName = cardType.toString() + "CardsFront.json";
@@ -80,7 +81,7 @@ public class Deck {
         Gson gson = new Gson();
         try {
             // Leggi dal file JSON frontCards
-            FileReader frontReader = new FileReader(frontFileName);
+            FileReader frontReader = new FileReader(baseDirectory);
             Type frontCardListType = new TypeToken<ArrayList<PlayableCard>>() {}.getType();
 
             ArrayList<PlayableCard> frontCardList = gson.fromJson(frontReader, frontCardListType);
