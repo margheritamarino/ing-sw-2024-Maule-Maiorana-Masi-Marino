@@ -423,7 +423,6 @@ public class Game {
 		return status;
 	}
 
-
 	/**
 	 * Sets the initial RUNNING game status
 	 * If I want to set the gameStatus to "RUNNING", there needs to be at least
