@@ -40,13 +40,9 @@ public class Game {
 	protected boolean gameStarted = false;
 	private GameStatus status;
 	private int[] orderArray;
-
 	private PlayableCard[] temporaryInitialCard;
-
-	/**
-	 * Listener handler that handles the listeners
-	 */
 	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
+
 
 	/**
 	 * Private Constructor
@@ -418,6 +414,7 @@ public class Game {
 		initializeCards();
 
 		setInitialStatus(); //sets gameStatus.RUNNING
+		listenersHandler.notify_GameStarted(this);
 	}
 
 	/**
@@ -557,7 +554,7 @@ public class Game {
 		for (Player player : players) {
 
 			temporaryInitialCard = initialCardsDeck.returnCard();
-			listenersHandler.notify_requireInitial(this);
+			listenersHandler.notify_requireInitial(this, temporaryInitialCard);
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
