@@ -118,16 +118,14 @@ public class GoldCard extends PlayableCard {
     public GoldCard() {
         // Chiama il costruttore della classe base PlayableCard
         super();
-
-        // Inizializza i campi con valori predefiniti o null, se necessario
-        this.mainResource = null; // Esempio di inizializzazione
-        this.hasSymbol = false; // Esempio di inizializzazione
-        this.symbol = null; // Esempio di inizializzazione
-        this.victoryPoints = 0; // Esempio di inizializzazione
-        this.placementCondition = new ArrayList<>(); // Esempio di inizializzazione
-        this.pointsCondition = false; // Esempio di inizializzazione
-        this.cornerCondition = false; // Esempio di inizializzazione
-        this.symbolCondition = null; // Esempio di inizializzazione
+        this.victoryPoints = 0;
+        this.mainResource = null;
+        this.hasSymbol = false;
+        this.symbol = null;
+        this.placementCondition = new ArrayList<>();
+        this.pointsCondition = false;
+        this.cornerCondition = false;
+        this.symbolCondition = null;
     }
 }
 

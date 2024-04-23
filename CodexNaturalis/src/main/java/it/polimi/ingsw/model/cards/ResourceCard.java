@@ -125,9 +125,6 @@ public class ResourceCard extends PlayableCard {
 
    public ResourceCard() {
       super();
-
-      // Inizializza i campi specifici con valori predefiniti o null, se necessario
-
       this.victoryPoints = 0; //
       this.mainResource = null;
       this.numResources = 0;

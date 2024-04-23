@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InitialCard extends PlayableCard {
     List<ResourceType> centralResources;
-    int numCentralResources;
+    int numCentralResource;
     int numResources;
     List<ResourceType> resourceList;
 
@@ -18,7 +18,7 @@ public class InitialCard extends PlayableCard {
     }
 
     public int getNumCentralResources() {
-        return numCentralResources;
+        return numCentralResource;
     }
 
     @Override
@@ -123,9 +123,10 @@ public class InitialCard extends PlayableCard {
 
     public InitialCard() {
         super();
-        this.centralResources = new ArrayList<>(); // Inizializzazione di una lista vuota
-        this.numCentralResources = 0; // Inizializzazione a 0
-        this.numResources = 0; // Inizializzazione a 0
         this.resourceList = new ArrayList<>();
+        this.numCentralResource = 0;
+        this.numResources = 0;
+        this.centralResources = new ArrayList<>();
+
     }
 }
