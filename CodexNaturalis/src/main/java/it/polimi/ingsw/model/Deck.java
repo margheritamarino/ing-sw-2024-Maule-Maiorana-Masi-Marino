@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,12 +26,12 @@ import java.util.Random;
 public class Deck {
     private int numCards;
     private final CardType cardType;
-    private ArrayList<PlayableCard> frontCards;
-    private ArrayList<PlayableCard> backCards;
+    private final ArrayList<PlayableCard> frontCards;
+    private final ArrayList<PlayableCard> backCards;
 
     public Deck(CardType cardType) throws FileNotFoundException, FileReadException {
         this.cardType = cardType;
-        this.frontCards = new ArrayList<PlayableCard>();
+        this.frontCards = new ArrayList<>();
         this.backCards = new ArrayList<PlayableCard>();
 
         // numero di carte varia in base al tipo di carta
@@ -68,8 +69,14 @@ public class Deck {
      *  @throws FileReadException if there is an error while reading the files.
      */
     private void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
-        String frontFileName = cardType.toString() + "CardsFront.json";
-        String backFileName = cardType.toString() + "CardsBack.json";
+        // Specifica il percorso completo dei file JSON
+        String baseDirectory = "./src/main/sources/json/";
+        String frontFileName = Paths.get(baseDirectory+ cardType + "sFront.json").toString();
+        String backFileName = Paths.get(baseDirectory+ cardType+ "sBack.json").toString();
+
+
+       // String frontFileName = cardType.toString() + "CardsFront.json";
+        //String backFileName = cardType.toString() + "CardsBack.json";
         Gson gson = new Gson();
         try {
             // Leggi dal file JSON frontCards
