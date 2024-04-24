@@ -1,13 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.*;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 // BOOK: disposizione delle carte di ogni player
@@ -149,19 +145,19 @@ public class Book {
      */
     public void coverCorner(PlayableCard card, int corner){ //funzione che "copre" la risorsa o il simbolo di una carta passata la carta e l'angolo coperto. decrementa il valore della risorsa/simbolo nella mappa dei simboli risorse del book
         if(card.getCornerContent(corner).equals("Fungi")){
-            decreaseResource(ResourceType.FUNGI);
+            decreaseResource(ResourceType.Fungi);
         }
         else if(card.getCornerContent(corner).equals("Animal")){
-            decreaseResource(ResourceType.ANIMAL);
+            decreaseResource(ResourceType.Animal);
         }else if(card.getCornerContent(corner).equals("Insect")){
-            decreaseResource(ResourceType.INSECT);
+            decreaseResource(ResourceType.Insect);
         }else if(card.getCornerContent(corner).equals("Insect")){
-            decreaseResource(ResourceType.PLANT);
+            decreaseResource(ResourceType.Plant);
         }else if(card.getCornerContent(corner).equals("Ink")){
-            decreaseSymbol(SymbolType.INK);
+            decreaseSymbol(SymbolType.Ink);
         }else if(card.getCornerContent(corner).equals("Quill")){
-            decreaseSymbol(SymbolType.QUILL);
-        }else decreaseSymbol(SymbolType.MANUSCRIPT);
+            decreaseSymbol(SymbolType.Quill);
+        }else decreaseSymbol(SymbolType.Manuscript);
     }
 
     /**
@@ -240,25 +236,25 @@ public class Book {
             String content = card.getCornerContent(i);
             switch (content) {
                 case "Fungi":
-                    increaseResource(ResourceType.FUNGI);
+                    increaseResource(ResourceType.Fungi);
                     break;
                 case "Animal":
-                    increaseResource(ResourceType.ANIMAL);
+                    increaseResource(ResourceType.Animal);
                     break;
                 case "Insect":
-                    increaseResource(ResourceType.INSECT);
+                    increaseResource(ResourceType.Insect);
                     break;
                 case "Plant":
-                    increaseResource(ResourceType.PLANT);
+                    increaseResource(ResourceType.Plant);
                     break;
                 case "Ink":
-                    increaseSymbol(SymbolType.INK);
+                    increaseSymbol(SymbolType.Ink);
                     break;
                 case "Quill":
-                    increaseSymbol(SymbolType.QUILL);
+                    increaseSymbol(SymbolType.Quill);
                     break;
                 case "Manuscript":
-                    increaseSymbol(SymbolType.MANUSCRIPT);
+                    increaseSymbol(SymbolType.Manuscript);
                     break;
                 default:
                     // Handle the case when the content is not recognized or empty
@@ -419,9 +415,9 @@ public class Book {
                 int numPairs = numSymbol / 2;
                 return numPairs * 2;
             case 3:
-                int numQuill = symbolMap.getOrDefault(SymbolType.QUILL, 0);
-                int numInk = symbolMap.getOrDefault(SymbolType.INK, 0);
-                int numManuscript = symbolMap.getOrDefault(SymbolType.MANUSCRIPT, 0);
+                int numQuill = symbolMap.getOrDefault(SymbolType.Quill, 0);
+                int numInk = symbolMap.getOrDefault(SymbolType.Ink, 0);
+                int numManuscript = symbolMap.getOrDefault(SymbolType.Manuscript, 0);
                 int minSymbolCount = Math.min(numQuill, Math.min(numInk, numManuscript)); //gets the MINIMUM of the 3 symbols quantities
                 int numTriplets = minSymbolCount / 3;
                 return numTriplets * 3;
@@ -555,4 +551,7 @@ public class Book {
             }
 
 
+    public Cell[][] getBookMatrix() {
+        return bookMatrix;
+    }
 }

@@ -70,7 +70,7 @@ public class Deck {
      *  @throws FileReadException if there is an error while reading the files.
      */
 
-    private void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
+    public void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
         Reader frontReader =null;
         Reader backReader = null;
 
@@ -86,7 +86,7 @@ public class Deck {
             switch (cardType) {
                 case InitialCard:
                     frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
-                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsBack.json"), StandardCharsets.UTF_8);
                     Type initialCardType = new TypeToken<ArrayList<InitialCard>>() {
                     }.getType();
                     frontCardList = gson.fromJson(frontReader, initialCardType);
@@ -99,7 +99,7 @@ public class Deck {
 
                 case ResourceCard:
                     frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
-                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsBack.json"), StandardCharsets.UTF_8);
                     Type resourceCardType = new TypeToken<ArrayList<ResourceCard>>() {
                     }.getType();
                     frontCardList = gson.fromJson(frontReader, resourceCardType);
@@ -112,7 +112,7 @@ public class Deck {
 
                 case GoldCard:
                     frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
-                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsBack.json"), StandardCharsets.UTF_8);
                     Type goldCardType = new TypeToken<ArrayList<GoldCard>>() {
                     }.getType();
                     frontCardList = gson.fromJson(frontReader, goldCardType);
@@ -124,8 +124,6 @@ public class Deck {
                     backReader.close();
                     break;
             }
-
-
         } catch (FileNotFoundException e) {
             // Eccezione lanciata se il file non viene trovato
             throw new FileNotFoundException("File not found: " + e.getMessage());

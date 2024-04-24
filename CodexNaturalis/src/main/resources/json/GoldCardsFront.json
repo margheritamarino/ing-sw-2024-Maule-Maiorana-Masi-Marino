@@ -13,7 +13,7 @@
     "TRCorner": "Empty",
     "BRCorner": "WithSymbol",
     "BLCorner": "Empty",
-    "placementCondition": ["Fungi, Fungi, Animal"],
+    "placementCondition": ["Fungi", "Fungi", "Animal"],
     "pointsCondition": true,
     "symbolCondition": "Quill",
     "cornerCondition": false

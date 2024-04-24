@@ -1,23 +1,18 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.CornerLabel;
-import it.polimi.ingsw.model.CornerType;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
-import it.polimi.ingsw.model.cards.CardType;
-
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class PlayableCard {
-    private int cardID;
-    private int numCorners;
-    private boolean isFront;
-    private CardType cardType;
-    private CornerLabel TLCorner;
-    private CornerLabel TRCorner;
-    private CornerLabel BRCorner;
-    private CornerLabel BLCorner;
+    private final int cardID;
+    private final int numCorners;
+    private final boolean isFront;
+    private final CardType cardType;
+    private final CornerLabel TLCorner;
+    private final CornerLabel TRCorner;
+    private final CornerLabel BRCorner;
+    private final CornerLabel BLCorner;
 
     public int getCardID() {
         return cardID;
@@ -100,4 +95,14 @@ public abstract class PlayableCard {
         this.BLCorner = null;
     }
 
+    public PlayableCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner) {
+        this.cardID = cardID;
+        this.numCorners = numCorners;
+        this.isFront = isFront;
+        this.cardType = cardType;
+        this.TLCorner = TLCorner;
+        this.TRCorner = TRCorner;
+        this.BRCorner = BRCorner;
+        this.BLCorner = BLCorner;
+    }
 }

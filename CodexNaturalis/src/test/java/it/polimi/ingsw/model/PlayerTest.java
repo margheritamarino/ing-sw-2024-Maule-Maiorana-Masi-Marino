@@ -1,17 +1,15 @@
-package it.polimi.ingsw.modelTest;
+package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.CornerType;
+import it.polimi.ingsw.model.cards.GoalType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
@@ -40,8 +38,8 @@ public class PlayerTest {
         // Creating a sample ObjectiveCard
         ObjectiveCard objectiveCard = new ObjectiveCard(
                 1, true, GoalType.ResourceCondition, 10, 3,
-                new ArrayList<>(), 3, ResourceType.FUNGI, CornerType.BRCorner,
-                ResourceType.ANIMAL);
+                new ArrayList<>(), 3, ResourceType.Fungi, CornerType.BRCorner,
+                ResourceType.Animal);
 
         // Setting the goal for the player
         player.setGoal(objectiveCard);

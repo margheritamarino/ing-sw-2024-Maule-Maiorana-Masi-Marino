@@ -77,4 +77,8 @@ public class Cell {
     public int size(int numRows, int numColums) {
         return numRows*numColums;
     }
+
+    public PlayableCard getCardPointer() {
+        return cardPointer;
+    }
 }
