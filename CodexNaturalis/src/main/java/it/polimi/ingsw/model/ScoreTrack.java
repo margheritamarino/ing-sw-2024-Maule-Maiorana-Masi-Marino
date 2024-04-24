@@ -33,13 +33,25 @@ public class ScoreTrack {
 	 * Removes a player from the score tracking system.
 	 * @param player The player to be removed.
 	 */
-	public void removePlayer(Player player) {
+	public void removePlayer(Player player) throws PlayerNotFoundException {
 		// Check if the player exists in the map
 		if (pointsPlayers.containsKey(player)) {
 			// Remove the player from the map
 			pointsPlayers.remove(player);
+		} else {
+			throw new PlayerNotFoundException("Player not found in the score tracking system.");
 		}
 	}
+
+	/**
+	 * Checks if the specified player exists in the score tracking system (for removing him).
+	 * @param player The player to check.
+	 * @return true if the player exists in the system, false otherwise.
+	 */
+	public boolean checkPlayerExists(Player player) {
+		return pointsPlayers.containsKey(player);
+	}
+
 	/**
 	 * Adds points to the specified player's score.
 	 * @param player The player whose score is to be updated.
@@ -124,4 +136,5 @@ public class ScoreTrack {
 		// Ritorna il giocatore con il punteggio massimo
 		return maxPlayer;
 	}
+
 }

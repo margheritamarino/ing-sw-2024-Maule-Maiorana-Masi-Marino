@@ -289,7 +289,7 @@ public class Game {
 	 *
 	 * @throws  IllegalArgumentException if the player's nickname is not in the game
 	 */
-	public void removePlayer (String nickname) throws IllegalArgumentException {
+	public void removePlayer (String nickname) throws IllegalArgumentException, PlayerNotFoundException {
 
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).getNickname().equals(nickname)) {

@@ -21,6 +21,7 @@ public class PlayerTest {
     void setUp() throws FileNotFoundException, FileReadException {
         player = new Player("TestPlayer");
         board = new Board();
+
     }
 
     @Test
