@@ -19,7 +19,7 @@ public class Cell {
         this.row = row;
         this.column = column;
         this.available = false; // Inizialmente la cella non è disponibile
-        this.wall = true; //inizialmente non c'è alcun wall
+        this.wall = false; //inizialmente non c'è alcun wall
         this.cardPointer = null; // Inizialmente non c'è nessuna carta posizionata sulla cella
     }
 

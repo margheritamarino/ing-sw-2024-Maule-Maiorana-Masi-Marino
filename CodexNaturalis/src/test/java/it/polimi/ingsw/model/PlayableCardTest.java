@@ -220,8 +220,6 @@ public class PlayableCardTest {
         assertEquals("Plant", initialCardTest2.getCornerContent(1));
         assertEquals("Animal", initialCardTest2.getCornerContent(2));
         assertEquals("Insect", initialCardTest2.getCornerContent(3));
-
-
     }
 
 

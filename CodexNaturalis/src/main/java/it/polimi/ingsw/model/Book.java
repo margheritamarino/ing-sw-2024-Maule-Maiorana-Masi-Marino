@@ -24,8 +24,7 @@ public class Book {
      */
     public Book(int rows, int columns){
         // Inizializza le mappe di risorse e simboli
-        this.resourceMap = new HashMap<>();
-        this.symbolMap = new HashMap<>();
+        initializeMaps();
 
         this.bookMatrix = new Cell[rows][columns];
         for (int i = 0; i < rows; i++) {
@@ -33,6 +32,18 @@ public class Book {
                 bookMatrix[i][j] = new Cell(i, j); // Costruttore che inizializza righe e colonne e imposta isAvailable a false
             }
         }
+    }
+    public void initializeMaps(){
+        this.resourceMap = new HashMap<>();
+        resourceMap.put(ResourceType.Animal,0);
+        resourceMap.put(ResourceType.Fungi,0);
+        resourceMap.put(ResourceType.Insect,0);
+        resourceMap.put(ResourceType.Plant,0);
+
+        this.symbolMap = new HashMap<>();
+        symbolMap.put(SymbolType.Ink,0);
+        symbolMap.put(SymbolType.Quill,0);
+        symbolMap.put(SymbolType.Manuscript,0);
     }
 
     /**
@@ -144,20 +155,45 @@ public class Book {
      * @param corner  The type of corner to cover (0: TLCorner, 1: TRCorner, 2: BRCorner, 3: BLCorner).
      */
     public void coverCorner(PlayableCard card, int corner){ //funzione che "copre" la risorsa o il simbolo di una carta passata la carta e l'angolo coperto. decrementa il valore della risorsa/simbolo nella mappa dei simboli risorse del book
-        if(card.getCornerContent(corner).equals("Fungi")){
-            decreaseResource(ResourceType.Fungi);
+        if((card.getCornerContent(corner).equals("Fungi")) || (card.getCornerContent(corner).equals("Animal")) || (card.getCornerContent(corner).equals("Insect")) || (card.getCornerContent(corner).equals("Plant"))){
+            String content = card.getCornerContent(corner);
+            switch (content){
+                case("Fungi"): {
+                    decreaseResource(ResourceType.Fungi);
+                    break;
+                }
+                case("Animal"):{
+                    decreaseResource(ResourceType.Animal);
+                    break;
+                }
+                case("Insect"):{
+                    decreaseResource(ResourceType.Insect);
+                    break;
+                }
+                case("Plant"):{
+                    decreaseResource(ResourceType.Plant);
+                    break;
+                }
+                default: break;
+            }
+        }else if((card.getCornerContent(corner).equals("Ink")) || (card.getCornerContent(corner).equals("Quill") || (card.getCornerContent(corner).equals("Manuscript")))){
+            String content = card.getCornerContent(corner);
+            switch (content) {
+                case ("Ink"): {
+                    decreaseSymbol(SymbolType.Ink);
+                    break;
+                }
+                case ("Quill"): {
+                    decreaseSymbol(SymbolType.Quill);
+                    break;
+                }
+                case ("Manuscript"): {
+                    decreaseSymbol(SymbolType.Manuscript);
+                    break;
+                }
+                default: break;
+            }
         }
-        else if(card.getCornerContent(corner).equals("Animal")){
-            decreaseResource(ResourceType.Animal);
-        }else if(card.getCornerContent(corner).equals("Insect")){
-            decreaseResource(ResourceType.Insect);
-        }else if(card.getCornerContent(corner).equals("Insect")){
-            decreaseResource(ResourceType.Plant);
-        }else if(card.getCornerContent(corner).equals("Ink")){
-            decreaseSymbol(SymbolType.Ink);
-        }else if(card.getCornerContent(corner).equals("Quill")){
-            decreaseSymbol(SymbolType.Quill);
-        }else decreaseSymbol(SymbolType.Manuscript);
     }
 
     /**
@@ -281,6 +317,7 @@ public class Book {
                 bookMatrix[i][j].setWall(false);
             }
         }
+        initializeMaps();
     }
 
 
@@ -301,25 +338,25 @@ public class Book {
         int j = cell.getColumn();
 
         if(newCard.getTLCorner() == CornerLabel.NoCorner){
-            cell.setWall(true);
+            bookMatrix[i-1][j-1].setWall(true);
         }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j-1].isWall())){
             bookMatrix[i-1][j-1].setAvailable(true);
         }
 
         if(newCard.getTLCorner() == CornerLabel.NoCorner){
-            cell.setWall(true);
+            bookMatrix[i-1][j+1].setWall(true);
         }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j+1].isWall())){
             bookMatrix[i-1][j+1].setAvailable(true);
         }
 
         if(newCard.getBRCorner() == CornerLabel.NoCorner){
-            cell.setWall(true);
+            bookMatrix[i+1][j+1].setWall(true);
         }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j+1].isWall())){
             bookMatrix[i+1][j+1].setAvailable(true);
         }
 
         if(newCard.getBLCorner() == CornerLabel.NoCorner){
-            cell.setWall(true);
+            bookMatrix[i+1][j-1].setWall(true);
         }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j-1]).isWall()){
             bookMatrix[i+1][j-1].setAvailable(true);
         }
