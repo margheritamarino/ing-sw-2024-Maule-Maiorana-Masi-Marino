@@ -1,17 +1,13 @@
-package it.polimi.ingsw.modelTest;
+package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {

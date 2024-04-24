@@ -1,13 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.*;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 // BOOK: disposizione delle carte di ogni player
@@ -555,4 +551,7 @@ public class Book {
             }
 
 
+    public Cell[][] getBookMatrix() {
+        return bookMatrix;
+    }
 }

@@ -70,7 +70,7 @@ public class Deck {
      *  @throws FileReadException if there is an error while reading the files.
      */
 
-    private void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
+    public void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
         Reader frontReader =null;
         Reader backReader = null;
 

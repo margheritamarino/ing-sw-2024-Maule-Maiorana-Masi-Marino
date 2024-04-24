@@ -1,16 +1,16 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.exceptions.GameNotStartedException;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
 
-import it.polimi.ingsw.listener.GameListener;
 // import it.polimi.ingsw.listener.ListenersHandler;
 
 
@@ -49,7 +49,7 @@ public class Game {
 	 * @param playersNumber The number of players in the game.
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
-	private Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException {
+	public Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException {
 		//check number of players
 		if(playersNumber < 1 || playersNumber > 4){
 			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
@@ -305,7 +305,7 @@ public class Game {
 	/**
 	 * @return true if the player in turn is online
 	 */
-	private boolean isTheCurrentPlayerOnline() {
+	public boolean isTheCurrentPlayerOnline() {
 		return currentPlayer.isConnected();
 	}
 
