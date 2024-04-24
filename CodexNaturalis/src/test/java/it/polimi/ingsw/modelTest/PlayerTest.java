@@ -40,8 +40,8 @@ public class PlayerTest {
         // Creating a sample ObjectiveCard
         ObjectiveCard objectiveCard = new ObjectiveCard(
                 1, true, GoalType.ResourceCondition, 10, 3,
-                new ArrayList<>(), 3, ResourceType.FUNGI, CornerType.BRCorner,
-                ResourceType.ANIMAL);
+                new ArrayList<>(), 3, ResourceType.Fungi, CornerType.BRCorner,
+                ResourceType.Animal);
 
         // Setting the goal for the player
         player.setGoal(objectiveCard);

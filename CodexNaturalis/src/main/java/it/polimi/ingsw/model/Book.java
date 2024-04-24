@@ -149,14 +149,14 @@ public class Book {
      */
     public void coverCorner(PlayableCard card, int corner){ //funzione che "copre" la risorsa o il simbolo di una carta passata la carta e l'angolo coperto. decrementa il valore della risorsa/simbolo nella mappa dei simboli risorse del book
         if(card.getCornerContent(corner).equals("Fungi")){
-            decreaseResource(ResourceType.FUNGI);
+            decreaseResource(ResourceType.Fungi);
         }
         else if(card.getCornerContent(corner).equals("Animal")){
-            decreaseResource(ResourceType.ANIMAL);
+            decreaseResource(ResourceType.Animal);
         }else if(card.getCornerContent(corner).equals("Insect")){
-            decreaseResource(ResourceType.INSECT);
+            decreaseResource(ResourceType.Insect);
         }else if(card.getCornerContent(corner).equals("Insect")){
-            decreaseResource(ResourceType.PLANT);
+            decreaseResource(ResourceType.Plant);
         }else if(card.getCornerContent(corner).equals("Ink")){
             decreaseSymbol(SymbolType.INK);
         }else if(card.getCornerContent(corner).equals("Quill")){
@@ -240,16 +240,16 @@ public class Book {
             String content = card.getCornerContent(i);
             switch (content) {
                 case "Fungi":
-                    increaseResource(ResourceType.FUNGI);
+                    increaseResource(ResourceType.Fungi);
                     break;
                 case "Animal":
-                    increaseResource(ResourceType.ANIMAL);
+                    increaseResource(ResourceType.Animal);
                     break;
                 case "Insect":
-                    increaseResource(ResourceType.INSECT);
+                    increaseResource(ResourceType.Insect);
                     break;
                 case "Plant":
-                    increaseResource(ResourceType.PLANT);
+                    increaseResource(ResourceType.Plant);
                     break;
                 case "Ink":
                     increaseSymbol(SymbolType.INK);
