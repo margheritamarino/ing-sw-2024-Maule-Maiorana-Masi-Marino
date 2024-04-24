@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.FileNotFoundException;
+
 import static org.junit.Assert.*;
 
 public class CellTest {
@@ -12,7 +16,8 @@ public class CellTest {
     private PlayableCard[] playableCard; // Crea un oggetto PlayableCard per testare l'aggiornamento
 
     @Before
-    public void setUp() {
+    public void setUp() throws FileNotFoundException, FileReadException {
+        board = new Board();
         cell = new Cell(0, 0);
         playableCard = board.getGoldCards().get(0);
     }
@@ -47,7 +52,7 @@ public class CellTest {
 
         // Testa il metodo getter e setter per `cardPointer`
         cell.setCardPointer(playableCard[0]);
-        assertEquals(playableCard, cell.getCard());
+        assertEquals(playableCard[0], cell.getCard());
     }
 
     @Test
@@ -55,7 +60,7 @@ public class CellTest {
         // Testa il metodo `updateCell` con un oggetto PlayableCard
         cell.updateCell(playableCard[0]);
         assertFalse(cell.isAvailable());
-        assertEquals(playableCard, cell.getCard());
+        assertEquals(playableCard[0], cell.getCard());
     }
 
     @Test
