@@ -551,4 +551,7 @@ public class Book {
             }
 
 
+    public Cell[][] getBookMatrix() {
+        return bookMatrix;
+    }
 }

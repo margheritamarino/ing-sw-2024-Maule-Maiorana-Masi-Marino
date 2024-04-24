@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayableCardTest {
     private Deck goldCardsDeck;
@@ -152,6 +153,74 @@ public class PlayableCardTest {
         assertTrue(initialCardsBack.get(0).getNumCentralResources() == 0);
         assertTrue(initialCardsBack.get(0).getNumResources() == 4);
         assertTrue(initialCardsBack.get(0).getCentralResources() == null);
+    }
+
+    @Test
+    void testGetCornerContentGold() {
+        // Creazione di una GoldCard fittizia
+
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Animal);
+
+
+        GoldCard goldCardTest = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
+
+        assertEquals("NoCorner", goldCardTest.getCornerContent(0));
+        assertEquals("Empty", goldCardTest.getCornerContent(1));
+        assertEquals("Quill", goldCardTest.getCornerContent(2));
+        assertEquals("Empty", goldCardTest.getCornerContent(3));
+    }
+
+    @Test
+    void testGetCornerContentResource() {
+        // Creazione di una resourceCard fittizia
+
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Animal);
+
+        ResourceCard resourceCardTest = new ResourceCard(5,3,true,CardType.ResourceCard,CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList,true,SymbolType.Ink);
+
+        assertEquals("Quill", resourceCardTest.getCornerContent(0));
+        assertEquals("Fungi", resourceCardTest.getCornerContent(1));
+        assertEquals("Animal", resourceCardTest.getCornerContent(2));
+        assertEquals("NoCorner", resourceCardTest.getCornerContent(3));
+    }
+
+    @Test
+    void testGetCornerContentInitial() {
+        // Creazione di una initialCard fittizia
+
+        List<ResourceType> resourceList1 = new ArrayList<>();
+        resourceList1.add(ResourceType.Plant);
+        resourceList1.add(ResourceType.Insect);
+
+        List<ResourceType> centralResources1 = new ArrayList<>();
+        resourceList1.add(ResourceType.Insect);
+
+        InitialCard initialCardTest1 = new InitialCard(0,4,true,CardType.InitialCard,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,centralResources1,1,2,resourceList1);
+
+        assertEquals("Empty", initialCardTest1.getCornerContent(0));
+        assertEquals("Plant", initialCardTest1.getCornerContent(1));
+        assertEquals("Empty", initialCardTest1.getCornerContent(2));
+        assertEquals("Insect", initialCardTest1.getCornerContent(3));
+
+
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Fungi);
+        resourceList2.add(ResourceType.Plant);
+        resourceList2.add(ResourceType.Animal);
+        resourceList2.add(ResourceType.Insect);
+
+        List<ResourceType> centralResources2 = new ArrayList<>();
+        InitialCard initialCardTest2 = new InitialCard(0,4,false,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,centralResources2,0,4,resourceList2);
+
+        assertEquals("Fungi", initialCardTest1.getCornerContent(0));
+        assertEquals("Plant", initialCardTest1.getCornerContent(1));
+        assertEquals("Animal", initialCardTest1.getCornerContent(2));
+        assertEquals("Insect", initialCardTest1.getCornerContent(3));
     }
 
 

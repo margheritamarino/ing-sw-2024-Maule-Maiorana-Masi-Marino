@@ -127,5 +127,18 @@ public class GoldCard extends PlayableCard {
         this.cornerCondition = false;
         this.symbolCondition = null;
     }
+
+
+    public GoldCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, boolean hasSymbol, SymbolType symbol, int victoryPoints, List<ResourceType> placementCondition, boolean pointsCondition, boolean cornerCondition, SymbolType symbolCondition) {
+        super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
+        this.mainResource = mainResource;
+        this.hasSymbol = hasSymbol;
+        this.symbol = symbol;
+        this.victoryPoints = victoryPoints;
+        this.placementCondition = placementCondition;
+        this.pointsCondition = pointsCondition;
+        this.cornerCondition = cornerCondition;
+        this.symbolCondition = symbolCondition;
+    }
 }
 

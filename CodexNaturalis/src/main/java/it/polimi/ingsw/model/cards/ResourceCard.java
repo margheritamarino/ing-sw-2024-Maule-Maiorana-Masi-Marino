@@ -132,4 +132,14 @@ public class ResourceCard extends PlayableCard {
       this.hasSymbol = false;
       this.symbol = null;
    }
+
+   public ResourceCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, int victoryPoints, int numResources, List<ResourceType> resourceList, boolean hasSymbol, SymbolType symbol) {
+      super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
+      this.mainResource = mainResource;
+      this.victoryPoints = victoryPoints;
+      this.numResources = numResources;
+      this.resourceList = resourceList;
+      this.hasSymbol = hasSymbol;
+      this.symbol = symbol;
+   }
 }

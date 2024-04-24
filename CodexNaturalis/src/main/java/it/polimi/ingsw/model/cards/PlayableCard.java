@@ -99,4 +99,14 @@ public abstract class PlayableCard {
         this.BLCorner = null;
     }
 
+    public PlayableCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner) {
+        this.cardID = cardID;
+        this.numCorners = numCorners;
+        this.isFront = isFront;
+        this.cardType = cardType;
+        this.TLCorner = TLCorner;
+        this.TRCorner = TRCorner;
+        this.BRCorner = BRCorner;
+        this.BLCorner = BLCorner;
+    }
 }
