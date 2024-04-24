@@ -1,12 +1,13 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.modelTest;
+
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
 
 public class PlayableCardTest {
     private Deck goldCardsDeck;

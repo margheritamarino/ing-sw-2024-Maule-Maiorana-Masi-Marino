@@ -5,9 +5,8 @@ import it.polimi.ingsw.model.CornerType;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
 import it.polimi.ingsw.model.cards.CardType;
+import java.util.*;
 
-import java.util.List;
-import java.util.Map;
 
 public abstract class PlayableCard {
     private final int cardID;
