@@ -1,6 +1,6 @@
 package it.polimi.ingsw.listener;
 
-import it.polimi.ingsw.model.GameImmutable;
+import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;

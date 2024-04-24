@@ -1,16 +1,16 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.exceptions.GameNotStartedException;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
 
-import it.polimi.ingsw.listener.GameListener;
 // import it.polimi.ingsw.listener.ListenersHandler;
 
 
