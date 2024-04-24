@@ -34,8 +34,8 @@ public class Board {
         this.objectiveCardsDeck = new ObjectiveDeck();
 
         // Initializing total numbers of cards
-        this.totalGoldCards = 2;
-        this.totalResourceCards = 2;
+        this.totalGoldCards = 4;
+        this.totalResourceCards = 4;
         this.totalObjectiveCards = 2;
 
         initializeBoard();
@@ -55,7 +55,7 @@ public class Board {
             this.goldCards.add(goldCards);
             this.resourceCards.add(resourceCards);
         }
-        //posiziono le carte obbiettivo comun
+        //posiziono le carte obbiettivo comune
         for (int i = 0; i < MAX_SIZE; i++) {
             ObjectiveCard objectiveCard = objectiveCardsDeck.returnCard();
             this.objectiveCards[i] =objectiveCard;
@@ -171,7 +171,7 @@ public class Board {
 
 
     /**
-     * Verify the number of Gold cards
+     * Verify the number of Gold cards on the Board
      * @return TRUE if there's a correct number of Gold Cards on the Board
      */
     public boolean verifyGoldCardsNumber() {
@@ -179,7 +179,7 @@ public class Board {
     }
 
     /**
-     * Verify the number of Resource cards
+     * Verify the number of Resource cards on the Board
      * @return TRUE if there's a correct number of Resource Cards on the Board
      */
     public boolean verifyResourceCardsNumber() {
@@ -187,7 +187,7 @@ public class Board {
     }
 
     /**
-     * Verify the number of Objective cards
+     * Verify the number of Objective cards on the Board
      * @return TRUE if there's a correct number of Objective Cards on the Board
      */
     public boolean verifyObjectiveCardsNumber() {
@@ -195,12 +195,12 @@ public class Board {
     }
 
     /**
-     * Verify the number of Gold cards
+     * Verify the number of Gold cards on the GoldDeck
      * @return TRUE if there's a correct number of Gold Cards on the Board
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyGoldDeckSize(int playersNumber) {
-        return goldCardsDeck.getNumCards() == 38 - playersNumber;
+        return goldCardsDeck.getNumCards() == (38) - (playersNumber); //non mult per 2 perchè numCards arriva comunque fino a 40 (altrimenti cambia numCards in Deck per Gold e Resource = 80 e qui: (38 * 2) - (2 * playersNumber))
     }
 
     /**
@@ -209,7 +209,8 @@ public class Board {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyResourceDeckSize(int playersNumber) {
-        return resourcesCardsDeck.getNumCards() == 38 - (2 * playersNumber);
+        return resourcesCardsDeck.getNumCards() == (38) - (2 * playersNumber); //non mult per 2 perchè numCards arriva comunque fino a 40 (altrimenti cambia numCards in Deck per Gold e Resource = 80 e qui: (38 * 2) - (2 * playersNumber))
+
     }
 
     /**

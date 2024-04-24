@@ -35,14 +35,15 @@ public class Deck {
 
         // numero di carte varia in base al tipo di carta
         switch (cardType) {
-            case GoldCard, ResourceCard -> {
-                this.numCards = 40;
-            }
-            case InitialCard -> {
-                this.numCards = 6;
-            }
+                case GoldCard, ResourceCard -> {
+                    this.numCards = 40;
+                }
+                case InitialCard -> {
+                    this.numCards = 6;
+                }
         }
         initializeDeck(cardType);
+
     }
 
     public int getNumCards() {
