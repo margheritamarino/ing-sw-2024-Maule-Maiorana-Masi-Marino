@@ -61,7 +61,7 @@ public class PlayableCardTest {
         assertTrue(goldCardsBack.get(0).getTRCorner() == CornerLabel.Empty);
         assertTrue(goldCardsBack.get(0).getBRCorner() == CornerLabel.Empty);
         assertTrue(goldCardsBack.get(0).getBLCorner() == CornerLabel.Empty);
-        assertTrue(goldCardsBack.get(0).getPlacementCondition() == null);
+        assertTrue(goldCardsBack.get(0).getPlacementCondition().isEmpty());
         assertTrue(!goldCardsBack.get(0).isPointsCondition());
         assertTrue(goldCardsBack.get(0).getSymbolCondition() == null);
         assertTrue(!goldCardsBack.get(0).isCornerCondition());
@@ -105,7 +105,7 @@ public class PlayableCardTest {
         assertTrue(resourceCardsBack.get(0).getNumCorners() == 4);
         assertTrue(resourceCardsBack.get(0).getMainResource() == ResourceType.Fungi);
         assertTrue(resourceCardsBack.get(0).getNumResources() == 0);
-        assertTrue(resourceCardsBack.get(0).getResourceList() == null);
+        assertTrue(resourceCardsBack.get(0).getResourceList().isEmpty());
         assertTrue(!resourceCardsBack.get(0).hasSymbol());
         assertTrue(resourceCardsBack.get(0).getSymbol() == null);
         assertTrue(resourceCardsBack.get(0).getTLCorner()== CornerLabel.Empty);
@@ -151,7 +151,7 @@ public class PlayableCardTest {
         assertTrue(initialCardsBack.get(0).getResourceList().get(3) == ResourceType.Insect);
         assertTrue(initialCardsBack.get(0).getNumCentralResources() == 0);
         assertTrue(initialCardsBack.get(0).getNumResources() == 4);
-        assertTrue(initialCardsBack.get(0).getCentralResources() == null);
+        assertTrue(initialCardsBack.get(0).getCentralResources().isEmpty());
     }
 
     @Test
