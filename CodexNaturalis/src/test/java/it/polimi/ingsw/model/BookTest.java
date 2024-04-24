@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.CornerLabel;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 import org.junit.jupiter.api.Test;
@@ -126,7 +127,7 @@ public class BookTest {
         List<ResourceType> resourceList = new ArrayList<>();
         resourceList.add(ResourceType.Fungi);
         resourceList.add(ResourceType.Animal);
-        ResourceCard card = new ResourceCard(5,3,true, CardType.ResourceCard,CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList,true,SymbolType.Ink);
+        ResourceCard card = new ResourceCard(5,3,true, CardType.ResourceCard, CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList,true,SymbolType.Ink);
 
 
         // Chiamiamo il metodo updateNewCardCorners per aggiornare le risorse e i simboli del libro

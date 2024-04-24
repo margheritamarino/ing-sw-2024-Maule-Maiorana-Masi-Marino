@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.ScoreTrack;
-import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
@@ -14,11 +14,9 @@ import java.util.ArrayList;
 public class Player {
 
     private String nickname;
-
     private PlayerState state;
     private final PlayerDeck playerDeck;
     private final Book playerBook;
-
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
     private boolean connected;
     private boolean readyToStart = false;

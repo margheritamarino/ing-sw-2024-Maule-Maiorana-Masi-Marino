@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.CornerLabel;
-import it.polimi.ingsw.model.CornerType;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
-import it.polimi.ingsw.model.cards.CardType;
 import java.util.*;
-
 
 public abstract class PlayableCard {
     private final int cardID;

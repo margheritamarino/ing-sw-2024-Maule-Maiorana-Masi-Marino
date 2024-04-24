@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.*;

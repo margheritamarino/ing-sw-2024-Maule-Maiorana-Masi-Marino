@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.CornerLabel;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
 

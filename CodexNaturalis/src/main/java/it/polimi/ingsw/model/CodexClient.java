@@ -1,11 +1,6 @@
 package it.polimi.ingsw.model;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
+public class CodexClient {
     public static void main( String[] args )
     {
 
