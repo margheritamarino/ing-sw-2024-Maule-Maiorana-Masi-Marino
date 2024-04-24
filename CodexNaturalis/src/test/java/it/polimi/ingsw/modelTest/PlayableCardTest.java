@@ -53,7 +53,7 @@ public class PlayableCardTest {
 
         //verifico il back della GoldCard 0
         assertTrue(goldCardsBack.get(0).getCardID() == 0);
-        assertTrue(!goldCardsBack.get(0).isFront());
+        assertFalse(goldCardsBack.get(0).isFront());
         assertTrue(goldCardsBack.get(0).getCardType() == CardType.GoldCard);
         assertTrue(goldCardsBack.get(0).getVictoryPoints() == 0);
         assertTrue(goldCardsBack.get(0).getMainResource() == ResourceType.Fungi);
