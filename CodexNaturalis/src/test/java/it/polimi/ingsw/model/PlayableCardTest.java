@@ -216,10 +216,10 @@ public class PlayableCardTest {
         List<ResourceType> centralResources2 = new ArrayList<>();
         InitialCard initialCardTest2 = new InitialCard(0,4,false,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,centralResources2,0,4,resourceList2);
 
-        assertEquals("Fungi", initialCardTest1.getCornerContent(0));
-        assertEquals("Plant", initialCardTest1.getCornerContent(1));
-        assertEquals("Animal", initialCardTest1.getCornerContent(2));
-        assertEquals("Insect", initialCardTest1.getCornerContent(3));
+        assertEquals("Fungi", initialCardTest2.getCornerContent(0));
+        assertEquals("Plant", initialCardTest2.getCornerContent(1));
+        assertEquals("Animal", initialCardTest2.getCornerContent(2));
+        assertEquals("Insect", initialCardTest2.getCornerContent(3));
 
 
     }
