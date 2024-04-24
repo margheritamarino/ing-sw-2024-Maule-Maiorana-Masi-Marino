@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.CornerType;
+import it.polimi.ingsw.model.cards.GoalType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import org.junit.Before;
 import org.junit.Test;
