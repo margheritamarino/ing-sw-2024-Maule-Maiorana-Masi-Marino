@@ -3,7 +3,6 @@ import it.polimi.ingsw.model.SymbolType;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Cell;
 
-
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;

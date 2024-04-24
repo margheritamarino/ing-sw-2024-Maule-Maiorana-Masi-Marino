@@ -1,12 +1,9 @@
 package it.polimi.ingsw.modelTest;
 
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.CornerLabel;
-import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.SymbolType;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
