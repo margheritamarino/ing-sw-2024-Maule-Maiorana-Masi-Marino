@@ -63,22 +63,21 @@ public class InitialCard extends PlayableCard {
 
         if (getTLCorner() == CornerLabel.WithResource) {
             i++;
-        } else i = 0;
+        }
 
         // Angolo in alto a DX
         cornerContent.add(getCornerContentString(getTRCorner(), i));
 
         if (getTRCorner() == CornerLabel.WithResource) {
             i++;
-        } else i = 0;
+        };
 
         // Angolo in basso a DX
         cornerContent.add(getCornerContentString(getBRCorner(), i));
 
         if (getBRCorner() == CornerLabel.WithResource) {
             i++;
-        } else i = 0;
-
+        };
         // Angolo in basso a SX
         cornerContent.add(getCornerContentString(getBLCorner(), i));
 

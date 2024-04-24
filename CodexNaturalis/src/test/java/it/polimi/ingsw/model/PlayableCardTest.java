@@ -182,7 +182,7 @@ public class PlayableCardTest {
 
         ResourceCard resourceCardTest = new ResourceCard(5,3,true,CardType.ResourceCard,CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList,true,SymbolType.Ink);
 
-        assertEquals("Quill", resourceCardTest.getCornerContent(0));
+        assertEquals("Ink", resourceCardTest.getCornerContent(0));
         assertEquals("Fungi", resourceCardTest.getCornerContent(1));
         assertEquals("Animal", resourceCardTest.getCornerContent(2));
         assertEquals("NoCorner", resourceCardTest.getCornerContent(3));
@@ -220,6 +220,8 @@ public class PlayableCardTest {
         assertEquals("Plant", initialCardTest1.getCornerContent(1));
         assertEquals("Animal", initialCardTest1.getCornerContent(2));
         assertEquals("Insect", initialCardTest1.getCornerContent(3));
+
+
     }
 
 
