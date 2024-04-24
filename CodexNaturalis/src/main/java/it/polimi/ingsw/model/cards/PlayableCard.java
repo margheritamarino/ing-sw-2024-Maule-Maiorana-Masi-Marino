@@ -9,14 +9,14 @@ import java.util.*;
 
 
 public abstract class PlayableCard {
-    private int cardID;
-    private int numCorners;
-    private boolean isFront;
-    private CardType cardType;
-    private CornerLabel TLCorner;
-    private CornerLabel TRCorner;
-    private CornerLabel BRCorner;
-    private CornerLabel BLCorner;
+    private final int cardID;
+    private final int numCorners;
+    private final boolean isFront;
+    private final CardType cardType;
+    private final CornerLabel TLCorner;
+    private final CornerLabel TRCorner;
+    private final CornerLabel BRCorner;
+    private final CornerLabel BLCorner;
 
     public int getCardID() {
         return cardID;

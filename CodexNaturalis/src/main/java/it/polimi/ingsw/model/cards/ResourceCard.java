@@ -87,7 +87,7 @@ public class ResourceCard extends PlayableCard {
     * @throws IllegalArgumentException If an invalid corner label is provided.
     */
    // Metodo per ottenere la stringa rappresentante il contenuto di un angolo
-   private String getCornerContentString(CornerLabel cornerLabel, int i) {
+   public String getCornerContentString(CornerLabel cornerLabel, int i) {
       switch (cornerLabel) {
          case Empty:
             return "Empty";

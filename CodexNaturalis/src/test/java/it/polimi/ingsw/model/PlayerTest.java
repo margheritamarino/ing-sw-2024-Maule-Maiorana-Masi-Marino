@@ -1,6 +1,5 @@
-package it.polimi.ingsw.modelTest;
+package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
