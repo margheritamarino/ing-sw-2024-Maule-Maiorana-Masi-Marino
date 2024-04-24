@@ -91,7 +91,7 @@ public class GoldCard extends PlayableCard {
      * @return The string representing the corner content.
      * @throws IllegalArgumentException If an invalid corner label is provided.
      */
-    private String getCornerContentString(CornerLabel cornerLabel) {
+    public String getCornerContentString(CornerLabel cornerLabel) {
         switch (cornerLabel) {
             case Empty:
                 return "Empty";

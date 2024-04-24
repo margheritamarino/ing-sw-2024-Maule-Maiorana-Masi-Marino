@@ -49,7 +49,7 @@ public class Game {
 	 * @param playersNumber The number of players in the game.
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
-	private Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException {
+	public Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException {
 		//check number of players
 		if(playersNumber < 1 || playersNumber > 4){
 			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
@@ -305,7 +305,7 @@ public class Game {
 	/**
 	 * @return true if the player in turn is online
 	 */
-	private boolean isTheCurrentPlayerOnline() {
+	public boolean isTheCurrentPlayerOnline() {
 		return currentPlayer.isConnected();
 	}
 

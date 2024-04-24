@@ -1,5 +1,7 @@
 package it.polimi.ingsw.modelTest;
-
+import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.CornerType;
+import it.polimi.ingsw.model.CornerLabel;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.CornerLabel;
 import it.polimi.ingsw.model.Deck;

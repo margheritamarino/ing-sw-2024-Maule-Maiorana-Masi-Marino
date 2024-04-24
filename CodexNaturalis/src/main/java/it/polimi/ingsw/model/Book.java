@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.SymbolType;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.CornerLabel;
 
 
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
@@ -26,11 +27,11 @@ public class Book {
      * Initializes the resource and symbol maps and sets up the book matrix with Cell objects.
      * Each Cell object is initialized with its row and column indices and is marked as unavailable.
      *
-     * @author Margherita Marino
      * @param rows    The number of rows in the book.
      * @param columns The number of columns in the book.
+     * @author Margherita Marino
      */
-    public Book(int rows, int columns){
+    public Book(int rows, int columns) {
         // Inizializza le mappe di risorse e simboli
         this.resourceMap = new HashMap<>();
         this.symbolMap = new HashMap<>();
@@ -51,10 +52,10 @@ public class Book {
      * Then, the resource map is updated based on the resources present on the initial card, both on the corners
      * and in the central part, and the surrounding cells' availability is updated accordingly.
      *
-     * @author Margherita Marino
      * @param initialCard The initial card to add to the center of the book matrix.
+     * @author Margherita Marino
      */
-    public void addInitial(PlayableCard initialCard){ //cella 35x35
+    public void addInitial(PlayableCard initialCard) { //cella 35x35
         Cell initialCell = bookMatrix[35][35];
         initialCell.setAvailable(true);
         initialCell.setCardPointer(initialCard);
@@ -65,21 +66,21 @@ public class Book {
 
     /**
      * Updates the resource map based on the provided initial card.
-     *
+     * <p>
      * This method evaluates the presence of resources in the initial card, which can have resources
      * both on the corners of the card and in the central part.
      *
-     * @author Margherita Marino
      * @param initialCard The initial card to update the resource map with.
+     * @author Margherita Marino
      */
-    public void UpdateMapInitial(PlayableCard initialCard){
-        if(initialCard.getNumCentralResources() != 0){
-            for(int i = 0; i < initialCard.getNumCentralResources(); i++){
+    public void UpdateMapInitial(PlayableCard initialCard) {
+        if (initialCard.getNumCentralResources() != 0) {
+            for (int i = 0; i < initialCard.getNumCentralResources(); i++) {
                 increaseResource(initialCard.getCentralResources().get(i));
             }
         }
-        if(initialCard.getNumResources() != 0){
-            for(int i = 0; i < initialCard.getNumResources(); i++){
+        if (initialCard.getNumResources() != 0) {
+            for (int i = 0; i < initialCard.getNumResources(); i++) {
                 increaseResource(initialCard.getResourceList().get(i));
             }
         }
@@ -88,16 +89,16 @@ public class Book {
     /**
      * Places a card into the game and returns the points of that card (if it has points, otherwise returns 0).
      *
-     * @author Margherita Marino
      * @param card The PlayableCard to be placed.
      * @param cell The Cell where the card will be placed.
      * @return The points of the card placed, or 0   if the card has no points.
+     * @author Margherita Marino
      */
     //CONTROLLARE LA CONDIZIONI DI PIAZZAMENTO DELLE GOLD CARD (controlla mappa)
-    public int addCard(PlayableCard card, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
+    public int addCard(PlayableCard card, Cell cell) { //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
         int numPoints = 0;
         try {
-            if(!cell.isAvailable()){
+            if (!cell.isAvailable()) {
                 throw new CellNotAvailableException("This Cell is not Available");
             }
             cell.setCardPointer(card); //setto il puntatore della cella alla carta che ho appena piazzato
@@ -105,7 +106,7 @@ public class Book {
             updateMaps(card, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
             updateBook(card, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
             numPoints = card.getVictoryPoints();
-        }catch (CellNotAvailableException e){
+        } catch (CellNotAvailableException e) {
             System.err.println("Unable to place the card: " + e.getMessage());
         }
         return numPoints;
@@ -117,29 +118,29 @@ public class Book {
      * If a neighboring cell contains a card and its corner is not empty,
      * the corresponding resource or symbol in the book's resource/symbol map is decremented.
      *
-     * @author Margherita Marino
      * @param cell The cell for which to update the covered corners of neighboring cards.
      * @return True if any corner was covered, false otherwise.
+     * @author Margherita Marino
      */
-    public boolean updateCoveredCorners(Cell cell){
+    public boolean updateCoveredCorners(Cell cell) {
         boolean cornerCovered = false;
-        if(cell.getCard()!=null){
-           int i = cell.getRow();
-           int j = cell.getColumn();
+        if (cell.getCard() != null) {
+            int i = cell.getRow();
+            int j = cell.getColumn();
 
-           if(bookMatrix[i-1][j-1].getCard() != null && !(bookMatrix[i-1][j-1].getCard().getCornerContent(2).equals("Empty"))){
-                coverCorner(bookMatrix[i-1][j-1].getCard(),2);
-           }
-           if(bookMatrix[i-1][j+1].getCard() != null && !(bookMatrix[i-1][j+1].getCard().getCornerContent(3).equals("Empty"))){
-               coverCorner(bookMatrix[i-1][j+1].getCard(), 3);
-           }
-           if(bookMatrix[i+1][j+1].getCard() != null && !(bookMatrix[i+1][j+1].getCard().getCornerContent(0).equals("Empty"))){
-               coverCorner(bookMatrix[i+1][j+1].getCard(), 0);
-           }
-           if(bookMatrix[i+1][j-1].getCard() != null && !(bookMatrix[i+1][j-1].getCard().getCornerContent(1).equals("Empty"))){
-               coverCorner(bookMatrix[i+1][j-1].getCard(), 1);
-           }
-       }
+            if (bookMatrix[i - 1][j - 1].getCard() != null && !(bookMatrix[i - 1][j - 1].getCard().getCornerContent(2).equals("Empty"))) {
+                coverCorner(bookMatrix[i - 1][j - 1].getCard(), 2);
+            }
+            if (bookMatrix[i - 1][j + 1].getCard() != null && !(bookMatrix[i - 1][j + 1].getCard().getCornerContent(3).equals("Empty"))) {
+                coverCorner(bookMatrix[i - 1][j + 1].getCard(), 3);
+            }
+            if (bookMatrix[i + 1][j + 1].getCard() != null && !(bookMatrix[i + 1][j + 1].getCard().getCornerContent(0).equals("Empty"))) {
+                coverCorner(bookMatrix[i + 1][j + 1].getCard(), 0);
+            }
+            if (bookMatrix[i + 1][j - 1].getCard() != null && !(bookMatrix[i + 1][j - 1].getCard().getCornerContent(1).equals("Empty"))) {
+                coverCorner(bookMatrix[i + 1][j - 1].getCard(), 1);
+            }
+        }
         return cornerCovered;
     }
 
@@ -147,34 +148,33 @@ public class Book {
      * Covers the resource or symbol of a specified corner on a PlayableCard.
      * Decreases the quantity of the corresponding resource or symbol in the book's resource/symbol map.
      *
+     * @param card   The PlayableCard for which the corner is to be covered.
+     * @param corner The type of corner to cover (0: TLCorner, 1: TRCorner, 2: BRCorner, 3: BLCorner).
      * @author Margherita Marino
-     * @param card    The PlayableCard for which the corner is to be covered.
-     * @param corner  The type of corner to cover (0: TLCorner, 1: TRCorner, 2: BRCorner, 3: BLCorner).
      */
-    public void coverCorner(PlayableCard card, int corner){ //funzione che "copre" la risorsa o il simbolo di una carta passata la carta e l'angolo coperto. decrementa il valore della risorsa/simbolo nella mappa dei simboli risorse del book
-        if(card.getCornerContent(corner).equals("Fungi")){
+    public void coverCorner(PlayableCard card, int corner) { //funzione che "copre" la risorsa o il simbolo di una carta passata la carta e l'angolo coperto. decrementa il valore della risorsa/simbolo nella mappa dei simboli risorse del book
+        if (card.getCornerContent(corner).equals("Fungi")) {
             decreaseResource(ResourceType.Fungi);
-        }
-        else if(card.getCornerContent(corner).equals("Animal")){
+        } else if (card.getCornerContent(corner).equals("Animal")) {
             decreaseResource(ResourceType.Animal);
-        }else if(card.getCornerContent(corner).equals("Insect")){
+        } else if (card.getCornerContent(corner).equals("Insect")) {
             decreaseResource(ResourceType.Insect);
-        }else if(card.getCornerContent(corner).equals("Insect")){
+        } else if (card.getCornerContent(corner).equals("Insect")) {
             decreaseResource(ResourceType.Plant);
-        }else if(card.getCornerContent(corner).equals("Ink")){
+        } else if (card.getCornerContent(corner).equals("Ink")) {
             decreaseSymbol(SymbolType.Ink);
-        }else if(card.getCornerContent(corner).equals("Quill")){
+        } else if (card.getCornerContent(corner).equals("Quill")) {
             decreaseSymbol(SymbolType.Quill);
-        }else decreaseSymbol(SymbolType.Manuscript);
+        } else decreaseSymbol(SymbolType.Manuscript);
     }
 
     /**
      * Decreases the quantity of the specified type of resource by one.
      *
-     * @author Margherita Marino
      * @param resourceType The type of resource to decrease.
+     * @author Margherita Marino
      */
-    public void decreaseResource(ResourceType resourceType){ //funzione che decrementa la risorsa passata per parametro
+    public void decreaseResource(ResourceType resourceType) { //funzione che decrementa la risorsa passata per parametro
         int numResources = resourceMap.get(resourceType);
         numResources = (numResources == 0) ? 0 : numResources - 1;
         resourceMap.put(resourceType, numResources);
@@ -183,10 +183,10 @@ public class Book {
     /**
      * Decreases the quantity of the specified type of symbol by one.
      *
-     * @author Margherita Marino
      * @param symbolType The type of symbol to decrease.
+     * @author Margherita Marino
      */
-    public void decreaseSymbol(SymbolType symbolType){ //funzione che decrementa la risorsa passata per parametro
+    public void decreaseSymbol(SymbolType symbolType) { //funzione che decrementa la risorsa passata per parametro
         int numSymbols = symbolMap.get(symbolType);
         numSymbols = (numSymbols == 0) ? 0 : numSymbols - 1;
         symbolMap.put(symbolType, numSymbols);
@@ -195,10 +195,10 @@ public class Book {
     /**
      * Increases the quantity of the specified type of resource by one.
      *
-     * @author Margherita Marino
      * @param resourceType The type of resource to increase.
+     * @author Margherita Marino
      */
-    public void increaseResource(ResourceType resourceType){ //funzione che incrementa la risorsa passata per parametro
+    public void increaseResource(ResourceType resourceType) { //funzione che incrementa la risorsa passata per parametro
         int numResources = resourceMap.get(resourceType);
         numResources++;
         resourceMap.put(resourceType, numResources);
@@ -207,10 +207,10 @@ public class Book {
     /**
      * Increases the quantity of the specified type of symbol by one.
      *
-     * @author Margherita Marino
      * @param symbolType The type of symbol to increase.
+     * @author Margherita Marino
      */
-    public void increaseSymbol(SymbolType symbolType){ //funzione che incrementa il simbolo passato per parametro
+    public void increaseSymbol(SymbolType symbolType) { //funzione che incrementa il simbolo passato per parametro
         int numSymbols = symbolMap.get(symbolType);
         numSymbols++;
         symbolMap.put(symbolType, numSymbols);
@@ -223,11 +223,11 @@ public class Book {
      * from the newly added card, and the {@link #updateCoveredCorners(Cell)} method to adjust
      * the resource and symbol counts based on the neighboring cards of the specified cell.
      *
-     * @author Margherita Marino
      * @param card The PlayableCard to add to the book.
      * @param cell The cell where the card is placed.
+     * @author Margherita Marino
      */
-    public void updateMaps(PlayableCard card, Cell cell){ //metodo per aggiornare la mappa dei simboli e la mappa delle risorse quando aggiungo una nuova carta
+    public void updateMaps(PlayableCard card, Cell cell) { //metodo per aggiornare la mappa dei simboli e la mappa delle risorse quando aggiungo una nuova carta
         updateNewCardCorners(card); //Aggiunge Simboli e Risorse della Carta appena piazzata nel Book
         updateCoveredCorners(cell); //Decrementa simboli e risorse che sono stati coperti dalla nuova carta piazzata
     }
@@ -236,8 +236,8 @@ public class Book {
      * Updates the resource and symbol maps with the symbols and/or resources present on a card
      * when it is placed in the book.
      *
-     * @author Margherita Marino
      * @param card The PlayableCard to update the resource and symbol maps with.
+     * @author Margherita Marino
      */
     public void updateNewCardCorners(PlayableCard card) {
         for (int i = 0; i < 4; i++) {
@@ -275,9 +275,10 @@ public class Book {
     /**
      * Removes all cards from the book.
      * This method clears the book of all cards, leaving it empty.
+     *
      * @author Margherita Marino
      */
-    public void clear(){ //elimina tutte le carte dal book
+    public void clear() { //elimina tutte le carte dal book
         // Itera attraverso tutte le celle del book
         for (int i = 0; i < bookMatrix.length; i++) {
             for (int j = 0; j < bookMatrix[i].length; j++) {
@@ -302,34 +303,34 @@ public class Book {
      * indicating that no further cards can be placed in that cell in the future.
      *
      * @param newCard The PlayableCard that has been placed.
-     * @param cell The Cell where the card is placed.
+     * @param cell    The Cell where the card is placed.
      */
-    public void updateBook(PlayableCard newCard, Cell cell){ //metodo che imposta la disponibilità delle celle attorno alla carta appena piazzata,passata per parametro, mettendole a false se non è presente un angolo
+    public void updateBook(PlayableCard newCard, Cell cell) { //metodo che imposta la disponibilità delle celle attorno alla carta appena piazzata,passata per parametro, mettendole a false se non è presente un angolo
         int i = cell.getRow();
         int j = cell.getColumn();
 
-        if(newCard.getTLCorner() == CornerLabel.NoCorner){
+        if (newCard.getTLCorner() == CornerLabel.NoCorner) {
             cell.setWall(true);
-        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j-1].isWall())){
-            bookMatrix[i-1][j-1].setAvailable(true);
+        } else if (!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i - 1][j - 1].isWall())) {
+            bookMatrix[i - 1][j - 1].setAvailable(true);
         }
 
-        if(newCard.getTLCorner() == CornerLabel.NoCorner){
+        if (newCard.getTLCorner() == CornerLabel.NoCorner) {
             cell.setWall(true);
-        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j+1].isWall())){
-            bookMatrix[i-1][j+1].setAvailable(true);
+        } else if (!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i - 1][j + 1].isWall())) {
+            bookMatrix[i - 1][j + 1].setAvailable(true);
         }
 
-        if(newCard.getBRCorner() == CornerLabel.NoCorner){
+        if (newCard.getBRCorner() == CornerLabel.NoCorner) {
             cell.setWall(true);
-        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j+1].isWall())){
-            bookMatrix[i+1][j+1].setAvailable(true);
+        } else if (!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i + 1][j + 1].isWall())) {
+            bookMatrix[i + 1][j + 1].setAvailable(true);
         }
 
-        if(newCard.getBLCorner() == CornerLabel.NoCorner){
+        if (newCard.getBLCorner() == CornerLabel.NoCorner) {
             cell.setWall(true);
-        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j-1]).isWall()){
-            bookMatrix[i+1][j-1].setAvailable(true);
+        } else if (!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i + 1][j - 1]).isWall()) {
+            bookMatrix[i + 1][j - 1].setAvailable(true);
         }
     }
 
@@ -337,8 +338,8 @@ public class Book {
      * Returns an array of available cells in the book matrix.
      * A cell is considered available if its 'isAvailable' attribute is set to true.
      *
-     * @author Margherita Marino
      * @return An array of Cell objects representing the available cells in the book matrix.
+     * @author Margherita Marino
      */
     public ArrayList<Cell> showAvailableCells() {
         ArrayList<Cell> availableCellsList = new ArrayList<>();
@@ -375,8 +376,8 @@ public class Book {
      * It also calculates how many points the player obtained achieving his Goal.
      *
      * @param objectiveCard Is the player's own ObjectiveCard.
-     * @throws IllegalArgumentException If an invalid GoalType label is set on the objectiveCard attribute.
      * @return Victory Points obtained by the player reaching the goal required by his Objective card.
+     * @throws IllegalArgumentException If an invalid GoalType label is set on the objectiveCard attribute.
      * @author Martina Maiorana
      */
     public int checkGoal(ObjectiveCard objectiveCard) {
@@ -396,8 +397,8 @@ public class Book {
 
 
     /**
-     * @return Victory Points obtained by the player reaching the Resource condition required by his Objective card.
      * @param objectiveCard The player's own ObjectiveCard.
+     * @return Victory Points obtained by the player reaching the Resource condition required by his Objective card.
      * @author Martina Maiorana
      */
     public int checkResourceCondition(ObjectiveCard objectiveCard) {
@@ -410,8 +411,8 @@ public class Book {
     }
 
     /**
-     * @return Victory Points obtained by the player reaching the Symbol condition required by his Objective card.
      * @param objectiveCard The player's own ObjectiveCard.
+     * @return Victory Points obtained by the player reaching the Symbol condition required by his Objective card.
      * @author Martina Maiorana
      */
     public int checkSymbolCondition(ObjectiveCard objectiveCard) {
@@ -434,129 +435,127 @@ public class Book {
         throw new IllegalArgumentException("Invalid victoryPoints");
     }
 
-        /**
-         * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
-         * @param objectiveCard The player's own ObjectiveCard.
-         * @author Martina Maiorana
-         */
-        public int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
-            int count = 0;
-            ResourceType mainResource = objectiveCard.getMainResource();
-            CornerType direction = objectiveCard.getDirection();
+    /**
+     * @param objectiveCard The player's own ObjectiveCard.
+     * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
+     * @author Martina Maiorana
+     */
+    public int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
+        int count = 0;
+        ResourceType mainResource = objectiveCard.getMainResource();
+        CornerType direction = objectiveCard.getDirection();
 
-            int rows = bookMatrix.length;
-            int columns = bookMatrix[0].length;
+        int rows = bookMatrix.length;
+        int columns = bookMatrix[0].length;
 
-            if (direction == CornerType.BRCorner) {
-                // Scansione dalla riga 0 alla penultima e dalla colonna 0 alla penultima
-                for (int i = 0; i < rows - 2; i++) {
-                    for (int j = 0; j < columns - 2; j++) {
-                        // Controllo se le tre celle consecutive sono diagonalmente disposte
-                        if (bookMatrix[i][j].getCard() != null &&
-                                bookMatrix[i + 1][j + 1].getCard() != null &&
-                                bookMatrix[i + 2][j + 2].getCard() != null &&
-                                bookMatrix[i][j].getCard().getMainResource() == mainResource &&
-                                bookMatrix[i + 1][j + 1].getCard().getMainResource() == mainResource &&
-                                bookMatrix[i + 2][j + 2].getCard().getMainResource() == mainResource) {
-                            count++;
-                        }
-                    }
-                }
-            } else if (direction == CornerType.BLCorner) {
-                // Scansione dalla riga 0 alla penultima e dalla colonna 2 alla ultima
-                for (int i = 0; i < rows - 2; i++) {
-                    for (int j = 2; j < columns; j++) {
-                        // Controllo se le tre celle consecutive sono diagonalmente disposte
-                        if (bookMatrix[i][j].getCard() != null &&
-                                bookMatrix[i + 1][j - 1].getCard() != null &&
-                                bookMatrix[i + 2][j - 2].getCard() != null &&
-                                bookMatrix[i][j].getCard().getMainResource() == mainResource &&
-                                bookMatrix[i + 1][j - 1].getCard().getMainResource() == mainResource &&
-                                bookMatrix[i + 2][j - 2].getCard().getMainResource() == mainResource) {
-                            count++;
-                        }
+        if (direction == CornerType.BRCorner) {
+            // Scansione dalla riga 0 alla penultima e dalla colonna 0 alla penultima
+            for (int i = 0; i < rows - 2; i++) {
+                for (int j = 0; j < columns - 2; j++) {
+                    // Controllo se le tre celle consecutive sono diagonalmente disposte
+                    if (bookMatrix[i][j].getCard() != null &&
+                            bookMatrix[i + 1][j + 1].getCard() != null &&
+                            bookMatrix[i + 2][j + 2].getCard() != null &&
+                            bookMatrix[i][j].getCard().getMainResource() == mainResource &&
+                            bookMatrix[i + 1][j + 1].getCard().getMainResource() == mainResource &&
+                            bookMatrix[i + 2][j + 2].getCard().getMainResource() == mainResource) {
+                        count++;
                     }
                 }
             }
-
-            // Ritorna il numero di gruppi trovati moltiplicato per 2 (punti vittoria guadagnati per ogni tripletta in diagonale che doddisfa i requisiti
-            return count * 2;
+        } else if (direction == CornerType.BLCorner) {
+            // Scansione dalla riga 0 alla penultima e dalla colonna 2 alla ultima
+            for (int i = 0; i < rows - 2; i++) {
+                for (int j = 2; j < columns; j++) {
+                    // Controllo se le tre celle consecutive sono diagonalmente disposte
+                    if (bookMatrix[i][j].getCard() != null &&
+                            bookMatrix[i + 1][j - 1].getCard() != null &&
+                            bookMatrix[i + 2][j - 2].getCard() != null &&
+                            bookMatrix[i][j].getCard().getMainResource() == mainResource &&
+                            bookMatrix[i + 1][j - 1].getCard().getMainResource() == mainResource &&
+                            bookMatrix[i + 2][j - 2].getCard().getMainResource() == mainResource) {
+                        count++;
+                    }
+                }
+            }
         }
+
+        // Ritorna il numero di gruppi trovati moltiplicato per 2 (punti vittoria guadagnati per ogni tripletta in diagonale che doddisfa i requisiti
+        return count * 2;
+    }
         /*ALTRO METODO con cui potresti implementare checkDiagonalPlacement è scansionare bookMatrix per righe e
          fermarti su ogni cella che contiene una PlayableCard che abbia la mainResource uguale a quella della ObjectiveCard,
          se è così allora controllo le due celle consecutive in diagonale: se contengono carte del regno richiesto, incremento il count*/
 
 
+    /**
+     * @param objectiveCard The player's own ObjectiveCard.
+     * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
+     * @author Martina Maiorana
+     */
+    public int checkLPlacement(ObjectiveCard objectiveCard) {
+        int count = 0;
+        ResourceType mainResource = objectiveCard.getMainResource();
+        ResourceType secondResource = objectiveCard.getSecondResource();
 
-        /**
-         * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
-         * @param objectiveCard The player's own ObjectiveCard.
-         * @author Martina Maiorana
-         */
-        public int checkLPlacement(ObjectiveCard objectiveCard) {
-                int count = 0;
-                ResourceType mainResource = objectiveCard.getMainResource();
-                ResourceType secondResource = objectiveCard.getSecondResource();
-
-                switch (objectiveCard.getDirection()) { //i 4 possibili valori che può assumere 'direction' danno luogo alle 4 casistiche:
-                    case TLCorner:
-                        for (int i = 2; i < bookMatrix.length; i++) {
-                            for (int j = 1; j < bookMatrix[i].length - 1; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
-                                    if (bookMatrix[i - 1][j - 1].getCard() != null && bookMatrix[i - 2][j - 1].getCard() != null &&
-                                            bookMatrix[i - 1][j - 1].getCard().getMainResource() == secondResource &&
-                                            bookMatrix[i - 2][j - 1].getCard().getMainResource() == secondResource) {
-                                        count++;
-                                    }
-                                }
+        switch (objectiveCard.getDirection()) { //i 4 possibili valori che può assumere 'direction' danno luogo alle 4 casistiche:
+            case TLCorner:
+                for (int i = 2; i < bookMatrix.length; i++) {
+                    for (int j = 1; j < bookMatrix[i].length - 1; j++) {
+                        if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
+                            if (bookMatrix[i - 1][j - 1].getCard() != null && bookMatrix[i - 2][j - 1].getCard() != null &&
+                                    bookMatrix[i - 1][j - 1].getCard().getMainResource() == secondResource &&
+                                    bookMatrix[i - 2][j - 1].getCard().getMainResource() == secondResource) {
+                                count++;
                             }
                         }
-                        break; //capisci se togliere il break
-                    case TRCorner:
-                        for (int i = 2; i < bookMatrix.length; i++) {
-                            for (int j = 0; j < bookMatrix[i].length - 2; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
-                                    if (bookMatrix[i - 1][j + 1].getCard() != null && bookMatrix[i - 2][j + 1].getCard() != null &&
-                                            bookMatrix[i - 1][j + 1].getCard().getMainResource() == secondResource &&
-                                            bookMatrix[i - 2][j + 1].getCard().getMainResource() == secondResource) {
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case BLCorner:
-                        for (int i = 0; i < bookMatrix.length - 2; i++) {
-                            for (int j = 1; j < bookMatrix[i].length - 1; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
-                                    if (bookMatrix[i + 1][j - 1].getCard() != null && bookMatrix[i + 2][j - 1].getCard() != null &&
-                                            bookMatrix[i + 1][j - 1].getCard().getMainResource() == secondResource &&
-                                            bookMatrix[i + 2][j - 1].getCard().getMainResource() == secondResource) {
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case BRCorner:
-                        for (int i = 0; i < bookMatrix.length - 2; i++) {
-                            for (int j = 0; j < bookMatrix[i].length - 2; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
-                                    if (bookMatrix[i + 1][j + 1].getCard() != null && bookMatrix[i + 2][j + 1].getCard() != null &&
-                                            bookMatrix[i + 1][j + 1].getCard().getMainResource() == secondResource &&
-                                            bookMatrix[i + 2][j + 1].getCard().getMainResource() == secondResource) {
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Invalid direction");
+                    }
                 }
+                break; //capisci se togliere il break
+            case TRCorner:
+                for (int i = 2; i < bookMatrix.length; i++) {
+                    for (int j = 0; j < bookMatrix[i].length - 2; j++) {
+                        if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
+                            if (bookMatrix[i - 1][j + 1].getCard() != null && bookMatrix[i - 2][j + 1].getCard() != null &&
+                                    bookMatrix[i - 1][j + 1].getCard().getMainResource() == secondResource &&
+                                    bookMatrix[i - 2][j + 1].getCard().getMainResource() == secondResource) {
+                                count++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case BLCorner:
+                for (int i = 0; i < bookMatrix.length - 2; i++) {
+                    for (int j = 1; j < bookMatrix[i].length - 1; j++) {
+                        if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
+                            if (bookMatrix[i + 1][j - 1].getCard() != null && bookMatrix[i + 2][j - 1].getCard() != null &&
+                                    bookMatrix[i + 1][j - 1].getCard().getMainResource() == secondResource &&
+                                    bookMatrix[i + 2][j - 1].getCard().getMainResource() == secondResource) {
+                                count++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case BRCorner:
+                for (int i = 0; i < bookMatrix.length - 2; i++) {
+                    for (int j = 0; j < bookMatrix[i].length - 2; j++) {
+                        if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
+                            if (bookMatrix[i + 1][j + 1].getCard() != null && bookMatrix[i + 2][j + 1].getCard() != null &&
+                                    bookMatrix[i + 1][j + 1].getCard().getMainResource() == secondResource &&
+                                    bookMatrix[i + 2][j + 1].getCard().getMainResource() == secondResource) {
+                                count++;
+                            }
+                        }
+                    }
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid direction");
+        }
 
-                return count*3;
-            }
-
+        return count * 3;
+    }
 
 }
