@@ -1,11 +1,14 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +20,7 @@ public class BoardTest {
     public void setUp() {
         try {
             board = new Board();
-        } catch (FileNotFoundException | FileReadException e) {
+        } catch (FileNotFoundException| DeckEmptyException | FileReadException e) {
             e.printStackTrace(); // Gestisci l'eccezione in modo appropriato nel tuo codice reale
         }
     }
@@ -37,9 +40,29 @@ public class BoardTest {
     }
 
     @Test
-    public void testTakeCardFromBoard() {
+    public void testTakeCardFromBoard() throws DeckEmptyException {
+        //pesca dal mazzo
         assertNotNull(board.takeCardfromBoard(CardType.GoldCard, true, 0));
         assertNotNull(board.takeCardfromBoard(CardType.ResourceCard, true, 0));
+
+        //pesca dall'array
+        PlayableCard[] cards = board.takeCardfromBoard(CardType.GoldCard, false, 0);
+        assertNotNull(cards);
+        assertEquals(2, cards.length);
+        assertEquals(CardType.GoldCard, cards[0].getCardType());
+        assertEquals(CardType.GoldCard, cards[1].getCardType());
+
+
+        //posizione non valida nell'array
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            board.takeCardfromBoard(CardType.GoldCard, false, 5); // posizione non valida
+        });
+
+        //cardtype non valido
+        assertThrows(IllegalArgumentException.class, () -> {
+            board.takeCardfromBoard(CardType.InitialCard, true, 0); // Tipo di carta non valido
+        });
+
     }
 
     @Test

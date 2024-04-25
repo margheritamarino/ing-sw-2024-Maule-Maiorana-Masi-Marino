@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import org.junit.Before;
@@ -16,7 +17,7 @@ public class CellTest {
     private PlayableCard[] playableCard; // Crea un oggetto PlayableCard per testare l'aggiornamento
 
     @Before
-    public void setUp() throws FileNotFoundException, FileReadException {
+    public void setUp() throws FileNotFoundException, FileReadException, DeckEmptyException {
         board = new Board();
         cell = new Cell(0, 0);
         playableCard = board.getGoldCards().get(0);

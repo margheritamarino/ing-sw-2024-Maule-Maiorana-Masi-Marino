@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.player;
 
 import java.io.FileNotFoundException;
+
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
@@ -122,7 +124,7 @@ public class Player {
      * @throws IllegalArgumentException If the specified card type is invalid.
      * @throws IndexOutOfBoundsException If the position is out of range or the card cannot be picked.
      */
-    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException, FileNotFoundException {
+    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException, FileNotFoundException, DeckEmptyException {
 
         setPlayerState(PlayerState.Pick);
         // Take a card from the board
@@ -135,6 +137,8 @@ public class Player {
         } catch (IndexOutOfBoundsException e) {
             // Handle out of range or unpickable card exception
             throw new IndexOutOfBoundsException("Position is out of range or the card cannot be picked");
+        }catch (DeckEmptyException e){
+            throw new DeckEmptyException(cardType+"deck is empty");
         }
 
         // Check if a card is successfully picked

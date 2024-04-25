@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileCastException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.JSONParsingException;
@@ -19,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-// RICORDA - DA FARE
-// GESTIRE ECCEZIONI QUANDO SI LEGGE DAI FILE JSON !!!!!!!!!
 
 public class Deck {
     private int numCards;
@@ -169,7 +168,10 @@ public class Deck {
      * Removes the cards from the arrays
      *
      */
-    public PlayableCard[] returnCard() {
+    public PlayableCard[] returnCard() throws DeckEmptyException {
+        if (numCards == 0) {
+            throw new DeckEmptyException("The deck is empty. No more cards to draw.");
+        }
         Random rand = new Random();
         int randomIndex = rand.nextInt(frontCards.size()); // Generates a random index within the range of the deck size
         // randomIndex = randomPosition = randomCardID -> same ID for front and back
