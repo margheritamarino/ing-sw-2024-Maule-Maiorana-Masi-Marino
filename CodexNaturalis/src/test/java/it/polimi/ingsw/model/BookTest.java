@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.*;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -533,6 +534,20 @@ public class BookTest {
         assertTrue(book.getBookMatrix()[34][36].isAvailable());
         assertTrue(book.getBookMatrix()[36][34].isAvailable());
         assertTrue(book.getBookMatrix()[36][36].isAvailable());
+
+    }
+
+    @Test
+    void testCheckPlacementCondition(){
+        Book book = new Book(5, 5);
+
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Animal);
+        GoldCard goldCardTest = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
+
+        assertFalse(book.checkPlacementCondition(goldCardTest));
 
     }
 
