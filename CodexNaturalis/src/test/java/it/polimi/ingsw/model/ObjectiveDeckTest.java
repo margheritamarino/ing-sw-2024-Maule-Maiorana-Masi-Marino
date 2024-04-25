@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
@@ -18,14 +21,14 @@ public class ObjectiveDeckTest {
     }
 
     @Test
-    public void testInitializeDeck() throws FileReadException, FileNotFoundException {
+    public void testInitializeDeck()  {
         // Assicurati che il mazzo sia stato inizializzato correttamente
         assertNotNull(objectiveDeck.getFrontCards());
         assertFalse(objectiveDeck.getFrontCards().isEmpty());
     }
 
     @Test
-    public void testCheckEndDeck() {
+    public void testCheckEndDeck() throws DeckEmptyException {
         // Inizialmente, il mazzo non dovrebbe essere vuoto
         assertFalse(objectiveDeck.checkEndDeck());
 
@@ -37,9 +40,23 @@ public class ObjectiveDeckTest {
         // Ora il mazzo dovrebbe essere vuoto
         assertTrue(objectiveDeck.checkEndDeck());
     }
+    @Test
+    public void testReturnCardDeckEmptyException() {
+        // Scarica il mazzo Gold e verifica che venga lanciata l'eccezione DeckEmptyException
+        while (!objectiveDeck.checkEndDeck()) {
+            try {
+                objectiveDeck.returnCard();
+            } catch (DeckEmptyException e) {
+                Assertions.fail("DeckEmptyException should not be thrown before the deck is empty.");
+            }
+        }
+
+        Assertions.assertThrows(DeckEmptyException.class, () -> objectiveDeck.returnCard());
+    }
+
 
     @Test
-    public void testReturnCard() {
+    public void testReturnCard() throws DeckEmptyException {
         // Controlla che il metodo returnCard restituisca una carta valida
         ObjectiveCard card = objectiveDeck.returnCard();
         assertNotNull(card);
@@ -51,15 +68,4 @@ public class ObjectiveDeckTest {
         assertEquals(initialCardCount - 1, objectiveDeck.getNumCards());
     }
 
-    @Test(expected = FileNotFoundException.class)
-    public void testFileNotFoundException() throws FileReadException, FileNotFoundException {
-        // Se il file non viene trovato, dovrebbe essere lanciata FileNotFoundException
-        new ObjectiveDeck(); // In questo caso, assicurati che il file non esista per lanciare l'eccezione
-    }
-
-    @Test(expected = FileReadException.class)
-    public void testFileReadException() throws FileReadException, FileNotFoundException {
-        // Se ci sono problemi di lettura del file, dovrebbe essere lanciata FileReadException
-        new ObjectiveDeck(); // Assicurati che ci sia un problema di lettura del file
-    }
 }

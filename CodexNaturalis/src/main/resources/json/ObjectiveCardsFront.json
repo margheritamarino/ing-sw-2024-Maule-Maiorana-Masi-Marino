@@ -2,7 +2,7 @@
   {
     "cardID": 0,
     "isFront": true,
-    "goalType": "diagonalPlacement",
+    "goalType": "DiagonalPlacement",
     "victoryPoints": 2,
     "mainResource": "Fungi",
     "direction": "BLCorner",
@@ -15,7 +15,7 @@
   {
     "cardID": 1,
     "isFront": true,
-    "goalType": "diagonalPlacement",
+    "goalType": "DiagonalPlacement",
     "victoryPoints": 2,
     "mainResource": "Plant",
     "direction": "BRCorner",
@@ -28,7 +28,7 @@
   {
     "cardID": 2,
     "isFront": true,
-    "goalType": "diagonalPlacement",
+    "goalType": "DiagonalPlacement",
     "victoryPoints": 2,
     "mainResource": "Animal",
     "direction": "BLCorner",
@@ -41,7 +41,7 @@
   {
     "cardID": 3,
     "isFront": true,
-    "goalType": "diagonalPlacement",
+    "goalType": "DiagonalPlacement",
     "victoryPoints": 2,
     "mainResource": "Insect",
     "direction": "BRCorner",

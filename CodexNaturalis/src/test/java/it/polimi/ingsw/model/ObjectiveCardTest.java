@@ -1,28 +1,30 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.CornerType;
-import it.polimi.ingsw.model.cards.GoalType;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.cards.*;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ObjectiveCardTest {
 
     private ObjectiveCard objectiveCard;
-    private int cardID = 1;
+    private int cardID = 0;
     private boolean isFront = true;
-    private GoalType goalType = GoalType.ResourceCondition; // Sostituisci con un valore valido di GoalType
-    private int victoryPoints = 5;
-    private int numSymbols = 3;
-    private List<SymbolType> symbols = Arrays.asList(SymbolType.Quill, SymbolType.Ink, SymbolType.Manuscript); // Sostituisci con valori validi di SymbolType
-    private int numResources = 2;
-    private ResourceType mainResource = ResourceType.Plant; // Sostituisci con un valore valido di ResourceType
-    private CornerType direction = CornerType.TRCorner; // Sostituisci con un valore valido di CornerType
-    private ResourceType secondResource = ResourceType.Fungi; // Sostituisci con un valore valido di ResourceType
+    private GoalType goalType = GoalType.DiagonalPlacement; // Sostituisci con un valore valido di GoalType
+    private int victoryPoints =2;
+    private int numSymbols = 0;
+    private List<SymbolType> symbols = new ArrayList<>();
+    private int numResources = 0;
+    private ResourceType mainResource = ResourceType.Fungi; // Sostituisci con un valore valido di ResourceType
+    private CornerType direction = CornerType.BLCorner; // Sostituisci con un valore valido di CornerType
+    private ResourceType secondResource = null; // Sostituisci con un valore valido di ResourceType
 
     @Before
     public void setUp() {
@@ -44,5 +46,25 @@ public class ObjectiveCardTest {
         assertEquals(direction, objectiveCard.getDirection());
         assertEquals(secondResource, objectiveCard.getSecondResource());
     }
-}
+    @Test
+    public void testInitializeObjectiveDeck() throws FileNotFoundException, FileReadException {
+        // Creazione di un oggetto Deck
+        ObjectiveDeck deck = new ObjectiveDeck();
+        ArrayList<ObjectiveCard> frontCards= deck.getFrontCards();
+
+        //verifico il front della carta GoldCard 0
+        assertTrue(frontCards.get(0).getCardID() == 0);
+        assertTrue(frontCards.get(0).isFront());
+        assertTrue(frontCards.get(0).getVictoryPoints() == 2);
+        assertTrue(frontCards.get(0).getGoalType() == GoalType.DiagonalPlacement);
+        assertTrue(frontCards.get(0).getMainResource() == ResourceType.Fungi);
+        assertTrue(frontCards.get(0).getDirection() == CornerType.BLCorner);
+        assertTrue(frontCards.get(0).getNumResources() == 0);
+        assertTrue(frontCards.get(0).getNumSymbols() == 0);
+
+        assertTrue(frontCards.get(0).getSymbols().isEmpty());
+        assertTrue(frontCards.get(0).getSecondResource() == null);
+
+    }
+    }
 

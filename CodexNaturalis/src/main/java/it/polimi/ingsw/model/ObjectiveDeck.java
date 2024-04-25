@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileCastException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.JSONParsingException;
@@ -14,6 +15,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -50,7 +52,7 @@ public class ObjectiveDeck {
             // Leggi dal file JSON frontCards
             ArrayList<ObjectiveCard> frontCardList = null;
 
-                    frontReader = new InputStreamReader(ObjectiveDeck.class.getResourceAsStream("/json/ObjectiveCardsFront.json"), StandardCharsets.UTF_8);
+                    frontReader = new InputStreamReader(Objects.requireNonNull(ObjectiveDeck.class.getResourceAsStream("/json/ObjectiveCardsFront.json")), StandardCharsets.UTF_8);
                     Type objectiveCardType = new TypeToken<ArrayList<ObjectiveCard>>() {
                     }.getType();
                     frontCardList = gson.fromJson(frontReader, objectiveCardType);
@@ -99,7 +101,10 @@ public class ObjectiveDeck {
      * number of cards in the deck, and removes the selected card from the deck.
      * @return the randomly selected objective card.
      */
-    public ObjectiveCard returnCard() {
+    public ObjectiveCard returnCard() throws DeckEmptyException {
+        if (checkEndDeck()) {
+            throw new DeckEmptyException("The deck is empty. No more cards to draw.");
+        }
         Random rand = new Random();
         int randomIndex = rand.nextInt(frontCards.size());
 
