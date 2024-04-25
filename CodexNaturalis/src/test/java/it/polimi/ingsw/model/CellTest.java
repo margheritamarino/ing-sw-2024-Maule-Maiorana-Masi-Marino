@@ -26,11 +26,11 @@ public class CellTest {
     @Test
     public void testConstructor() {
         // Verifica i valori iniziali impostati dal costruttore
-        assertEquals(0, cell.getRow());
-        assertEquals(0, cell.getColumn());
-        assertFalse(cell.isAvailable());
-        assertTrue(cell.isWall());
-        assertNull(cell.getCard());
+        assertEquals("Row value should be initialized to 0", 0, cell.getRow());
+        assertEquals("Column value should be initialized to 0", 0, cell.getColumn());
+        assertFalse("Cell should not be available initially", cell.isAvailable());
+        assertFalse("Cell should not be a wall initially", cell.isWall());
+        assertNull("Cell should not have a card initially", cell.getCard());
     }
 
     @Test
