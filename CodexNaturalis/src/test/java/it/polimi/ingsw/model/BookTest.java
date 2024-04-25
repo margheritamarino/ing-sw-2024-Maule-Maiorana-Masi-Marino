@@ -555,6 +555,32 @@ public class BookTest {
 
 
 
+    @Test
+    void testCheckGoal() {
+
+    }
+
+    @Test
+    void testCheckResourceCondition() {
+
+    }
+
+    @Test
+    void testCheckSymbolCondition() {
+
+    }
+
+    @Test
+    void testCheckDiagonalPlacement() {
+
+    }
+
+    @Test
+    void testCheckLPlacement() {
+
+    }
+
+
 
 
 
