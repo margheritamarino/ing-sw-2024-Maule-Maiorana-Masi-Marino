@@ -195,7 +195,7 @@ public class Board {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyGoldDeckSize(int playersNumber) {
-        return ((goldCardsDeck.getNumCards()) * 2)  == (76) - (2 * playersNumber); //su Deck numCards va da 0 a 40
+        return (goldCardsDeck.getNumCards())  == 40- 2 - playersNumber; //su Deck numCards va da 0 a 40
     }
 
     /**
@@ -204,7 +204,7 @@ public class Board {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyResourceDeckSize(int playersNumber) {
-        return ((resourcesCardsDeck.getNumCards()) * 2)  == (76) - (2 * playersNumber); //su Deck numCards va da 0 a 40
+        return (resourcesCardsDeck.getNumCards())  == 40- 2 - (2 * playersNumber); //su Deck numCards va da 0 a 40
 
     }
 
