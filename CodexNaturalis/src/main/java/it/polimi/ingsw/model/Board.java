@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.*;
 import java.util.*;
 import java.io.FileNotFoundException;
+
 
 /**
  * Board model class
@@ -25,7 +27,7 @@ public class Board {
     /**
      * Constructor
      */
-    public Board() throws FileNotFoundException, FileReadException {
+    public Board() throws FileNotFoundException, FileReadException, DeckEmptyException {
         this.goldCards = new ArrayList<>();
         this.resourceCards = new ArrayList<>();
         this.objectiveCards = new ObjectiveCard[2];
@@ -45,7 +47,7 @@ public class Board {
      * Initializes the board by placing cards on it.
      * Sets the common Goals
      */
-    public void initializeBoard() {
+    public void initializeBoard() throws DeckEmptyException {
         //posiziono due carte oro e due carte risorsa sul tavolo
         //perchè la board ha 2 coppie di carte per ciascuna tipologia di carta
         int MAX_SIZE = 2;
@@ -85,7 +87,7 @@ public class Board {
      * RETRIEVES A CARD FROM THE OBJECTIVECARDS DECK
      * @return an ObjectiveCard picked from Objective Cards' deck
      */
-    public ObjectiveCard takeObjectiveCard(){
+    public ObjectiveCard takeObjectiveCard() throws DeckEmptyException {
         return objectiveCardsDeck.returnCard();
     }
 
@@ -97,13 +99,14 @@ public class Board {
      * @param pos          The position of the card to take if drawing from the board.
      * @return The card taken from the board, or null.
      */
-    public PlayableCard[] takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) {
+    public PlayableCard[] takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException, IndexOutOfBoundsException  {
         if (drawFromDeck) { //booleano per vedere se il giocatore vuole pescare dai mazzi o dagli array
             // Verifico se il mazzo ha finito le carte prima di pescare
+
             if (cardType == CardType.GoldCard && goldCardsDeck.checkEndDeck()) {
-                return null; // Restituisce null se il mazzo di carte è vuoto
+                throw new DeckEmptyException("Gold cards' deck is empty");
             } else if (cardType == CardType.ResourceCard && resourcesCardsDeck.checkEndDeck()) {
-                return null;
+                throw new DeckEmptyException("Resource cards' deck is empty");
             }
             switch (cardType) {
                 case GoldCard:
@@ -111,7 +114,7 @@ public class Board {
                 case ResourceCard:
                     return resourcesCardsDeck.returnCard();
                 default:
-                    return null; //null in caso di tipo di carta non valido
+                    throw new IllegalArgumentException("Invalid card type");
             }
         } else {
             ArrayList<PlayableCard[]> cardsOnBoard ;
@@ -123,11 +126,11 @@ public class Board {
                     cardsOnBoard = resourceCards;
                     break;
                 default:
-                    return null;
+                    throw new IllegalArgumentException("Invalid card type");
             }
             // Controllo che la posizione sia valida
             if (pos < 0 || pos >= cardsOnBoard.size()) {
-                return null;
+                throw new IndexOutOfBoundsException("Position not valid on the board");
             }
             // Prelevo front e back card dalla board e creo l'array risultante
             PlayableCard[] selectedCards = new PlayableCard[2];
@@ -151,8 +154,8 @@ public class Board {
      * @param cards The array of cards to update.
      * @param cardType The type of card for which to update the array.
      */
-    public void updateArray(ArrayList<PlayableCard[]> cards, CardType cardType) {
-        Deck deck = null;
+    public void updateArray(ArrayList<PlayableCard[]> cards, CardType cardType) throws DeckEmptyException {
+        Deck deck ;
         switch (cardType) {
             case GoldCard:
                 deck = goldCardsDeck;

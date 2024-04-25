@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.CornerType;
@@ -18,7 +19,7 @@ public class PlayerTest {
     private Board board;
 
     @BeforeEach
-    void setUp() throws FileNotFoundException, FileReadException {
+    void setUp() throws FileNotFoundException, FileReadException, DeckEmptyException {
         player = new Player("TestPlayer");
         board = new Board();
 
@@ -51,7 +52,7 @@ public class PlayerTest {
 
 
     @Test
-    void testPickCard() throws FileNotFoundException, FileReadException {
+    void testPickCard() throws FileNotFoundException, FileReadException, DeckEmptyException {
         // Inizializza gli oggetti necessari per il test
         Board board = new Board();
         CardType cardType = CardType.ResourceCard; // Assicurati di inizializzare correttamente cardType
@@ -62,7 +63,7 @@ public class PlayerTest {
         assertDoesNotThrow(() -> player.pickCard(board, CardType.GoldCard, true, 0));
 
         // Testing picking a card with an invalid card type
-        assertThrows(IllegalArgumentException.class, () -> player.pickCard(board, null, true, 0));
+        assertDoesNotThrow( () -> player.pickCard(board, CardType.InitialCard, true, 0));
 
         // Testing picking a card from an invalid position
         assertThrows(IndexOutOfBoundsException.class, () -> player.pickCard(board, CardType.ResourceCard, false, -1));

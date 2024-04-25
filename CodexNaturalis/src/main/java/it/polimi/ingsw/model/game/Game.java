@@ -49,7 +49,7 @@ public class Game {
 	 * @param playersNumber The number of players in the game.
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
-	public Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException {
+	public Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException, DeckEmptyException {
 		//check number of players
 		if(playersNumber < 1 || playersNumber > 4){
 			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
@@ -82,6 +82,8 @@ public class Game {
 			System.err.println("Error: " + e.getMessage());
 			return null;
 		} catch (FileNotFoundException | FileReadException e) {
+            throw new RuntimeException(e);
+        } catch (DeckEmptyException e) {
             throw new RuntimeException(e);
         }
     }
@@ -399,7 +401,7 @@ public class Game {
 	 * Initializes the game board and cards and returns the order array.
 	 * @throws NotEnoughPlayersException if the number of players is less than two.
 	 */
-	public void startGame() throws NotEnoughPlayersException, NoPlayersException, NotReadyToRunException, BoardSetupException, FileNotFoundException {
+	public void startGame() throws NotEnoughPlayersException, NoPlayersException, NotReadyToRunException, BoardSetupException, FileNotFoundException, DeckEmptyException, DeckFullException {
 		if (playersNumber < 2)
 			throw new NotEnoughPlayersException("The game cannot start without at least two players");
 
@@ -556,7 +558,7 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void initializeCards() throws FileNotFoundException {
+	public void initializeCards() throws FileNotFoundException, DeckEmptyException, DeckFullException {
 		//pick an InitialCard
 		for (Player player : players) {
 
@@ -601,7 +603,7 @@ public class Game {
 	 pos= 0: fronte - 1 retro
 	 chiama metodo addInitial del rispettivo book del player per piazzare direttamente carta	 */
 
-	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException {
+	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException, DeckEmptyException {
 		ArrayList<ObjectiveCard> drawnCards = new ArrayList<ObjectiveCard>();
 
 		// Controlla che il gioco sia in uno stato valido per pescare carte obiettivo
@@ -656,13 +658,15 @@ public class Game {
 	}
 
 
-	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos){
+	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException, FileNotFoundException, DeckFullException {
 		try {
 			currentPlayer.pickCard(board, cardType, drawFromDeck, pos);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		// Notifica ai listeners che una carta è stata pescata
+			throw new FileNotFoundException("cannot find json file");
+		} catch (DeckEmptyException e) {
+            throw new DeckEmptyException("Resource cards' deck is empty");
+        }
+        // Notifica ai listeners che una carta è stata pescata
 	//	listenersHandler.notify_CardDrawn(this);
 	}
 
