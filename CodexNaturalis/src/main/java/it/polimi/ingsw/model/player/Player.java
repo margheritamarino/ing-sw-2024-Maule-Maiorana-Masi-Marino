@@ -3,10 +3,10 @@ package it.polimi.ingsw.model.player;
 import java.io.FileNotFoundException;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
+import it.polimi.ingsw.exceptions.DeckFullException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.ScoreTrack;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private String nickname;
+    private final String nickname;
     private PlayerState state;
     private final PlayerDeck playerDeck;
     private final Book playerBook;
@@ -30,7 +30,7 @@ public class Player {
         this.playerBook = new Book(40, 40); //ho messo 40 x 40 solo per verificare la correttezza del metodo, questo valore dobbiamo poi renderlo variabile in base al numero di giocatori
         this.playerDeck = new PlayerDeck();
         this.connected = false;
-    };
+    }
 
     /**
      * Retrieves the nickname of the player.
@@ -124,7 +124,7 @@ public class Player {
      * @throws IllegalArgumentException If the specified card type is invalid.
      * @throws IndexOutOfBoundsException If the position is out of range or the card cannot be picked.
      */
-    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException, FileNotFoundException, DeckEmptyException {
+    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException, FileNotFoundException, DeckEmptyException, DeckFullException {
 
         setPlayerState(PlayerState.Pick);
         // Take a card from the board
@@ -145,7 +145,10 @@ public class Player {
         if (pickedCard != null) {
             // Add the picked card to the player's deck
             try {
-                playerDeck.addCard(pickedCard);
+                if(playerDeck.getNumCards()<6)
+                    playerDeck.addCard(pickedCard);
+                else
+                    throw new DeckFullException("The PlayerDeck is full. Cannot add more cards");
             } catch (IllegalArgumentException e) {
                 // Handle invalid card addition exception
                 throw new IllegalArgumentException("Invalid card addition to the player's deck", e);
