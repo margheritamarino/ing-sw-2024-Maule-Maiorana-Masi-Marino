@@ -84,6 +84,8 @@ public class InitialCard extends PlayableCard {
         return cornerContent;
     }
 
+
+
     /**
      * Retrieves the string representation of the content of a corner.
      * @param cornerLabel The label indicating the type of content in the corner.
@@ -105,6 +107,7 @@ public class InitialCard extends PlayableCard {
                 throw new IllegalArgumentException();
         }
     }
+
 
     public List<ResourceType> getPlacementCondition() {
         return null;

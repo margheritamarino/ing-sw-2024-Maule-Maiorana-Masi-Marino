@@ -76,15 +76,15 @@ public class Book {
      * @param initialCard The initial card to update the resource map with.
      */
     public void UpdateMapInitial(PlayableCard initialCard){
-        if(initialCard.getNumCentralResources() != 0){
-            for(int i = 0; i < initialCard.getNumCentralResources(); i++){
-                increaseResource(initialCard.getCentralResources().get(i));
+        if(initialCard.getNumCentralResources() != 0) {
+            if (!initialCard.getCentralResources().isEmpty()) {
+                for (ResourceType resource : initialCard.getCentralResources()) {
+                    increaseResource(resource);
+                }
             }
         }
         if(initialCard.getNumResources() != 0){
-            for(int i = 0; i < initialCard.getNumResources(); i++){
-                increaseResource(initialCard.getResourceList().get(i));
-            }
+            updateNewCardCorners(initialCard);
         }
     }
 
@@ -92,24 +92,84 @@ public class Book {
      * Places a card into the game and returns the points of that card (if it has points, otherwise returns 0).
      *
      * @author Margherita Marino
-     * @param card The PlayableCard to be placed.
+     * @param ResourceCard The PlayableCard to be placed.
      * @param cell The Cell where the card will be placed.
      * @return The points of the card placed, or 0   if the card has no points.
      */
     //CONTROLLARE LA CONDIZIONI DI PIAZZAMENTO DELLE GOLD CARD (controlla mappa)
-    public int addCard(PlayableCard card, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
+    public int addResourceCard(PlayableCard ResourceCard, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
         int numPoints = 0;
         try {
             if(!cell.isAvailable()){
                 throw new CellNotAvailableException("This Cell is not Available");
             }
-            cell.setCardPointer(card); //setto il puntatore della cella alla carta che ho appena piazzato
+            cell.setCardPointer(ResourceCard); //setto il puntatore della cella alla carta che ho appena piazzato
             cell.setAvailable(false); //setto disponibilità cella a false
-            updateMaps(card, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
-            updateBook(card, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
-            numPoints = card.getVictoryPoints();
+            updateMaps(ResourceCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
+            updateBook(ResourceCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
+            numPoints = ResourceCard.getVictoryPoints();
         }catch (CellNotAvailableException e){
             System.err.println("Unable to place the card: " + e.getMessage());
+        }
+        return numPoints;
+    }
+
+    public int addGoldCard(PlayableCard goldCard, Cell cell){
+        int numPoints = 0;
+        if(checkPlacementCondition(goldCard)){
+            try {
+                if(!cell.isAvailable()){
+                    throw new CellNotAvailableException("This Cell is not Available");
+                }
+                cell.setCardPointer(goldCard); //setto il puntatore della cella alla carta che ho appena piazzato
+                cell.setAvailable(false); //setto disponibilità cella a false
+                updateMaps(goldCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
+                updateBook(goldCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
+                if(!goldCard.isPointsCondition()){
+                    numPoints = goldCard.getVictoryPoints();
+                }else{
+                    numPoints = checkGoldPoints(goldCard, cell);
+                }
+            }catch (CellNotAvailableException e){
+                System.err.println("Unable to place the card: " + e.getMessage());
+            }
+        }
+        return numPoints;
+    }
+
+    public boolean checkPlacementCondition(PlayableCard goldCard){
+        boolean check = false;
+        //fai metodo
+        return check;
+    }
+
+    public int checkGoldPoints(PlayableCard goldCard, Cell cell){
+        int numPoints = 0;
+        if(goldCard.isCornerCondition()){
+            numPoints = checkCornerCondition(goldCard, cell);
+        }else{
+            numPoints = checkGoldSymbolCondition(goldCard);
+        }
+        return numPoints;
+    }
+
+    public int checkCornerCondition(PlayableCard goldCard, Cell cell){
+        int numPoints = 0;
+        //fai metodo
+        return numPoints;
+    }
+
+    public int checkGoldSymbolCondition(PlayableCard goldCard){
+        int numPoints = 0;
+        //fai metodo
+        return numPoints;
+    }
+
+    public int addCard(PlayableCard card, Cell cell){
+        int numPoints = 0;
+        switch (card.getCardType()){
+            case GoldCard -> numPoints = addGoldCard(card, cell);
+            case ResourceCard -> numPoints = addResourceCard(card, cell);
         }
         return numPoints;
     }
@@ -305,14 +365,14 @@ public class Book {
      * This method clears the book of all cards, leaving it empty.
      * @author Margherita Marino
      */
-    public void clear(){ //elimina tutte le carte dal book
+    public void clear(){ //elimina tutte le carte dal book e setta le celle a
         // Itera attraverso tutte le celle del book
         for (int i = 0; i < bookMatrix.length; i++) {
             for (int j = 0; j < bookMatrix[i].length; j++) {
                 // Imposta il puntatore della carta della cella a null
                 bookMatrix[i][j].setCardPointer(null);
                 // Imposta la disponibilità della cella a true
-                bookMatrix[i][j].setAvailable(true);
+                bookMatrix[i][j].setAvailable(false);
                 // Imposta l'attributo wall delle celle a false
                 bookMatrix[i][j].setWall(false);
             }
@@ -374,8 +434,8 @@ public class Book {
 
         // Scorre la matrice e aggiunge le celle disponibili alla lista
         for (int i = 0; i < bookMatrix.length; i++) {
-            for (int j = 0; j < bookMatrix[i].length; j++) {
-                if (bookMatrix[i][j].isAvailable()) {
+            for (int j = 0; j < bookMatrix.length; j++) {
+                if (bookMatrix[i][j].isAvailable()){
                     availableCellsList.add(bookMatrix[i][j]);
                 }
             }
