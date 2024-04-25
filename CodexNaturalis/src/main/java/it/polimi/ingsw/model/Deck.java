@@ -9,14 +9,11 @@ import it.polimi.ingsw.exceptions.FileCastException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.JSONParsingException;
 import it.polimi.ingsw.model.cards.*;
-
 import java.io.*;
-
-
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+
 import java.util.Objects;
 import java.util.Random;
 
@@ -30,16 +27,12 @@ public class Deck {
     public Deck(CardType cardType) throws FileNotFoundException, FileReadException {
         this.cardType = cardType;
         this.frontCards = new ArrayList<>();
-        this.backCards = new ArrayList<PlayableCard>();
+        this.backCards = new ArrayList<>();
 
         // numero di carte varia in base al tipo di carta
         switch (cardType) {
-                case GoldCard, ResourceCard -> {
-                    this.numCards = 40;
-                }
-                case InitialCard -> {
-                    this.numCards = 6;
-                }
+                case GoldCard, ResourceCard -> this.numCards = 40;
+                case InitialCard -> this.numCards = 6;
         }
         initializeDeck(cardType);
 
@@ -71,22 +64,19 @@ public class Deck {
      */
 
     public void initializeDeck(CardType cardType) throws FileReadException, FileNotFoundException {
-        Reader frontReader =null;
-        Reader backReader = null;
+        Reader frontReader ;
+        Reader backReader ;
 
         Gson gson = new Gson();
 
-        //   frontFileName = this.getClass().getResourceAsStream("/json/InitialCardsFront.json").toString();
-        //   backFileName = this.getClass().getResourceAsStream("/json/InitialCardsBack.json").toString();
-
         try {
             // Leggi dal file JSON frontCards
-            ArrayList<InitialCard> frontCardList = null;
-            ArrayList<InitialCard> backCardList = null;
+            ArrayList<InitialCard> frontCardList;
+            ArrayList<InitialCard> backCardList ;
             switch (cardType) {
                 case InitialCard:
-                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsFront.json"), StandardCharsets.UTF_8);
-                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/InitialCardsBack.json"), StandardCharsets.UTF_8);
+                    frontReader = new InputStreamReader(Objects.requireNonNull(Deck.class.getResourceAsStream("/json/InitialCardsFront.json")), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Objects.requireNonNull(Deck.class.getResourceAsStream("/json/InitialCardsBack.json")), StandardCharsets.UTF_8);
                     Type initialCardType = new TypeToken<ArrayList<InitialCard>>() {
                     }.getType();
                     frontCardList = gson.fromJson(frontReader, initialCardType);
@@ -98,8 +88,8 @@ public class Deck {
                     backReader.close();
 
                 case ResourceCard:
-                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json"), StandardCharsets.UTF_8);
-                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/ResourceCardsBack.json"), StandardCharsets.UTF_8);
+                    frontReader = new InputStreamReader(Objects.requireNonNull(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json")), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Objects.requireNonNull(Deck.class.getResourceAsStream("/json/ResourceCardsBack.json")), StandardCharsets.UTF_8);
                     Type resourceCardType = new TypeToken<ArrayList<ResourceCard>>() {
                     }.getType();
                     frontCardList = gson.fromJson(frontReader, resourceCardType);
@@ -111,8 +101,8 @@ public class Deck {
                     backReader.close();
 
                 case GoldCard:
-                    frontReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsFront.json"), StandardCharsets.UTF_8);
-                    backReader = new InputStreamReader(Deck.class.getResourceAsStream("/json/GoldCardsBack.json"), StandardCharsets.UTF_8);
+                    frontReader = new InputStreamReader(Objects.requireNonNull(Deck.class.getResourceAsStream("/json/GoldCardsFront.json")), StandardCharsets.UTF_8);
+                    backReader = new InputStreamReader(Objects.requireNonNull(Deck.class.getResourceAsStream("/json/GoldCardsBack.json")), StandardCharsets.UTF_8);
                     Type goldCardType = new TypeToken<ArrayList<GoldCard>>() {
                     }.getType();
                     frontCardList = gson.fromJson(frontReader, goldCardType);
@@ -156,13 +146,12 @@ public class Deck {
      *         {@code false} otherwise.
      */
     public boolean checkEndDeck() {
-        return numCards > 0 ? false : true;
+        return numCards <= 0;
     }
 
     /**
      * @author Sofia Maule
      * @return an array containing two cards (one front and one back) drawn from the deck
-     *
      * Returns two cards from the deck at a random position (position = CardID).
      * Decreases the numCards attribute of the deck.
      * Removes the cards from the arrays
