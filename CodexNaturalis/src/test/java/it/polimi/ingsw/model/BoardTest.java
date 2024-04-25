@@ -29,9 +29,9 @@ public class BoardTest {
     public void testInitialization() {
         assertNotNull(board);
 
-        assertTrue(board.verifyGoldCardsNumber());
-        assertTrue(board.verifyResourceCardsNumber());
-        assertTrue(board.verifyObjectiveCardsNumber());
+        assertTrue(board.verifyGoldCardsNumber()); //2 GoldCards on the Board
+        assertTrue(board.verifyResourceCardsNumber()); //2 ResourceCards on the Board
+        assertTrue(board.verifyObjectiveCardsNumber()); //2 ObjectiveCards on the Board
     }
 
     @Test

@@ -19,9 +19,6 @@ public class Board {
     private final Deck goldCardsDeck;
     private final Deck resourcesCardsDeck;
     private final ObjectiveDeck objectiveCardsDeck;
-    private final int totalGoldCards; // Total number of goldCards on the Board
-    private final int totalResourceCards; // Total number of resourceCards
-    private final int totalObjectiveCards; // Total number of objectiveCards
 
 
     /**
@@ -34,11 +31,6 @@ public class Board {
         this.goldCardsDeck = new Deck(CardType.GoldCard);
         this.resourcesCardsDeck = new Deck(CardType.ResourceCard);
         this.objectiveCardsDeck = new ObjectiveDeck();
-
-        // Initializing total numbers of cards
-        this.totalGoldCards = 4;
-        this.totalResourceCards = 4;
-        this.totalObjectiveCards = 2;
 
         initializeBoard();
     }
@@ -178,7 +170,7 @@ public class Board {
      * @return TRUE if there's a correct number of Gold Cards on the Board
      */
     public boolean verifyGoldCardsNumber() {
-        return goldCards.size() == 4;
+        return goldCards.size() == 2;
     }
 
     /**
@@ -186,7 +178,7 @@ public class Board {
      * @return TRUE if there's a correct number of Resource Cards on the Board
      */
     public boolean verifyResourceCardsNumber() {
-        return resourceCards.size() == 4;
+        return resourceCards.size() == 2;
     }
 
     /**
