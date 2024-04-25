@@ -603,7 +603,7 @@ public class Game {
 	 pos= 0: fronte - 1 retro
 	 chiama metodo addInitial del rispettivo book del player per piazzare direttamente carta	 */
 
-	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException {
+	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException, DeckEmptyException {
 		ArrayList<ObjectiveCard> drawnCards = new ArrayList<ObjectiveCard>();
 
 		// Controlla che il gioco sia in uno stato valido per pescare carte obiettivo

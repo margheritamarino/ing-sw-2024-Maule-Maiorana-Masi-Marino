@@ -35,7 +35,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testTakeObjectiveCard() {
+    public void testTakeObjectiveCard() throws DeckEmptyException {
         assertNotNull(board.takeObjectiveCard());
     }
 

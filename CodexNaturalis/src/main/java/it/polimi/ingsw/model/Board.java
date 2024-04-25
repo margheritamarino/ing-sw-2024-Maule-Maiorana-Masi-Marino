@@ -87,7 +87,7 @@ public class Board {
      * RETRIEVES A CARD FROM THE OBJECTIVECARDS DECK
      * @return an ObjectiveCard picked from Objective Cards' deck
      */
-    public ObjectiveCard takeObjectiveCard(){
+    public ObjectiveCard takeObjectiveCard() throws DeckEmptyException {
         return objectiveCardsDeck.returnCard();
     }
 
