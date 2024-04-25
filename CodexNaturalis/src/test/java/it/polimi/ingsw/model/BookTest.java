@@ -540,15 +540,17 @@ public class BookTest {
     @Test
     void testCheckPlacementCondition(){
         Book book = new Book(5, 5);
-
         List<ResourceType> resourceList = new ArrayList<>();
         resourceList.add(ResourceType.Fungi);
         resourceList.add(ResourceType.Fungi);
         resourceList.add(ResourceType.Animal);
         GoldCard goldCardTest = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
 
-        assertFalse(book.checkPlacementCondition(goldCardTest));
+        book.getResourceMap().put(ResourceType.Fungi, 4);
+        book.getResourceMap().put(ResourceType.Animal, 1);
+        book.getResourceMap().put(ResourceType.Plant, 2);
 
+        assertTrue(book.checkPlacementCondition(goldCardTest));
     }
 
 

@@ -139,19 +139,21 @@ public class Book {
 
     public boolean checkPlacementCondition(PlayableCard goldCard){
         Map<ResourceType, Integer> conditionsMap = new HashMap<>();
+        //inizializzo la mappa conditionsMap
         conditionsMap.put(ResourceType.Animal,0);
         conditionsMap.put(ResourceType.Fungi,0);
         conditionsMap.put(ResourceType.Insect,0);
         conditionsMap.put(ResourceType.Plant,0);
-        boolean check = false;
-        for (ResourceType resource : goldCard.getPlacementCondition()) { //realizzo una mappa che contiene la condizione di piazzamenot di ogni risorsa
-            conditionsMap.put(resource, 1);
+        boolean check = true;
+        //realizzo una mappa che contiene la condizione di piazzamenoto di ogni risorsa recuperando la condizione dall'array di ResourceType
+        for (ResourceType resource : goldCard.getPlacementCondition()) {
+            conditionsMap.put(resource, conditionsMap.get(resource) + 1);
         }
         for (ResourceType resourceType : conditionsMap.keySet()) {
             int conditionValue = conditionsMap.get(resourceType);
             int resourceValue = resourceMap.getOrDefault(resourceType, 0);
-            if (conditionValue <= resourceValue) {
-                check = true;
+            if (conditionValue > resourceValue) {
+                check = false;
             }
         }
         return check;
@@ -174,9 +176,7 @@ public class Book {
     }
 
     public int checkGoldSymbolCondition(PlayableCard goldCard){
-        int numPoints = 0;
-        //fai metodo
-        return numPoints;
+        return symbolMap.getOrDefault(goldCard.getSymbolCondition(), 0);
     }
 
     public int addCard(PlayableCard card, Cell cell){
