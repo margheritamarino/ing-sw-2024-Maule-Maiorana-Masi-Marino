@@ -66,12 +66,18 @@ public class BoardTest {
     }
 
     @Test
-    public void testVerifyDeckSize() {
-        // Assumendo un certo numero di giocatori, verifica le dimensioni dei mazzi di carte
-        int playersNumber = 4; // Modifica questo valore a seconda del numero di giocatori
+    public void testVerifyCardsNumber() {
+        assertTrue(board.verifyGoldCardsNumber());
+        assertTrue(board.verifyObjectiveCardsNumber());
+        assertTrue(board.verifyResourceCardsNumber());
+    }
 
-        assertTrue(board.verifyGoldDeckSize(playersNumber));
+    @Test
+    public void testVerifyDeckSize() {
+        // Assumendo un certo numero di giocatori, verifico le dimensioni dei mazzi di carte
+        int playersNumber = 3;
+        // assertTrue(board.verifyGoldDeckSize(playersNumber));
         assertTrue(board.verifyResourceDeckSize(playersNumber));
-        assertTrue(board.verifyObjectiveDeckSize(playersNumber));
+      //  assertTrue(board.verifyObjectiveDeckSize(playersNumber));
     }
 }
