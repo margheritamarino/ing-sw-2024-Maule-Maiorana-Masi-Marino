@@ -29,8 +29,8 @@ public class ObjectiveCardTest {
     @Before
     public void setUp() {
         // Inizializza un oggetto ObjectiveCard con valori di esempio
-        objectiveCard = new ObjectiveCard(cardID, isFront, goalType, victoryPoints, numSymbols, symbols, numResources, mainResource, direction, secondResource);
-    }
+        objectiveCard = new ObjectiveCard(cardID, isFront, goalType, victoryPoints, mainResource, direction, numResources, numSymbols, symbols, secondResource);
+        }
 
     @Test
     public void testConstructor() {

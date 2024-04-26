@@ -39,10 +39,11 @@ public class PlayerTest {
     void testSetGoal() {
         // Creating a sample ObjectiveCard
         ObjectiveCard objectiveCard = new ObjectiveCard(
-                1, true, GoalType.ResourceCondition, 10, 3,
-                new ArrayList<>(), 3, ResourceType.Fungi, CornerType.BRCorner,
+                1, true, GoalType.ResourceCondition, 10, ResourceType.Fungi, CornerType.BRCorner,
+                3, 3, new ArrayList<>(),
                 ResourceType.Animal);
-
+        // numResources, numSymbols, symbols, secondResource);
+        //
         // Setting the goal for the player
         player.setGoal(objectiveCard);
 
