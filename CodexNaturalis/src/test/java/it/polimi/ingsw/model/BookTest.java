@@ -556,25 +556,44 @@ public class BookTest {
 
     @Test
     void testCheckGoal(){
-        ObjectiveCard objectiveCard = new ObjectiveCard(0,true,GoalType.DiagonalPlacement,2, ResourceType.Fungi, CornerType.BLCorner, 0, 0, null, null)
-                //CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
 
-        assertTrue(ObjectiveCard objectiveCard)
+        List<SymbolType> zeroSymbolList = new ArrayList<>();
+        ObjectiveCard zeroObjectiveCard = new ObjectiveCard(0,true,GoalType.DiagonalPlacement,2, ResourceType.Fungi, CornerType.BLCorner, 0, 0, zeroSymbolList, null);
+        ObjectiveCard eightObjectiveCard = new ObjectiveCard(8,true,GoalType.ResourceCondition,2, ResourceType.Fungi, null, 3, 0, zeroSymbolList, null);
+
+
+        assertTrue(zeroObjectiveCard.getGoalType().equals(GoalType.DiagonalPlacement));
+        assertTrue(eightObjectiveCard.getGoalType().equals(GoalType.ResourceCondition));
+
+
+
     }
 
 
 
     @Test
     void testCheckResourceCondition() {
+
+        //creo una istanza una carta Obiettivo che sia di tipo ResourceCondition
+        List<SymbolType> zeroSymbolList = new ArrayList<>();
+        ObjectiveCard eightObjectiveCard = new ObjectiveCard(8,true,GoalType.ResourceCondition,2, ResourceType.Fungi, null, 3, 0, zeroSymbolList, null);
+
+        //creo una istanza di Book su cui applicare la CheckResourceCondition
         Book book = new Book(5, 5);
 
-        // Creazione di una GoldCard fittizia
-        List<ResourceType> resourceList = new ArrayList<>();
-        resourceList.add(ResourceType.Fungi);
-        resourceList.add(ResourceType.Fungi);
-        resourceList.add(ResourceType.Animal);
+        //Creazione di una InitialCard fittizia
+        List<ResourceType> resourceList1 = new ArrayList<>();
+        resourceList1.add(ResourceType.Plant);
+        resourceList1.add(ResourceType.Insect);
 
-        GoldCard goldCardTest = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
+        List<ResourceType> centralResources1 = new ArrayList<>();
+        resourceList1.add(ResourceType.Insect);
+
+        InitialCard initialCardTest1 = new InitialCard(0,4,true,CardType.InitialCard,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,centralResources1,1,2,resourceList1);
+        book.addInitial(initialCardTest1); //ho aggiunto la carta initial al centro del Book
+
+        //decidi le configurazioni di BOOK da testare (qui la ResourceCondition)
+
 
     }
 
