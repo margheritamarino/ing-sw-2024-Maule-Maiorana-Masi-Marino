@@ -9,11 +9,11 @@ public class ObjectiveCard {
     private boolean isFront;
     private GoalType goalType;
     private int victoryPoints;
-    private int numSymbols;
-    private List<SymbolType> symbols;
-    private int numResources;
     private ResourceType mainResource;
     private CornerType direction;
+    private int numResources;
+    private int numSymbols;
+    private List<SymbolType> symbols;
     private ResourceType secondResource;
 
     public int getCardID() {
@@ -56,7 +56,8 @@ public class ObjectiveCard {
         return secondResource;
     }
 
-    public ObjectiveCard(int cardID, boolean isFront, GoalType goalType, int victoryPoints, int numSymbols, List<SymbolType> symbols, int numResources, ResourceType mainResource, CornerType direction, ResourceType secondResource) {
+
+    public ObjectiveCard(int cardID, boolean isFront, GoalType goalType, int victoryPoints, ResourceType mainResource, CornerType direction, int numResources, int numSymbols, List<SymbolType> symbols, ResourceType secondResource) {
         this.cardID = cardID;
         this.isFront = isFront;
         this.goalType = goalType;

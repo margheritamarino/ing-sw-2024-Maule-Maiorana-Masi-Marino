@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import it.polimi.ingsw.model.cards.GoalType;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -553,31 +554,43 @@ public class BookTest {
         assertTrue(book.checkPlacementCondition(goldCardTest));
     }
 
-
-
     @Test
-    void testCheckGoal() {
+    void testCheckGoal(){
+        ObjectiveCard objectiveCard = new ObjectiveCard(0,true,GoalType.DiagonalPlacement,2, ResourceType.Fungi, CornerType.BLCorner, 0, 0, null, null)
+                //CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
 
+        assertTrue(ObjectiveCard objectiveCard)
     }
+
+
 
     @Test
     void testCheckResourceCondition() {
+        Book book = new Book(5, 5);
+
+        // Creazione di una GoldCard fittizia
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Animal);
+
+        GoldCard goldCardTest = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
 
     }
 
     @Test
     void testCheckSymbolCondition() {
-
+        Book book = new Book(5, 5);
     }
 
     @Test
     void testCheckDiagonalPlacement() {
-
+        Book book = new Book(5, 5);
     }
 
     @Test
     void testCheckLPlacement() {
-
+        Book book = new Book(5, 5);
     }
 
 
