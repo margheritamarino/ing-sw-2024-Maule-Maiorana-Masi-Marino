@@ -45,6 +45,19 @@ public class Book {
         symbolMap.put(SymbolType.Quill,0);
         symbolMap.put(SymbolType.Manuscript,0);
     }
+    public Cell getCellinMatrix(Cell findCell) {
+        for (int row = 0; row < bookMatrix.length; row++) {
+            for (int col = 0; col < bookMatrix[row].length; col++) {
+                Cell currentCell = bookMatrix[row][col];
+                // Verifica se la cella corrente è uguale a findCell
+                if (currentCell.equals(findCell)) {
+                    return currentCell; // Restituisci la cella trovata
+                }
+            }
+        }
+        // Cella non trovata, restituisci null
+        return null;
+    }
 
     /**
      * Adds the initial card to the center of the player's book matrix.
@@ -90,26 +103,26 @@ public class Book {
         }
     }
 
+
     /**
-     * Places a card into the game and returns the points of that card (if it has points, otherwise returns 0).
+     * Places a resource card onto a cell in the game and returns the points earned by that card.
      *
      * @author Margherita Marino
-     * @param ResourceCard The PlayableCard to be placed.
-     * @param cell The Cell where the card will be placed.
-     * @return The points of the card placed, or 0   if the card has no points.
+     * @param resourceCard The resource card to be placed.
+     * @param cell         The cell onto which the card will be placed.
+     * @return The points earned by placing the card on the cell. Returns 0 if the card has no points.
      */
-    //CONTROLLARE LA CONDIZIONI DI PIAZZAMENTO DELLE GOLD CARD (controlla mappa)
-    public int addResourceCard(PlayableCard ResourceCard, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
+    public int addResourceCard(PlayableCard resourceCard, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
         int numPoints = 0;
         try {
             if(!cell.isAvailable()){
                 throw new CellNotAvailableException("This Cell is not Available");
             }
-            cell.setCardPointer(ResourceCard); //setto il puntatore della cella alla carta che ho appena piazzato
-            cell.setAvailable(false); //setto disponibilità cella a false
-            updateMaps(ResourceCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
-            updateBook(ResourceCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
-            numPoints = ResourceCard.getVictoryPoints();
+            cell.setCardPointer(resourceCard); //setto il puntatore della cella alla carta che ho appena piazzato
+            cell.setAvailable(false);
+            updateMaps(resourceCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
+            updateBook(resourceCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
+            numPoints = resourceCard.getVictoryPoints();
         }catch (CellNotAvailableException e){
             System.err.println("Unable to place the card: " + e.getMessage());
         }
@@ -139,6 +152,13 @@ public class Book {
         return numPoints;
     }
 
+    /**
+     * Checks if the placement condition of a given gold card is satisfied based on the available resources.
+     *
+     * @author Margherita Marino
+     * @param goldCard The gold card whose placement condition needs to be checked.
+     * @return True if the placement condition is satisfied, false otherwise.
+     */
     public boolean checkPlacementCondition(PlayableCard goldCard){
         Map<ResourceType, Integer> conditionsMap = new HashMap<>();
         //inizializzo la mappa conditionsMap
@@ -161,26 +181,65 @@ public class Book {
         return check;
     }
 
+    /**
+     * Checks the points earned by a gold card based on its conditions.
+     *
+     * @author Margherita Marino
+     * @param goldCard The gold card to be checked.
+     * @param cell     The cell associated with the gold card.
+     * @return The number of points earned by the gold card.
+     * @see #checkCornerCondition(Cell)
+     * @see #checkGoldSymbolCondition(PlayableCard)
+     */
     public int checkGoldPoints(PlayableCard goldCard, Cell cell){
         int numPoints = 0;
         if(goldCard.isCornerCondition()){
-            numPoints = checkCornerCondition(goldCard, cell);
+            numPoints = checkCornerCondition(cell);
         }else{
             numPoints = checkGoldSymbolCondition(goldCard);
         }
         return numPoints;
     }
 
-    public int checkCornerCondition(PlayableCard goldCard, Cell cell){
-        int numPoints = 0;
-        //fai metodo
-        return numPoints;
+    public int checkCornerCondition(Cell cell){
+        int cornerCovered = 0;
+        int i = cell.getRow();
+        int j = cell.getColumn();
+
+        if(bookMatrix[i-1][j-1].getCard() != null){
+            cornerCovered++;
+        }
+        if(bookMatrix[i-1][j+1].getCard() != null ){
+            cornerCovered++;
+        }
+        if(bookMatrix[i+1][j+1].getCard() != null){
+            cornerCovered++;
+        }
+        if(bookMatrix[i+1][j-1].getCard() != null){
+            cornerCovered++;
+        }
+        return cornerCovered;
     }
 
+    /**
+     * Checks the gold symbol condition of a playable gold card.
+     *
+     * @author Margherita Marino
+     * @param goldCard The gold card to be checked.
+     * @return The number of occurrences of the gold card's symbol condition in a symbol map.
+     */
     public int checkGoldSymbolCondition(PlayableCard goldCard){
         return symbolMap.getOrDefault(goldCard.getSymbolCondition(), 0);
     }
 
+    /**
+     * Adds a playable card to a cell and returns the number of points earned.
+     *
+     * @author Margherita Marino
+     * @param card The playable card to be added.
+     * @param cell The cell to which the card will be added.
+     * @return The number of points earned by adding the card to the cell.
+     */
     public int addCard(PlayableCard card, Cell cell){
         int numPoints = 0;
         switch (card.getCardType()){
