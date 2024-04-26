@@ -642,26 +642,65 @@ public class BookTest {
         symbolList12.add(SymbolType.Quill);
         symbolList12.add(SymbolType.Ink);
         symbolList12.add(SymbolType.Manuscript);
-        ObjectiveCard eightObjectiveCard = new ObjectiveCard(12,true,GoalType.SymbolCondition,3, null, null, 0, 3, symbolList12, null);
+        ObjectiveCard objectiveCard12 = new ObjectiveCard(12,true,GoalType.SymbolCondition,3, null, null, 0, 3, symbolList12, null);
 
         //creo una istanza di Book su cui applicare la CheckResourceCondition
         Book book = new Book(70, 70);
 
         //Creo una InitialCard fittizia e la aggiungo al Book
-        List<ResourceType> resourceList2 = new ArrayList<>();
-        resourceList2.add(ResourceType.Animal);
-        resourceList2.add(ResourceType.Fungi);
+        List<ResourceType> resourceList0 = new ArrayList<>();
+        resourceList0.add(ResourceType.Plant);
+        resourceList0.add(ResourceType.Insect);
 
-        List<ResourceType> centralResources1 = new ArrayList<>();
-        centralResources1.add(ResourceType.Fungi);
+        List<ResourceType> centralResources0 = new ArrayList<>();
+        centralResources0.add(ResourceType.Insect);
 
-        InitialCard initialCardTest1 = new InitialCard(0,4,true,CardType.InitialCard,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,centralResources1,1,2,resourceList2);
-        book.addInitial(initialCardTest1); //ho aggiunto la carta initial al centro del Book
+        InitialCard initialCardTest0 = new InitialCard(0,4,true,CardType.InitialCard,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,centralResources0,1,2,resourceList0);
+        book.addInitial(initialCardTest0); //ho aggiunto la carta initial al centro del Book
 
         book.getBookMatrix()[35][35].setAvailable(false);
-        book.getBookMatrix()[35][35].setCardPointer(initialCardTest1);
-        book.updateBook(initialCardTest1, book.getBookMatrix()[35][35]);
-        book.updateMaps(initialCardTest1, book.getBookMatrix()[35][35]);
+        book.getBookMatrix()[35][35].setCardPointer(initialCardTest0);
+        book.updateBook(initialCardTest0, book.getBookMatrix()[35][35]);
+        book.updateMaps(initialCardTest0, book.getBookMatrix()[35][35]);
+
+        //Creo GoldCard36 e la aggiungo al Book
+        List<ResourceType> resourceList36 = new ArrayList<>();
+        resourceList36.add(ResourceType.Insect);
+        resourceList36.add(ResourceType.Insect);
+        resourceList36.add(ResourceType.Insect);
+        GoldCard goldCard36 = new GoldCard(36,2,true,CardType.GoldCard, CornerLabel.WithSymbol,CornerLabel.NoCorner,CornerLabel.NoCorner,CornerLabel.Empty, ResourceType.Insect,true,SymbolType.Ink,3, resourceList36,false,false, null);
+
+        book.getBookMatrix()[34][36].setAvailable(false);
+        book.getBookMatrix()[34][36].setCardPointer(goldCard36);
+        book.updateBook(goldCard36, book.getBookMatrix()[34][36]);
+        book.updateMaps(goldCard36, book.getBookMatrix()[34][36]);
+
+        //Creo GoldCard37 e la aggiungo al Book
+        List<ResourceType> resourceList37 = new ArrayList<>();
+        resourceList37.add(ResourceType.Insect);
+        resourceList37.add(ResourceType.Insect);
+        resourceList37.add(ResourceType.Insect);
+        GoldCard goldCard37 = new GoldCard(37,2,true,CardType.GoldCard, CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.NoCorner,CornerLabel.NoCorner, ResourceType.Insect,true, SymbolType.Manuscript,3, resourceList37,false,false, null);
+
+        book.getBookMatrix()[34][34].setAvailable(false);
+        book.getBookMatrix()[34][34].setCardPointer(goldCard37);
+        book.updateBook(goldCard37, book.getBookMatrix()[34][34]);
+        book.updateMaps(goldCard37, book.getBookMatrix()[34][34]);
+
+        //Creo GoldCard38 e la aggiungo al Book
+        List<ResourceType> resourceList38 = new ArrayList<>();
+        resourceList38.add(ResourceType.Insect);
+        resourceList38.add(ResourceType.Insect);
+        resourceList38.add(ResourceType.Insect);
+        GoldCard goldCard38 = new GoldCard(38,2,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol, ResourceType.Insect,true, SymbolType.Quill,3, resourceList38,false,false, null);
+
+        book.getBookMatrix()[36][34].setAvailable(false);
+        book.getBookMatrix()[36][34].setCardPointer(goldCard38);
+        book.updateBook(goldCard38, book.getBookMatrix()[36][34]);
+        book.updateMaps(goldCard38, book.getBookMatrix()[36][34]);
+
+        assertEquals(3, book.checkSymbolCondition(objectiveCard12));
+
 
     }
 
