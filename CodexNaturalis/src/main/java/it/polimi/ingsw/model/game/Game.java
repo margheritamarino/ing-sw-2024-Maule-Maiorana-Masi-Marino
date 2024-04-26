@@ -186,6 +186,9 @@ public class Game {
 		return currentPlayer.getGoal();
 	}
 
+	public void setNumPlayers(int playersNumber) {
+		this.playersNumber = playersNumber;
+	}
 
 	/**
 	 * Returns the player at the specified position in the list of players.
@@ -718,7 +721,4 @@ public class Game {
 	public ObjectiveDeck getObjectiveCardsDeck() {
 		return board.getObjectiveCardsDeck();
 	}
-
-
-
 }

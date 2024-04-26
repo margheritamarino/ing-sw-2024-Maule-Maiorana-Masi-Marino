@@ -3,10 +3,12 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.player.Player;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.lang.IllegalStateException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +18,10 @@ public class GameTest {
 
     private Game game;
 
+    @BeforeEach
+    public void setUp() throws FileNotFoundException, FileReadException, IllegalArgumentException, DeckEmptyException {
+        game = new Game(1); // Inizializza un'istanza di Game
+    }
     @Test
     public void testConstructor() {
         assertDoesNotThrow(() -> {
@@ -45,6 +51,35 @@ public class GameTest {
     }
 
     @Test
+    public void testGetNumPlayers() throws MatchFull, NicknameAlreadyTaken {
+        //imposto manualmente a zero i giocatori per vedere se aggiungendoli mi restituisce il numero corretto di giocatori
+        game.setNumPlayers(0);
+        // Verifica che il numero di giocatori sia inizialmente 0
+        assertEquals(0, game.getNumPlayers());
+
+        // Aggiungi un giocatore
+        game.addPlayer("Player1");
+
+        // Verifica che il numero di giocatori sia 1
+        assertEquals(1, game.getNumPlayers());
+    }
+
+    @Test
+    public void testPlayerIsReadyToStart() {
+        Player player1 = new Player("player1");
+        game.playerIsReadyToStart(player1);
+
+        // Verifica che il giocatore sia impostato come pronto per l'avvio
+        assertTrue(player1.getReadyToStart());
+    }
+
+    //da fare
+    @Test
+    public void testGetCurrentPlayer() {
+    }
+
+    //da fare
+    @Test
     public void testCheckNickname() throws FileNotFoundException, FileReadException, IllegalArgumentException, DeckEmptyException, NicknameAlreadyTaken, MatchFull {
         //Ambiente con due giocatori
         Game game = new Game(2);
@@ -61,8 +96,9 @@ public class GameTest {
             assertEquals("Player1", e.getNickname());
         }
 
-         }
+    }
 
+    //da fare
     @Test
     public void testIsFull() throws NicknameAlreadyTaken, MatchFull, FileNotFoundException, FileReadException, IllegalArgumentException, DeckEmptyException {
         Game game = new Game(4);
@@ -85,10 +121,11 @@ public class GameTest {
         } catch (MatchFull e) {
             // Eccezione attesa: il gioco è pieno
             assertEquals("There are already 4 players", e.getMessage());
-            System.out.println("MatchFull exception caught: " + e.getMessage());
         } catch (Exception e){
             fail("Unexpected exception: " + e.getMessage());
         }
     }
+
+    //other
 
 }
