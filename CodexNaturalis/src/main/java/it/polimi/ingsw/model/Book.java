@@ -186,7 +186,7 @@ public class Book {
      * @param goldCard The gold card to be checked.
      * @param cell     The cell associated with the gold card.
      * @return The number of points earned by the gold card.
-     * @see #checkCornerCondition(PlayableCard, Cell)
+     * @see #checkCornerCondition(Cell)
      * @see #checkGoldSymbolCondition(PlayableCard)
      */
     public int checkGoldPoints(PlayableCard goldCard, Cell cell){
