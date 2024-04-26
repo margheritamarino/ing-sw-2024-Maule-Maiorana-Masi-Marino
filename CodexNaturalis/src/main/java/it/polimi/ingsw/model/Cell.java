@@ -23,10 +23,6 @@ public class Cell {
         this.cardPointer = null; // Inizialmente non c'è nessuna carta posizionata sulla cella
     }
 
-
-    //metodo chiamato DOPO che ho piazzato una carta in questa cella
-    // ?? CONTROLLA
-
     public void updateCell(PlayableCard newCard){
         this.available = false;
         this.cardPointer = newCard;

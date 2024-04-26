@@ -64,18 +64,6 @@ public class PlayerDeck {
                throw new IndexOutOfBoundsException("Position is out of range");
           }
 
-          /*If the card at the specified position is the front
-          if (miniDeck.get(pos).isFront()) {
-               // Ensures there is a card at the next position
-               if (pos <= miniDeck.size() - 1) {
-                    miniDeck.remove(pos + 1); // Removes the back
-               }
-          } else { // If the card at the specified position is the back
-               // Ensures there is a card at the previous position
-               if (pos > 0) {
-                    miniDeck.remove(pos - 1); // Removes the front
-               }
-          }*/
           if (pos % 2 == 0) {
                // Se la posizione specificata è pari, si tratta di un fronte (posizione 0, 2, 4, ...)
                // Assicurati che la prossima posizione (pos + 1) sia valida

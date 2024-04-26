@@ -125,7 +125,6 @@ public class Player {
      * @throws IndexOutOfBoundsException If the position is out of range or the card cannot be picked.
      */
     public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException, FileNotFoundException, DeckEmptyException, DeckFullException {
-
         setPlayerState(PlayerState.Pick);
         // Take a card from the board
         PlayableCard[] pickedCard;
@@ -166,7 +165,7 @@ public class Player {
  * @return the victoryPoints of the placed card
  * */
     public int placeCard( int posCell, int posCard) throws IndexOutOfBoundsException {
-        ArrayList<Cell> availableCells = playerBook.showAvailableCells();
+        ArrayList<Cell> availableCells = this.playerBook.showAvailableCells();
 
         // Check if the cell position is valid
         if (posCell < 0 || posCell >= availableCells.size()) {
@@ -174,7 +173,7 @@ public class Player {
         }
 
         // Check if the card position is valid
-        ArrayList<PlayableCard> miniDeck = playerDeck.getMiniDeck();
+        ArrayList<PlayableCard> miniDeck = this.playerDeck.getMiniDeck();
         if (posCard < 0 || posCard >= miniDeck.size()) {
             throw new IndexOutOfBoundsException("Invalid card position");
         }
@@ -183,9 +182,8 @@ public class Player {
         Cell chosenCell = availableCells.get(posCell);
 
         // Retrieve the card at the specified position from the player's deck
-        PlayableCard chosenCard = playerDeck.getMiniDeck().get(posCard);
+        PlayableCard chosenCard = this.playerDeck.getMiniDeck().get(posCard);
         playerDeck.removeCard(posCard);
-
 
         // Place the chosen card on the chosen cell using the addCard method of the player's book
         return playerBook.addCard(chosenCard, chosenCell);
