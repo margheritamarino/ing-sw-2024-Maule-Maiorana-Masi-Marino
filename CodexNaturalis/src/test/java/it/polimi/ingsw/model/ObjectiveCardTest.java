@@ -20,7 +20,7 @@ public class ObjectiveCardTest {
     private GoalType goalType = GoalType.DiagonalPlacement; // Sostituisci con un valore valido di GoalType
     private int victoryPoints =2;
     private int numSymbols = 0;
-    private List<SymbolType> symbols = new ArrayList<>();
+    private ArrayList<SymbolType> symbols = new ArrayList<>();
     private int numResources = 0;
     private ResourceType mainResource = ResourceType.Fungi; // Sostituisci con un valore valido di ResourceType
     private CornerType direction = CornerType.BLCorner; // Sostituisci con un valore valido di CornerType
@@ -29,7 +29,7 @@ public class ObjectiveCardTest {
     @Before
     public void setUp() {
         // Inizializza un oggetto ObjectiveCard con valori di esempio
-        objectiveCard = new ObjectiveCard(cardID, isFront, goalType, victoryPoints, numSymbols, symbols, numResources, mainResource, direction, secondResource);
+        objectiveCard = new ObjectiveCard(cardID, isFront, goalType, victoryPoints,mainResource,direction,numResources, numSymbols, symbols , secondResource);
     }
 
     @Test

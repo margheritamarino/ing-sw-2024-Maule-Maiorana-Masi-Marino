@@ -45,6 +45,19 @@ public class Book {
         symbolMap.put(SymbolType.Quill,0);
         symbolMap.put(SymbolType.Manuscript,0);
     }
+    public Cell getCellinMatrix(Cell findCell) {
+        for (int row = 0; row < bookMatrix.length; row++) {
+            for (int col = 0; col < bookMatrix[row].length; col++) {
+                Cell currentCell = bookMatrix[row][col];
+                // Verifica se la cella corrente è uguale a findCell
+                if (currentCell.equals(findCell)) {
+                    return currentCell; // Restituisci la cella trovata
+                }
+            }
+        }
+        // Cella non trovata, restituisci null
+        return null;
+    }
 
     /**
      * Adds the initial card to the center of the player's book matrix.

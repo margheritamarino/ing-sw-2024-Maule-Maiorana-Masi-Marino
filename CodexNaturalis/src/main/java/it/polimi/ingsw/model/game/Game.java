@@ -206,13 +206,10 @@ public class Game {
 	/**
 	 * Checks if the game is full or if the provided nickname is already taken.
 	 *
-	 * @param nickname the nickname of the player who wants to enter.
 	 * @return true if the game is full (i.e., there are already 4 players),
-	 * the game has started, or the nickname is already taken; otherwise, returns false.
 	 */
-	public boolean isFull(String nickname) {
-		return (this.playersNumber==4 || gameStarted || checkNickname(nickname));
-
+	public boolean isFull() {
+		return playersNumber == 4;
 	}
 	/**
 	 * @param nickname nickname to check
@@ -235,32 +232,32 @@ public class Game {
 	 * @throws MatchFull if the game is full and cannot accommodate more players.
 	 */
 	public void addPlayer(String nickname) throws NicknameAlreadyTaken, MatchFull {
-			// Check if the game is not full and the nickname is not taken
-			if (!isFull(nickname)) {
-				// Create a new player with the given nickname
-				Player newPlayer = new Player(nickname);
+		// Check if the game is not full and the nickname is not taken
+		if (!isFull()) {
+			// Create a new player with the given nickname
+			Player newPlayer = new Player(nickname);
 
-				// Add the new player to the list of players
-				players.add(newPlayer);
+			// Add the new player to the list of players
+			players.add(newPlayer);
 
-				// Add the new player to the score track
-				scoretrack.addPlayer(newPlayer);
+			// Add the new player to the score track
+			scoretrack.addPlayer(newPlayer);
 
-				// Increment the number of players
-				playersNumber++;
+			// Increment the number of players
+			playersNumber++;
 
-				// Notify listeners that a player has joined the game
-				//listenersHandler.notify_PlayerJoined(this, nickname);
+			// Notify listeners that a player has joined the game
+			//listenersHandler.notify_PlayerJoined(this, nickname);
 
-			} else if (checkNickname(nickname)) {
-				// Notify listeners that the nickname is already taken
-				//listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
-				throw new NicknameAlreadyTaken(nickname);
-			} else {
-				// Notify listeners that the game is full
-				//listenersHandler.notify_JoinUnableGameFull(null, this);
-				throw new MatchFull("There are already 4 players");
-			}
+		} else if (checkNickname(nickname)) {
+			// Notify listeners that the nickname is already taken
+			//listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
+			throw new NicknameAlreadyTaken(nickname);
+		} else {
+			// Notify listeners that the game is full
+			//listenersHandler.notify_JoinUnableGameFull(null, this);
+			throw new MatchFull("There are already 4 players");
+		}
 	}
 
 	/**
