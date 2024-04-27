@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import it.polimi.ingsw.model.cards.GoalType;
 
 import static org.junit.Assert.assertEquals;
@@ -644,8 +646,14 @@ public class BookTest {
         symbolList12.add(SymbolType.Manuscript);
         ObjectiveCard objectiveCard12 = new ObjectiveCard(12,true,GoalType.SymbolCondition,3, null, null, 0, 3, symbolList12, null);
 
-        //creo una istanza di Book su cui applicare la CheckResourceCondition
-        Book book = new Book(70, 70);
+        //creo una istanza di Book su cui applicare la CheckSymbolCondition
+        Book book2 = new Book(70, 70);
+        book2.initializeMaps();
+        assertEquals(3, book2.getSymbolMap().size()); //verifica
+        assertEquals(Integer.valueOf(0), book2.getSymbolMap().get(SymbolType.Quill)); //verifica Risorse
+        assertEquals(Integer.valueOf(0), book2.getSymbolMap().get(SymbolType.Ink)); //verifica Risorse
+        assertEquals(Integer.valueOf(0), book2.getSymbolMap().get(SymbolType.Manuscript)); //verifica Risorse
+
 
         //Creo una InitialCard fittizia e la aggiungo al Book
         List<ResourceType> resourceList0 = new ArrayList<>();
@@ -656,12 +664,26 @@ public class BookTest {
         centralResources0.add(ResourceType.Insect);
 
         InitialCard initialCardTest0 = new InitialCard(0,4,true,CardType.InitialCard,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,centralResources0,1,2,resourceList0);
-        book.addInitial(initialCardTest0); //ho aggiunto la carta initial al centro del Book
+        book2.addInitial(initialCardTest0); //ho aggiunto la carta initial al centro del Book
 
-        book.getBookMatrix()[35][35].setAvailable(false);
-        book.getBookMatrix()[35][35].setCardPointer(initialCardTest0);
-        book.updateBook(initialCardTest0, book.getBookMatrix()[35][35]);
-        book.updateMaps(initialCardTest0, book.getBookMatrix()[35][35]);
+        book2.getBookMatrix()[35][35].setAvailable(false);
+        book2.getBookMatrix()[35][35].setCardPointer(initialCardTest0);
+        book2.updateBook(initialCardTest0, book2.getBookMatrix()[35][35]);
+        book2.updateMaps(initialCardTest0, book2.getBookMatrix()[35][35]);
+        //assertEquals(0, book2.getSymbolMap().size()); //verifica Simboli
+        assertEquals(Integer.valueOf(2), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
+
+        //Creo ResourceCardBack30 e la aggiungo al Book
+        List<ResourceType> resourceList30 = new ArrayList<>();
+        ResourceCard resourceCard30 = new ResourceCard(30,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Insect,0,0,resourceList30,false, null);
+
+        book2.getBookMatrix()[43][36].setAvailable(false);
+        book2.getBookMatrix()[34][36].setCardPointer(resourceCard30);
+        book2.updateBook(resourceCard30, book2.getBookMatrix()[34][36]);
+        book2.updateMaps(resourceCard30, book2.getBookMatrix()[34][36]);
+        //assertEquals(0, book2.getSymbolMap().size()); //verifica Simboli
+        assertEquals(Integer.valueOf(3), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
+
 
         //Creo GoldCard36 e la aggiungo al Book
         List<ResourceType> resourceList36 = new ArrayList<>();
@@ -670,10 +692,12 @@ public class BookTest {
         resourceList36.add(ResourceType.Insect);
         GoldCard goldCard36 = new GoldCard(36,2,true,CardType.GoldCard, CornerLabel.WithSymbol,CornerLabel.NoCorner,CornerLabel.NoCorner,CornerLabel.Empty, ResourceType.Insect,true,SymbolType.Ink,3, resourceList36,false,false, null);
 
-        book.getBookMatrix()[34][36].setAvailable(false);
-        book.getBookMatrix()[34][36].setCardPointer(goldCard36);
-        book.updateBook(goldCard36, book.getBookMatrix()[34][36]);
-        book.updateMaps(goldCard36, book.getBookMatrix()[34][36]);
+        book2.getBookMatrix()[33][37].setAvailable(false);
+        book2.getBookMatrix()[33][37].setCardPointer(goldCard36);
+        book2.updateBook(goldCard36, book2.getBookMatrix()[33][37]);
+        book2.updateMaps(goldCard36, book2.getBookMatrix()[33][37]);
+        assertEquals(Integer.valueOf(1), book2.getSymbolMap().get(SymbolType.Ink)); //verifica Simboli
+        assertEquals(Integer.valueOf(3), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
 
         //Creo GoldCard37 e la aggiungo al Book
         List<ResourceType> resourceList37 = new ArrayList<>();
@@ -682,10 +706,13 @@ public class BookTest {
         resourceList37.add(ResourceType.Insect);
         GoldCard goldCard37 = new GoldCard(37,2,true,CardType.GoldCard, CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.NoCorner,CornerLabel.NoCorner, ResourceType.Insect,true, SymbolType.Manuscript,3, resourceList37,false,false, null);
 
-        book.getBookMatrix()[34][34].setAvailable(false);
-        book.getBookMatrix()[34][34].setCardPointer(goldCard37);
-        book.updateBook(goldCard37, book.getBookMatrix()[34][34]);
-        book.updateMaps(goldCard37, book.getBookMatrix()[34][34]);
+        book2.getBookMatrix()[34][34].setAvailable(false);
+        book2.getBookMatrix()[34][34].setCardPointer(goldCard37);
+        book2.updateBook(goldCard37, book2.getBookMatrix()[34][34]);
+        book2.updateMaps(goldCard37, book2.getBookMatrix()[34][34]);
+        assertEquals(Integer.valueOf(1), book2.getSymbolMap().get(SymbolType.Manuscript)); //verifica Simboli
+        assertEquals(Integer.valueOf(3), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
+
 
         //Creo GoldCard38 e la aggiungo al Book
         List<ResourceType> resourceList38 = new ArrayList<>();
@@ -694,12 +721,15 @@ public class BookTest {
         resourceList38.add(ResourceType.Insect);
         GoldCard goldCard38 = new GoldCard(38,2,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol, ResourceType.Insect,true, SymbolType.Quill,3, resourceList38,false,false, null);
 
-        book.getBookMatrix()[36][34].setAvailable(false);
-        book.getBookMatrix()[36][34].setCardPointer(goldCard38);
-        book.updateBook(goldCard38, book.getBookMatrix()[36][34]);
-        book.updateMaps(goldCard38, book.getBookMatrix()[36][34]);
+        book2.getBookMatrix()[36][34].setAvailable(false);
+        book2.getBookMatrix()[36][34].setCardPointer(goldCard38);
+        book2.updateBook(goldCard38, book2.getBookMatrix()[36][34]);
+        book2.updateMaps(goldCard38, book2.getBookMatrix()[36][34]);
+        assertEquals(Integer.valueOf(1), book2.getSymbolMap().get(SymbolType.Quill)); //verifica Simboli
+        assertEquals(Integer.valueOf(3), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
+        assertEquals(3, book2.getSymbolMap().size()); //verifica Simboli
 
-        assertEquals(3, book.checkSymbolCondition(objectiveCard12));
+        assertEquals(3, book2.checkSymbolCondition(objectiveCard12));
 
 
     }
