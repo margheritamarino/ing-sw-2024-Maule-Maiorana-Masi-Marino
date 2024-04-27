@@ -218,7 +218,7 @@ public class Book {
         if(bookMatrix[i+1][j-1].getCard() != null){
             cornerCovered++;
         }
-        return cornerCovered;
+        return cornerCovered * 2;
     }
 
     /**
