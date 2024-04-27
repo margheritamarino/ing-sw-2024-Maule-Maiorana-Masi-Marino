@@ -1,16 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 import it.polimi.ingsw.model.cards.*;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import it.polimi.ingsw.model.cards.GoalType;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,16 +27,16 @@ public class BookTest {
 
         // Verifichiamo che la matrice del libro sia stata inizializzata correttamente
         Cell[][] bookMatrix = book.getBookMatrix();
-        assertEquals(rows, bookMatrix.length);
-        assertEquals(columns, bookMatrix[0].length);
+        Assertions.assertEquals(rows, bookMatrix.length);
+        Assertions.assertEquals(columns, bookMatrix[0].length);
 
         // Verifichiamo che ogni cella della matrice sia stata inizializzata correttamente
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 Cell cell = bookMatrix[i][j];
                 assertNotNull(cell);
-                assertEquals(i, cell.getRow());
-                assertEquals(j, cell.getColumn());
+                Assertions.assertEquals(i, cell.getRow());
+                Assertions.assertEquals(j, cell.getColumn());
                 assertFalse(cell.isAvailable());
             }
         }
@@ -62,13 +58,13 @@ public class BookTest {
         book.decreaseSymbol(SymbolType.Manuscript);
 
         // Verifichiamo che il numero di QUILL sia diminuito di uno
-        assertEquals(2, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(2, book.getSymbolMap().get(SymbolType.Quill).intValue());
 
         // Verifichiamo che il numero di INK sia rimasto invariato
-        assertEquals(2, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(2, book.getSymbolMap().get(SymbolType.Ink).intValue());
 
         // Verifichiamo che il numero di MANUSCRIPT non sia sceso sotto allo 0
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
     }
 
     @Test
@@ -89,10 +85,10 @@ public class BookTest {
         book.decreaseResource(ResourceType.Fungi);
 
 
-        assertEquals(3, book.getResourceMap().get(ResourceType.Plant).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(20, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(20, book.getResourceMap().get(ResourceType.Insect).intValue());
     }
 
     @Test
@@ -110,11 +106,11 @@ public class BookTest {
         book.increaseResource(ResourceType.Plant);
 
         // Verifichiamo che il numero di Fungi sia aumentato di uno
-        assertEquals(5, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(5, book.getResourceMap().get(ResourceType.Fungi).intValue());
 
         // Verifichiamo che il numero di Animal sia rimasto invariato
-        assertEquals(2, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(2, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
     }
 
     @Test
@@ -162,15 +158,15 @@ public class BookTest {
         book.updateNewCardCorners(card);
 
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
 
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
         book.clear();
 
         //carta 2
@@ -184,15 +180,15 @@ public class BookTest {
         book.updateNewCardCorners(initialCardTest1);
 
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
 
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
 
         book.clear();
         //carta 3
@@ -204,15 +200,15 @@ public class BookTest {
 
         book.updateNewCardCorners(goldCardTest);
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
 
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
     }
 
 
@@ -230,15 +226,15 @@ public class BookTest {
         book.UpdateMapInitial(initialCardTest1);
 
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(2, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(2, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
 
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
     }
 
 
@@ -257,15 +253,15 @@ public class BookTest {
         book.coverCorner(goldCard, 2);
         book.coverCorner(goldCard, 0);
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
 
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
 
         book.clear();
 
@@ -282,15 +278,15 @@ public class BookTest {
         book.coverCorner(card, 3);
 
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
 
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
     }
 
     @Test
@@ -338,7 +334,7 @@ public class BookTest {
     void testShowAvailableCells(){
         Book book = new Book(5, 5);
         book.clear();
-        List<Cell> availableCellsList = new ArrayList<>();
+        List<Cell> availableCellsList;
         List<ResourceType> resourceList = new ArrayList<>();
         resourceList.add(ResourceType.Fungi);
         resourceList.add(ResourceType.Animal);
@@ -379,15 +375,15 @@ public class BookTest {
         book.updateNewCardCorners(initialCard);
 
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
 
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
 
         //aggiungo carta resource al book
         List<ResourceType> resourceList = new ArrayList<>();
@@ -401,25 +397,25 @@ public class BookTest {
 
         book.updateCoveredCorners(book.getBookMatrix()[1][3]);
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
 
         book.updateNewCardCorners(resourceCard);
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
 
 
         //aggiungo carta goldCard
@@ -436,25 +432,25 @@ public class BookTest {
         book.updateCoveredCorners(book.getBookMatrix()[3][3]);
 
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
 
         book.updateNewCardCorners(goldCard);
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
    }
 
     @Test
@@ -496,14 +492,14 @@ public class BookTest {
         book.updateMaps(goldCard, book.getBookMatrix()[3][1]);
 
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
     }
 
     @Test
@@ -521,14 +517,14 @@ public class BookTest {
         book.addInitial(initialCardTest);
 
         // Verifichiamo che le risorse e i simboli nel libro siano stati aggiornati correttamente
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
         // Verifichiamo che non ci siano cambiamenti nei simboli
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
 
 
         assertFalse(book.getBookMatrix()[35][35].isAvailable());
@@ -579,25 +575,27 @@ public class BookTest {
 
         book.getBookMatrix()[3][3].setAvailable(true);
         points = book.addResourceCard(resourceCard1, book.getBookMatrix()[3][3]);
-        //book.updateBook(resourceCard1, book.getBookMatrix()[3][3]);
-        assertFalse(book.getBookMatrix()[3][3].isAvailable());
+
         assertFalse(book.getBookMatrix()[2][3].isAvailable());
-        assertFalse(book.getBookMatrix()[3][2].isAvailable());
         assertFalse(book.getBookMatrix()[3][4].isAvailable());
-        assertFalse(book.getBookMatrix()[4][3].isAvailable());
-        assertTrue(book.getBookMatrix()[2][2].isAvailable());
+        assertFalse(book.getBookMatrix()[3][2].isAvailable());
         assertTrue(book.getBookMatrix()[2][4].isAvailable());
+        assertFalse(book.getBookMatrix()[3][3].isAvailable());
+        assertTrue(book.getBookMatrix()[2][2].isAvailable());
         assertTrue(book.getBookMatrix()[4][4].isAvailable());
-        assertTrue(book.getBookMatrix()[4][2].isWall());
+        assertFalse(book.getBookMatrix()[4][3].isAvailable());
         assertFalse(book.getBookMatrix()[4][2].isAvailable());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
-        assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
-        assertEquals(0,points);
+        assertTrue(book.getBookMatrix()[4][2].isWall());
+
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, points);
+
 
         points = book.addResourceCard(resourceCard3, book.getBookMatrix()[2][4]);
         assertFalse(book.getBookMatrix()[2][4].isAvailable());
@@ -609,24 +607,24 @@ public class BookTest {
         assertTrue(book.getBookMatrix()[1][5].isAvailable());
         assertTrue(book.getBookMatrix()[3][5].isAvailable());
         assertTrue(book.getBookMatrix()[3][3].isWall());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
-        assertEquals(2, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
-        assertEquals(0,points);
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(2, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(0, points);
 
         points = book.addResourceCard(resourceCard2, book.getBookMatrix()[4][4]);
-        assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
-        assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
-        assertEquals(2, book.getSymbolMap().get(SymbolType.Ink).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
-        assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
-        assertEquals(1,points);
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(2, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(1, points);
     }
 
     @Test
@@ -645,7 +643,7 @@ public class BookTest {
         book.updateNewCardCorners(goldCardTest);
 
         int points = book.checkGoldSymbolCondition(goldCardTest);
-        assertEquals(4, points);
+        Assertions.assertEquals(4, points);
     }
 
     @Test
@@ -690,21 +688,177 @@ public class BookTest {
         book.updateMaps(goldCard1,book.getBookMatrix()[3][5]);
 
         points = book.checkGoldCornerCondition(book.getBookMatrix()[3][5]);
-        assertEquals(4, points);
+        Assertions.assertEquals(4, points);
     }
 
+    @Test
+    void testCheckGoldPoints(){
+        Book book = new Book(10,10);
+        int points;
+        //resourceCard1
+        List<ResourceType> resourceList1 = new ArrayList<>();
+        resourceList1.add(ResourceType.Fungi);
+        resourceList1.add(ResourceType.Animal);
+        ResourceCard resourceCard1 = new ResourceCard(5,3,true,CardType.ResourceCard,CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList1,true,SymbolType.Ink);
+
+        //resourceCard2
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Animal);
+        ResourceCard resourceCard2 = new ResourceCard(6,3,true,CardType.ResourceCard,CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.WithResource,ResourceType.Animal,1,1,resourceList2,false,null);
+
+        //resourceCard3
+        List<ResourceType> resourceList3 = new ArrayList<>();
+        resourceList3.add(ResourceType.Fungi);
+        resourceList3.add(ResourceType.Plant);
+        ResourceCard resourceCard3 = new ResourceCard(7,3,true,CardType.ResourceCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithSymbol,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList3,true,SymbolType.Ink);
+
+        //goldCard1(corner)
+        List<ResourceType> placementList1 = new ArrayList<>();
+        placementList1.add(ResourceType.Animal);
+        placementList1.add(ResourceType.Animal);
+        placementList1.add(ResourceType.Animal);
+        placementList1.add(ResourceType.Insect);
+        GoldCard goldCard1 = new GoldCard(0,3,true,CardType.GoldCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.NoCorner,ResourceType.Animal,false,null,2,placementList1,true,true,null);
+
+        book.getBookMatrix()[3][3].setAvailable(true);
+        book.addResourceCard(resourceCard1, book.getBookMatrix()[3][3]);
+        book.addResourceCard(resourceCard3,book.getBookMatrix()[2][4]);
+        book.addResourceCard(resourceCard2,book.getBookMatrix()[4][4]);
+
+        book.getResourceMap().put(ResourceType.Insect,1);
+        book.getResourceMap().put(ResourceType.Animal, 3);
+        book.getBookMatrix()[3][5].setCardPointer(goldCard1);
+        book.getBookMatrix()[3][5].setAvailable(false);
+        book.updateBook(goldCard1, book.getBookMatrix()[3][5]);
+        book.updateMaps(goldCard1,book.getBookMatrix()[3][5]);
+
+        points = book.checkGoldPoints(goldCard1,book.getBookMatrix()[3][5]);
+        Assertions.assertEquals(4, points);
+
+        //goldCard (symbol)
+        List<ResourceType> placementList2 = new ArrayList<>();
+        placementList2.add(ResourceType.Fungi);
+        placementList2.add(ResourceType.Fungi);
+        placementList2.add(ResourceType.Animal);
+        GoldCard goldCard2 = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,placementList2,true,false, SymbolType.Quill);
+
+        book.getResourceMap().put(ResourceType.Fungi,2);
+        book.getSymbolMap().put(SymbolType.Quill,2);
+
+        book.getBookMatrix()[5][5].setCardPointer(goldCard1);
+        book.getBookMatrix()[5][5].setAvailable(false);
+        book.updateBook(goldCard2, book.getBookMatrix()[3][5]);
+        book.updateMaps(goldCard2,book.getBookMatrix()[3][5]);
+        points = book.checkGoldPoints(goldCard2,book.getBookMatrix()[5][5]);
+        Assertions.assertEquals(3, points);
+    }
+
+    @Test
+    void TestAddGoldCard() throws PlacementConditionViolated {
+        Book book = new Book(10,10);
+        int points;
+
+        List<ResourceType> placementList1 = new ArrayList<>();
+        placementList1.add(ResourceType.Animal);
+        placementList1.add(ResourceType.Animal);
+        placementList1.add(ResourceType.Animal);
+        placementList1.add(ResourceType.Insect);
+        GoldCard goldCard1 = new GoldCard(0,3,true,CardType.GoldCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.NoCorner,ResourceType.Animal,false,null,2,placementList1,true,true,null);
 
 
+        List<ResourceType> placementList2 = new ArrayList<>();
+        placementList2.add(ResourceType.Fungi);
+        placementList2.add(ResourceType.Fungi);
+        placementList2.add(ResourceType.Animal);
+        GoldCard goldCard2 = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,placementList2,true,false, SymbolType.Quill);
 
 
+        List<ResourceType> placementList3 = new ArrayList<>();
+        placementList3.add(ResourceType.Fungi);
+        placementList3.add(ResourceType.Fungi);
+        placementList3.add(ResourceType.Fungi);
+        GoldCard goldCard3 = new GoldCard(10,2,true,CardType.GoldCard,CornerLabel.Empty,CornerLabel.NoCorner,CornerLabel.NoCorner,CornerLabel.WithSymbol,ResourceType.Fungi,true,SymbolType.Ink,3,placementList3,false,false,null);
 
 
+        book.getSymbolMap().put(SymbolType.Quill,3);
+        //inizializzo mappe per consentire il piazzamento
+        book.getResourceMap().put(ResourceType.Fungi, 3);
+        book.getResourceMap().put(ResourceType.Animal,3);
+        book.getResourceMap().put(ResourceType.Insect,1);
+
+        book.getBookMatrix()[3][3].setAvailable(true); //setto la prima cella ad available
+        points = book.addGoldCard(goldCard3,book.getBookMatrix()[3][3]);
 
 
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(3, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(3, points);
 
 
+        assertFalse(book.getBookMatrix()[3][3].isAvailable());
+        assertFalse(book.getBookMatrix()[2][4].isAvailable());
+        assertFalse(book.getBookMatrix()[4][4].isAvailable());
+        assertTrue(book.getBookMatrix()[2][4].isWall());
+        assertTrue(book.getBookMatrix()[4][4].isWall());
+        assertTrue(book.getBookMatrix()[2][2].isAvailable());
+        assertTrue(book.getBookMatrix()[4][2].isAvailable());
+        Assertions.assertEquals(goldCard3,book.getBookMatrix()[3][3].getCard());
+
+        points = book.addGoldCard(goldCard2,book.getBookMatrix()[2][2]);
+
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(1, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(4, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(4, points);
+
+        assertFalse(book.getBookMatrix()[2][2].isAvailable());
+        assertTrue(book.getBookMatrix()[1][1].isWall());
+        assertTrue(book.getBookMatrix()[4][4].isWall());
+        assertTrue(book.getBookMatrix()[2][4].isWall());
+        assertTrue(book.getBookMatrix()[1][3].isAvailable());
+        assertTrue(book.getBookMatrix()[4][2].isAvailable());
+        assertFalse(book.getBookMatrix()[3][1].isWall());
+        assertFalse(book.getBookMatrix()[3][3].isAvailable());
+        assertTrue(book.getBookMatrix()[3][1].isAvailable());
+        Assertions.assertEquals(goldCard2,book.getBookMatrix()[2][2].getCard());
+
+        points = book.addGoldCard(goldCard1,book.getBookMatrix()[4][2]);
+
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Animal).intValue());
+        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Insect).intValue());
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Ink).intValue());
+        Assertions.assertEquals(4, book.getSymbolMap().get(SymbolType.Quill).intValue());
+        Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
+        Assertions.assertEquals(2, points);
 
 
+        assertFalse(book.getBookMatrix()[4][2].isAvailable());
+        assertTrue(book.getBookMatrix()[4][2].isWall());
+        assertTrue(book.getBookMatrix()[1][1].isWall());
+        assertTrue(book.getBookMatrix()[5][1].isWall());
+        assertTrue(book.getBookMatrix()[4][4].isWall());
+        assertTrue(book.getBookMatrix()[2][4].isWall());
+        assertTrue(book.getBookMatrix()[1][3].isAvailable());
+        assertFalse(book.getBookMatrix()[3][1].isWall());
+        assertFalse(book.getBookMatrix()[3][3].isAvailable());
+        assertTrue(book.getBookMatrix()[3][3].isWall());
+        assertFalse(book.getBookMatrix()[2][2].isAvailable());
+        assertTrue(book.getBookMatrix()[2][2].isWall());
+        assertTrue(book.getBookMatrix()[3][1].isAvailable());
+        assertTrue(book.getBookMatrix()[5][3].isAvailable());
+        Assertions.assertEquals(goldCard1,book.getBookMatrix()[4][2].getCard());
+    }
 
 
 

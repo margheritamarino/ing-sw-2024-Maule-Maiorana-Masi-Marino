@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.DeckFullException;
+import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
@@ -164,7 +165,7 @@ public class Player {
  * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
  * @return the victoryPoints of the placed card
  * */
-    public int placeCard( int posCell, int posCard) throws IndexOutOfBoundsException {
+    public int placeCard( int posCell, int posCard) throws IndexOutOfBoundsException, PlacementConditionViolated {
         ArrayList<Cell> availableCells = this.playerBook.showAvailableCells();
 
         // Check if the cell position is valid

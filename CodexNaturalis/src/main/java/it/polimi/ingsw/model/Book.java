@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
+import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 import it.polimi.ingsw.model.cards.*;
 import java.util.*;
 
@@ -8,7 +9,7 @@ import java.util.*;
 
 // BOOK: disposizione delle carte di ogni player
 public class Book {
-    private Cell[][] bookMatrix; //matrice di celle
+    private final Cell[][] bookMatrix; //matrice di celle
     private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
     private Map<SymbolType, Integer> symbolMap; //n° di simboli per tipo
 
@@ -77,13 +78,13 @@ public class Book {
         initialCell.setAvailable(true);
         initialCell.setCardPointer(initialCard);
         initialCell.setAvailable(false); //setto disponibilità cella a false
+        initialCell.setWall(true);
         UpdateMapInitial(initialCard); //aggiorno la mappa delle risorse presenti sul book in base alle risorse presenti sugli angoli e o nel centro della initialCard
         updateBook(initialCard, initialCell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata in base alla presenza o meno degli angoli
     }
 
     /**
      * Updates the resource map based on the provided initial card.
-     *
      * This method evaluates the presence of resources in the initial card, which can have resources
      * both on the corners of the card and in the central part.
      *
@@ -120,6 +121,7 @@ public class Book {
             }
             cell.setCardPointer(resourceCard); //setto il puntatore della cella alla carta che ho appena piazzato
             cell.setAvailable(false);
+            cell.setWall(true);
             updateMaps(resourceCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
             updateBook(resourceCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
             numPoints = resourceCard.getVictoryPoints();
@@ -129,25 +131,31 @@ public class Book {
         return numPoints;
     }
 
-    public int addGoldCard(PlayableCard goldCard, Cell cell){
+    public int addGoldCard(PlayableCard goldCard, Cell cell) throws PlacementConditionViolated {
         int numPoints = 0;
-        if(checkPlacementCondition(goldCard)){
+        try{
+            if (!checkPlacementCondition(goldCard)) {
+                throw new PlacementConditionViolated("you don't have enough resources on the book!");
+            }
             try {
-                if(!cell.isAvailable()){
+                if (!cell.isAvailable()) {
                     throw new CellNotAvailableException("This Cell is not Available");
                 }
                 cell.setCardPointer(goldCard); //setto il puntatore della cella alla carta che ho appena piazzato
                 cell.setAvailable(false); //setto disponibilità cella a false
+                cell.setWall(true);
                 updateMaps(goldCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
                 updateBook(goldCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
-                if(!goldCard.isPointsCondition()){
+                if (!goldCard.isPointsCondition()) {
                     numPoints = goldCard.getVictoryPoints();
-                }else{
+                } else {
                     numPoints = checkGoldPoints(goldCard, cell);
                 }
-            }catch (CellNotAvailableException e){
+            } catch (CellNotAvailableException e) {
                 System.err.println("Unable to place the card: " + e.getMessage());
             }
+        }catch (PlacementConditionViolated e) {
+            System.err.println("Unable to place the card: " + e.getMessage());
         }
         return numPoints;
     }
@@ -192,7 +200,7 @@ public class Book {
      * @see #checkGoldSymbolCondition(PlayableCard)
      */
     public int checkGoldPoints(PlayableCard goldCard, Cell cell){
-        int numPoints = 0;
+        int numPoints;
         if(goldCard.isCornerCondition()){
             numPoints = checkGoldCornerCondition(cell);
         }else{
@@ -240,7 +248,7 @@ public class Book {
      * @param cell The cell to which the card will be added.
      * @return The number of points earned by adding the card to the cell.
      */
-    public int addCard(PlayableCard card, Cell cell){
+    public int addCard(PlayableCard card, Cell cell) throws PlacementConditionViolated {
         int numPoints = 0;
         switch (card.getCardType()){
             case GoldCard -> numPoints = addGoldCard(card, cell);
@@ -478,21 +486,21 @@ public class Book {
             bookMatrix[i-1][j-1].setAvailable(true);
         }
 
-        if(newCard.getTLCorner() == CornerLabel.NoCorner){
+        if(newCard.getTRCorner() == CornerLabel.NoCorner){
             bookMatrix[i-1][j+1].setWall(true);
-        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j+1].isWall())){
+        }else if(!(newCard.getTRCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j+1].isWall())){
             bookMatrix[i-1][j+1].setAvailable(true);
         }
 
         if(newCard.getBRCorner() == CornerLabel.NoCorner){
             bookMatrix[i+1][j+1].setWall(true);
-        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j+1].isWall())){
+        }else if(!(newCard.getBRCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j+1].isWall())){
             bookMatrix[i+1][j+1].setAvailable(true);
         }
 
         if(newCard.getBLCorner() == CornerLabel.NoCorner){
             bookMatrix[i+1][j-1].setWall(true);
-        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j-1]).isWall()){
+        }else if(!(newCard.getBLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j-1]).isWall()){
             bookMatrix[i+1][j-1].setAvailable(true);
         }
     }
@@ -544,18 +552,12 @@ public class Book {
      * @author Martina Maiorana
      */
     public int checkGoal(ObjectiveCard objectiveCard) {
-        switch (objectiveCard.getGoalType()) {
-            case ResourceCondition:
-                return checkResourceCondition(objectiveCard);
-            case SymbolCondition:
-                return checkSymbolCondition(objectiveCard);
-            case DiagonalPlacement:
-                return checkDiagonalPlacement(objectiveCard);
-            case LPlacement:
-                return checkLPlacement(objectiveCard);
-            default:
-                throw new IllegalArgumentException("Invalid GoalType");
-        }
+        return switch (objectiveCard.getGoalType()) {
+            case ResourceCondition -> checkResourceCondition(objectiveCard);
+            case SymbolCondition -> checkSymbolCondition(objectiveCard);
+            case DiagonalPlacement -> checkDiagonalPlacement(objectiveCard);
+            case LPlacement -> checkLPlacement(objectiveCard);
+        };
     }
 
 
