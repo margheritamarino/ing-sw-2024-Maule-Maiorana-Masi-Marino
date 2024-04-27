@@ -556,28 +556,8 @@ public class BookTest {
         assertTrue(book.checkPlacementCondition(goldCardTest));
     }
 
-
     @Test
-    void testCheckGoldSymbolCondition(){
-        Book book = new Book(5, 5);
-        List<ResourceType> resourceList = new ArrayList<>();
-        resourceList.add(ResourceType.Fungi);
-        resourceList.add(ResourceType.Fungi);
-        resourceList.add(ResourceType.Animal);
-        GoldCard goldCardTest = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
-
-        book.getSymbolMap().put(SymbolType.Quill, 3);
-        book.getBookMatrix()[2][2].setAvailable(false);
-        book.getBookMatrix()[2][2].setCardPointer(goldCardTest);
-        book.updateBook(goldCardTest, book.getBookMatrix()[2][2]);
-        book.updateNewCardCorners(goldCardTest);
-
-        int points = book.checkGoldSymbolCondition(goldCardTest);
-        assertEquals(4, points);
-    }
-
-    @Test
-    void TestAddResourceCard(){
+    void testAddResourceCard(){
         Book book = new Book(10,10);
         int points;
         //resourceCard1
@@ -647,6 +627,25 @@ public class BookTest {
         assertEquals(0, book.getSymbolMap().get(SymbolType.Quill).intValue());
         assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
         assertEquals(1,points);
+    }
+
+    @Test
+    void testCheckGoldSymbolCondition(){
+        Book book = new Book(5, 5);
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Animal);
+        GoldCard goldCardTest = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList,true,false, SymbolType.Quill);
+
+        book.getSymbolMap().put(SymbolType.Quill, 3);
+        book.getBookMatrix()[2][2].setAvailable(false);
+        book.getBookMatrix()[2][2].setCardPointer(goldCardTest);
+        book.updateBook(goldCardTest, book.getBookMatrix()[2][2]);
+        book.updateNewCardCorners(goldCardTest);
+
+        int points = book.checkGoldSymbolCondition(goldCardTest);
+        assertEquals(4, points);
     }
 
     @Test
