@@ -554,6 +554,9 @@ public class BookTest {
         assertTrue(book.checkPlacementCondition(goldCardTest));
     }
 
+
+
+
     @Test
     void testCheckGoal(){
 

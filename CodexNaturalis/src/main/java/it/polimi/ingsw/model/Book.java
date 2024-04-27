@@ -188,20 +188,20 @@ public class Book {
      * @param goldCard The gold card to be checked.
      * @param cell     The cell associated with the gold card.
      * @return The number of points earned by the gold card.
-     * @see #checkCornerCondition(Cell)
+     * @see #checkGoldCornerCondition(Cell)
      * @see #checkGoldSymbolCondition(PlayableCard)
      */
     public int checkGoldPoints(PlayableCard goldCard, Cell cell){
         int numPoints = 0;
         if(goldCard.isCornerCondition()){
-            numPoints = checkCornerCondition(cell);
+            numPoints = checkGoldCornerCondition(cell);
         }else{
             numPoints = checkGoldSymbolCondition(goldCard);
         }
         return numPoints;
     }
 
-    public int checkCornerCondition(Cell cell){
+    public int checkGoldCornerCondition(Cell cell){
         int cornerCovered = 0;
         int i = cell.getRow();
         int j = cell.getColumn();
