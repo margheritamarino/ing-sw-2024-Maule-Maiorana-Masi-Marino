@@ -738,37 +738,57 @@ public class BookTest {
     @Test
     void testCheckResourceCondition() {
 
-        //creo una istanza una carta Obiettivo che sia di tipo ResourceCondition
+        //creo le istanze di carte Obiettivo di tipo ResourceCondition
         List<SymbolType> zeroSymbolList = new ArrayList<>();
         ObjectiveCard eightObjectiveCard = new ObjectiveCard(8,true,GoalType.ResourceCondition,2, ResourceType.Fungi, null, 3, 0, zeroSymbolList, null);
+        ObjectiveCard objectiveCard9 = new ObjectiveCard(9,true,GoalType.ResourceCondition,2, ResourceType.Plant, null, 3, 0, zeroSymbolList, null);
+        ObjectiveCard objectiveCard10 = new ObjectiveCard(10,true,GoalType.ResourceCondition,2, ResourceType.Animal, null, 3, 0, zeroSymbolList, null);
+        ObjectiveCard objectiveCard11 = new ObjectiveCard(11,true,GoalType.ResourceCondition,2, ResourceType.Insect, null, 3, 0, zeroSymbolList, null);
 
-        //creo una istanza di Book su cui applicare la CheckResourceCondition
+        //creo una istanza di Book su cui applicare la CheckResourceCondition (Fungi)
         Book book = new Book(70, 70);
+        book.getResourceMap().put(ResourceType.Animal, 1);
+        book.getResourceMap().put(ResourceType.Plant, 0);
+        book.getResourceMap().put(ResourceType.Insect, 15);
+        book.getResourceMap().put(ResourceType.Fungi, 6);
 
-        //Creo la InitialCard1 fittizia e la aggiungo al Book
-        List<ResourceType> resourceList2 = new ArrayList<>();
-        resourceList2.add(ResourceType.Animal);
-        resourceList2.add(ResourceType.Fungi);
+        assertEquals(4, book.checkResourceCondition(eightObjectiveCard));
 
-        List<ResourceType> centralResources2 = new ArrayList<>();
-        resourceList2.add(ResourceType.Fungi);
+        //creo una istanza Book0 su cui applicare la CheckResourceCondition (Fungi)
+        Book book0 = new Book(70, 70);
+        book0.getResourceMap().put(ResourceType.Animal, 1);
+        book0.getResourceMap().put(ResourceType.Plant, 0);
+        book0.getResourceMap().put(ResourceType.Insect, 15);
+        book0.getResourceMap().put(ResourceType.Fungi, 7);
 
-        InitialCard initialCardTest2 = new InitialCard(1,4,true,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,centralResources2,1,2,resourceList2);
-        book.addInitial(initialCardTest2); //ho aggiunto la carta Initial al centro del Book
+        assertEquals(4, book0.checkResourceCondition(eightObjectiveCard));
 
+        //creo una istanza Book1 su cui applicare la CheckResourceCondition (Plant)
+        Book book1 = new Book(70, 70);
+        book1.getResourceMap().put(ResourceType.Animal, 1);
+        book1.getResourceMap().put(ResourceType.Plant, 11);
+        book1.getResourceMap().put(ResourceType.Insect, 15);
+        book1.getResourceMap().put(ResourceType.Fungi, 0);
 
-        //Creo la ResourceCard0 e la aggiungo al Book
-        List<ResourceType> resourceList0 = new ArrayList<>();
-        resourceList0.add(ResourceType.Fungi);
-        resourceList0.add(ResourceType.Fungi);
-        ResourceCard resourceCard0 = new ResourceCard(0,3,true,CardType.ResourceCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.NoCorner,CornerLabel.WithResource ,ResourceType.Fungi,0,2,resourceList0,false, null);
+        assertEquals(6, book1.checkResourceCondition(objectiveCard9));
 
-        book.getBookMatrix()[34][34].setAvailable(false);
-        book.getBookMatrix()[34][34].setCardPointer(resourceCard0);
-        book.updateBook(resourceCard0, book.getBookMatrix()[34][34]);
-        book.updateMaps(resourceCard0, book.getBookMatrix()[34][34]);
+        //creo una istanza Book2 su cui applicare la CheckResourceCondition (Animal)
+        Book book2 = new Book(70, 70);
+        book2.getResourceMap().put(ResourceType.Animal, 1);
+        book2.getResourceMap().put(ResourceType.Plant, 11);
+        book2.getResourceMap().put(ResourceType.Insect, 15);
+        book2.getResourceMap().put(ResourceType.Fungi, 0);
 
-        assertEquals(2, book.checkResourceCondition(eightObjectiveCard));
+        assertEquals(0, book2.checkResourceCondition(objectiveCard10));
+
+        //creo una istanza Book3 su cui applicare la CheckResourceCondition (Insect)
+        Book book3 = new Book(70, 70);
+        book3.getResourceMap().put(ResourceType.Animal, 1);
+        book3.getResourceMap().put(ResourceType.Plant, 11);
+        book3.getResourceMap().put(ResourceType.Insect, 23);
+        book3.getResourceMap().put(ResourceType.Fungi, 23);
+
+        assertEquals(14, book3.checkResourceCondition(objectiveCard11));
 
 
     }
