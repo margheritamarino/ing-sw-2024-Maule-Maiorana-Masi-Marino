@@ -591,8 +591,8 @@ public class Book {
                 int numInk = symbolMap.getOrDefault(SymbolType.Ink, 0);
                 int numManuscript = symbolMap.getOrDefault(SymbolType.Manuscript, 0);
                 int minSymbolCount = Math.min(numQuill, Math.min(numInk, numManuscript)); //gets the MINIMUM of the 3 symbols quantities
-                int numTriplets = minSymbolCount / 3;
-                return numTriplets * 3;
+                //int numTriplets = minSymbolCount;
+                return minSymbolCount * 3;
 
         }
         throw new IllegalArgumentException("Invalid victoryPoints");
