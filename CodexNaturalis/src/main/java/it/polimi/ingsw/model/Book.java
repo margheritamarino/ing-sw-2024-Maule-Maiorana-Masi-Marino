@@ -131,6 +131,15 @@ public class Book {
         return numPoints;
     }
 
+    /**
+     * Adds a gold card to the specified cell and calculates the number of points gained.
+     *
+     * @author Margherita Marino
+     * @param goldCard The gold card to be added.
+     * @param cell The cell where the gold card will be placed.
+     * @return The number of victory points gained by adding the gold card.
+     * @throws PlacementConditionViolated If the placement condition for the gold card is not met.
+     */
     public int addGoldCard(PlayableCard goldCard, Cell cell) throws PlacementConditionViolated {
         int numPoints = 0;
         try{
@@ -209,6 +218,14 @@ public class Book {
         return numPoints;
     }
 
+    /**
+     * Calculates the points obtained from a GoldCard with the "cornerCondition" by counting the corners covered.
+     * Returns two points for each corner covered by the GoldCard.
+     *
+     * @author Margherita Marino
+     * @param cell The cell containing the GoldCard.
+     * @return The points obtained from the GoldCard based on covered corners.
+     */
     public int checkGoldCornerCondition(Cell cell){
         int cornerCovered = 0;
         int i = cell.getRow();
@@ -256,7 +273,6 @@ public class Book {
         }
         return numPoints;
     }
-
 
     /**
      * Updates the covered corners of the neighboring cards of the specified cell.

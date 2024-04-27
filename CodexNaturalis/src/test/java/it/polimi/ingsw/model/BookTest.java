@@ -842,7 +842,6 @@ public class BookTest {
         Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
         Assertions.assertEquals(2, points);
 
-
         assertFalse(book.getBookMatrix()[4][2].isAvailable());
         assertTrue(book.getBookMatrix()[4][2].isWall());
         assertTrue(book.getBookMatrix()[1][1].isWall());
@@ -860,8 +859,10 @@ public class BookTest {
         Assertions.assertEquals(goldCard1,book.getBookMatrix()[4][2].getCard());
     }
 
+    @Test
+    void TestAddCard(){
 
-
+    }
 
 
 
