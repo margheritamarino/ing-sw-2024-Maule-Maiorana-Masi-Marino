@@ -837,7 +837,40 @@ public class BookTest {
 
     @Test
     void testCheckDiagonalPlacement() {
-        Book book = new Book(5, 5);
+        //creo una istanza di carta Obiettivo0 che sia di tipo DiagonalPlacementCondition (Diagonale secondaria- Fungi)
+        List<SymbolType> symbolList0 = new ArrayList<>();
+        ObjectiveCard objectiveCard0 = new ObjectiveCard(0,true,GoalType.DiagonalPlacement,2, ResourceType.Fungi, CornerType.BLCorner, 0, 0, symbolList0, null);
+
+        //creo una istanza di carta Obiettivo1 che sia di tipo DiagonalPlacementCondition (Diagonale principale- Plant)
+        ObjectiveCard objectiveCard1 = new ObjectiveCard(1,true,GoalType.DiagonalPlacement,2, ResourceType.Plant, CornerType.BRCorner, 0, 0, symbolList0, null);
+
+        Book book = new Book(70, 70);
+
+        //Creo istanza InitialCard0 fittizia e la aggiungo al Book
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Animal);
+        resourceList2.add(ResourceType.Fungi);
+        List<ResourceType> centralResources2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Fungi);
+        InitialCard initialCardTest2 = new InitialCard(1,4,true,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,centralResources2,1,2,resourceList2);
+        book.addInitial(initialCardTest2); //ho aggiunto la carta initial al centro del Book
+
+        //Creo ResourceCard0 e la aggiungo al Book
+        List<ResourceType> resourceList0 = new ArrayList<>();
+        resourceList0.add(ResourceType.Fungi);
+        resourceList0.add(ResourceType.Fungi);
+        ResourceCard resourceCard0 = new ResourceCard(0,3,true,CardType.ResourceCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.NoCorner,CornerLabel.WithResource ,ResourceType.Fungi,0,2,resourceList0,false, null);
+        Cell cell0 = new Cell(34,36);
+        book.addResourceCard(resourceCard0, cell0); //aggiungo al book la resoureCard
+
+        //Creo ResourceBackCard1 e la aggiungo al Book
+        List<ResourceType> resourceList1 = new ArrayList<>();
+        ResourceCard resourceCard1 = new ResourceCard(1,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList1,false, null);
+        Cell cell1 = new Cell(33,37);
+        book.addResourceCard(resourceCard1, cell1); //aggiungo al book la resoureCard
+
+
+
     }
 
     @Test
