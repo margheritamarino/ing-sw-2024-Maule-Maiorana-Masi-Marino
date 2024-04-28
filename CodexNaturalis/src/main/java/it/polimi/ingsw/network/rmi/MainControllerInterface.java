@@ -45,7 +45,7 @@ public interface MainControllerInterface extends Remote {
      * @throws RemoteException if the connection fails
      */
     GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException;
-
+    //FUNZIONALITA AGGIUNTIVA
 
     /**
      * This method leaves a specific game

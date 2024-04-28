@@ -50,7 +50,7 @@ public interface ClientInterface {
      * @throws NotBoundException
      */
     void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException;
-
+    //FUNZIONALITA AGGIUNTIVA
     /**
      * Leaves the game
      *

@@ -44,29 +44,33 @@ public class MainController implements MainControllerInterface, Serializable {
         return instance;
     }
 
-
     @Override
     public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
+        //IMPLEMENTA
         return null;
     }
 
     @Override
     public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+        //IMPLEMENTA
         return null;
     }
 
     @Override
     public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+        //IMPLEMENTA
         return null;
     }
 
     @Override
     public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
+        //FUNZIONALITA AGGIUNTIVA
         return null;
     }
 
     @Override
     public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
+        //IMPLEMENTA
         return null;
     }
 }

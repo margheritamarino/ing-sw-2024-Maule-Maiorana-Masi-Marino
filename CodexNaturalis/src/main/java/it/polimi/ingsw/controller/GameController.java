@@ -120,11 +120,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void leave(GameListener lis, String nick) throws RemoteException {
-
+        //IMPLEMENTA
     }
 
     @Override
     public void run() {
-
+        IMPLEMENTA
     }
 }

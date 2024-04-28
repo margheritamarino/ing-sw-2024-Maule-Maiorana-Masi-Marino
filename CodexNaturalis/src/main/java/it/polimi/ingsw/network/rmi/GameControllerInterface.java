@@ -19,7 +19,6 @@ public interface GameControllerInterface extends Remote {
     boolean playerIsReadyToStart(String p) throws RemoteException;
 
 
-
     /**
      * This method checks if it's the turn of the player
      * @param nick the nickname of the player
