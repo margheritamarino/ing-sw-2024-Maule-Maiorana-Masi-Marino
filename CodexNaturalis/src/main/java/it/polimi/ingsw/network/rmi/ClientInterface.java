@@ -1,13 +1,14 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.network.Chat.*;
+import it.polimi.ingsw.network.Chat.Message;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 //COMMON CLIENT ACTIONS
-public interface Client {
+public interface ClientInterface {
     /**
      * Creates a new game
      *
@@ -82,6 +83,7 @@ public interface Client {
      * @throws RemoteException
      */
     void sendMessage(Message msg) throws RemoteException;
+
 
     /**
      * Pings the server

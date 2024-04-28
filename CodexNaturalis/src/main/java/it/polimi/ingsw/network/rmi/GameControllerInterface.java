@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.network.Chat.Message;
 import it.polimi.ingsw.listener.GameListener;
 
 import java.rmi.Remote;
@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 /**
  * This interface contains all the action a player can do in a single game */
 
-public interface GameServer extends Remote {
+public interface GameControllerInterface extends Remote {
     /**
      * This method is used to check if the player is ready to start
      * @param p the nickname of the player
