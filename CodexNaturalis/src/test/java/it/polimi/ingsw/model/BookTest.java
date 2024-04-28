@@ -802,12 +802,13 @@ public class BookTest {
         symbolList12.add(SymbolType.Manuscript);
         ObjectiveCard objectiveCard12 = new ObjectiveCard(12,true,GoalType.SymbolCondition,3, null, null, 0, 3, symbolList12, null);
 
-        //creo una seconda istanza di carta Obiettivo 13 che sia di tipo ResourceCondition (CASE victoryPoints=2)
+        //creo una seconda istanza di carta Obiettivo13 che sia di tipo ResourceCondition (CASE victoryPoints=2)
         List<SymbolType> symbolList13 = new ArrayList<>();
         symbolList13.add(SymbolType.Manuscript);
         symbolList13.add(SymbolType.Manuscript);
         ObjectiveCard objectiveCard13 = new ObjectiveCard(13,true,GoalType.SymbolCondition,2, null, null, 0, 2, symbolList13, null);
 
+        //DIAGONALE SECONDARIA
         //creo una istanza di Book su cui applicare la CheckSymbolCondition (CASE victoryPoints=3)
         Book book = new Book(70, 70);
         book.getSymbolMap().put(SymbolType.Quill, 1);
@@ -831,6 +832,8 @@ public class BookTest {
         book2.getSymbolMap().put(SymbolType.Manuscript, 5);
 
         assertEquals(4, book2.checkSymbolCondition(objectiveCard13));
+
+        //DIAGONALE PRINCIPALE
 
 
     }
@@ -860,14 +863,21 @@ public class BookTest {
         resourceList0.add(ResourceType.Fungi);
         resourceList0.add(ResourceType.Fungi);
         ResourceCard resourceCard0 = new ResourceCard(0,3,true,CardType.ResourceCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.NoCorner,CornerLabel.WithResource ,ResourceType.Fungi,0,2,resourceList0,false, null);
-        Cell cell0 = new Cell(34,36);
-        book.addResourceCard(resourceCard0, cell0); //aggiungo al book la resoureCard
+        book.addResourceCard(resourceCard0, book.getBookMatrix()[34][36]); //aggiungo al book la resoureCard
 
         //Creo ResourceBackCard1 e la aggiungo al Book
         List<ResourceType> resourceList1 = new ArrayList<>();
         ResourceCard resourceCard1 = new ResourceCard(1,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList1,false, null);
-        Cell cell1 = new Cell(33,37);
-        book.addResourceCard(resourceCard1, cell1); //aggiungo al book la resoureCard
+        //Cell cell1 = new Cell(33,37);
+        book.addResourceCard(resourceCard1, book.getBookMatrix()[33][37]); //aggiungo al book la resoureCard
+
+        //Creo ResourceBackCard2 e la aggiungo al Book
+        List<ResourceType> resourceList = new ArrayList<>();
+        ResourceCard resourceCard2 = new ResourceCard(2,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList,false, null);
+        //Cell cell2 = new Cell(32,38);
+        book.addResourceCard(resourceCard2, book.getBookMatrix()[32][38]); //aggiungo al book la resoureCard
+
+        assertEquals(2, book.checkDiagonalPlacement(objectiveCard0));
 
 
 
