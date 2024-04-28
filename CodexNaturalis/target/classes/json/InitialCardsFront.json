@@ -1,0 +1,92 @@
+[
+
+  {
+    "cardID": 0,
+    "isFront": true,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "Empty",
+    "TRCorner": "WithSymbol",
+    "BRCorner": "Empty",
+    "BLCorner": "WithSymbol",
+    "resourceList": ["Plant","Insect"],
+    "numCentralResource": 1,
+    "numResources": 2,
+    "centralResources": ["Insect"]
+  },
+
+  {
+    "cardID": 1,
+    "isFront": true,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "WithSymbol",
+    "TRCorner": "Empty",
+    "BRCorner": "WithSymbol",
+    "BLCorner": "Empty",
+    "resourceList": ["Animal","Fungi"],
+    "numCentralResource": 1,
+    "numResources": 2,
+    "centralResources": ["Fungi"]
+  },
+
+  {
+    "cardID": 2,
+    "isFront": true,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "Empty",
+    "TRCorner": "Empty",
+    "BRCorner": "Empty",
+    "BLCorner": "Empty",
+    "resourceList": [],
+    "numCentralResource": 2,
+    "numResources": 0,
+    "centralResources": ["Animal","Fungi"]
+  },
+
+  {
+    "cardID": 3,
+    "isFront": true,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "Empty",
+    "TRCorner": "Empty",
+    "BRCorner": "Empty",
+    "BLCorner": "Empty",
+    "resourceList": [],
+    "numCentralResource": 2,
+    "numResources": 0,
+    "centralResources": ["Animal","Insect"]
+  },
+
+  {
+    "cardID": 4,
+    "isFront": true,
+    "cardType": "InitialCard",
+    "numCorners": 2,
+    "TLCorner": "Empty",
+    "TRCorner": "Empty",
+    "BRCorner": "NoCorner",
+    "BLCorner": "NoCorner",
+    "resourceList": [],
+    "numCentralResource": 3,
+    "numResources": 0,
+    "centralResources": ["Animal","Insect","Plant"]
+  },
+
+  {
+    "cardID": 5,
+    "isFront": true,
+    "cardType": "InitialCard",
+    "numCorners": 2,
+    "TLCorner": "Empty",
+    "TRCorner": "Empty",
+    "BRCorner": "NoCorner",
+    "BLCorner": "NoCorner",
+    "resourceList": [],
+    "numCentralResource": 3,
+    "numResources": 0,
+    "centralResources": ["Plant","Animal","Fungi"]
+  }
+]
