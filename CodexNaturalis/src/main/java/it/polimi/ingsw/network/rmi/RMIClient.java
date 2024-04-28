@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.network.Chat.Message;
 
 

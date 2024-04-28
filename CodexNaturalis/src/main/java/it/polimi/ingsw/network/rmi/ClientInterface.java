@@ -2,12 +2,14 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.network.Chat.*;
 import it.polimi.ingsw.network.Chat.Message;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.cards.CardType;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-//COMMON CLIENT ACTIONS
+//interface for common client actions
 public interface ClientInterface {
     /**
      * Creates a new game

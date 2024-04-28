@@ -5,9 +5,10 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import java.io.IOException;
 import java.util.List;
 
-//Definisce l'interfaccia per la visualizzazione del gioco che servirà sia per la TUI che per la GUI
+//Definisce l'interfaccia per la visualizzazione del gioco comune che servirà sia per la TUI che per la GUI
 
 /**
+ * User Interface
  * This class is used also for TUI and GUI
  */
 public abstract class UI {
@@ -28,10 +29,28 @@ public abstract class UI {
     protected abstract void show_publisher() throws IOException, InterruptedException;
 
     /**
+     * Shows the join first available game message
+     * @param nickname player's nickname
+     */
+    protected abstract void show_joiningFirstAvailableMsg(String nickname);
+
+    /**
+     * Shows the join to specific game message
+     * @param idGame   id of the game the player is trying to join
+     * @param nickname player's nickname
+     */
+    protected abstract void show_joiningToGameIdMsg(int idGame, String nickname);
+
+    /**
      * Shows the creating new game message
      * @param nickname player's nickname
      */
     protected abstract void show_creatingNewGameMessage(String nickname);
+
+    /**
+     * Message that asks to insert specific game id
+     */
+    protected abstract void show_inputGameIdMessage();
 
     /**
      * Asks the player for his nickname
@@ -51,17 +70,11 @@ public abstract class UI {
      * @param msg message that needs visualisation
      */
     protected abstract void show_noAvailableGamesToJoin(String msg);
+
     /**
      * Asks the player for number of players for a new game
      */
     protected abstract void show_insertPlayersNumber();
-
-
-    /**
-     * Message that asks to insert specific game id if there are lots available game
-     */
-    protected abstract void show_chooseGameID();
-
 
     /**
      * Shows game started message
@@ -69,6 +82,11 @@ public abstract class UI {
      */
     protected abstract void show_gameStarted(GameImmutable model);
 
+    /**
+     * Shows the playerDeck
+     * @param model
+     */
+    protected abstract void show_playerDeck(GameImmutable model);
     /**
      * Shows the game ended message
      * @param model where the game is ended
@@ -127,5 +145,11 @@ public abstract class UI {
 
 
 //other
+    // es show_addedPoints
+
+    /**
+     * Shows an error when there's no connection
+     */
+    protected abstract void show_noConnectionError();
 
 }
