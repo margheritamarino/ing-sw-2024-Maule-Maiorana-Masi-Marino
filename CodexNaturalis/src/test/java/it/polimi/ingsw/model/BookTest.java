@@ -808,7 +808,6 @@ public class BookTest {
         symbolList13.add(SymbolType.Manuscript);
         ObjectiveCard objectiveCard13 = new ObjectiveCard(13,true,GoalType.SymbolCondition,2, null, null, 0, 2, symbolList13, null);
 
-        //DIAGONALE SECONDARIA
         //creo una istanza di Book su cui applicare la CheckSymbolCondition (CASE victoryPoints=3)
         Book book = new Book(70, 70);
         book.getSymbolMap().put(SymbolType.Quill, 1);
@@ -833,9 +832,6 @@ public class BookTest {
 
         assertEquals(4, book2.checkSymbolCondition(objectiveCard13));
 
-        //DIAGONALE PRINCIPALE
-
-
     }
 
     @Test
@@ -849,6 +845,7 @@ public class BookTest {
 
         Book book = new Book(70, 70);
 
+        //DIAGONALE SECONDARIA
         //Creo istanza InitialCard0 fittizia e la aggiungo al Book
         List<ResourceType> resourceList2 = new ArrayList<>();
         resourceList2.add(ResourceType.Animal);
@@ -879,6 +876,73 @@ public class BookTest {
 
         assertEquals(2, book.checkDiagonalPlacement(objectiveCard0));
 
+        // Aggiungi le carte sulla diagonale secondaria
+        int row = 31; // Parti dalla riga 31
+        int col = 39; // Parti dalla colonna 39
+
+        // Aggiungi le carte ResourceBack INSECT una per una sulla diagonale secondaria
+        for (int i = 30; i <= 39; i++) {
+            // Crea 10 ResourceCardBck con mainResource "Insect" e aggiungila al Book
+            List<ResourceType> resourceList3 = new ArrayList<>();
+            ResourceCard resourceCard = new ResourceCard(i, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Insect, 0, 0, resourceList3, false, null);
+            book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+            row--; // Sposta la riga verso l'alto
+            col++; // Sposta la colonna verso destra
+        }
+
+        //Aggiungo una ResourceBack FUNGI
+        List<ResourceType> resourceList4 = new ArrayList<>();
+        ResourceCard resourceCard3 = new ResourceCard(3,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList4,false, null);
+        book.addResourceCard(resourceCard3, book.getBookMatrix()[row][col]); //aggiungo al book la resoureCard
+        row--; // Sposta la riga verso l'alto
+        col++; // Sposta la colonna verso destra
+
+        assertEquals(2, book.checkDiagonalPlacement(objectiveCard0));
+
+        // Aggiungi le carte ResourceBack ANIMAL una per una sulla diagonale secondaria
+        for (int j = 20; j <= 29; j++) {
+            // Crea 10 ResourceCardBck con mainResource "Animal" e aggiungila al Book
+            List<ResourceType> resourceList5 = new ArrayList<>();
+            ResourceCard resourceCard = new ResourceCard(j, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Animal, 0, 0, resourceList5, false, null);
+            book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+            row--; // Sposta la riga verso l'alto
+            col++; // Sposta la colonna verso destra
+        }
+
+        // Aggiungi le restanti carte ResourceBack FUNGI (6) una per una sulla diagonale secondaria
+        for (int k = 4; k <= 9; k++) {
+            // Crea 10 ResourceCardBck con mainResource "Animal" e aggiungila al Book
+            List<ResourceType> resourceList6 = new ArrayList<>();
+            ResourceCard resourceCard = new ResourceCard(k, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Fungi, 0, 0, resourceList6, false, null);
+            book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+            row--; // Sposta la riga verso l'alto
+            col++; // Sposta la colonna verso destra
+        }
+
+        // Aggiungi le carte ResourceBack PLANT una per una sulla diagonale secondaria
+        int z=10;
+        List<ResourceType> resourceList7 = new ArrayList<>();
+        while (row>0 && col<70){ //finchè non arrivo al limite superiore della matrice
+            ResourceCard resourceCard = new ResourceCard(z, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Plant, 0, 0, resourceList7, false, null);
+            book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+            z++;
+            row--; // Sposta la riga verso l'alto
+            col++; // Sposta la colonna verso destra
+        }
+        assertEquals(row,0); //controllo di essere arrivato sulla riga 0 della matrice
+        //aggiungo l'ultima separatamente (RIGA==0)
+        ResourceCard resourceCard = new ResourceCard(z, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Plant, 0, 0, resourceList7, false, null);
+        book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+
+        assertEquals(6, book.checkDiagonalPlacement(objectiveCard0));
+
+
+
+
+
+
+
+        //DIAGONALE PRINCIPALE
 
 
     }
