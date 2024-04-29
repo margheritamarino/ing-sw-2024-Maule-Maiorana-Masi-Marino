@@ -1,0 +1,209 @@
+[
+  {
+    "cardID": 0,
+    "isFront": true,
+    "goalType": "DiagonalPlacement",
+    "victoryPoints": 2,
+    "mainResource": "Fungi",
+    "direction": "BLCorner",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 1,
+    "isFront": true,
+    "goalType": "DiagonalPlacement",
+    "victoryPoints": 2,
+    "mainResource": "Plant",
+    "direction": "BRCorner",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 2,
+    "isFront": true,
+    "goalType": "DiagonalPlacement",
+    "victoryPoints": 2,
+    "mainResource": "Animal",
+    "direction": "BLCorner",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 3,
+    "isFront": true,
+    "goalType": "DiagonalPlacement",
+    "victoryPoints": 2,
+    "mainResource": "Insect",
+    "direction": "BRCorner",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 4,
+    "isFront": true,
+    "goalType": "LPlacement",
+    "victoryPoints": 3,
+    "mainResource": "Fungi",
+    "direction": "TLCorner",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": "Plant"
+  },
+
+  {
+    "cardID": 5,
+    "isFront": true,
+    "goalType": "LPlacement",
+    "victoryPoints": 3,
+    "mainResource": "Plant",
+    "direction": "TRCorner",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": "Insect"
+  },
+
+  {
+    "cardID": 6,
+    "isFront": true,
+    "goalType": "LPlacement",
+    "victoryPoints": 3,
+    "mainResource": "Animal",
+    "direction": "BLCorner",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": "Fungi"
+  },
+
+  {
+    "cardID": 7,
+    "isFront": true,
+    "goalType": "LPlacement",
+    "victoryPoints": 3,
+    "mainResource": "Insect",
+    "direction": "BRCorner",
+    "numResources": 0,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": "Animal"
+  },
+
+  {
+    "cardID": 8,
+    "isFront": true,
+    "goalType": "ResourceCondition",
+    "victoryPoints": 2,
+    "mainResource": "Fungi",
+    "direction": null,
+    "numResources": 3,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 9,
+    "isFront": true,
+    "goalType": "ResourceCondition",
+    "victoryPoints": 2,
+    "mainResource": "Plant",
+    "direction": null,
+    "numResources": 3,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 10,
+    "isFront": true,
+    "goalType": "ResourceCondition",
+    "victoryPoints": 2,
+    "mainResource": "Animal",
+    "direction": null,
+    "numResources": 3,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 11,
+    "isFront": true,
+    "goalType": "ResourceCondition",
+    "victoryPoints": 2,
+    "mainResource": "Insect",
+    "direction": null,
+    "numResources": 3,
+    "numSymbols": 0,
+    "symbols": [],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 12,
+    "isFront": true,
+    "goalType": "SymbolCondition",
+    "victoryPoints": 3,
+    "mainResource": null,
+    "direction": null,
+    "numResources": 0,
+    "numSymbols": 3,
+    "symbols": ["Quill","Ink","Manuscript"],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 13,
+    "isFront": true,
+    "goalType": "SymbolCondition",
+    "victoryPoints": 2,
+    "mainResource": null,
+    "direction": null,
+    "numResources": 0,
+    "numSymbols": 2,
+    "symbols": ["Manuscript","Manuscript"],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 14,
+    "isFront": true,
+    "goalType": "SymbolCondition",
+    "victoryPoints": 2,
+    "mainResource": null,
+    "direction": null,
+    "numResources": 0,
+    "numSymbols": 2,
+    "symbols": ["Ink","Ink"],
+    "secondResource": null
+  },
+
+  {
+    "cardID": 15,
+    "isFront": true,
+    "goalType": "SymbolCondition",
+    "victoryPoints": 2,
+    "mainResource": null,
+    "direction": null,
+    "numResources": 0,
+    "numSymbols": 2,
+    "symbols": ["Quill","Quill"],
+    "secondResource": null
+  }
+]

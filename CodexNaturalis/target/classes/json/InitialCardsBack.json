@@ -1,0 +1,91 @@
+[
+  {
+    "cardID": 0,
+    "isFront": false,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource",
+    "resourceList": ["Fungi","Plant","Animal","Insect"],
+    "numCentralResource": 0,
+    "numResources": 4,
+    "centralResources": []
+  },
+
+  {
+    "cardID": 1,
+    "isFront": false,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource",
+    "resourceList": ["Plant","Animal","Insect","Fungi"],
+    "numCentralResource": 0,
+    "numResources": 4,
+    "centralResources": []
+  },
+
+  {
+    "cardID": 2,
+    "isFront": false,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource",
+    "resourceList": ["Insect","Animal","Plant","Fungi"],
+    "numCentralResource": 0,
+    "numResources": 4,
+    "centralResources": []
+  },
+
+  {
+    "cardID": 3,
+    "isFront": false,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource",
+    "resourceList": ["Plant","Insect","Fungi","Animal"],
+    "numCentralResource": 0,
+    "numResources": 4,
+    "centralResources": []
+  },
+
+  {
+    "cardID": 4,
+    "isFront": false,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource",
+    "resourceList": ["Insect","Fungi","Animal","Plant"],
+    "numCentralResource": 0,
+    "numResources": 4,
+    "centralResources": []
+  },
+
+  {
+    "cardID": 5,
+    "isFront": false,
+    "cardType": "InitialCard",
+    "numCorners": 4,
+    "TLCorner": "WithResource",
+    "TRCorner": "WithResource",
+    "BRCorner": "WithResource",
+    "BLCorner": "WithResource",
+    "resourceList": ["Fungi","Animal","Insect","Plant"],
+    "numCentralResource": 0,
+    "numResources": 4,
+    "centralResources": []
+  }
+]
