@@ -7,7 +7,7 @@ import it.polimi.ingsw.view.Utilities.UI;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.network.PrintAsync.printAsync;
+//import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 
 //da fare
@@ -52,7 +52,8 @@ public class TUI extends UI {
      * @param model
      */
     public void show_allPlayers(GameImmutable model) {
-        printAsync("Current Players: \n" + model.toStringListPlayers());
+        //printAsync("Current Players: \n" + model.toStringListPlayers());
+
     }
 
     @Override
@@ -149,11 +150,11 @@ public class TUI extends UI {
         //resize();
         show_titleCodexNaturalis();
         show_gameId(model);
-        show_board(model);
-        show_scoretrack(model);
+        //show_board(model);
+        //show_scoretrack(model);
         show_messages(model);
-        show_points(model);
-        show_important_events();
+        //show_points(model);
+        //show_important_events();
     }
 
     /**
@@ -161,7 +162,7 @@ public class TUI extends UI {
      * @param gameModel
      */
     public void show_gameId(GameImmutable gameModel) {
-        printAsync(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + gameModel.getGameId() + "]").boldOff());
+        //printAsync(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + gameModel.getGameId() + "]").boldOff());
     }
 
     @Override

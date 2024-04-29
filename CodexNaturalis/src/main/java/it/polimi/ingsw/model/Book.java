@@ -285,23 +285,42 @@ public class Book {
      */
     public boolean updateCoveredCorners(Cell cell){
         boolean cornerCovered = false;
+        boolean skip0 = false;
+        boolean skip1 = false;
+        boolean skip2 = false;
+        boolean skip3 = false;
         if(cell.getCard()!=null){
-           int i = cell.getRow();
-           int j = cell.getColumn();
-
-           if(bookMatrix[i-1][j-1].getCard() != null && !(bookMatrix[i-1][j-1].getCard().getCornerContent(2).equals("Empty"))){
+            int i = cell.getRow();
+            int j = cell.getColumn();
+            if(i==0){
+                skip0 = true;
+                skip1 = true;
+            }
+            if(j==0){
+                skip0 = true;
+                skip3 = true;
+            }
+            if(i==bookMatrix.length-1){
+                skip2 = true;
+                skip3 = true;
+            }
+            if(j==bookMatrix.length-1){
+                skip1 = true;
+                skip2 = true;
+            }
+            if(!skip0 && bookMatrix[i-1][j-1].getCard() != null && !(bookMatrix[i-1][j-1].getCard().getCornerContent(2).equals("Empty"))){
                 coverCorner(bookMatrix[i-1][j-1].getCard(),2);
-           }
-           if(bookMatrix[i-1][j+1].getCard() != null && !(bookMatrix[i-1][j+1].getCard().getCornerContent(3).equals("Empty"))){
-               coverCorner(bookMatrix[i-1][j+1].getCard(), 3);
-           }
-           if(bookMatrix[i+1][j+1].getCard() != null && !(bookMatrix[i+1][j+1].getCard().getCornerContent(0).equals("Empty"))){
-               coverCorner(bookMatrix[i+1][j+1].getCard(), 0);
-           }
-           if(bookMatrix[i+1][j-1].getCard() != null && !(bookMatrix[i+1][j-1].getCard().getCornerContent(1).equals("Empty"))){
-               coverCorner(bookMatrix[i+1][j-1].getCard(), 1);
-           }
-       }
+            }
+            if(!skip1 && bookMatrix[i-1][j+1].getCard() != null && !(bookMatrix[i-1][j+1].getCard().getCornerContent(3).equals("Empty"))){
+                coverCorner(bookMatrix[i-1][j+1].getCard(), 3);
+            }
+            if(!skip2 && bookMatrix[i+1][j+1].getCard() != null && !(bookMatrix[i+1][j+1].getCard().getCornerContent(0).equals("Empty"))){
+                coverCorner(bookMatrix[i+1][j+1].getCard(), 0);
+            }
+            if(!skip3 && bookMatrix[i+1][j-1].getCard() != null && !(bookMatrix[i+1][j-1].getCard().getCornerContent(1).equals("Empty"))){
+                coverCorner(bookMatrix[i+1][j-1].getCard(), 1);
+            }
+        }
         return cornerCovered;
     }
 
@@ -495,28 +514,47 @@ public class Book {
     public void updateBook(PlayableCard newCard, Cell cell){ //metodo che imposta la disponibilità delle celle attorno alla carta appena piazzata,passata per parametro, mettendole a false se non è presente un angolo
         int i = cell.getRow();
         int j = cell.getColumn();
-
-        if(newCard.getTLCorner() == CornerLabel.NoCorner){
+        boolean skip0 = false;
+        boolean skip1 = false;
+        boolean skip2 = false;
+        boolean skip3 = false;
+        if(i==0){
+            skip0 = true;
+            skip1 = true;
+        }
+        if(j==0){
+            skip0 = true;
+            skip3 = true;
+        }
+        if(i==bookMatrix.length-1){
+            skip2 = true;
+            skip3 = true;
+        }
+        if(j==bookMatrix.length-1){
+            skip1 = true;
+            skip2 = true;
+        }
+        if(!skip0 && newCard.getTLCorner() == CornerLabel.NoCorner){
             bookMatrix[i-1][j-1].setWall(true);
-        }else if(!(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j-1].isWall())){
+        }else if(!skip0 && !(newCard.getTLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j-1].isWall())){
             bookMatrix[i-1][j-1].setAvailable(true);
         }
 
-        if(newCard.getTRCorner() == CornerLabel.NoCorner){
+        if(!skip1 && newCard.getTRCorner() == CornerLabel.NoCorner){
             bookMatrix[i-1][j+1].setWall(true);
-        }else if(!(newCard.getTRCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j+1].isWall())){
+        }else if(!skip1 && !(newCard.getTRCorner() == CornerLabel.NoCorner) && !(bookMatrix[i-1][j+1].isWall())){
             bookMatrix[i-1][j+1].setAvailable(true);
         }
 
-        if(newCard.getBRCorner() == CornerLabel.NoCorner){
+        if(!skip2 && newCard.getBRCorner() == CornerLabel.NoCorner){
             bookMatrix[i+1][j+1].setWall(true);
-        }else if(!(newCard.getBRCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j+1].isWall())){
+        }else if(!skip2 && !(newCard.getBRCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j+1].isWall())){
             bookMatrix[i+1][j+1].setAvailable(true);
         }
 
-        if(newCard.getBLCorner() == CornerLabel.NoCorner){
+        if(!skip3 && newCard.getBLCorner() == CornerLabel.NoCorner){
             bookMatrix[i+1][j-1].setWall(true);
-        }else if(!(newCard.getBLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j-1]).isWall()){
+        }else if(!skip3 && !(newCard.getBLCorner() == CornerLabel.NoCorner) && !(bookMatrix[i+1][j-1]).isWall()){
             bookMatrix[i+1][j-1].setAvailable(true);
         }
     }

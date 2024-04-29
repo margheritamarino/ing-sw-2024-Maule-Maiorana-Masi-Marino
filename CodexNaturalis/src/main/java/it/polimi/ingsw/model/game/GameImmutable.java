@@ -12,6 +12,6 @@ public class GameImmutable implements Serializable {
         return ris.toString();
     }
 
-    public String getGameId() {
-    }
+    //public String getGameId() {
+    //}
 }

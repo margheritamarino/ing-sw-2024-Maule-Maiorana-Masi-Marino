@@ -863,6 +863,27 @@ public class BookTest {
 
     @Test
     void TestAddCard(){
+        Book book = new Book(10,10);
+        int points;
+        //resourceCard1
+        List<ResourceType> resourceList1 = new ArrayList<>();
+        resourceList1.add(ResourceType.Fungi);
+        resourceList1.add(ResourceType.Animal);
+        ResourceCard resourceCard1 = new ResourceCard(5,3,true,CardType.ResourceCard,CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList1,true,SymbolType.Ink);
+
+        //resourceCard2
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Animal);
+        ResourceCard resourceCard2 = new ResourceCard(6,3,true,CardType.ResourceCard,CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.WithResource,ResourceType.Animal,1,1,resourceList2,false,null);
+
+        //resourceCard3
+        List<ResourceType> resourceList3 = new ArrayList<>();
+        resourceList3.add(ResourceType.Fungi);
+        resourceList3.add(ResourceType.Plant);
+        ResourceCard resourceCard3 = new ResourceCard(7,3,true,CardType.ResourceCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithSymbol,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList3,true,SymbolType.Ink);
+
+        book.getBookMatrix()[9][0].setAvailable(true);
+        points = book.addResourceCard(resourceCard1, book.getBookMatrix()[9][0]);
 
     }
 

@@ -1,3 +1,4 @@
+/*
 package it.polimi.ingsw.network;
 
 //da fare nel file POM
@@ -28,3 +29,5 @@ public class PrintAsync {
         new Thread(()->{System.out.print(msg);}).start();
     }
 }
+
+*/
