@@ -22,7 +22,7 @@ import java.util.Random;
  * The class can add, remove, reconnect and disconnects players to the game and let players grab and position tiles
  * from the playground to the shelf. <br>
  * <br>
- * It manages all the game from the beginning {@link GameStatus#WAIT} to the ending {@link GameStatus#ENDED}
+ * It manages all the game from the beginning (GameStatus.WAIT to the ending {GameStatus.Ended}
  */
 public class GameController implements GameControllerInterface, Serializable, Runnable {
 
@@ -125,6 +125,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void run() {
-        IMPLEMENTA
+       // IMPLEMENTA
     }
 }
