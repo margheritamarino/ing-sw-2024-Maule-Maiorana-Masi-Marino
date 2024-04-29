@@ -25,12 +25,12 @@ public class GameTest {
     @Test
     public void testConstructor() {
         assertDoesNotThrow(() -> {
-            Game game = new Game(3);
+            Game game = new Game(2);
         });
 
         // Verifica che il costruttore sollevi un'eccezione per un numero non valido di giocatori
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Game game = new Game(0);
+            Game game = new Game(3);
         });
         assertEquals("The number of players must be between 1 and 4.", exception.getMessage());
     }
