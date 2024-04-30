@@ -1,14 +1,16 @@
-package it.polimi.ingsw.network.rmi;
+package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.Chat.*;
 import it.polimi.ingsw.model.Chat.Message;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 //interface for common client actions
-public interface ClientInterface {
+public interface ClientInterface  {
+
     /**
      * Creates a new game
      *

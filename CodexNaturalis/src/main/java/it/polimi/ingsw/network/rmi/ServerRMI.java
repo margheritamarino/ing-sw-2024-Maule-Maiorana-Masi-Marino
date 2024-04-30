@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.model.Chat.Message;
+import it.polimi.ingsw.network.MainController;
 import it.polimi.ingsw.network.ServerInterface;
 
 import java.rmi.NotBoundException;
@@ -17,10 +20,11 @@ import java.rmi.server.UnicastRemoteObject;
  */
 
 
-public class ServerRMI extends UnicastRemoteObject implements ServerCommunicationInterface, ServerInterface {
+public class ServerRMI extends UnicastRemoteObject implements MainController.MainControllerInterface, ServerInterface {
 
+    private static final int PORT_RMI =1099 ;
     private Registry registry;
-    private ServerCommunicationInterface server;
+    private GameControllerInterface server;
 
     public ServerRMI() throws RemoteException {
         super();
@@ -29,8 +33,8 @@ public class ServerRMI extends UnicastRemoteObject implements ServerCommunicatio
     @Override
     public void start() {
         try {
-            server = new ServerRMI();
-            ServerCommunicationInterface stub = (ServerCommunicationInterface) UnicastRemoteObject.exportObject(server, 0);
+            server = new ServerRMI() ;
+            GameControllerInterface stub = (GameControllerInterface) UnicastRemoteObject.exportObject(server, 0);
 
             registry = LocateRegistry.createRegistry(PORT_RMI);
             registry.rebind("ServerCommunicationInterface", stub);
@@ -53,6 +57,7 @@ public class ServerRMI extends UnicastRemoteObject implements ServerCommunicatio
         }
         System.out.println("RMI server stopped.");
     }
+
 
 
 }

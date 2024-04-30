@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Chat.Message;
-import it.polimi.ingsw.network.rmi.ServerCommunicationInterface;
+import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -26,7 +26,7 @@ import java.util.Random;
  * <br>
  * It manages all the game from the beginning (GameStatus.WAIT to the ending {GameStatus.Ended}
  */
-public class ServerController implements ServerCommunicationInterface, Serializable, Runnable {
+public class GameController implements GameControllerInterface, Serializable, Runnable {
 
     /**
      * The {@link GameImmutable} to control
@@ -42,7 +42,7 @@ public class ServerController implements ServerCommunicationInterface, Serializa
     /**GameController Constructor
      * Init a GameModel
      */
-    public ServerController() throws FileNotFoundException, FileReadException, DeckEmptyException {
+    public GameController() throws FileNotFoundException, FileReadException, DeckEmptyException {
         model = new GameImmutable();
     }
     /** @return the list of the players currently playing in the Game (online and offline)     */

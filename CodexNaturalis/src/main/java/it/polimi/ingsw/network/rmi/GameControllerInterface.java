@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.controller.ServerController;
-import it.polimi.ingsw.model.Chat.Message;
 import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.model.Chat.Message;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -10,15 +9,7 @@ import java.rmi.RemoteException;
 /**
  * This interface contains all the action a player can do in a single game */
 
-public interface ServerCommunicationInterface extends Remote {
-    int PORT_RMI = 1099; //default rmi
-    int PORT_SOCKET = 888;
-    ServerController controller = new ServerController();
-
-
-
-
-
+public interface GameControllerInterface extends Remote {
     /**
      * This method is used to check if the player is ready to start
      * @param p the nickname of the player
@@ -26,6 +17,7 @@ public interface ServerCommunicationInterface extends Remote {
      * @throws RemoteException if the connection fails
      */
     boolean playerIsReadyToStart(String p) throws RemoteException;
+
 
 
     /**
@@ -80,4 +72,5 @@ public interface ServerCommunicationInterface extends Remote {
      * @throws RemoteException if the connection fails
      */
     void leave(GameListener lis, String nick) throws RemoteException;
+
 }

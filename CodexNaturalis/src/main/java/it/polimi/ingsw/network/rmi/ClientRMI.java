@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.model.Chat.Message;
-
+import it.polimi.ingsw.network.ClientInterface;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
