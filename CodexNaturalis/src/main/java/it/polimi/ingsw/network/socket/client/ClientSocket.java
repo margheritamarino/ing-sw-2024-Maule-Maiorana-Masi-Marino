@@ -1,14 +1,17 @@
 package it.polimi.ingsw.network.socket.client;
 
 import it.polimi.ingsw.model.Chat.Message;
+import it.polimi.ingsw.network.rmi.ClientInterface;
+import it.polimi.ingsw.view.flow.Flow;
 
 import java.io.*;
 import java.net.Socket;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
+import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 
 
-public class ClientSocket extends Thread implements CommonClientActions{
+public class ClientSocket extends Thread implements ClientInterface {
     /**
      * Socket that represents the Client
      */
