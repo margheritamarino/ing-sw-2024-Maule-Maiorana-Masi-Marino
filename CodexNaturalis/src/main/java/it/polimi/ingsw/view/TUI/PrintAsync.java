@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.TUI;
 import org.fusesource.jansi.Ansi;
 //import it.polimi.ingsw.model.DefaultValue;
 //da fare
+
+
 public class PrintAsync {
     public static void printAsync(Ansi msg){
         //new Thread(()->{System.out.println(msg); System.out.println(ansi().cursor(DefaultValue.row_input,0));}).start();
