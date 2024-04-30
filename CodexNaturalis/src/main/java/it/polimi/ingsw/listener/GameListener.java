@@ -20,7 +20,7 @@ public interface GameListener extends Remote {
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void playerJoined(GameImmutable model) throws RemoteException;
+    void playerJoined(GameImmutable model, String nick) throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has left the game
