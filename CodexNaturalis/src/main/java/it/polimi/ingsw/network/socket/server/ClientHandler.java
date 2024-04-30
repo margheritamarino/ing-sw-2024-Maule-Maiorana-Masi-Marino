@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
+import it.polimi.ingsw.network.socket.server.GameListerHandlerSocket;
 
 /**
  * ClientHandler Class<br>
@@ -69,11 +70,14 @@ public class ClientHandler extends Thread{
         this.interrupt();
     }
 
+
+    /*
     /**
      * Receive all the actions sent by the player, execute them on the specific controller required
      * It detects client network disconnections by catching Exceptions
      * {@link MainController} or {@link GameControllerInterface}
-     */
+
+
     @Override
     public void run() {
         var th = new Thread(this::runGameLogic);
@@ -127,5 +131,7 @@ public class ClientHandler extends Thread{
             throw new RuntimeException(e);
         } catch (InterruptedException ignored) {}
     }
+
+     */
 
 }

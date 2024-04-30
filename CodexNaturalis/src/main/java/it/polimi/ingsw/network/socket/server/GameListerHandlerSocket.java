@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.Chat.Message;
+import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.*;
+
 
 import java.io.Serializable;
 
@@ -66,7 +68,7 @@ public class GameListerHandlerSocket implements GameListener, Serializable {
     @Override
     public void joinUnableGameFull(Player player, GameImmutable model) throws RemoteException {
         try {
-            out.writeObject(new msgJoinUnableGameFull(p,gamemodel));
+            out.writeObject(new msgJoinUnableGameFull(player,model));
             finishSending();
         } catch (IOException e) {
 

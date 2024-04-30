@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.view.flow.Flow;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,10 +20,9 @@ public class GameListenersHandlerClient implements GameListener, Serializable {
         this.flow = gui;
     }
 
-
     @Override
     public void playerJoined(GameImmutable model) throws RemoteException {
-        flow.playerJoined(gamemodel);
+        flow.playerJoined(model);
     }
 
     @Override

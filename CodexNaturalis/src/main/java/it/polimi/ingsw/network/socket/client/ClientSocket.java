@@ -5,6 +5,8 @@ import it.polimi.ingsw.network.Chat.Message;
 import java.io.*;
 import java.net.Socket;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 
 public class ClientSocket extends Thread implements CommonClientActions{
     /**
