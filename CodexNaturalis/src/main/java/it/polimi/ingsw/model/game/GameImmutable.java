@@ -16,17 +16,28 @@ import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * A different implementation of the GameModel class, this is the one we send to the CLIENTS
+ * As such, we need to make all the objects in this class immutable, so that the clients
+ * cannot modify the course of the game.
+ * To do so, a STRATEGY PATTERN was implemented.
+ * The pattern consists of implementing for each mutable object two different interfaces,
+ * one for the server, one for the client.
+ * The server one has no changes from the class it's implemented by
+ * the client one, on the other hand, only has getter methods, named differently that the server one,
+ * so that the client can only get the object, and doesn't know the names of the setter methods
+ * */
 public class GameImmutable implements Serializable {
 
-    private final int gameID;
-    private final ArrayList<Player> players;
+    private final Integer gameID;
+    private final List<PlayerIC> players;
     private int playersNumber;
-    private final ScoreTrack scoretrack;
-    private final Player currentPlayer;
-    private final Deck initialCardsDeck;
-    private final Board board;
+    private final ScoreTrackIC scoretrack;
+    private final PlayerIC currentPlayer;
+    private final DeckIC initialCardsDeck;
+    private final BoardIC board;
     private final GameStatus status;
-    private final Chat chat;
+    private final ChatIC chat;
 
     public GameImmutable(Game modeltoCopy) {
         gameID = modeltoCopy.getGameId();

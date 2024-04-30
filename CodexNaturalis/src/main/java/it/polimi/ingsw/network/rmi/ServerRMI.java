@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.listener.GameListener;
-import it.polimi.ingsw.model.Chat.Message;
 
 import it.polimi.ingsw.network.ServerInterface;
 
@@ -38,6 +37,7 @@ public class ServerRMI extends UnicastRemoteObject implements MainControllerInte
 
             registry = LocateRegistry.createRegistry(PORT_RMI);
             registry.rebind("ServerCommunicationInterface", stub);
+
         } catch (RemoteException e) {
             System.err.println("Another server is already running. Closing this instance...");
             System.exit(0);
