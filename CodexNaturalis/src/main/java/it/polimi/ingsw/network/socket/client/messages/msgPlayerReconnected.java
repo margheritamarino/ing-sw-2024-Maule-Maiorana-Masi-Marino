@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket.client.messages;
 
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class msgPlayerReconnected extends MessageServerToClient {
      * @throws InterruptedException if the execution is interrupted
      */
     @Override
-    public void execute(GameListener lis) throws IOException, InterruptedException {
+    public void execute(GameListenerInterface lis) throws IOException, InterruptedException {
         lis.playerReconnected(model, nickPlayerReconnected);
     }
 }

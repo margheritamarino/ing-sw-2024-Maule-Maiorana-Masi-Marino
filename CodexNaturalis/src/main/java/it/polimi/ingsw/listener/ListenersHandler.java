@@ -20,8 +20,7 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
  * and for notifying the view when a change occurs in the GameModel
  */
 public class ListenersHandler {
-    private List<GameListener> listeners;
-
+    private List<GameListenerInterface> listeners;
 
     /**
      * Constructor
@@ -34,7 +33,7 @@ public class ListenersHandler {
      * Adds a new GameListener to the list of GameListeners
      * @param listener the listener to add
      */
-    public void addListener(GameListener listener){
+    public void addListener(GameListenerInterface listener){
         listeners.add(listener);
     }
 
@@ -42,7 +41,7 @@ public class ListenersHandler {
      * Removes a new GameListener from the list.
      * @param listener the listener to remove
      */
-    public void removeListener(GameListener listener){
+    public void removeListener(GameListenerInterface listener){
         listeners.remove(listener);
     }
 
@@ -50,7 +49,7 @@ public class ListenersHandler {
      * Method getter that returns the list of GameListener
      * @return the list of GameListeners
      */
-    public List<GameListener> getListeners() {
+    public List<GameListenerInterface> getListeners() {
         return listeners;
     }
 
@@ -59,9 +58,9 @@ public class ListenersHandler {
      * @param model is the Game to pass as a new GameModelImmutable
      */
     public synchronized void notify_PlayerJoined(Game model, String nickname) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.playerJoined(new GameImmutable(model), nickname);
             } catch (RemoteException e) {
@@ -77,9 +76,9 @@ public class ListenersHandler {
      * @param nickname is the nickname of the player that has left
      */
     public synchronized void notify_PlayerLeft(Game model, String nickname) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.playerLeft(new GameImmutable(model), nickname);
             } catch (RemoteException e) {
@@ -96,9 +95,9 @@ public class ListenersHandler {
      * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
      */
     public synchronized void notify_playerReconnected(Game model, String nickPlayerReconnected) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.playerReconnected(new GameImmutable(model), nickPlayerReconnected);
             } catch (RemoteException e) {
@@ -115,9 +114,9 @@ public class ListenersHandler {
      * @param model is the GameModel to pass as a new GameModelImmutable
      */
     public synchronized void notify_JoinUnableGameFull(Player playerWantedToJoin, Game model) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.joinUnableGameFull(playerWantedToJoin, new GameImmutable(model));
             } catch (RemoteException e) {
@@ -132,9 +131,9 @@ public class ListenersHandler {
      * @param playerWantedToJoin is the player that wanted to join the game
      */
     public synchronized void notify_JoinUnableNicknameAlreadyIn(Player playerWantedToJoin) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.joinUnableNicknameAlreadyIn(playerWantedToJoin);
             } catch (RemoteException e) {
@@ -149,9 +148,9 @@ public class ListenersHandler {
      * @param gameid is the ID of the game that does not exist
      */
     public synchronized void notify_GameIdNotExists(int gameid) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.gameIdNotExists(gameid);
             } catch (RemoteException e) {
@@ -166,9 +165,9 @@ public class ListenersHandler {
      * @param why is the reason why the error happened
      */
     public synchronized void notify_GenericErrorWhenEnteringGame(String why) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.genericErrorWhenEnteringGame(why);
             } catch (RemoteException e) {
@@ -184,9 +183,9 @@ public class ListenersHandler {
      * @param nick is the nickname of the player that is ready to start the game
      */
     public synchronized void notify_PlayerIsReadyToStart(Game model, String nick) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.playerIsReadyToStart(new GameImmutable(model), nick);
             } catch (IOException e) {
@@ -202,10 +201,10 @@ public class ListenersHandler {
      * @param model is the Game to pass as a new GameModelImmutable
      */
     public synchronized void notify_GameStarted(Game model) {
-        Iterator<GameListener> i = listeners.iterator(); //attraverso la lista e accedo agli elementi uno per volta
+        Iterator<GameListenerInterface> i = listeners.iterator(); //attraverso la lista e accedo agli elementi uno per volta
 
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.gameStarted(new GameImmutable(model)); //ogni listener riceve una copia immutabile del game model
             } catch (RemoteException e) {
@@ -220,9 +219,9 @@ public class ListenersHandler {
      * @param model is the Game to pass as a new GameModelImmutable
      */
     public synchronized void notify_GameEnded(Game model) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.gameEnded(new GameImmutable(model));
             } catch (RemoteException e) {
@@ -233,9 +232,9 @@ public class ListenersHandler {
     }
 
     public synchronized void notify_requireInitial(Game model, PlayableCard[] initialCards){
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.requireInitialReady(new GameImmutable(model), initialCards);
             } catch (RemoteException e) {
@@ -246,9 +245,9 @@ public class ListenersHandler {
     }
 
     public synchronized void notify_requireGoals(Game model){
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
                 ArrayList<ObjectiveCard> objectiveCards = model.drawObjectiveCards();
@@ -263,9 +262,9 @@ public class ListenersHandler {
     }
 
     public synchronized void notify_cardsReady(Game model){
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.cardsReady(new GameImmutable(model));
             } catch (RemoteException e) {
@@ -280,9 +279,9 @@ public class ListenersHandler {
      * @param player is the Player who placed the card
      */
     public synchronized void notify_CardPlaced(Game model, Player player, int posCell, int posCard) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.cardPlaced(new GameImmutable(model), player, posCell, posCard);
             } catch (RemoteException e) {
@@ -297,9 +296,9 @@ public class ListenersHandler {
      * @param model is the Game to pass as a new GameModelImmutable
      */
     public synchronized void notify_CardDrawn(Game model) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.cardDrawn(new GameImmutable(model));
             } catch (RemoteException e) {
@@ -314,9 +313,9 @@ public class ListenersHandler {
      * @param model is the Game to pass as a new GameModelImmutable
      */
     public synchronized void notify_nextTurn(Game model) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.nextTurn(new GameImmutable(model));
             } catch (RemoteException e) {
@@ -332,9 +331,9 @@ public class ListenersHandler {
      * @param nick is the nickname of the player that has disconnected
      */
     public synchronized void notify_playerDisconnected(Game gamemodel, String nick) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.playerDisconnected(new GameImmutable(gamemodel), nick);
             } catch (RemoteException e) {
@@ -349,9 +348,9 @@ public class ListenersHandler {
      * @param model is the GameModel to pass as a new GameModelImmutable
      */
     public void notify_LastCircle(Game model) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.lastCircle(new GameImmutable(model));
             } catch (RemoteException e) {

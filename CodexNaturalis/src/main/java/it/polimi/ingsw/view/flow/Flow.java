@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view.flow;
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 
-public abstract class Flow implements GameListener {
+public abstract class Flow implements GameListenerInterface {
 
     /**
      * Resets the game id

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket.server;
 
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -12,14 +12,14 @@ import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class GameListenersHandlerSocket implements GameListener, Serializable {
+public class GameListenersServer implements GameListenerInterface, Serializable {
     private final ObjectOutputStream out;
 
     /**
      * This constructor creates a GameListenersHandlerSocket
      * @param out the ObjectOutputStream
      */
-    public GameListenersHandlerSocket(ObjectOutputStream out) {
+    public GameListenersServer(ObjectOutputStream out) {
         this.out = out;
     }
 
@@ -34,7 +34,6 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
             out.writeObject(new msgPlayerJoined(model));
             finishSending();
         } catch (IOException e) {
-
         }
     }
 

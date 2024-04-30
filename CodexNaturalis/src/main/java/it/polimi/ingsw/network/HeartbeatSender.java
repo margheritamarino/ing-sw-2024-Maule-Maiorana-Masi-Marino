@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network;
 
+//client manda al server in un thread separato il suo heartbeat per indicare che il client è ancora attivo.
+
 
 import it.polimi.ingsw.view.flow.Flow;
 

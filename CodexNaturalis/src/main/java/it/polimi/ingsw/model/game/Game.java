@@ -4,7 +4,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.exceptions.GameNotStartedException;
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -45,7 +45,6 @@ public class Game {
 	private int[] orderArray;
 	private PlayableCard[] temporaryInitialCard;
 	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
-	private Chat chat; //It contains the chat of the game
 
 	/**
 	 * Private Constructor
@@ -63,7 +62,6 @@ public class Game {
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
 		this.temporaryInitialCard= new PlayableCard[2];
-		this.chat = new Chat();
 		this.listenersHandler = new ListenersHandler();
 
 	}
@@ -77,7 +75,6 @@ public class Game {
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
 		this.temporaryInitialCard= new PlayableCard[2];
-		this.chat = new Chat();
 		this.listenersHandler = new ListenersHandler();
 
 	}
@@ -101,12 +98,6 @@ public class Game {
             throw new RuntimeException(e);
         }
     }
-	/**
-	 * @return the chat
-	 */
-	public Chat getChat() {
-		return chat;
-	}
 
 
 	/**
@@ -181,21 +172,21 @@ public class Game {
 	 * * @return the list of listeners
 	 *
 	 * */
-	public List<GameListener> getListeners() {
+	public List<GameListenerInterface> getListeners() {
 		return listenersHandler.getListeners();
 	}
 
 	/**
 	 * @param listener adds the listener to the list
 	 * */
-	public void addListener(GameListener listener) {
+	public void addListener(GameListenerInterface listener) {
 		listenersHandler.addListener(listener);
 	}
 
 	/**
 	 * @param listener removes listener from list
 	 */
-	public void removeListener(GameListener listener) {
+	public void removeListener(GameListenerInterface listener) {
 		listenersHandler.removeListener(listener);
 	}
 

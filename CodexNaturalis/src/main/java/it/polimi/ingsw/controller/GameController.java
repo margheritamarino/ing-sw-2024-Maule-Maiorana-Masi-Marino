@@ -8,13 +8,13 @@ import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.MatchFull;
 import it.polimi.ingsw.exceptions.NicknameAlreadyTaken;
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Heartbeat;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.HeartbeatSender;
+
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -45,7 +45,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Map of heartbeats for detecting disconnections
      * For implementing AF: "Clients disconnections"
      */
-    private final transient Map<GameListener, Heartbeat> heartbeats;
+    private final transient Map<GameListenerInterface, Heartbeat> heartbeats;
 
     private Thread reconnectionTh;
 
@@ -53,7 +53,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**GameController Constructor
      * Init a GameModel
      */
-    public GameController(Map<GameListener, Heartbeat> heartbeats) throws FileNotFoundException, FileReadException, DeckEmptyException {
+    public GameController(Map<GameListenerInterface, Heartbeat> heartbeats) throws FileNotFoundException, FileReadException, DeckEmptyException {
         this.heartbeats = heartbeats;
         model = new Game();
     }
@@ -102,7 +102,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     @Override
-    public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
+    public void disconnectPlayer(String nick, GameListenerInterface lisOfClient) throws RemoteException {
         model.setPlayerDisconnected(nick);
     }
 
@@ -133,11 +133,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     @Override
-    public void leave(GameListener lis, String nick) throws RemoteException {
+    public void leave(GameListenerInterface lis, String nick) throws RemoteException {
         //IMPLEMENTA
     }
     @Override
-    public void heartbeat(String nick, GameListener me) throws RemoteException {
+    public void heartbeat(String nick, GameListenerInterface me) throws RemoteException {
 
     }
     @Override

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket.client.mainControllerMessages;
 
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
 import it.polimi.ingsw.network.socket.client.MessageClientToServer;
@@ -30,7 +30,7 @@ public class SocketClientMessageCreateGameClientToServer extends MessageClientTo
      * @throws RemoteException if there is an error in remote communication
      */
     @Override
-    public GameControllerInterface execute(GameListener lis, MainControllerInterface mainController) throws RemoteException {
+    public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
         return mainController.createGame(lis, nickname);
     }
 
