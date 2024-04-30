@@ -44,7 +44,7 @@ public class GameImmutable implements Serializable {
     /**
      * Constructor
      */
-    public GameImmutable() {
+    public GameImmutable() throws FileNotFoundException, FileReadException, DeckEmptyException {
         gameID=-1;
         players = new ArrayList<>();
         playersNumber= -1;
@@ -58,7 +58,7 @@ public class GameImmutable implements Serializable {
 
     /**
      * Constructor
-     * @param modelToCopy
+     * @param modelToCopy is the model istance to copy
      */
     public GameImmutable(Game modelToCopy) {
         gameID = modelToCopy.getGameId();
