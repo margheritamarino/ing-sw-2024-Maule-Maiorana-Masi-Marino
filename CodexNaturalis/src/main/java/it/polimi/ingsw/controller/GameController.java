@@ -91,11 +91,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
-
+        model.disconnectPlayer(nick);
     }
 
 
-
+//DA CAPIRE MODEL.ADDPLAYER
     /**
      * Adds a new player to the match.
      *
