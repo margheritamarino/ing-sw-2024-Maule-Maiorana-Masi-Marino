@@ -12,6 +12,8 @@ import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 /**
  * ClientHandler Class<br>
  * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game<br>
