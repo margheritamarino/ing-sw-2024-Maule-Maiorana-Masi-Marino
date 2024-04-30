@@ -767,4 +767,8 @@ public class Game {
 	public ObjectiveDeck getObjectiveCardsDeck() {
 		return board.getObjectiveCardsDeck();
 	}
+
+	public Deck getInitialCardsDeck() {
+		return initialCardsDeck;
+	}
 }

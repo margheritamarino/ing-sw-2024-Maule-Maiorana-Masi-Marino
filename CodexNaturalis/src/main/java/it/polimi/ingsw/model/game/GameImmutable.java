@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.ScoreTrack;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerDeck;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -30,7 +31,7 @@ public class GameImmutable implements Serializable {
 
     private final Integer gameID;
     private final List<PlayerIC> players;
-    private int playersNumber;
+    private final Integer playersNumber;
     private final ScoreTrackIC scoretrack;
     private final PlayerIC currentPlayer;
     private final DeckIC initialCardsDeck;
@@ -38,22 +39,73 @@ public class GameImmutable implements Serializable {
     private final GameStatus status;
     private final ChatIC chat;
 
-    public GameImmutable(Game modeltoCopy) {
-        gameID = modeltoCopy.getGameId();
-        players = new ArrayList<>(modeltoCopy.getPlayers());
-        scoretrack = modeltoCopy.getScoretrack();
-        currentPlayer = modeltoCopy.getCurrentPlayer();
-        board = modeltoCopy.getBoard();
-        status = modeltoCopy.getStatus();
-        chat = modeltoCopy.getChat();
-        initialCardsDeck = modeltoCopy.getInitialCardDeck();
+    /**
+     * Constructor
+     */
+    public GameImmutable() {
+        gameID=-1;
+        players = new ArrayList<>();
+        playersNumber= -1;
+        scoretrack = new ScoreTrack();
+        currentPlayer = new Player();
+        initialCardsDeck = new Deck();
+        board = new Board();
+        status = GameStatus.WAIT;
+        chat = new Chat();
     }
 
-    public int getGameId() {
+    /**
+     * Constructor
+     * @param modelToCopy
+     */
+    public GameImmutable(Game modelToCopy) {
+        gameID = modelToCopy.getGameId();
+        players = new ArrayList<>(modelToCopy.getPlayers());
+        playersNumber = modelToCopy.getNumPlayers();
+        scoretrack = modelToCopy.getScoretrack();
+        currentPlayer = modelToCopy.getCurrentPlayer();
+        board = modelToCopy.getBoard();
+        status = modelToCopy.getStatus();
+        chat = modelToCopy.getChat();
+        initialCardsDeck = modelToCopy.getInitialCardsDeck();
+    }
+
+    /**
+     * @return the nickname of the current playing player
+     */
+    public String getNicknameCurrentPlaying() {
+        return currentPlayer.getNickname();
+    }
+
+    /**
+     * @return the deck of the current playing player
+     */
+    public PlayerDeckIC CurrentPlayerDeck() {
+        return currentPlayer.getplayerDeck();
+    }
+
+    /**
+     * @return the winner
+     */
+    public PlayerIC getWinner() {
+        scoretrack.getWinner();
+    }
+
+    /**
+     * @return the list of players in game
+     */
+    public List<PlayerIC> getPlayers() {
+        return players;
+    }
+
+    /**
+     * @return the ID of the game
+     */
+    public Integer getGameId() {
         return gameID;
     }
 
-    public int getPlayersNumber() {
+    public Integer getPlayersNumber() {
         return playersNumber;
     }
 
