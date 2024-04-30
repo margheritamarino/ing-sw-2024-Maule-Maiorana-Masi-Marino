@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.listener.GameListener;
 
 import java.rmi.RemoteException;
