@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.rmi.RemoteException;
 
-import static it.polimi.ingsw.view.PrintAsync.printAsync;
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 /**
  * ListenersHandler class is responsible for managing a List of GameListener objects

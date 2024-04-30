@@ -1,13 +1,14 @@
 package it.polimi.ingsw.view.TUI;
 
-// import org.fusesource.jansi.AnsiConsole;
+import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.Utilities.UI;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-//import static it.polimi.ingsw.network.PrintAsync.printAsync;
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 
 //da fare
@@ -32,7 +33,7 @@ public class TUI extends UI {
     ////inizializzo la console ANSI e una lista vuota per memorizzare gli eventi da mostrare
     @Override
     public void init() {
-    //    AnsiConsole.systemInstall();
+        AnsiConsole.systemInstall();
         eventsToShow = new ArrayList<>();
     }
 
@@ -52,7 +53,7 @@ public class TUI extends UI {
      * @param model
      */
     public void show_allPlayers(GameImmutable model) {
-        //printAsync("Current Players: \n" + model.toStringListPlayers());
+        printAsync("Current Players: \n" + model.toStringListPlayers());
 
     }
 
