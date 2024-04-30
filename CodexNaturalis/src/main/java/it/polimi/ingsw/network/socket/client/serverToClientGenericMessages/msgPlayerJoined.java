@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
+package it.polimi.ingsw.network.socket.client.messages;
 
 
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.IOException;
@@ -11,8 +11,9 @@ import java.io.IOException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player has joined the game.
  */
-public class msgPlayerJoined extends SocketServerGenericMessage{
+public class msgPlayerJoined extends MessageServerToClient {
     private GameImmutable model;
+    private String nickname;
 
     /**
      * Constructor of the class.
@@ -29,7 +30,7 @@ public class msgPlayerJoined extends SocketServerGenericMessage{
      * @throws InterruptedException if the execution is interrupted
      */
     @Override
-    public void execute(GameListener lis) throws IOException, InterruptedException {
-        lis.playerJoined(model);
+    public void execute(GameListenerInterface lis) throws IOException, InterruptedException {
+        lis.playerJoined(model, nickname);
     }
 }

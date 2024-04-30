@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
 
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 
@@ -31,7 +31,7 @@ public class msgJoinUnableGameFull extends SocketServerGenericMessage{
      * @throws RemoteException if there is an error in remote communication
      */
     @Override
-    public void execute(GameListener lis) throws RemoteException {
+    public void execute(GameListenerInterface lis) throws RemoteException {
         // lis.JoinUnableGameFull(player,model);
     }
 }

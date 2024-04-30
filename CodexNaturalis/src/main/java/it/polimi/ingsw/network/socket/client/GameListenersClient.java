@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket.client;
 
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -12,11 +12,11 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class GameListenersHandlerClient implements GameListener, Serializable {
+public class GameListenersClient implements GameListenerInterface, Serializable {
 
     private Flow flow;
 
-    public GameListenersHandlerClient(Flow gui) {
+    public GameListenersClient(Flow gui) {
         this.flow = gui;
     }
 

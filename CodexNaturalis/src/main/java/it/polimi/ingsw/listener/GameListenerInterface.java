@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Defines methods to notify the client about different game events
  */
-public interface GameListener extends Remote {
+public interface GameListenerInterface extends Remote {
 
     /**
      * This method is used to notify the client that a player has joined the game

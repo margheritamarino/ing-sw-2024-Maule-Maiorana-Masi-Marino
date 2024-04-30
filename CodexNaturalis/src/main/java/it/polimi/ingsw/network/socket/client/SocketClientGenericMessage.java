@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket.client;
 
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
 import it.polimi.ingsw.exceptions.GameEndedException;
@@ -24,7 +24,7 @@ public abstract class SocketClientGenericMessage implements Serializable{
      * @return the game controller interface
      * @throws RemoteException if there is a remote exception
      */
-    public abstract GameControllerInterface execute(GameListener lis, MainControllerInterface mainController) throws RemoteException;
+    public abstract GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException;
 
     /**
      * Executes the corresponding action for the message.

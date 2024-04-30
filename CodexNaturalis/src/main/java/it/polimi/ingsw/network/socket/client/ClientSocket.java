@@ -34,7 +34,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     /**
      * GameListener on which to perform all actions requested by the Socket Server
      */
-    private final GameListenersHandlerClient modelInvokedEvents;
+    private final GameListenersClient modelInvokedEvents;
     /**
      * The nickname associated with the ClientSocket communication
      */
@@ -51,7 +51,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public ClientSocket(Flow flow) {
         this.flow=flow;
         startConnection("127.0.0.1", 4320);
-        modelInvokedEvents = new GameListenersHandlerClient(flow);
+        modelInvokedEvents = new GameListenersClient(flow);
         this.start();
         socketHeartbeat = new HeartbeatSender(flow,this);
     }

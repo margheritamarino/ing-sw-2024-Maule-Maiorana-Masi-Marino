@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static it.polimi.ingsw.view.TUI.PrintAsync.printAsync;
+
 
 /**
  * Server Class<br>
@@ -44,7 +46,7 @@ public class ServerTCP extends Thread{
             serverSocket = new ServerSocket(port);
             handler = new ArrayList<>();
             this.start();
-            //printAsync("Server Socket ready");
+            printAsync("Server Socket ready");
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("[ERROR] STARTING SOCKET SERVER: \n\tServer RMI exception: " + e);
@@ -59,7 +61,7 @@ public class ServerTCP extends Thread{
             while (!Thread.interrupted()) {
                 handler.add(new ClientHandler(serverSocket.accept()));
                 handler.get(handler.size() - 1).start();
-                //printAsync("[SOCKET] new connection accepted");
+                printAsync("[SOCKET] new connection accepted");
             }
         } catch (IOException e) {
             System.err.println("[ERROR] ACCEPTING WELCOME SOCKET CONNECTION: \n\tServer SOCKET exception: " + e);

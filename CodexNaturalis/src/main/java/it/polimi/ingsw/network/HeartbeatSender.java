@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.network.rmi.ClientInterface;
+//client manda al server in un thread separato il suo heartbeat per indicare che il client è ancora attivo.
+
+
 import it.polimi.ingsw.view.flow.Flow;
 
 import java.rmi.RemoteException;

@@ -43,7 +43,7 @@ public class ClientHandler extends Thread{
     /**
      * The GameListener of the ClientSocket for notifications
      */
-    private GameListenersHandlerSocket gameListenersHandlerSocket;
+    private GameListenersServer gameListenersServer;
 
     /**
      * Nickname of the SocketClient
@@ -62,7 +62,7 @@ public class ClientHandler extends Thread{
         this.clientSocket = soc;
         this.in = new ObjectInputStream(soc.getInputStream());
         this.out = new ObjectOutputStream(soc.getOutputStream());
-        gameListenersHandlerSocket = new GameListenersHandlerSocket(out);
+        gameListenersServer = new GameListenersServer(out);
     }
 
     /**
@@ -94,7 +94,7 @@ public class ClientHandler extends Thread{
                         //it's a heartbeat message I handle it as a "special message"
                         if (temp.isHeartbeat() && !temp.isMessageForMainController()) {
                             if (gameController != null) {
-                                gameController.heartbeat(temp.getNickname(), gameListenersHandlerSocket);
+                                gameController.heartbeat(temp.getNickname(), gameListenersServer);
                             }
                         } else {
                             processingQueue.add(temp);
@@ -121,7 +121,7 @@ public class ClientHandler extends Thread{
                 temp = processingQueue.take();
 
                 if (temp.isMessageForMainController()) {
-                    gameController = temp.execute(gameListenersHandlerSocket, MainController.getInstance());
+                    gameController = temp.execute(gameListenersServer, MainController.getInstance());
                     nickname = gameController != null ? temp.getNickname() : null;
 
                 } else if (!temp.isHeartbeat()) {

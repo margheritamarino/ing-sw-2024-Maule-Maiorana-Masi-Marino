@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Chat.Message;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.HeartbeatSender;
-import it.polimi.ingsw.network.socket.client.GameListenersHandlerClient;
+import it.polimi.ingsw.network.socket.client.GameListenersClient;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -39,7 +39,7 @@ public class ClientRMI implements ClientInterface {
     /**
      * The remote object on which the server will invoke remote methods
      */
-    private static GameListener modelInvokedEvents;
+    private static GameListenerInterface modelInvokedEvents;
     /**
      * The nickname associated to the client (!=null only when connected in a game)
      */
@@ -47,7 +47,7 @@ public class ClientRMI implements ClientInterface {
     /**
      * The remote object on which the server will invoke remote methods
      */
-    private final GameListenersHandlerClient gameListenersHandler;
+    private final GameListenersClient gameListenersHandler;
     /**
      * Registry of the RMI
      */
@@ -68,7 +68,7 @@ public class ClientRMI implements ClientInterface {
      */
     public ClientRMI(Flow flow) {
         super();
-        gameListenersHandler = new GameListenersHandlerClient(flow);
+        gameListenersHandler = new GameListenersClient(flow);
         connect();
 
 
@@ -90,7 +90,7 @@ public class ClientRMI implements ClientInterface {
             registry = LocateRegistry.getRegistry("127.0.0.1", PORT_RMI);
             requests = (MainControllerInterface) registry.lookup("ServerCommunicationInterface");
 
-            modelInvokedEvents = (GameListener) UnicastRemoteObject.exportObject(gameListenersHandler, 0);
+            modelInvokedEvents = (GameListenerInterface) UnicastRemoteObject.exportObject(gameListenersHandler, 0);
 
             printAsync("Client RMI ready");
 

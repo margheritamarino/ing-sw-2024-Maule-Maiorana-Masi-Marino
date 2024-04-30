@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.listener.GameListener;
+//funzionalità aggiuntive: gestione di più game in contemporanea
+
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
 
@@ -44,30 +46,28 @@ public class MainController implements MainControllerInterface, Serializable {
         return instance;
     }
 
-
-
     @Override
-    public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
+    public GameControllerInterface createGame(GameListenerInterface lis, String nick) throws RemoteException {
         return null;
     }
 
     @Override
-    public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+    public GameControllerInterface joinFirstAvailableGame(GameListenerInterface lis, String nick) throws RemoteException {
         return null;
     }
 
     @Override
-    public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+    public GameControllerInterface joinGame(GameListenerInterface lis, String nick, int idGame) throws RemoteException {
         return null;
     }
 
     @Override
-    public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
+    public GameControllerInterface reconnect(GameListenerInterface lis, String nick, int idGame) throws RemoteException {
         return null;
     }
 
     @Override
-    public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
+    public GameControllerInterface leaveGame(GameListenerInterface lis, String nick, int idGame) throws RemoteException {
         return null;
     }
 }

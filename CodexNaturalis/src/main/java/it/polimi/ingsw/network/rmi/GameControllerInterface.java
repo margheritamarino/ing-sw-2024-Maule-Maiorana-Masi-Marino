@@ -1,11 +1,13 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.listener.GameListener;
 
+import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.Chat.Message;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+//aggiungere metodi NOSTRI (pickCard, placeCard, ecc)
 /**
  * This interface contains all the action a player can do in a single game */
 
@@ -29,20 +31,21 @@ public interface GameControllerInterface extends Remote {
     boolean isThisMyTurn(String nick) throws RemoteException;
 
     /**
-     * This method disconnect a player and remove him from the GameListener list{@link GameListener}
+     * This method disconnect a player and remove him from the GameListener list{@link GameListenerInterface}
      * @param nick the nickname of the player
-     * @param lisOfClient the GameListener of the player {@link GameListener}
+     * @param lisOfClient the GameListener of the player {@link GameListenerInterface}
      * @throws RemoteException if the connection fails
      */
-    void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException;
+    void disconnectPlayer(String nick, GameListenerInterface lisOfClient) throws RemoteException;
 
     /**
      * This method is used to check if the client is connected, every x seconds the server send a ping to the client
      * @param nick the nickname of the player
-     * @param me the GameListener of the player {@link GameListener}
+     * @param me the GameListener of the player {@link GameListenerInterface}
      * @throws RemoteException if the connection fails
      */
-    void heartbeat(String nick, GameListener me) throws RemoteException;
+    void heartbeat(String nick, GameListenerInterface me) throws RemoteException;
+
 
 
     /**
@@ -60,11 +63,11 @@ public interface GameControllerInterface extends Remote {
     int getNumOnlinePlayers() throws RemoteException;
 
     /**
-     * This method remove a player from the GameListener list {@link GameListener} and from the game
-     * @param lis the GameListener of the player {@link GameListener}
+     * This method remove a player from the GameListener list {@link GameListenerInterface} and from the game
+     * @param lis the GameListener of the player {@link GameListenerInterface}
      * @param nick the nickname of the player
      * @throws RemoteException if the connection fails
      */
-    void leave(GameListener lis, String nick) throws RemoteException;
+    void leave(GameListenerInterface lis, String nick) throws RemoteException;
 
 }

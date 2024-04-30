@@ -1,22 +1,25 @@
 package it.polimi.ingsw.controller;
+
 //da capire addPlayer e disconnectPlayer
+//implementa i metodi dell'interfaccia GameControllerInterface (cartella RMI). chiama i rispettivi metodi del model
+//saranno da implementare altri metodi in base agli input della view
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.MatchFull;
 import it.polimi.ingsw.exceptions.NicknameAlreadyTaken;
-import it.polimi.ingsw.listener.GameListener;
+import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.Heartbeat;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.Chat.Message;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -30,7 +33,7 @@ import java.util.Random;
 public class GameController implements GameControllerInterface, Serializable, Runnable {
 
     /**
-     * The {@link GameImmutable} to control
+     * The {@link Game} to control
      */
     private final Game model;
 
@@ -38,12 +41,20 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * A random object for implementing pseudo-random choice     */
     private final Random random = new Random();
 
+    /**
+     * Map of heartbeats for detecting disconnections
+     * For implementing AF: "Clients disconnections"
+     */
+    private final transient Map<GameListenerInterface, Heartbeat> heartbeats;
+
+    private Thread reconnectionTh;
 
 
     /**GameController Constructor
      * Init a GameModel
      */
-    public GameController() throws FileNotFoundException, FileReadException, DeckEmptyException {
+    public GameController(Map<GameListenerInterface, Heartbeat> heartbeats) throws FileNotFoundException, FileReadException, DeckEmptyException {
+        this.heartbeats = heartbeats;
         model = new Game();
     }
     /** @return the list of the players currently playing in the Game (online and offline)     */
@@ -91,7 +102,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     @Override
-    public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
+    public void disconnectPlayer(String nick, GameListenerInterface lisOfClient) throws RemoteException {
         model.setPlayerDisconnected(nick);
     }
 
@@ -108,14 +119,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.addPlayer(nick);
     }
 
-    /**
-     * Add a message to the chat list
-     * @param msg to add
-     * @throws RemoteException     */
-    @Override
-    public synchronized void sentMessage(Message msg) throws RemoteException {
-        model.sentMessage(msg);
-    }
 
     /**
      * gets th Game ID of the current Game
@@ -130,11 +133,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     @Override
-    public void leave(GameListener lis, String nick) throws RemoteException {
+    public void leave(GameListenerInterface lis, String nick) throws RemoteException {
         //IMPLEMENTA
     }
     @Override
-    public void heartbeat(String nick, GameListener me) throws RemoteException {
+    public void heartbeat(String nick, GameListenerInterface me) throws RemoteException {
 
     }
     @Override
