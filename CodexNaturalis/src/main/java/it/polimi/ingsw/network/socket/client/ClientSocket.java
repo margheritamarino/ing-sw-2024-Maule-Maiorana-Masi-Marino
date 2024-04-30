@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.socket.client;
 import it.polimi.ingsw.model.Chat.Message;
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
+import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageHeartBeat;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
