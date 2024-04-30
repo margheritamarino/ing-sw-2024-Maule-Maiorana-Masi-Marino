@@ -32,12 +32,12 @@ public class GameImmutable implements Serializable {
     private final Integer gameID;
     private final List<PlayerIC> players;
     private final Integer playersNumber;
-    private final ScoreTrackIC scoretrack;
+    private final ScoreTrackIC scoreTrack;
     private final PlayerIC currentPlayer;
     private final DeckIC initialCardsDeck;
     private final BoardIC board;
     private final GameStatus status;
-    private final ChatIC chat;
+    //private final ChatIC chat;
 
     /**
      * Constructor
@@ -46,12 +46,12 @@ public class GameImmutable implements Serializable {
         gameID=-1;
         players = new ArrayList<>();
         playersNumber= -1;
-        scoretrack = new ScoreTrack();
+        scoreTrack = new ScoreTrack();
         currentPlayer = new Player();
         initialCardsDeck = new Deck();
         board = new Board();
         status = GameStatus.WAIT;
-        chat = new Chat();
+        //chat = new Chat();
     }
 
     /**
@@ -62,11 +62,11 @@ public class GameImmutable implements Serializable {
         gameID = modelToCopy.getGameId();
         players = new ArrayList<>(modelToCopy.getPlayers());
         playersNumber = modelToCopy.getNumPlayers();
-        scoretrack = modelToCopy.getScoretrack();
+        scoreTrack = modelToCopy.getScoretrack();
         currentPlayer = modelToCopy.getCurrentPlayer();
         board = modelToCopy.getBoard();
         status = modelToCopy.getStatus();
-        chat = modelToCopy.getChat();
+        //chat = modelToCopy.getChat();
         initialCardsDeck = modelToCopy.getInitialCardsDeck();
     }
 
@@ -88,7 +88,7 @@ public class GameImmutable implements Serializable {
      * @return the winner
      */
     public PlayerIC getWinner() {
-        scoretrack.getWinner();
+        scoreTrack.getWinner();
     }
 
     /**
@@ -109,7 +109,7 @@ public class GameImmutable implements Serializable {
      * @return the game's scoreTrack
      */
     public ScoreTrackIC getScoretrack(){
-        return scoretrack;
+        return scoreTrack;
     }
 
     /**
@@ -135,12 +135,12 @@ public class GameImmutable implements Serializable {
     public GameStatus getStatus() {
         return status;
     }
-    /**
-     * @return the game's chat
-     */
+
+    /*
     public ChatIC getChat() {
         return chat;
     }
+    */
 
     /**
      * @param playerNickname search for this player in the game
