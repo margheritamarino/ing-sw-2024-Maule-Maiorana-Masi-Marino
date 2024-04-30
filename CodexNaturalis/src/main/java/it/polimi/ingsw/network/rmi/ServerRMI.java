@@ -38,6 +38,7 @@ public class ServerRMI extends UnicastRemoteObject implements MainControllerInte
 
             registry = LocateRegistry.createRegistry(PORT_RMI);
             registry.rebind("ServerCommunicationInterface", stub);
+
         } catch (RemoteException e) {
             System.err.println("Another server is already running. Closing this instance...");
             System.exit(0);
