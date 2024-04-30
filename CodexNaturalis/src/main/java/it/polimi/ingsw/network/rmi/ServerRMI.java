@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.listener.GameListener;
-import it.polimi.ingsw.model.Chat.Message;
 
 import it.polimi.ingsw.network.ServerInterface;
 

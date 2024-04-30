@@ -66,7 +66,7 @@ public class ClientRMI implements ClientInterface {
      *
      * @param flow for visualising network error messages
      */
-    public RMIClient(Flow flow) {
+    public ClientRMI(Flow flow) {
         super();
         gameListenersHandler = new GameListenersHandlerClient(flow);
         connect();
@@ -77,6 +77,8 @@ public class ClientRMI implements ClientInterface {
         rmiHeartbeat = new HeartbeatSender(flow,this);
         rmiHeartbeat.start();
     }
+
+
 
     public void connect() {
         boolean retry = false;
@@ -132,10 +134,6 @@ public class ClientRMI implements ClientInterface {
         return false;
     }
 
-    @Override
-    public void sendMessage(Message msg) throws RemoteException {
-
-    }
 
     @Override
     public void heartbeat() throws RemoteException {

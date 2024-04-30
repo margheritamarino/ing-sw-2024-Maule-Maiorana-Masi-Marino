@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.*;
-import it.polimi.ingsw.model.Chat.Message;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -77,14 +76,6 @@ public interface ClientInterface  {
      * @throws RemoteException
      */
     boolean isMyTurn() throws RemoteException;
-
-    /**
-     * Sends a message in chat
-     *
-     * @param msg message
-     * @throws RemoteException
-     */
-    void sendMessage(Message msg) throws RemoteException;
 
 
     /**
