@@ -105,36 +105,57 @@ public class GameImmutable implements Serializable {
         return gameID;
     }
 
+    /**
+     * @return the game's scoreTrack
+     */
+    public ScoreTrackIC getScoretrack(){
+        return scoretrack;
+    }
+
+    /**
+     * @return the number of players of the game
+     */
     public Integer getPlayersNumber() {
         return playersNumber;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return new ArrayList<>(players);
-    }
 
-    public ScoreTrack getScoretrack() {
-        return new ScoreTrack();
-    }
-    public Player getCurrentPlayer() {
+    public PlayerIC getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public Deck getInitialCardsDeck() throws FileNotFoundException, FileReadException {
-        return new Deck();
+    public DeckIC getInitialCardsDeck() throws FileNotFoundException, FileReadException {
+        return initialCardsDeck;
     }
 
-    public Board getBoard() throws FileNotFoundException, FileReadException, DeckEmptyException {
-        return new Board();
+    public BoardIC getBoard() throws FileNotFoundException, FileReadException, DeckEmptyException {
+        return board;
     }
-
 
     public GameStatus getStatus() {
         return status;
     }
+    /**
+     * @return the game's chat
+     */
+    public ChatIC getChat() {
+        return chat;
+    }
 
-    public Chat getChat() {
-        return new Chat();
+    /**
+     * @param playerNickname search for this player in the game
+     * @return the instance of Player with that nickname
+     */
+    public PlayerIC getPlayerEntity(String playerNickname) {
+        return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().get(0);
+    }
+
+    /**
+     * @param nickname player to check if in turn
+     * @return true if is the turn of the player's passed by parameter
+     */
+    public boolean isMyTurn(String nickname) {
+        return currentPlayer.getNickname().equals(nickname);
     }
 
     public void sentMessage(Message m) {
@@ -142,17 +163,29 @@ public class GameImmutable implements Serializable {
     }
 
 
-    //da fare
+    /**
+     * @return the list of players in string format
+     */
     public String toStringListPlayers() {
         StringBuilder ris = new StringBuilder();
-        //da fare
+        int i = 1;
+        for (PlayerIC p : players) {
+            ris.append("[#").append(i).append("]: ").append(p.getNickname()).append("\n");
+            i++;
+        }
         return ris.toString();
     }
 
-    public int getNumPlayers() {
+    /**
+     * @return the number of players
+     */
+    public Integer getNumPlayers() {
         return playersNumber;
     }
 
+    /**
+     * @return the number of players connected
+     */
     public int getNumPlayersOnline() {
         int numplayers = 0;
         for (Player player : players) {
@@ -163,6 +196,10 @@ public class GameImmutable implements Serializable {
         return numplayers;
     }
 
+
+    /**
+     * @return current player's Goal
+     */
     public ObjectiveCard getCurrentPlayerGoal() {
         return currentPlayer.getGoal();
     }
@@ -172,6 +209,4 @@ public class GameImmutable implements Serializable {
     }
 
 
-    //public String getGameId() {
-    //}
 }
