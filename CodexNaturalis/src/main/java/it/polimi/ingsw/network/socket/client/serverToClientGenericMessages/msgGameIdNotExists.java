@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.messages;
+package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
 
 import it.polimi.ingsw.listener.GameListener;
 
@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that the specified game ID does not exist.
  */
-public class msgGameIdNotExists extends MessageServerToClient {
+public class msgGameIdNotExists extends SocketServerGenericMessage {
     private int gameid;
 
     /**

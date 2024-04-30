@@ -5,8 +5,11 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.network.socket.client.messages.*;
+import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.*;
+
+
 import java.io.Serializable;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
@@ -29,7 +32,7 @@ public class GameListenersHandlerSocket implements GameListener, Serializable {
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void playerJoined(GameImmutable model, String nick) throws RemoteException {
+    public void playerJoined(GameImmutable model) throws RemoteException {
         try {
             out.writeObject(new msgPlayerJoined(model));
             finishSending();

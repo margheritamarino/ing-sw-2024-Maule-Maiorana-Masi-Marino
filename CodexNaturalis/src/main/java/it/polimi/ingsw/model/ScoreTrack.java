@@ -5,6 +5,8 @@ import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.exceptions.PlayerNotFoundException;
 import it.polimi.ingsw.model.player.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -137,4 +139,28 @@ public class ScoreTrack {
 		return maxPlayer;
 	}
 
+
+
+	/**
+	 * @return list with Players SORTED by Score (descending order)
+	 */
+	public ArrayList<Player> getPlayersByScore() {
+		// Create a list of players from the map attribute pointsPlayers
+		ArrayList<Player> playerList =  new ArrayList<>(pointsPlayers.keySet());
+
+		// Sort the list using a comparator
+		playerList.sort((p1, p2) -> {
+			// Get scores of players p1 and p2 from the map
+			int scoreP1 = pointsPlayers.getOrDefault(p1, 0);
+			int scoreP2 = pointsPlayers.getOrDefault(p2, 0);
+
+			// Sort in descending order by score
+			return Integer.compare(scoreP2, scoreP1);
+		});
+
+		// Return the sorted list
+		return playerList;
+	}
+
 }
+

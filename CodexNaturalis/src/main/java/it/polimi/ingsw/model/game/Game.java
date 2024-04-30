@@ -4,7 +4,6 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.exceptions.GameNotStartedException;
-import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -44,7 +43,7 @@ public class Game {
 	private GameStatus status;
 	private int[] orderArray;
 	private PlayableCard[] temporaryInitialCard;
-	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
+//	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
 	private Chat chat; //It contains the chat of the game
 
 	/**
@@ -64,7 +63,7 @@ public class Game {
 		this.status = GameStatus.WAIT;
 		this.temporaryInitialCard= new PlayableCard[2];
 		this.chat = new Chat();
-		this.listenersHandler = new ListenersHandler();
+	//	listenersHandler = new ListenersHandler();
 
 	}
 	public Game() throws IllegalArgumentException, FileNotFoundException, FileReadException, DeckEmptyException {
@@ -78,7 +77,7 @@ public class Game {
 		this.status = GameStatus.WAIT;
 		this.temporaryInitialCard= new PlayableCard[2];
 		this.chat = new Chat();
-		this.listenersHandler = new ListenersHandler();
+		//	listenersHandler = new ListenersHandler();
 
 	}
 	/**
@@ -108,7 +107,29 @@ public class Game {
 		return chat;
 	}
 
+	/**
+	 * Sends a message
+	 * @param m message sent
+	 */
+	public void sentMessage(Message m) {
+		boolean senderIsPlaying = false;
 
+		// Verifica se il mittente del messaggio sta giocando
+		for (Player player : players) {
+			if (player.equals(m.getSender())) {
+				senderIsPlaying = true;
+				break;
+			}
+		}
+		// Se il mittente sta giocando, aggiungi il messaggio alla chat e notifica i listener
+		if (senderIsPlaying) {
+			chat.addMsg(m);
+		//	listenersHandler.notify_SentMessage(this, chat.getLastMessage());
+		} else {
+		//	throw new ActionPerformedByAPlayerNotPlayingException();
+		}
+
+	}
 	/**
 	 * Checks if the game is started.
 	 * @return True if the game is started
@@ -177,27 +198,26 @@ public class Game {
 		this.gameID = gameID;
 	}
 
-	/**
-	 * * @return the list of listeners
-	 *
-	 * */
-	public List<GameListener> getListeners() {
-		return listenersHandler.getListeners();
-	}
-
-	/**
-	 * @param listener adds the listener to the list
-	 * */
-	public void addListener(GameListener listener) {
-		listenersHandler.addListener(listener);
-	}
-
-	/**
-	 * @param listener removes listener from list
-	 */
-	public void removeListener(GameListener listener) {
-		listenersHandler.removeListener(listener);
-	}
+//	/**
+//	 * @return the list of listeners
+//	 */
+//	public List<GameListener> getListeners() {
+//		return listenersHandler.getListeners();
+//	}
+//
+//	/**
+//	 * @param listener adds the listener to the list
+//	 */
+//	public void addListener(GameListener listener) {
+//		listenersHandler.addListener(listener);
+//	}
+//
+//	/**
+//	 * @param listener removes listener from list
+//	 */
+//	public void removeListener(GameListener listener) {
+//		listenersHandler.removeListener(listener);
+//	}
 
 	/**
 	 * @return the book of the CurrentPlayer
@@ -229,7 +249,7 @@ public class Game {
 	 */
 	public void playerIsReadyToStart(Player player) {
 		player.setReadyToStart();
-		listenersHandler.notify_PlayerIsReadyToStart(this, player.getNickname());
+		//listenersHandler.notify_PlayerIsReadyToStart(this, player.getNickname());
 	}
 
 	/**
@@ -276,15 +296,15 @@ public class Game {
 			playersNumber++;
 
 			// Notify listeners that a player has joined the game
-			listenersHandler.notify_PlayerJoined(this, nickname);
+			//listenersHandler.notify_PlayerJoined(this, nickname);
 
 		} else if (checkNickname(nickname)) {
 			// Notify listeners that the nickname is already taken
-			listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
+			//listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
 			throw new NicknameAlreadyTaken(nickname);
 		} else {
 			// Notify listeners that the game is full
-			listenersHandler.notify_JoinUnableGameFull(null, this);
+			//listenersHandler.notify_JoinUnableGameFull(null, this);
 			throw new MatchFull("There are already 4 players");
 		}
 	}
@@ -323,7 +343,7 @@ public class Game {
 			if (players.get(i).getNickname().equals(nickname)) {
 				scoretrack.removePlayer(players.get(i));
 				players.remove(i);
-				listenersHandler.notify_PlayerLeft(this, nickname);
+				//listenersHandler.notify_PlayerLeft(this, nickname);
 				return;
 			}
 		}
@@ -361,7 +381,7 @@ public class Game {
 			// Notifica tutti gli altri giocatori sulla disconnessione
 			for (Player player : players) {
 				if (!player.getNickname().equals(nickname)) {
-					listenersHandler.notify_playerDisconnected(this, nickname);
+					//listenersHandler.notify_playerDisconnected(this, nickname);
 				}
 			}
 
@@ -407,7 +427,7 @@ public class Game {
 		}
 		// Reconnect the player
 		playerToReconnect.setConnected(true);
-		listenersHandler.notify_playerReconnected(this, nickname);
+		//listenersHandler.notify_playerReconnected(this, nickname);
 
 		//DA GESTIRE TURNI APPENA SI RICONNETTE
 //		// If the reconnected player is not the current player, advance to the next turn
@@ -463,7 +483,7 @@ public class Game {
 				&& checkPlayers()
 				&& currentPlayer != null) {
 			this.status = GameStatus.RUNNING;
-            listenersHandler.notify_GameStarted(this);
+          //  listenersHandler.notify_GameStarted(this);
 		} else {
 			throw new NotReadyToRunException("The Game cannot start");
 		}
@@ -477,10 +497,10 @@ public class Game {
 		this.status = status;
 
 		if (status == GameStatus.ENDED) {
-				listenersHandler.notify_GameEnded(this);
+			//	listenersHandler.notify_GameEnded(this);
 
 		} else if (status == GameStatus.LAST_CIRCLE) {
-				listenersHandler.notify_LastCircle(this);
+			//	listenersHandler.notify_LastCircle(this);
 		}
 	}
 		/**
@@ -539,7 +559,7 @@ public class Game {
 			int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
 			// Imposta il nuovo currentPlayer
 			currentPlayer = players.get(orderArray[nextIndex]);
-			listenersHandler.notify_nextTurn(this);
+		//	listenersHandler.notify_nextTurn(this);
 		}
 		else if (status.equals(GameStatus.ENDED)) {
 			throw new GameEndedException();
@@ -589,7 +609,7 @@ public class Game {
 		for (Player player : players) {
 
 			temporaryInitialCard = initialCardsDeck.returnCard();
-			listenersHandler.notify_requireInitial(this, temporaryInitialCard);
+		//	listenersHandler.notify_requireInitial(this, temporaryInitialCard);
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
@@ -599,14 +619,14 @@ public class Game {
 
 
 			// Inizializza gli obiettivi
-			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrare
+		//	listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrare
 														//con il metodo drawObjectiveCards()
 
 
 			//poi il controller dentro questo metodo chiama: model.setPlayerGoal
 
 		}
-		listenersHandler.notify_cardsReady(this);
+	//	listenersHandler.notify_cardsReady(this);
 	}
 	public PlayableCard[] getInitialCard(){
 		return temporaryInitialCard;
@@ -679,7 +699,7 @@ public class Game {
 		int points= currentPlayer.placeCard(posCell, posCard);
 		scoretrack.addPoints(currentPlayer, points);
 		// Notifica gli ascoltatori dell'evento di piazzamento carta
-		listenersHandler.notify_CardPlaced(this, currentPlayer, posCell, posCard);
+	//	listenersHandler.notify_CardPlaced(this, currentPlayer, posCell, posCard);
 
 	}
 
@@ -693,7 +713,7 @@ public class Game {
             throw new DeckEmptyException("Resource cards' deck is empty");
         }
         // Notifica ai listeners che una carta è stata pescata
-		listenersHandler.notify_CardDrawn(this);
+	//	listenersHandler.notify_CardDrawn(this);
 	}
 
 	public Board getBoard(){
@@ -748,9 +768,7 @@ public class Game {
 		return board.getObjectiveCardsDeck();
 	}
 
-
 	public Deck getInitialCardsDeck() {
 		return initialCardsDeck;
 	}
-
 }
