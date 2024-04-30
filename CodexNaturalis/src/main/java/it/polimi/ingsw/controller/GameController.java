@@ -32,7 +32,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * The {@link GameImmutable} to control
      */
-    private final GameImmutable model;
+    private final Game model;
 
     /**
      * A random object for implementing pseudo-random choice     */
@@ -44,7 +44,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Init a GameModel
      */
     public GameController() throws FileNotFoundException, FileReadException, DeckEmptyException {
-        model = new GameImmutable();
+        model = new Game();
     }
     /** @return the list of the players currently playing in the Game (online and offline)     */
     public ArrayList<Player> getPlayers() {
@@ -92,7 +92,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void disconnectPlayer(String nick, GameListener lisOfClient) throws RemoteException {
-        model.disconnectPlayer(nick);
+        model.setPlayerDisconnected(nick);
     }
 
 

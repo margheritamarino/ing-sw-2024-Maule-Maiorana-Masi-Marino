@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
  * This interface contains the events regarding the list of games
  */
 public interface MainControllerInterface extends Remote {
+
     /**
      * This method creates a new game and add it to the GameListener list
      * @param lis the GameListener of the player {@link GameListener}
