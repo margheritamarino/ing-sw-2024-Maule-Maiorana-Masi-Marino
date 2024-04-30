@@ -1,12 +1,11 @@
 package it.polimi.ingsw.network.socket.client;
 
 import it.polimi.ingsw.model.Chat.Message;
+import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.rmi.ClientInterface;
 import it.polimi.ingsw.view.flow.Flow;
-
 import java.io.*;
 import java.net.Socket;
-
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 
@@ -45,7 +44,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     public ClientSocket(Flow flow) {
         this.flow=flow;
-        startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
+        startConnection("127.0.0.1", 4320);
         modelInvokedEvents = new GameListenersHandlerClient(flow);
         this.start();
         socketHeartbeat = new HeartbeatSender(flow,this);
@@ -97,7 +96,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip + "'");
 
                 i = 0;
-                while (i < DefaultValue.seconds_between_reconnection) {
+                while (i < 5) { //second between reconnection
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
@@ -108,7 +107,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 }
                 printAsyncNoLine("\n");
 
-                if (attempt >= DefaultValue.num_of_attempt_to_connect_toServer_before_giveup) {
+                if (attempt >= 5) { //num_of_attempt_to_connect_toServer_before_giveup
                     printAsyncNoLine("Give up!");
                     try {
                         System.in.read();
