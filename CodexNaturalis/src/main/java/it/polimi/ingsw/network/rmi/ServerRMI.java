@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.model.Chat.Message;
-import it.polimi.ingsw.network.MainController;
+
 import it.polimi.ingsw.network.ServerInterface;
 
 import java.rmi.NotBoundException;
@@ -20,11 +20,11 @@ import java.rmi.server.UnicastRemoteObject;
  */
 
 
-public class ServerRMI extends UnicastRemoteObject implements MainController.MainControllerInterface, ServerInterface {
+public class ServerRMI extends UnicastRemoteObject implements MainControllerInterface, ServerInterface {
 
     private static final int PORT_RMI =1099 ;
     private Registry registry;
-    private GameControllerInterface server;
+    private MainControllerInterface server;
 
     public ServerRMI() throws RemoteException {
         super();
@@ -59,6 +59,29 @@ public class ServerRMI extends UnicastRemoteObject implements MainController.Mai
     }
 
 
+    @Override
+    public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {
+        return null;
+    }
 
+    @Override
+    public GameControllerInterface joinFirstAvailableGame(GameListener lis, String nick) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public GameControllerInterface joinGame(GameListener lis, String nick, int idGame) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public GameControllerInterface reconnect(GameListener lis, String nick, int idGame) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public GameControllerInterface leaveGame(GameListener lis, String nick, int idGame) throws RemoteException {
+        return null;
+    }
 }
 

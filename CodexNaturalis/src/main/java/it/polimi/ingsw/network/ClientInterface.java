@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.network.Chat.*;
+import it.polimi.ingsw.network.*;
 import it.polimi.ingsw.model.Chat.Message;
 
 import java.io.IOException;
