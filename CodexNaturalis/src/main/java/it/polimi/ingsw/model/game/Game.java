@@ -10,8 +10,10 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
+import it.polimi.ingsw.model.Chat.Chat;
+import it.polimi.ingsw.model.Chat.Message;
 
-// import it.polimi.ingsw.listener.ListenersHandler;
+import it.polimi.ingsw.listener.ListenersHandler;
 
 
 import java.io.FileNotFoundException;
@@ -42,7 +44,7 @@ public class Game {
 	private int[] orderArray;
 	private PlayableCard[] temporaryInitialCard;
 //	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
-
+	private Chat chat; //It contains the chat of the game
 
 	/**
 	 * Private Constructor
@@ -50,10 +52,7 @@ public class Game {
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
 	public Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException, DeckEmptyException {
-		//check number of players
-		if(playersNumber < 1 || playersNumber > 4){
-			throw new IllegalArgumentException("The number of players must be between 1 and 4.");
-		}
+
 		this.playersNumber = playersNumber;
 		this.initialCardsDeck = new Deck(CardType.InitialCard);
 		this.players = new ArrayList<>();
@@ -63,10 +62,24 @@ public class Game {
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
 		this.temporaryInitialCard= new PlayableCard[2];
+		this.chat = new Chat();
 	//	listenersHandler = new ListenersHandler();
 
 	}
+	public Game() throws IllegalArgumentException, FileNotFoundException, FileReadException, DeckEmptyException {
+		this.playersNumber = 0;
+		this.initialCardsDeck = new Deck(CardType.InitialCard);
+		this.players = new ArrayList<>();
+		this.scoretrack = new ScoreTrack();
+		this.currentPlayer = null;
+		this.board = new Board();
+		this.orderArray = new int[playersNumber];
+		this.status = GameStatus.WAIT;
+		this.temporaryInitialCard= new PlayableCard[2];
+		this.chat = new Chat();
+		//	listenersHandler = new ListenersHandler();
 
+	}
 	/**
 	 * Singleton class
 	 * @param playersNumber The number of players in the game
@@ -87,7 +100,36 @@ public class Game {
             throw new RuntimeException(e);
         }
     }
+	/**
+	 * @return the chat
+	 */
+	public Chat getChat() {
+		return chat;
+	}
 
+	/**
+	 * Sends a message
+	 * @param m message sent
+	 */
+	public void sentMessage(Message m) {
+		boolean senderIsPlaying = false;
+
+		// Verifica se il mittente del messaggio sta giocando
+		for (Player player : players) {
+			if (player.equals(m.getSender())) {
+				senderIsPlaying = true;
+				break;
+			}
+		}
+		// Se il mittente sta giocando, aggiungi il messaggio alla chat e notifica i listener
+		if (senderIsPlaying) {
+			chat.addMsg(m);
+		//	listenersHandler.notify_SentMessage(this, chat.getLastMessage());
+		} else {
+		//	throw new ActionPerformedByAPlayerNotPlayingException();
+		}
+
+	}
 	/**
 	 * Checks if the game is started.
 	 * @return True if the game is started
@@ -127,6 +169,10 @@ public class Game {
 			}
 		}
 		return numplayers;
+	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
 	}
 
 	/**
@@ -649,7 +695,7 @@ public class Game {
 		return currentPlayer.getPlayerDeck();
 	}
 
-	public void placeCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException {
+	public void placeCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException, PlacementConditionViolated {
 		int points= currentPlayer.placeCard(posCell, posCard);
 		scoretrack.addPoints(currentPlayer, points);
 		// Notifica gli ascoltatori dell'evento di piazzamento carta

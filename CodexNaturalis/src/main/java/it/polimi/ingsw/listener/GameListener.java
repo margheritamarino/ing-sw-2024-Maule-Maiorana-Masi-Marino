@@ -75,12 +75,6 @@ public interface GameListener extends Remote {
      */
     void playerIsReadyToStart(GameImmutable model, String nick) throws IOException;
 
-    /**
-     * This method is used to notify the client that the common cards have been extracted
-     * @param model is the game model
-     * @throws RemoteException if the reference could not be accessed
-     */
-    void commonCardsExtracted(GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify the client that the game has started
