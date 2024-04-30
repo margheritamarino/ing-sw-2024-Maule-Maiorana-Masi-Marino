@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.messages;
+package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.player.Player;
@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player was unable to join the game because the nickname is already in use.
  */
-public class msgJoinUnableNicknameAlreadyIn extends MessageServerToClient {
+public class msgJoinUnableNicknameAlreadyIn extends SocketServerGenericMessage{
     private Player wantedToJoin;
 
     /**

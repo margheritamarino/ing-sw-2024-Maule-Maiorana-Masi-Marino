@@ -3,24 +3,24 @@ package it.polimi.ingsw.network.socket.client.mainControllerMessages;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.MessageClientToServer;
+import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
 
 import java.rmi.RemoteException;
 
 /**
- * SocketClientMessageLeave class.
+ * SocketClientMessageJoinGame class.
  * Extends SocketClientGenericMessage and is used to send a message to the server
- * indicating the request to leave a game.
+ * indicating the request to join a specific game by its ID.
  */
-public class SocketClientMessageLeaveClientToServer extends MessageClientToServer {
+public class SocketClientMessageJoinGame extends SocketClientGenericMessage {
     int idGame;
 
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
-     * @param idGame the ID of the game to leave
+     * @param idGame the ID of the game to join
      */
-    public SocketClientMessageLeaveClientToServer(String nickname, int idGame) {
+    public SocketClientMessageJoinGame(String nickname, int idGame) {
         this.idGame = idGame;
         this.nickname = nickname;
         this.isMessageForMainController = true;
@@ -35,7 +35,7 @@ public class SocketClientMessageLeaveClientToServer extends MessageClientToServe
      */
     @Override
     public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
-        return mainController.leaveGame(lis, nickname, idGame);
+        return mainController.joinGame(lis, nickname, idGame);
     }
 
     /**

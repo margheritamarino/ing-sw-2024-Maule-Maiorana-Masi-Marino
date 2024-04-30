@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.messages;
+package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -10,7 +10,7 @@ import java.io.IOException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player is ready to start the game.
  */
-public class msgPlayerIsReadyToStart extends MessageServerToClient {
+public class msgPlayerIsReadyToStart extends SocketServerGenericMessage {
     private GameImmutable model;
     private String nickname;
 

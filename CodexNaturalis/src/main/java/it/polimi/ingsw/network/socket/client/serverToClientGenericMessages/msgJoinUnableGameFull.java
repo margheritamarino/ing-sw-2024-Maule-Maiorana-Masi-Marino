@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.messages;
+package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player was unable to join the game because it is full.
  */
-public class msgJoinUnableGameFull extends MessageServerToClient {
+public class msgJoinUnableGameFull extends SocketServerGenericMessage{
     private Player player;
     private GameImmutable model;
 

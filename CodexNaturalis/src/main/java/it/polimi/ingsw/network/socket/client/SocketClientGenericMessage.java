@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
  * SocketClientGenericMessage class.
  * An abstract class that represents a generic message to be sent from the client to the server.
  */
-public abstract class MessageClientToServer implements Serializable{
+public abstract class SocketClientGenericMessage implements Serializable{
     protected String nickname;
     protected boolean isMessageForMainController;
     protected boolean isHeartbeat=false;

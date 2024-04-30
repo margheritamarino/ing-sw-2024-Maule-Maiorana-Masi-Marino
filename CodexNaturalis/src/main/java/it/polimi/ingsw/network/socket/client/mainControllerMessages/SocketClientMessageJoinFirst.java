@@ -3,25 +3,21 @@ package it.polimi.ingsw.network.socket.client.mainControllerMessages;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.MessageClientToServer;
+import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
 
 import java.rmi.RemoteException;
 
 /**
- * SocketClientMessageReconnect class.
+ * SocketClientMessageJoinFirst class.
  * Extends SocketClientGenericMessage and is used to send a message to the server
- * indicating the request to reconnect to the last game joined.
+ * indicating the request to join the first available game.
  */
-public class SocketClientMessageReconnectClientToServer extends MessageClientToServer {
-    private int idGame;
-
+public class SocketClientMessageJoinFirst extends SocketClientGenericMessage {
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
-     * @param idGame the ID of the game to reconnect to
      */
-    public SocketClientMessageReconnectClientToServer(String nickname, int idGame) {
-        this.idGame = idGame;
+    public SocketClientMessageJoinFirst(String nickname) {
         this.nickname = nickname;
         this.isMessageForMainController = true;
     }
@@ -33,10 +29,9 @@ public class SocketClientMessageReconnectClientToServer extends MessageClientToS
      * @return the game controller interface
      * @throws RemoteException if there is an error in remote communication
      */
-
     @Override
     public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
-        return mainController.reconnect(lis, nickname, idGame);
+        return mainController.joinFirstAvailableGame(lis, nickname);
     }
 
     /**
@@ -48,5 +43,4 @@ public class SocketClientMessageReconnectClientToServer extends MessageClientToS
     public void execute(GameControllerInterface mainController) throws RemoteException {
 
     }
-
 }

@@ -3,21 +3,21 @@ package it.polimi.ingsw.network.socket.client.mainControllerMessages;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.MessageClientToServer;
+import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
 
 import java.rmi.RemoteException;
 
 /**
- * SocketClientMessageJoinFirst class.
+ * SocketClientMessageCreateGame class.
  * Extends SocketClientGenericMessage and is used to send a message to the server
- * indicating the request to join the first available game.
+ * indicating the request to create a new game.
  */
-public class SocketClientMessageJoinFirstClientToServer extends MessageClientToServer {
+public class SocketClientMessageCreateGame extends SocketClientGenericMessage {
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
      */
-    public SocketClientMessageJoinFirstClientToServer(String nickname) {
+    public SocketClientMessageCreateGame(String nickname) {
         this.nickname = nickname;
         this.isMessageForMainController = true;
     }
@@ -31,7 +31,7 @@ public class SocketClientMessageJoinFirstClientToServer extends MessageClientToS
      */
     @Override
     public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
-        return mainController.joinFirstAvailableGame(lis, nickname);
+        return mainController.createGame(lis, nickname);
     }
 
     /**

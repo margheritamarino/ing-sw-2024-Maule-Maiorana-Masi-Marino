@@ -21,8 +21,8 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void playerJoined(GameImmutable model, String nick) throws RemoteException {
-        flow.playerJoined(model, nick);
+    public void playerJoined(GameImmutable model) throws RemoteException {
+        flow.playerJoined(model);
     }
 
     @Override

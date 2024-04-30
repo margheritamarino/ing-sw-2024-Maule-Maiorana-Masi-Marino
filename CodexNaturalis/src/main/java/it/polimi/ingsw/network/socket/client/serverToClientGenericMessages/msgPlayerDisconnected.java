@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.messages;
+package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -6,19 +6,22 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import java.rmi.RemoteException;
 
 /**
- * msgLastCircle class.
+ * msgPlayerDisconnected class.
  * Extends SocketServerGenericMessage and is used to send a message to the client
- * indicating that it is the last circle of the game.
+ * indicating that a player has been disconnected from the game.
  */
-public class msgLastCircle extends MessageServerToClient {
+public class msgPlayerDisconnected extends SocketServerGenericMessage{
+    private String nickname;
     private GameImmutable model;
 
     /**
      * Constructor of the class.
      * @param model the immutable game model
+     * @param nickname the nickname of the disconnected player
      */
-    public msgLastCircle(GameImmutable model) {
-        this.model = model;
+    public msgPlayerDisconnected(GameImmutable model,String nickname) {
+        this.nickname = nickname;
+        this.model=model;
     }
 
     /**
@@ -28,7 +31,6 @@ public class msgLastCircle extends MessageServerToClient {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.lastCircle(model);
+        lis.playerDisconnected(model,nickname);
     }
-
 }

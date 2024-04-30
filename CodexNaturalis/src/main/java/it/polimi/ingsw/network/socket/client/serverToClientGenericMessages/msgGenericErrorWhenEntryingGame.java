@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.messages;
+package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 
@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a generic error message to the client
  * when entering a game.
  */
-public class msgGenericErrorWhenEntryingGame extends MessageServerToClient {
+public class msgGenericErrorWhenEntryingGame extends SocketServerGenericMessage{
     private String why;
 
     /**

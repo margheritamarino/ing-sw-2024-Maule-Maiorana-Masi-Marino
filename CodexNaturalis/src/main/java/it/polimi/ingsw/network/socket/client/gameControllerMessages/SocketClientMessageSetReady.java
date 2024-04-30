@@ -1,29 +1,25 @@
-package it.polimi.ingsw.network.socket.client.mainControllerMessages;
+package it.polimi.ingsw.network.socket.client.gameControllerMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.MessageClientToServer;
+import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
 
 import java.rmi.RemoteException;
 
 /**
- * SocketClientMessageJoinGame class.
+ * SocketClientMessageSetReady class.
  * Extends SocketClientGenericMessage and is used to send a message to the server
- * indicating the request to join a specific game by its ID.
+ * indicating that a player is ready to start the game.
  */
-public class SocketClientMessageJoinGameClientToServer extends MessageClientToServer {
-    int idGame;
-
+public class SocketClientMessageSetReady extends SocketClientGenericMessage {
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
-     * @param idGame the ID of the game to join
      */
-    public SocketClientMessageJoinGameClientToServer(String nickname, int idGame) {
-        this.idGame = idGame;
+    public SocketClientMessageSetReady(String nickname) {
         this.nickname = nickname;
-        this.isMessageForMainController = true;
+        this.isMessageForMainController = false;
     }
 
     /**
@@ -35,16 +31,16 @@ public class SocketClientMessageJoinGameClientToServer extends MessageClientToSe
      */
     @Override
     public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
-        return mainController.joinGame(lis, nickname, idGame);
+        return null;
     }
 
     /**
      * Method to execute the corresponding action for the message.
-     * @param mainController the game controller interface
+     * @param gameController the game controller interface
      * @throws RemoteException if there is an error in remote communication
      */
     @Override
-    public void execute(GameControllerInterface mainController) throws RemoteException {
-
+    public void execute(GameControllerInterface gameController) throws RemoteException {
+        gameController.playerIsReadyToStart(this.nickname);
     }
 }

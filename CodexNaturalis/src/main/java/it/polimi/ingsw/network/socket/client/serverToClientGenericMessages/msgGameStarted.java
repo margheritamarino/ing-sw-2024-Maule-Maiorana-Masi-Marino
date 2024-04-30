@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.messages;
+package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -6,18 +6,27 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import java.rmi.RemoteException;
 
 /**
- * msgGameEnded class.
+ * msgGameStarted class.
  * Extends SocketServerGenericMessage and is used to send a message to the client
- * indicating that the game has ended.
+ * indicating that the game has started.
  */
-public class msgGameEnded extends MessageServerToClient {
+public class msgGameStarted extends SocketServerGenericMessage{
     private GameImmutable model;
+
+
+    /**
+     * Empty constructor of the class.
+     * Used when the game model is not provided.
+     */
+    public msgGameStarted() {
+
+    }
 
     /**
      * Constructor of the class.
      * @param model the immutable game model
      */
-    public msgGameEnded(GameImmutable model) {
+    public msgGameStarted(GameImmutable model) {
         this.model = model;
     }
 
@@ -28,7 +37,6 @@ public class msgGameEnded extends MessageServerToClient {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.gameEnded(model);
+        lis.gameStarted(model);
     }
-
 }

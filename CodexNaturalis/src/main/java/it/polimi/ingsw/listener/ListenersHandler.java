@@ -1,6 +1,5 @@
 package it.polimi.ingsw.listener;
 
-import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -255,8 +254,6 @@ public class ListenersHandler {
             } catch (RemoteException | IllegalStateException e) {
                 printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
                 i.remove();
-            } catch (DeckEmptyException e) {
-                throw new RuntimeException(e);
             }
         }
     }
@@ -320,6 +317,22 @@ public class ListenersHandler {
                 l.nextTurn(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_nextTurn, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+    /**
+     * The notify_extractedCommonCard method notifies that a common card has been extracted
+     * @param gamemodel is the Game to pass as a new GameModelImmutable
+     */
+    public synchronized void notify_extractedCommonCard(Game gamemodel) {
+        Iterator<GameListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListener l = i.next();
+            try {
+                l.commonCardsExtracted(new GameImmutable(gamemodel));
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_extractedCommonCard, a disconnection has been detected before heartbeat");
                 i.remove();
             }
         }

@@ -7,10 +7,10 @@ import it.polimi.ingsw.model.Chat.Chat;
 import it.polimi.ingsw.model.Chat.Message;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.ScoreTrack;
-import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerDeck;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -31,7 +31,7 @@ public class GameImmutable implements Serializable {
 
     private final Integer gameID;
     private final List<PlayerIC> players;
-    private int playersNumber;
+    private final Integer playersNumber;
     private final ScoreTrackIC scoretrack;
     private final PlayerIC currentPlayer;
     private final DeckIC initialCardsDeck;
@@ -39,51 +39,123 @@ public class GameImmutable implements Serializable {
     private final GameStatus status;
     private final ChatIC chat;
 
-    public GameImmutable(Game modeltoCopy) {
-        gameID = modeltoCopy.getGameId();
-        players = new ArrayList<>(modeltoCopy.getPlayers());
-        scoretrack = modeltoCopy.getScoretrack();
-        currentPlayer = modeltoCopy.getCurrentPlayer();
-        board = modeltoCopy.getBoard();
-        status = modeltoCopy.getStatus();
-        chat = modeltoCopy.getChat();
-        initialCardsDeck = modeltoCopy.getInitialCardsDeck();
+    /**
+     * Constructor
+     */
+    public GameImmutable() {
+        gameID=-1;
+        players = new ArrayList<>();
+        playersNumber= -1;
+        scoretrack = new ScoreTrack();
+        currentPlayer = new Player();
+        initialCardsDeck = new Deck();
+        board = new Board();
+        status = GameStatus.WAIT;
+        chat = new Chat();
     }
 
-    public int getGameId() {
+    /**
+     * Constructor
+     * @param modelToCopy
+     */
+    public GameImmutable(Game modelToCopy) {
+        gameID = modelToCopy.getGameId();
+        players = new ArrayList<>(modelToCopy.getPlayers());
+        playersNumber = modelToCopy.getNumPlayers();
+        scoretrack = modelToCopy.getScoretrack();
+        currentPlayer = modelToCopy.getCurrentPlayer();
+        board = modelToCopy.getBoard();
+        status = modelToCopy.getStatus();
+        chat = modelToCopy.getChat();
+        initialCardsDeck = modelToCopy.getInitialCardsDeck();
+    }
+
+    /**
+     * @return the nickname of the current playing player
+     */
+    public String getNicknameCurrentPlaying() {
+        return currentPlayer.getNickname();
+    }
+
+    /**
+     * @return the deck of the current playing player
+     */
+    public PlayerDeckIC CurrentPlayerDeck() {
+        return currentPlayer.getplayerDeck();
+    }
+
+    /**
+     * @return the winner
+     */
+    public PlayerIC getWinner() {
+        scoretrack.getWinner();
+    }
+
+    /**
+     * @return the list of players in game
+     */
+    public List<PlayerIC> getPlayers() {
+        return players;
+    }
+
+    /**
+     * @return the ID of the game
+     */
+    public Integer getGameId() {
         return gameID;
     }
 
-    public int getPlayersNumber() {
+    /**
+     * @return the game's scoreTrack
+     */
+    public ScoreTrackIC getScoretrack(){
+        return scoretrack;
+    }
+
+    /**
+     * @return the number of players of the game
+     */
+    public Integer getPlayersNumber() {
         return playersNumber;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return new ArrayList<>(players);
-    }
 
-    public ScoreTrack getScoretrack() {
-        return new ScoreTrack();
-    }
-    public Player getCurrentPlayer() {
+    public PlayerIC getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public Deck getInitialCardsDeck() throws FileNotFoundException, FileReadException {
-        return new Deck(CardType.InitialCard);
+    public DeckIC getInitialCardsDeck() throws FileNotFoundException, FileReadException {
+        return initialCardsDeck;
     }
 
-    public Board getBoard() throws FileNotFoundException, FileReadException, DeckEmptyException {
-        return new Board();
+    public BoardIC getBoard() throws FileNotFoundException, FileReadException, DeckEmptyException {
+        return board;
     }
-
 
     public GameStatus getStatus() {
         return status;
     }
+    /**
+     * @return the game's chat
+     */
+    public ChatIC getChat() {
+        return chat;
+    }
 
-    public Chat getChat() {
-        return new Chat();
+    /**
+     * @param playerNickname search for this player in the game
+     * @return the instance of Player with that nickname
+     */
+    public PlayerIC getPlayerEntity(String playerNickname) {
+        return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().get(0);
+    }
+
+    /**
+     * @param nickname player to check if in turn
+     * @return true if is the turn of the player's passed by parameter
+     */
+    public boolean isMyTurn(String nickname) {
+        return currentPlayer.getNickname().equals(nickname);
     }
 
     public void sentMessage(Message m) {
@@ -91,17 +163,29 @@ public class GameImmutable implements Serializable {
     }
 
 
-    //da fare
+    /**
+     * @return the list of players in string format
+     */
     public String toStringListPlayers() {
         StringBuilder ris = new StringBuilder();
-        //da fare
+        int i = 1;
+        for (PlayerIC p : players) {
+            ris.append("[#").append(i).append("]: ").append(p.getNickname()).append("\n");
+            i++;
+        }
         return ris.toString();
     }
 
-    public int getNumPlayers() {
+    /**
+     * @return the number of players
+     */
+    public Integer getNumPlayers() {
         return playersNumber;
     }
 
+    /**
+     * @return the number of players connected
+     */
     public int getNumPlayersOnline() {
         int numplayers = 0;
         for (Player player : players) {
@@ -112,6 +196,10 @@ public class GameImmutable implements Serializable {
         return numplayers;
     }
 
+
+    /**
+     * @return current player's Goal
+     */
     public ObjectiveCard getCurrentPlayerGoal() {
         return currentPlayer.getGoal();
     }
@@ -121,6 +209,4 @@ public class GameImmutable implements Serializable {
     }
 
 
-    //public String getGameId() {
-    //}
 }

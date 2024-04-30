@@ -3,21 +3,25 @@ package it.polimi.ingsw.network.socket.client.mainControllerMessages;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.MessageClientToServer;
+import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
 
 import java.rmi.RemoteException;
 
 /**
- * SocketClientMessageCreateGame class.
+ * SocketClientMessageReconnect class.
  * Extends SocketClientGenericMessage and is used to send a message to the server
- * indicating the request to create a new game.
+ * indicating the request to reconnect to the last game joined.
  */
-public class SocketClientMessageCreateGameClientToServer extends MessageClientToServer {
+public class SocketClientMessageReconnect extends SocketClientGenericMessage {
+    private int idGame;
+
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
+     * @param idGame the ID of the game to reconnect to
      */
-    public SocketClientMessageCreateGameClientToServer(String nickname) {
+    public SocketClientMessageReconnect(String nickname, int idGame) {
+        this.idGame = idGame;
         this.nickname = nickname;
         this.isMessageForMainController = true;
     }
@@ -29,9 +33,10 @@ public class SocketClientMessageCreateGameClientToServer extends MessageClientTo
      * @return the game controller interface
      * @throws RemoteException if there is an error in remote communication
      */
+
     @Override
     public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
-        return mainController.createGame(lis, nickname);
+        return mainController.reconnect(lis, nickname, idGame);
     }
 
     /**
@@ -43,4 +48,5 @@ public class SocketClientMessageCreateGameClientToServer extends MessageClientTo
     public void execute(GameControllerInterface mainController) throws RemoteException {
 
     }
+
 }
