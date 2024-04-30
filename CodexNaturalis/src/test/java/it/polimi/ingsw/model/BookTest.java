@@ -900,29 +900,29 @@ public class BookTest {
         assertTrue(zeroObjectiveCard.getGoalType().equals(GoalType.DiagonalPlacement));
         assertTrue(eightObjectiveCard.getGoalType().equals(GoalType.ResourceCondition));
 
-        /*Creazione di una InitialCard fittizia
-        List<ResourceType> resourceList1 = new ArrayList<>();
-        resourceList1.add(ResourceType.Plant);
-        resourceList1.add(ResourceType.Insect);
+    /*Creazione di una InitialCard fittizia
+    List<ResourceType> resourceList1 = new ArrayList<>();
+    resourceList1.add(ResourceType.Plant);
+    resourceList1.add(ResourceType.Insect);
 
-        List<ResourceType> centralResources1 = new ArrayList<>();
-        resourceList1.add(ResourceType.Insect);
+    List<ResourceType> centralResources1 = new ArrayList<>();
+    resourceList1.add(ResourceType.Insect);
 
-        InitialCard initialCardTest1 = new InitialCard(0,4,true,CardType.InitialCard,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,centralResources1,1,2,resourceList1);
-        book.addInitial(initialCardTest1); //ho aggiunto la carta initial al centro del Book
+    InitialCard initialCardTest1 = new InitialCard(0,4,true,CardType.InitialCard,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,centralResources1,1,2,resourceList1);
+    book.addInitial(initialCardTest1); //ho aggiunto la carta initial al centro del Book
 
 
-        //Creo una GoldCard fittizia e la aggiungo al Book
-        List<ResourceType> resourceList3 = new ArrayList<>();
-        resourceList3.add(ResourceType.Fungi);
-        resourceList3.add(ResourceType.Fungi);
-        resourceList3.add(ResourceType.Animal);
-        GoldCard goldCard = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList3,true,false, SymbolType.Quill);
+    //Creo una GoldCard fittizia e la aggiungo al Book
+    List<ResourceType> resourceList3 = new ArrayList<>();
+    resourceList3.add(ResourceType.Fungi);
+    resourceList3.add(ResourceType.Fungi);
+    resourceList3.add(ResourceType.Animal);
+    GoldCard goldCard = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList3,true,false, SymbolType.Quill);
 
-        book.getBookMatrix()[3][1].setAvailable(false);
-        book.getBookMatrix()[3][1].setCardPointer(goldCard);
-        book.updateBook(goldCard, book.getBookMatrix()[3][1]);
-        book.updateMaps(goldCard, book.getBookMatrix()[3][1]);*/
+    book.getBookMatrix()[3][1].setAvailable(false);
+    book.getBookMatrix()[3][1].setCardPointer(goldCard);
+    book.updateBook(goldCard, book.getBookMatrix()[3][1]);
+    book.updateMaps(goldCard, book.getBookMatrix()[3][1]);*/
 
     }
 
@@ -931,145 +931,205 @@ public class BookTest {
     @Test
     void testCheckResourceCondition() {
 
-        //creo una istanza una carta Obiettivo che sia di tipo ResourceCondition
+        //creo le istanze di carte Obiettivo di tipo ResourceCondition
         List<SymbolType> zeroSymbolList = new ArrayList<>();
         ObjectiveCard eightObjectiveCard = new ObjectiveCard(8,true,GoalType.ResourceCondition,2, ResourceType.Fungi, null, 3, 0, zeroSymbolList, null);
+        ObjectiveCard objectiveCard9 = new ObjectiveCard(9,true,GoalType.ResourceCondition,2, ResourceType.Plant, null, 3, 0, zeroSymbolList, null);
+        ObjectiveCard objectiveCard10 = new ObjectiveCard(10,true,GoalType.ResourceCondition,2, ResourceType.Animal, null, 3, 0, zeroSymbolList, null);
+        ObjectiveCard objectiveCard11 = new ObjectiveCard(11,true,GoalType.ResourceCondition,2, ResourceType.Insect, null, 3, 0, zeroSymbolList, null);
 
-        //creo una istanza di Book su cui applicare la CheckResourceCondition
+        //creo una istanza di Book su cui applicare la CheckResourceCondition (Fungi)
         Book book = new Book(70, 70);
+        book.getResourceMap().put(ResourceType.Animal, 1);
+        book.getResourceMap().put(ResourceType.Plant, 0);
+        book.getResourceMap().put(ResourceType.Insect, 15);
+        book.getResourceMap().put(ResourceType.Fungi, 6);
 
-        //Creo una InitialCard fittizia e la aggiungo al Book
-        List<ResourceType> resourceList2 = new ArrayList<>();
-        resourceList2.add(ResourceType.Animal);
-        resourceList2.add(ResourceType.Fungi);
+        assertEquals(4, book.checkResourceCondition(eightObjectiveCard));
 
-        List<ResourceType> centralResources2 = new ArrayList<>();
-        resourceList2.add(ResourceType.Fungi);
+        //creo una istanza Book0 su cui applicare la CheckResourceCondition (Fungi)
+        Book book0 = new Book(70, 70);
+        book0.getResourceMap().put(ResourceType.Animal, 1);
+        book0.getResourceMap().put(ResourceType.Plant, 0);
+        book0.getResourceMap().put(ResourceType.Insect, 15);
+        book0.getResourceMap().put(ResourceType.Fungi, 7);
 
-        InitialCard initialCardTest2 = new InitialCard(1,4,true,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,centralResources2,1,2,resourceList2);
-        book.addInitial(initialCardTest2); //ho aggiunto la carta initial al centro del Book
+        assertEquals(4, book0.checkResourceCondition(eightObjectiveCard));
 
-        book.getBookMatrix()[35][35].setAvailable(false);
-        book.getBookMatrix()[35][35].setCardPointer(initialCardTest2);
-        book.updateBook(initialCardTest2, book.getBookMatrix()[35][35]);
-        book.updateMaps(initialCardTest2, book.getBookMatrix()[35][35]);
+        //creo una istanza Book1 su cui applicare la CheckResourceCondition (Plant)
+        Book book1 = new Book(70, 70);
+        book1.getResourceMap().put(ResourceType.Animal, 1);
+        book1.getResourceMap().put(ResourceType.Plant, 11);
+        book1.getResourceMap().put(ResourceType.Insect, 15);
+        book1.getResourceMap().put(ResourceType.Fungi, 0);
 
-        //Creo una ResourceCard fittizia e la aggiungo al Book
-        List<ResourceType> resourceList0 = new ArrayList<>();
-        resourceList0.add(ResourceType.Fungi);
-        resourceList0.add(ResourceType.Fungi);
-        ResourceCard resourceCard0 = new ResourceCard(0,3,true,CardType.ResourceCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.NoCorner,CornerLabel.WithResource ,ResourceType.Fungi,0,2,resourceList0,false, null);
+        assertEquals(6, book1.checkResourceCondition(objectiveCard9));
 
-        book.getBookMatrix()[34][34].setAvailable(false);
-        book.getBookMatrix()[34][34].setCardPointer(resourceCard0);
-        book.updateBook(resourceCard0, book.getBookMatrix()[34][34]);
-        book.updateMaps(resourceCard0, book.getBookMatrix()[34][34]);
+        //creo una istanza Book2 su cui applicare la CheckResourceCondition (Animal)
+        Book book2 = new Book(70, 70);
+        book2.getResourceMap().put(ResourceType.Animal, 1);
+        book2.getResourceMap().put(ResourceType.Plant, 11);
+        book2.getResourceMap().put(ResourceType.Insect, 15);
+        book2.getResourceMap().put(ResourceType.Fungi, 0);
 
-        assertEquals(2, book.checkResourceCondition(eightObjectiveCard));
+        assertEquals(0, book2.checkResourceCondition(objectiveCard10));
+
+        //creo una istanza Book3 su cui applicare la CheckResourceCondition (Insect)
+        Book book3 = new Book(70, 70);
+        book3.getResourceMap().put(ResourceType.Animal, 1);
+        book3.getResourceMap().put(ResourceType.Plant, 11);
+        book3.getResourceMap().put(ResourceType.Insect, 23);
+        book3.getResourceMap().put(ResourceType.Fungi, 23);
+
+        assertEquals(14, book3.checkResourceCondition(objectiveCard11));
 
 
     }
 
     @Test
     void testCheckSymbolCondition() {
-        //creo una istanza una carta Obiettivo che sia di tipo ResourceCondition
+        //creo una istanza di carta Obiettivo12 che sia di tipo ResourceCondition (CASE victoryPoints=3)
         List<SymbolType> symbolList12 = new ArrayList<>();
         symbolList12.add(SymbolType.Quill);
         symbolList12.add(SymbolType.Ink);
         symbolList12.add(SymbolType.Manuscript);
         ObjectiveCard objectiveCard12 = new ObjectiveCard(12,true,GoalType.SymbolCondition,3, null, null, 0, 3, symbolList12, null);
 
-        //creo una istanza di Book su cui applicare la CheckSymbolCondition
+        //creo una seconda istanza di carta Obiettivo13 che sia di tipo ResourceCondition (CASE victoryPoints=2)
+        List<SymbolType> symbolList13 = new ArrayList<>();
+        symbolList13.add(SymbolType.Manuscript);
+        symbolList13.add(SymbolType.Manuscript);
+        ObjectiveCard objectiveCard13 = new ObjectiveCard(13,true,GoalType.SymbolCondition,2, null, null, 0, 2, symbolList13, null);
+
+        //creo una istanza di Book su cui applicare la CheckSymbolCondition (CASE victoryPoints=3)
+        Book book = new Book(70, 70);
+        book.getSymbolMap().put(SymbolType.Quill, 1);
+        book.getSymbolMap().put(SymbolType.Ink, 1);
+        book.getSymbolMap().put(SymbolType.Manuscript, 1);
+
+        assertEquals(3, book.checkSymbolCondition(objectiveCard12));
+
+        //creo una seconda istanza di Book su cui applicare la CheckSymbolCondition (CASE victoryPoints=3)
+        Book book1 = new Book(70, 70);
+        book1.getSymbolMap().put(SymbolType.Quill, 4);
+        book1.getSymbolMap().put(SymbolType.Ink, 10);
+        book1.getSymbolMap().put(SymbolType.Manuscript, 6);
+
+        assertEquals(12, book1.checkSymbolCondition(objectiveCard12));
+
+        //creo una terza istanza di Book su cui applicare la CheckSymbolCondition (CASE victoryPoints=2)
         Book book2 = new Book(70, 70);
-        book2.initializeMaps();
-        assertEquals(3, book2.getSymbolMap().size()); //verifica
-        assertEquals(Integer.valueOf(0), book2.getSymbolMap().get(SymbolType.Quill)); //verifica Risorse
-        assertEquals(Integer.valueOf(0), book2.getSymbolMap().get(SymbolType.Ink)); //verifica Risorse
-        assertEquals(Integer.valueOf(0), book2.getSymbolMap().get(SymbolType.Manuscript)); //verifica Risorse
+        book2.getSymbolMap().put(SymbolType.Quill, 6);
+        book2.getSymbolMap().put(SymbolType.Ink, 0);
+        book2.getSymbolMap().put(SymbolType.Manuscript, 5);
 
-
-        //Creo una InitialCard fittizia e la aggiungo al Book
-        List<ResourceType> resourceList0 = new ArrayList<>();
-        resourceList0.add(ResourceType.Plant);
-        resourceList0.add(ResourceType.Insect);
-
-        List<ResourceType> centralResources0 = new ArrayList<>();
-        centralResources0.add(ResourceType.Insect);
-
-        InitialCard initialCardTest0 = new InitialCard(0,4,true,CardType.InitialCard,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,centralResources0,1,2,resourceList0);
-        book2.addInitial(initialCardTest0); //ho aggiunto la carta initial al centro del Book
-
-        book2.getBookMatrix()[35][35].setAvailable(false);
-        book2.getBookMatrix()[35][35].setCardPointer(initialCardTest0);
-        book2.updateBook(initialCardTest0, book2.getBookMatrix()[35][35]);
-        book2.updateMaps(initialCardTest0, book2.getBookMatrix()[35][35]);
-        //assertEquals(0, book2.getSymbolMap().size()); //verifica Simboli
-        assertEquals(Integer.valueOf(2), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
-
-        //Creo ResourceCardBack30 e la aggiungo al Book
-        List<ResourceType> resourceList30 = new ArrayList<>();
-        ResourceCard resourceCard30 = new ResourceCard(30,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Insect,0,0,resourceList30,false, null);
-
-        book2.getBookMatrix()[43][36].setAvailable(false);
-        book2.getBookMatrix()[34][36].setCardPointer(resourceCard30);
-        book2.updateBook(resourceCard30, book2.getBookMatrix()[34][36]);
-        book2.updateMaps(resourceCard30, book2.getBookMatrix()[34][36]);
-        //assertEquals(0, book2.getSymbolMap().size()); //verifica Simboli
-        assertEquals(Integer.valueOf(3), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
-
-
-        //Creo GoldCard36 e la aggiungo al Book
-        List<ResourceType> resourceList36 = new ArrayList<>();
-        resourceList36.add(ResourceType.Insect);
-        resourceList36.add(ResourceType.Insect);
-        resourceList36.add(ResourceType.Insect);
-        GoldCard goldCard36 = new GoldCard(36,2,true,CardType.GoldCard, CornerLabel.WithSymbol,CornerLabel.NoCorner,CornerLabel.NoCorner,CornerLabel.Empty, ResourceType.Insect,true,SymbolType.Ink,3, resourceList36,false,false, null);
-
-        book2.getBookMatrix()[33][37].setAvailable(false);
-        book2.getBookMatrix()[33][37].setCardPointer(goldCard36);
-        book2.updateBook(goldCard36, book2.getBookMatrix()[33][37]);
-        book2.updateMaps(goldCard36, book2.getBookMatrix()[33][37]);
-        assertEquals(Integer.valueOf(1), book2.getSymbolMap().get(SymbolType.Ink)); //verifica Simboli
-        assertEquals(Integer.valueOf(3), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
-
-        //Creo GoldCard37 e la aggiungo al Book
-        List<ResourceType> resourceList37 = new ArrayList<>();
-        resourceList37.add(ResourceType.Insect);
-        resourceList37.add(ResourceType.Insect);
-        resourceList37.add(ResourceType.Insect);
-        GoldCard goldCard37 = new GoldCard(37,2,true,CardType.GoldCard, CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.NoCorner,CornerLabel.NoCorner, ResourceType.Insect,true, SymbolType.Manuscript,3, resourceList37,false,false, null);
-
-        book2.getBookMatrix()[34][34].setAvailable(false);
-        book2.getBookMatrix()[34][34].setCardPointer(goldCard37);
-        book2.updateBook(goldCard37, book2.getBookMatrix()[34][34]);
-        book2.updateMaps(goldCard37, book2.getBookMatrix()[34][34]);
-        assertEquals(Integer.valueOf(1), book2.getSymbolMap().get(SymbolType.Manuscript)); //verifica Simboli
-        assertEquals(Integer.valueOf(3), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
-
-
-        //Creo GoldCard38 e la aggiungo al Book
-        List<ResourceType> resourceList38 = new ArrayList<>();
-        resourceList38.add(ResourceType.Insect);
-        resourceList38.add(ResourceType.Insect);
-        resourceList38.add(ResourceType.Insect);
-        GoldCard goldCard38 = new GoldCard(38,2,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol, ResourceType.Insect,true, SymbolType.Quill,3, resourceList38,false,false, null);
-
-        book2.getBookMatrix()[36][34].setAvailable(false);
-        book2.getBookMatrix()[36][34].setCardPointer(goldCard38);
-        book2.updateBook(goldCard38, book2.getBookMatrix()[36][34]);
-        book2.updateMaps(goldCard38, book2.getBookMatrix()[36][34]);
-        assertEquals(Integer.valueOf(1), book2.getSymbolMap().get(SymbolType.Quill)); //verifica Simboli
-        assertEquals(Integer.valueOf(3), book2.getResourceMap().get(ResourceType.Insect)); //verifica Risorse
-        assertEquals(3, book2.getSymbolMap().size()); //verifica Simboli
-
-        assertEquals(3, book2.checkSymbolCondition(objectiveCard12));
-
+        assertEquals(4, book2.checkSymbolCondition(objectiveCard13));
 
     }
 
     @Test
     void testCheckDiagonalPlacement() {
-        Book book = new Book(5, 5);
+        //creo una istanza di carta Obiettivo0 che sia di tipo DiagonalPlacementCondition (Diagonale secondaria- Fungi)
+        List<SymbolType> symbolList0 = new ArrayList<>();
+        ObjectiveCard objectiveCard0 = new ObjectiveCard(0,true,GoalType.DiagonalPlacement,2, ResourceType.Fungi, CornerType.BLCorner, 0, 0, symbolList0, null);
+
+        //creo una istanza di carta Obiettivo1 che sia di tipo DiagonalPlacementCondition (Diagonale principale- Plant)
+        ObjectiveCard objectiveCard1 = new ObjectiveCard(1,true,GoalType.DiagonalPlacement,2, ResourceType.Plant, CornerType.BRCorner, 0, 0, symbolList0, null);
+
+        Book book = new Book(70, 70);
+
+        //DIAGONALE SECONDARIA
+        //Creo istanza InitialCard0 fittizia e la aggiungo al Book
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Animal);
+        resourceList2.add(ResourceType.Fungi);
+        List<ResourceType> centralResources2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Fungi);
+        InitialCard initialCardTest2 = new InitialCard(1,4,true,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,centralResources2,1,2,resourceList2);
+        book.addInitial(initialCardTest2); //ho aggiunto la carta initial al centro del Book
+
+        //Creo ResourceCard0 e la aggiungo al Book
+        List<ResourceType> resourceList0 = new ArrayList<>();
+        resourceList0.add(ResourceType.Fungi);
+        resourceList0.add(ResourceType.Fungi);
+        ResourceCard resourceCard0 = new ResourceCard(0,3,true,CardType.ResourceCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.NoCorner,CornerLabel.WithResource ,ResourceType.Fungi,0,2,resourceList0,false, null);
+        book.addResourceCard(resourceCard0, book.getBookMatrix()[34][36]); //aggiungo al book la resoureCard
+
+        //Creo ResourceBackCard1 e la aggiungo al Book
+        List<ResourceType> resourceList1 = new ArrayList<>();
+        ResourceCard resourceCard1 = new ResourceCard(1,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList1,false, null);
+        //Cell cell1 = new Cell(33,37);
+        book.addResourceCard(resourceCard1, book.getBookMatrix()[33][37]); //aggiungo al book la resoureCard
+
+        //Creo ResourceBackCard2 e la aggiungo al Book
+        List<ResourceType> resourceList = new ArrayList<>();
+        ResourceCard resourceCard2 = new ResourceCard(2,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList,false, null);
+        //Cell cell2 = new Cell(32,38);
+        book.addResourceCard(resourceCard2, book.getBookMatrix()[32][38]); //aggiungo al book la resoureCard
+
+        assertEquals(2, book.checkDiagonalPlacement(objectiveCard0));
+
+        // Aggiungi le carte sulla diagonale secondaria
+        int row = 31; // Parti dalla riga 31
+        int col = 39; // Parti dalla colonna 39
+
+        // Aggiungi le carte ResourceBack INSECT una per una sulla diagonale secondaria
+        for (int i = 30; i <= 39; i++) {
+            // Crea 10 ResourceCardBck con mainResource "Insect" e aggiungila al Book
+            List<ResourceType> resourceList3 = new ArrayList<>();
+            ResourceCard resourceCard = new ResourceCard(i, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Insect, 0, 0, resourceList3, false, null);
+            book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+            row--; // Sposta la riga verso l'alto
+            col++; // Sposta la colonna verso destra
+        }
+
+        //Aggiungo una ResourceBack FUNGI
+        List<ResourceType> resourceList4 = new ArrayList<>();
+        ResourceCard resourceCard3 = new ResourceCard(3,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList4,false, null);
+        book.addResourceCard(resourceCard3, book.getBookMatrix()[row][col]); //aggiungo al book la resoureCard
+        row--; // Sposta la riga verso l'alto
+        col++; // Sposta la colonna verso destra
+
+        assertEquals(2, book.checkDiagonalPlacement(objectiveCard0));
+
+        // Aggiungi le carte ResourceBack ANIMAL una per una sulla diagonale secondaria
+        for (int j = 20; j <= 29; j++) {
+            // Crea 10 ResourceCardBck con mainResource "Animal" e aggiungila al Book
+            List<ResourceType> resourceList5 = new ArrayList<>();
+            ResourceCard resourceCard = new ResourceCard(j, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Animal, 0, 0, resourceList5, false, null);
+            book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+            row--; // Sposta la riga verso l'alto
+            col++; // Sposta la colonna verso destra
+        }
+
+        // Aggiungi le restanti carte ResourceBack FUNGI (6) una per una sulla diagonale secondaria
+        for (int k = 4; k <= 9; k++) {
+            // Crea 10 ResourceCardBck con mainResource "Animal" e aggiungila al Book
+            List<ResourceType> resourceList6 = new ArrayList<>();
+            ResourceCard resourceCard = new ResourceCard(k, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Fungi, 0, 0, resourceList6, false, null);
+            book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+            row--; // Sposta la riga verso l'alto
+            col++; // Sposta la colonna verso destra
+        }
+
+        // Aggiungi le carte ResourceBack PLANT una per una sulla diagonale secondaria
+        int z=10;
+        List<ResourceType> resourceList7 = new ArrayList<>();
+        while (row>0 && col<70){ //finchè non arrivo al limite superiore della matrice
+            ResourceCard resourceCard = new ResourceCard(z, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Plant, 0, 0, resourceList7, false, null);
+            book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+            z++;
+            row--; // Sposta la riga verso l'alto
+            col++; // Sposta la colonna verso destra
+        }
+        assertEquals(row,0); //controllo di essere arrivato sulla riga 0 della matrice
+        //aggiungo l'ultima separatamente (RIGA==0)
+        ResourceCard resourceCard = new ResourceCard(z, 4, false, CardType.ResourceCard, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, CornerLabel.Empty, ResourceType.Plant, 0, 0, resourceList7, false, null);
+        book.addResourceCard(resourceCard, book.getBookMatrix()[row][col]);
+
+        assertEquals(6, book.checkDiagonalPlacement(objectiveCard0));
+
+
     }
 
     @Test
