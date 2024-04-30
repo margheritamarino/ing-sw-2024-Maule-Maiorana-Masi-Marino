@@ -2,34 +2,36 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.MatchFull;
+import it.polimi.ingsw.exceptions.NicknameAlreadyTaken;
 import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.network.Chat.Message;
-import it.polimi.ingsw.network.rmi.GameControllerInterface;
+import it.polimi.ingsw.model.Chat.Message;
+import it.polimi.ingsw.network.rmi.ServerCommunicationInterface;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
- * GameController Class <
+ * GameController Class
  * Controls a specific Game {@link Game} by allowing a player to perform all actions that can be executed in a game
  * The class can add, remove, reconnect and disconnects players to the game and let players grab and position tiles
  * from the playground to the shelf. <br>
  * <br>
  * It manages all the game from the beginning (GameStatus.WAIT to the ending {GameStatus.Ended}
  */
-public class GameController implements GameControllerInterface, Serializable, Runnable {
+public class ServerController implements ServerCommunicationInterface, Serializable, Runnable {
 
     /**
-     * The {@link Game} to control
+     * The {@link GameImmutable} to control
      */
-    private final Game model;
+    private final GameImmutable model;
 
     /**
      * A random object for implementing pseudo-random choice     */
@@ -40,8 +42,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**GameController Constructor
      * Init a GameModel
      */
-    public GameController() throws FileNotFoundException, FileReadException, DeckEmptyException {
-        model = new Game();
+    public ServerController() throws FileNotFoundException, FileReadException, DeckEmptyException {
+        model = new GameImmutable();
     }
     /** @return the list of the players currently playing in the Game (online and offline)     */
     public ArrayList<Player> getPlayers() {
@@ -92,9 +94,17 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }
 
-    @Override
-    public void heartbeat(String nick, GameListener me) throws RemoteException {
 
+
+    /**
+     * Adds a new player to the match.
+     *
+     * @param nick the nickname of the player to add.
+     * @throws MatchFull if the match is already full and no more players can be added.
+     * @throws NicknameAlreadyTaken if the specified nickname is already in use by another player.
+     */
+    public void addPlayer(String nick) throws MatchFull, NicknameAlreadyTaken {
+        model.addPlayer(nick);
     }
 
     /**
@@ -122,7 +132,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void leave(GameListener lis, String nick) throws RemoteException {
         //IMPLEMENTA
     }
+    @Override
+    public void heartbeat(String nick, GameListener me) throws RemoteException {
 
+    }
     @Override
     public void run() {
        // IMPLEMENTA

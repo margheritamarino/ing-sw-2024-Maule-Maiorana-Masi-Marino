@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.Chat;
+package it.polimi.ingsw.model.Chat;
 
 import it.polimi.ingsw.model.player.Player;
 

@@ -10,8 +10,8 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
-import it.polimi.ingsw.network.Chat.Chat;
-import it.polimi.ingsw.network.Chat.Message;
+import it.polimi.ingsw.model.Chat.Chat;
+import it.polimi.ingsw.model.Chat.Message;
 
 // import it.polimi.ingsw.listener.ListenersHandler;
 

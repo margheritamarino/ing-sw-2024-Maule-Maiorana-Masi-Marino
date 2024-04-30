@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket.client;
 
-import it.polimi.ingsw.network.Chat.Message;
+import it.polimi.ingsw.model.Chat.Message;
 
 import java.io.*;
 import java.net.Socket;
