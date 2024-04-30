@@ -36,7 +36,7 @@ public class GameImmutable implements Serializable {
         initialCardsDeck = modeltoCopy.getInitialCardDeck();
     }
 
-    public int getGameID() {
+    public int getGameId() {
         return gameID;
     }
 
@@ -91,6 +91,7 @@ public class GameImmutable implements Serializable {
         //da fare
         return ris.toString();
     }
+
 
     //public String getGameId() {
     //}
