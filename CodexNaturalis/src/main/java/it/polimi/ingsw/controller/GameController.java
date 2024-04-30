@@ -95,7 +95,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
-
     /**
      * Adds a new player to the match.
      *
