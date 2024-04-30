@@ -1,4 +1,5 @@
 package it.polimi.ingsw.controller;
+//da capire addPlayer e disconnectPlayer
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
