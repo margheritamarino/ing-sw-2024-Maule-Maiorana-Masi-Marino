@@ -67,12 +67,11 @@ public class ClientHandler extends Thread{
     }
 
 
-    /*
     /**
      * Receive all the actions sent by the player, execute them on the specific controller required
      * It detects client network disconnections by catching Exceptions
      * {@link MainController} or {@link GameControllerInterface}
-
+     */
 
     @Override
     public void run() {
