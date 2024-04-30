@@ -9,7 +9,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import it.polimi.ingsw.exceptions.GameEndedException;
-import it.polimi.ingsw.network.rmi.GameControllerInterface;
+import it.polimi.ingsw.network.rmi.ServerCommunicationInterface;
 import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
 
 /**
@@ -35,7 +35,7 @@ public class ClientHandler extends Thread{
     /**
      * GameController associated with the game
      */
-    private GameControllerInterface gameController;
+    private ServerCommunicationInterface gameController;
 
     /**
      * The GameListener of the ClientSocket for notifications
@@ -72,7 +72,7 @@ public class ClientHandler extends Thread{
     /**
      * Receive all the actions sent by the player, execute them on the specific controller required
      * It detects client network disconnections by catching Exceptions
-     * {@link MainController} or {@link GameControllerInterface}
+     * {@link MainController} or {@link ServerCommunicationInterface}
      */
     @Override
     public void run() {
