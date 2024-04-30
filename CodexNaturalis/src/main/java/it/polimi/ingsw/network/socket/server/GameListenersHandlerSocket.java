@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.network.Chat.Message;
 import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.*;
 
 
@@ -13,19 +12,18 @@ import java.io.Serializable;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class GameListerHandlerSocket implements GameListener, Serializable {
+public class GameListenersHandlerSocket implements GameListener, Serializable {
     private final ObjectOutputStream out;
 
     /**
      * This constructor creates a GameListenersHandlerSocket
-     * @param o the ObjectOutputStream
+     * @param out the ObjectOutputStream
      */
-    public GameListenersHandlerSocket(ObjectOutputStream o) {
-        out = o;
+    public GameListenersHandlerSocket(ObjectOutputStream out) {
+        this.out = out;
     }
 
     /**
@@ -251,20 +249,6 @@ public class GameListerHandlerSocket implements GameListener, Serializable {
             finishSending();
         } catch (IOException e) {
 
-        }
-    }
-
-    /**
-     * This method is used to write on the ObjectOutputStream that a message has been sent
-     * @param model is the game model {@link GameImmutable}
-     * @param msg is the message sent {@link Message}
-     * @throws RemoteException if the connection fails
-     */
-    public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
-        try {
-            out.writeObject(new msgSentMessage(model, msg));
-            finishSending();
-        } catch (IOException e) {
         }
     }
 
