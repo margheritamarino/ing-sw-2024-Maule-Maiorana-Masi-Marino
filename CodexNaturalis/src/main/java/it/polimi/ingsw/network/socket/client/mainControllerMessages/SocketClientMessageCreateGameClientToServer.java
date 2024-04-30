@@ -1,25 +1,25 @@
-package it.polimi.ingsw.network.socket.client.gameControllerMessages;
+package it.polimi.ingsw.network.socket.client.mainControllerMessages;
 
 import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
+import it.polimi.ingsw.network.socket.client.MessageClientToServer;
 
 import java.rmi.RemoteException;
 
 /**
- * SocketClientMessageSetReady class.
+ * SocketClientMessageCreateGame class.
  * Extends SocketClientGenericMessage and is used to send a message to the server
- * indicating that a player is ready to start the game.
+ * indicating the request to create a new game.
  */
-public class SocketClientMessageSetReady extends SocketClientGenericMessage {
+public class SocketClientMessageCreateGameClientToServer extends MessageClientToServer {
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
      */
-    public SocketClientMessageSetReady(String nickname) {
+    public SocketClientMessageCreateGameClientToServer(String nickname) {
         this.nickname = nickname;
-        this.isMessageForMainController = false;
+        this.isMessageForMainController = true;
     }
 
     /**
@@ -31,16 +31,16 @@ public class SocketClientMessageSetReady extends SocketClientGenericMessage {
      */
     @Override
     public GameControllerInterface execute(GameListener lis, MainControllerInterface mainController) throws RemoteException {
-        return null;
+        return mainController.createGame(lis, nickname);
     }
 
     /**
      * Method to execute the corresponding action for the message.
-     * @param gameController the game controller interface
+     * @param mainController the game controller interface
      * @throws RemoteException if there is an error in remote communication
      */
     @Override
-    public void execute(GameControllerInterface gameController) throws RemoteException {
-        gameController.playerIsReadyToStart(this.nickname);
+    public void execute(GameControllerInterface mainController) throws RemoteException {
+
     }
 }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Chat.Chat;
 import it.polimi.ingsw.model.Chat.Message;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.ScoreTrack;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
@@ -35,7 +36,7 @@ public class GameImmutable implements Serializable {
         board = modeltoCopy.getBoard();
         status = modeltoCopy.getStatus();
         chat = modeltoCopy.getChat();
-        initialCardsDeck = modeltoCopy.getInitialCardDeck();
+        initialCardsDeck = modeltoCopy.getInitialCardsDeck();
     }
 
     public int getGameId() {
@@ -58,7 +59,7 @@ public class GameImmutable implements Serializable {
     }
 
     public Deck getInitialCardsDeck() throws FileNotFoundException, FileReadException {
-        return new Deck();
+        return new Deck(CardType.InitialCard);
     }
 
     public Board getBoard() throws FileNotFoundException, FileReadException, DeckEmptyException {

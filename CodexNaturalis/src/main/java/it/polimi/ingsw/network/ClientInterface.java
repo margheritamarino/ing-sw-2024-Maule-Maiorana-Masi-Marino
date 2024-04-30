@@ -78,14 +78,6 @@ public interface ClientInterface  {
      */
     boolean isMyTurn() throws RemoteException;
 
-    /**
-     * Sends a message in chat
-     *
-     * @param msg message
-     * @throws RemoteException
-     */
-    void sendMessage(Message msg) throws RemoteException;
-
 
     /**
      * Pings the server

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+//funzionalità aggiuntive: gestione di più game in contemporanea
+
 import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
@@ -43,8 +45,6 @@ public class MainController implements MainControllerInterface, Serializable {
         }
         return instance;
     }
-
-
 
     @Override
     public GameControllerInterface createGame(GameListener lis, String nick) throws RemoteException {

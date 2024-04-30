@@ -4,12 +4,12 @@ import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
+import it.polimi.ingsw.network.socket.client.MessageClientToServer;
 
 import java.rmi.RemoteException;
 
-public class SocketClientMessageHeartBeat extends SocketClientGenericMessage {
-    public SocketClientMessageHeartBeat(String nick) {
+public class SocketClientMessageHeartBeatClientToServer extends MessageClientToServer {
+    public SocketClientMessageHeartBeatClientToServer(String nick) {
         this.nickname = nickname;
         this.isMessageForMainController = false;
         this.isHeartbeat=true;

@@ -1,23 +1,27 @@
-package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
+package it.polimi.ingsw.network.socket.client.messages;
 
 import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.model.player.Player;
 
 import java.rmi.RemoteException;
 
 /**
- * msgLastCircle class.
+ * msgJoinUnableGameFull class.
  * Extends SocketServerGenericMessage and is used to send a message to the client
- * indicating that it is the last circle of the game.
+ * indicating that a player was unable to join the game because it is full.
  */
-public class msgLastCircle extends SocketServerGenericMessage{
+public class msgJoinUnableGameFull extends MessageServerToClient {
+    private Player player;
     private GameImmutable model;
 
     /**
      * Constructor of the class.
+     * @param player the player who was unable to join the game
      * @param model the immutable game model
      */
-    public msgLastCircle(GameImmutable model) {
+    public msgJoinUnableGameFull(Player player, GameImmutable model) {
+        this.player = player;
         this.model = model;
     }
 
@@ -28,7 +32,6 @@ public class msgLastCircle extends SocketServerGenericMessage{
      */
     @Override
     public void execute(GameListener lis) throws RemoteException {
-        lis.lastCircle(model);
+        // lis.JoinUnableGameFull(player,model);
     }
-
 }

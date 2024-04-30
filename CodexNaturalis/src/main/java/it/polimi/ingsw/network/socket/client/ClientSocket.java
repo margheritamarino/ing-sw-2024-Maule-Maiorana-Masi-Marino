@@ -1,13 +1,11 @@
 package it.polimi.ingsw.network.socket.client;
 
-import it.polimi.ingsw.model.Chat.Message;
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageHeartBeat;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageNewChatMessage;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageSetReady;
+import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageHeartBeatClientToServer;
+import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageSetReadyClientToServer;
 import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
-import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.SocketServerGenericMessage;
+import it.polimi.ingsw.network.socket.client.messages.MessageServerToClient;
 
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -62,7 +60,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public void run() {
         while (true) {
             try {
-                SocketServerGenericMessage msg = (SocketServerGenericMessage) in.readObject();
+                MessageServerToClient msg = (MessageServerToClient) in.readObject();
                 msg.execute(modelInvokedEvents);
 
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
@@ -152,7 +150,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void createGame(String nick) throws IOException {
         nickname = nick;
-        out.writeObject(new SocketClientMessageCreateGame(nick));
+        out.writeObject(new SocketClientMessageCreateGameClientToServer(nick));
         finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
@@ -168,7 +166,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void joinFirstAvailable(String nick) throws IOException {
         nickname = nick;
-        out.writeObject(new SocketClientMessageJoinFirst(nick));
+        out.writeObject(new SocketClientMessageJoinFirstClientToServer(nick));
         finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
@@ -185,7 +183,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void joinGame(String nick, int idGame) throws IOException {
         nickname = nick;
-        out.writeObject(new SocketClientMessageJoinGame(nick, idGame));
+        out.writeObject(new SocketClientMessageJoinGameClientToServer(nick, idGame));
         finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
@@ -202,7 +200,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void reconnect(String nick, int idGame) throws IOException {
         nickname = nick;
-        out.writeObject(new SocketClientMessageReconnect(nick, idGame));
+        out.writeObject(new SocketClientMessageReconnectClientToServer(nick, idGame));
         finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
@@ -219,7 +217,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void leave(String nick, int idGame) throws IOException {
-        out.writeObject(new SocketClientMessageLeave(nick, idGame));
+        out.writeObject(new SocketClientMessageLeaveClientToServer(nick, idGame));
         finishSending();
         nickname=null;
         if(socketHeartbeat.isAlive()) {
@@ -234,7 +232,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void setAsReady() throws IOException {
-        out.writeObject(new SocketClientMessageSetReady(nickname));
+        out.writeObject(new SocketClientMessageSetReadyClientToServer(nickname));
         finishSending();
     }
 
@@ -246,20 +244,6 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
 
-    /**
-     * Send a message to the Socket Server
-     *
-     * @param msg message to send
-     */
-    @Override
-    public void sendMessage(Message msg) {
-        try {
-            out.writeObject(new SocketClientMessageNewChatMessage(msg));
-            finishSending();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     /**
      * Send a heartbeat to the Socket Server
@@ -269,7 +253,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public void heartbeat() {
         if (out != null) {
             try {
-                out.writeObject(new SocketClientMessageHeartBeat(nickname));
+                out.writeObject(new SocketClientMessageHeartBeatClientToServer(nickname));
                 finishSending();
             } catch (IOException e) {
                 printAsync("Connection lost to the server!! Impossible to send heartbeat...");

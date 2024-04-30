@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.network.rmi.ClientInterface;
+
 import it.polimi.ingsw.view.flow.Flow;
 
 import java.rmi.RemoteException;

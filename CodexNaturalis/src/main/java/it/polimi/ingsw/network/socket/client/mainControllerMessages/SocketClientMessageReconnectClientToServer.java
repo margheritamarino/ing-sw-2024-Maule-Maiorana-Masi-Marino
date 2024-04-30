@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.socket.client.mainControllerMessages;
 import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
+import it.polimi.ingsw.network.socket.client.MessageClientToServer;
 
 import java.rmi.RemoteException;
 
@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
  * Extends SocketClientGenericMessage and is used to send a message to the server
  * indicating the request to reconnect to the last game joined.
  */
-public class SocketClientMessageReconnect extends SocketClientGenericMessage {
+public class SocketClientMessageReconnectClientToServer extends MessageClientToServer {
     private int idGame;
 
     /**
@@ -20,7 +20,7 @@ public class SocketClientMessageReconnect extends SocketClientGenericMessage {
      * @param nickname the player's nickname
      * @param idGame the ID of the game to reconnect to
      */
-    public SocketClientMessageReconnect(String nickname, int idGame) {
+    public SocketClientMessageReconnectClientToServer(String nickname, int idGame) {
         this.idGame = idGame;
         this.nickname = nickname;
         this.isMessageForMainController = true;

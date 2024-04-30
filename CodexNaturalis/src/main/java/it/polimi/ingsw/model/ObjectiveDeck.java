@@ -25,7 +25,6 @@ public class ObjectiveDeck {
     private int numCards;
     private final ArrayList<ObjectiveCard> frontCards;
 
-
     public ObjectiveDeck() throws FileReadException, FileNotFoundException {
         this.frontCards = new ArrayList<>();
         this.numCards = 16;

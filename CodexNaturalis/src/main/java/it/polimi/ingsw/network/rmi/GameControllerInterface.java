@@ -1,11 +1,13 @@
 package it.polimi.ingsw.network.rmi;
 
+
 import it.polimi.ingsw.listener.GameListener;
 import it.polimi.ingsw.model.Chat.Message;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+//aggiungere metodi NOSTRI (pickCard, placeCard, ecc)
 /**
  * This interface contains all the action a player can do in a single game */
 
@@ -44,12 +46,7 @@ public interface GameControllerInterface extends Remote {
      */
     void heartbeat(String nick, GameListener me) throws RemoteException;
 
-    /**
-     * This method sends a message
-     * @param msg the message to send {@link Message}
-     * @throws RemoteException if the connection fails
-     */
-    void sentMessage(Message msg) throws RemoteException;
+
 
     /**
      * This method return the id of the game
