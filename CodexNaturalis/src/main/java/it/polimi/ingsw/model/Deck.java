@@ -9,6 +9,8 @@ import it.polimi.ingsw.exceptions.FileCastException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.JSONParsingException;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.model.interfaces.DeckIC;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +20,7 @@ import java.util.Objects;
 import java.util.Random;
 
 
-public class Deck {
+public class Deck implements Serializable, DeckIC {
     private int numCards;
     private final CardType cardType;
     private final ArrayList<PlayableCard> frontCards;

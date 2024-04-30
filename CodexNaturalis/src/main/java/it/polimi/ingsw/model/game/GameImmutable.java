@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Chat.Chat;
+//import it.polimi.ingsw.model.Chat.Chat;
 import it.polimi.ingsw.model.Chat.Message;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.ScoreTrack;
@@ -11,10 +11,12 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
+import it.polimi.ingsw.model.interfaces.*;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A different implementation of the GameModel class, this is the one we send to the CLIENTS

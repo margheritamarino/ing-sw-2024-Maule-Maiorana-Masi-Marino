@@ -11,10 +11,12 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.interfaces.PlayerIC;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable, PlayerIC {
 
     private final String nickname;
     private PlayerState state;
@@ -24,7 +26,7 @@ public class Player {
     private boolean connected;
     private boolean readyToStart = false;
 
-    public Player(String nickname) {
+    public Player(String nickname)  {
         this.nickname = nickname;
         this.playerGoal = null;
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"

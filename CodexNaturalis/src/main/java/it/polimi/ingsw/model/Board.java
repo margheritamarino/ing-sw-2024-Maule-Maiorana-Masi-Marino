@@ -3,6 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.model.interfaces.BoardIC;
+
+import java.io.Serializable;
 import java.util.*;
 import java.io.FileNotFoundException;
 
@@ -12,7 +15,7 @@ import java.io.FileNotFoundException;
  * This class represents the game board that contains decks of cards and cards placed on the board.
  * @author Irene Pia Masi
  */
-public class Board {
+public class Board implements Serializable, BoardIC {
     private final ArrayList<PlayableCard[]> goldCards;
     private final ArrayList<PlayableCard[]> resourceCards;
     private final ObjectiveCard[] objectiveCards; //commonGoals

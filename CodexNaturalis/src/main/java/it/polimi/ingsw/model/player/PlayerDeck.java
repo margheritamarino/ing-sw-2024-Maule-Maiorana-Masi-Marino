@@ -3,10 +3,12 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.exceptions.DeckFullException;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.interfaces.PlayerDeckIC;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayerDeck {
+public class PlayerDeck implements Serializable, PlayerDeckIC {
      public  ArrayList<PlayableCard> miniDeck;
 
      public int actualNumCards;
