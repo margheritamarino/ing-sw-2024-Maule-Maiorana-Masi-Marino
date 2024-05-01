@@ -11,6 +11,9 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.interfaces.BookIC;
+import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
+import it.polimi.ingsw.model.interfaces.PlayerDeckIC;
 import it.polimi.ingsw.model.interfaces.PlayerIC;
 
 import java.io.Serializable;
@@ -114,7 +117,29 @@ public class Player implements Serializable, PlayerIC {
         return this.playerDeck;
    }
 
+    /**
+     * @return an ObjectiveCardIC, the personal goal of the player, an interface
+     * that we send to the clients to make the model immutable
+     */
+   public ObjectiveCardIC getGoalIC(){
 
+    }
+
+    /**
+     * @return a BookIC of the player, an interface
+     * that we send to the clients to make the model immutable
+     */
+    public BookIC getPlayerBookIC(){
+
+    }
+
+    /**
+     * @return a PlayerDeckIC of the player, an interface
+     * that we send to the clients to make the model immutable
+     */
+    public PlayerDeckIC getPlayerDeckIC(){
+
+    }
 
 
     /**
