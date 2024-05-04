@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.InvalidPointsException;
 import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.exceptions.PlayerNotFoundException;
-import it.polimi.ingsw.model.interfaces.ScoreTrackIC;
+//import it.polimi.ingsw.model.interfaces.ScoreTrackIC;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import java.util.Map;
  * ScoreTrack model
  * This class represents the score tracking system for players in the game
  */
-public class ScoreTrack implements Serializable, ScoreTrackIC {
+public class ScoreTrack implements Serializable {
 
 	private final Map<Player, Integer> pointsPlayers;
 	public ScoreTrack(){
