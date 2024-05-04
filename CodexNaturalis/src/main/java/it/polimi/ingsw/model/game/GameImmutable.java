@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.model.Board;
 //import it.polimi.ingsw.model.Chat.Chat;
 //import it.polimi.ingsw.model.Chat.Message;
@@ -36,7 +37,7 @@ public class GameImmutable implements Serializable {
     private final Integer playersNumber;
     private final ScoreTrack scoreTrack;
     private final PlayerIC currentPlayer;
-    private PlayableCardIC[] temporaryInitialCard;
+    private final PlayableCardIC[] temporaryInitialCard;
 
     private final BoardIC board;
     private final GameStatus status;
@@ -87,13 +88,13 @@ public class GameImmutable implements Serializable {
      * @return the deck of the current playing player
      */
     public PlayerDeckIC CurrentPlayerDeck() {
-        return currentPlayer.getplayerDeck();
+        return currentPlayer.getPlayerDeckIC();
     }
 
     /**
      * @return the winner
      */
-    public PlayerIC getWinner() {
+    public PlayerIC getWinner() throws NoPlayersException {
         scoreTrack.getWinner();
     }
 
@@ -130,8 +131,8 @@ public class GameImmutable implements Serializable {
         return currentPlayer;
     }
 
-    public DeckIC getInitialCardsDeck() throws FileNotFoundException, FileReadException {
-        return initialCardsDeck;
+    public PlayableCardIC[] getTemporaryInitialCardsDeck() throws FileNotFoundException, FileReadException {
+        return temporaryInitialCard;
     }
 
     public BoardIC getBoard() throws FileNotFoundException, FileReadException, DeckEmptyException {

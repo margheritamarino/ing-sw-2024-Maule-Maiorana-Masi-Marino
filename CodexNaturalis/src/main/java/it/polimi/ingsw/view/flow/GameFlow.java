@@ -21,6 +21,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 //Gestisce il flusso di gioco e l'interazione tra client e server
 public class GameFlow extends Flow implements Runnable, ClientInterface {
@@ -223,6 +224,20 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void requireInitialReady(GameImmutable model) throws RemoteException {
+        ui.show_WhichInitialCards();
+        Integer index;
+        do {
+            index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back with 0 (Front) or 1 (Back) :", model), -1);
+            ui.show_TemporaryInitialCards();
+            if (ended) return;
+            if (index < 0 || index >= 2) {
+                ui.show_wrongSelectionInitialMsg();
+                index = null;
+            }
+        } while (index == null);
+
+        positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile_IC().get(indexHand).getType()); //DA MODIFICARE
+
 
     }
 
