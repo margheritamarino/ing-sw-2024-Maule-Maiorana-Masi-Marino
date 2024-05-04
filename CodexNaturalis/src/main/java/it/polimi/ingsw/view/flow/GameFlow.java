@@ -4,6 +4,7 @@ package it.polimi.ingsw.view.flow;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
@@ -141,17 +142,24 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @param gameModel game model {@link GameImmutable}
      */
     @Override
-    public void playerJoined(GameImmutable gameModel) {
+    public void playerJoined(GameImmutable gameModel, String nickname) {
         //shared.setLastModelReceived(gameModel);
         events.add(gameModel, EventType.PLAYER_JOINED);
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         ui.show_playerJoined(gameModel, nickname);
+        ui.addImportantEvent("[EVENT]: Player " + nickname + " joined the game!");
+
 
     }
 
     @Override
-    public void playerLeft(GameImmutable model, String nickname) throws RemoteException {
+    public void playerLeft(GameImmutable gameImmutable, String nickname) throws RemoteException {
+        if (gameImmutable.getStatus().equals(GameStatus.WAIT)) {
+            ui.show_playerJoined(gameImmutable, nickname);
+        } else {
+            ui.addImportantEvent("[EVENT]: Player " + nickname + " decided to leave the game!");
+        }
 
     }
 
