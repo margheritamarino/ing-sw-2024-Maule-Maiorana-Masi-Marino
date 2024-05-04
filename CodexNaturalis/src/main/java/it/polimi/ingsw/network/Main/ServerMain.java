@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.Main;
 
-import it.polimi.ingsw.network.ServerInterface;
 import it.polimi.ingsw.network.rmi.ServerRMI;
 import it.polimi.ingsw.network.socket.server.ServerTCP;
 
@@ -8,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ServerMain implements ServerInterface {
+public class ServerMain {
 
     /**
      * The name of the command to type in the console to stop the server.
@@ -64,7 +63,7 @@ public class ServerMain implements ServerInterface {
      * Starts both the RMI and the socket servers.
      * It also sends a message to all clients to notify them that the server is up.
      */
-    @Override
+
     public void start() {
         rmiServer.start();
         socketServer.start();
@@ -76,10 +75,10 @@ public class ServerMain implements ServerInterface {
      * Stops both the RMI and the socket servers.
      * It also sends a message to all clients to notify them that the server is shutting down.
      */
-    @Override
+
     public void stop() {
         rmiServer.stop();
-        socketServer.stop();
+        socketServer.stopConnection();
         System.exit(0);
     }
 }
