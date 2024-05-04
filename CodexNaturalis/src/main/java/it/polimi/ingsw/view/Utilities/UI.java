@@ -48,6 +48,11 @@ public abstract class UI {
      */
     protected abstract void show_creatingNewGameMessage(String nickname);
 
+    protected abstract void show_temporaryInitialCards(GameImmutable model);
+
+    public abstract void show_whichInitialCards();
+
+
     /**
      * Message that asks to insert specific game id
      */
