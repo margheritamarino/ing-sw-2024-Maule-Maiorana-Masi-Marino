@@ -171,7 +171,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameImmutable gameModel) throws RemoteException {
-        events.add(null, EventType.JOIN_GAME_FULL);
+        events.add(null, EventType.GAME_FULL);
     }
 
 
@@ -180,10 +180,17 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     }
 
+    /**
+     * A player wanted to join a game but the nickname is already in
+     * @param tryToJoin player that wanted to join {@link Player}
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
-    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
-
+    public void joinUnableNicknameAlreadyIn(Player tryToJoin) throws RemoteException {
+        //System.out.println("[EVENT]: "+ tryToJoin.getNickname() + " has already in");
+        events.add(null, NICKNAME_ALREADY_IN);
     }
+
 
     @Override
     public void gameIdNotExists(int gameid) throws RemoteException {

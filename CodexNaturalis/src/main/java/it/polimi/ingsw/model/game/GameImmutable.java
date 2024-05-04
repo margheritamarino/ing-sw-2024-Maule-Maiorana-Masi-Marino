@@ -36,7 +36,8 @@ public class GameImmutable implements Serializable {
     private final Integer playersNumber;
     private final ScoreTrack scoreTrack;
     private final PlayerIC currentPlayer;
-    private final DeckIC initialCardsDeck;
+    private PlayableCardIC[] temporaryInitialCard;
+
     private final BoardIC board;
     private final GameStatus status;
     //private final ChatIC chat;
@@ -72,7 +73,7 @@ public class GameImmutable implements Serializable {
         board = modelToCopy.getBoard();
         status = modelToCopy.getStatus();
         //chat = modelToCopy.getChat();
-        initialCardsDeck = modelToCopy.getInitialCardsDeck();
+        temporaryInitialCard = modelToCopy.getTemporaryInitialCardsDeck();
     }
 
     /**
