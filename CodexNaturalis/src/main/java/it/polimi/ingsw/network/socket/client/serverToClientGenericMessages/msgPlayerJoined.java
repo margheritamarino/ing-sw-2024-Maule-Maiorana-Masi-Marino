@@ -13,13 +13,15 @@ import java.io.IOException;
  */
 public class msgPlayerJoined extends SocketServerGenericMessage {
     private GameImmutable model;
+    private String nickname;
 
     /**
      * Constructor of the class.
      * @param model the immutable game model
      */
-    public msgPlayerJoined(GameImmutable model) {
+    public msgPlayerJoined(GameImmutable model, String nickname) {
         this.model = model;
+        this.nickname = nickname;
     }
 
     /**
@@ -30,6 +32,6 @@ public class msgPlayerJoined extends SocketServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws IOException, InterruptedException {
-        lis.playerJoined(model);
+        lis.playerJoined(model, nickname);
     }
 }
