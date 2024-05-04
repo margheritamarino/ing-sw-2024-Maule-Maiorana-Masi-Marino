@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.TUI;
 
+import it.polimi.ingsw.model.interfaces.PlayerIC;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.Utilities.UI;
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
+import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoCursorReset;
+import static org.fusesource.jansi.Ansi.ansi;
 
 
 //da fare
@@ -197,7 +200,29 @@ public class TUI extends UI {
     }
     @Override
     protected void show_playerJoined(GameImmutable gameModel, String nick) {
+        clearScreen();
+        show_titleCodexNaturalis();
+        printAsync(ansi().cursor().a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT)); //capire come togliere ROW e COLUMN
+        System.out.flush();
+        //StringBuilder players = new StringBuilder();
+        StringBuilder ris = new StringBuilder();
 
+        int i = 0;
+        for (PlayerIC p : gameModel.getPlayers()) {
+            if (p.getReadyToStart()) {
+                ris.append(ansi().cursor(12 + i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" is ready!\n");
+            } else {
+                ris.append(ansi().cursor(12 + i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" has joined!\n");
+            }
+            i++;
+        }
+        printAsyncNoCursorReset(ris);
+
+
+        for (PlayerIC p : gameModel.getPlayers())
+            if (!p.getReadyToStart() && p.getNickname().equals(nick))
+                printAsyncNoCursorReset(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
+        System.out.flush();
     }
 
     @Override
