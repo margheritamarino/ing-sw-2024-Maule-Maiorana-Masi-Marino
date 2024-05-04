@@ -37,6 +37,10 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgPlayerJoined(model));
             finishSending();
         } catch (IOException e) {
+            // Log the exception or handle it appropriately
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            // You might also want to re-throw the exception as RemoteException
+            throw new RemoteException("Failed to send playerJoined message", e);
         }
     }
 
@@ -91,13 +95,13 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
 
     /**
      * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because the nickname is already in use
-     * @param wantedToJoin is the player that has tried to join the game {@link Player}
+     * @param triedToJoin is the player that has tried to join the game {@link Player}
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
+    public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
         try {
-            out.writeObject(new msgJoinUnableNicknameAlreadyIn(wantedToJoin));
+            out.writeObject(new msgJoinUnableNicknameAlreadyIn(triedToJoin));
             finishSending();
         } catch (IOException e) {
 

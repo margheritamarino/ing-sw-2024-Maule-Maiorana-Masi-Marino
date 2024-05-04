@@ -13,7 +13,6 @@ import java.io.IOException;
  */
 public class msgPlayerJoined extends SocketServerGenericMessage {
     private GameImmutable model;
-    private String nickname;
 
     /**
      * Constructor of the class.

@@ -41,8 +41,8 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void joinUnableNicknameAlreadyIn(Player wantedToJoin) throws RemoteException {
-        flow.joinUnableNicknameAlreadyIn(wantedToJoin);
+    public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
+        flow.joinUnableNicknameAlreadyIn(triedToJoin);
     }
 
     @Override
