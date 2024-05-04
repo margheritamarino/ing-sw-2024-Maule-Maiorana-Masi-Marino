@@ -53,7 +53,7 @@ public abstract class UI {
 
     public abstract void show_whichInitialCards();
 
-    public abstract void show_whichObjectiveCard();
+    public abstract void show_whichObjectiveCards();
 
 
     /**
