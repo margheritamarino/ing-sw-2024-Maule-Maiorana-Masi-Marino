@@ -279,4 +279,9 @@ public class TUI extends UI {
     protected void show_noConnectionError() {
 
     }
+
+    @Override
+    public void addImportantEvent(String input) {
+
+    }
 }
