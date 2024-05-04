@@ -252,27 +252,39 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void requireInitialReady(GameImmutable model) throws RemoteException {
-        ui.show_WhichInitialCards();
+    public void requireInitialReady(GameImmutable model) throws IOException {
+        ui.show_whichInitialCards();
         Integer index;
         do {
             index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back with 0 (Front) or 1 (Back) :", model), -1);
-            ui.show_TemporaryInitialCards();
+            ui.show_temporaryInitialCards();
             if (ended) return;
             if (index < 0 || index >= 2) {
                 ui.show_wrongSelectionInitialMsg();
                 index = null;
             }
         } while (index == null);
-        setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
+        clientActions.setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
 
 
     @Override
     public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {
-
+        ui.show_whichObjectiveCards();
+        Integer index;
+        do {
+            index = Objects.requireNonNullElse(askNum("\t> Choose one of these  Objective Cards selecting 0 or 1:", model), -1);
+            ui.show_ObjectiveCards();
+            if (ended) return;
+            if (index < 0 || index >= 2) {
+                ui.show_wrongSelectionObjectiveMsg();
+                index = null;
+            }
+        } while (index == null);
+        clientActions.setObjectiveCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
+
 
     @Override
     public void cardsReady(GameImmutable model) throws RemoteException {
