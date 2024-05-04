@@ -74,11 +74,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @param guiApplication      the GUI application {@link GUIApplication}
      * @param connectionSelection the connection type {@link ConnectionSelection}
      */
-    public GameFlow(GUIApplication guiApplication, ConnectionSelection connectionSelection) {
+    public GameFlow(GUIApplication guiApplication, ConnectionType connectionType) {
         //Invoked for starting with GUI
-        switch (connectionSelection) {
+        switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
-            case RMI -> clientActions = new RMIClient(this);
+            case RMI -> clientActions = new ClientRMI(this);
         }
         this.inputReader = new inputReaderGUI();
 
@@ -97,7 +97,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         Event event;
         try {
             ui.show_publisher();
-            events.add(null, APP_MENU);
+            events.add(null, EventType.BACK_TO_MENU);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -138,6 +138,34 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         }
     }
+
+
+    public void statusWait(Event event){
+        String nicknameLastPlayer = event.getModel().getLastPlayer().getNickname();
+        switch (event.getType()) {
+            case PLAYER_JOINED -> {
+                if (nicknameLastPlayer.equals(nickname)) {
+                    ui.show_playerJoined(event.getModel(), nickname);
+                    saveGameId(fileDisconnection, nickname, event.getModel().getGameId());
+                    askReadyToStart();
+                }
+            }
+        }
+    }
+
+    public void statusRunning(Event event){
+
+    }
+
+    public void statusEnded(Event event){
+
+    }
+
+    public void statusNotInAGame(Event event){
+
+    }
+
+
 
     /**
      * A player has joined the game
