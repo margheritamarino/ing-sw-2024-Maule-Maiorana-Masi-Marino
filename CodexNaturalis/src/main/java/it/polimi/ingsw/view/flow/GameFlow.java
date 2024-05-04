@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.flow;
 
 
+import it.polimi.ingsw.model.cards.InitialCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -235,9 +236,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 index = null;
             }
         } while (index == null);
-
-        positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile_IC().get(indexHand).getType()); //DA MODIFICARE
+        setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
+
+
 
     @Override
     public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {
