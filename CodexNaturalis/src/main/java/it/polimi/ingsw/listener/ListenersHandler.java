@@ -127,14 +127,14 @@ public class ListenersHandler {
 
     /**
      * The notify_JoinUnableNicknameAlreadyIn method notifies that a player cannot join the game because the nickname is already in use
-     * @param playerWantedToJoin is the player that wanted to join the game
+     * @param triedToJoin is the player that wanted to join the game
      */
-    public synchronized void notify_JoinUnableNicknameAlreadyIn(Player playerWantedToJoin) {
+    public synchronized void notify_JoinUnableNicknameAlreadyIn(Player triedToJoin) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.joinUnableNicknameAlreadyIn(playerWantedToJoin);
+                l.joinUnableNicknameAlreadyIn(triedToJoin);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_JoinUnableNicknameAlreadyIn, a disconnection has been detected before heartbeat");
                 i.remove();

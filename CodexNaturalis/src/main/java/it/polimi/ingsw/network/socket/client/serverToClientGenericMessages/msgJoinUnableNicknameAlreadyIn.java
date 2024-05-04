@@ -11,14 +11,14 @@ import java.rmi.RemoteException;
  * indicating that a player was unable to join the game because the nickname is already in use.
  */
 public class msgJoinUnableNicknameAlreadyIn extends SocketServerGenericMessage{
-    private Player wantedToJoin;
+    private Player triedToJoin;
 
     /**
      * Constructor of the class.
-     * @param wantedToJoin the player who wanted to join the game
+     * @param triedToJoin the player who wanted to join the game
      */
-    public msgJoinUnableNicknameAlreadyIn(Player wantedToJoin) {
-        this.wantedToJoin = wantedToJoin;
+    public msgJoinUnableNicknameAlreadyIn(Player triedToJoin) {
+        this.triedToJoin = triedToJoin;
     }
 
     /**
@@ -28,6 +28,6 @@ public class msgJoinUnableNicknameAlreadyIn extends SocketServerGenericMessage{
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.joinUnableNicknameAlreadyIn(wantedToJoin);
+        lis.joinUnableNicknameAlreadyIn(triedToJoin);
     }
 }
