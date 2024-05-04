@@ -200,9 +200,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     }
 
+    /**
+     * The game started
+     * @param gameImmutable game model {@link GameImmutable}
+     */
     @Override
-    public void gameStarted(GameImmutable model) throws RemoteException {
-
+    public void gameStarted(GameImmutable gameImmutable) throws RemoteException {
+        events.add(gameImmutable, EventType.GAME_STARTED);
     }
 
     @Override
