@@ -326,9 +326,9 @@ public class ListenersHandler {
      * @param gamemodel is the Game to pass as a new GameModelImmutable
      */
     public synchronized void notify_extractedCommonCard(Game gamemodel) {
-        Iterator<GameListener> i = listeners.iterator();
+        Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
-            GameListener l = i.next();
+            GameListenerInterface l = i.next();
             try {
                 l.commonCardsExtracted(new GameImmutable(gamemodel));
             } catch (RemoteException e) {
