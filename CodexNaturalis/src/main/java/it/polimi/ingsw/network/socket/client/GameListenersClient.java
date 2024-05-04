@@ -77,7 +77,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
 
     @Override
     public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {
-
+        flow.requireGoalsReady(model);
     }
 
     @Override

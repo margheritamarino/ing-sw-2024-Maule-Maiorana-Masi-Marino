@@ -4,10 +4,7 @@ package it.polimi.ingsw.controller;
 //implementa i metodi dell'interfaccia GameControllerInterface (cartella RMI). chiama i rispettivi metodi del model
 //saranno da implementare altri metodi in base agli input della view
 
-import it.polimi.ingsw.exceptions.DeckEmptyException;
-import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.exceptions.MatchFull;
-import it.polimi.ingsw.exceptions.NicknameAlreadyTaken;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Heartbeat;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -143,5 +140,15 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public void run() {
        // IMPLEMENTA
+    }
+
+    @Override
+    public synchronized void setInitialCard(String playerName, int index) throws NotPlayerTurnException {
+        Player currentPlayer = model.getPlayerByNickname(playerName);
+        if(currentPlayer.equals(model.getCurrentPlayer())){
+            model.setInitialCard(currentPlayer, index);
+        }else{
+            throw new NotPlayerTurnException("ERROR: not the Player's turn");
+        }
     }
 }

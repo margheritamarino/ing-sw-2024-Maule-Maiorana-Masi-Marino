@@ -45,6 +45,12 @@ public class Game {
 	private GameStatus status;
 	private int[] orderArray;
 	private PlayableCard[] temporaryInitialCard;
+	private ArrayList<ObjectiveCard> temporaryObjectiveCards;
+
+	public ObjectiveCard[] getTemporaryObjectiveCards() {
+		return temporaryObjectiveCards;
+	}
+
 	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
 
 	/**
@@ -589,7 +595,7 @@ public class Game {
 			}
 			player.pickCard(board, CardType.GoldCard, true, 0);
 
-
+			temporaryObjectiveCards = drawObjectiveCards();
 			// Inizializza gli obiettivi
 			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrare
 														//con il metodo drawObjectiveCards()
@@ -747,5 +753,17 @@ public class Game {
 
 	public PlayableCardIC[] getTemporaryInitialCardsDeck() {
 		return temporaryInitialCard;
+	}
+
+	/**
+	 * @param playerNickname
+	 * @return player by nickname
+	 */
+	public Player getPlayerByNickname(String playerNickname) {
+		List<Player> ris = players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList();
+		if(ris.size()>0){
+			return ris.get(0);
+		}
+		return null;
 	}
 }

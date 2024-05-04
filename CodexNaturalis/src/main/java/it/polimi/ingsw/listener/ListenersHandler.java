@@ -1,5 +1,6 @@
 package it.polimi.ingsw.listener;
 
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -249,9 +250,8 @@ public class ListenersHandler {
             GameListenerInterface l = i.next();
             try {
                 // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
-                ArrayList<ObjectiveCard> objectiveCards = model.drawObjectiveCards();
-                l.requireGoalsReady(new GameImmutable(model), objectiveCards);
-            } catch (RemoteException | IllegalStateException e) {
+                l.requireGoalsReady(new GameImmutable(model));
+            } catch (RemoteException | IllegalStateException  e) {
                 printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
                 i.remove();
             }

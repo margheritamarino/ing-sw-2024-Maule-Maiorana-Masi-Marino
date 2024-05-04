@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.socket.client.gameControllerMessages;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
+import it.polimi.ingsw.network.socket.client.ClientGenericMessage;
 
 import java.rmi.RemoteException;
 
@@ -12,12 +12,12 @@ import java.rmi.RemoteException;
  * Extends SocketClientGenericMessage and is used to send a message to the server
  * indicating that a player is ready to start the game.
  */
-public class SocketClientMessageSetReady extends SocketClientGenericMessage {
+public class ClientMsgSetReady extends ClientGenericMessage {
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
      */
-    public SocketClientMessageSetReady(String nickname) {
+    public ClientMsgSetReady(String nickname) {
         this.nickname = nickname;
         this.isMessageForMainController = false;
     }

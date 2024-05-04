@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.socket.server;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.*;
@@ -203,7 +202,13 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
 
     @Override
     public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {
-        //TODO
+        try {
+            out.writeObject(new msgRequireGoalsReady(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send requireInitialReady message", e);
+        }
     }
 
     @Override

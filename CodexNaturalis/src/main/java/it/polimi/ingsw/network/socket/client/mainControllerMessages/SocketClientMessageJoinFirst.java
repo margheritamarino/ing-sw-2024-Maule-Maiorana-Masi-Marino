@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.socket.client.mainControllerMessages;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
+import it.polimi.ingsw.network.socket.client.ClientGenericMessage;
 
 import java.rmi.RemoteException;
 
@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
  * Extends SocketClientGenericMessage and is used to send a message to the server
  * indicating the request to join the first available game.
  */
-public class SocketClientMessageJoinFirst extends SocketClientGenericMessage {
+public class SocketClientMessageJoinFirst extends ClientGenericMessage {
     /**
      * Constructor of the class.
      * @param nickname the player's nickname

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket.client;
 
+import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
@@ -12,7 +13,7 @@ import java.rmi.RemoteException;
  * SocketClientGenericMessage class.
  * An abstract class that represents a generic message to be sent from the client to the server.
  */
-public abstract class SocketClientGenericMessage implements Serializable{
+public abstract class ClientGenericMessage implements Serializable{
     protected String nickname; //soprannome associato al messaggio
     protected boolean isMessageForMainController;
     protected boolean isHeartbeat=false;
@@ -32,7 +33,7 @@ public abstract class SocketClientGenericMessage implements Serializable{
      * @throws RemoteException if there is a remote exception
      * @throws GameEndedException if the game has ended
      */
-    public abstract void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException;
+    public abstract void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException, NotPlayerTurnException;
 
     /**
      * Checks if the message is intended for the main controller.

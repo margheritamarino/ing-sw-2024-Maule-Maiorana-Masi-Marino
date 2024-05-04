@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.socket.client.SocketClientGenericMessage;
+import it.polimi.ingsw.network.socket.client.ClientGenericMessage;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
@@ -50,7 +50,7 @@ public class ClientHandler extends Thread{
      */
     private String nickname = null; //soprannome del Client
 
-    private final BlockingQueue<SocketClientGenericMessage> processingQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<ClientGenericMessage> processingQueue = new LinkedBlockingQueue<>();
 
     /**
      * Handle all the network requests performed by a specific ClientSocket
@@ -85,10 +85,10 @@ public class ClientHandler extends Thread{
         th.start();
 
         try {
-            SocketClientGenericMessage temp;
+            ClientGenericMessage temp;
             while (!this.isInterrupted()) {
                 try {
-                    temp = (SocketClientGenericMessage) in.readObject();
+                    temp = (ClientGenericMessage) in.readObject();
 
                     try {
                         //it's a heartbeat message I handle it as a "special message"
@@ -114,7 +114,7 @@ public class ClientHandler extends Thread{
     }
 
     private void runGameLogic() {
-        SocketClientGenericMessage temp;
+        ClientGenericMessage temp;
 
         try {
             while (!this.isInterrupted()) {

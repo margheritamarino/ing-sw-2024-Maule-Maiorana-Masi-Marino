@@ -3,9 +3,9 @@ package it.polimi.ingsw.network.socket.client;
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageHeartBeat;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageNewChatMessage;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageSetReady;
+import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgHeartBeat;
+import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgSetInitial;
+import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgSetReady;
 import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
 import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.SocketServerGenericMessage;
 
@@ -16,6 +16,12 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 
 
+/**
+ * ClientSocket Class<br>
+ * Handle all the network communications between ClientSocket and ClientHandler<br>
+ * From the first connection, to the creation, joining, leaving, grabbing and positioning messages through the network<br>
+ * by the Socket Network Protocol
+ */
 public class ClientSocket extends Thread implements ClientInterface {
     /**
      * Socket that represents the Client
@@ -143,6 +149,14 @@ public class ClientSocket extends Thread implements ClientInterface {
         }
     }
 
+    @Override
+    public void setInitialCard(int index) throws IOException {
+        out.writeObject(new ClientMsgSetInitial(nickname, index));
+        finishSending();
+    }
+
+
+
     /**
      * Ask the Socket Server to create a new game
      *
@@ -234,7 +248,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void setAsReady() throws IOException {
-        out.writeObject(new SocketClientMessageSetReady(nickname));
+        out.writeObject(new ClientMsgSetReady(nickname));
         finishSending();
     }
 
@@ -269,7 +283,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public void heartbeat() {
         if (out != null) {
             try {
-                out.writeObject(new SocketClientMessageHeartBeat(nickname));
+                out.writeObject(new ClientMsgHeartBeat(nickname));
                 finishSending();
             } catch (IOException e) {
                 printAsync("Connection lost to the server!! Impossible to send heartbeat...");

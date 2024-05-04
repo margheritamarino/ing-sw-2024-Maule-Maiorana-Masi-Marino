@@ -10,6 +10,9 @@ import java.rmi.RemoteException;
 //interface for common client actions
 public interface ClientInterface  {
 
+
+    void setInitialCard(int index) throws IOException;
+
     /**
      * Creates a new game
      *
@@ -85,3 +88,5 @@ public interface ClientInterface  {
      */
     void heartbeat() throws RemoteException;
 }
+
+

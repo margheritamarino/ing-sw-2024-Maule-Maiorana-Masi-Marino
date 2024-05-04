@@ -1,5 +1,6 @@
-package it.polimi.ingsw.network.socket.client.mainControllerMessages;
+package it.polimi.ingsw.network.socket.client.gameControllerMessages;
 
+import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.rmi.MainControllerInterface;
@@ -7,19 +8,13 @@ import it.polimi.ingsw.network.socket.client.ClientGenericMessage;
 
 import java.rmi.RemoteException;
 
-/**
- * SocketClientMessageCreateGame class.
- * Extends SocketClientGenericMessage and is used to send a message to the server
- * indicating the request to create a new game.
- */
-public class SocketClientMessageCreateGame extends ClientGenericMessage {
-    /**
-     * Constructor of the class.
-     * @param nickname the player's nickname
-     */
-    public SocketClientMessageCreateGame(String nickname) {
+public class ClientMsgSetInitial extends ClientGenericMessage {
+    int index;
+
+    public ClientMsgSetInitial(String nickname, int index) {
         this.nickname = nickname;
-        this.isMessageForMainController = true;
+        this.index = index;
+        this.isMessageForMainController = false;
     }
 
     /**
@@ -31,16 +26,16 @@ public class SocketClientMessageCreateGame extends ClientGenericMessage {
      */
     @Override
     public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
-        return mainController.createGame(lis, nickname);
+        return null;
     }
 
     /**
      * Method to execute the corresponding action for the message.
-     * @param mainController the game controller interface
+     * @param gameController the game controller interface
      * @throws RemoteException if there is an error in remote communication
      */
     @Override
-    public void execute(GameControllerInterface mainController) throws RemoteException {
-
+    public void execute(GameControllerInterface gameController) throws RemoteException, NotPlayerTurnException {
+        gameController.setInitialCard(this.nickname, this.index);
     }
 }
