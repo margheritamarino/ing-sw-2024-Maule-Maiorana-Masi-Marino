@@ -67,27 +67,7 @@ public class TUI extends UI {
 
     @Override
     protected void show_temporaryInitialCards(GameImmutable model){
-        StringBuilder ris = new StringBuilder();
-        ris.append(ansi().cursor(DefaultValue.row_input - 2, 0).a(">This is your hand:").cursor(DefaultValue.row_input - 1, 0));
-
-        for (int i = 0; i < model.getPlayerEntity(model.getNicknameCurrentPlaying()).getInHandTile_IC().size(); i++) {
-            switch (model.getPlayerEntity(model.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType()) {
-                case CAT ->
-                        ris.append("[").append(i).append("]: ").append(ansi().bg(GREEN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case TROPHY ->
-                        ris.append("[").append(i).append("]: ").append(ansi().bg(CYAN).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case PLANT ->
-                        ris.append("[").append(i).append("]: ").append(ansi().bg(MAGENTA).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case BOOK ->
-                        ris.append("[").append(i).append("]: ").append(ansi().bg(WHITE).fg(BLACK).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case ACTIVITY ->
-                        ris.append("[").append(i).append("]: ").append(ansi().bg(YELLOW).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-                case FRAME ->
-                        ris.append("[").append(i).append("]: ").append(ansi().bg(BLUE).fg(WHITE).a(gameModel.getPlayerEntity(gameModel.getNicknameCurrentPlaying()).getInHandTile_IC().get(i).getType().toString()).fg(DEFAULT).bg(DEFAULT)).append(" | ");
-            }
-        }
-        printAsync(ris);
-
+        //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
     }
 
     /**
@@ -297,6 +277,11 @@ public class TUI extends UI {
 
     @Override
     protected void show_noConnectionError() {
+
+    }
+
+    @Override
+    public void addImportantEvent(String input) {
 
     }
 }
