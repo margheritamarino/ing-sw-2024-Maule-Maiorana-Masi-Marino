@@ -3,6 +3,12 @@ package it.polimi.ingsw.view.events;
 public enum EventType {
     BACK_TO_MENU,
     PLAYER_JOINED,
-    JOIN_GAME_FULL,
-    PLAYER_LEFT
+    GAME_FULL,
+    NICKNAME_ALREADY_IN;
+    PLAYER_LEFT,
+    GAME_STARTED,
+    GAME_ENDED,
+    NEXT_TURN,
+    PLAYER_DISCONNECTED,
+    PLAYER_RECONNECTED
 }

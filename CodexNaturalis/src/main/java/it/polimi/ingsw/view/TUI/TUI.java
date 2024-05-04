@@ -61,7 +61,7 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_publisher() throws IOException, InterruptedException {
+    public void show_publisher() throws IOException, InterruptedException {
 
     }
 
