@@ -151,4 +151,10 @@ public abstract class UI {
      */
     protected abstract void show_noConnectionError();
 
+    /**
+     * Shows message on important event added
+     * @param input the string of the important event to add
+     */
+    public abstract void addImportantEvent(String input);
+
 }

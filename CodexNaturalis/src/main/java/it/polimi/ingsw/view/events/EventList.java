@@ -30,6 +30,16 @@ public class EventList {
             joined = true;
 
         if(type.equals(EventType.BACK_TO_MENU))
-            joined=false;
+            joined = false;
     }
+
+
+    public synchronized Event pop() {
+        return lists.poll();
+    }
+
+    public synchronized int size() {
+        return lists.size();
+    }
+
 }
