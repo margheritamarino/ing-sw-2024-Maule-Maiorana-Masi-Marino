@@ -165,10 +165,11 @@ public class GameImmutable implements Serializable {
         return currentPlayer.getNickname().equals(nickname);
     }
 
+    /*
     public void sentMessage(Message m) {
         // Do something with the message
     }
-
+    */
 
     /**
      * @return the list of players in string format
