@@ -2,9 +2,11 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
+import it.polimi.ingsw.model.interfaces.PlayableCardIC;
+
 import java.util.*;
 
-public abstract class PlayableCard {
+public abstract class PlayableCard implements PlayableCardIC {
     private final int cardID;
     private final int numCorners;
     private final boolean isFront;
