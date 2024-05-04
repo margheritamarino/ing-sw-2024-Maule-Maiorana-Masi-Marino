@@ -102,12 +102,15 @@ public class TUI extends UI {
         //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
     }
 
-    /**
-     * Asks which tile to place
-     */
+
     @Override
     public void show_whichInitialCards() {
         printAsync("> Choose the front or the back of  this initial card:");
+    }
+
+    @Override
+    public void show_whichObjectiveCard() {
+        printAsync("> Choose one of this two objective cards:");
     }
 
 

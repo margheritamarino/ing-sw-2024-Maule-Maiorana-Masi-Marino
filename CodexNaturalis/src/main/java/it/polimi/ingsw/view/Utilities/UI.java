@@ -52,6 +52,8 @@ public abstract class UI {
 
     public abstract void show_whichInitialCards();
 
+    public abstract void show_whichObjectiveCard();
+
 
     /**
      * Message that asks to insert specific game id
