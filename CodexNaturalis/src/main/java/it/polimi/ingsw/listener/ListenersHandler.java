@@ -230,12 +230,12 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_requireInitial(Game model, PlayableCard[] initialCards){
+    public synchronized void notify_requireInitial(Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.requireInitialReady(new GameImmutable(model), initialCards);
+                l.requireInitialReady(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
                 i.remove();
