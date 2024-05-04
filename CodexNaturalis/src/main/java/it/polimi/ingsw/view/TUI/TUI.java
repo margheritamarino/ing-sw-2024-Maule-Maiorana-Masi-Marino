@@ -51,6 +51,11 @@ public class TUI extends UI {
         }
     }
 
+    @Override
+    public void addImportantEvent(String input) {
+
+    }
+
     /**
      * Shows all players nicknames
      * @param model
@@ -280,8 +285,4 @@ public class TUI extends UI {
 
     }
 
-    @Override
-    public void addImportantEvent(String input) {
-
-    }
 }
