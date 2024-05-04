@@ -16,7 +16,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class GameListenersServer implements GameListenerInterface, Serializable {
-    private final ObjectOutputStream out;
+    private final ObjectOutputStream out; //per l'invio dei dati al Client
 
     /**
      * This constructor creates a GameListenersHandlerSocket

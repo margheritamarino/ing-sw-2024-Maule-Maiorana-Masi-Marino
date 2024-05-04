@@ -24,37 +24,37 @@ public class ClientHandler extends Thread{
     /**
      * Socket associated with the Client
      */
-    private final Socket clientSocket;
+    private final Socket clientSocket; //socket associato a un Client
     /**
      * ObjectInputStream in
      */
-    private ObjectInputStream in;
+    private ObjectInputStream in; //per la lettura degli oggetti in INGRESSO dal CLient
     /**
      * ObjectOutputStream out
      */
-    private ObjectOutputStream out;
+    private ObjectOutputStream out; //per l'INVIO di oggetti al Client
 
 
     /**
      * GameController associated with the game
      */
-    private GameControllerInterface gameController;
+    private GameControllerInterface gameController; //controller del gioco associato alla partita
 
     /**
      * The GameListener of the ClientSocket for notifications
      */
-    private GameListenersServer gameListenersServer;
+    private GameListenersServer gameListenersServer; //per inviare NOTIFICHE al Client
 
     /**
      * Nickname of the SocketClient
      */
-    private String nickname = null;
+    private String nickname = null; //soprannome del Client
 
     private final BlockingQueue<SocketClientGenericMessage> processingQueue = new LinkedBlockingQueue<>();
 
     /**
      * Handle all the network requests performed by a specific ClientSocket
-     *
+     * Initialize the INPUT Stream ancd the OUTPUT Stream with the specific Client
      * @param soc the socket to the client
      * @throws IOException
      */

@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
- * Defines methods to notify the client about different game events
+ * Contains methods to NOTIFY the CLIENT about different game events
  */
 public interface GameListenerInterface extends Remote {
 
