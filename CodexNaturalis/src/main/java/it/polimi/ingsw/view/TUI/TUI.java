@@ -199,7 +199,7 @@ public class TUI extends UI {
 
     }
     @Override
-    protected void show_playerJoined(GameImmutable gameModel, String nick) {
+    public void show_playerJoined(GameImmutable gameModel, String nick) {
         clearScreen();
         show_titleCodexNaturalis();
         printAsync(ansi().cursor().a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT)); //capire come togliere ROW e COLUMN
