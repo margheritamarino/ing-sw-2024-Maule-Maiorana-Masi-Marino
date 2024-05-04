@@ -37,9 +37,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgPlayerJoined(model, nickname));
             finishSending();
         } catch (IOException e) {
-            // Log the exception or handle it appropriately
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            // You might also want to re-throw the exception as RemoteException
             throw new RemoteException("Failed to send playerJoined message", e);
         }
     }
@@ -56,9 +54,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgPlayerLeft(model, nickname));
             finishSending();
         } catch (IOException e) {
-            // Log the exception or handle it appropriately
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            // You might also want to re-throw the exception as RemoteException
             throw new RemoteException("Failed to send playerLeft message", e);
         }
     }
@@ -169,7 +165,8 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgGameStarted(model));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send gameStarted message", e);
         }
     }
 
@@ -189,8 +186,14 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void requireInitialReady(GameImmutable model, PlayableCard[] initialCards) throws RemoteException {
-        //TODO
+    public void requireInitialReady(GameImmutable model) throws RemoteException {
+        try {
+            out.writeObject(new msgRequireInitialReady(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send requireInitialReady message", e);
+        }
     }
 
     @Override
