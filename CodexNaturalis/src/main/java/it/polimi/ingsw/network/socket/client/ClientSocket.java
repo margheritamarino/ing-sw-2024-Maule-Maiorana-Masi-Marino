@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgHeartBeat;
 import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgSetInitial;
+import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgSetObjective;
 import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgSetReady;
 import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
 import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.SocketServerGenericMessage;
@@ -152,6 +153,12 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void setInitialCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetInitial(nickname, index));
+        finishSending();
+    }
+
+    @Override
+    public void setGoalCard(int index) throws IOException {
+        out.writeObject(new ClientMsgSetObjective(nickname, index));
         finishSending();
     }
 

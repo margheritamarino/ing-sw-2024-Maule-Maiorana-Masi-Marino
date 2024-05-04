@@ -13,6 +13,8 @@ public interface ClientInterface  {
 
     void setInitialCard(int index) throws IOException;
 
+    void setGoalCard(int index) throws IOException;
+
     /**
      * Creates a new game
      *

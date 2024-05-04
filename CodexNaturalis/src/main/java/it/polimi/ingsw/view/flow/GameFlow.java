@@ -252,7 +252,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void requireInitialReady(GameImmutable model) throws RemoteException {
+    public void requireInitialReady(GameImmutable model) throws IOException {
         ui.show_WhichInitialCards();
         Integer index;
         do {

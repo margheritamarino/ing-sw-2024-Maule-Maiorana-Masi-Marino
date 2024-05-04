@@ -96,7 +96,7 @@ public interface GameListenerInterface extends Remote {
      * @param model       is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void requireInitialReady(GameImmutable model) throws RemoteException;
+    void requireInitialReady(GameImmutable model) throws IOException;
 
     /**
      * Notifies the listeners that objective cards are ready
