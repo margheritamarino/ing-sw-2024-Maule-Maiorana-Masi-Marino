@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.TUI;
 
 import it.polimi.ingsw.model.interfaces.PlayerIC;
+import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.Utilities.UI;
@@ -33,7 +34,7 @@ public class TUI extends UI {
     }
 
 
-    ////inizializzo la console ANSI e una lista vuota per memorizzare gli eventi da mostrare
+    //inizializzo la console ANSI e una lista vuota per memorizzare gli eventi da mostrare
     @Override
     public void init() {
         AnsiConsole.systemInstall();
@@ -51,9 +52,35 @@ public class TUI extends UI {
         }
     }
 
+    /**
+     * @param input the string of the important event to add
+     */
     @Override
     public void addImportantEvent(String input) {
+        //Want to show a numbeMaxEventToShow important event happened
+        if (eventsToShow.size() + 1 >= DefaultValue.MaxEventToShow) {
+            eventsToShow.remove(0);
+        }
+        eventsToShow.add(input);
+        show_important_events();
+    }
 
+    /**
+     * Shows the important events
+     */
+    public void show_important_events() {
+
+        StringBuilder ris = new StringBuilder();
+        int i = 0;
+        int longestImportantEvent = eventsToShow.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
+        ris.append(ansi().fg(Ansi.Color.GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events - 1).bold().a("Latest Events:").fg(DEFAULT).boldOff());
+        for (String s : eventsToShow) {
+            ris.append(ansi().fg(Ansi.Color.WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).a(" ".repeat(longestImportantEvent - s.length())).fg(DEFAULT));
+            i++;
+        }
+        printAsync(ris);
+
+        printAsync(ansi().cursor(DefaultValue.row_input, 0));
     }
 
     /**
