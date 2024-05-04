@@ -109,15 +109,15 @@ public class ListenersHandler {
 
     /**
      * The notify_JoinUnableGameFull method notifies that a player cannot join the game because the game is full
-     * @param playerWantedToJoin is the player that wanted to join the game <br>
+     * @param triedToJoin is the player that wanted to join the game <br>
      * @param model is the GameModel to pass as a new GameModelImmutable
      */
-    public synchronized void notify_JoinUnableGameFull(Player playerWantedToJoin, Game model) {
+    public synchronized void notify_JoinUnableGameFull(Player triedToJoin, Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.joinUnableGameFull(playerWantedToJoin, new GameImmutable(model));
+                l.joinUnableGameFull(triedToJoin, new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat");
                 i.remove();
