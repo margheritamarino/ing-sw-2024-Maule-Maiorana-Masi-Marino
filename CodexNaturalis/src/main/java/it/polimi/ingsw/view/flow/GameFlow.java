@@ -237,8 +237,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         } while (index == null);
 
         positionTileOnShelf(columnChosen, model.getPlayerEntity(nickname).getInHandTile_IC().get(indexHand).getType()); //DA MODIFICARE
-
-
     }
 
     @Override
