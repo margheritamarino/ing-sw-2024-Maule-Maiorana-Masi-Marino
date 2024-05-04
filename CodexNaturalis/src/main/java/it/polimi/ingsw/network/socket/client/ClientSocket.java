@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.socket.client;
 
-import it.polimi.ingsw.model.Chat.Message;
+//import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.client.gameControllerMessages.SocketClientMessageHeartBeat;
@@ -245,13 +245,13 @@ public class ClientSocket extends Thread implements ClientInterface {
         return false;
     }
 
-
+/* //per la CHAT: (invio di un messaggio sulla chat)
     /**
      * Send a message to the Socket Server
      *
      * @param msg message to send
      */
-    @Override
+   /* @Override
     public void sendMessage(Message msg) {
         try {
             out.writeObject(new SocketClientMessageNewChatMessage(msg));
@@ -259,7 +259,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+    } */
 
     /**
      * Send a heartbeat to the Socket Server
