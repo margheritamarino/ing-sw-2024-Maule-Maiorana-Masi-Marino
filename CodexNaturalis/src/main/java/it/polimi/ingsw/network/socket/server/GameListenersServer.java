@@ -32,9 +32,9 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void playerJoined(GameImmutable model) throws RemoteException {
+    public void playerJoined(GameImmutable model, String nickname) throws RemoteException {
         try {
-            out.writeObject(new msgPlayerJoined(model));
+            out.writeObject(new msgPlayerJoined(model, nickname));
             finishSending();
         } catch (IOException e) {
             // Log the exception or handle it appropriately

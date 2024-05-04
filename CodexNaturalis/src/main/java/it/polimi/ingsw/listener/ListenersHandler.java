@@ -56,12 +56,12 @@ public class ListenersHandler {
      * The notifyPlayerJoined method notifies the view that a player has joined the game
      * @param model is the Game to pass as a new GameModelImmutable
      */
-    public synchronized void notify_PlayerJoined(Game model) {
+    public synchronized void notify_PlayerJoined(Game model, String nickname) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.playerJoined(new GameImmutable(model));
+                l.playerJoined(new GameImmutable(model), nickname);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_playerJoined, a disconnection has been detected before heartbeat");
                 i.remove();
