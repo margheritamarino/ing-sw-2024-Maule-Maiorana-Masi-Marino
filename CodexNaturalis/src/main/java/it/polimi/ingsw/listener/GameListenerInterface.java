@@ -32,11 +32,11 @@ public interface GameListenerInterface extends Remote {
 
     /**
      * This method is used to notify the client that a player has tried to join the game but the game is full
-     * @param player is the player that has tried to join the game
+     * @param triedToJoin is the player that has tried to join the game
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void joinUnableGameFull(Player player, GameImmutable model) throws RemoteException;
+    void joinUnableGameFull(Player triedToJoin, GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has reconnected to the game
