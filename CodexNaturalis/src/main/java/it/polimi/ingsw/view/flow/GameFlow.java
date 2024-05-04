@@ -90,8 +90,17 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     }
 
+    /**
+     * A player has joined the game
+     * @param gameModel game model {@link GameImmutable}
+     */
     @Override
-    public void playerJoined(GameImmutable model) throws RemoteException {
+    public void playerJoined(GameImmutable gameModel) {
+        //shared.setLastModelReceived(gameModel);
+        events.add(gameModel, EventType.PLAYER_JOINED);
+
+        //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
+        ui.show_playerJoined(gameModel, nickname);
 
     }
 
@@ -100,10 +109,17 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     }
 
+    /**
+     * A player wanted to join a game but the game is full
+     * @param wantedToJoin player that wanted to join
+     * @param gameModel game model {@link GameModelImmutable}
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
-    public void joinUnableGameFull(Player player, GameImmutable model) throws RemoteException {
-
+    public void joinUnableGameFull(Player wantedToJoin, GameModelImmutable gameModel) throws RemoteException {
+        events.add(null, JOIN_GAME_FULL);
     }
+
 
     @Override
     public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException {

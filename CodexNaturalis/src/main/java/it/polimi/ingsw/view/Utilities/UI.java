@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.Utilities;
 
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.IOException;
@@ -99,7 +100,7 @@ public abstract class UI {
      * @param gameModel model where events happen
      * @param nick      player's nickname
      */
-    protected abstract void show_playerJoined(GameImmutable gameModel, String nick);
+    public abstract void show_playerJoined(GameImmutable gameModel, String nick);
 
     /**
      * Shows that the playing player is ready to start
@@ -141,8 +142,6 @@ public abstract class UI {
      * Show reset information game
      */
     protected abstract void show_InformationGame();
-
-
 
 //other
     // es show_addedPoints
