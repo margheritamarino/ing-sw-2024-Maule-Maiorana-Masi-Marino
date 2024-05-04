@@ -42,4 +42,12 @@ public class EventList {
         return lists.size();
     }
 
+
+    /**
+     *
+     * @return true if the player has joined the game, false if not
+     */
+    public synchronized boolean isJoined() {
+        return joined;
+    }
 }

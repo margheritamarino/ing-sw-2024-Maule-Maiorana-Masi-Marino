@@ -27,7 +27,7 @@ public abstract class UI {
      * @throws IOException
      * @throws InterruptedException
      */
-    protected abstract void show_publisher() throws IOException, InterruptedException;
+    public abstract void show_publisher() throws IOException, InterruptedException;
 
     /**
      * Shows the join first available game message
