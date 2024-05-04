@@ -185,6 +185,11 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream that the front and back of the initialCard are ready to be shown to the player
+     * @param model is the game model {@link GameImmutable}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void requireInitialReady(GameImmutable model) throws RemoteException {
         try {
