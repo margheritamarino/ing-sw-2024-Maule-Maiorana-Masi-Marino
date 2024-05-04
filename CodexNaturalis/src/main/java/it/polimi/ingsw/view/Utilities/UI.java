@@ -49,6 +49,7 @@ public abstract class UI {
     protected abstract void show_creatingNewGameMessage(String nickname);
 
     protected abstract void show_temporaryInitialCards(GameImmutable model);
+    protected abstract void show_ObjectiveCards(GameImmutable model);
 
     public abstract void show_whichInitialCards();
 

@@ -102,6 +102,11 @@ public class TUI extends UI {
         //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
     }
 
+    @Override
+    protected void show_ObjectiveCards(GameImmutable model){
+        //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
+    }
+
 
     @Override
     public void show_whichInitialCards() {
