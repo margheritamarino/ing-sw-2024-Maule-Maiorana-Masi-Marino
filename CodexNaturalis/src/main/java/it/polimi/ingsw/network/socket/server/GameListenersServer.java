@@ -56,20 +56,23 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgPlayerLeft(model, nickname));
             finishSending();
         } catch (IOException e) {
-
+            // Log the exception or handle it appropriately
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            // You might also want to re-throw the exception as RemoteException
+            throw new RemoteException("Failed to send playerLeft message", e);
         }
     }
 
     /**
      * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because it is full
-     * @param player is the player that has tried to join the game {@link Player}
+     * @param triedToJoin is the player that has tried to join the game {@link Player}
      * @param model is the game model {@link GameImmutable}
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void joinUnableGameFull(Player player, GameImmutable model) throws RemoteException {
+    public void joinUnableGameFull(Player triedToJoin, GameImmutable model) throws RemoteException {
         try {
-            out.writeObject(new msgJoinUnableGameFull(player,model));
+            out.writeObject(new msgJoinUnableGameFull(triedToJoin,model));
             finishSending();
         } catch (IOException e) {
 
