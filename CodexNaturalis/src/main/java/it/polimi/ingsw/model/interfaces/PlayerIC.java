@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerDeck;
 import it.polimi.ingsw.model.player.PlayerState;
 
+import java.util.List;
+
 public interface PlayerIC {
     /**
      * This method is used to get the nickname of the player
@@ -16,7 +18,13 @@ public interface PlayerIC {
      * This method is used to get the state of the player
      * @return the state of the player.
      */
-    public PlayerState getPlayerState();
+    PlayerState getPlayerState();
+
+    /**
+     * This method is used to get the state of the player
+     * @return the state of the player.
+     */
+    ObjectiveCard getGoal();
 
     /**
      * This method check if the player is ready to start
@@ -43,5 +51,5 @@ public interface PlayerIC {
     /**
      * @return the 'playerDeck' of the player  {@link PlayerDeckIC}
      */
-    public PlayerDeckIC getPlayerDeckIC();
+    public List<PlayableCardIC> getPlayerDeckIC();
 }

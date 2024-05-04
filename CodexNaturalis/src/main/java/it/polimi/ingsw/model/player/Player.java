@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.player;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.List;
+
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.DeckFullException;
@@ -11,13 +14,12 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.interfaces.BookIC;
-import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
-import it.polimi.ingsw.model.interfaces.PlayerDeckIC;
-import it.polimi.ingsw.model.interfaces.PlayerIC;
+import it.polimi.ingsw.model.interfaces.*;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player implements Serializable, PlayerIC {
 
@@ -137,8 +139,10 @@ public class Player implements Serializable, PlayerIC {
      * @return a PlayerDeckIC of the player, an interface
      * that we send to the clients to make the model immutable
      */
-    public PlayerDeckIC getPlayerDeckIC(){
-
+    public List<PlayableCardIC> getPlayerDeckIC() {
+        List<PlayableCardIC> deckIC = new ArrayList<>();
+        deckIC.addAll(playerDeck.miniDeck);
+        return deckIC;
     }
 
 
