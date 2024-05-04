@@ -581,7 +581,7 @@ public class Game {
 		for (Player player : players) {
 
 			temporaryInitialCard = initialCardsDeck.returnCard();
-			listenersHandler.notify_requireInitial(this, temporaryInitialCard);
+			listenersHandler.notify_requireInitial(this);
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
