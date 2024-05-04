@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.flow;
 
-import it.polimi.ingsw.model.Chat.Message;
+
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -11,7 +11,9 @@ import it.polimi.ingsw.network.rmi.ClientRMI;
 import it.polimi.ingsw.network.socket.client.ClientSocket;
 import it.polimi.ingsw.view.Utilities.UI;
 import it.polimi.ingsw.view.TUI.TUI;
+import it.polimi.ingsw.view.events.Event;
 import it.polimi.ingsw.view.events.EventList;
+import it.polimi.ingsw.view.events.EventType;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -24,7 +26,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     private String nickname;
     private final EventList events = new EventList();
     private ClientInterface clientActions;
-    private final FileDisconnection fileDisconnection;
+   // private final FileDisconnection fileDisconnection;
     private String lastPlayerReconnected;
     private final UI ui;
 
@@ -32,8 +34,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * InputReader {@link InputReader} to read the input, and add it to the buffer.
      * InputParser {@link InputParser} pops the input from the buffer and parses it
      */
-    protected InputParser inputParser;
-    protected InputReader inputReader;
+   // protected InputParser inputParser;
+   //  protected InputReader inputReader;
     /**
      * Events that always need to be shown on the screen
      */
@@ -89,7 +91,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void run() {
-        EventElement event;
+        Event event;
         try {
             ui.show_publisher();
             events.add(null, APP_MENU);
@@ -161,7 +163,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameImmutable gameModel) throws RemoteException {
-        events.add(null, JOIN_GAME_FULL);
+        events.add(null, EventType.JOIN_GAME_FULL);
     }
 
 
@@ -273,11 +275,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public boolean isMyTurn() throws RemoteException {
         return false;
-    }
-
-    @Override
-    public void sendMessage(Message msg) throws RemoteException {
-
     }
 
     @Override
