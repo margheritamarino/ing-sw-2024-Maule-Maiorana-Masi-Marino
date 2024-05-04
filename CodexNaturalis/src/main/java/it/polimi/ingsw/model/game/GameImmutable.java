@@ -92,6 +92,13 @@ public class GameImmutable implements Serializable {
     }
 
     /**
+     * @return the last player in the list of players
+     */
+    public PlayerIC getLastPlayer() {
+        return players.get(players.size() - 1);
+    }
+
+    /**
      * @return the winner
      */
     public PlayerIC getWinner() throws NoPlayersException {
