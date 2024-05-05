@@ -9,6 +9,8 @@ import it.polimi.ingsw.view.Utilities.UI;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
@@ -24,7 +26,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 //il codice ANSI viene usato per controllare gli aspetti visivi della console (colore del testo, sfondo, etc)
 public class TUI extends UI {
 
-    private String nickname;
+    private String nickname; //scopo: personalizzare l'interazione con l'utente
 
 
     /**
@@ -47,6 +49,7 @@ public class TUI extends UI {
      */
     public void resize() {
         try {
+            //TODO (da capire)
             new ProcessBuilder("cmd", "/c", "mode con:cols=160 lines=50").inheritIO().start().waitFor();
         } catch (IOException | InterruptedException e) {
             //couldn't resize the terminal window
@@ -94,13 +97,32 @@ public class TUI extends UI {
      * @param model
      */
     public void show_allPlayers(GameImmutable model) {
-        printAsync("Current Players: \n" + model.toStringListPlayers());
+        //toStringListPlayer restituisce la lista dei giocatori attuali
+        printAsync("Players: \n" + model.toStringListPlayers());
 
     }
 
     @Override
     public void show_publisher() throws IOException, InterruptedException {
+        this.resize();
 
+        clearScreen();
+
+    }
+
+    /**
+     * Prints title of the game
+     */
+    public void show_titleCodexNaturalis(){
+        //printstream per stampare nel terminale
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println(ansi().fg(Ansi.Color.RED).a("""
+
+//CODEX NATURALIS
+
+                      """).reset());
     }
 
     @Override
@@ -131,17 +153,16 @@ public class TUI extends UI {
 
 
     /**
-     * Prints title of the game
-     */
-    public void show_titleCodexNaturalis(){
-
-    }
-
-    /**
      * Clears the console
      */
     public void clearScreen(){
-        //implementare
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            //if not on a Windows machine
+        } catch (IOException | InterruptedException e) {
+            //for mac
+            printAsyncNoCursorReset("\033\143");
+        }
     }
 
     /**
@@ -239,7 +260,7 @@ public class TUI extends UI {
 
     @Override
     protected void show_playerDeck(GameImmutable model) {
-
+        //TODO mostra le carte in mano del giocatore
     }
 
 
@@ -335,5 +356,16 @@ public class TUI extends UI {
     protected void show_noConnectionError() {
 
     }
+
+    /**
+     * Messages that always need to be on screen
+     *
+     * @param model
+     * @param nick
+     */
+    public void show_alwaysShow(GameImmutable model, String nick) {
+       //TODO
+    }
+
 
 }

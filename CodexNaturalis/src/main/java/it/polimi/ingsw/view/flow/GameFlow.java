@@ -41,6 +41,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     protected List<String> importantEvents;
     private boolean ended = false;
 
+
     /**
      * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI,
      * the FileDisconnection, the InputReader and the InputController
@@ -163,8 +164,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 this.inputController.setGameID(event.getModel().getGameId());
 
             }
+            case NEXT_TURN -> {
+                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
+                    askPlaceCards(event.getModel());
 
-            //ALTRI CASE DA AGGIUNGERE
+
+                }
+            }
 
         }
 
@@ -287,7 +293,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -329,6 +334,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         setAsReady();
     }
 
+        int columnCell;
+        do {
+            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose column: ", gameModel), DefaultValue.PlaygroundSize + 1);
+            if (ended) return;
+        } while (columnCell > DefaultValue.BookSize);
 
     //metodo per chiedere il numero della carta (scelta fronte o retro, o carta 1 o 2)
     private Integer askNum(String message, GameImmutable model){
@@ -354,7 +364,28 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
+    public void askPlaceCards(GameImmutable model){
+        int posChosenCard;
+        ui.show_askPlaceCardsMainMsg();
+        posChosenCard = Objects.requireNonNullElse(askNum("> Choose which card to place: ", model), - 1);
 
+        int rowCell;
+        do {
+            rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", gameModel), DefaultValue.PlaygroundSize + 11);
+            if (ended) return;
+        } while (rowCell > DefaultValue.BookSize);
+
+        placeCardInBook(posChosenCard, rowCell, columnCell );
+    }
+
+    @Override
+    public void placeCardInBook(int ChosenCard, int rowCell, int columnCell ){
+        try {
+            clientActions.placeCardInBook(ChosenCard, rowCell, columnCell);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
 
 
     /* METODI CHE IL SERVER HA RICEVUTO DAL CLIENT */
@@ -460,10 +491,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         clientActions.setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
-    @Override
-    public void requireGoalsReady(GameImmutable model) throws RemoteException {
-
-    }
 
     @Override
     public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {

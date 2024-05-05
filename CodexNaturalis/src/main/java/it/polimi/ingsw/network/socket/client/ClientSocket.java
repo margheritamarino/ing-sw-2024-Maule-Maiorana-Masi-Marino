@@ -3,10 +3,7 @@ package it.polimi.ingsw.network.socket.client;
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
-import it.polimi.ingsw.network.socket.client.clientToServerMessages.ClientMsgHeartBeat;
-import it.polimi.ingsw.network.socket.client.clientToServerMessages.ClientMsgSetInitial;
-import it.polimi.ingsw.network.socket.client.clientToServerMessages.ClientMsgSetObjective;
-import it.polimi.ingsw.network.socket.client.clientToServerMessages.ClientMsgSetReady;
+import it.polimi.ingsw.network.socket.client.clientToServerMessages.*;
 import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
 import it.polimi.ingsw.network.socket.client.serverToClientMessages.SocketServerGenericMessage;
 
@@ -162,6 +159,12 @@ public class ClientSocket extends Thread implements ClientInterface {
         finishSending();
     }
 
+    @Override
+    public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
+        out.writeObject(new ClientMsgPlaceCard(nickname, chosenCard, rowCell, columnCell));
+        finishSending();
+    }
+
 
 
     /**
@@ -291,4 +294,6 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.flush();
         out.reset();
     }
+
+
 }
