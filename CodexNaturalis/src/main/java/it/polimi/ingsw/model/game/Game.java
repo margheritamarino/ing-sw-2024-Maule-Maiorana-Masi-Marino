@@ -313,17 +313,20 @@ public class Game {
 	 *
 	 * @throws  IllegalArgumentException if the player's nickname is not in the game
 	 */
-	public void removePlayer (String nickname) throws IllegalArgumentException, PlayerNotFoundException {
-
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getNickname().equals(nickname)) {
-				scoretrack.removePlayer(players.get(i));
-				players.remove(i);
-				listenersHandler.notify_PlayerLeft(this, nickname);
-				return;
+	public void removePlayer (String nickname) {
+		try{
+			for (int i = 0; i < players.size(); i++) {
+				if (players.get(i).getNickname().equals(nickname)) {
+					scoretrack.removePlayer(players.get(i));
+					players.remove(i);
+					listenersHandler.notify_PlayerLeft(this, nickname);
+					return;
+				}
 			}
+
+		}catch (PlayerNotFoundException e){
+			System.err.println("Player is not in this game");
 		}
-		throw new IllegalArgumentException("Player not in this game");
 	}
 
 	/**

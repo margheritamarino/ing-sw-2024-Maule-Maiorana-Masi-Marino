@@ -336,7 +336,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_playerJoined(gameModel, nickname);
         ui.addImportantEvent("[EVENT]: Player " + nickname + " joined the game!");
 
-
     }
 
     @Override
