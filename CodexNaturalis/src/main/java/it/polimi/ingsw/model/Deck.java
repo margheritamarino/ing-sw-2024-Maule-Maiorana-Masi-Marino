@@ -26,7 +26,7 @@ public class Deck implements Serializable {
     private final ArrayList<PlayableCard> frontCards;
     private final ArrayList<PlayableCard> backCards;
 
-    public Deck(CardType cardType) throws FileNotFoundException, FileReadException {
+    public Deck(CardType cardType) {
         this.cardType = cardType;
         this.frontCards = new ArrayList<>();
         this.backCards = new ArrayList<>();
@@ -36,7 +36,16 @@ public class Deck implements Serializable {
                 case GoldCard, ResourceCard -> this.numCards = 40;
                 case InitialCard -> this.numCards = 6;
         }
-        initializeDeck(cardType);
+        // Gestisci le eccezioni sollevate da initializeDeck
+        try {
+            initializeDeck(cardType);
+        } catch (FileNotFoundException e) {
+            // Gestisci l'eccezione FileNotFoundException
+            System.err.println("Error JSON file not found - " + e.getMessage());
+        } catch (FileReadException e) {
+            // Gestisci l'eccezione FileReadException
+            System.err.println("Error during JSON file reading - " + e.getMessage());
+        }
 
     }
 

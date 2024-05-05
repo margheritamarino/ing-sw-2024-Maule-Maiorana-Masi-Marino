@@ -7,8 +7,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Heartbeat;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
@@ -75,15 +75,33 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getNumPlayersOnline();
     }
 
-    public ObjectiveCard getGoalCard() {
-        return model.getCurrentPlayerGoal();
-    }
 
 
+    /**
+     * Set the @param p player ready to start
+     * When all the players are ready to start, the game starts (game status changes to running)
+     * @param p Player to set has ready
+     * @return true if the game has started, false else            */
     @Override
-    public boolean playerIsReadyToStart(String p) throws RemoteException {
-        return false;
+    public synchronized boolean playerIsReadyToStart(String p) {
+        model.playerIsReadyToStart(model.getPlayerByNickname(p));
+
+        //La partita parte automaticamente quando tutti i giocatori sono pronti
+        if (model.arePlayersReadyToStartAndEnough()) {
+            model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
+            ArrayList<Player> players= model.getPlayers();
+            int[] orderArray= model.getOrderArray();
+            model.setCurrentPlayer(players.get(orderArray[0]);
+
+            model.initializeBoard();
+            model.initializeCards();
+            model.setInitialStatus();
+            return true;
+        }
+
+        return false;//Game non started yet
     }
+
 
     /**
      * Check if it's your turn

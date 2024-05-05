@@ -44,20 +44,25 @@ public class Board implements Serializable, BoardIC {
      * Initializes the board by placing cards on it.
      * Sets the common Goals
      */
-    public void initializeBoard() throws DeckEmptyException {
+    public void initializeBoard()  {
         //posiziono due carte oro e due carte risorsa sul tavolo
         //perchè la board ha 2 coppie di carte per ciascuna tipologia di carta
-        int MAX_SIZE = 2;
-        for (int i = 0; i < MAX_SIZE; i++) {
-            PlayableCard[] goldCards = goldCardsDeck.returnCard();
-            PlayableCard[] resourceCards = resourcesCardsDeck.returnCard();
-            this.goldCards.add(goldCards);
-            this.resourceCards.add(resourceCards);
-        }
-        //posiziono le carte obbiettivo comune
-        for (int i = 0; i < MAX_SIZE; i++) {
-            ObjectiveCard objectiveCard = objectiveCardsDeck.returnCard();
-            this.objectiveCards[i] =objectiveCard;
+        try {
+
+            int MAX_SIZE = 2;
+            for (int i = 0; i < MAX_SIZE; i++) {
+                PlayableCard[] goldCards = goldCardsDeck.returnCard();
+                PlayableCard[] resourceCards = resourcesCardsDeck.returnCard();
+                this.goldCards.add(goldCards);
+                this.resourceCards.add(resourceCards);
+            }
+            //posiziono le carte obbiettivo comune
+            for (int i = 0; i < MAX_SIZE; i++) {
+                ObjectiveCard objectiveCard = objectiveCardsDeck.returnCard();
+                this.objectiveCards[i] = objectiveCard;
+            }
+        }catch (DeckEmptyException e){
+            System.err.println("Error during board initialization");
         }
     }
     public ObjectiveDeck getObjectiveCardsDeck(){

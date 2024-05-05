@@ -291,7 +291,7 @@ public class Game {
 	 * @return An array with the order of players starting from the first player chosen.
 	 */
 	//ORDINE DEI GIOCATORI: scelgo a caso il primo, gli altri sONO QUELLI SUCCESSIVI AL PRIMO in ordine di inserimento
-	public int[] chooseOrderPlayers() {
+	public void chooseOrderPlayers() {
 
 		Random random = new Random();
 		int randomIndex = random.nextInt(players.size());
@@ -305,7 +305,7 @@ public class Game {
 			orderArray[i] = (randomIndex + i) % players.size();
 		}
 		// Return the order array
-		return orderArray;
+		this.orderArray= orderArray;
 	}
 	/**
 	 * The function removes the player with username "username" from the game.
@@ -417,34 +417,30 @@ public class Game {
 		return true;
 	}
 
+
 	/**
-	 * Starts the game by randomly selecting the first player and
-	 * sets up the game order creating an array of order indices for the next turns.
-	 * Initializes the game board and cards and returns the order array.
-	 * @throws NotEnoughPlayersException if the number of players is less than two.
+	 * @return true if there are enough players to start, and if every one of them is ready
 	 */
-	public void startGame() throws NotEnoughPlayersException, NoPlayersException, NotReadyToRunException, BoardSetupException, FileNotFoundException, DeckEmptyException, DeckFullException {
-		if (playersNumber < 2)
-			throw new NotEnoughPlayersException("The game cannot start without at least two players");
-
-		// Ottieni l'ordine dei giocatori da `chooseOrderPlayers`
-		orderArray = chooseOrderPlayers();
-
-		// Assegna il primo giocatore selezionato casualmente a `currentPlayer`
-		currentPlayer = players.get(orderArray[0]);
-
-
-		board.initializeBoard();
-		initializeCards();
-
-		setInitialStatus(); //sets gameStatus.RUNNING
+	public boolean arePlayersReadyToStartAndEnough() {
+		//If every player is ready, the game starts
+		return players.stream().filter(Player::getReadyToStart)
+				.count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
 	}
-
 	/**
 	 * @return the game status
 	 */
 	public GameStatus getStatus() {
 		return status;
+	}
+	public int[] getOrderArray(){
+		return this.orderArray;
+	}
+	public void setCurrentPlayer(Player p){
+		this.currentPlayer=p;
+	}
+
+	public void initializeBoard() {
+		board.initializeBoard();
 	}
 
 	/**
@@ -452,16 +448,17 @@ public class Game {
 	 * If I want to set the gameStatus to "RUNNING", there needs to be at least
 	 * DefaultValue.minNumberOfPlayers -> (2) in lobby, the right number of Cards on the Board and a valid currentPlayer
 	 */
-	public void setInitialStatus() throws BoardSetupException, NotReadyToRunException {
-		if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
-				players.size() >= 2
-				&& checkBoard()
-				&& checkPlayers()
-				&& currentPlayer != null) {
-			this.status = GameStatus.RUNNING;
-            listenersHandler.notify_GameStarted(this);
-		} else {
-			throw new NotReadyToRunException("The Game cannot start");
+	public void setInitialStatus() {
+		try {
+			if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
+					players.size() >= 2
+					&& checkBoard()
+					&& currentPlayer != null) {
+				this.status = GameStatus.RUNNING;
+				listenersHandler.notify_GameStarted(this);
+			}
+		}catch (BoardSetupException e){
+			System.err.println("Error during Board setup: " + e.getMessage());
 		}
 	}
 
@@ -498,13 +495,6 @@ public class Game {
 			return true;
 		}
 
-		public boolean checkPlayers() {
-			for ( Player p: players) {
-				if (!p.getReadyToStart())
-					return false;
-			}
-			return true;
-		}
 
 	public void nextTurn() throws GameEndedException, GameNotStartedException, NoPlayersException, InvalidPointsException, PlayerNotFoundException {
 		if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
@@ -580,27 +570,45 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void initializeCards() throws FileNotFoundException, DeckEmptyException, DeckFullException {
-		//pick an InitialCard
+	public void initializeCards() {
+		boolean initializationSuccessful = true;
 		for (Player player : players) {
+			try {
 
-			temporaryInitialCard = initialCardsDeck.returnCard();
-			listenersHandler.notify_requireInitial(this);
+				temporaryInitialCard = initialCardsDeck.returnCard();
+				listenersHandler.notify_requireInitial(this);
 
-			//GOLD CARD E RESOURCE CARD
-			for (int i = 0; i < 2; i++) {
-				player.pickCard(board, CardType.ResourceCard, true, 0);
+				//GOLD CARD E RESOURCE CARD
+				for (int i = 0; i < 2; i++) {
+					player.pickCard(board, CardType.ResourceCard, true, 0);
+				}
+				player.pickCard(board, CardType.GoldCard, true, 0);
+
+				temporaryObjectiveCards = drawObjectiveCards();
+				// Inizializza gli obiettivi
+				listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
+
+			} catch (FileNotFoundException e) {
+				System.err.println("Error: file not found during cards initialization - " + e.getMessage());
+				initializationSuccessful = false;
+
+			} catch (DeckEmptyException e) {
+				System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
+				initializationSuccessful = false;
+
+
+			} catch (DeckFullException e) {
+				System.err.println("Error: playerDeck full during cards initialization - " + e.getMessage());
+				initializationSuccessful = false;
 			}
-			player.pickCard(board, CardType.GoldCard, true, 0);
-
-			temporaryObjectiveCards = drawObjectiveCards();
-			// Inizializza gli obiettivi
-			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrare
-														//con il metodo drawObjectiveCards()
-
 		}
-		listenersHandler.notify_cardsReady(this);
+
+		// Dopo aver gestito l'inizializzazione per ogni giocatore, notificare che le carte sono pronte
+		if (initializationSuccessful) {
+			listenersHandler.notify_cardsReady(this);
+		}
 	}
+
 	public PlayableCard[] getInitialCard(){
 		return temporaryInitialCard;
 	}
