@@ -179,7 +179,8 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgGameEnded(model));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send gameStarted message", e);
         }
     }
 
@@ -272,7 +273,8 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgLastCircle(model));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send CardsReady message", e);
         }
     }
 
