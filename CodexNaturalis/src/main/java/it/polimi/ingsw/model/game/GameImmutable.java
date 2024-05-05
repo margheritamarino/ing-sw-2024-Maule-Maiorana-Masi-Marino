@@ -84,12 +84,7 @@ public class GameImmutable implements Serializable {
         return currentPlayer.getNickname();
     }
 
-    /**
-     * @return the deck of the current playing player
-     */
-    public PlayerDeckIC CurrentPlayerDeck() {
-        return currentPlayer.getPlayerDeckIC();
-    }
+
 
     /**
      * @return the last player in the list of players
@@ -102,7 +97,7 @@ public class GameImmutable implements Serializable {
      * @return the winner
      */
     public PlayerIC getWinner() throws NoPlayersException {
-        scoreTrack.getWinner();
+        return scoreTrack.getWinner();
     }
 
     /**
