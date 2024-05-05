@@ -29,6 +29,10 @@ public abstract class UI {
      */
     public abstract void show_publisher() throws IOException, InterruptedException;
 
+    //show per mostrare come unirsi al gioco
+    public abstract void show_menuOptions();
+
+    public abstract void show_creatingNewGameMsg(String nickname);
     /**
      * Shows the join first available game message
      * @param nickname player's nickname
@@ -43,35 +47,16 @@ public abstract class UI {
     protected abstract void show_joiningToGameIdMsg(int idGame, String nickname);
 
     /**
-     * Shows the creating new game message
-     * @param nickname player's nickname
-     */
-    protected abstract void show_creatingNewGameMessage(String nickname);
-
-    protected abstract void show_temporaryInitialCards(GameImmutable model);
-    protected abstract void show_ObjectiveCards(GameImmutable model);
-
-    public abstract void show_whichInitialCards();
-
-    public abstract void show_whichObjectiveCards();
-
-
-    /**
-     * Message that asks to insert specific game id
-     */
-    protected abstract void show_inputGameIdMessage();
-
-    /**
      * Asks the player for his nickname
      */
-    protected abstract void show_insertNicknameMessage();
+    public abstract void show_insertNicknameMessage();
 
     /**
      * Shows the player's chosen nickname
      *
      * @param nickname nickname just chosen by the player
      */
-    protected abstract void show_chosenNickname(String nickname);
+    public abstract void show_chosenNickname(String nickname);
 
     /**
      * Shows error message when there are no games available for joining
@@ -89,8 +74,7 @@ public abstract class UI {
      * Shows game started message
      * @param model model where the game has started
      */
-    protected abstract void show_gameStarted(GameImmutable model);
-
+    public abstract void show_gameStarted(GameImmutable model);
     /**
      * Shows the playerDeck
      * @param model
@@ -102,12 +86,12 @@ public abstract class UI {
      */
     protected abstract void show_gameEnded(GameImmutable model);
 
-    /**
-     * Shows the players that have joined
-     *
-     * @param gameModel model where events happen
-     * @param nick      player's nickname
-     */
+
+    public abstract void show_GameIDNotValidMessage();
+
+    protected abstract void show_temporaryInitialCards(GameImmutable model);
+    protected abstract void show_ObjectiveCards(GameImmutable model);
+
     public abstract void show_playerJoined(GameImmutable gameModel, String nick);
 
     /**
@@ -126,9 +110,19 @@ public abstract class UI {
      */
     protected abstract void show_nextTurnOrPlayerReconnected(GameImmutable model, String nickname);
 
-    /**
-     * Show the message for pick cell
-     */
+
+    //SHOW DEI METODI ASK
+
+    public abstract void show_returnToMenuMsg();
+
+    protected abstract void show_askNum(String msg, GameImmutable gameModel, String nickname);
+    public abstract void show_whichInitialCards();
+
+    public abstract void show_whichObjectiveCards();
+
+    public void show_insertGameIDMessage() {
+    }
+
     protected abstract void show_pickCellRequest();
 
     /**
@@ -154,15 +148,23 @@ public abstract class UI {
 //other
     // es show_addedPoints
 
-    /**
-     * Shows an error when there's no connection
-     */
-    protected abstract void show_noConnectionError();
 
+
+    //METODI CON AZIONI
     /**
      * Shows message on important event added
      * @param input the string of the important event to add
      */
     public abstract void addImportantEvent(String input);
+
+    /**
+     * Resets the important events
+     */
+    public abstract void resetImportantEvents();
+
+    /**
+     * Shows an error when there's no connection
+     */
+    protected abstract void show_noConnectionError();
 
 }

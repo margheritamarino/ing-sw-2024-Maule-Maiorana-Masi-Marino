@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ObjectiveCard {
+public class ObjectiveCard implements ObjectiveCardIC {
     private int cardID;
     private boolean isFront;
     private GoalType goalType;
@@ -68,5 +70,26 @@ public class ObjectiveCard {
         this.mainResource = mainResource;
         this.direction = direction;
         this.secondResource = secondResource;
+    }
+
+    /**
+     * @return a copy of the current objective Card
+     */
+    public ObjectiveCard copy(){
+        // Creo una nuova istanza di ObjectiveCard con gli stessi valori dei campi
+        ObjectiveCard copiedCard = new ObjectiveCard(
+                this.cardID,
+                this.isFront,
+                this.goalType,
+                this.victoryPoints,
+                this.mainResource,
+                this.direction,
+                this.numResources,
+                this.numSymbols,
+                new ArrayList<>(this.symbols), // Creo una copia della lista di simboli
+                this.secondResource
+        );
+        return copiedCard;
+
     }
 }

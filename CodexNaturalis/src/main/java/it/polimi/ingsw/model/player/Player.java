@@ -124,7 +124,7 @@ public class Player implements Serializable, PlayerIC {
      * that we send to the clients to make the model immutable
      */
    public ObjectiveCardIC getGoalIC(){
-
+       return (ObjectiveCardIC) playerGoal; //controlla sia giusto fare il cast o se serve fare una COPIA
     }
 
     /**
@@ -132,11 +132,11 @@ public class Player implements Serializable, PlayerIC {
      * that we send to the clients to make the model immutable
      */
     public BookIC getPlayerBookIC(){
-
+        return (BookIC) playerBook;
     }
 
     /**
-     * @return a PlayerDeckIC of the player, an interface
+     * @return the list of PlayableCardIC of the player deck, an interface
      * that we send to the clients to make the model immutable
      */
     public List<PlayableCardIC> getPlayerDeckIC() {

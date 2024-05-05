@@ -266,21 +266,6 @@ public class ClientSocket extends Thread implements ClientInterface {
         return false;
     }
 
-/* //per la CHAT: (invio di un messaggio sulla chat)
-    /**
-     * Send a message to the Socket Server
-     *
-     * @param msg message to send
-     */
-   /* @Override
-    public void sendMessage(Message msg) {
-        try {
-            out.writeObject(new SocketClientMessageNewChatMessage(msg));
-            finishSending();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    } */
 
     /**
      * Send a heartbeat to the Socket Server

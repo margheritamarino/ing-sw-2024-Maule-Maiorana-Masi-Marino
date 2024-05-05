@@ -4,6 +4,8 @@ import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.interfaces.BoardIC;
+import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
+import it.polimi.ingsw.model.interfaces.PlayableCardIC;
 
 import java.io.Serializable;
 import java.util.*;
@@ -42,20 +44,25 @@ public class Board implements Serializable, BoardIC {
      * Initializes the board by placing cards on it.
      * Sets the common Goals
      */
-    public void initializeBoard() throws DeckEmptyException {
+    public void initializeBoard()  {
         //posiziono due carte oro e due carte risorsa sul tavolo
         //perchè la board ha 2 coppie di carte per ciascuna tipologia di carta
-        int MAX_SIZE = 2;
-        for (int i = 0; i < MAX_SIZE; i++) {
-            PlayableCard[] goldCards = goldCardsDeck.returnCard();
-            PlayableCard[] resourceCards = resourcesCardsDeck.returnCard();
-            this.goldCards.add(goldCards);
-            this.resourceCards.add(resourceCards);
-        }
-        //posiziono le carte obbiettivo comune
-        for (int i = 0; i < MAX_SIZE; i++) {
-            ObjectiveCard objectiveCard = objectiveCardsDeck.returnCard();
-            this.objectiveCards[i] =objectiveCard;
+        try {
+
+            int MAX_SIZE = 2;
+            for (int i = 0; i < MAX_SIZE; i++) {
+                PlayableCard[] goldCards = goldCardsDeck.returnCard();
+                PlayableCard[] resourceCards = resourcesCardsDeck.returnCard();
+                this.goldCards.add(goldCards);
+                this.resourceCards.add(resourceCards);
+            }
+            //posiziono le carte obbiettivo comune
+            for (int i = 0; i < MAX_SIZE; i++) {
+                ObjectiveCard objectiveCard = objectiveCardsDeck.returnCard();
+                this.objectiveCards[i] = objectiveCard;
+            }
+        }catch (DeckEmptyException e){
+            System.err.println("Error during board initialization");
         }
     }
     public ObjectiveDeck getObjectiveCardsDeck(){
@@ -85,6 +92,12 @@ public class Board implements Serializable, BoardIC {
     public ObjectiveCard takeObjectiveCard() throws DeckEmptyException {
         return objectiveCardsDeck.returnCard();
     }
+
+    //CREA UNA COPIA DELLA CARTA OBIETTIVO, VA BENE LASCIARLO COSì?
+    public ObjectiveCardIC takeObjectiveCardIC() throws DeckEmptyException {
+        return ((ObjectiveCardIC)takeObjectiveCard().copy());
+    }
+
 
     /**
      * Takes a card from the board.
@@ -144,11 +157,21 @@ public class Board implements Serializable, BoardIC {
         }
     }
 
-    /**
-     * Update array.
-     * @param cards The array of cards to update.
-     * @param cardType The type of card for which to update the array.
-     */
+    //COME ISTANZIARE UNA PLAYABLE CARD??
+    public PlayableCardIC[] takeCardfromBoardIC(CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException, IndexOutOfBoundsException {
+        PlayableCard[] cards = takeCardfromBoard(cardType, drawFromDeck, pos);
+        PlayableCard[] copiedCards = new PlayableCard[cards.length];
+        for (int i = 0; i < cards.length; i++) {
+            copiedCards[i] = new PlayableCard(cards[i]); // Copia di ogni PlayableCard nell'array copiato
+        }
+        return copiedCards;
+    }
+
+        /**
+         * Update array.
+         * @param cards The array of cards to update.
+         * @param cardType The type of card for which to update the array.
+         */
     public void updateArray(ArrayList<PlayableCard[]> cards, CardType cardType) throws DeckEmptyException {
         Deck deck ;
         switch (cardType) {

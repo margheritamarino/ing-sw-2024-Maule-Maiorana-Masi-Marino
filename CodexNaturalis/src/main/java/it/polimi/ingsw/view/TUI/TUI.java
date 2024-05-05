@@ -65,6 +65,11 @@ public class TUI extends UI {
         show_important_events();
     }
 
+    @Override
+    public void resetImportantEvents() {
+
+    }
+
     /**
      * Shows the important events
      */
@@ -98,6 +103,11 @@ public class TUI extends UI {
     }
 
     @Override
+    public void show_creatingNewGameMsg(String nickname) {
+
+    }
+
+    @Override
     protected void show_temporaryInitialCards(GameImmutable model){
         //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
     }
@@ -114,7 +124,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_whichObjectiveCard() {
+    public void show_whichObjectiveCards() {
         printAsync("> Choose one of this two objective cards:");
     }
 
@@ -171,19 +181,13 @@ public class TUI extends UI {
     protected void show_creatingNewGameMessage(String nickname) {
 
     }
-
     @Override
-    protected void show_inputGameIdMessage() {
+    public void show_insertNicknameMessage() {
 
     }
 
     @Override
-    protected void show_insertNicknameMessage() {
-
-    }
-
-    @Override
-    protected void show_chosenNickname(String nickname) {
+    public void show_chosenNickname(String nickname) {
 
     }
 
@@ -224,7 +228,7 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_gameStarted(GameImmutable model) {
+    public void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_titleCodexNaturalis();
         this.show_allPlayers(model);
@@ -287,6 +291,16 @@ public class TUI extends UI {
 
     @Override
     protected void show_nextTurnOrPlayerReconnected(GameImmutable model, String nickname) {
+
+    }
+
+    @Override
+    public void show_returnToMenuMsg() {
+
+    }
+
+    @Override
+    protected void show_askNum(String msg, GameImmutable gameModel, String nickname) {
 
     }
 

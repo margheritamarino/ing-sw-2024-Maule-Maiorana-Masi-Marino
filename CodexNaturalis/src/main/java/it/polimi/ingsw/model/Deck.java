@@ -9,7 +9,7 @@ import it.polimi.ingsw.exceptions.FileCastException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.JSONParsingException;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.model.interfaces.DeckIC;
+
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -20,13 +20,13 @@ import java.util.Objects;
 import java.util.Random;
 
 
-public class Deck implements Serializable, DeckIC {
+public class Deck implements Serializable {
     private int numCards;
     private final CardType cardType;
     private final ArrayList<PlayableCard> frontCards;
     private final ArrayList<PlayableCard> backCards;
 
-    public Deck(CardType cardType) throws FileNotFoundException, FileReadException {
+    public Deck(CardType cardType) {
         this.cardType = cardType;
         this.frontCards = new ArrayList<>();
         this.backCards = new ArrayList<>();
@@ -36,7 +36,16 @@ public class Deck implements Serializable, DeckIC {
                 case GoldCard, ResourceCard -> this.numCards = 40;
                 case InitialCard -> this.numCards = 6;
         }
-        initializeDeck(cardType);
+        // Gestisci le eccezioni sollevate da initializeDeck
+        try {
+            initializeDeck(cardType);
+        } catch (FileNotFoundException e) {
+            // Gestisci l'eccezione FileNotFoundException
+            System.err.println("Error JSON file not found - " + e.getMessage());
+        } catch (FileReadException e) {
+            // Gestisci l'eccezione FileReadException
+            System.err.println("Error during JSON file reading - " + e.getMessage());
+        }
 
     }
 

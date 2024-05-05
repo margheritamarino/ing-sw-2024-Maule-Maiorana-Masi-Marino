@@ -7,8 +7,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Heartbeat;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
@@ -75,14 +75,28 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getNumPlayersOnline();
     }
 
-    public ObjectiveCard getGoalCard() {
-        return model.getCurrentPlayerGoal();
-    }
-
-
+    /**
+     * Set the @param p player ready to start
+     * When all the players are ready to start, the game starts (game status changes to running)
+     * @param p Player to set has ready
+     * @return true if the game has started, false else            */
     @Override
-    public boolean playerIsReadyToStart(String p) throws RemoteException {
-        return false;
+    public synchronized boolean playerIsReadyToStart(String p) {
+        model.playerIsReadyToStart(model.getPlayerByNickname(p));
+
+        //La partita parte automaticamente quando tutti i giocatori sono pronti
+        if (model.arePlayersReadyToStartAndEnough()) {
+            model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
+            ArrayList<Player> players= model.getPlayers();
+            int[] orderArray= model.getOrderArray();
+            model.setCurrentPlayer(players.get(orderArray[0]);
+
+            model.initializeBoard();
+            model.initializeCards();
+            model.setInitialStatus();
+            return true;
+        }
+        return false;//Game non started yet
     }
 
     /**
@@ -103,8 +117,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.setPlayerDisconnected(nick);
     }
 
-
-//DA CAPIRE MODEL.ADDPLAYER
     /**
      * Adds a new player to the match.
      *
@@ -117,6 +129,28 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
+    @Override
+    public synchronized void setInitialCard(String playerName, int index) throws NotPlayerTurnException {
+        Player currentPlayer = model.getPlayerByNickname(playerName);
+        if(currentPlayer.equals(model.getCurrentPlayer())){
+            model.setInitialCard(currentPlayer, index);
+        }else{
+            throw new NotPlayerTurnException("ERROR: not the Player's turn");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * gets th Game ID of the current Game
      * @return
@@ -126,8 +160,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public int getGameId() throws RemoteException {
         return model.getGameId();
     }
-
-
 
     @Override
     public void leave(GameListenerInterface lis, String nick) throws RemoteException {
@@ -139,17 +171,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
     @Override
     public void run() {
-       // IMPLEMENTA
-    }
-
-    @Override
-    public synchronized void setInitialCard(String playerName, int index) throws NotPlayerTurnException {
-        Player currentPlayer = model.getPlayerByNickname(playerName);
-        if(currentPlayer.equals(model.getCurrentPlayer())){
-            model.setInitialCard(currentPlayer, index);
-        }else{
-            throw new NotPlayerTurnException("ERROR: not the Player's turn");
-        }
+        // IMPLEMENTA
     }
 
     @Override
