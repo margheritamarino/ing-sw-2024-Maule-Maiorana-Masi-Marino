@@ -600,9 +600,6 @@ public class Game {
 			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrare
 														//con il metodo drawObjectiveCards()
 
-
-			//poi il controller dentro questo metodo chiama: model.setPlayerGoal
-
 		}
 		listenersHandler.notify_cardsReady(this);
 	}
@@ -622,11 +619,16 @@ public class Game {
 		Book playerBook= player.getPlayerBook();
 		playerBook.addInitial(chosenInitialCard);
 
-	}/*
-	 risale al fronte o al retro della carta iniziale (in base alla scelta dell'utente
-	 pos= 0: fronte - 1 retro
-	 chiama metodo addInitial del rispettivo book del player per piazzare direttamente carta	 */
+	}
 
+
+	/**
+	 * Draws two objective cards from the board's objective card deck.
+	 * to be chosen by the player
+	 * @return An ArrayList containing two drawn objective cards from the deck.
+	 * @throws IllegalStateException If the game has already started and cards cannot be drawn.
+	 * @throws DeckEmptyException If the objective card deck is empty.
+	 */
 	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException, DeckEmptyException {
 		ArrayList<ObjectiveCard> drawnCards = new ArrayList<ObjectiveCard>();
 
@@ -642,7 +644,12 @@ public class Game {
 			throw new IllegalStateException("Game already started");
 		return drawnCards;
 	}
-
+	/**
+	 * Assigns the chosen objective card to a specific player.
+	 *
+	 * @param player The player to whom the chosen objective card will be assigned.
+	 * @param chosenCard The objective card to be assigned to the player.
+	 */
 	public void setPlayerGoal(Player player, ObjectiveCard chosenCard) {
 		player.setGoal(chosenCard);
 		player.setReadyToStart(); //The player has all the Cards in the Deck: he's ready to start

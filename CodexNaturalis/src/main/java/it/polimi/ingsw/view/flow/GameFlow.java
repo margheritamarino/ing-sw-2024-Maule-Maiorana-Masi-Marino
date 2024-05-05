@@ -288,7 +288,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void cardsReady(GameImmutable model) throws RemoteException {
-
+        //TODO
+        //stampare messaggio? mostrare la board?
+        //dopo che ho inizializzato le carte per ogni player viene fatto partire il gioco
     }
 
     @Override
