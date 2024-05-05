@@ -4,6 +4,8 @@ import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.interfaces.BoardIC;
+import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
+import it.polimi.ingsw.model.interfaces.PlayableCardIC;
 
 import java.io.Serializable;
 import java.util.*;
@@ -86,6 +88,12 @@ public class Board implements Serializable, BoardIC {
         return objectiveCardsDeck.returnCard();
     }
 
+    //CREA UNA COPIA DELLA CARTA OBIETTIVO, VA BENE LASCIARLO COSì?
+    public ObjectiveCardIC takeObjectiveCardIC() throws DeckEmptyException {
+        return ((ObjectiveCardIC)takeObjectiveCard().copy());
+    }
+
+
     /**
      * Takes a card from the board.
      *
@@ -144,11 +152,21 @@ public class Board implements Serializable, BoardIC {
         }
     }
 
-    /**
-     * Update array.
-     * @param cards The array of cards to update.
-     * @param cardType The type of card for which to update the array.
-     */
+    //COME ISTANZIARE UNA PLAYABLE CARD??
+    public PlayableCardIC[] takeCardfromBoardIC(CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException, IndexOutOfBoundsException {
+        PlayableCard[] cards = takeCardfromBoard(cardType, drawFromDeck, pos);
+        PlayableCard[] copiedCards = new PlayableCard[cards.length];
+        for (int i = 0; i < cards.length; i++) {
+            copiedCards[i] = new PlayableCard(cards[i]); // Copia di ogni PlayableCard nell'array copiato
+        }
+        return copiedCards;
+    }
+
+        /**
+         * Update array.
+         * @param cards The array of cards to update.
+         * @param cardType The type of card for which to update the array.
+         */
     public void updateArray(ArrayList<PlayableCard[]> cards, CardType cardType) throws DeckEmptyException {
         Deck deck ;
         switch (cardType) {
