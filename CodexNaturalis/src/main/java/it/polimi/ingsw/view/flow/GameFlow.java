@@ -375,6 +375,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             if (ended) return;
         } while (rowCell > DefaultValue.BookSize);
 
+        int columnCell;
+        do {
+            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
+            if (ended) return;
+        } while (columnCell > DefaultValue.BookSize);
+
+
         placeCardInBook(posChosenCard, rowCell, columnCell );
     }
 
