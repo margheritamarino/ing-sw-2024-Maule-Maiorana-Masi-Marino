@@ -114,7 +114,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void disconnectPlayer(String nick, GameListenerInterface lisOfClient) throws RemoteException {
-        model.setPlayerDisconnected(nick);
+        //TODO
     }
 
     /**

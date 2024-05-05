@@ -45,9 +45,6 @@ public class Game {
 	private PlayableCard[] temporaryInitialCard;
 	private ArrayList<ObjectiveCard> temporaryObjectiveCards;
 
-	public ObjectiveCard[] getTemporaryObjectiveCards() {
-		return temporaryObjectiveCards;
-	}
 
 	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
 
@@ -320,7 +317,10 @@ public class Game {
 					scoretrack.removePlayer(players.get(i));
 					players.remove(i);
 					listenersHandler.notify_PlayerLeft(this, nickname);
-					return;
+					if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::isConnected).toList().size() <= 1) {
+						//Not enough players to keep playing
+						this.setStatus(GameStatus.ENDED);
+					}
 				}
 			}
 
@@ -343,7 +343,7 @@ public class Game {
 	 * @param nickname the nickname of the player to set as disconnected.
 	 */
 	public void setPlayerDisconnected(String nickname) {
-		// Trova il giocatore disconnesso nella lista dei giocatori
+		//TODO
 		Player disconnectedPlayer = null;
 		for (Player player : players) {
 			if (player.getNickname().equals(nickname)) {
@@ -364,11 +364,6 @@ public class Game {
 				}
 			}
 
-			//DA GESTIRE
-			// Che succede se il giocatore disconnesso è il current player? il gioco si ferma in attesa del ritorno del player?
-			//se invece è un giocatore diverso dal current player ? il gioco continua finché non arrivo al giocatore disconnesso ?
-
-
 		}
 	}
 
@@ -379,6 +374,7 @@ public class Game {
 	 * @throws MaxPlayersInException    there's already 4 players in game
 	 * @throws GameEndedException       the game has ended
 	 */
+	//TODO
 	public boolean reconnectPlayer(String nickname) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException, PlayerNotFoundException, GameNotStartedException, InvalidPointsException, NoPlayersException {
 		// Check if the game has ended (serve perché se il gioco è finito è meglio evitare che dei giocatori si riconnettano e magari modifichino il risultato finale)
 		if (gameEnded) {
