@@ -12,8 +12,6 @@ import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.interfaces.PlayableCardIC;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
-import it.polimi.ingsw.model.Chat.Chat;
-import it.polimi.ingsw.model.Chat.Message;
 
 import it.polimi.ingsw.listener.ListenersHandler;
 
@@ -454,7 +452,7 @@ public class Game {
 	 * If I want to set the gameStatus to "RUNNING", there needs to be at least
 	 * DefaultValue.minNumberOfPlayers -> (2) in lobby, the right number of Cards on the Board and a valid currentPlayer
 	 */
-	public void setInitialStatus() throws NoPlayersException, BoardSetupException, NotReadyToRunException {
+	public void setInitialStatus() throws BoardSetupException, NotReadyToRunException {
 		if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
 				players.size() >= 2
 				&& checkBoard()
