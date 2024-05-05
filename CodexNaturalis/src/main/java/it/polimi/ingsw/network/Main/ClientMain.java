@@ -1,26 +1,28 @@
 package it.polimi.ingsw.network.Main;
 
 
+import it.polimi.ingsw.model.DefaultValue;
+import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.view.flow.GameFlow;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.view.TUI.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class ClientMain {
 
     public static void main(String[] args) {
-        clearCMD();
+        clearCMD(); //ripulisco il terminale
         int selection;
-
-        //Disable javaFX logger
-        killLoggers();
 
         if (!DefaultValue.DEBUG) {
             String input;
 
-            do {
+            do { //chiedo all'utente di inserire l'indirizzo IP del server remoto (se vuole connettersi a un server diverso dal LocalHost)
                 printAsync(ansi().cursor(1, 0).a("""
                         Insert remote IP (leave empty for localhost)
                         """));
@@ -29,7 +31,7 @@ public class ClientMain {
                     clearCMD();
                     printAsync("Not valid");
                 }
-            } while (!input.equals("") && !isValidIP(input));
+            } while (!input.equals("") && !isValidIP(input)); //ripeto fino a quando non viene inserito un IP valido
             if (!input.equals(""))
                 DefaultValue.serverIp = input;
 
@@ -73,11 +75,11 @@ public class ClientMain {
 
 
         //Get the Communication Protocol wanted
-        ConnectionSelection conSel;
+        ConnectionType conSel;
         if (selection == 1 || selection == 3) {
-            conSel = ConnectionSelection.SOCKET;
+            conSel = ConnectionType.SOCKET;
         } else {
-            conSel = ConnectionSelection.RMI;
+            conSel = ConnectionType.RMI;
         }
 
         printAsync("Starting the game!");
@@ -87,10 +89,6 @@ public class ClientMain {
             //Starts the game with TUI
             //I can start directly here the GameFlow
             new GameFlow(conSel);
-        } else {
-            //Starts the game with GUI
-            //For doing so, I need to start the Main of GUI (GameFlow needs to be started inside the thread of GUI)
-            Application.launch(GUIApplication.class, conSel.toString());
         }
 
     }
@@ -103,6 +101,10 @@ public class ClientMain {
         }
     }
 
+    /**
+     * @param input contains the IP inserted by the player
+     * @return true if the input value is a valid IP (X.X.X.X with 0<=X<=255 )
+     */
     private static boolean isValidIP(String input) {
         List<String> parsed;
         parsed = Arrays.stream(input.split("\\.")).toList();
@@ -119,14 +121,6 @@ public class ClientMain {
         return true;
     }
 
-    private static void killLoggers(){
-        com.sun.javafx.util.Logging.getJavaFXLogger().disableLogging();
-        com.sun.javafx.util.Logging.getCSSLogger().disableLogging();
-        com.sun.javafx.util.Logging.getAccessibilityLogger().disableLogging();
-        com.sun.javafx.util.Logging.getFocusLogger().disableLogging();
-        com.sun.javafx.util.Logging.getInputLogger().disableLogging();
-        com.sun.javafx.util.Logging.getLayoutLogger().disableLogging();
-    }
 
 }
 
