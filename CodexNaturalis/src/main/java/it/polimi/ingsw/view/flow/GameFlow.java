@@ -282,8 +282,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 else
                     joinGame(nickname, gameId);
             }
-            //caso in cui l'utente sta cercando di riconnettersi all'ultimo gioco in cui era coinvolto
-            case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
             default -> {
                 return false;
             }
