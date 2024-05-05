@@ -138,10 +138,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    public void statusWait(Event event){
+    public void statusWait(Event event) throws IOException, InterruptedException{
         String nicknameLastPlayer = event.getModel().getLastPlayer().getNickname();
         switch (event.getType()) {
             case PLAYER_JOINED -> {
+                //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
+                //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                 if (nicknameLastPlayer.equals(nickname)) {
                     ui.show_playerJoined(event.getModel(), nickname);
                     saveGameId(fileDisconnection, nickname, event.getModel().getGameId());
@@ -151,20 +153,93 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
-    public void statusRunning(Event event){
+    public void statusRunning(Event event) throws IOException, InterruptedException{
 
+    }
+
+
+    //metodo chiamato quando un giocatore non viene aggiunto alla partita correttamente
+    public void statusNotInAGame(Event event){
+        switch (event.getType()) {
+
+            //caso: game non valido -> back to menu
+            case BACK_TO_MENU -> {
+                //ciclo per chiedere al giocatore di selezionare una partita valida
+                boolean selectionGame;
+                do {
+                    selectionGame = askSelectGame();
+                } while (!selectionGame);
+            }
+
+            case NICKNAME_ALREADY_IN -> {
+                nickname = null;
+                events.add(null, EventType.BACK_TO_MENU); //aggiunge evento nullo per tornare al menu principale
+                ui.addImportantEvent("ERROR: Nickname already used!");
+            }
+
+            case GAME_FULL -> {
+                nickname = null;
+                events.add(null, EventType.BACK_TO_MENU);
+                ui.addImportantEvent("ERROR: Game is full!");
+            }
+
+            case GENERIC_ERROR -> {
+                nickname = null;
+                ui.show_returnToMenuMsg(); //mostra un messaggio di ritorno al menu sull'interfaccia utente
+                try {
+                    this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                events.add(null, EventType.BACK_TO_MENU);
+            }
+        }
     }
 
     public void statusEnded(Event event){
+        switch (event.getType()) {
+            case GAME_ENDED -> {
+                ui.show_returnToMenuMsg();
+                //rimuove tutt i dati non elaborati dal buffer
+                this.inputController.getUnprocessedData().popAllData();
+                try {
+                    this.inputController.getUnprocessedData().popInputData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                //il giocatore lascia la partita
+                this.leave(nickname, event.getModel().getGameId());
+                this.playerLeftForGameEnded(); //notifica l'utente che ha lasciato la partita
+            }
+        }
 
     }
+    public void playerLeftForGameEnded(){
+        ended = true;
+        ui.resetImportantEvents();
+        events.add(null,EventType.BACK_TO_MENU);
 
-    public void statusNotInAGame(Event event){
-
+        this.inputController.setPlayer(null); //il giocatore non è più associato al flusso di gioco
+        this.inputController.setGameID(null);
+    }
+    public boolean isEnded(){
+        return ended;
+    }
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 
 
 
+    /* METODI ASK DA FARE */
+
+
+
+
+
+
+    /* METODI CHE IL SERVER HA RICEVUTO DAL CLIENT */
     /**
      * A player has joined the game
      * @param gameModel game model {@link GameImmutable}
@@ -216,7 +291,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void joinUnableNicknameAlreadyIn(Player tryToJoin) throws RemoteException {
         //System.out.println("[EVENT]: "+ tryToJoin.getNickname() + " has already in");
-        events.add(null, NICKNAME_ALREADY_IN);
+        events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
 
 
@@ -269,7 +344,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void requireGoalsReady(GameImmutable model) throws RemoteException {
 
     }
-
 
     @Override
     public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {
@@ -325,6 +399,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     }
 
+
+
+    /* METODI CHE IL CLIENT RICHIEDE AL SERVER */
     @Override
     public void createGame(String nick) throws IOException, InterruptedException, NotBoundException {
 
