@@ -56,7 +56,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
         importantEvents = new ArrayList<>();
         nickname = "";
-        fileDisconnection = new FileDisconnection();
+        //fileDisconnection = new FileDisconnection();
         this.inputReader = new InputTUI();
         this.inputController = new InputController(this.inputReader.getBuffer(), this);
 
@@ -282,8 +282,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 else
                     joinGame(nickname, gameId);
             }
-            //caso in cui l'utente sta cercando di riconnettersi all'ultimo gioco in cui era coinvolto
-            case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
             default -> {
                 return false;
             }
