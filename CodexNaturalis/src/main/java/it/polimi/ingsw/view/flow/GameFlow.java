@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
@@ -308,13 +309,49 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 }
                 gameID = Integer.parseInt(temp); //conversione input in integer
             } catch (NumberFormatException e) {
-                ui.show_GameIDNotValidMessage(); //messaggio di errore sul gameID inserito
+                ui.show_NotValidMessage(); //messaggio di errore sul gameID inserito
             }
 
         } while (gameID == null);
         return gameID;
     }
 
+
+    public void askReadyToStart(){
+        String answer;
+        do {
+            try {
+                answer = this.inputController.getUnprocessedData().popInputData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } while (!answer.equals("yes"));
+        setAsReady();
+    }
+
+
+    //metodo per chiedere il numero della carta (scelta fronte o retro, o carta 1 o 2)
+    private Integer askNum(String message, GameImmutable model){
+        String temp;
+        int num = -1;
+        do {
+            try {
+                ui.show_askNum(message, model, nickname);
+                //System.out.flush();
+
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+                    if (ended) return null; //il giocatore non può fare mosse
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                num = Integer.parseInt(temp); //traduco il numero in integer
+            } catch (InputMismatchException | NumberFormatException e) {
+                ui.show_NotValidMessage();
+            }
+        } while (num < 0);
+        return num;
+    }
 
 
 
@@ -504,13 +541,22 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void leave(String nick, int idGame) throws IOException, NotBoundException {
-
+    public void leave(String nick, int GameID) throws IOException, NotBoundException {
+        try {
+            clientActions.leave(nick, GameID);
+        } catch (IOException | NotBoundException e) {
+            noConnectionError();
+        }
     }
 
+    //il client setta se stesso come pronto
     @Override
     public void setAsReady() throws IOException {
-
+        try {
+            clientActions.setAsReady();
+        } catch (IOException e){
+            noConnectionError();
+        }
     }
 
     @Override
