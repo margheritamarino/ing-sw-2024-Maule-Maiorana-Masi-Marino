@@ -154,6 +154,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     public void statusRunning(Event event) throws IOException, InterruptedException{
+        switch (event.getType()) {
+            case GAME_STARTED -> {
+                ui.show_gameStarted(event.getModel());
+
+                this.inputController.setPlayer(event.getModel().getPlayerEntity(nickname));
+                this.inputController.setGameID(event.getModel().getGameId());
+
+            }
+
+            //ALTRI CASE DA AGGIUNGERE
+
+        }
 
     }
 

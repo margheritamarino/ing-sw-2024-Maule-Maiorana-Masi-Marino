@@ -65,6 +65,11 @@ public class TUI extends UI {
         show_important_events();
     }
 
+    @Override
+    public void resetImportantEvents() {
+
+    }
+
     /**
      * Shows the important events
      */
@@ -94,6 +99,11 @@ public class TUI extends UI {
 
     @Override
     public void show_publisher() throws IOException, InterruptedException {
+
+    }
+
+    @Override
+    public void show_creatingNewGameMsg(String nickname) {
 
     }
 
@@ -224,7 +234,7 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_gameStarted(GameImmutable model) {
+    public void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_titleCodexNaturalis();
         this.show_allPlayers(model);
@@ -287,6 +297,16 @@ public class TUI extends UI {
 
     @Override
     protected void show_nextTurnOrPlayerReconnected(GameImmutable model, String nickname) {
+
+    }
+
+    @Override
+    public void show_returnToMenuMsg() {
+
+    }
+
+    @Override
+    protected void show_askNum(String msg, GameImmutable gameModel, String nickname) {
 
     }
 
