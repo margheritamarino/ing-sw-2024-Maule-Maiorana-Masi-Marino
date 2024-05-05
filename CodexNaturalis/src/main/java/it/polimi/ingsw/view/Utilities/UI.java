@@ -29,6 +29,9 @@ public abstract class UI {
      */
     public abstract void show_publisher() throws IOException, InterruptedException;
 
+    //show per mostrare come unirsi al gioco
+    public abstract void show_menuOptions();
+
     public abstract void show_creatingNewGameMsg(String nickname);
     /**
      * Shows the join first available game message
@@ -44,21 +47,16 @@ public abstract class UI {
     protected abstract void show_joiningToGameIdMsg(int idGame, String nickname);
 
     /**
-     * Message that asks to insert specific game id
-     */
-    protected abstract void show_inputGameIdMessage();
-
-    /**
      * Asks the player for his nickname
      */
-    protected abstract void show_insertNicknameMessage();
+    public abstract void show_insertNicknameMessage();
 
     /**
      * Shows the player's chosen nickname
      *
      * @param nickname nickname just chosen by the player
      */
-    protected abstract void show_chosenNickname(String nickname);
+    public abstract void show_chosenNickname(String nickname);
 
     /**
      * Shows error message when there are no games available for joining
@@ -89,6 +87,7 @@ public abstract class UI {
     protected abstract void show_gameEnded(GameImmutable model);
 
 
+    public abstract void show_GameIDNotValidMessage();
 
     protected abstract void show_temporaryInitialCards(GameImmutable model);
     protected abstract void show_ObjectiveCards(GameImmutable model);
@@ -120,6 +119,9 @@ public abstract class UI {
     public abstract void show_whichInitialCards();
 
     public abstract void show_whichObjectiveCards();
+
+    public void show_insertGameIDMessage() {
+    }
 
     protected abstract void show_pickCellRequest();
 

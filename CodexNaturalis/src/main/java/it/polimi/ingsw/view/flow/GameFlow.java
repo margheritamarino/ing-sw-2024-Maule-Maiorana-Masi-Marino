@@ -247,6 +247,77 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     /* METODI ASK DA FARE */
 
 
+    private void askNickname() {
+        ui.show_insertNicknameMessage();
+        try {
+            nickname = this.inputController.getUnprocessedData().popInputData();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        ui.show_chosenNickname(nickname);
+    }
+
+    //metodo per guidare l'utente nel processo di selezione del gioco
+    private void askSelectGame() throws NotBoundException, IOException, InterruptedException {
+        String gameChosen;
+        ended = false;
+        ui.show_menuOptions();
+
+        try {
+            gameChosen = this.inputController.getUnprocessedData().popInputData();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if (gameChosen.equals(".")) //se l'input è . il meccanismo di selezione termina
+            System.exit(1);
+        askNickname();
+
+        switch (gameChosen) {
+            case "c" -> createGame(nickname);
+            case "j" -> joinFirstAvailable(nickname);
+            case "js" -> { //per chiedere di inserire l'ID del gioco a cui vuole aggiungersi
+                Integer gameId = askGameId();
+                if (gameId == -1)
+                    return false;
+                else
+                    joinGame(nickname, gameId);
+            }
+            //caso in cui l'utente sta cercando di riconnettersi all'ultimo gioco in cui era coinvolto
+            case "x" -> reconnect(nickname, fileDisconnection.getLastGameId(nickname));
+            default -> {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    //metodo per chiedere all'utente l'ID del gioco a cui vuole unirsi
+    private Integer askGameId() {
+        String temp;
+        Integer gameID = null;
+        //ciclo do while finché l'ID inserito non è corretto
+        do {
+            ui.show_insertGameIDMessage();
+            try {
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                if (temp.equals(".")) {
+                    return -1; //processo interrotto
+                }
+                gameID = Integer.parseInt(temp); //conversione input in integer
+            } catch (NumberFormatException e) {
+                ui.show_GameIDNotValidMessage(); //messaggio di errore sul gameID inserito
+            }
+
+        } while (gameID == null);
+        return gameID;
+    }
+
+
 
 
 

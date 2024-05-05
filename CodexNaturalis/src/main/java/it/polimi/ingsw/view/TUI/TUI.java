@@ -181,19 +181,13 @@ public class TUI extends UI {
     protected void show_creatingNewGameMessage(String nickname) {
 
     }
-
     @Override
-    protected void show_inputGameIdMessage() {
+    public void show_insertNicknameMessage() {
 
     }
 
     @Override
-    protected void show_insertNicknameMessage() {
-
-    }
-
-    @Override
-    protected void show_chosenNickname(String nickname) {
+    public void show_chosenNickname(String nickname) {
 
     }
 
