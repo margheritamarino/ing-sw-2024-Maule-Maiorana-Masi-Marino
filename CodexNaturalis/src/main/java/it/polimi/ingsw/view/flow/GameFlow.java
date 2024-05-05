@@ -11,6 +11,9 @@ import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.rmi.ClientRMI;
 import it.polimi.ingsw.network.socket.client.ClientSocket;
+import it.polimi.ingsw.view.Utilities.InputController;
+import it.polimi.ingsw.view.Utilities.InputReader;
+import it.polimi.ingsw.view.Utilities.InputTUI;
 import it.polimi.ingsw.view.Utilities.UI;
 import it.polimi.ingsw.view.TUI.TUI;
 import it.polimi.ingsw.view.events.Event;
@@ -32,22 +35,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
    // private final FileDisconnection fileDisconnection;
     private String lastPlayerReconnected;
     private final UI ui;
-
-    /**
-     * InputReader {@link InputReader} to read the input, and add it to the buffer.
-     * InputParser {@link InputParser} pops the input from the buffer and parses it
-     */
-   // protected InputParser inputParser;
-   //  protected InputReader inputReader;
-    /**
-     * Events that always need to be shown on the screen
-     */
+    protected InputController inputController;
+    protected InputReader inputReader;
     protected List<String> importantEvents;
     private boolean ended = false;
 
     /**
-     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI {@link UI}(TUI)
-     * the FileDisconnection {@link FileDisconnection}, the InputReader {@link InputReader} and the InputParser {@link InputParser}
+     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI,
+     * the FileDisconnection, the InputReader and the InputController
      *
      * @param connectionType the connection type
      */
@@ -62,40 +57,42 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         importantEvents = new ArrayList<>();
         nickname = "";
         fileDisconnection = new FileDisconnection();
-        this.inputReader = new inputReaderTUI();
-        this.inputParser = new InputParser(this.inputReader.getBuffer(), this);
+        this.inputReader = new InputTUI();
+        this.inputController = new InputController(this.inputReader.getBuffer(), this);
 
         new Thread(this).start();
+
     }
 
-    /**
-     * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI {@link UI} (GUI)
-     *
-     * @param guiApplication      the GUI application {@link GUIApplication}
-     * @param connectionSelection the connection type {@link ConnectionSelection}
-     */
+
+    /*
+
+    //Costruttore per la GUI
+
     public GameFlow(GUIApplication guiApplication, ConnectionType connectionType) {
         //Invoked for starting with GUI
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
             case RMI -> clientActions = new ClientRMI(this);
         }
-        this.inputReader = new inputReaderGUI();
+        this.inputReader = new inputGUI();
 
-        ui = new GUI(guiApplication, (inputReaderGUI) inputReader);
+        ui = new GUI(guiApplication, (inputGUI) inputReader);
         importantEvents = new ArrayList<>();
         nickname = "";
         fileDisconnection = new FileDisconnection();
 
-        this.inputParser = new InputParser(this.inputReader.getBuffer(), this);
+        this.inputController = new InputController(this.inputReader.getBuffer(), this);
         new Thread(this).start();
     }
+    */
 
 
     @Override
     public void run() {
         Event event;
         try {
+            //inizializza l'interfaccia utente per mostrare la schermata iniziale
             ui.show_publisher();
             events.add(null, EventType.BACK_TO_MENU);
         } catch (IOException | InterruptedException e) {
@@ -132,6 +129,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 }
             }
             try {
+                //dopo ogni ciclo il thread dorme per 100 ms
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -267,6 +265,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         clientActions.setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
+    @Override
+    public void requireGoalsReady(GameImmutable model) throws RemoteException {
+
+    }
 
 
     @Override
@@ -313,6 +315,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void lastCircle(GameImmutable model) throws RemoteException {
+
+    }
+
+    @Override
+    public void setInitialCard(int index) throws IOException {
 
     }
 
