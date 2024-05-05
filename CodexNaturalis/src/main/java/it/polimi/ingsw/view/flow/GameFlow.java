@@ -208,7 +208,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
-    public void statusEnded(Event event){
+    public void statusEnded(Event event) throws NotBoundException, IOException {
         switch (event.getType()) {
             case GAME_ENDED -> {
                 ui.show_returnToMenuMsg();
@@ -401,8 +401,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void gameEnded(GameImmutable model) throws RemoteException {
-
+    public void gameEnded(GameImmutable gameImmutable) throws RemoteException {
+        events.add(gameImmutable, EventType.GAME_ENDED);
+        ended = true;
+        ui.show_gameEnded(gameImmutable);
+        //TODO quando aggiungiamo la disconnessione fai metodo RESET gioco
     }
 
     @Override
@@ -472,7 +475,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void lastCircle(GameImmutable model) throws RemoteException {
-
+        ui.addImportantEvent("Last circle begin!");
     }
 
     @Override

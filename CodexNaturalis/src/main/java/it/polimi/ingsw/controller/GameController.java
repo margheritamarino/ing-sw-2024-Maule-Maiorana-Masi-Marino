@@ -129,6 +129,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
+
     @Override
     public synchronized void setInitialCard(String playerName, int index) throws NotPlayerTurnException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
@@ -174,4 +175,5 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             throw new NotPlayerTurnException("ERROR: not the Player's turn");
         }
     }
+
 }

@@ -84,7 +84,7 @@ public abstract class UI {
      * Shows the game ended message
      * @param model where the game is ended
      */
-    protected abstract void show_gameEnded(GameImmutable model);
+    public abstract void show_gameEnded(GameImmutable model);
 
 
     public abstract void show_GameIDNotValidMessage();
@@ -166,5 +166,6 @@ public abstract class UI {
      * Shows an error when there's no connection
      */
     protected abstract void show_noConnectionError();
+
 
 }
