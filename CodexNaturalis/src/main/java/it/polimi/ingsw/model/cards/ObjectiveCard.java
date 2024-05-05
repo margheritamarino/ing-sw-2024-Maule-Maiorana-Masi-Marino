@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
 
 
 import java.util.List;
 
-public class ObjectiveCard {
+public class ObjectiveCard implements ObjectiveCardIC {
     private int cardID;
     private boolean isFront;
     private GoalType goalType;
