@@ -168,4 +168,7 @@ public abstract class UI {
     protected abstract void show_noConnectionError();
 
 
+    public abstract void show_wrongSelectionInitialMsg();
+
+    public abstract void show_wrongSelectionObjectiveMsg();
 }
