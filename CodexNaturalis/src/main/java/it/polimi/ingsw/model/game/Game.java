@@ -685,6 +685,9 @@ public class Game {
 	}
 
 	public void placeCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException, PlacementConditionViolated {
+
+
+
 		int points= currentPlayer.placeCard(posCell, posCard);
 		scoretrack.addPoints(currentPlayer, points);
 		// Notifica gli ascoltatori dell'evento di piazzamento carta

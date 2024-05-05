@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     protected InputReader inputReader;
     protected List<String> importantEvents;
     private boolean ended = false;
+
 
     /**
      * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI,
@@ -162,8 +164,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 this.inputController.setGameID(event.getModel().getGameId());
 
             }
+            case NEXT_TURN -> {
+                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
+                    askPlaceCards(event.getModel());
 
-            //ALTRI CASE DA AGGIUNGERE
+
+                }
+            }
 
         }
 
@@ -286,7 +293,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -308,7 +314,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 }
                 gameID = Integer.parseInt(temp); //conversione input in integer
             } catch (NumberFormatException e) {
-                ui.show_GameIDNotValidMessage(); //messaggio di errore sul gameID inserito
+                ui.show_NotValidMessage(); //messaggio di errore sul gameID inserito
             }
 
         } while (gameID == null);
@@ -316,8 +322,70 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
+    public void askReadyToStart(){
+        String answer;
+        do {
+            try {
+                answer = this.inputController.getUnprocessedData().popInputData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } while (!answer.equals("yes"));
+        setAsReady();
+    }
+
+        int columnCell;
+        do {
+            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose column: ", gameModel), DefaultValue.PlaygroundSize + 1);
+            if (ended) return;
+        } while (columnCell > DefaultValue.BookSize);
+
+    //metodo per chiedere il numero della carta (scelta fronte o retro, o carta 1 o 2)
+    private Integer askNum(String message, GameImmutable model){
+        String temp;
+        int num = -1;
+        do {
+            try {
+                ui.show_askNum(message, model, nickname);
+                //System.out.flush();
+
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+                    if (ended) return null; //il giocatore non può fare mosse
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                num = Integer.parseInt(temp); //traduco il numero in integer
+            } catch (InputMismatchException | NumberFormatException e) {
+                ui.show_NotValidMessage();
+            }
+        } while (num < 0);
+        return num;
+    }
 
 
+    public void askPlaceCards(GameImmutable model){
+        int posChosenCard;
+        ui.show_askPlaceCardsMainMsg();
+        posChosenCard = Objects.requireNonNullElse(askNum("> Choose which card to place: ", model), - 1);
+
+        int rowCell;
+        do {
+            rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", gameModel), DefaultValue.PlaygroundSize + 11);
+            if (ended) return;
+        } while (rowCell > DefaultValue.BookSize);
+
+        placeCardInBook(posChosenCard, rowCell, columnCell );
+    }
+
+    @Override
+    public void placeCardInBook(int ChosenCard, int rowCell, int columnCell ){
+        try {
+            clientActions.placeCardInBook(ChosenCard, rowCell, columnCell);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
 
 
     /* METODI CHE IL SERVER HA RICEVUTO DAL CLIENT */
@@ -423,10 +491,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         clientActions.setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
-    @Override
-    public void requireGoalsReady(GameImmutable model) throws RemoteException {
-
-    }
 
     @Override
     public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {
@@ -506,13 +570,22 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void leave(String nick, int idGame) throws IOException, NotBoundException {
-
+    public void leave(String nick, int GameID) throws IOException, NotBoundException {
+        try {
+            clientActions.leave(nick, GameID);
+        } catch (IOException | NotBoundException e) {
+            noConnectionError();
+        }
     }
 
+    //il client setta se stesso come pronto
     @Override
     public void setAsReady() throws IOException {
-
+        try {
+            clientActions.setAsReady();
+        } catch (IOException e){
+            noConnectionError();
+        }
     }
 
     @Override

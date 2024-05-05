@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model;
 import java.io.Serializable;
 
-/**
- * This class contains all the default values we need in the project
- */
+//This class contains all the DEFAULT VALUES needed in the project
+
 public class DefaultValue implements Serializable {
 
     public final static boolean DEBUG = false;
@@ -19,13 +18,20 @@ public class DefaultValue implements Serializable {
     public final static int NumOfColumnsBook = 70;
     public final static int NumOfRowsBook = 70;
 
-    //public final static int Default_port_RMI = 4321;
-    //public final static int Default_port_Socket = 4320;
-    //public static String serverIp = "127.0.0.1";
-    //public final static String Remote_ip = "127.0.0.1";
+    public final static int Default_port_RMI = 4321;
+    public final static int Default_port_Socket = 4320;
+    public static String serverIp = "127.0.0.1";
+    public final static String Remote_ip = "127.0.0.1";
 
     public final static int MaxEventToShow = 6; //da definire
     public final static String Default_servername_RMI = "CodexNaturalis";
+
+    public final static int secondsToWaitReconnection = 30;
+    public final static int timeoutConnection_millis =3000;
+    public final static int secondToWaitToSend_heartbeat =500;
+    public final static Long timeout_for_detecting_disconnection = 4000L;
+
+
 
     //aggiungiamo tutti i valori ROW/COL che specificano in quale parte
     //dell'INTERFACCIA UTENTE appariranno le INFO di ciascuna classe e i messaggi

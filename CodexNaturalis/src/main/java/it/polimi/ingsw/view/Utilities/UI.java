@@ -87,7 +87,7 @@ public abstract class UI {
     public abstract void show_gameEnded(GameImmutable model);
 
 
-    public abstract void show_GameIDNotValidMessage();
+    public abstract void show_NotValidMessage();
 
     protected abstract void show_temporaryInitialCards(GameImmutable model);
     protected abstract void show_ObjectiveCards(GameImmutable model);
@@ -168,4 +168,7 @@ public abstract class UI {
     protected abstract void show_noConnectionError();
 
 
+    public abstract void show_wrongSelectionInitialMsg();
+
+    public abstract void show_wrongSelectionObjectiveMsg();
 }
