@@ -114,7 +114,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_whichObjectiveCard() {
+    public void show_whichObjectiveCards() {
         printAsync("> Choose one of this two objective cards:");
     }
 
