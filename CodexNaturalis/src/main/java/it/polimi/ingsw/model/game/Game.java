@@ -695,14 +695,16 @@ public class Game {
 	}
 
 
-	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException, FileNotFoundException, DeckFullException {
+	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos)  {
 		try {
 			currentPlayer.pickCard(board, cardType, drawFromDeck, pos);
 		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException("cannot find json file");
+			System.err.println("cannot find json file");
 		} catch (DeckEmptyException e) {
-            throw new DeckEmptyException("Resource cards' deck is empty");
-        }
+            System.err.println("Resource cards' deck is empty");
+        }catch (DeckFullException e){
+			System.err.println("PlayerDeck is full");
+		}
         // Notifica ai listeners che una carta è stata pescata
 		listenersHandler.notify_CardDrawn(this);
 	}

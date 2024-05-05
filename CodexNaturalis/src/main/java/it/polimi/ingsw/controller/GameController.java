@@ -75,8 +75,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getNumPlayersOnline();
     }
 
-
-
     /**
      * Set the @param p player ready to start
      * When all the players are ready to start, the game starts (game status changes to running)
@@ -98,10 +96,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.setInitialStatus();
             return true;
         }
-
         return false;//Game non started yet
     }
-
 
     /**
      * Check if it's your turn
@@ -121,8 +117,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.setPlayerDisconnected(nick);
     }
 
-
-//DA CAPIRE MODEL.ADDPLAYER
     /**
      * Adds a new player to the match.
      *
@@ -135,6 +129,28 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
+    @Override
+    public synchronized void setInitialCard(String playerName, int index) throws NotPlayerTurnException {
+        Player currentPlayer = model.getPlayerByNickname(playerName);
+        if(currentPlayer.equals(model.getCurrentPlayer())){
+            model.setInitialCard(currentPlayer, index);
+        }else{
+            throw new NotPlayerTurnException("ERROR: not the Player's turn");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * gets th Game ID of the current Game
      * @return
@@ -144,8 +160,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public int getGameId() throws RemoteException {
         return model.getGameId();
     }
-
-
 
     @Override
     public void leave(GameListenerInterface lis, String nick) throws RemoteException {
@@ -157,16 +171,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
     @Override
     public void run() {
-       // IMPLEMENTA
-    }
-
-    @Override
-    public synchronized void setInitialCard(String playerName, int index) throws NotPlayerTurnException {
-        Player currentPlayer = model.getPlayerByNickname(playerName);
-        if(currentPlayer.equals(model.getCurrentPlayer())){
-            model.setInitialCard(currentPlayer, index);
-        }else{
-            throw new NotPlayerTurnException("ERROR: not the Player's turn");
-        }
+        // IMPLEMENTA
     }
 }
