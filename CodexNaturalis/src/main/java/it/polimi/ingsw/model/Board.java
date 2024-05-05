@@ -158,14 +158,11 @@ public class Board implements Serializable, BoardIC {
     }
 
     //COME ISTANZIARE UNA PLAYABLE CARD??
-    public PlayableCardIC[] takeCardfromBoardIC(CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException, IndexOutOfBoundsException {
-        PlayableCard[] cards = takeCardfromBoard(cardType, drawFromDeck, pos);
-        PlayableCard[] copiedCards = new PlayableCard[cards.length];
-        for (int i = 0; i < cards.length; i++) {
-            copiedCards[i] = new PlayableCard(cards[i]); // Copia di ogni PlayableCard nell'array copiato
+    public PlayableCardIC[] takeCardfromBoardIC(CardType cardType, boolean drawFromDeck, int pos) throws IndexOutOfBoundsException, DeckEmptyException {
+            return takeCardfromBoard( cardType,  drawFromDeck,  pos);
+
+
         }
-        return copiedCards;
-    }
 
         /**
          * Update array.

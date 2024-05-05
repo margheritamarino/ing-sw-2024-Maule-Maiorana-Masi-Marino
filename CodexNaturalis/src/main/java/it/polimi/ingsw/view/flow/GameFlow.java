@@ -244,7 +244,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    /* METODI ASK DA FARE */
+    /* METODI ASK DA FARE */ //Azioni che il Server richiede al Client di eseguire
 
 
     private void askNickname() {
