@@ -119,7 +119,9 @@ public class TUI extends UI {
                 ? System.console().charset()
                 : Charset.defaultCharset()
         ).println(ansi().fg(Ansi.Color.RED).a("""
-                //STAMPA CODEX NATURALIS
+
+//CODEX NATURALIS
+
                       """).reset());
     }
 
