@@ -239,7 +239,7 @@ public class TUI extends UI {
 
     @Override
     protected void show_playerDeck(GameImmutable model) {
-
+        //TODO mostra le carte in mano del giocatore
     }
 
 
@@ -335,5 +335,16 @@ public class TUI extends UI {
     protected void show_noConnectionError() {
 
     }
+
+    /**
+     * Messages that always need to be on screen
+     *
+     * @param model
+     * @param nick
+     */
+    public void show_alwaysShow(GameImmutable model, String nick) {
+       //TODO
+    }
+
 
 }

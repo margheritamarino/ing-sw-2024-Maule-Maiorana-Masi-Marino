@@ -89,6 +89,9 @@ public interface ClientInterface  {
      * @throws RemoteException
      */
     void heartbeat() throws RemoteException;
+
+
+    void placeCardInBook(int chosenCard, int rowCell, int columnCell);
 }
 
 
