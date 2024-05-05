@@ -198,7 +198,7 @@ public class GameImmutable implements Serializable {
      */
     public int getNumPlayersOnline() {
         int numplayers = 0;
-        for (Player player : players) {
+        for (PlayerIC player : players) {
             if (player.isConnected()) {
                 numplayers++;
             }
@@ -210,8 +210,8 @@ public class GameImmutable implements Serializable {
     /**
      * @return current player's Goal
      */
-    public ObjectiveCard getCurrentPlayerGoal() {
-        return currentPlayer.getGoal();
+    public ObjectiveCard getCurrentPlayerGoalIC() {
+        return (ObjectiveCard) currentPlayer.getGoalIC();
     }
 
     public void addPlayer(String nick) {
