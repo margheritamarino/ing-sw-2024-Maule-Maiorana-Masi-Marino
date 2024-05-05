@@ -105,4 +105,6 @@ public interface GameControllerInterface extends Remote {
 
 
     void setInitialCard(String nickname, int index) throws NotPlayerTurnException;
+
+    void setGoalCard(String nickname, int index);
 }

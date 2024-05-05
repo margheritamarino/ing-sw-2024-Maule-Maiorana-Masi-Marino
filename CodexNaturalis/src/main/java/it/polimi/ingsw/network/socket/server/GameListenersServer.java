@@ -4,7 +4,7 @@ import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.*;
+import it.polimi.ingsw.network.socket.client.serverToClientMessages.*;
 
 
 import java.io.Serializable;
@@ -161,7 +161,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     public void gameStarted(GameImmutable model) throws RemoteException {
         //System.out.println(gamemodel.getGameId() +" game started by socket");
         try {
-            out.writeObject(new msgGameStarted(model));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());

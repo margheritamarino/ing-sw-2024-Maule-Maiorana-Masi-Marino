@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
+package it.polimi.ingsw.network.socket.client.serverToClientMessages;
 
 
 import it.polimi.ingsw.listener.GameListenerInterface;
