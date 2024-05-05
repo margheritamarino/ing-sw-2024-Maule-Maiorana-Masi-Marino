@@ -19,6 +19,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+// Capire COSA deve avere una IC (è una copia?), COSA deve essere mandato sulla Rete:
+// vanno bene anche metodi che fanno una COPIA della vera e propria istanza (es. che duplica la Carta Obiettivo del Player)
+// e poi vengono mandati sulla rete
+
 /**
  * A different implementation of the GameModel class, this is the one we send to the CLIENTS
  * As such, we need to make all the objects in this class immutable, so that the clients
@@ -210,13 +214,11 @@ public class GameImmutable implements Serializable {
     /**
      * @return current player's Goal
      */
-    public ObjectiveCard getCurrentPlayerGoalIC() {
+    public ObjectiveCardIC getCurrentPlayerGoalIC() {
         return (ObjectiveCard) currentPlayer.getGoalIC();
     }
 
-    public void addPlayer(String nick) {
 
-    }
 
 
 }

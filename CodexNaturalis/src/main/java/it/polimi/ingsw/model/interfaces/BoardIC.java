@@ -18,7 +18,7 @@ public interface BoardIC {
 
     ObjectiveCardIC takeObjectiveCardIC() throws DeckEmptyException; //CONTROLLA
 
-    PlayableCardIC[] takeCardfromBoardIC(CardType cardType, boolean drawFromDeck, int pos); //CONTROLLA
+    PlayableCardIC[] takeCardfromBoardIC(CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException; //CONTROLLA
 
     boolean verifyGoldCardsNumber();
     boolean verifyResourceCardsNumber();

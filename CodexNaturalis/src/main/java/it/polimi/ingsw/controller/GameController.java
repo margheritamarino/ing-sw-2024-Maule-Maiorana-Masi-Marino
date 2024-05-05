@@ -114,7 +114,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void disconnectPlayer(String nick, GameListenerInterface lisOfClient) throws RemoteException {
-        model.setPlayerDisconnected(nick);
+        //TODO
     }
 
     /**
@@ -126,6 +126,16 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public void addPlayer(String nick) throws MatchFull, NicknameAlreadyTaken {
         model.addPlayer(nick);
+    }
+    /**
+     * remove a player from the game.
+     *
+     * @param nick the nickname of the player to add.
+     * @throws MatchFull if the match is already full and no more players can be added.
+     * @throws NicknameAlreadyTaken if the specified nickname is already in use by another player.
+     */
+    public void removePlayer(String nick) {
+        model.removePlayer(nick);
     }
 
 

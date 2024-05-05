@@ -244,7 +244,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    /* METODI ASK DA FARE */
+    /* METODI ASK DA FARE */ //Azioni che il Server richiede al Client di eseguire
 
 
     private void askNickname() {
@@ -333,7 +333,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         ui.show_playerJoined(gameModel, nickname);
         ui.addImportantEvent("[EVENT]: Player " + nickname + " joined the game!");
-
 
     }
 
