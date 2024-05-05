@@ -15,16 +15,10 @@ public interface PlayerIC {
     String getNickname();
 
     /**
-     * This method is used to get the state of the player
-     * @return the state of the player.
+     * This method check if the player is connected
+     * @return true if the player is connected
      */
-    PlayerState getPlayerState();
-
-    /**
-     * This method is used to get the state of the player
-     * @return the state of the player.
-     */
-    ObjectiveCard getGoal();
+    boolean isConnected();
 
     /**
      * This method check if the player is ready to start
@@ -33,15 +27,16 @@ public interface PlayerIC {
     boolean getReadyToStart();
 
     /**
-     * This method check if the player is connected
-     * @return true if the player is connected
+     * This method is used to get the state of the player
+     * @return the state of the player.
      */
-    boolean isConnected();
+    PlayerState getPlayerState();
+
 
     /**
      * @return the objective card of the player  {@link ObjectiveCardIC}, his personal Goal
      */
-    public ObjectiveCardIC getGoalIC();
+    ObjectiveCardIC getGoalIC();
 
     /**
      * @return the book of the player  {@link BookIC}
@@ -51,5 +46,5 @@ public interface PlayerIC {
     /**
      * @return the 'playerDeck' of the player  {@link PlayerDeckIC}
      */
-    public List<PlayableCardIC> getPlayerDeckIC();
+    List<PlayableCardIC> getPlayerDeckIC();
 }
