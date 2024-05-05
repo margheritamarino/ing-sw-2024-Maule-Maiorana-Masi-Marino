@@ -91,7 +91,7 @@ public interface ClientInterface  {
     void heartbeat() throws RemoteException;
 
 
-    void placeCardInBook(int chosenCard, int rowCell, int columnCell);
+    void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
 }
 
 

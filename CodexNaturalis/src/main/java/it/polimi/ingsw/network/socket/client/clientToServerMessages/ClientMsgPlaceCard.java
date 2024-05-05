@@ -41,6 +41,6 @@ public class ClientMsgPlaceCard extends ClientGenericMessage {
      */
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException, NotPlayerTurnException {
-        gameController.placeCardOnBook(chosenCard,rowCell,columnCell);
+        gameController.placeCardInBook(nickname,chosenCard,rowCell,columnCell);
     }
 }

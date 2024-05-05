@@ -151,9 +151,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     @Override
-    public synchronized void placeCardOnBook(String playerName){
+    public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int columnCell){
         Player currentPlayer = model.getPlayerByNickname(playerName);
         if(currentPlayer.equals(model.getCurrentPlayer())){
+
+        }
     }
 
 
