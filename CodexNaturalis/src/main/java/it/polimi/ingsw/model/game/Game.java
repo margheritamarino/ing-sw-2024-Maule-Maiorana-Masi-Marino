@@ -627,7 +627,6 @@ public class Game {
 		PlayableCard chosenInitialCard = temporaryInitialCard[pos];
 		Book playerBook= player.getPlayerBook();
 		playerBook.addInitial(chosenInitialCard);
-
 	}
 
 
@@ -657,11 +656,11 @@ public class Game {
 	 * Assigns the chosen objective card to a specific player.
 	 *
 	 * @param player The player to whom the chosen objective card will be assigned.
-	 * @param chosenCard The objective card to be assigned to the player.
+	 * @param index the idenx of the objective card to be assigned to the player.
 	 */
-	public void setPlayerGoal(Player player, ObjectiveCard chosenCard) {
-		player.setGoal(chosenCard);
-		player.setReadyToStart(); //The player has all the Cards in the Deck: he's ready to start
+	public void setPlayerGoal(Player player, int index) {
+		ObjectiveCard chosenObjectiveCard = temporaryObjectiveCards.get(index);
+		player.setGoal(chosenObjectiveCard);
 	}
 
 

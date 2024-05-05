@@ -1,11 +1,9 @@
-package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
+package it.polimi.ingsw.network.socket.client.serverToClientMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 public class msgRequireGoalsReady extends SocketServerGenericMessage {
     private GameImmutable model;
