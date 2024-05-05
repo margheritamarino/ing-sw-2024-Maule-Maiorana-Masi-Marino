@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.gameControllerMessages;
+package it.polimi.ingsw.network.socket.client.clientToServerMessages;
 
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.listener.GameListenerInterface;

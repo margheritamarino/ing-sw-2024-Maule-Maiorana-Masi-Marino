@@ -32,7 +32,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     private String nickname;
     private final EventList events = new EventList();
     private ClientInterface clientActions;
-   // private final FileDisconnection fileDisconnection;
+    // private final FileDisconnection fileDisconnection;
     private String lastPlayerReconnected;
     private final UI ui;
     protected InputController inputController;

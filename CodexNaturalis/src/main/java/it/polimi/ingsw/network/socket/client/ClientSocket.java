@@ -3,12 +3,12 @@ package it.polimi.ingsw.network.socket.client;
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgHeartBeat;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgSetInitial;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgSetObjective;
-import it.polimi.ingsw.network.socket.client.gameControllerMessages.ClientMsgSetReady;
+import it.polimi.ingsw.network.socket.client.clientToServerMessages.ClientMsgHeartBeat;
+import it.polimi.ingsw.network.socket.client.clientToServerMessages.ClientMsgSetInitial;
+import it.polimi.ingsw.network.socket.client.clientToServerMessages.ClientMsgSetObjective;
+import it.polimi.ingsw.network.socket.client.clientToServerMessages.ClientMsgSetReady;
 import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
-import it.polimi.ingsw.network.socket.client.serverToClientGenericMessages.SocketServerGenericMessage;
+import it.polimi.ingsw.network.socket.client.serverToClientMessages.SocketServerGenericMessage;
 
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;

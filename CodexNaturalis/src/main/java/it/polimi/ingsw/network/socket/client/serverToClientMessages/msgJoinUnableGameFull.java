@@ -1,27 +1,28 @@
-package it.polimi.ingsw.network.socket.client.serverToClientGenericMessages;
+package it.polimi.ingsw.network.socket.client.serverToClientMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.model.player.Player;
 
 import java.rmi.RemoteException;
 
 /**
- * msgPlayerDisconnected class.
+ * msgJoinUnableGameFull class.
  * Extends SocketServerGenericMessage and is used to send a message to the client
- * indicating that a player has been disconnected from the game.
+ * indicating that a player was unable to join the game because it is full.
  */
-public class msgPlayerDisconnected extends SocketServerGenericMessage{
-    private String nickname;
+public class msgJoinUnableGameFull extends SocketServerGenericMessage{
+    private Player player;
     private GameImmutable model;
 
     /**
      * Constructor of the class.
+     * @param player the player who was unable to join the game
      * @param model the immutable game model
-     * @param nickname the nickname of the disconnected player
      */
-    public msgPlayerDisconnected(GameImmutable model,String nickname) {
-        this.nickname = nickname;
-        this.model=model;
+    public msgJoinUnableGameFull(Player player, GameImmutable model) {
+        this.player = player;
+        this.model = model;
     }
 
     /**
@@ -31,6 +32,6 @@ public class msgPlayerDisconnected extends SocketServerGenericMessage{
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.playerDisconnected(model,nickname);
+        // lis.JoinUnableGameFull(player,model);
     }
 }

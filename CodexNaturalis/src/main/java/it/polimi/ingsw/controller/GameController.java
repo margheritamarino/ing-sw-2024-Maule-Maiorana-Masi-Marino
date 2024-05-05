@@ -142,15 +142,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
 
-
-
-
-
-
-
-
-
-
     /**
      * gets th Game ID of the current Game
      * @return
@@ -178,7 +169,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized void setGoalCard(String playerName, int index) throws NotPlayerTurnException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
         if(currentPlayer.equals(model.getCurrentPlayer())){
-            model.setPlayerGoal(currentPlayer, index); //TODO risalire alla carta objective card scelta dall'index
+            model.setPlayerGoal(currentPlayer, index);
         }else{
             throw new NotPlayerTurnException("ERROR: not the Player's turn");
         }
