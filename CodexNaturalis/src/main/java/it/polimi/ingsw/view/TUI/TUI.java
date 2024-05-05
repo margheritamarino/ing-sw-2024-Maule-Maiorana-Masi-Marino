@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.TUI;
 
+import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.interfaces.PlayerIC;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -243,12 +244,13 @@ public class TUI extends UI {
 
 
 
+
     @Override
-    protected void show_gameEnded(GameImmutable model) {
+    public void show_gameEnded(GameImmutable model) {
         clearScreen();
         resize();
         show_titleCodexNaturalis();
-        //...
+        //... //TODO stampa scritte di fine gioco
     }
 
     public void show_chooseFrontOrBack(){
