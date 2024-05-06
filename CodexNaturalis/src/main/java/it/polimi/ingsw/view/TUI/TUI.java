@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.TUI;
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.interfaces.PlayerIC;
 import org.fusesource.jansi.Ansi;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.Utilities.UI;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
@@ -161,8 +163,8 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_temporaryInitialCards(GameImmutable model){
-        //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
+    protected void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException {
+        model.getTemporaryInitialCardsDeck(); //carte da mandare a video tra cui scegliere
     }
 
     @Override

@@ -1,8 +1,10 @@
 package it.polimi.ingsw.view.Utilities;
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -86,7 +88,7 @@ public abstract class UI {
 
     public abstract void show_NotValidMessage();
 
-    protected abstract void show_temporaryInitialCards(GameImmutable model);
+    protected abstract void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException;
     protected abstract void show_ObjectiveCards(GameImmutable model);
 
     public abstract void show_playerJoined(GameImmutable gameModel, String nick);
