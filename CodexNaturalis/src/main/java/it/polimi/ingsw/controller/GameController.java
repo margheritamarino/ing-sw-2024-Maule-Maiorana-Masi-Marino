@@ -108,6 +108,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return false;//Game non started yet
     }
 
+
+    @Override
+    public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int colCell){
+        Player currentPlayer = model.getPlayerByNickname(playerName);
+        if(currentPlayer.equals(model.getCurrentPlayer())){
+            model.placeCardTurn(model.getPlayerByNickname(playerName), chosenCard, rowCell, colCell);
+
+        }
+    }
+
+
+
     /**
      * Check if it's your turn
      *
@@ -147,14 +159,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.setInitialCard(currentPlayer, index);
         }else{
             throw new NotPlayerTurnException("ERROR: not the Player's turn");
-        }
-    }
-
-    @Override
-    public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int columnCell){
-        Player currentPlayer = model.getPlayerByNickname(playerName);
-        if(currentPlayer.equals(model.getCurrentPlayer())){
-
         }
     }
 

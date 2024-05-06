@@ -687,14 +687,12 @@ public class Game {
 		return currentPlayer.getPlayerDeck();
 	}
 
-	public void placeCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException, PlacementConditionViolated {
+	public void placeCardTurn( Player p, int chosenCard, int rowCell, int colCell) throws InvalidPointsException, PlayerNotFoundException {
 
-
-
-		int points= currentPlayer.placeCard(posCell, posCard);
-		scoretrack.addPoints(currentPlayer, points);
+		int points= p.placeCard(chosenCard, rowCell, colCell);
+		scoretrack.addPoints(p, points);
 		// Notifica gli ascoltatori dell'evento di piazzamento carta
-		listenersHandler.notify_CardPlaced(this, currentPlayer, posCell, posCard);
+		listenersHandler.notify_CardPlaced(this, currentPlayer, rowCell, colCell);
 
 	}
 
