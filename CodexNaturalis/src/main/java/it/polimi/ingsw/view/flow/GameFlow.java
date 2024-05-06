@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.flow;
 
 
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.cards.InitialCard;
+import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -339,13 +339,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         do {
             rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
             if (ended) return;
-        } while (rowCell > DefaultValue.BookSize);
+        } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin );
 
         int columnCell;
         do {
             columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
             if (ended) return;
-        } while (columnCell > DefaultValue.BookSize);
+        } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin);
 
 
         placeCardInBook(posChosenCard, rowCell, columnCell );
