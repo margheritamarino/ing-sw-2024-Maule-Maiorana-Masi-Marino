@@ -178,16 +178,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     //metodo chiamato quando un giocatore non viene aggiunto alla partita correttamente
-    public void statusNotInAGame(Event event){
+    public void statusNotInAGame(Event event) throws NotBoundException, IOException, InterruptedException {
         switch (event.getType()) {
 
             //caso: game non valido -> back to menu
             case BACK_TO_MENU -> {
                 //ciclo per chiedere al giocatore di selezionare una partita valida
-                boolean selectionGame;
-                do {
-                    selectionGame = askSelectGame();
-                } while (!selectionGame);
+                int gameID=-1; //DOVE METTERE QUESTO per settare inizialmente il gameID a -1 e farlo impostare al 1° giocatore che si connette?
+                if(gameID==-1) {
+                    gameID=askGameId();
+                }
+                joinGame(nickname, gameID); //non gli faccio scegliere l'ID
+
             }
 
             case NICKNAME_ALREADY_IN -> {
@@ -264,37 +266,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_chosenNickname(nickname);
     }
 
-    //metodo per guidare l'utente nel processo di selezione del gioco
-    private void askSelectGame() throws NotBoundException, IOException, InterruptedException {
-        String gameChosen;
-        ended = false;
-        ui.show_menuOptions();
 
-        try {
-            gameChosen = this.inputController.getUnprocessedData().popInputData();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        if (gameChosen.equals(".")) //se l'input è . il meccanismo di selezione termina
-            System.exit(1);
-        askNickname();
-
-        switch (gameChosen) {
-            case "c" -> createGame(nickname);
-            case "j" -> joinFirstAvailable(nickname);
-            case "js" -> { //per chiedere di inserire l'ID del gioco a cui vuole aggiungersi
-                Integer gameId = askGameId();
-                if (gameId == -1)
-                    return false;
-                else
-                    joinGame(nickname, gameId);
-            }
-            default -> {
-                return false;
-            }
-        }
-        return true;
-    }
 
     //metodo per chiedere all'utente l'ID del gioco a cui vuole unirsi
     private Integer askGameId() {
@@ -556,20 +528,23 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     /* METODI CHE IL CLIENT RICHIEDE AL SERVER */
-    @Override
-    public void createGame(String nick) throws IOException, InterruptedException, NotBoundException {
 
+    /**
+     * The client asks the server to join a specific game
+     *
+     * @param nick   nickname of the player
+     * @param idGame id of the game to join
+     */
+    @Override
+    public void joinGame(String nick, int idGame) throws IOException, InterruptedException {
+        ui.show_joiningToGameMsg(idGame, nick);
+        try {
+            clientActions.joinGame(nick, idGame);
+        } catch (IOException | InterruptedException | NotBoundException e) {
+            noConnectionError();
+        }
     }
 
-    @Override
-    public void joinFirstAvailable(String nick) throws IOException, InterruptedException, NotBoundException {
-
-    }
-
-    @Override
-    public void joinGame(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
-
-    }
 
     @Override
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {

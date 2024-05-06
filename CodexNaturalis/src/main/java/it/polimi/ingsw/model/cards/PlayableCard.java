@@ -112,7 +112,7 @@ public abstract class PlayableCard implements PlayableCardIC {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //capire se serve aggiungere altro
         StringBuilder result = new StringBuilder();
 
         // Colori per le diverse tipologie di carte
