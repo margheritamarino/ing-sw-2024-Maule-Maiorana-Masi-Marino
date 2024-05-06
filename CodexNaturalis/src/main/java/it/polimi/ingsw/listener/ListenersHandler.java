@@ -71,6 +71,32 @@ public class ListenersHandler {
         }
     }
 
+    public synchronized void notify_NotCorrectChoosenCard(Game model){
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.notChoosenCard( new GameImmutable(model));
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_NotCorrectChoosenCard, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    public synchronized void notify_NotCorrectChoosenCell(Game model){
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.notChoosenCell( new GameImmutable(model));
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_NotCorrectChoosenCell, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
     /**
      * The notify_PlayerLeft method notifies that a player has left the game
      * @param model is the Game to pass as a new GameModelImmutable
