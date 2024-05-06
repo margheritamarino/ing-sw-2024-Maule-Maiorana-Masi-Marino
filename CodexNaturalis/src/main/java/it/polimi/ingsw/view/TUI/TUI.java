@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoCursorReset;
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.ansi;
 
 
@@ -49,6 +51,7 @@ public class TUI extends UI {
      */
     public void resize() {
         try {
+            //ridimensionamento della console impostando il nuovo numero di righe e colonne
             //TODO (da capire)
             new ProcessBuilder("cmd", "/c", "mode con:cols=160 lines=50").inheritIO().start().waitFor();
         } catch (IOException | InterruptedException e) {
@@ -82,7 +85,7 @@ public class TUI extends UI {
         StringBuilder ris = new StringBuilder();
         int i = 0;
         int longestImportantEvent = eventsToShow.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
-        ris.append(ansi().fg(Ansi.Color.GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events - 1).bold().a("Latest Events:").fg(DEFAULT).boldOff());
+        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events - 1).bold().a("Latest Events:").fg(DEFAULT).boldOff());
         for (String s : eventsToShow) {
             ris.append(ansi().fg(Ansi.Color.WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).a(" ".repeat(longestImportantEvent - s.length())).fg(DEFAULT));
             i++;
@@ -107,7 +110,19 @@ public class TUI extends UI {
         this.resize();
 
         clearScreen();
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println(ansi().fg(GREEN).a("CRANIO CREATIONS").reset());
 
+        try {
+            Thread.sleep(DefaultValue.time_publisher_showing_seconds * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        this.show_titleCodexNaturalis();
     }
 
     /**
@@ -115,14 +130,12 @@ public class TUI extends UI {
      */
     public void show_titleCodexNaturalis(){
         //printstream per stampare nel terminale
+        //se esiste la console viene usato il set di caratteri della console
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
-                : Charset.defaultCharset()
-        ).println(ansi().fg(Ansi.Color.RED).a("""
-
-//CODEX NATURALIS
-
-                      """).reset());
+                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
+                //colore del testo ROSSO
+        ).println(ansi().fg(RED).a("CODEX NATURALIS").reset()); //per evitare che prossime stampe possano basarsi su questa
     }
 
     @Override
@@ -199,10 +212,6 @@ public class TUI extends UI {
 
     }
 
-    @Override
-    protected void show_creatingNewGameMessage(String nickname) {
-
-    }
     @Override
     public void show_insertNicknameMessage() {
 
@@ -365,6 +374,12 @@ public class TUI extends UI {
      */
     public void show_alwaysShow(GameImmutable model, String nick) {
        //TODO
+        this.clearScreen();
+        show_titleCodexNaturalis();
+        //show_gameId();
+        show_Book();
+        show_important_events();
+
     }
 
 
