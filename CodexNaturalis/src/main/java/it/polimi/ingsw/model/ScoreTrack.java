@@ -164,5 +164,19 @@ public class ScoreTrack implements Serializable {
 		return playerList;
 	}
 
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append("*******SCORETRACK*******: \n");
+		// Itera sulla mappa dei punti dei giocatori
+		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) {
+			Player player = entry.getKey();
+			int score = entry.getValue();
+			// Aggiungi il nome del giocatore seguito dal suo punteggio al risultato
+			result.append(player.getNickname()).append(": ").append(score).append("\n");
+		}
+		return result.toString();
+	}
+
+
 }
 

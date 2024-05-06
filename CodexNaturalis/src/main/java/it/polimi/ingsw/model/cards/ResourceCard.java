@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
+import org.fusesource.jansi.Ansi;
 
 import java.util.*;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class ResourceCard extends PlayableCard {
    private ResourceType mainResource;
@@ -140,4 +143,50 @@ public class ResourceCard extends PlayableCard {
       this.hasSymbol = hasSymbol;
       this.symbol = symbol;
    }
-}
+
+
+   @Override
+   public String toString() {
+      StringBuilder result = new StringBuilder();
+      Ansi.Color bgColor;
+      Ansi.Color textColor = Ansi.Color.WHITE;
+
+      //cambia il colore della carta in base alla mainResource
+      switch(mainResource){
+         case Fungi:
+            bgColor = Ansi.Color.RED;
+            break;
+         case Insect:
+            bgColor = Ansi.Color.MAGENTA;
+            break;
+         case Plant:
+            bgColor = Ansi.Color.GREEN;
+            break;
+         case Animal:
+            bgColor = Ansi.Color.BLUE;
+            break;
+         default:
+            bgColor = Ansi.Color.DEFAULT;
+      }
+
+      String cardTypeName = "Resource";
+      int points = victoryPoints;
+      List<String> corners = getCornerContent();
+
+      // Costruzione del risultato con colori e nome della carta
+      result.append(ansi().fg(textColor).bg(bgColor).a(" "));
+      result.append("CardType: ");
+      result.append(cardTypeName);
+      result.append("\n");
+      result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+      result.append("Points: ");
+      result.append(points);
+      result.append("\n");
+      result.append("Corners: ");
+      String formattedCorners = String.join(" ", corners);
+      result.append(formattedCorners);
+      result.append("\n");
+
+      return result.toString();
+   }
+   }

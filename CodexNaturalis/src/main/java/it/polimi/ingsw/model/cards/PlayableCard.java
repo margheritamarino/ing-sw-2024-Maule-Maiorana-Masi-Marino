@@ -112,45 +112,7 @@ public abstract class PlayableCard implements PlayableCardIC {
     }
 
     @Override
-    public String toString() { //capire se serve aggiungere altro
-        StringBuilder result = new StringBuilder();
+    public abstract String toString();
 
-        // Colori per le diverse tipologie di carte
-        Ansi.Color textColor;
-        Ansi.Color bgColor;
-        String cardTypeName;
-
-        // Impostazione dei colori e del nome della tipologia di carta
-        switch (cardType) {
-            case InitialCard:
-                textColor = Ansi.Color.WHITE;
-                bgColor = Ansi.Color.BLUE;
-                cardTypeName = "Initial";
-                break;
-            case ResourceCard:
-                textColor = Ansi.Color.WHITE;
-                bgColor = Ansi.Color.RED;
-                cardTypeName = "Resource Card";
-                break;
-            case GoldCard:
-                textColor = Ansi.Color.WHITE;
-                bgColor = Ansi.Color.YELLOW;
-                cardTypeName = "Gold Card";
-                break;
-            default:
-                // Nel caso in cui il tipo di carta non sia riconosciuto
-                textColor = Ansi.Color.DEFAULT;
-                bgColor = Ansi.Color.DEFAULT;
-                cardTypeName = "Unknown Card";
-        }
-
-        // Costruzione del risultato con colori e nome della carta
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append(cardTypeName);
-        result.append(" ");
-        result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-
-        return result.toString();
-    }
 
 }

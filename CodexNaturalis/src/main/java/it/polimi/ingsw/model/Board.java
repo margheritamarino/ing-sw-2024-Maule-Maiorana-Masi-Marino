@@ -240,5 +240,34 @@ public class Board implements Serializable, BoardIC {
         return objectiveCardsDeck.getNumCards() == 16 - 2 - playersNumber;
     }
 
+    @Override
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append("*******BOARD*******\n");
+        //GOLDCARDS
+        result.append("GOLDCARDS DECK: \n");
+        result.append(goldCardsDeck.getBackCards().get(0).toString());
+        result.append("GOLDCARD 0: \n");
+        result.append(goldCards.get(0)[0].toString());
+        result.append("GOLDCARD 1: \n");
+        result.append(goldCards.get(1)[0].toString());
+
+        //RESOURCECARD
+        result.append("RESOURCECARDS DECK: \n");
+        result.append(resourcesCardsDeck.getBackCards().get(0).toString());
+        result.append("RESOURCECARD 0: \n");
+        result.append(resourceCards.get(0)[0].toString());
+        result.append("RESOURCECARD 1: \n");
+        result.append(resourceCards.get(1)[0].toString());
+
+        //OBJECTIVE
+        result.append("OBJECTIVECARD 0: \n");
+        result.append(objectiveCards[0].toString());
+        result.append("OBJECTIVECARD 1: \n");
+        result.append(objectiveCards[1].toString());
+
+        return result.toString();
+    }
+
 }
 

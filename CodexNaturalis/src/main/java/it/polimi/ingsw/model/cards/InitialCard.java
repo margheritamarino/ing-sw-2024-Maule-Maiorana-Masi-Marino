@@ -2,9 +2,12 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
+import org.fusesource.jansi.Ansi;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class InitialCard extends PlayableCard {
     List<ResourceType> centralResources;
@@ -136,5 +139,35 @@ public class InitialCard extends PlayableCard {
         this.numCentralResource = numCentralResource;
         this.numResources = numResources;
         this.resourceList = resourceList;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        Ansi.Color bgColor = Ansi.Color.YELLOW;
+        Ansi.Color textColor = Ansi.Color.WHITE;
+        String cardTypeName = "Initial";
+
+        List<String> corners = getCornerContent();
+        List<ResourceType> centralR = getCentralResources();
+
+        // Costruzione del risultato con colori e nome della carta
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
+        result.append(cardTypeName);
+        result.append(" ");
+        result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        String formattedCorners = String.join(" ", corners);
+        result.append(formattedCorners);
+        result.append(" ");
+        // Aggiungi gli elementi di conditionList formattati con spazi tra di loro
+        for (int i = 0; i < centralR.size(); i++) {
+            result.append(centralR.get(i));
+            // Aggiungi uno spazio solo se non è l'ultimo elemento della lista
+            if (i < centralR.size() - 1) {
+                result.append(" ");
+            }
+        }
+
+        return result.toString();
     }
 }

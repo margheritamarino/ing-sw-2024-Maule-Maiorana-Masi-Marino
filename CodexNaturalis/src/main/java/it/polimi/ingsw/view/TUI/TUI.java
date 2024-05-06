@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.TUI;
 
+import it.polimi.ingsw.exceptions.DeckEmptyException;
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.interfaces.PlayerIC;
 import org.fusesource.jansi.Ansi;
@@ -8,6 +10,7 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.Utilities.UI;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
@@ -108,13 +111,22 @@ public class TUI extends UI {
         ).println(ansi().fg(RED).a("CODEX NATURALIS").reset()); //per evitare che prossime stampe possano basarsi su questa
     }
 
-    public void show_scoretrack(){
+
+    public void show_scoretrack(GameImmutable model) {
+        printAsync(model.getScoretrack().toString());
+    }
+
+    public void show_board(GameImmutable model) {
+        printAsync(model.getBoard().toString());
+    }
+
+    public void show_playerBook(GameImmutable model){
+
+
 
     }
 
-    public void show_board(){
 
-    }
 
 
 
@@ -264,6 +276,10 @@ public class TUI extends UI {
     @Override
     protected void show_playerDeck(GameImmutable model) {
         //TODO mostra le carte in mano del giocatore
+
+    }
+    public void show_card(GameImmutable model, int index){
+        model.getCurrentPlayer().getPlayerDeckIC().get(index).
     }
 
 
