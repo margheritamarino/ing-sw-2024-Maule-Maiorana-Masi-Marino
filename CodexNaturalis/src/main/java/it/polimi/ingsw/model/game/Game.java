@@ -691,18 +691,22 @@ public class Game {
 			listenersHandler.notify_CardPlaced(this);
 			return points;
 		}catch(PlacementConditionViolated e){
-			listenersHandler.notify_CardCannotBePlaced(this);
+			listenersHandler.notify_NotCorrectChosenCard(this);
+			return 0;
+		}catch (IndexOutOfBoundsException e){
+			listenersHandler.notify_NotCorrectChosenCell(this);
 			return 0;
 		}
 
-
-		// Notifica gli ascoltatori dell'evento di piazzamento carta
-
 	}
 
-	public void addPoints(Player p, int points) throws InvalidPointsException, PlayerNotFoundException {
+	public void addPoints(Player p, int points) throws  {
+			try {
+				scoretrack.addPoints(p, points);
+			}catch (InvalidPointsException | PlayerNotFoundException e ){
 
-			scoretrack.addPoints(p, points);
+			}
+
 
 	}
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos)  {
