@@ -1,15 +1,11 @@
 package it.polimi.ingsw.network.rmi;
 
 
-import it.polimi.ingsw.exceptions.DeckEmptyException;
-import it.polimi.ingsw.exceptions.DeckFullException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
-import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.cards.CardType;
 
-import java.io.FileNotFoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -109,5 +105,5 @@ public interface GameControllerInterface extends Remote {
     public void setGoalCard(String nickname, int index) throws NotPlayerTurnException;
 
      void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell);
-     synchronized GameControllerInterface createGame(GameListenerInterface lis, String nick) throws RemoteException;
+     public GameControllerInterface joinGame(GameListenerInterface lis, String nick) throws RemoteException;
 }

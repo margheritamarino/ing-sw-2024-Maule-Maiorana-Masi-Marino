@@ -6,6 +6,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.listener.ListenersHandler;
 import it.polimi.ingsw.model.Heartbeat;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
@@ -48,15 +49,31 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     private Thread reconnectionTh;
 
+    //Singleton
+    /**
+     * Singleton Pattern, instance of the class
+     */
+    private static GameController instance = null;
 
     /**GameController Constructor
      * Init a GameModel
      */
-    public GameController(Map<GameListenerInterface, <Heartbeat> heartbeats) throws FileNotFoundException, FileReadException, DeckEmptyException {
-        this.heartbeats = heartbeats;
+    public GameController() throws FileNotFoundException, FileReadException, DeckEmptyException {
+        //Map<GameListenerInterface, Heartbeat> heartbeats;
+       // this.heartbeats = heartbeats;
         model = new Game();
     }
-
+    /**
+     * Singleton Pattern
+     *
+     * @return the only one instance of the GameController class
+     */
+    public synchronized static GameController getInstance() {
+        if (instance == null) {
+            instance = new GameController();
+        }
+        return instance;
+    }
 
 
     /**
@@ -75,6 +92,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public synchronized boolean playerIsReadyToStart(String p) {
         model.playerIsReadyToStart(model.getPlayerByNickname(p));
+        model.initializeCards(model.getPlayerByNickname(p));
 
         //La partita parte automaticamente quando tutti i giocatori sono pronti
         if (model.arePlayersReadyToStartAndEnough()) {
@@ -84,12 +102,23 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.setCurrentPlayer(players.get(orderArray[0]);
 
             model.initializeBoard();
-            model.initializeCards();
             model.setInitialStatus();
             return true;
         }
         return false;//Game non started yet
     }
+
+
+    @Override
+    public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int colCell){
+        Player currentPlayer = model.getPlayerByNickname(playerName);
+        if(currentPlayer.equals(model.getCurrentPlayer())){
+            model.placeCardTurn(model.getPlayerByNickname(playerName), chosenCard, rowCell, colCell);
+
+        }
+    }
+
+
 
     /**
      * Check if it's your turn
@@ -109,16 +138,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         //TODO
     }
 
-    /**
-     * Adds a new player to the match.
-     *
-     * @param nick the nickname of the player to add.
-     * @throws MatchFull if the match is already full and no more players can be added.
-     * @throws NicknameAlreadyTaken if the specified nickname is already in use by another player.
-     */
-    public void addPlayer(String nick) throws MatchFull, NicknameAlreadyTaken {
-        model.addPlayer(nick);
-    }
+
     /**
      * remove a player from the game.
      *
@@ -139,14 +159,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.setInitialCard(currentPlayer, index);
         }else{
             throw new NotPlayerTurnException("ERROR: not the Player's turn");
-        }
-    }
-
-    @Override
-    public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int columnCell){
-        Player currentPlayer = model.getPlayerByNickname(playerName);
-        if(currentPlayer.equals(model.getCurrentPlayer())){
-
         }
     }
 
@@ -186,40 +198,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public synchronized GameControllerInterface createGame(GameListenerInterface lis, String nick) throws RemoteException, FileNotFoundException, FileReadException, DeckEmptyException {
-        Player p = new Player(nick);
+    public GameControllerInterface joinGame(GameListenerInterface lis, String nick) throws RemoteException {
+        if(model.getNumPlayers()==0){
 
-
-        GameController c = new GameController();
-        c.addListener(lis, p);
-
-        printAsync("\t>Game " + c.getGameId() + " added to runningGames, created by player:\"" + nick + "\"");
-
-        try {
-            c.addPlayer(p);
-        } catch (MaxPlayersInException | PlayerAlreadyInException e) {
-            lis.genericErrorWhenEnteringGame(e.getMessage());
+            model.setGameId(1);
         }
+        model.addPlayer(nick);
+        model.addListener(lis);
+        return getInstance();
 
-        return c;
     }
-    /**
-     * Add listener @param l to model listeners and player listeners
-     *
-     * @param l GameListener to add
-     * @param p entity of the player
-     */
-    public void addListener(GameListenerInterface l, Player p) {
-        model.addListener(l);
-        for (GameListenerInterface othersListener : model.getListeners()) {
-            p.addListener(othersListener);
-        }
-        for (Player otherPlayer : model.getPlayers()) {
-            if (!otherPlayer.equals(p)) {
-                otherPlayer.addListener(l);
-            }
-        }
-    }
+
+
 
 
     @Override

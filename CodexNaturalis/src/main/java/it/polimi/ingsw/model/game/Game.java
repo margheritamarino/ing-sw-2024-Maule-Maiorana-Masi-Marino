@@ -253,33 +253,42 @@ public class Game {
 	 * @throws NicknameAlreadyTaken if the provided nickname is already taken.
 	 * @throws MatchFull if the game is full and cannot accommodate more players.
 	 */
-	public void addPlayer(String nickname) throws NicknameAlreadyTaken, MatchFull {
+	public void addPlayer(String nickname) {
 		// Check if the game is not full and the nickname is not taken
-		if (!isFull()) {
+		try {
+			// Check if the game is not full
+			if (isFull()) {
+				// Game is full
+				listenersHandler.notify_JoinUnableGameFull(null, this);
+				throw new MatchFull("There are already 4 players");
+			}
+
+			// Check if the nickname is already taken
+			if (checkNickname(nickname)) {
+				// Nickname is already taken
+				listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
+				throw new NicknameAlreadyTaken("The nickname " + nickname + " is already taken");
+			}
+
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname);
-
-			// Add the new player to the list of players
 			players.add(newPlayer);
-
-			// Add the new player to the score track
 			scoretrack.addPlayer(newPlayer);
-
 			// Increment the number of players
 			playersNumber++;
 
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname);
 
-		} else if (checkNickname(nickname)) {
-			// Notify listeners that the nickname is already taken
-			listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
-			throw new NicknameAlreadyTaken(nickname);
-		} else {
-			// Notify listeners that the game is full
-			listenersHandler.notify_JoinUnableGameFull(null, this);
-			throw new MatchFull("There are already 4 players");
+		} catch (NicknameAlreadyTaken e) {
+			// Handle the case where the nickname is already taken
+			System.err.println("Error: " + e.getMessage());
+
+		} catch (MatchFull e) {
+			// Handle the case where the game is full
+			System.err.println("Error: " + e.getMessage());
 		}
+
 	}
 
 	/**
@@ -569,43 +578,37 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void initializeCards() {
+	public void initializeCards(Player player) {
 		boolean initializationSuccessful = true;
-		for (Player player : players) {
-			try {
 
-				temporaryInitialCard = initialCardsDeck.returnCard();
-				listenersHandler.notify_requireInitial(this);
+		try {
+			temporaryInitialCard = initialCardsDeck.returnCard();
+			listenersHandler.notify_requireInitial(this);
 
-				//GOLD CARD E RESOURCE CARD
-				for (int i = 0; i < 2; i++) {
-					player.pickCard(board, CardType.ResourceCard, true, 0);
-				}
-				player.pickCard(board, CardType.GoldCard, true, 0);
-
-				temporaryObjectiveCards = drawObjectiveCards();
-				// Inizializza gli obiettivi
-				listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
-
-			} catch (FileNotFoundException e) {
-				System.err.println("Error: file not found during cards initialization - " + e.getMessage());
-				initializationSuccessful = false;
-
-			} catch (DeckEmptyException e) {
-				System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
-				initializationSuccessful = false;
-
-
-			} catch (DeckFullException e) {
-				System.err.println("Error: playerDeck full during cards initialization - " + e.getMessage());
-				initializationSuccessful = false;
+			//GOLD CARD E RESOURCE CARD
+			for (int i = 0; i < 2; i++) {
+				player.pickCard(board, CardType.ResourceCard, true, 0);
 			}
+			player.pickCard(board, CardType.GoldCard, true, 0);
+
+			temporaryObjectiveCards = drawObjectiveCards();
+			// Inizializza gli obiettivi
+			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Error: file not found during cards initialization - " + e.getMessage());
+			initializationSuccessful = false;
+
+		} catch (DeckEmptyException e) {
+			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
+			initializationSuccessful = false;
+
+
+		} catch (DeckFullException e) {
+			System.err.println("Error: playerDeck full during cards initialization - " + e.getMessage());
+			initializationSuccessful = false;
 		}
 
-		// Dopo aver gestito l'inizializzazione per ogni giocatore, notificare che le carte sono pronte
-		if (initializationSuccessful) {
-			listenersHandler.notify_cardsReady(this);
-		}
 	}
 
 	public PlayableCard[] getInitialCard(){
@@ -684,14 +687,12 @@ public class Game {
 		return currentPlayer.getPlayerDeck();
 	}
 
-	public void placeCardTurn( int posCell, int posCard) throws InvalidPointsException, PlayerNotFoundException, PlacementConditionViolated {
+	public void placeCardTurn( Player p, int chosenCard, int rowCell, int colCell) throws InvalidPointsException, PlayerNotFoundException {
 
-
-
-		int points= currentPlayer.placeCard(posCell, posCard);
-		scoretrack.addPoints(currentPlayer, points);
+		int points= p.placeCard(chosenCard, rowCell, colCell);
+		scoretrack.addPoints(p, points);
 		// Notifica gli ascoltatori dell'evento di piazzamento carta
-		listenersHandler.notify_CardPlaced(this, currentPlayer, posCell, posCard);
+		listenersHandler.notify_CardPlaced(this, currentPlayer, rowCell, colCell);
 
 	}
 
@@ -776,10 +777,12 @@ public class Game {
 	 * @return player by nickname
 	 */
 	public Player getPlayerByNickname(String playerNickname) {
-		List<Player> ris = players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList();
-		if(ris.size()>0){
-			return ris.get(0);
-		}
-		return null;
+		// Utilizza lo stream per cercare un giocatore con il nickname specificato
+		Optional<Player> optionalPlayer = players.stream()
+				.filter(player -> player.getNickname().equals(playerNickname))
+				.findFirst();
+
+		// Restituisce il giocatore se trovato, altrimenti null
+		return optionalPlayer.orElse(null);
 	}
 }

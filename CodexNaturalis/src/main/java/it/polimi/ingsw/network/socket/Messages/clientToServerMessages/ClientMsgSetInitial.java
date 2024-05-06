@@ -13,20 +13,8 @@ public class ClientMsgSetInitial extends ClientGenericMessage {
     public ClientMsgSetInitial(String nickname, int index) {
         this.nickname = nickname;
         this.index = index;
-        this.isMessageForMainController = false;
     }
 
-    /**
-     * Method to execute the corresponding action for the message.
-     * @param lis the game listener
-     * @param mainController the main controller of the application
-     * @return the game controller interface
-     * @throws RemoteException if there is an error in remote communication
-     */
-    @Override
-    public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
-        return null;
-    }
 
     /**
      * Method to execute the corresponding action for the message.

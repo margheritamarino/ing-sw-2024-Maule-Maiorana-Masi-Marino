@@ -1,5 +1,6 @@
 package it.polimi.ingsw.listener;
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -96,7 +97,7 @@ public interface GameListenerInterface extends Remote {
      * @param model       is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void requireInitialReady(GameImmutable model) throws IOException;
+    void requireInitialReady(GameImmutable model) throws IOException, FileReadException;
 
     /**
      * Notifies the listeners that objective cards are ready
@@ -106,13 +107,6 @@ public interface GameListenerInterface extends Remote {
     void requireGoalsReady(GameImmutable model) throws RemoteException;
 
     void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException;
-
-    /**
-     * Notifies the listeners that all cards are ready
-     * @param model is the game model
-     * @throws RemoteException if the reference could not be accessed
-     */
-    void cardsReady(GameImmutable model) throws RemoteException;
 
     /**
      * This method is used to notify that a card has been placed on the book

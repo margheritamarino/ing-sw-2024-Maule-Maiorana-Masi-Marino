@@ -99,44 +99,5 @@ public class ClientRMI implements ClientInterface {
         }
 
     }
-    @Override
-    public void createGame(String nick) throws IOException, InterruptedException, NotBoundException {
 
-    }
-
-    @Override
-    public void joinFirstAvailable(String nick) throws IOException, InterruptedException, NotBoundException {
-
-    }
-
-    @Override
-    public void joinGame(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
-
-    }
-
-    @Override
-    public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
-
-    }
-
-    @Override
-    public void leave(String nick, int idGame) throws IOException, NotBoundException {
-
-    }
-
-    @Override
-    public void setAsReady() throws IOException {
-
-    }
-
-    @Override
-    public boolean isMyTurn() throws RemoteException {
-        return false;
-    }
-
-
-    @Override
-    public void heartbeat() throws RemoteException {
-
-    }
 }
