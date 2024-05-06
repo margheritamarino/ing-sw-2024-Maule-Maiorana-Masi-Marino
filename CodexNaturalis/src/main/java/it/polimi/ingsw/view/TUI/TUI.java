@@ -15,8 +15,7 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoCursorReset;
-import static org.fusesource.jansi.Ansi.Color.GREEN;
-import static org.fusesource.jansi.Ansi.Color.RED;
+import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
 
@@ -46,18 +45,78 @@ public class TUI extends UI {
         eventsToShow = new ArrayList<>();
     }
 
-    /**
-     * Resizes the console
-     */
-    public void resize() {
-        try {
-            //ridimensionamento della console impostando il nuovo numero di righe e colonne
-            //TODO (da capire)
-            new ProcessBuilder("cmd", "/c", "mode con:cols=160 lines=50").inheritIO().start().waitFor();
-        } catch (IOException | InterruptedException e) {
-            //couldn't resize the terminal window
-        }
+
+    //messaggio di benvenuto per ogni giocatore in grassetto
+    public void show_welcome(String nick) {
+        printAsync(ansi().fg(BLUE).a("Welcome " + nick).boldOff());
     }
+
+    /**
+     * Shows all players nicknames
+     * @param model
+     */
+    public void show_allPlayers(GameImmutable model) {
+        //toStringListPlayer restituisce la lista dei giocatori attuali
+        printAsync("Players: \n" + model.toStringListPlayers());
+
+    }
+
+    //show di ciò che deve essere sempre mostrato a tutti durante il gioco
+    public void show_alwaysShow(GameImmutable model, String nick) {
+        show_alwaysShowForAll(model);
+        show_welcome(nick);
+    }
+
+    public void show_alwaysShowForAll(GameImmutable model) {
+        this.clearScreen();
+        show_titleCodexNaturalis();
+        show_gameId(model);
+        show_board(model);
+        show_scoretrack(model);
+        //show_points(model);
+        show_important_events();
+    }
+
+    @Override
+    public void show_publisher() throws IOException, InterruptedException {
+        clearScreen();
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println(ansi().fg(GREEN).a("CRANIO CREATIONS").reset());
+
+        try {
+            Thread.sleep(DefaultValue.time_publisher_showing_seconds);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        this.show_titleCodexNaturalis();
+    }
+
+    /**
+     * Prints title of the game
+     */
+    public void show_titleCodexNaturalis(){
+        //printstream per stampare nel terminale
+        //se esiste la console viene usato il set di caratteri della console
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
+                //colore del testo ROSSO
+        ).println(ansi().fg(RED).a("CODEX NATURALIS").reset()); //per evitare che prossime stampe possano basarsi su questa
+    }
+
+    public void show_scoretrack(){
+
+    }
+
+    public void show_board(){
+
+    }
+
+
+
+
 
     /**
      * @param input the string of the important event to add
@@ -94,53 +153,6 @@ public class TUI extends UI {
 
         printAsync(ansi().cursor(DefaultValue.row_input, 0));
     }
-
-    /**
-     * Shows all players nicknames
-     * @param model
-     */
-    public void show_allPlayers(GameImmutable model) {
-        //toStringListPlayer restituisce la lista dei giocatori attuali
-        printAsync("Players: \n" + model.toStringListPlayers());
-
-    }
-
-
-
-    //mostra il logo cranio creations
-    @Override
-    public void show_publisher() throws IOException, InterruptedException {
-        this.resize();
-
-        clearScreen();
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset()
-        ).println(ansi().fg(GREEN).a("CRANIO CREATIONS").reset());
-
-        try {
-            Thread.sleep(DefaultValue.time_publisher_showing_seconds * 1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        this.show_titleCodexNaturalis();
-    }
-
-    /**
-     * Prints title of the game
-     */
-    public void show_titleCodexNaturalis(){
-        //printstream per stampare nel terminale
-        //se esiste la console viene usato il set di caratteri della console
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
-                //colore del testo ROSSO
-        ).println(ansi().fg(RED).a("CODEX NATURALIS").reset()); //per evitare che prossime stampe possano basarsi su questa
-    }
-
     @Override
     public void show_creatingNewGameMsg(String nickname) {
 
@@ -197,13 +209,6 @@ public class TUI extends UI {
 
     }
 
-    /**
-     * Shows a welcome message
-     * @param nick
-     */
-    public void show_welcome(String nick) {
-  //      printAsync(ansi().cursor(DefaultValue.row_nextTurn + 1, 0).bold().a("Welcome " + nick).boldOff());
-    }
 
     @Override
     protected void show_joiningFirstAvailableMsg(String nickname) {
@@ -237,23 +242,6 @@ public class TUI extends UI {
 
 
     /**
-     * Stuff that always needs to be visible
-     *
-     * @param model
-     */
-    public void show_alwaysShowForAll(GameImmutable model) {
-        this.clearScreen();
-        //resize();
-        show_titleCodexNaturalis();
-        show_gameId(model);
-        //show_board(model);
-        //show_scoretrack(model);
-        show_messages(model);
-        //show_points(model);
-        //show_important_events();
-    }
-
-    /**
      * Shows the game id
      * @param gameModel
      */
@@ -262,17 +250,18 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_gameStarted(GameImmutable model) {
+    public void show_gameStarted(GameImmutable model) throws IOException, InterruptedException {
         this.clearScreen();
+        this.show_publisher();
         this.show_titleCodexNaturalis();
-        this.show_allPlayers(model);
+        this.show_allPlayers(model); //mostra la lista dei giocatori
         this.show_alwaysShowForAll(model);
         this.show_gameId(model);
     }
 
     @Override
     protected void show_playerDeck(GameImmutable model) {
-
+        //TODO mostra le carte in mano del giocatore
     }
 
 
@@ -281,7 +270,6 @@ public class TUI extends UI {
     @Override
     public void show_gameEnded(GameImmutable model) {
         clearScreen();
-        resize();
         show_titleCodexNaturalis();
         //... //TODO stampa scritte di fine gioco
     }
@@ -335,9 +323,11 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_askNum(String msg, GameImmutable gameModel, String nickname) {
-
+    protected void show_askNum(String msg, GameImmutable model, String nickname) {
+        this.show_alwaysShow(model, nickname);
+        //TODO
     }
+
 
     @Override
     protected void show_pickCellRequest() {
@@ -369,21 +359,7 @@ public class TUI extends UI {
 
     }
 
-    /**
-     * Messages that always need to be on screen
-     *
-     * @param model
-     * @param nick
-     */
-    public void show_alwaysShow(GameImmutable model, String nick) {
-       //TODO
-        this.clearScreen();
-        show_titleCodexNaturalis();
-        //show_gameId();
-        show_Book();
-        show_important_events();
 
-    }
 
 
 }
