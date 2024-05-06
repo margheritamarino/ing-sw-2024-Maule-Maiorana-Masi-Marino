@@ -68,8 +68,8 @@ public class TUI extends UI {
     public void show_alwaysShow(GameImmutable model, String nick) {
         show_alwaysShowForAll(model);
         show_welcome(nick);
-        show_playerDeck();
-        show_playerBook();
+        show_playerDeck(model);
+        show_playerBook(model);
     }
 
     public void show_alwaysShowForAll(GameImmutable model) {
@@ -83,7 +83,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_publisher() throws IOException, InterruptedException {
+    public void show_publisher(){
         clearScreen();
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
@@ -120,6 +120,7 @@ public class TUI extends UI {
         printAsync(model.getBoard().toString());
     }
 
+    //TODO
     public void show_playerBook(GameImmutable model){
         printAsync(model.getCurrentPlayer().getPlayerBookIC().toString());
     }
@@ -204,13 +205,6 @@ public class TUI extends UI {
         }
     }
 
-    /**
-     * Shows the chat messages
-     * @param model
-     */
-    public void show_messages(GameImmutable model){
-
-    }
 
     /**
      * Shows the next player
