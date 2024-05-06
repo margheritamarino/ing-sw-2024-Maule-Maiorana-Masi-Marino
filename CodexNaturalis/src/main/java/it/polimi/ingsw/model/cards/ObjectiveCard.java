@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
+import org.fusesource.jansi.Ansi;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class ObjectiveCard implements ObjectiveCardIC {
     private int cardID;
@@ -90,6 +93,66 @@ public class ObjectiveCard implements ObjectiveCardIC {
                 this.secondResource
         );
         return copiedCard;
+    }
 
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        Ansi.Color bgColor = null;
+        Ansi.Color textColor = Ansi.Color.WHITE;
+        String condition = " ";
+
+
+        switch(goalType){
+            case ResourceCondition:
+                changeColor();
+                condition = mainResource.toString();
+                break;
+            case SymbolCondition:
+                bgColor = Ansi.Color.YELLOW;
+                List<SymbolType> symbols = getSymbols();
+                break;
+            case DiagonalPlacement, LPlacement:
+                changeColor();
+                condition = direction.toString();
+                break;
+            default:
+                bgColor = Ansi.Color.DEFAULT;
+        }
+
+        String cardTypeName = "Objective";
+        int points = victoryPoints;
+
+        // Costruzione del risultato con colori e nome della carta
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
+        result.append("CardType: ");
+        result.append(cardTypeName);
+        result.append("\n");
+        result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        result.append("Points: ");
+        result.append(points);
+        result.append("\n");
+        result.append("Condition: ");
+        result.append(condition);
+        for (int i = 0; i < symbols.size(); i++) {
+            result.append(symbols.get(i));
+            // Aggiungi uno spazio solo se non è l'ultimo elemento della lista
+            if (i < symbols.size() - 1) {
+                result.append(" ");
+            }
+        }
+
+        return result.toString();
+    }
+
+    public void changeColor(){
+        Ansi.Color bgColor = switch (mainResource) {
+            case Fungi -> Ansi.Color.RED;
+            case Insect -> Ansi.Color.MAGENTA;
+            case Plant -> Ansi.Color.GREEN;
+            case Animal -> Ansi.Color.BLUE;
+            default -> Ansi.Color.DEFAULT;
+        };
+        //cambia il colore della carta in base alla mainResource
     }
 }
