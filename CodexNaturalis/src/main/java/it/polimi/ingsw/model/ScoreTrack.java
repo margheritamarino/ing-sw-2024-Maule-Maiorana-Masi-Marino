@@ -37,13 +37,15 @@ public class ScoreTrack implements Serializable {
 	 * Removes a player from the score tracking system.
 	 * @param player The player to be removed.
 	 */
-	public void removePlayer(Player player) throws PlayerNotFoundException {
-		// Check if the player exists in the map
-		if (pointsPlayers.containsKey(player)) {
-			// Remove the player from the map
-			pointsPlayers.remove(player);
-		} else {
-			throw new PlayerNotFoundException("Player not found in the score tracking system.");
+	public void removePlayer(Player player) {
+		try {
+			if (pointsPlayers.containsKey(player)) {
+				pointsPlayers.remove(player);
+			} else {
+				throw new PlayerNotFoundException("Player not found in the score tracking system.");
+			}
+		} catch (PlayerNotFoundException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 
