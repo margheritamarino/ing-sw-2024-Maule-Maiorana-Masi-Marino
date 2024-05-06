@@ -1,23 +1,24 @@
-package it.polimi.ingsw.network.socket.client.serverToClientMessages;
+package it.polimi.ingsw.network.socket.Messages.serverToClientMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.rmi.RemoteException;
 
 /**
- * msgGameIdNotExists class.
+ * msgGameEnded class.
  * Extends SocketServerGenericMessage and is used to send a message to the client
- * indicating that the specified game ID does not exist.
+ * indicating that the game has ended.
  */
-public class msgGameIdNotExists extends SocketServerGenericMessage {
-    private int gameid;
+public class msgGameEnded extends SocketServerGenericMessage {
+    private GameImmutable model;
 
     /**
      * Constructor of the class.
-     * @param gameid the ID of the non-existent game
+     * @param model the immutable game model
      */
-    public msgGameIdNotExists(int gameid) {
-        this.gameid = gameid;
+    public msgGameEnded(GameImmutable model) {
+        this.model = model;
     }
 
     /**
@@ -27,7 +28,7 @@ public class msgGameIdNotExists extends SocketServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.gameIdNotExists(gameid);
+        lis.gameEnded(model);
     }
 
 }

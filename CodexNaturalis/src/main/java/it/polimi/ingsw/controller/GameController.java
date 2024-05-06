@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
+import static it.polimi.ingsw.view.PrintAsync.printAsync;
+
 /**
  * GameController Class
  * Controls a specific Game {@link Game} by allowing a player to perform all actions that can be executed in a game
@@ -50,22 +52,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**GameController Constructor
      * Init a GameModel
      */
-    public GameController(Map<GameListenerInterface, Heartbeat> heartbeats) throws FileNotFoundException, FileReadException, DeckEmptyException {
+    public GameController(Map<GameListenerInterface, <Heartbeat> heartbeats) throws FileNotFoundException, FileReadException, DeckEmptyException {
         this.heartbeats = heartbeats;
         model = new Game();
     }
-    /** @return the list of the players currently playing in the Game (online and offline)     */
-    public ArrayList<Player> getPlayers() {
-        return model.getPlayers();
-    }
-    /**
-     * Returns num of current players that are in the game (online and offline)
-     *
-     * @return num of current players
-     */
-    public int getNumOfPlayers() {
-        return model.getNumPlayers();
-    }
+
+
 
     /**
      * @return the number of online players that are in the game
@@ -173,14 +165,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void leave(GameListenerInterface lis, String nick) throws RemoteException {
         //IMPLEMENTA
     }
-    @Override
-    public void heartbeat(String nick, GameListenerInterface me) throws RemoteException {
 
-    }
-    @Override
-    public void run() {
-        // IMPLEMENTA
-    }
 
     @Override
     public synchronized void setGoalCard(String playerName, int index) throws NotPlayerTurnException {
@@ -190,6 +175,61 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }else{
             throw new NotPlayerTurnException("ERROR: not the Player's turn");
         }
+    }
+
+    /**
+     * Create a new game and join to it
+     *
+     * @param lis GameListener of the player who is creating the game
+     * @param nick Nickname of the player who is creating the game
+     * @return GameControllerInterface associated to the created game
+     * @throws RemoteException
+     */
+    @Override
+    public synchronized GameControllerInterface createGame(GameListenerInterface lis, String nick) throws RemoteException, FileNotFoundException, FileReadException, DeckEmptyException {
+        Player p = new Player(nick);
+
+
+        GameController c = new GameController();
+        c.addListener(lis, p);
+
+        printAsync("\t>Game " + c.getGameId() + " added to runningGames, created by player:\"" + nick + "\"");
+
+        try {
+            c.addPlayer(p);
+        } catch (MaxPlayersInException | PlayerAlreadyInException e) {
+            lis.genericErrorWhenEnteringGame(e.getMessage());
+        }
+
+        return c;
+    }
+    /**
+     * Add listener @param l to model listeners and player listeners
+     *
+     * @param l GameListener to add
+     * @param p entity of the player
+     */
+    public void addListener(GameListenerInterface l, Player p) {
+        model.addListener(l);
+        for (GameListenerInterface othersListener : model.getListeners()) {
+            p.addListener(othersListener);
+        }
+        for (Player otherPlayer : model.getPlayers()) {
+            if (!otherPlayer.equals(p)) {
+                otherPlayer.addListener(l);
+            }
+        }
+    }
+
+
+
+    @Override
+    public void heartbeat(String nick, GameListenerInterface me) throws RemoteException {
+
+    }
+    @Override
+    public void run() {
+        // IMPLEMENTA
     }
 
 }

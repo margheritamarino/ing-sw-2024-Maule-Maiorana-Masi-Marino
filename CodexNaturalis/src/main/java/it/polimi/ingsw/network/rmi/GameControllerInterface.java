@@ -104,9 +104,10 @@ public interface GameControllerInterface extends Remote {
     public int placeCard(int posCell, int posCard) throws RemoteException;
 
 
-    void setInitialCard(String nickname, int index) throws NotPlayerTurnException;
+    public void setInitialCard(String nickname, int index) throws NotPlayerTurnException;
 
-    void setGoalCard(String nickname, int index) throws NotPlayerTurnException;
+    public void setGoalCard(String nickname, int index) throws NotPlayerTurnException;
 
-    void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell);
+     void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell);
+     synchronized GameControllerInterface createGame(GameListenerInterface lis, String nick) throws RemoteException;
 }

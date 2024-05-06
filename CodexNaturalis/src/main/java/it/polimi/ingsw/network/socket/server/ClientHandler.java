@@ -8,10 +8,9 @@ import java.rmi.RemoteException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.socket.client.ClientGenericMessage;
+import it.polimi.ingsw.network.socket.Messages.ClientGenericMessage;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 

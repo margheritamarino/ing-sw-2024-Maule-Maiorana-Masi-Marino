@@ -1,24 +1,18 @@
-package it.polimi.ingsw.network.socket.client.clientToServerMessages;
+package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.ClientGenericMessage;
+import it.polimi.ingsw.network.socket.Messages.ClientGenericMessage;
 
 import java.rmi.RemoteException;
 
-public class ClientMsgPlaceCard extends ClientGenericMessage {
-    int chosenCard;
-    int rowCell;
-    int columnCell;
+public class ClientMsgSetObjective extends ClientGenericMessage {
+    int index;
 
-
-    public ClientMsgPlaceCard(String nickname, int chosenCard, int rowCell, int columnCell) {
+    public ClientMsgSetObjective(String nickname, int index) {
         this.nickname = nickname;
-        this.chosenCard = chosenCard;
-        this.rowCell = rowCell;
-        this.columnCell = columnCell;
+        this.index = index;
         this.isMessageForMainController = false;
     }
 
@@ -41,6 +35,6 @@ public class ClientMsgPlaceCard extends ClientGenericMessage {
      */
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException, NotPlayerTurnException {
-        gameController.placeCardInBook(nickname,chosenCard,rowCell,columnCell);
+        gameController.setGoalCard(this.nickname, this.index);
     }
 }

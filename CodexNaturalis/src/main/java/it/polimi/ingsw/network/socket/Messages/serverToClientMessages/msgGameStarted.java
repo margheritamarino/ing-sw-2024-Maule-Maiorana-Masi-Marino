@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.serverToClientMessages;
+package it.polimi.ingsw.network.socket.Messages.serverToClientMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -6,22 +6,28 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import java.rmi.RemoteException;
 
 /**
- * msgPlayerDisconnected class.
+ * msgGameStarted class.
  * Extends SocketServerGenericMessage and is used to send a message to the client
- * indicating that a player has been disconnected from the game.
+ * indicating that the game has started.
  */
-public class msgPlayerDisconnected extends SocketServerGenericMessage{
-    private String nickname;
+public class msgGameStarted extends SocketServerGenericMessage{
     private GameImmutable model;
+
+
+    /**
+     * Empty constructor of the class.
+     * Used when the game model is not provided.
+     */
+    public msgGameStarted() {
+
+    }
 
     /**
      * Constructor of the class.
      * @param model the immutable game model
-     * @param nickname the nickname of the disconnected player
      */
-    public msgPlayerDisconnected(GameImmutable model,String nickname) {
-        this.nickname = nickname;
-        this.model=model;
+    public msgGameStarted(GameImmutable model) {
+        this.model = model;
     }
 
     /**
@@ -31,6 +37,6 @@ public class msgPlayerDisconnected extends SocketServerGenericMessage{
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.playerDisconnected(model,nickname);
+        lis.gameStarted(model);
     }
 }

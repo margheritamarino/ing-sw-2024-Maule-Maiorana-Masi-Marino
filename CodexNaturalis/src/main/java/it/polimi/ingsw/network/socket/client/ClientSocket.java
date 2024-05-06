@@ -3,9 +3,10 @@ package it.polimi.ingsw.network.socket.client;
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
+import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
 import it.polimi.ingsw.network.socket.client.clientToServerMessages.*;
 import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
-import it.polimi.ingsw.network.socket.client.serverToClientMessages.SocketServerGenericMessage;
+import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.SocketServerGenericMessage;
 
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -176,7 +177,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void createGame(String nick) throws IOException {
         nickname = nick;
-        out.writeObject(new SocketClientMessageCreateGame(nick));
+        out.writeObject(new ClientMsgCreateGame(nick));
         finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();

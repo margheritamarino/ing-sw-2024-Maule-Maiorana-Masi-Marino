@@ -1,17 +1,16 @@
-package it.polimi.ingsw.network.socket.client.clientToServerMessages;
+package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.rmi.MainControllerInterface;
-import it.polimi.ingsw.network.socket.client.ClientGenericMessage;
+import it.polimi.ingsw.network.socket.Messages.ClientGenericMessage;
 
 import java.rmi.RemoteException;
 
-public class ClientMsgSetObjective extends ClientGenericMessage {
+public class ClientMsgSetInitial extends ClientGenericMessage {
     int index;
 
-    public ClientMsgSetObjective(String nickname, int index) {
+    public ClientMsgSetInitial(String nickname, int index) {
         this.nickname = nickname;
         this.index = index;
         this.isMessageForMainController = false;
@@ -36,6 +35,6 @@ public class ClientMsgSetObjective extends ClientGenericMessage {
      */
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException, NotPlayerTurnException {
-        gameController.setGoalCard(this.nickname, this.index);
+        gameController.setInitialCard(this.nickname, this.index);
     }
 }

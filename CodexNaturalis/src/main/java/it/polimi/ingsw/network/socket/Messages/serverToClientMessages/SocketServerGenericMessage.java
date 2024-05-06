@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.client.serverToClientMessages;
+package it.polimi.ingsw.network.socket.Messages.serverToClientMessages;
 
 import java.io.IOException;
 import java.io.Serializable;

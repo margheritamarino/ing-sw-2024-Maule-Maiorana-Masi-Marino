@@ -1,9 +1,9 @@
-package it.polimi.ingsw.network.socket.client;
+package it.polimi.ingsw.network.socket.Messages;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.rmi.MainControllerInterface;
 import it.polimi.ingsw.exceptions.GameEndedException;
 
 import java.io.Serializable;
@@ -21,11 +21,11 @@ public abstract class ClientGenericMessage implements Serializable{
     /**
      * Executes the corresponding action for the message.
      * @param lis the game listener
-     * @param mainController the main controller interface
+     * @param gameController the main controller interface
      * @return the game controller interface
      * @throws RemoteException if there is a remote exception
      */
-    public abstract GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException;
+    public abstract GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException;
 
     /**
      * Executes the corresponding action for the message.
@@ -35,21 +35,6 @@ public abstract class ClientGenericMessage implements Serializable{
      */
     public abstract void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException, NotPlayerTurnException;
 
-    /**
-     * Checks if the message is intended for the main controller.
-     * @return true if the message is intended for the main controller, false otherwise
-     */
-    public boolean isMessageForMainController() {
-        return isMessageForMainController;
-    }
-
-    /**
-     * Sets whether the message is intended for the main controller.
-     * @param messageForMainController true if the message is intended for the main controller, false otherwise
-     */
-    public void setMessageForMainController(boolean messageForMainController) {
-        isMessageForMainController = messageForMainController;
-    }
 
     /**
      * Returns the nickname associated with the message.
@@ -65,5 +50,6 @@ public abstract class ClientGenericMessage implements Serializable{
     public boolean isHeartbeat(){
         return isHeartbeat;
     }
+
 
 }
