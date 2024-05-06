@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player has left the game.
  */
-public class msgPlayerLeft extends SocketServerGenericMessage{
+public class msgPlayerLeft extends ServerGenericMessage {
     private GameImmutable model;
     private String nickname;
 

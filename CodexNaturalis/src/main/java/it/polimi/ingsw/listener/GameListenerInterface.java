@@ -1,6 +1,7 @@
 package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -114,7 +115,8 @@ public interface GameListenerInterface extends Remote {
      * @param player is the Player who placed the card
      * @throws RemoteException if the reference could not be accessed
      */
-    void cardPlaced(GameImmutable model, Player player, int posCell, int posCard) throws RemoteException;
+    void cardPlaced(GameImmutable model) throws RemoteException;
+
 
     /**
      * This method is used to notify that a card has been drawn

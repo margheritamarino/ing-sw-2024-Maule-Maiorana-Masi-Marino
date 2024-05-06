@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.socket.Messages.ClientGenericMessage;
+import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.ClientGenericMessage;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 

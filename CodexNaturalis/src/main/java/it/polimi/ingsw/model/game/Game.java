@@ -320,22 +320,20 @@ public class Game {
 	 * @throws  IllegalArgumentException if the player's nickname is not in the game
 	 */
 	public void removePlayer (String nickname) {
-		try{
-			for (int i = 0; i < players.size(); i++) {
-				if (players.get(i).getNickname().equals(nickname)) {
-					scoretrack.removePlayer(players.get(i));
-					players.remove(i);
-					listenersHandler.notify_PlayerLeft(this, nickname);
-					if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::isConnected).toList().size() <= 1) {
-						//Not enough players to keep playing
-						this.setStatus(GameStatus.ENDED);
-					}
+
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getNickname().equals(nickname)) {
+				scoretrack.removePlayer(players.get(i));
+				players.remove(i);
+				listenersHandler.notify_PlayerLeft(this, nickname);
+				if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::isConnected).toList().size() <= 1) {
+					//Not enough players to keep playing
+					this.setStatus(GameStatus.ENDED);
 				}
 			}
-
-		}catch (PlayerNotFoundException e){
-			System.err.println("Player is not in this game");
 		}
+
+
 	}
 
 	/**
@@ -687,16 +685,26 @@ public class Game {
 		return currentPlayer.getPlayerDeck();
 	}
 
-	public void placeCardTurn( Player p, int chosenCard, int rowCell, int colCell) throws InvalidPointsException, PlayerNotFoundException {
+	public int placeCardTurn( Player p, int chosenCard, int rowCell, int colCell)  {
+		try {
+			int points=  p.placeCard(chosenCard, rowCell, colCell);
+			listenersHandler.notify_CardPlaced(this);
+			return points;
+		}catch(PlacementConditionViolated e){
+			listenersHandler.notify_CardCannotBePlaced(this);
+			return 0;
+		}
 
-		int points= p.placeCard(chosenCard, rowCell, colCell);
-		scoretrack.addPoints(p, points);
+
 		// Notifica gli ascoltatori dell'evento di piazzamento carta
-		listenersHandler.notify_CardPlaced(this);
 
 	}
 
+	public void addPoints(Player p, int points) throws InvalidPointsException, PlayerNotFoundException {
 
+			scoretrack.addPoints(p, points);
+
+	}
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos)  {
 		try {
 			currentPlayer.pickCard(board, cardType, drawFromDeck, pos);

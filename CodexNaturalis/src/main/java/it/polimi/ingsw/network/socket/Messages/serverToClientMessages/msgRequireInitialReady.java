@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgRequireInitialReady extends SocketServerGenericMessage{
+public class msgRequireInitialReady extends ServerGenericMessage {
     private GameImmutable model;
 
     public msgRequireInitialReady(GameImmutable model) {

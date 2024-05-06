@@ -214,8 +214,14 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
 
 
     @Override
-    public void cardPlaced(GameImmutable model, Player player, int posCell, int posCard) throws RemoteException {
-        //TODO
+    public void cardPlaced(GameImmutable model) throws RemoteException {
+        try {
+            out.writeObject(new msgCardPlaced(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send CardPlaced message", e);
+        }
     }
 
     @Override

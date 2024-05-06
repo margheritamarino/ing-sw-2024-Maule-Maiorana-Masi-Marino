@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player has been disconnected from the game.
  */
-public class msgPlayerDisconnected extends SocketServerGenericMessage{
+public class msgPlayerDisconnected extends ServerGenericMessage {
     private String nickname;
     private GameImmutable model;
 

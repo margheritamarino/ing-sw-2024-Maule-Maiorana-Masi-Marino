@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that it is the last circle of the game.
  */
-public class msgLastCircle extends SocketServerGenericMessage{
+public class msgLastCircle extends ServerGenericMessage {
     private GameImmutable model;
 
     /**

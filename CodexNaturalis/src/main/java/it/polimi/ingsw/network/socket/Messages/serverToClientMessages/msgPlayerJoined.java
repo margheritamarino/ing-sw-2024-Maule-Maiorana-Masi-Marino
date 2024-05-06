@@ -11,7 +11,7 @@ import java.io.IOException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player has joined the game.
  */
-public class msgPlayerJoined extends SocketServerGenericMessage {
+public class msgPlayerJoined extends ServerGenericMessage {
     private GameImmutable model;
     private String nickname;
 

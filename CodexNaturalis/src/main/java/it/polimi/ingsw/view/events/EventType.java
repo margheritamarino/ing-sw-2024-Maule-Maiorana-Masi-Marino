@@ -12,5 +12,6 @@ public enum EventType {
     NEXT_TURN,
     PLAYER_DISCONNECTED,
     PLAYER_RECONNECTED,
+    CARD_PLACED
 
 }

@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player was unable to join the game because it is full.
  */
-public class msgJoinUnableGameFull extends SocketServerGenericMessage{
+public class msgJoinUnableGameFull extends ServerGenericMessage {
     private Player player;
     private GameImmutable model;
 

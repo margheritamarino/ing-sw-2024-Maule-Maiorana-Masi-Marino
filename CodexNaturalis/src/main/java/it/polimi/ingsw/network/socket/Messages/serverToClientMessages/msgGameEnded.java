@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that the game has ended.
  */
-public class msgGameEnded extends SocketServerGenericMessage {
+public class msgGameEnded extends ServerGenericMessage {
     private GameImmutable model;
 
     /**

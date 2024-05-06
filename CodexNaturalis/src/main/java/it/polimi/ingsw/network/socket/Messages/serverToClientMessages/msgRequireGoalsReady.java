@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgRequireGoalsReady extends SocketServerGenericMessage {
+public class msgRequireGoalsReady extends ServerGenericMessage {
     private GameImmutable model;
 
     public msgRequireGoalsReady(GameImmutable model) {
