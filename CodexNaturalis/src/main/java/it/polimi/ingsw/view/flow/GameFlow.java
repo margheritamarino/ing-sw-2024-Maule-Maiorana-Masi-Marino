@@ -1,7 +1,8 @@
 package it.polimi.ingsw.view.flow;
 
 
-import it.polimi.ingsw.model.cards.InitialCard;
+import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
+
+//Capire come parte il pescaggio delle carte nel 1°Truno di gioco
 
 //Gestisce il flusso di gioco e l'interazione tra client e server
 public class GameFlow extends Flow implements Runnable, ClientInterface {
@@ -164,6 +167,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
+
                     askPlaceCards(event.getModel());
 
 
@@ -327,20 +331,21 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     public void askPlaceCards(GameImmutable model){
         int posChosenCard;
-        ui.show_askPlaceCardsMainMsg();
+        ui.show_askPlaceCardsMainMsg(); //è il TUO TURNO //PlayerDeck gli rimane sempre mostrata a video
+                                        // Il Book del CURRENT PLAYER viene mostrato a video a TUTTI i Player appena si passa a NEXT_TURN
         posChosenCard = Objects.requireNonNullElse(askNum("> Choose which card to place: ", model), - 1);
 
         int rowCell;
         do {
             rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
             if (ended) return;
-        } while (rowCell > DefaultValue.BookSize);
+        } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin );
 
         int columnCell;
         do {
             columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
             if (ended) return;
-        } while (columnCell > DefaultValue.BookSize);
+        } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin);
 
 
         placeCardInBook(posChosenCard, rowCell, columnCell );
@@ -449,12 +454,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void requireInitialReady(GameImmutable model) throws IOException {
+    public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
         ui.show_whichInitialCards();
         Integer index;
         do {
             index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back with 0 (Front) or 1 (Back) :", model), -1);
-            ui.show_temporaryInitialCards();
+            ui.show_temporaryInitialCards(model);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 ui.show_wrongSelectionInitialMsg();
@@ -481,13 +486,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         clientActions.setObjectiveCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
-
-    @Override
-    public void cardsReady(GameImmutable model) throws RemoteException {
-        //TODO
-        //stampare messaggio? mostrare la board?
-        //dopo che ho inizializzato le carte per ogni player viene fatto partire il gioco
-    }
 
     @Override
     public void cardPlaced(GameImmutable model, Player player, int posCell, int posCard) throws RemoteException {

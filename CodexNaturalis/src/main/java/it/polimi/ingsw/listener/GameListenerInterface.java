@@ -1,5 +1,6 @@
 package it.polimi.ingsw.listener;
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -96,7 +97,7 @@ public interface GameListenerInterface extends Remote {
      * @param model       is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void requireInitialReady(GameImmutable model) throws IOException;
+    void requireInitialReady(GameImmutable model) throws IOException, FileReadException;
 
     /**
      * Notifies the listeners that objective cards are ready

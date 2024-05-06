@@ -157,13 +157,17 @@ public class TUI extends UI {
 
         printAsync(ansi().cursor(DefaultValue.row_input, 0));
     }
+
+    public void show_askPlaceCardsMainMsg(){ //è il TUO TURNO
+
+    }
     @Override
     public void show_creatingNewGameMsg(String nickname) {
 
     }
 
     @Override
-    protected void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException {
+    public void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException {
         model.getTemporaryInitialCardsDeck(); //carte da mandare a video tra cui scegliere
     }
 
