@@ -92,6 +92,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public synchronized boolean playerIsReadyToStart(String p) {
         model.playerIsReadyToStart(model.getPlayerByNickname(p));
+        model.initializeCards(model.getPlayerByNickname(p));
 
         //La partita parte automaticamente quando tutti i giocatori sono pronti
         if (model.arePlayersReadyToStartAndEnough()) {
@@ -101,7 +102,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.setCurrentPlayer(players.get(orderArray[0]);
 
             model.initializeBoard();
-            model.initializeCards();
             model.setInitialStatus();
             return true;
         }

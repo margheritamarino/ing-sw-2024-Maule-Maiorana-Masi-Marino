@@ -578,43 +578,37 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void initializeCards() {
+	public void initializeCards(Player player) {
 		boolean initializationSuccessful = true;
-		for (Player player : players) {
-			try {
 
-				temporaryInitialCard = initialCardsDeck.returnCard();
-				listenersHandler.notify_requireInitial(this);
+		try {
+			temporaryInitialCard = initialCardsDeck.returnCard();
+			listenersHandler.notify_requireInitial(this);
 
-				//GOLD CARD E RESOURCE CARD
-				for (int i = 0; i < 2; i++) {
-					player.pickCard(board, CardType.ResourceCard, true, 0);
-				}
-				player.pickCard(board, CardType.GoldCard, true, 0);
-
-				temporaryObjectiveCards = drawObjectiveCards();
-				// Inizializza gli obiettivi
-				listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
-
-			} catch (FileNotFoundException e) {
-				System.err.println("Error: file not found during cards initialization - " + e.getMessage());
-				initializationSuccessful = false;
-
-			} catch (DeckEmptyException e) {
-				System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
-				initializationSuccessful = false;
-
-
-			} catch (DeckFullException e) {
-				System.err.println("Error: playerDeck full during cards initialization - " + e.getMessage());
-				initializationSuccessful = false;
+			//GOLD CARD E RESOURCE CARD
+			for (int i = 0; i < 2; i++) {
+				player.pickCard(board, CardType.ResourceCard, true, 0);
 			}
+			player.pickCard(board, CardType.GoldCard, true, 0);
+
+			temporaryObjectiveCards = drawObjectiveCards();
+			// Inizializza gli obiettivi
+			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Error: file not found during cards initialization - " + e.getMessage());
+			initializationSuccessful = false;
+
+		} catch (DeckEmptyException e) {
+			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
+			initializationSuccessful = false;
+
+
+		} catch (DeckFullException e) {
+			System.err.println("Error: playerDeck full during cards initialization - " + e.getMessage());
+			initializationSuccessful = false;
 		}
 
-		// Dopo aver gestito l'inizializzazione per ogni giocatore, notificare che le carte sono pronte
-		if (initializationSuccessful) {
-			listenersHandler.notify_cardsReady(this);
-		}
 	}
 
 	public PlayableCard[] getInitialCard(){
@@ -785,10 +779,12 @@ public class Game {
 	 * @return player by nickname
 	 */
 	public Player getPlayerByNickname(String playerNickname) {
-		List<Player> ris = players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList();
-		if(ris.size()>0){
-			return ris.get(0);
-		}
-		return null;
+		// Utilizza lo stream per cercare un giocatore con il nickname specificato
+		Optional<Player> optionalPlayer = players.stream()
+				.filter(player -> player.getNickname().equals(playerNickname))
+				.findFirst();
+
+		// Restituisce il giocatore se trovato, altrimenti null
+		return optionalPlayer.orElse(null);
 	}
 }

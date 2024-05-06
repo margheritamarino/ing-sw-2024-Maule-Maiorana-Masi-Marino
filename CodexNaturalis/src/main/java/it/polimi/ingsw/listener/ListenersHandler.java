@@ -3,8 +3,7 @@ package it.polimi.ingsw.listener;
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
+
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
@@ -258,18 +257,6 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_cardsReady(Game model){
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.cardsReady(new GameImmutable(model));
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
-        }
-    }
 
         /** The notify_CardPlaced method notifies that a card has been placed on the board
      * @param model is the Game to pass as a new GameModelImmutable
@@ -321,22 +308,7 @@ public class ListenersHandler {
             }
         }
     }
-    /**
-     * The notify_extractedCommonCard method notifies that a common card has been extracted
-     * @param gamemodel is the Game to pass as a new GameModelImmutable
-     */
-    public synchronized void notify_extractedCommonCard(Game gamemodel) {
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.commonCardsExtracted(new GameImmutable(gamemodel));
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_extractedCommonCard, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
-        }
-    }
+
 
     /**
      * The notify_playerDisconnected method notifies that a player has disconnected

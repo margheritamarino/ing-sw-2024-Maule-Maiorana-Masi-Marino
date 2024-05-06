@@ -147,7 +147,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                 if (nicknameLastPlayer.equals(nickname)) {
                     ui.show_playerJoined(event.getModel(), nickname);
-                    saveGameId(fileDisconnection, nickname, event.getModel().getGameId());
                     askReadyToStart();
                 }
             }
@@ -552,7 +551,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     //il client setta se stesso come pronto
     @Override
-    public void setAsReady() throws IOException {
+    public void setAsReady() {
         try {
             clientActions.setAsReady();
         } catch (IOException e){
