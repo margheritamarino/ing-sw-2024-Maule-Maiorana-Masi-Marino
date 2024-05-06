@@ -163,7 +163,7 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException {
+    public void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException {
         model.getTemporaryInitialCardsDeck(); //carte da mandare a video tra cui scegliere
     }
 

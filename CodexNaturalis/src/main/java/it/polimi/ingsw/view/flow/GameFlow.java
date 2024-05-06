@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.flow;
 
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.InitialCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -450,12 +451,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void requireInitialReady(GameImmutable model) throws IOException {
+    public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
         ui.show_whichInitialCards();
         Integer index;
         do {
             index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back with 0 (Front) or 1 (Back) :", model), -1);
-            ui.show_temporaryInitialCards();
+            ui.show_temporaryInitialCards(model);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 ui.show_wrongSelectionInitialMsg();
@@ -482,13 +483,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         clientActions.setObjectiveCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
-
-    @Override
-    public void cardsReady(GameImmutable model) throws RemoteException {
-        //TODO
-        //stampare messaggio? mostrare la board?
-        //dopo che ho inizializzato le carte per ogni player viene fatto partire il gioco
-    }
 
     @Override
     public void cardPlaced(GameImmutable model, Player player, int posCell, int posCard) throws RemoteException {
