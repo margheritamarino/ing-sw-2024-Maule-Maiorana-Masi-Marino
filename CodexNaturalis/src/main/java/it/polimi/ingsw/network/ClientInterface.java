@@ -44,7 +44,7 @@ public interface ClientInterface  {
      * @throws InterruptedException
      * @throws NotBoundException
      */
-    void joinGame(String nick, int idGame) throws IOException, InterruptedException, NotBoundException;
+    void joinGame(String nick) throws IOException, InterruptedException, NotBoundException;
 
     /**
      * Reconnect the player to the game

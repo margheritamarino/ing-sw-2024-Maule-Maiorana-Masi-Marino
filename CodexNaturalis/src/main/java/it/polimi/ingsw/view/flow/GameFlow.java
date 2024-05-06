@@ -183,11 +183,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             //caso: game non valido -> back to menu
             case BACK_TO_MENU -> {
                 //ciclo per chiedere al giocatore di selezionare una partita valida
-                int gameID=-1; //DOVE METTERE QUESTO per settare inizialmente il gameID a -1 e farlo impostare al 1° giocatore che si connette?
-                if(gameID==-1) {
-                    gameID=askGameId();
-                }
-                joinGame(nickname, gameID); //non gli faccio scegliere l'ID
+                joinGame(nickname); //non gli faccio scegliere l'ID
 
             }
 
@@ -530,10 +526,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @param idGame id of the game to join
      */
     @Override
-    public void joinGame(String nick, int idGame) throws IOException, InterruptedException {
+    public void joinGame(String nick) throws IOException, InterruptedException {
         ui.show_joiningToGameMsg(idGame, nick);
         try {
-            clientActions.joinGame(nick, idGame);
+            clientActions.joinGame(nick);
         } catch (IOException | InterruptedException | NotBoundException e) {
             noConnectionError();
         }

@@ -168,21 +168,6 @@ public class ClientSocket extends Thread implements ClientInterface {
 
 
 
-    /**
-     * Ask the Socket Server to create a new game
-     *
-     * @param nick of the player
-     * @throws IOException
-     */
-    @Override
-    public void createGame(String nick) throws IOException {
-        nickname = nick;
-        out.writeObject(new ClientMsgCreateGame(nick));
-        finishSending();
-        if(!socketHeartbeat.isAlive()) {
-            socketHeartbeat.start();
-        }
-    }
 
     /**
      * Ask the Socket Server to join to first available game
@@ -208,9 +193,9 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @throws IOException
      */
     @Override
-    public void joinGame(String nick, int idGame) throws IOException {
+    public void joinGame(String nick) throws IOException {
         nickname = nick;
-        out.writeObject(new SocketClientMessageJoinGame(nick, idGame));
+        out.writeObject(new ClientMsgCreateGame(nick));
         finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();

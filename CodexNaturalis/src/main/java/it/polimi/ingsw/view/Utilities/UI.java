@@ -71,7 +71,7 @@ public abstract class UI {
      * Shows game started message
      * @param model model where the game has started
      */
-    public abstract void show_gameStarted(GameImmutable model);
+    public abstract void show_gameStarted(GameImmutable model) throws IOException, InterruptedException;
     /**
      * Shows the playerDeck
      * @param model
