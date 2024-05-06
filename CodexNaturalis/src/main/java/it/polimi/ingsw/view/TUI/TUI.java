@@ -157,6 +157,10 @@ public class TUI extends UI {
 
         printAsync(ansi().cursor(DefaultValue.row_input, 0));
     }
+
+    public void show_askPlaceCardsMainMsg(){ //è il TUO TURNO
+
+    }
     @Override
     public void show_creatingNewGameMsg(String nickname) {
 

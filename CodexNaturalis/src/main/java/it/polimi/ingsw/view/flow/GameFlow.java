@@ -29,6 +29,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
+//Capire come parte il pescaggio delle carte nel 1°Truno di gioco
+
 //Gestisce il flusso di gioco e l'interazione tra client e server
 public class GameFlow extends Flow implements Runnable, ClientInterface {
     private String nickname;
@@ -165,6 +167,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
+
                     askPlaceCards(event.getModel());
 
 
@@ -328,7 +331,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     public void askPlaceCards(GameImmutable model){
         int posChosenCard;
-        ui.show_askPlaceCardsMainMsg();
+        ui.show_askPlaceCardsMainMsg(); //è il TUO TURNO //PlayerDeck gli rimane sempre mostrata a video
+                                        // Il Book del CURRENT PLAYER viene mostrato a video a TUTTI i Player appena si passa a NEXT_TURN
         posChosenCard = Objects.requireNonNullElse(askNum("> Choose which card to place: ", model), - 1);
 
         int rowCell;

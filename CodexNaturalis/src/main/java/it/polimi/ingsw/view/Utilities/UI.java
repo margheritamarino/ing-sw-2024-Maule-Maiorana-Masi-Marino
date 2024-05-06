@@ -30,6 +30,7 @@ public abstract class UI {
      */
     public abstract void show_publisher() throws IOException, InterruptedException;
 
+    public abstract void show_askPlaceCardsMainMsg();
 
     public abstract void show_joiningToGameMsg(int idGame, String nick) throws IOException, InterruptedException;
 
