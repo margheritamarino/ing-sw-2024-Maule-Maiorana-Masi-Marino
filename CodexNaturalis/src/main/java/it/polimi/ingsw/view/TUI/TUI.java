@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.TUI;
 
+import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.interfaces.PlayerIC;
@@ -67,8 +68,8 @@ public class TUI extends UI {
     public void show_alwaysShow(GameImmutable model, String nick) {
         show_alwaysShowForAll(model);
         show_welcome(nick);
-        show_playerDeck();
-        show_playerBook();
+        show_playerDeck(model);
+        show_playerBook(model);
     }
 
     public void show_alwaysShowForAll(GameImmutable model) {
@@ -82,7 +83,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_publisher() throws IOException, InterruptedException {
+    public void show_publisher(){
         clearScreen();
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
@@ -110,17 +111,24 @@ public class TUI extends UI {
         ).println(ansi().fg(RED).a("CODEX NATURALIS").reset()); //per evitare che prossime stampe possano basarsi su questa
     }
 
-    public void show_scoretrack(){
 
+    public void show_scoretrack(GameImmutable model) {
+        printAsync(model.getScoretrack().toString());
     }
 
-    public void show_board(){
-
+    public void show_board(GameImmutable model) {
+        printAsync(model.getBoard().toString());
     }
 
+    //TODO
+    public void show_playerBook(GameImmutable model){
+        printAsync(model.getCurrentPlayer().getPlayerBookIC().toString());
+    }
 
-
-
+    @Override
+    protected void show_playerDeck(GameImmutable model) {
+        printAsync(model.getCurrentPlayer().getPlayerDeckIC().toString());
+    }
 
     /**
      * @param input the string of the important event to add
@@ -157,18 +165,14 @@ public class TUI extends UI {
 
         printAsync(ansi().cursor(DefaultValue.row_input, 0));
     }
-
-    public void show_askPlaceCardsMainMsg(){ //è il TUO TURNO
-
-    }
     @Override
     public void show_creatingNewGameMsg(String nickname) {
 
     }
 
     @Override
-    public void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException {
-        model.getTemporaryInitialCardsDeck(); //carte da mandare a video tra cui scegliere
+    protected void show_temporaryInitialCards(GameImmutable model){
+        //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
     }
 
     @Override
@@ -201,13 +205,6 @@ public class TUI extends UI {
         }
     }
 
-    /**
-     * Shows the chat messages
-     * @param model
-     */
-    public void show_messages(GameImmutable model){
-
-    }
 
     /**
      * Shows the next player
@@ -267,9 +264,9 @@ public class TUI extends UI {
         this.show_gameId(model);
     }
 
-    @Override
-    protected void show_playerDeck(GameImmutable model) {
-        //TODO mostra le carte in mano del giocatore
+
+    public void show_card(GameImmutable model, int index){
+        model.getCurrentPlayer().getPlayerDeckIC().get(index).
     }
 
 

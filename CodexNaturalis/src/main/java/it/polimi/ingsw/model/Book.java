@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 import it.polimi.ingsw.model.cards.*;
 import java.util.*;
 import it.polimi.ingsw.model.interfaces.BookIC;
+import it.polimi.ingsw.model.player.Player;
 
 
 // BOOK: disposizione delle carte di ogni player
@@ -781,5 +782,37 @@ public class Book implements BookIC {
 
     public Cell[][] getBookMatrix() {
         return bookMatrix;
+    }
+
+    public String showMaps(){
+        StringBuilder result = new StringBuilder();
+        result.append("*******RESOURCEMAP*******: \n");
+        // Itera sulla mappa del numero delle risorse presenti nel gioco
+        for (Map.Entry<ResourceType, Integer> entry : resourceMap.entrySet()) {
+            ResourceType resource = entry.getKey();
+            int num = entry.getValue();
+            // Aggiungi il nome della risorsa seguito dala sua quantità presente nel book
+            result.append(resource.toString()).append(": ").append(num).append("\n");
+        }
+
+        result.append("*******SYMBOLMAP*******: \n");
+        // Itera sulla mappa del numero dei simboli presenti nel gioco
+        for (Map.Entry<SymbolType, Integer> entry : symbolMap.entrySet()) {
+            SymbolType symbol = entry.getKey();
+            int num = entry.getValue();
+            // Aggiungi il nome del simbolo seguito dala sua quantità presente nel book
+            result.append(symbol.toString()).append(": ").append(num).append("\n");
+        }
+        return result.toString();
+    }
+
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append(showMaps());
+        result.append("\n");
+
+        //TODO restituire il book
+
+        return result.toString();
     }
 }

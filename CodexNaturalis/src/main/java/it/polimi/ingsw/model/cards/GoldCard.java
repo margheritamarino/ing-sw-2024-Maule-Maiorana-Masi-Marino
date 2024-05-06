@@ -2,10 +2,13 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
+import org.fusesource.jansi.Ansi;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class GoldCard extends PlayableCard {
 
@@ -139,6 +142,73 @@ public class GoldCard extends PlayableCard {
         this.pointsCondition = pointsCondition;
         this.cornerCondition = cornerCondition;
         this.symbolCondition = symbolCondition;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        Ansi.Color bgColor;
+        Ansi.Color textColor = Ansi.Color.WHITE;
+        String conditionPoint;
+
+        //cambia il colore della carta in base alla mainResource
+        switch(mainResource){
+            case Fungi:
+                bgColor = Ansi.Color.RED;
+                break;
+            case Insect:
+                bgColor = Ansi.Color.MAGENTA;
+                break;
+            case Plant:
+                bgColor = Ansi.Color.GREEN;
+                break;
+            case Animal:
+                bgColor = Ansi.Color.BLUE;
+                break;
+            default:
+                bgColor = Ansi.Color.DEFAULT;
+        }
+
+        if(isCornerCondition()){
+             conditionPoint = "cornerCondition";
+        }else if(!isPointsCondition()){
+             conditionPoint = "no condition";
+        }else{
+             conditionPoint = symbolCondition.toString();
+        }
+
+        String cardTypeName = "Gold";
+        int points = victoryPoints;
+        List<String> corners = getCornerContent();
+        List<ResourceType> conditionList = getPlacementCondition();
+
+        // Costruzione del risultato con colori e nome della carta
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
+        result.append("CardType: ");
+        result.append(cardTypeName);
+        result.append("\n");
+        result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        result.append("Points: ");
+        result.append(points);
+        result.append("\n");
+        result.append("Corners: ");
+        String formattedCorners = String.join(" ", corners);
+        result.append(formattedCorners);
+        result.append("\n");
+        result.append("PointsCondition: ");
+        result.append(conditionPoint);
+        result.append("\n");
+        result.append("Placement condition: ");
+        // Aggiungi gli elementi di conditionList formattati con spazi tra di loro
+        for (int i = 0; i < conditionList.size(); i++) {
+            result.append(conditionList.get(i));
+            // Aggiungi uno spazio solo se non è l'ultimo elemento della lista
+            if (i < conditionList.size() - 1) {
+                result.append(" ");
+            }
+        }
+
+        return result.toString();
     }
 }
 

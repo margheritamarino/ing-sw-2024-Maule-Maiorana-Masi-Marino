@@ -65,20 +65,25 @@ public class ScoreTrack implements Serializable {
 	 * @throws PlayerNotFoundException If the player is not found in the map.
 	 * @throws InvalidPointsException If the points to add are negative.
 	 */
-	public void addPoints(Player player, int points) throws PlayerNotFoundException, InvalidPointsException {
-		// Controlla se il giocatore è presente nella mappa
-		if (!pointsPlayers.containsKey(player)) {
-			throw new PlayerNotFoundException("Player not found in the map.");
+	public void addPoints(Player player, int points)   {
+		try {
+			// Controlla se il giocatore è presente nella mappa
+			if (!pointsPlayers.containsKey(player)) {
+				throw new PlayerNotFoundException("Player not found in the map.");
+			}
+
+			// Controlla se i punti sono negativi
+			if (points < 0) {
+				throw new InvalidPointsException("Cannot add negative points.");
+			}
+
+			// Aggiungi i punti al punteggio corrente del giocatore
+			int currentPoints = pointsPlayers.get(player);
+			pointsPlayers.put(player, currentPoints + points);
+		}catch (PlayerNotFoundException | InvalidPointsException e){
+			System.err.println("Error:"+ e.getMessage());
 		}
 
-		// Controlla se i punti sono negativi
-		if (points < 0) {
-			throw new InvalidPointsException("Cannot add negative points.");
-		}
-
-		// Aggiungi i punti al punteggio corrente del giocatore
-		int currentPoints = pointsPlayers.get(player);
-		pointsPlayers.put(player, currentPoints + points);
 	}
 
 	/**
@@ -165,6 +170,20 @@ public class ScoreTrack implements Serializable {
 		// Return the sorted list
 		return playerList;
 	}
+
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append("*******SCORETRACK*******: \n");
+		// Itera sulla mappa dei punti dei giocatori
+		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) {
+			Player player = entry.getKey();
+			int score = entry.getValue();
+			// Aggiungi il nome del giocatore seguito dal suo punteggio al risultato
+			result.append(player.getNickname()).append(": ").append(score).append("\n");
+		}
+		return result.toString();
+	}
+
 
 }
 
