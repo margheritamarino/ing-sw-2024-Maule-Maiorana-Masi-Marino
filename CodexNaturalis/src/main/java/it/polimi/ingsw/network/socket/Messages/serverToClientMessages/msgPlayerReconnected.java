@@ -10,7 +10,7 @@ import java.io.IOException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player has reconnected to the game.
  */
-public class msgPlayerReconnected extends SocketServerGenericMessage{
+public class msgPlayerReconnected extends ServerGenericMessage {
     private GameImmutable model;
     private String nickPlayerReconnected;
 

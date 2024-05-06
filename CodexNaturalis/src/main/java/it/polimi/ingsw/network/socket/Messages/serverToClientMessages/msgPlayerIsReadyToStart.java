@@ -10,7 +10,7 @@ import java.io.IOException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player is ready to start the game.
  */
-public class msgPlayerIsReadyToStart extends SocketServerGenericMessage {
+public class msgPlayerIsReadyToStart extends ServerGenericMessage {
     private GameImmutable model;
     private String nickname;
 

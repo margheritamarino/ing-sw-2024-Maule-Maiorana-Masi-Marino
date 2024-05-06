@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.socket.Messages.ClientGenericMessage;
 
 import java.rmi.RemoteException;
 

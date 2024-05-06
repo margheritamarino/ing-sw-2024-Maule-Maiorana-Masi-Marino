@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.socket.client;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.flow.Flow;
@@ -80,14 +79,10 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
         flow.requireGoalsReady(model);
     }
 
-    @Override
-    public void cardsReady(GameImmutable model) throws RemoteException {
-        flow.cardsReady(model);
-    }
 
     @Override
-    public void cardPlaced(GameImmutable model, Player player, int posCell, int posCard) throws RemoteException {
-
+    public void cardPlaced(GameImmutable model) throws RemoteException {
+        flow.cardPlaced(model );
     }
 
     @Override

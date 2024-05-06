@@ -113,7 +113,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int colCell){
         Player currentPlayer = model.getPlayerByNickname(playerName);
         if(currentPlayer.equals(model.getCurrentPlayer())){
-            model.placeCardTurn(model.getPlayerByNickname(playerName), chosenCard, rowCell, colCell);
+            int points= model.placeCardTurn(model.getPlayerByNickname(playerName), chosenCard, rowCell, colCell);
 
         }
     }

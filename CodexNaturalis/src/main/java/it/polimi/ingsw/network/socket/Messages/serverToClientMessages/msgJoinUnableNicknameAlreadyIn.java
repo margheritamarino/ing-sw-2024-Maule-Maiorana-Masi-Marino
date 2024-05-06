@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that a player was unable to join the game because the nickname is already in use.
  */
-public class msgJoinUnableNicknameAlreadyIn extends SocketServerGenericMessage{
+public class msgJoinUnableNicknameAlreadyIn extends ServerGenericMessage {
     private Player triedToJoin;
 
     /**

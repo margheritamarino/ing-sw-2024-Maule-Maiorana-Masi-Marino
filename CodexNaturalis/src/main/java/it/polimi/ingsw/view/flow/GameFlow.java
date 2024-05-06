@@ -165,6 +165,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 this.inputController.setGameID(event.getModel().getGameId());
 
             }
+            case CARD_PLACED ->{
+                askPickCard(event.getModel());
+            }
+
+
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
 
@@ -487,9 +492,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
+    /**
+     * A card has been placed on the book
+     * @param model is the game model
+     * @throws RemoteException
+     */
     @Override
-    public void cardPlaced(GameImmutable model, Player player, int posCell, int posCard) throws RemoteException {
-
+    public void cardPlaced(GameImmutable model) throws RemoteException {
+        events.add(model, EventType.CARD_PLACED);
     }
 
     @Override

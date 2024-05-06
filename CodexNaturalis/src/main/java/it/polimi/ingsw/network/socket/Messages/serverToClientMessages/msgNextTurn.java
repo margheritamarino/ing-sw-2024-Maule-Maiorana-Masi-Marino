@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a message to the client
  * indicating that it is the next turn in the game.
  */
-public class msgNextTurn extends SocketServerGenericMessage{
+public class msgNextTurn extends ServerGenericMessage {
     private GameImmutable model;
 
     /**

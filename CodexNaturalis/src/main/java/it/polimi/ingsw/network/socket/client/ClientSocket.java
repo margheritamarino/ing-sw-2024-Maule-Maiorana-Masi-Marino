@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
 import it.polimi.ingsw.network.socket.client.clientToServerMessages.*;
 import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
-import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.SocketServerGenericMessage;
+import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGenericMessage;
 
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -67,7 +67,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public void run() {
         while (true) {
             try {
-                SocketServerGenericMessage msg = (SocketServerGenericMessage) in.readObject();
+                ServerGenericMessage msg = (ServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
 
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
@@ -229,7 +229,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void leave(String nick, int idGame) throws IOException {
-        out.writeObject(new SocketClientMessageLeave(nick, idGame));
+        out.writeObject(new ClientMessageLeave(nick, idGame));
         finishSending();
         nickname=null;
         if(socketHeartbeat.isAlive()) {

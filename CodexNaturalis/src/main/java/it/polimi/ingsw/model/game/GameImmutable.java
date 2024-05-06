@@ -141,7 +141,7 @@ public class GameImmutable implements Serializable {
         return temporaryInitialCard;
     }
 
-    public BoardIC getBoard() throws FileNotFoundException, FileReadException, DeckEmptyException {
+    public BoardIC getBoard(){
         return board;
     }
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.socket.Messages;
+package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;

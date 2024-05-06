@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.socket.Messages.ClientGenericMessage;
 
 import java.rmi.RemoteException;
 
@@ -11,7 +10,7 @@ import java.rmi.RemoteException;
  * Extends SocketClientGenericMessage and is used to send a message to the server
  * indicating the request to leave a game.
  */
-public class SocketClientMessageLeave extends ClientGenericMessage {
+public class ClientMessageLeave extends ClientGenericMessage {
     int idGame;
 
     /**
@@ -19,7 +18,7 @@ public class SocketClientMessageLeave extends ClientGenericMessage {
      * @param nickname the player's nickname
      * @param idGame the ID of the game to leave
      */
-    public SocketClientMessageLeave(String nickname, int idGame) {
+    public ClientMessageLeave(String nickname, int idGame) {
         this.idGame = idGame;
         this.nickname = nickname;
         this.isMessageForMainController = true;

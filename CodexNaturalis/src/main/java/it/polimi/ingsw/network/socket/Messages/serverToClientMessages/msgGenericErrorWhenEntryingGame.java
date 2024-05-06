@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
  * Extends SocketServerGenericMessage and is used to send a generic error message to the client
  * when entering a game.
  */
-public class msgGenericErrorWhenEntryingGame extends SocketServerGenericMessage{
+public class msgGenericErrorWhenEntryingGame extends ServerGenericMessage {
     private String why;
 
     /**

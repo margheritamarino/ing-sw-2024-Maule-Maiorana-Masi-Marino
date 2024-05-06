@@ -262,14 +262,13 @@ public class ListenersHandler {
 
         /** The notify_CardPlaced method notifies that a card has been placed on the board
      * @param model is the Game to pass as a new GameModelImmutable
-     * @param player is the Player who placed the card
      */
-    public synchronized void notify_CardPlaced(Game model, Player player, int posCell, int posCard) {
+    public synchronized void notify_CardPlaced(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.cardPlaced(new GameImmutable(model), player, posCell, posCard);
+                l.cardPlaced(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_CardPlaced, a disconnection has been detected before heartbeat");
                 i.remove();

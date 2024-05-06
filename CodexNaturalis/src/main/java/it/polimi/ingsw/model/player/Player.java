@@ -201,39 +201,34 @@ public class Player implements Serializable, PlayerIC {
      * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
      * @return the victoryPoints of the placed card
      */
-    public int placeCard(int posCard, int rowCell, int rowCol) {
+    public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, IndexOutOfBoundsException{
         ArrayList<Cell> availableCells = this.playerBook.showAvailableCells();
         Cell chosenCell = null;
         PlayableCard chosenCard= null;
         boolean found = false;
-        try {
 
-            for (Cell availableCell : availableCells) {
-                if (availableCell.getRow() == rowCell && availableCell.getColumn() == rowCol) {
-                    chosenCell = availableCell;
-                    found = true;
-                }
+
+        for (Cell availableCell : availableCells) {
+            if (availableCell.getRow() == rowCell && availableCell.getColumn() == rowCol) {
+                chosenCell = availableCell;
+                found = true;
             }
-            if (!found)
-                throw new IndexOutOfBoundsException("Invalid cell position");
-
-            // Check if the card position is valid
-            ArrayList<PlayableCard> miniDeck = this.playerDeck.getMiniDeck();
-            if (posCard < 0 || posCard >= miniDeck.size()) {
-                throw new IndexOutOfBoundsException("Invalid card position");
-            }
-
-            // Retrieve the card at the specified position from the player's deck
-            chosenCard = this.playerDeck.getMiniDeck().get(posCard);
-            playerDeck.removeCard(posCard);
-
-            // Place the chosen card on the chosen cell using the addCard method of the player's book
-            return playerBook.addCard(chosenCard, chosenCell);
-
-
-        } catch (IndexOutOfBoundsException | PlacementConditionViolated e) {
-            System.err.println("Error:" + e.getMessage());
         }
-        return 0;
+        if (!found)
+            throw new IndexOutOfBoundsException("Invalid cell position");
+
+        // Check if the card position is valid
+        ArrayList<PlayableCard> miniDeck = this.playerDeck.getMiniDeck();
+        if (posCard < 0 || posCard >= miniDeck.size()) {
+            throw new IndexOutOfBoundsException("Invalid card position");
+        }
+
+        // Retrieve the card at the specified position from the player's deck
+        chosenCard = this.playerDeck.getMiniDeck().get(posCard);
+        playerDeck.removeCard(posCard);
+
+        // Place the chosen card on the chosen cell using the addCard method of the player's book
+        return playerBook.addCard(chosenCard, chosenCell);
+
     }
 }
