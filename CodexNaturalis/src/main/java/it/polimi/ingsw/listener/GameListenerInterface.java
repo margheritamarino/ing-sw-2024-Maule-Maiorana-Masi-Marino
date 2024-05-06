@@ -109,13 +109,6 @@ public interface GameListenerInterface extends Remote {
     void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException;
 
     /**
-     * Notifies the listeners that all cards are ready
-     * @param model is the game model
-     * @throws RemoteException if the reference could not be accessed
-     */
-    void cardsReady(GameImmutable model) throws RemoteException;
-
-    /**
      * This method is used to notify that a card has been placed on the book
      * @param model is the game model
      * @param player is the Player who placed the card
