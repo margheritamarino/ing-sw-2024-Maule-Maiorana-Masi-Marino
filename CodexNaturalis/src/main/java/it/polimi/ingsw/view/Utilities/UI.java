@@ -15,7 +15,6 @@ import java.util.List;
 public abstract class UI {
     protected List<String> eventsToShow; //eventi che devono essere mostrati sullo schermo
 
-
     /**
      * Initialize GUI or TUI
      */
@@ -29,6 +28,10 @@ public abstract class UI {
      */
     public abstract void show_publisher() throws IOException, InterruptedException;
 
+
+    public abstract void show_joiningToGameMsg(int idGame, String nick) throws IOException, InterruptedException;
+
+
     //show per mostrare come unirsi al gioco
     public abstract void show_menuOptions();
 
@@ -39,12 +42,6 @@ public abstract class UI {
      */
     protected abstract void show_joiningFirstAvailableMsg(String nickname);
 
-    /**
-     * Shows the join to specific game message
-     * @param idGame   id of the game the player is trying to join
-     * @param nickname player's nickname
-     */
-    protected abstract void show_joiningToGameIdMsg(int idGame, String nickname);
 
     /**
      * Asks the player for his nickname
