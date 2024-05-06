@@ -253,33 +253,42 @@ public class Game {
 	 * @throws NicknameAlreadyTaken if the provided nickname is already taken.
 	 * @throws MatchFull if the game is full and cannot accommodate more players.
 	 */
-	public void addPlayer(String nickname) throws NicknameAlreadyTaken, MatchFull {
+	public void addPlayer(String nickname) {
 		// Check if the game is not full and the nickname is not taken
-		if (!isFull()) {
+		try {
+			// Check if the game is not full
+			if (isFull()) {
+				// Game is full
+				listenersHandler.notify_JoinUnableGameFull(null, this);
+				throw new MatchFull("There are already 4 players");
+			}
+
+			// Check if the nickname is already taken
+			if (checkNickname(nickname)) {
+				// Nickname is already taken
+				listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
+				throw new NicknameAlreadyTaken("The nickname " + nickname + " is already taken");
+			}
+
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname);
-
-			// Add the new player to the list of players
 			players.add(newPlayer);
-
-			// Add the new player to the score track
 			scoretrack.addPlayer(newPlayer);
-
 			// Increment the number of players
 			playersNumber++;
 
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname);
 
-		} else if (checkNickname(nickname)) {
-			// Notify listeners that the nickname is already taken
-			listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
-			throw new NicknameAlreadyTaken(nickname);
-		} else {
-			// Notify listeners that the game is full
-			listenersHandler.notify_JoinUnableGameFull(null, this);
-			throw new MatchFull("There are already 4 players");
+		} catch (NicknameAlreadyTaken e) {
+			// Handle the case where the nickname is already taken
+			System.err.println("Error: " + e.getMessage());
+
+		} catch (MatchFull e) {
+			// Handle the case where the game is full
+			System.err.println("Error: " + e.getMessage());
 		}
+
 	}
 
 	/**
