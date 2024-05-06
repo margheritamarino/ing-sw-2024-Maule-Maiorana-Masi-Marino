@@ -105,6 +105,9 @@ public class TUI extends UI {
 
     }
 
+
+
+    //mostra il logo cranio creations
     @Override
     public void show_publisher() throws IOException, InterruptedException {
         this.resize();
@@ -269,7 +272,7 @@ public class TUI extends UI {
 
     @Override
     protected void show_playerDeck(GameImmutable model) {
-        //TODO mostra le carte in mano del giocatore
+
     }
 
 
