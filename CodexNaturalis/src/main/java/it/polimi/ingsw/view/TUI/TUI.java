@@ -121,16 +121,13 @@ public class TUI extends UI {
     }
 
     public void show_playerBook(GameImmutable model){
-
-
-
+        printAsync(model.getCurrentPlayer().getPlayerBookIC().toString());
     }
 
-
-
-
-
-
+    @Override
+    protected void show_playerDeck(GameImmutable model) {
+        printAsync(model.getCurrentPlayer().getPlayerDeckIC().toString());
+    }
 
     /**
      * @param input the string of the important event to add
@@ -273,11 +270,7 @@ public class TUI extends UI {
         this.show_gameId(model);
     }
 
-    @Override
-    protected void show_playerDeck(GameImmutable model) {
-        //TODO mostra le carte in mano del giocatore
 
-    }
     public void show_card(GameImmutable model, int index){
         model.getCurrentPlayer().getPlayerDeckIC().get(index).
     }

@@ -82,4 +82,23 @@ public class PlayerDeck implements Serializable, PlayerDeckIC {
           actualNumCards -= 2; // Decrements the effective number of cards (two cards removed)
      }
 
+     public String toString(){
+          StringBuilder result = new StringBuilder();
+          result.append("*******YOUR DECK*******\n");
+          result.append("CARD 0: front\n");
+          result.append(miniDeck.get(0).toString());
+          result.append("CARD 0: back\n");
+          result.append(miniDeck.get(1).toString());
+          result.append("CARD 1: front\n");
+          result.append(miniDeck.get(2).toString());
+          result.append("CARD 1: back\n");
+          result.append(miniDeck.get(3).toString());
+          result.append("CARD 2: front\n");
+          result.append(miniDeck.get(4).toString());
+          result.append("CARD 2: back\n");
+          result.append(miniDeck.get(5).toString());
+
+          return result.toString();
+     }
+
 }
