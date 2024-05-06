@@ -422,9 +422,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     }
 
+    /**
+     * Print that a player is ready to start
+     * @param model is the game model
+     * @param nick is the nickname of the player that is ready to start
+     */
     @Override
     public void playerIsReadyToStart(GameImmutable model, String nick) throws IOException {
-
+        ui.show_playerJoined(model, nickname);
     }
 
     /**

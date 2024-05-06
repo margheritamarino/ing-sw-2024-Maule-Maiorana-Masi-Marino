@@ -19,6 +19,8 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
  * ListenersHandler class is responsible for managing a List of GameListener objects
  * and for notifying the view when a change occurs in the GameModel
  */
+
+//ASCOLTATORI DEL CLIENT E DEL SERVER
 public class ListenersHandler {
     private List<GameListenerInterface> listeners;
 
