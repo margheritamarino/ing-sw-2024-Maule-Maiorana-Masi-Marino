@@ -48,7 +48,7 @@ public class TUI extends UI {
 
     //messaggio di benvenuto per ogni giocatore in grassetto
     public void show_welcome(String nick) {
-        printAsync(ansi().fg(BLUE).a("Welcome " + nick).boldOff());
+        printAsync(ansi().fg(BLUE).a("Welcome " + nick).bold());
     }
 
     /**
@@ -61,19 +61,21 @@ public class TUI extends UI {
 
     }
 
-    //show di ciò che deve essere sempre mostrato a tutti durante il gioco
+    //show di ciò che deve sempre essere mostrato ad ogni giocatore
     public void show_alwaysShow(GameImmutable model, String nick) {
         show_alwaysShowForAll(model);
         show_welcome(nick);
+        show_playerDeck();
+        show_playerBook();
     }
 
     public void show_alwaysShowForAll(GameImmutable model) {
         this.clearScreen();
+        show_publisher();
         show_titleCodexNaturalis();
         show_gameId(model);
         show_board(model);
         show_scoretrack(model);
-        //show_points(model);
         show_important_events();
     }
 
