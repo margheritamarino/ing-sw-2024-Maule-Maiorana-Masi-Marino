@@ -701,13 +701,7 @@ public class Game {
 	}
 
 	public void addPoints(Player p, int points) throws  {
-			try {
-				scoretrack.addPoints(p, points);
-			}catch (InvalidPointsException | PlayerNotFoundException e ){
-
-			}
-
-
+		scoretrack.addPoints(p, points);
 	}
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos)  {
 		try {
