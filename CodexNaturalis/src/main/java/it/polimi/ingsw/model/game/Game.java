@@ -376,55 +376,6 @@ public class Game {
 
 
 	/**
-	 * @param nickname is the name of player that wants to reconnect
-	 * @throws PlayerAlreadyInException player is already in
-	 * @throws MaxPlayersInException    there's already 4 players in game
-	 * @throws GameEndedException       the game has ended
-	 */
-	//TODO
-	public boolean reconnectPlayer(String nickname) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException, PlayerNotFoundException, GameNotStartedException, InvalidPointsException, NoPlayersException {
-		// Check if the game has ended (serve perché se il gioco è finito è meglio evitare che dei giocatori si riconnettano e magari modifichino il risultato finale)
-		if (gameEnded) {
-			throw new GameEndedException();
-		}
-		// Check if the player is already in the game
-		if (checkNickname(nickname)) {
-			throw new PlayerAlreadyInException();
-		}
-		// Check if the game is full
-		if (players.size() >= 4) {
-			throw new MaxPlayersInException();
-		}
-		// Find the player by nickname in the list of players
-		Player playerToReconnect = null;
-		for (Player player : players) {
-			if (player.getNickname().equals(nickname)) {
-				playerToReconnect = player;
-				break;
-			}
-		}
-		// If player not found, throw exception
-		if (playerToReconnect == null) {
-			throw new PlayerNotFoundException("Player not found with the given nickname.");
-		}
-		// Reconnect the player
-		playerToReconnect.setConnected(true);
-		listenersHandler.notify_playerReconnected(this, nickname);
-
-		//DA GESTIRE TURNI APPENA SI RICONNETTE
-//		// If the reconnected player is not the current player, advance to the next turn
-//		if (!playerToReconnect.equals(currentPlayer)) {
-//			nextTurn(); //faccio avanzare il turno solo se il giocatore riconnesso non è quello corrente quindi nel frattempo vado avanti
-//		}
-//		// If the reconnected player is not online, go to next turn
-//		if (!isTheCurrentPlayerOnline()) {
-//			nextTurn();
-//		}
-		return true;
-	}
-
-
-	/**
 	 * @return true if there are enough players to start, and if every one of them is ready
 	 */
 	public boolean arePlayersReadyToStartAndEnough() {

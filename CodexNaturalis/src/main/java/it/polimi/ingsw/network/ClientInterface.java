@@ -60,8 +60,8 @@ public interface ClientInterface  {
 
     void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
 
-    void setInitialCard(Integer index) throws IOException;
-    void setGoalCard(Integer index) throws IOException;
+    void setInitialCard(int index) throws IOException;
+    void setGoalCard(int index) throws IOException;
 }
 
 

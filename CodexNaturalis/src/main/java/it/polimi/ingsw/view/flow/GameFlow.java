@@ -480,6 +480,22 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
+    @Override
+    public void setInitialCard(int index){
+        try {
+            clientActions.setInitialCard(index);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
+    @Override
+    public void setGoalCard(int index){
+        try {
+            clientActions.setGoalCard(index);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
 
     /**
      * This method requires the user to choose

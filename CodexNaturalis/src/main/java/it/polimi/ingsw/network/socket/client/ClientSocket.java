@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
-import it.polimi.ingsw.network.socket.client.clientToServerMessages.*;
-import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
 import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGenericMessage;
 
 import it.polimi.ingsw.view.flow.Flow;
