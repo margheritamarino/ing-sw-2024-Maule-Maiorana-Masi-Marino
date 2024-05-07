@@ -711,7 +711,7 @@ public class Game {
 			listenersHandler.notify_NotCorrectChosenCard(this);
 			return 0;
 		}catch (IndexOutOfBoundsException e){
-			listenersHandler.notify_NotCorrectChosenCell(this);
+			listenersHandler.notify_NotCorrectChosenCard(this);
 			return 0;
 		}
 

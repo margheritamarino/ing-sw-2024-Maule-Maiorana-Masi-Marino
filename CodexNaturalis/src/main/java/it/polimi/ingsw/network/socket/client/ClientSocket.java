@@ -168,15 +168,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
 
-    @Override
-    public void wrongChooseCard(GameImmutable model) throws IOException {
 
-    }
-
-    @Override
-    public void wrongChooseCell(GameImmutable model) throws IOException {
-
-    }
 
     /**
      * Ask the Socket Server to join a specific game

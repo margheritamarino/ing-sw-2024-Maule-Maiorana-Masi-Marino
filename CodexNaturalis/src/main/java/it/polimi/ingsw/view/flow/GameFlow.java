@@ -375,11 +375,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void wrongChooseCard(GameImmutable model){
         events.add(model, EventType.CARD_PLACED_NOT_CORRECT);
     }
-    @Override
-    public void wrongChooseCell(GameImmutable model){
-        events.add(model, EventType.NOT_CORRECT_CELL_CARD);
 
-    }
 
 
     /* METODI CHE IL SERVER HA RICEVUTO DAL CLIENT */

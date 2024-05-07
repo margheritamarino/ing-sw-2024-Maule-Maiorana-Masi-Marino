@@ -12,9 +12,6 @@ import java.rmi.RemoteException;
 public interface ClientInterface  {
 
 
-    void wrongChooseCard(GameImmutable model) throws IOException;
-    void wrongChooseCell(GameImmutable model) throws IOException;
-
 
     /**
      * Adds the player to the game
