@@ -1,8 +1,10 @@
 package it.polimi.ingsw.network.socket.Messages.serverToClientMessages;
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class msgRequireInitialReady extends ServerGenericMessage {
@@ -18,7 +20,7 @@ public class msgRequireInitialReady extends ServerGenericMessage {
      * @throws RemoteException if there is a remote exception
      */
     @Override
-    public void execute(GameListenerInterface lis) throws RemoteException {
+    public void execute(GameListenerInterface lis) throws IOException, FileReadException {
         lis.requireInitialReady(model);
     }
 }

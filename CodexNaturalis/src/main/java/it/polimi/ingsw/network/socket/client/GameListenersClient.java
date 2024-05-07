@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket.client;
 
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -18,6 +19,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     public GameListenersClient(Flow gui) {
         this.flow = gui;
     }
+
 
     @Override
     public void playerJoined(GameImmutable model, String nickname) throws RemoteException {
@@ -64,7 +66,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void requireInitialReady(GameImmutable model) throws RemoteException {
+    public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
         flow.requireInitialReady(model);
     }
 
