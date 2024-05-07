@@ -166,7 +166,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
 
-                    askPlaceCards(event.getModel());
+                    askPlaceCards(event.getModel(), nickname);
 
 
                 }
@@ -294,7 +294,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     throw new RuntimeException(e);
                 }
             }catch(InputMismatchException e) {
-                ui.show_NotValidMessage();
+                ui.show_notValidMessage();
             }
         } while (!Objects.equals(answer, "y"));
         setAsReady(model);
@@ -332,32 +332,33 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 }
                 num = Integer.parseInt(temp); //traduco il numero in integer
             } catch (InputMismatchException | NumberFormatException e) {
-                ui.show_NotValidMessage();
+                ui.show_notValidMessage();
             }
         } while (num < 0);
         return num;
     }
 
 
-    public void askPlaceCards(GameImmutable model){
+    public void askPlaceCards(GameImmutable model, String nickname){
         int posChosenCard;
-        ui.show_askPlaceCardsMainMsg(); //è il TUO TURNO //PlayerDeck gli rimane sempre mostrata a video
-                                        // Il Book del CURRENT PLAYER viene mostrato a video a TUTTI i Player appena si passa a NEXT_TURN
+        ui.show_askPlaceCardsMainMsg(model);
+        ui.show_alwaysShow(model, nickname); // Il Book del CURRENT PLAYER viene mostrato a video a TUTTI i Player appena si passa a NEXT_TURN
         posChosenCard = Objects.requireNonNullElse(askNum("> Choose which card to place: ", model), - 1);
 
         int rowCell;
+        ui.show_askWhichCellMsg(model);
         do {
-            rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
+            rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose row: ", model), -1);
             if (ended) return;
         } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin );
 
         int columnCell;
         do {
-            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
+            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose column: ", model), -1);
             if (ended) return;
         } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin);
 
-        placeCardInBook(posChosenCard, rowCell, columnCell );
+        placeCardInBook(model, posChosenCard, rowCell, columnCell );
     }
 
     //TODO IMPLEMENTATION
@@ -367,12 +368,32 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     @Override
-    public void placeCardInBook(int ChosenCard, int rowCell, int columnCell ){
+    public void placeCardInBook(GameImmutable model, int chosenCard, int rowCell, int columnCell ){
         try {
-            clientActions.placeCardInBook(ChosenCard, rowCell, columnCell);
+            clientActions.placeCardInBook(chosenCard, rowCell, columnCell);
+            ui.show_cardPlacedMsg(model);
         } catch (IOException e) {
             noConnectionError();
         }
+    }
+
+    @Override
+    public void setInitialCard(Integer index) throws IOException {
+    clientActions.setInitialCard(index);
+    }
+
+    @Override
+    public void setGoalCard(Integer index) throws IOException {
+        clientActions.setInitialCard(index);
+    }
+
+    @Override
+    public void wrongChooseCard(GameImmutable model){
+
+    }
+    @Override
+    public void wrongChooseCell(GameImmutable model){
+
     }
 
 
@@ -479,7 +500,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 index = null;
             }
         } while (index == null);
-        clientActions.setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
+        setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
 
@@ -507,7 +528,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         } while (index == null);
         try {
-            clientActions.setGoalCard(index); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
+            setGoalCard(index); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -561,11 +582,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * The client asks the server to join a specific game
      *
      * @param nick   nickname of the player
-     * @param idGame id of the game to join
      */
     @Override
     public void joinGame(String nick) throws IOException, InterruptedException {
-        ui.show_joiningToGameMsg(idGame, nick);
+        ui.show_joiningToGameMsg(nick);
         try {
             clientActions.joinGame(nick);
         } catch (IOException | InterruptedException | NotBoundException e) {
@@ -576,10 +596,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    @Override
-    public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException {
-        //TODO
-    }
 
     @Override
     public boolean isMyTurn() throws RemoteException {
@@ -596,13 +612,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void noConnectionError() {
     //TODO
     }
-    @Override
-    public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
-    //TODO
-    }
 
     @Override
     public void leave(String nick, int GameID) throws IOException, NotBoundException {
         //TODO
     }
+
+
 }
