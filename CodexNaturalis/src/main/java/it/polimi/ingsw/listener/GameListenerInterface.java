@@ -24,6 +24,7 @@ public interface GameListenerInterface extends Remote {
      */
     void playerJoined(GameImmutable model, String nickname) throws RemoteException;
 
+
     void notChoosenCard(GameImmutable model) throws RemoteException;
 
     void notChoosenCell(GameImmutable model) throws RemoteException;

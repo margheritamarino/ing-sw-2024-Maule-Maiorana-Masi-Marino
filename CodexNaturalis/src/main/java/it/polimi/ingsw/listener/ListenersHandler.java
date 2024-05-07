@@ -71,7 +71,7 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_NotCorrectChoosenCard(Game model){
+    public synchronized void notify_NotCorrectChosenCard(Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -84,7 +84,7 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_NotCorrectChoosenCell(Game model){
+    public synchronized void notify_NotCorrectChosenCell(Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
