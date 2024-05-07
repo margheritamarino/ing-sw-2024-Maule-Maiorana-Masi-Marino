@@ -686,6 +686,22 @@ public class Game {
 	}
 
 
+	/**
+	 * Handles the player's turn to place a card on the board.
+	 *
+	 * This method allows a player to place a specified card in a cell on his book.
+	 * If the card is successfully placed, it returns the number of points of the card.
+	 * or sends notifies to tje listeners to ask to choose another card/cell
+	 *
+	 * @param p         the player who is placing the card.
+	 * @param chosenCard the card chosen by the player to place on the board.
+	 * @param rowCell   the row index of the cell in which to place the card.
+	 * @param colCell   the column index of the cell in which to place the card.
+	 * @return          the number of points gained from placing the card successfully.
+	 *
+	 * @throws PlacementConditionViolated if the chosen card has a condition that is not satisfied.
+	 * @throws IndexOutOfBoundsException if the specified cell indices are not available in the boo.
+	 */
 	public int placeCardTurn( Player p, int chosenCard, int rowCell, int colCell)  {
 		try {
 			int points=  p.placeCard(chosenCard, rowCell, colCell);

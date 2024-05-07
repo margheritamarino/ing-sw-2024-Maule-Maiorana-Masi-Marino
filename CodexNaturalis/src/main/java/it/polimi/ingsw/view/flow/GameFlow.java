@@ -352,8 +352,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose column: ", model), -1);
             if (ended) return;
         } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin);
-
-        placeCardInBook(model, posChosenCard, rowCell, columnCell );
+        ui.show_cardPlacedMsg(model);
+        placeCardInBook(posChosenCard, rowCell, columnCell );
     }
 
     //TODO IMPLEMENTATION
@@ -361,10 +361,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    public void placeCardInBook(GameImmutable model, int chosenCard, int rowCell, int columnCell ){
+    public void placeCardInBook( int chosenCard, int rowCell, int columnCell ){
         try {
             clientActions.placeCardInBook(chosenCard, rowCell, columnCell);
-            ui.show_cardPlacedMsg(model);
+
         } catch (IOException e) {
             noConnectionError();
         }
