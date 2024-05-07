@@ -399,9 +399,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     private CardType convertToCardType(String cardTypeStr) {
         // Prova a convertire la stringa cardTypeStr in un valore di CardType
-        if ("ResourceCard".equalsIgnoreCase(cardTypeStr)) {
+        if ("R".equalsIgnoreCase(cardTypeStr)||"r".equalsIgnoreCase(cardTypeStr)) { //player richiede una ResourceCard
             return CardType.ResourceCard;
-        } else if ("GoldCard".equalsIgnoreCase(cardTypeStr)) {
+        } else if ("G".equalsIgnoreCase(cardTypeStr)||"g".equalsIgnoreCase(cardTypeStr)) { //player richiede una GoldCard
             return CardType.GoldCard;
         } else {
             // Se la stringa non corrisponde a nessun valore valido di CardType
