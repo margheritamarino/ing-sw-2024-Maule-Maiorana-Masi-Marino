@@ -36,7 +36,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     private String nickname;
     private final EventList events = new EventList();
     private ClientInterface clientActions;
-    private String lastPlayerReconnected;
     private final UI ui;
     protected InputController inputController;
     protected InputReader inputReader;
@@ -69,27 +68,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    /*
-
-    //Costruttore per la GUI
-
-    public GameFlow(GUIApplication guiApplication, ConnectionType connectionType) {
-        //Invoked for starting with GUI
-        switch (connectionType) {
-            case SOCKET -> clientActions = new ClientSocket(this);
-            case RMI -> clientActions = new ClientRMI(this);
-        }
-        this.inputReader = new inputGUI();
-
-        ui = new GUI(guiApplication, (inputGUI) inputReader);
-        importantEvents = new ArrayList<>();
-        nickname = "";
-        fileDisconnection = new FileDisconnection();
-
-        this.inputController = new InputController(this.inputReader.getBuffer(), this);
-        new Thread(this).start();
-    }
-    */
 
 
     @Override
@@ -123,7 +101,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                                 throw new RuntimeException(e);
                             }
                         }
-                        case ENDED -> statusEnded(event);
+                        case ENDED -> {
+                            try {
+                                statusEnded(event);
+                            } catch (IOException | InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
                 }
             } else {

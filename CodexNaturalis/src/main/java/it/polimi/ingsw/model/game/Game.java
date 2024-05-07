@@ -746,7 +746,7 @@ public class Game {
 		return initialCardsDeck;
 	}
 
-	public PlayableCardIC[] getTemporaryInitialCardsDeck() {
+	public PlayableCard[] getTemporaryInitialCardsDeck() {
 		return temporaryInitialCard;
 	}
 

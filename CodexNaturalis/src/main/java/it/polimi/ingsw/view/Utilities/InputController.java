@@ -5,7 +5,7 @@ import it.polimi.ingsw.view.Utilities.Buffer;
 import it.polimi.ingsw.view.flow.GameFlow;
 
 
-//classe che serve per gestire l'input dell'utente e per coordinare lìinivio di messaggi all'interno del gioco
+//classe che serve per gestire l'input dell'utente e per coordinare l'inivio di messaggi all'interno del gioco
 
 public class InputController extends Thread{
 
