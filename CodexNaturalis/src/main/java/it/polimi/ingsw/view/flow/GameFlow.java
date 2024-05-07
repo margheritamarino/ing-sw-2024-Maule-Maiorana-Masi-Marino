@@ -356,21 +356,29 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    //TODO IMPLEMENTATION
-    public void askPickCard (GameImmutable model, String nick) {
+
+    public void askPickCard (GameImmutable model) {
         int pos=0;
         ui.show_PickCardMsg(model); //TODO messaggio "è il tuo turno di pescare una carta"
 
         // Chiedi all'utente il tipo di carta che vuole pescare
         CardType cardType = askCardType("Which card to you want to pick? ", model);
         boolean drawFromDeck = askDrawFromDeck("Do you want to draw from deck?", model);
+
         if(drawFromDeck== false){
             pos= Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
         }
-        PickCardOnBoard(cardType, drawFromDeck, pos);
+        PickCardFromBoard(cardType, drawFromDeck, pos);
     }
 
+    public void PickCardFromBoard( CardType cardType, boolean drawFromDeck, int pos){
+        try {
+            clientActions.PickCardFromBoard(cardType, drawFromDeck, pos);
 
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
     public CardType askCardType(String message, GameImmutable model) {
         String temp;
         CardType cardType = null;

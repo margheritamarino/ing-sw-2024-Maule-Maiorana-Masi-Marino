@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.socket.client;
 
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
+import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
@@ -72,7 +74,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 ServerGenericMessage msg = (ServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
 
-            } catch (IOException | ClassNotFoundException | InterruptedException e) {
+            } catch (IOException | ClassNotFoundException | InterruptedException | FileReadException e) {
                 printAsync("[ERROR] Connection to server lost! " + e);
                 try {
                     System.in.read();
@@ -142,6 +144,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @throws IOException
      */
     public void stopConnection() throws IOException {
+        //TODO
         in.close();
         out.close();
         clientSoc.close();
@@ -149,11 +152,15 @@ public class ClientSocket extends Thread implements ClientInterface {
             socketHeartbeat.interrupt();
         }
     }
+
+
+    @Override
     public void setInitialCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetInitial(nickname, index));
         finishSending();
     }
 
+    @Override
     public void setGoalCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetObjective(nickname, index));
         finishSending();
@@ -165,7 +172,10 @@ public class ClientSocket extends Thread implements ClientInterface {
         finishSending();
     }
 
+    @Override
+    public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
 
+    }
 
 
     /**
@@ -195,12 +205,6 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMsgSetReady(nickname));
         finishSending();
     }
-
-    @Override
-    public boolean isMyTurn() throws RemoteException {
-        return false;
-    }
-
 
     /**
      * Ask the Socket Server to leave a specific game
