@@ -214,6 +214,7 @@ public class TUI extends UI {
     @Override
     public void show_pointsAddedMsg(GameImmutable model){
         printAsync(model.getCurrentPlayer().getNickname() + " scored some points!");
+        printAsync("New total score: ");
         show_scoretrack(model);
     }
 
