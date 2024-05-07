@@ -20,42 +20,25 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
  * by the Socket Network protocol
  */
 public class ClientHandler extends Thread{
-    /**
-     * Socket associated with the Client
-     */
+
     private final Socket clientSocket; //socket associato a un Client
-    /**
-     * ObjectInputStream in
-     */
-    private ObjectInputStream in; //per la lettura degli oggetti in INGRESSO dal CLient
-    /**
-     * ObjectOutputStream out
-     */
-    private ObjectOutputStream out; //per l'INVIO di oggetti al Client
 
+    private final ObjectInputStream in; //per la lettura degli oggetti in INGRESSO dal CLient
+    private final ObjectOutputStream out; //per l'INVIO di oggetti al Client
 
-    /**
-     * GameController associated with the game
-     */
-    private GameControllerInterface gameController; //controller del gioco associato alla partita
+    private GameControllerInterface gameController; //controller associato alla partita
 
-    /**
-     * The GameListener of the ClientSocket for notifications
-     */
     private GameListenersServer gameListenersServer; //per inviare NOTIFICHE al Client
 
-    /**
-     * Nickname of the SocketClient
-     */
-    private String nickname = null; //soprannome del Client
+    private String nickname = null; //soprannome (nickname) del SocketClient
 
-    private final BlockingQueue<ClientGenericMessage> processingQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<ClientGenericMessage> processingQueue = new LinkedBlockingQueue<>(); //coda bloccante per elaborare i messaggi in arrivo dal client.
 
     /**
      * Handle all the network requests performed by a specific ClientSocket
-     * Initialize the INPUT Stream ancd the OUTPUT Stream with the specific Client
+     * Initialize the INPUT Stream and the OUTPUT Stream with the specific Client
      * @param soc the socket to the client
-     * @throws IOException
+     * @throws IOException error with Input/Output operations
      */
     public ClientHandler(Socket soc) throws IOException {
         this.clientSocket = soc;
@@ -75,23 +58,22 @@ public class ClientHandler extends Thread{
     /**
      * Receive all the actions sent by the player, execute them on the specific controller required
      * It detects client network disconnections by catching Exceptions
-     * {@link MainController} or {@link GameControllerInterface}
      */
 
     @Override
     public void run() {
-        var th = new Thread(this::runGameLogic);
+        var th = new Thread(this::runGameLogic); //avvio thread
         th.start();
 
         try {
-            ClientGenericMessage temp;
+            ClientGenericMessage temp; //si prepara a gestire qualsiasi messaggio che gli arriva dal Client(sottoclasse di ClientGenericMessage) durante il Thread
             while (!this.isInterrupted()) {
                 try {
-                    temp = (ClientGenericMessage) in.readObject();
+                    temp = (ClientGenericMessage) in.readObject(); //legge msg in arrivo dal Client
 
                     try {
                         //it's a heartbeat message I handle it as a "special message"
-                        if (temp.isHeartbeat() && !temp.isMessageForMainController()) {
+                        if (temp.isHeartbeat()) {
                             if (gameController != null) {
                                 gameController.heartbeat(temp.getNickname(), gameListenersServer);
                             }
@@ -119,11 +101,7 @@ public class ClientHandler extends Thread{
             while (!this.isInterrupted()) {
                 temp = processingQueue.take();
 
-                if (temp.isMessageForMainController()) {
-                    gameController = temp.execute(gameListenersServer, MainController.getInstance());
-                    nickname = gameController != null ? temp.getNickname() : null;
-
-                } else if (!temp.isHeartbeat()) {
+                if (!temp.isHeartbeat()) {
                     temp.execute(gameController);
                 }
             }
