@@ -297,7 +297,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_NotValidMessage();
             }
         } while (!Objects.equals(answer, "y"));
-        setAsReady();
+        setAsReady(model);
     }
 
     /**
@@ -305,9 +305,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws IOException if there is a communication error during the operation.
      */
     @Override
-    public void setAsReady() {
+    public void setAsReady(GameImmutable model) {
         try {
             clientActions.setAsReady();
+            ui.show_youAreReady(model);
+            ui.show_allPlayers(model);
         } catch (IOException e){
             noConnectionError();
         }
@@ -520,6 +522,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void cardPlaced(GameImmutable model) throws RemoteException {
         events.add(model, EventType.CARD_PLACED);
     }
+
+    @Override
+    public void pointsAdded(GameImmutable model) throws RemoteException {
+        ui.showPointsAddedMsg();
+    }
+
+
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {

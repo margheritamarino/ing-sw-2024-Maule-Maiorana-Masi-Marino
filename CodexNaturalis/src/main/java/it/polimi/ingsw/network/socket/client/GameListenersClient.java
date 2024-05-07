@@ -84,10 +84,15 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     public void cardPlaced(GameImmutable model) throws RemoteException {
         flow.cardPlaced(model );
     }
+    @Override
+    public void pointsAdded(GameImmutable model) throws RemoteException {
+        flow.pointsAdded(model );
+    }
+
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
-
+        //TODO
     }
 
     @Override

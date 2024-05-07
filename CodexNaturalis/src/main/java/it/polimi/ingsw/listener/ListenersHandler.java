@@ -1,6 +1,7 @@
 package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 
@@ -179,39 +180,6 @@ public class ListenersHandler {
         }
     }
 
-    /**
-     * The notify_GameIdNotExists method notifies that a game with the specified ID does not exist
-     * @param gameid is the ID of the game that does not exist
-     */
-    public synchronized void notify_GameIdNotExists(int gameid) {
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.gameIdNotExists(gameid);
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_GameIdNotExists, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
-        }
-    }
-
-    /**
-     * The notify_GenericErrorWhenEnteringGame method notifies a generic error that can happen when a player is entering the game
-     * @param why is the reason why the error happened
-     */
-    public synchronized void notify_GenericErrorWhenEnteringGame(String why) {
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.genericErrorWhenEnteringGame(why);
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_GenericErrorWhenEnteringGame, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
-        }
-    }
 
     /**
      * The notify_PlayerIsReadyToStart method notifies that a player is ready to start the game
@@ -273,7 +241,7 @@ public class ListenersHandler {
             GameListenerInterface l = i.next();
             try {
                 l.requireInitialReady(new GameImmutable(model));
-            } catch (RemoteException e) {
+            } catch ( FileReadException| IOException e) {
                 printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
                 i.remove();
             }
@@ -382,6 +350,16 @@ public class ListenersHandler {
     }
 
 
-
-
+    public void notify_PointsAdded(Game model) {
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.pointsAdded(new GameImmutable(model));
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_LastCircle, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
 }
