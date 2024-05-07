@@ -1,27 +1,18 @@
 package it.polimi.ingsw.model.game;
 
-import it.polimi.ingsw.exceptions.DeckEmptyException;
-import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.model.Board;
-//import it.polimi.ingsw.model.Chat.Chat;
-//import it.polimi.ingsw.model.Chat.Message;
-import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.ScoreTrack;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.PlayerDeck;
-import it.polimi.ingsw.model.interfaces.*;
 
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-// Capire COSA deve avere una IC (è una copia?), COSA deve essere mandato sulla Rete:
-// vanno bene anche metodi che fanno una COPIA della vera e propria istanza (es. che duplica la Carta Obiettivo del Player)
-// e poi vengono mandati sulla rete
+// TUTOR DICE: basta un GameImmutable (copia del Game) che viene inviato sulla rete,
+// poi si ricava tutto il resto da questo tramite i metodi GETTER
 
 /**
  * A different implementation of the GameModel class, this is the one we send to the CLIENTS
@@ -37,17 +28,13 @@ import java.util.List;
 public class GameImmutable implements Serializable {
 
     private final Integer gameID;
-    private final List<PlayerIC> players;
+    private final List<Player> players;
     private final Integer playersNumber;
     private final ScoreTrack scoreTrack;
-    private final PlayerIC currentPlayer;
-    private final PlayableCardIC[] temporaryInitialCard;
-
-    private final BoardIC board;
+    private final Player currentPlayer;
+    private final PlayableCard[] temporaryInitialCard;
+    private final Board board;
     private final GameStatus status;
-    //private final ChatIC chat;
-
-
 
 
     /**
@@ -62,7 +49,6 @@ public class GameImmutable implements Serializable {
         currentPlayer = modelToCopy.getCurrentPlayer();
         board = modelToCopy.getBoard();
         status = modelToCopy.getStatus();
-        //chat = modelToCopy.getChat();
         temporaryInitialCard = modelToCopy.getTemporaryInitialCardsDeck();
     }
 
@@ -78,21 +64,21 @@ public class GameImmutable implements Serializable {
     /**
      * @return the last player in the list of players
      */
-    public PlayerIC getLastPlayer() {
+    public Player getLastPlayer() {
         return players.get(players.size() - 1);
     }
 
     /**
      * @return the winner
      */
-    public PlayerIC getWinner() throws NoPlayersException {
+    public Player getWinner() throws NoPlayersException {
         return scoreTrack.getWinner();
     }
 
     /**
      * @return the list of players in game
      */
-    public List<PlayerIC> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -118,15 +104,15 @@ public class GameImmutable implements Serializable {
     }
 
 
-    public PlayerIC getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public PlayableCardIC[] getTemporaryInitialCardsDeck() throws FileNotFoundException, FileReadException {
+    public PlayableCard[] getTemporaryInitialCardsDeck() {
         return temporaryInitialCard;
     }
 
-    public BoardIC getBoard(){
+    public Board getBoard(){
         return board;
     }
 
@@ -134,33 +120,15 @@ public class GameImmutable implements Serializable {
         return status;
     }
 
-    /*
-    public ChatIC getChat() {
-        return chat;
-    }
-    */
 
     /**
      * @param playerNickname search for this player in the game
      * @return the instance of Player with that nickname
      */
-    public PlayerIC getPlayerEntity(String playerNickname) {
+    public Player getPlayerEntity(String playerNickname) {
         return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().get(0);
     }
 
-    /**
-     * @param nickname player to check if in turn
-     * @return true if is the turn of the player's passed by parameter
-     */
-    public boolean isMyTurn(String nickname) {
-        return currentPlayer.getNickname().equals(nickname);
-    }
-
-    /*
-    public void sentMessage(Message m) {
-        // Do something with the message
-    }
-    */
 
     /**
      * @return the list of players in string format
@@ -168,7 +136,7 @@ public class GameImmutable implements Serializable {
     public String toStringListPlayers() {
         StringBuilder ris = new StringBuilder();
         int i = 1;
-        for (PlayerIC p : players) {
+        for (Player p : players) {
             ris.append("[#").append(i).append("]: ").append(p.getNickname()).append("\n");
             i++;
         }
@@ -187,7 +155,7 @@ public class GameImmutable implements Serializable {
      */
     public int getNumPlayersOnline() {
         int numplayers = 0;
-        for (PlayerIC player : players) {
+        for (Player player : players) {
             if (player.isConnected()) {
                 numplayers++;
             }
@@ -199,8 +167,8 @@ public class GameImmutable implements Serializable {
     /**
      * @return current player's Goal
      */
-    public ObjectiveCardIC getCurrentPlayerGoalIC() {
-        return (ObjectiveCard) currentPlayer.getGoalIC();
+    public ObjectiveCard getCurrentPlayerGoal() {
+        return (ObjectiveCard) currentPlayer.getGoal();
     }
 
 
