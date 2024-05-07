@@ -2,7 +2,9 @@ package it.polimi.ingsw.view.flow;
 
 
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.DefaultValue;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
@@ -342,10 +344,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         placeCardInBook(posChosenCard, rowCell, columnCell );
     }
 
-    //TODO IMPLEMENTATION
-    public void askPickCard (GameImmutable model) {
-    }
-
 
     public void placeCardInBook( int chosenCard, int rowCell, int columnCell ){
         try {
@@ -355,6 +353,99 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
+
+
+
+    //TODO IMPLEMENTATION
+    public void askPickCard (GameImmutable model, String nick) {
+        int pos=0;
+        ui.show_PickCardMsg(model); //TODO messaggio "è il tuo turno di pescare una carta"
+
+        // Chiedi all'utente il tipo di carta che vuole pescare
+        CardType cardType = askCardType("Which card to you want to pick? ", model);
+        boolean drawFromDeck = askDrawFromDeck("Do you want to draw from deck?", model);
+        if(drawFromDeck== false){
+            pos= Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
+        }
+        PickCardOnBoard(cardType, drawFromDeck, pos);
+    }
+
+
+    public CardType askCardType(String message, GameImmutable model) {
+        String temp;
+        CardType cardType = null;
+        do {
+            try {
+                // Mostra un messaggio all'utente per chiedere il tipo di carta desiderato
+                //TODO mosta il messaggio passato come parametro e mostra la board(?)
+                ui.show_askCardType(message, model, nickname);
+
+                // Ottieni l'input dell'utente
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+                    if (ended) return null; // Se il gioco è finito, ritorna null
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                // Converti l'input dell'utente in un valore di CardType
+                cardType = convertToCardType(temp);
+
+            } catch (IllegalArgumentException e) {
+                ui.show_notValidMessage();
+            }
+        } while (cardType == null);
+        return cardType;
+    }
+
+    private CardType convertToCardType(String cardTypeStr) {
+        // Prova a convertire la stringa cardTypeStr in un valore di CardType
+        if ("ResourceCard".equalsIgnoreCase(cardTypeStr)) {
+            return CardType.ResourceCard;
+        } else if ("GoldCard".equalsIgnoreCase(cardTypeStr)) {
+            return CardType.GoldCard;
+        } else {
+            // Se la stringa non corrisponde a nessun valore valido di CardType
+            throw new IllegalArgumentException("Invalid card type: " + cardTypeStr);
+        }
+    }
+
+    public boolean askDrawFromDeck(String message, GameImmutable model) {
+        String temp;
+        boolean drawFromDeck = false;
+        boolean isValidInput = false;
+
+        // Loop finché non viene fornito un input valido
+        do {
+            try {
+                //TODO
+                ui.show_askDrawFromDeck(message, model, nickname);
+
+                // Ottieni l'input dell'utente
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+                    if (ended) return false; // Se il gioco è finito, ritorna false
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // checks the input and convert to boolean
+                if (temp.equalsIgnoreCase("yes") || temp.equalsIgnoreCase("y")) {
+                    drawFromDeck = true;
+                    isValidInput = true;
+                } else if (temp.equalsIgnoreCase("no") || temp.equalsIgnoreCase("n")) {
+                    drawFromDeck = false;
+                    isValidInput = true;
+                } else {
+                    ui.show_notValidMessage();
+                }
+
+            } catch (Exception e) {
+                ui.show_notValidMessage();
+            }
+        } while (!isValidInput); // Continua a chiedere finché l'input non è valido
+        return drawFromDeck;
+    }
+
 
     @Override
     public void setInitialCard(int index) throws IOException {
@@ -479,7 +570,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_whichInitialCards();
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back with 0 (Front) or 1 (Back) :", model), -1);
+            index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
             ui.show_temporaryInitialCards(model);
             if (ended) return;
             if (index < 0 || index >= 2) {
