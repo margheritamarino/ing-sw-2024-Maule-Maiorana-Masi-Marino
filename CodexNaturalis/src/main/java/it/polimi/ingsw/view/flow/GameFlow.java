@@ -148,7 +148,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                 if (nicknameLastPlayer.equals(nickname)) {
                     ui.show_playerJoined(event.getModel(), nickname);
-                    askReadyToStart();
+                    askReadyToStart(event.getModel(), nickname);
                 }
             }
         }
@@ -283,8 +283,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
      * Once the user confirms their readiness, the `setAsReady()` method is called to proceed with the next step.
      */
-    public void askReadyToStart(){
-        String answer;
+    public void askReadyToStart(GameImmutable model, String nick){
+        String answer = null;
         do {
             try {
                 ui.show_readyToStart(model,nick);
@@ -296,8 +296,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }catch(InputMismatchException e) {
                 ui.show_NotValidMessage();
             }
-        } while (!answer.equals("y"));
-        setAsReady();
+        } while (!Objects.equals(answer, "y"));
+        setAsReady(model);
     }
 
     /**
@@ -305,9 +305,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws IOException if there is a communication error during the operation.
      */
     @Override
-    public void setAsReady() {
+    public void setAsReady(GameImmutable model) {
         try {
             clientActions.setAsReady();
+            ui.show_youAreReady(model);
+            ui.show_allPlayers(model);
         } catch (IOException e){
             noConnectionError();
         }
@@ -363,7 +365,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    }
+
     @Override
     public void placeCardInBook(int ChosenCard, int rowCell, int columnCell ){
         try {
@@ -527,6 +529,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void cardPlaced(GameImmutable model) throws RemoteException {
         events.add(model, EventType.CARD_PLACED);
     }
+
+    @Override
+    public void pointsAdded(GameImmutable model) throws RemoteException {
+        ui.showPointsAddedMsg();
+    }
+
+
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {

@@ -65,22 +65,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-    /**
-     * This method is used to write on the ObjectOutputStream the message that a player has left the game
-     * @param model is the game model {@link GameImmutable}
-     * @param nickname is the nickname of the player
-     * @throws RemoteException if the connection fails
-     */
-    @Override
-    public void playerLeft(GameImmutable model, String nickname) throws RemoteException {
-        try {
-            out.writeObject(new msgPlayerLeft(model, nickname));
-            finishSending();
-        } catch (IOException e) {
-            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            throw new RemoteException("Failed to send playerLeft message", e);
-        }
-    }
+
 
     /**
      * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because it is full
@@ -94,26 +79,11 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgJoinUnableGameFull(triedToJoin,model));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send gameStarted message", e);
         }
     }
 
-    /**
-     * This method is used to write on the ObjectOutputStream the message that a player has reconnected to the game
-     * @param model is the game model {@link GameImmutable}
-     * @param nickPlayerReconnected is the nickname of the player
-     * @throws RemoteException if the connection fails
-     */
-    @Override
-    public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException {
-        //System.out.println(nickNewPlayer +" by socket");
-        try {
-            out.writeObject(new msgPlayerReconnected(model, nickPlayerReconnected));
-            finishSending();
-        } catch (IOException e) {
-
-        }
-    }
 
     /**
      * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because the nickname is already in use
@@ -126,38 +96,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgJoinUnableNicknameAlreadyIn(triedToJoin));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send gameStarted message", e);
         }
     }
 
-    /**
-     * This method is used to write on the ObjectOutputStream the message that the gameID is not valid
-     * @param gameid is the id of the game
-     * @throws RemoteException if the connection fails
-     */
-    @Override
-    public void gameIdNotExists(int gameid) throws RemoteException {
-        try {
-            out.writeObject(new msgGameIdNotExists(gameid));
-            finishSending();
-        } catch (IOException e) {
-        }
-    }
 
-    /**
-     * This method is used to write on the ObjectOutputStream a generic error when entering the game
-     * @param why is the reason why the error happened
-     * @throws RemoteException if the connection fails
-     */
-    @Override
-    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
-        try {
-            out.writeObject(new msgGenericErrorWhenEntryingGame(why));
-            finishSending();
-        } catch (IOException e) {
-
-        }
-    }
 
     /**
      * This method is used to write on the ObjectOutputStream the message that player is ready to start
@@ -167,12 +111,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void playerIsReadyToStart(GameImmutable model, String nickname) throws IOException {
-        //System.out.println(nickname +" ready to start by socket");
         try {
             out.writeObject(new msgPlayerIsReadyToStart(model, nickname));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send gameStarted message", e);
         }
     }
 
@@ -192,21 +136,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-    /**
-     * This method is used to write on the ObjectOutputStream that the game ended
-     * @param model is the game model {@link GameImmutable}
-     * @throws RemoteException if the connection fails
-     */
-    @Override
-    public void gameEnded(GameImmutable model) throws RemoteException {
-        try {
-            out.writeObject(new msgGameEnded(model));
-            finishSending();
-        } catch (IOException e) {
-            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            throw new RemoteException("Failed to send gameStarted message", e);
-        }
-    }
 
     /**
      * This method is used to write on the ObjectOutputStream that the front and back of the initialCard are ready to be shown to the player
@@ -246,6 +175,18 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send CardPlaced message", e);
         }
     }
+    @Override
+    public void pointsAdded(GameImmutable model)throws RemoteException{
+        try {
+            out.writeObject(new msgPointsAdded(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send CardPlaced message", e);
+        }
+    }
+
+
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
@@ -259,10 +200,47 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void nextTurn(GameImmutable model) throws RemoteException {
+        //TODO
         try {
             out.writeObject(new msgNextTurn(model));
             finishSending();
+        }  catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send CardPlaced message", e);
+        }
+    }
+    /**
+     * This method is used to write on the ObjectOutputStream that the game ended
+     * @param model is the game model {@link GameImmutable}
+     * @throws RemoteException if the connection fails
+     */
+    @Override
+    public void gameEnded(GameImmutable model) throws RemoteException {
+        //TODO
+        try {
+            out.writeObject(new msgGameEnded(model));
+            finishSending();
         } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send gameStarted message", e);
+        }
+    }
+
+
+    /**
+     * This method is used to write on the ObjectOutputStream that the last circle is started
+     * @param model is the game model {@link GameImmutable}
+     * @throws RemoteException if the connection fails
+     */
+    @Override
+    public void lastCircle(GameImmutable model) throws RemoteException {
+        //TODO
+        try {
+            out.writeObject(new msgLastCircle(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send CardsReady message", e);
         }
     }
 
@@ -278,26 +256,26 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgPlayerDisconnected(model,nickname));
             finishSending();
         } catch (IOException e) {
-
+            //TODO
         }
     }
-
     /**
-     * This method is used to write on the ObjectOutputStream that the last circle is started
+     * This method is used to write on the ObjectOutputStream the message that a player has left the game
      * @param model is the game model {@link GameImmutable}
+     * @param nickname is the nickname of the player
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void lastCircle(GameImmutable model) throws RemoteException {
+    public void playerLeft(GameImmutable model, String nickname) throws RemoteException {
+        //TODO
         try {
-            out.writeObject(new msgLastCircle(model));
+            out.writeObject(new msgPlayerLeft(model, nickname));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            throw new RemoteException("Failed to send CardsReady message", e);
+            throw new RemoteException("Failed to send playerLeft message", e);
         }
     }
-
     /**
      * Makes sure the message has been sent
      * @throws IOException
