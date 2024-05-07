@@ -18,7 +18,7 @@ import java.rmi.RemoteException;
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 
-
+//All CLIENT'S ACTIONS
 /**
  * ClientSocket Class<br>
  * Handle all the network communications between ClientSocket and ClientHandler<br>
@@ -151,7 +151,7 @@ public class ClientSocket extends Thread implements ClientInterface {
             socketHeartbeat.interrupt();
         }
     }
-    /*public void setInitialCard(int index) throws IOException {
+    public void setInitialCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetInitial(nickname, index));
         finishSending();
     }
@@ -159,7 +159,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public void setGoalCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetObjective(nickname, index));
         finishSending();
-    }*/
+    }
 
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {

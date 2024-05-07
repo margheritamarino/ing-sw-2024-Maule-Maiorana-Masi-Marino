@@ -375,15 +375,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
-    @Override
-    public void setInitialCard(Integer index) throws IOException {
-    clientActions.setInitialCard(index);
-    }
-
-    @Override
-    public void setGoalCard(Integer index) throws IOException {
-        clientActions.setInitialCard(index);
-    }
 
     @Override
     public void wrongChooseCard(GameImmutable model){
