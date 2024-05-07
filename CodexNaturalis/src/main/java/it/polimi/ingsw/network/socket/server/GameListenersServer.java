@@ -42,14 +42,27 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-    @Override
-    public void notChoosenCard(GameImmutable model) throws RemoteException {
 
+    @Override
+    void wrongChooseCard(GameImmutable model) throws RemoteException{
+        try {
+            out.writeObject(new msgPlayerJoined(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send playerJoined message", e);
+        }
     }
 
     @Override
-    public void notChoosenCell(GameImmutable model) throws RemoteException {
-
+    void wrongChooseCell(GameImmutable model) throws RemoteException{
+        try {
+            out.writeObject(new msgPlayerJoined(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send playerJoined message", e);
+        }
     }
 
     /**

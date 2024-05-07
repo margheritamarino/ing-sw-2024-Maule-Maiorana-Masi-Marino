@@ -71,12 +71,16 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_NotCorrectChosenCard method notifies that a player chose a card that cannot place in his Book
+     * @param model is the Game to pass as a new GameModelImmutable
+     */
     public synchronized void notify_NotCorrectChosenCard(Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.notChoosenCard( new GameImmutable(model));
+                l.wrongChooseCard( new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_NotCorrectChoosenCard, a disconnection has been detected before heartbeat");
                 i.remove();
@@ -84,12 +88,17 @@ public class ListenersHandler {
         }
     }
 
+
+    /**
+     * The notify_NotCorrectChosenCell method notifies that a player chose an unable Cell to put his card
+     * @param model is the Game to pass as a new GameModelImmutable
+     */
     public synchronized void notify_NotCorrectChosenCell(Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.notChoosenCell( new GameImmutable(model));
+                l.wrongChooseCell( new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_NotCorrectChoosenCell, a disconnection has been detected before heartbeat");
                 i.remove();
