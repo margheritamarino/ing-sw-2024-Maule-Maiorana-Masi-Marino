@@ -154,12 +154,20 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
 
             case CARD_PLACED ->{
-                askPickCard(event.getModel(),nickname);
+                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
+                    askPickCard(event.getModel());
+                }
+
             }
 
             case CARD_PLACED_NOT_CORRECT -> { //ask the Player to choose again
                 askPlaceCards(event.getModel(), nickname);
 
+            }
+            case CARD_DRAWN -> {
+                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
+
+                }
             }
 
 
@@ -340,7 +348,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose column: ", model), -1);
             if (ended) return;
         } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin);
-        ui.show_cardPlacedMsg(model);
+
         placeCardInBook(posChosenCard, rowCell, columnCell );
     }
 
@@ -627,6 +635,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void cardPlaced(GameImmutable model) throws RemoteException {
+        ui.show_cardPlacedMsg(model);
         events.add(model, EventType.CARD_PLACED);
     }
 
@@ -638,7 +647,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
-    //TODO
+        ui.show_cardDrawnMsg(); //TODO messaggio carta pescata
+        events.add(model, EventType.CARD_DRAWN);
     }
 
     @Override
