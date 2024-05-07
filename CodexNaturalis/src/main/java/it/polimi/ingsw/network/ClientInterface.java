@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.*;
 
 import java.io.IOException;
@@ -11,53 +12,20 @@ import java.rmi.RemoteException;
 public interface ClientInterface  {
 
 
-    void setInitialCard(int index) throws IOException;
+    void wrongChooseCard(GameImmutable model) throws IOException;
+    void wrongChooseCell(GameImmutable model) throws IOException;
 
-    void setGoalCard(int index) throws IOException;
-
-    /**
-     * Creates a new game
-     *
-     * @param nick
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws NotBoundException
-     */
-    void createGame(String nick) throws IOException, InterruptedException, NotBoundException;
-
-    /**
-     * Joins the first game found in the list of games
-     *
-     * @param nick
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws NotBoundException
-     */
-    void joinFirstAvailable(String nick) throws IOException, InterruptedException, NotBoundException;
-
-    void setObjectiveCard(int index) throws IOException;
 
     /**
      * Adds the player to the game
      *
      * @param nick
-     * @param idGame
      * @throws IOException
      * @throws InterruptedException
      * @throws NotBoundException
      */
     void joinGame(String nick) throws IOException, InterruptedException, NotBoundException;
 
-    /**
-     * Reconnect the player to the game
-     *
-     * @param nick
-     * @param idGame
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws NotBoundException
-     */
-    void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException;
     //FUNZIONALITA AGGIUNTIVA
     /**
      * Leaves the game
@@ -94,6 +62,9 @@ public interface ClientInterface  {
 
 
     void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
+
+    void setInitialCard(Integer index) throws IOException;
+    void setGoalCard(Integer index) throws IOException;
 }
 
 

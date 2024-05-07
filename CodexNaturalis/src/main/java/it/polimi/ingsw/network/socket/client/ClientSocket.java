@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.client;
 
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
+import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
@@ -11,6 +12,9 @@ import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGene
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 
@@ -147,18 +151,15 @@ public class ClientSocket extends Thread implements ClientInterface {
             socketHeartbeat.interrupt();
         }
     }
-
-    @Override
-    public void setInitialCard(int index) throws IOException {
+    /*public void setInitialCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetInitial(nickname, index));
         finishSending();
     }
 
-    @Override
     public void setGoalCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetObjective(nickname, index));
         finishSending();
-    }
+    }*/
 
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
@@ -167,29 +168,20 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
 
-
-
-    /**
-     * Ask the Socket Server to join to first available game
-     *
-     * @param nick of the player
-     * @throws IOException
-     */
     @Override
-    public void joinFirstAvailable(String nick) throws IOException {
-        nickname = nick;
-        out.writeObject(new SocketClientMessageJoinFirst(nick));
-        finishSending();
-        if(!socketHeartbeat.isAlive()) {
-            socketHeartbeat.start();
-        }
+    public void wrongChooseCard(GameImmutable model) throws IOException {
+
+    }
+
+    @Override
+    public void wrongChooseCell(GameImmutable model) throws IOException {
+
     }
 
     /**
      * Ask the Socket Server to join a specific game
      *
      * @param nick of the player
-     * @param idGame of the game to join
      * @throws IOException
      */
     @Override
@@ -202,40 +194,6 @@ public class ClientSocket extends Thread implements ClientInterface {
         }
     }
 
-    /**
-     * Ask the Socket Server to reconnect to a specific game
-     *
-     * @param nick of the player
-     * @param idGame of the game to reconnect
-     * @throws IOException
-     */
-    @Override
-    public void reconnect(String nick, int idGame) throws IOException {
-        nickname = nick;
-        out.writeObject(new SocketClientMessageReconnect(nick, idGame));
-        finishSending();
-        if(!socketHeartbeat.isAlive()) {
-            socketHeartbeat.start();
-        }
-    }
-
-
-    /**
-     * Ask the Socket Server to leave a specific game
-     *
-     * @param nick of the player
-     * @param idGame of the game to leave
-     * @throws IOException
-     */
-    @Override
-    public void leave(String nick, int idGame) throws IOException {
-        out.writeObject(new ClientMessageLeave(nick, idGame));
-        finishSending();
-        nickname=null;
-        if(socketHeartbeat.isAlive()) {
-            socketHeartbeat.interrupt();
-        }
-    }
 
 
     /**
@@ -248,12 +206,31 @@ public class ClientSocket extends Thread implements ClientInterface {
         finishSending();
     }
 
-
-    @Deprecated
     @Override
-    public boolean isMyTurn() {
+    public boolean isMyTurn() throws RemoteException {
         return false;
     }
+
+
+    /**
+     * Ask the Socket Server to leave a specific game
+     *
+     * @param nick of the player
+     * @param idGame of the game to leave
+     * @throws IOException
+     */
+    @Override
+    public void leave(String nick, int idGame) throws IOException {
+        //TODO
+        out.writeObject(new ClientMessageLeave(nick, idGame));
+        finishSending();
+        nickname=null;
+        if(socketHeartbeat.isAlive()) {
+            socketHeartbeat.interrupt();
+        }
+    }
+
+
 
 
     /**
@@ -262,6 +239,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void heartbeat() {
+        //TODO
         if (out != null) {
             try {
                 out.writeObject(new ClientMsgHeartBeat(nickname));
