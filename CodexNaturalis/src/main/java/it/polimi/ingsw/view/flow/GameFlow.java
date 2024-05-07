@@ -417,15 +417,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    @Override
-    public void gameIdNotExists(int gameid) throws RemoteException {
-        //TODO
-    }
 
-    @Override
-    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
-        //TODO
-    }
 
     /**
      * Print that a player is ready to start
