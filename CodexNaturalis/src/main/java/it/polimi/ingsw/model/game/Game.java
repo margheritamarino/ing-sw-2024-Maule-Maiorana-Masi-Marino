@@ -674,20 +674,29 @@ public class Game {
 	}
 
 
+	public PlayerDeck getPlayerDeck(Player player){
+		return player.getPlayerDeck();
+	}
 
-	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos)  {
-		try {
-			currentPlayer.pickCard(board, cardType, drawFromDeck, pos);
-		} catch (FileNotFoundException e) {
-			System.err.println("cannot find json file");
-		} catch (DeckEmptyException e) {
-            System.err.println("Resource cards' deck is empty");
-        }catch (DeckFullException e){
-			System.err.println("PlayerDeck is full");
+
+	public void pickCardTurn(Player p, CardType cardType, boolean drawFromDeck, int pos)  {
+		try{
+			PlayableCard[] newCard = board.takeCardfromBoard(cardType, drawFromDeck, pos);
+			if (newCard != null) {
+				p.getPlayerDeck().addCard(newCard);
+			}
+
+		}catch (DeckEmptyException e){
+			listenersHandler.notify_GameEnded(this);
+		}catch (IndexOutOfBoundsException e){
+			listenersHandler.notify_PosPickedNotCorrect(this);
 		}
+
         // Notifica ai listeners che una carta è stata pescata
 		listenersHandler.notify_CardDrawn(this);
 	}
+
+
 
 	public Board getBoard(){
 		return this.board;

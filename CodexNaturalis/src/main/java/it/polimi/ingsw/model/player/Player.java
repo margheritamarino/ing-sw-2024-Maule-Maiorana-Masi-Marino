@@ -151,45 +151,6 @@ public class Player implements Serializable, PlayerIC {
 
 
     /**
-     * Picks a card from the board and adds it to the player's deck.
-     *
-     * @param board        The board from which to pick the card.
-     * @param cardType     The type of card to pick.
-     * @param drawFromDeck Indicates whether to draw the card from the deck or the discard pile.
-     * @param pos          The position of the card to pick from the board.
-     * @throws IllegalArgumentException  If the specified card type is invalid.
-     * @throws IndexOutOfBoundsException If the position is out of range or the card cannot be picked.
-     */
-    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, IndexOutOfBoundsException, FileNotFoundException, DeckEmptyException, DeckFullException {
-        setPlayerState(PlayerState.Pick);
-        // Take a card from the board
-        PlayableCard[] pickedCard;
-        try {
-            pickedCard = board.takeCardfromBoard(cardType, drawFromDeck, pos);
-        } catch (IllegalArgumentException e) {
-            // Handle invalid card type exception
-            throw new IllegalArgumentException("Invalid card type", e);
-        } catch (IndexOutOfBoundsException e) {
-            // Handle out of range or unpickable card exception
-            throw new IndexOutOfBoundsException("Position is out of range or the card cannot be picked");
-        } catch (DeckEmptyException e) {
-            throw new DeckEmptyException(cardType + "deck is empty");
-        }
-
-        // Check if a card is successfully picked
-        if (pickedCard != null) {
-            // Add the picked card to the player's deck
-            try {
-                if (playerDeck.getNumCards() < 6)
-                    playerDeck.addCard(pickedCard);
-                else
-                    throw new DeckFullException("The PlayerDeck is full. Cannot add more cards");
-            } catch (IllegalArgumentException e) {
-                // Handle invalid card addition exception
-                throw new IllegalArgumentException("Invalid card addition to the player's deck", e);
-            }
-        }
-    }
 
 
     /**

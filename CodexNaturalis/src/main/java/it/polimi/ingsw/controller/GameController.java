@@ -8,9 +8,13 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.listener.ListenersHandler;
 
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerDeck;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
 import java.io.FileNotFoundException;
@@ -111,7 +115,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
-
+    @Override
+    public synchronized void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos){
+        Player p = model.getPlayerByNickname(nickname);
+        if(p.equals(model.getCurrentPlayer())){
+            model.pickCardTurn(p, cardType, drawFromDeck, pos);
+        }
+    }
 
     /**
      * Check if it's your turn

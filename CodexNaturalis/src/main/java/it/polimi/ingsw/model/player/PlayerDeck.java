@@ -32,16 +32,7 @@ public class PlayerDeck implements Serializable, PlayerDeckIC {
       *
       * @param newCard The new card to be added to the mini deck.
       */
-     public void addCard(PlayableCard[] newCard) throws DeckFullException, IllegalArgumentException {
-          // Verifica che l'array di nuove carte abbia esattamente due elementi (front e back)
-          if (newCard == null || newCard.length != 2) {
-               throw new IllegalArgumentException("Invalid card array: A new card should contain exactly two cards (front and back).");
-          }
-
-          // Verifica se ci sono meno di 6 carte nel mini deck
-          if (actualNumCards >= 6) {
-               throw new DeckFullException("The playerDeck is full. Cannot add more cards.");
-          }
+     public void addCard(PlayableCard[] newCard)  {
 
           // Aggiungi la prima PlayableCard (fronte) al mini deck
           miniDeck.add(newCard[0]);

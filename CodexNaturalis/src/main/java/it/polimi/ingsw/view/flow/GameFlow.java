@@ -154,7 +154,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
 
             case CARD_PLACED ->{
-                askPickCard(event.getModel(),nickname);
+                askPickCard(event.getModel());
             }
 
             case CARD_PLACED_NOT_CORRECT -> { //ask the Player to choose again
@@ -366,7 +366,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         boolean drawFromDeck = askDrawFromDeck("Do you want to draw from deck?", model);
 
         if(drawFromDeck== false){
-            pos= Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
+            pos= Objects.requireNonNullElse(askNum("\t> Choose which card do you want :", model), -1);
         }
         PickCardFromBoard(cardType, drawFromDeck, pos);
     }
@@ -672,14 +672,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-
-
-
-    @Override
-    public boolean isMyTurn() throws RemoteException {
-        return false;
-        //TODO
-    }
 
     @Override
     public void heartbeat() throws RemoteException {

@@ -77,33 +77,14 @@ public interface GameControllerInterface extends Remote {
      */
     void leave(GameListenerInterface lis, String nick) throws RemoteException;
 
-    /**
-     * This method picks a card from the board and adds it to the player's deck.
-     *
-     * @param board        Board the card is taken from.
-     * @param cardType     Type of card to pick.
-     * @param drawFromDeck Indicates whether to draw the card from the deck or the discard pile.
-     * @param pos          The position of the card to pick from the board.
-     * @throws RemoteException if the connection fails
-     */
-    public void pickCard(Board board, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException;
-
-    /**
-     * This method places a card at the specified position in the player's book.
-     * taking the reference to the cell and card of the playerDeck chosen
-     *
-     * @param posCell the position of the cell in the book where the card should be placed.
-     * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
-     * @return the victoryPoints of the placed card
-     * @throws RemoteException if the connection fails
-     */
-    public int placeCard(int posCell, int posCard) throws RemoteException;
 
 
-    public void setInitialCard(String nickname, int index) throws NotPlayerTurnException;
+     void setInitialCard(String nickname, int index) throws NotPlayerTurnException;
 
-    public void setGoalCard(String nickname, int index) throws NotPlayerTurnException;
+     void setGoalCard(String nickname, int index) throws NotPlayerTurnException;
 
      void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell);
-     public GameControllerInterface joinGame(GameListenerInterface lis, String nick) throws RemoteException;
+     GameControllerInterface joinGame(GameListenerInterface lis, String nick) throws RemoteException;
+
+    void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos);
 }

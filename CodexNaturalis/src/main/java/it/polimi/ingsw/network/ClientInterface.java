@@ -42,14 +42,6 @@ public interface ClientInterface  {
      */
     void setAsReady() throws IOException;
 
-    /**
-     * Checks if it's the invoker's turn
-     *
-     * @return
-     * @throws RemoteException
-     */
-    boolean isMyTurn() throws RemoteException;
-
 
     /**
      * Pings the server

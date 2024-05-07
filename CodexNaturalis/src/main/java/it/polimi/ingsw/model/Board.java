@@ -122,10 +122,10 @@ public class Board implements Serializable, BoardIC {
                 case ResourceCard:
                     return resourcesCardsDeck.returnCard();
                 default:
-                    throw new IllegalArgumentException("Invalid card type");
+                    return null;
             }
         } else {
-            ArrayList<PlayableCard[]> cardsOnBoard ;
+            ArrayList<PlayableCard[]> cardsOnBoard =null;
             switch (cardType) {
                 case GoldCard:
                     cardsOnBoard = goldCards;
@@ -133,8 +133,6 @@ public class Board implements Serializable, BoardIC {
                 case ResourceCard:
                     cardsOnBoard = resourceCards;
                     break;
-                default:
-                    throw new IllegalArgumentException("Invalid card type");
             }
             // Controllo che la posizione sia valida
             if (pos < 0 || pos >= cardsOnBoard.size()) {

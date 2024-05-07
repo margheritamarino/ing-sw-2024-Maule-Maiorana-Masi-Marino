@@ -174,7 +174,8 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
-
+        out.writeObject(new ClientMsgPickCard(nickname, cardType, drawFromDeck, pos));
+        finishSending();
     }
 
 
