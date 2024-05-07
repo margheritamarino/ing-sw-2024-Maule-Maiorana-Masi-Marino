@@ -363,7 +363,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    }
+
     @Override
     public void placeCardInBook(int ChosenCard, int rowCell, int columnCell ){
         try {
