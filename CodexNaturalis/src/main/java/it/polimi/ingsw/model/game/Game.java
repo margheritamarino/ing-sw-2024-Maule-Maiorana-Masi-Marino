@@ -685,6 +685,7 @@ public class Game {
 		return currentPlayer.getPlayerDeck();
 	}
 
+
 	public int placeCardTurn( Player p, int chosenCard, int rowCell, int colCell)  {
 		try {
 			int points=  p.placeCard(chosenCard, rowCell, colCell);
@@ -700,9 +701,13 @@ public class Game {
 
 	}
 
-	public void addPoints(Player p, int points) throws  {
+	public void addPoints(Player p, int points) {
 		scoretrack.addPoints(p, points);
+		listenersHandler.notify_PointsAdded(this);
 	}
+
+
+
 	public void pickCardTurn(Board board, CardType cardType, boolean drawFromDeck, int pos)  {
 		try {
 			currentPlayer.pickCard(board, cardType, drawFromDeck, pos);

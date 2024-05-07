@@ -522,6 +522,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
+    public void pointsAdded(GameImmutable model) throws RemoteException {
+        ui.showPointsAddedMsg();
+    }
+
+
+
+    @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
     //TODO
     }
