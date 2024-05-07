@@ -48,7 +48,7 @@ public class InputController extends Thread{
         }
     }
 
-    public void setPlayer(PlayerIC player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
