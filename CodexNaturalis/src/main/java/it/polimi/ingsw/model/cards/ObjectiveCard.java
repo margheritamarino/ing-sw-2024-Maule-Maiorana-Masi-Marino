@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
 import org.fusesource.jansi.Ansi;
 
 
@@ -9,7 +8,7 @@ import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class ObjectiveCard implements ObjectiveCardIC {
+public class ObjectiveCard {
     private int cardID;
     private boolean isFront;
     private GoalType goalType;

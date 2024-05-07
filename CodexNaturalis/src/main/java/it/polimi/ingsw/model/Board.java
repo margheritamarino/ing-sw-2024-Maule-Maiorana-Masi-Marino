@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
  * This class represents the game board that contains decks of cards and cards placed on the board.
  * @author Irene Pia Masi
  */
-public class Board implements Serializable, BoardIC {
+public class Board implements Serializable {
     private final ArrayList<PlayableCard[]> goldCards;
     private final ArrayList<PlayableCard[]> resourceCards;
     private final ObjectiveCard[] objectiveCards; //commonGoals

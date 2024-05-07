@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.player.Player;
 
 
 // BOOK: disposizione delle carte di ogni player
-public class Book implements BookIC {
+public class Book {
     private final Cell[][] bookMatrix; //matrice di celle
     private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
     private Map<SymbolType, Integer> symbolMap; //n° di simboli per tipo

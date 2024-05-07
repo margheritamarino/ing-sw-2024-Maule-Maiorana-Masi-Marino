@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements Serializable, PlayerIC {
+public class Player implements Serializable {
 
     private final String nickname;
     private PlayerState state;
@@ -126,28 +126,29 @@ public class Player implements Serializable, PlayerIC {
     /**
      * @return an ObjectiveCardIC, the personal goal of the player, an interface
      * that we send to the clients to make the model immutable
-     */
+     *//*
     public ObjectiveCardIC getGoalIC() {
         return (ObjectiveCardIC) playerGoal; //controlla sia giusto fare il cast o se serve fare una COPIA
-    }
+    }*/
+
 
     /**
      * @return a BookIC of the player, an interface
      * that we send to the clients to make the model immutable
      */
-    public BookIC getPlayerBookIC() {
-        return (BookIC) playerBook;
-    }
+     // public BookIC getPlayerBookIC() {
+      //  return (BookIC) playerBook;
+     // }
 
     /**
      * @return the list of PlayableCardIC of the player deck, an interface
      * that we send to the clients to make the model immutable
-     */
+     *//*
     public List<PlayableCardIC> getPlayerDeckIC() {
         List<PlayableCardIC> deckIC = new ArrayList<>();
         deckIC.addAll(playerDeck.miniDeck);
         return deckIC;
-    }
+    }*/
 
 
     /**
