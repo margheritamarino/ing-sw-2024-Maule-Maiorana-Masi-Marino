@@ -52,7 +52,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //Invoked for starting with TUI
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
-            case RMI -> clientActions = new ClientRMI(this);
+          //  case RMI -> clientActions = new ClientRMI(this);
         }
         ui = new TUI();
 
@@ -292,7 +292,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_notValidMessage();
             }
         } while (!Objects.equals(answer, "y"));
-        setAsReady(model);
+        ui.show_youAreReady(model);
+        ui.show_allPlayers(model);
+        setAsReady();
     }
 
     /**
@@ -300,11 +302,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws IOException if there is a communication error during the operation.
      */
     @Override
-    public void setAsReady(GameImmutable model) {
+    public void setAsReady() {
         try {
             clientActions.setAsReady();
-            ui.show_youAreReady(model);
-            ui.show_allPlayers(model);
+
         } catch (IOException e){
             noConnectionError();
         }
