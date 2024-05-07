@@ -180,7 +180,13 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
-        //TODO
+        try {
+            out.writeObject(new msgCardDrawn(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send CardDwawn message", e);
+        }
     }
 
     /**

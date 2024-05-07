@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.interfaces.PlayerDeckIC;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayerDeck implements Serializable, PlayerDeckIC {
+public class PlayerDeck implements Serializable{
      public  ArrayList<PlayableCard> miniDeck;
 
      public int actualNumCards;

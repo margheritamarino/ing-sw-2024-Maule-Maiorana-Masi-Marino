@@ -684,15 +684,12 @@ public class Game {
 			if (newCard != null) {
 				p.getPlayerDeck().addCard(newCard);
 			}
+			listenersHandler.notify_CardDrawn(this);
 
 		}catch (DeckEmptyException e){
 			listenersHandler.notify_GameEnded(this);
-		}catch (IndexOutOfBoundsException e){
-			listenersHandler.notify_PosPickedNotCorrect(this);
 		}
 
-        // Notifica ai listeners che una carta è stata pescata
-		listenersHandler.notify_CardDrawn(this);
 	}
 
 

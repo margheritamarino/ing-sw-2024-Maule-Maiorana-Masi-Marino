@@ -88,7 +88,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
-        //TODO
+        flow.cardDrawn(model);
     }
 
     @Override

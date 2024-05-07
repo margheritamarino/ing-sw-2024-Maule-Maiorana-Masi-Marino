@@ -159,8 +159,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             case CARD_PLACED_NOT_CORRECT -> { //ask the Player to choose again
                 askPlaceCards(event.getModel(), nickname);
-
             }
+
+
 
 
 
