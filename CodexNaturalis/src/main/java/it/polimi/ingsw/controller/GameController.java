@@ -7,7 +7,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.listener.ListenersHandler;
-import it.polimi.ingsw.model.Heartbeat;
+
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
@@ -99,7 +99,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
             ArrayList<Player> players= model.getPlayers();
             int[] orderArray= model.getOrderArray();
-            model.setCurrentPlayer(players.get(orderArray[0]);
+            model.setCurrentPlayer(players.get(orderArray[0]));
 
             model.initializeBoard();
             model.setInitialStatus();

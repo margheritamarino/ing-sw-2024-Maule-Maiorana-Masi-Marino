@@ -22,7 +22,7 @@ public class ClientMsgCreateGame extends ClientGenericMessage {
 
     @Override
     public GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        return gameController.joinGame(GameListenerInterface lis, this.nickname);
+        return gameController.joinGame(lis, this.nickname);
     }
 
     /**

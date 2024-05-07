@@ -29,10 +29,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     public void wrongChooseCard(GameImmutable model) throws RemoteException{
         flow.wrongChooseCard(model);
     }
-    @Override
-    public void wrongChooseCell(GameImmutable model) throws RemoteException{
-        flow.wrongChooseCell(model);
-    }
+
 
     @Override
     public void playerLeft(GameImmutable model, String nickname) throws RemoteException {

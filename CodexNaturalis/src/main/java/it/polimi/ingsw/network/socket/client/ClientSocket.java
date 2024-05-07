@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
-import it.polimi.ingsw.network.socket.client.clientToServerMessages.*;
-import it.polimi.ingsw.network.socket.client.mainControllerMessages.*;
 import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGenericMessage;
 
 import it.polimi.ingsw.view.flow.Flow;
@@ -168,15 +166,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
 
-    @Override
-    public void wrongChooseCard(GameImmutable model) throws IOException {
 
-    }
-
-    @Override
-    public void wrongChooseCell(GameImmutable model) throws IOException {
-
-    }
 
     /**
      * Ask the Socket Server to join a specific game

@@ -158,17 +158,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         switch (event.getType()) {
             case GAME_STARTED -> {
                 ui.show_gameStarted(event.getModel());
-
                 this.inputController.setPlayer(event.getModel().getPlayerEntity(nickname));
                 this.inputController.setGameID(event.getModel().getGameId());
-
             }
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
-
                     askPlaceCards(event.getModel(), nickname);
-
-
                 }
             }
 
@@ -177,13 +172,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
 
             case CARD_PLACED_NOT_CORRECT -> {
-
+                ui.showNotCorrectPlacedCardMsg(); //TODO messaggio che stampa che il piazzamento non è andato a buon fine
+                askPlaceCards(event.getModel(), nickname);
             }
-
-
-
-
-
 
         }
 
@@ -378,12 +369,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void wrongChooseCard(GameImmutable model){
-
+        events.add(model, EventType.CARD_PLACED_NOT_CORRECT);
     }
-    @Override
-    public void wrongChooseCell(GameImmutable model){
 
-    }
 
 
     /* METODI CHE IL SERVER HA RICEVUTO DAL CLIENT */
@@ -492,6 +480,22 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
+    @Override
+    public void setInitialCard(int index){
+        try {
+            clientActions.setInitialCard(index);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
+    @Override
+    public void setGoalCard(int index){
+        try {
+            clientActions.setGoalCard(index);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
 
     /**
      * This method requires the user to choose
@@ -535,9 +539,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void pointsAdded(GameImmutable model) throws RemoteException {
-        ui.showPointsAddedMsg();
+        ui.show_pointsAddedMsg(model);
     }
-
 
 
     @Override
@@ -565,18 +568,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    /* METODI CHE IL CLIENT RICHIEDE AL SERVER */
 
-    /**
-     * The client asks the server to join a specific game
-     *
-     * @param nick   nickname of the player
-     */
+
     @Override
-    public void joinGame(String nick) throws IOException, InterruptedException {
-        ui.show_joiningToGameMsg(nick);
+    public void joinGame(String nickname) throws IOException, InterruptedException {
+        ui.show_joiningToGameMsg(nickname);
         try {
-            clientActions.joinGame(nick);
+            clientActions.joinGame(nickname);
         } catch (IOException | InterruptedException | NotBoundException e) {
             noConnectionError();
         }
