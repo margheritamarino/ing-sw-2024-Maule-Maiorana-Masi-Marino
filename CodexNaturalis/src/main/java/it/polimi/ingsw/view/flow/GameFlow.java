@@ -166,7 +166,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
 
-                    askPlaceCards(event.getModel());
+                    askPlaceCards(event.getModel(), nickname);
 
 
                 }
@@ -294,7 +294,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     throw new RuntimeException(e);
                 }
             }catch(InputMismatchException e) {
-                ui.show_NotValidMessage();
+                ui.show_notValidMessage();
             }
         } while (!Objects.equals(answer, "y"));
         setAsReady(model);
@@ -332,32 +332,33 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 }
                 num = Integer.parseInt(temp); //traduco il numero in integer
             } catch (InputMismatchException | NumberFormatException e) {
-                ui.show_NotValidMessage();
+                ui.show_notValidMessage();
             }
         } while (num < 0);
         return num;
     }
 
 
-    public void askPlaceCards(GameImmutable model){
+    public void askPlaceCards(GameImmutable model, String nickname){
         int posChosenCard;
-        ui.show_askPlaceCardsMainMsg(); //è il TUO TURNO //PlayerDeck gli rimane sempre mostrata a video
-                                        // Il Book del CURRENT PLAYER viene mostrato a video a TUTTI i Player appena si passa a NEXT_TURN
+        ui.show_askPlaceCardsMainMsg(model);
+        ui.show_alwaysShow(model, nickname); // Il Book del CURRENT PLAYER viene mostrato a video a TUTTI i Player appena si passa a NEXT_TURN
         posChosenCard = Objects.requireNonNullElse(askNum("> Choose which card to place: ", model), - 1);
 
         int rowCell;
+        ui.show_askWhichCellMsg(model);
         do {
-            rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
+            rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose row: ", model), -1);
             if (ended) return;
         } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin );
 
         int columnCell;
         do {
-            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to get?\n\t> Choose row: ", model), -1);
+            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose column: ", model), -1);
             if (ended) return;
         } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin);
 
-        placeCardInBook(posChosenCard, rowCell, columnCell );
+        placeCardInBook(model, posChosenCard, rowCell, columnCell );
     }
 
     //TODO IMPLEMENTATION
@@ -367,9 +368,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     @Override
-    public void placeCardInBook(int ChosenCard, int rowCell, int columnCell ){
+    public void placeCardInBook(GameImmutable model, int chosenCard, int rowCell, int columnCell ){
         try {
-            clientActions.placeCardInBook(ChosenCard, rowCell, columnCell);
+            clientActions.placeCardInBook(chosenCard, rowCell, columnCell);
+            ui.show_cardPlacedMsg(model);
         } catch (IOException e) {
             noConnectionError();
         }
