@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.*;
-import it.polimi.ingsw.network.socket.client.serverToClientMessages.*;
+
 
 
 import java.io.Serializable;
@@ -40,6 +40,16 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
             throw new RemoteException("Failed to send playerJoined message", e);
         }
+    }
+
+    @Override
+    public void notChoosenCard(GameImmutable model) throws RemoteException {
+
+    }
+
+    @Override
+    public void notChoosenCell(GameImmutable model) throws RemoteException {
+
     }
 
     /**
@@ -202,7 +212,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {
+    public void requireGoalsReady(GameImmutable model) throws RemoteException {
         try {
             out.writeObject(new msgRequireGoalsReady(model));
             finishSending();

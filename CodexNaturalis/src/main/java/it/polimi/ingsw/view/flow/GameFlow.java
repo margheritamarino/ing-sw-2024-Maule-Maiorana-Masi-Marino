@@ -3,8 +3,6 @@ package it.polimi.ingsw.view.flow;
 
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.DefaultValue;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
@@ -264,7 +262,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    /* METODI ASK DA FARE */ //Azioni che il Server richiede al Client di eseguire
+    /* METODI ASK DA FARE */
+    //Azioni che il Server richiede al Client di eseguire
 
 
     private void askNickname() {
@@ -304,7 +303,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         return gameID;
     }
 
+    /**
+     * The method repeatedly checks for user input until the user confirms they're ready by entering "yes".
+     * If any other input is received, the method continues to wait for the correct input.
 
+     * Once the user confirms their readiness, the `setAsReady()` method is called to proceed with the next step.
+     */
     public void askReadyToStart(){
         String answer;
         do {
@@ -315,6 +319,19 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         } while (!answer.equals("yes"));
         setAsReady();
+    }
+
+    /**
+     * Sets the client as ready by calling the server methods.
+     * @throws IOException if there is a communication error during the operation.
+     */
+    @Override
+    public void setAsReady() {
+        try {
+            clientActions.setAsReady();
+        } catch (IOException e){
+            noConnectionError();
+        }
     }
 
 
@@ -360,7 +377,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             if (ended) return;
         } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin);
 
-
         placeCardInBook(posChosenCard, rowCell, columnCell );
     }
 
@@ -397,6 +413,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         } else {
             ui.addImportantEvent("[EVENT]: Player " + nickname + " decided to leave the game!");
         }
+        //TODO
 
     }
 
@@ -409,12 +426,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void joinUnableGameFull(Player wantedToJoin, GameImmutable gameModel) throws RemoteException {
         events.add(null, EventType.GAME_FULL);
-    }
-
-
-    @Override
-    public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException {
-
     }
 
     /**
@@ -431,12 +442,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void gameIdNotExists(int gameid) throws RemoteException {
-
+        //TODO
     }
 
     @Override
     public void genericErrorWhenEnteringGame(String why) throws RemoteException {
-
+        //TODO
     }
 
     /**
@@ -466,6 +477,17 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //TODO quando aggiungiamo la disconnessione fai metodo RESET gioco
     }
 
+    /** Prompts the user to choose between the front or back of the available Initial Cards.
+     *   The method continues prompting the user for a valid choice until one is provided.
+     * If an invalid choice is made, an error message is displayed and the user is prompted again.
+     *  Once a valid choice is made, the selected card side (front or back)
+     *  is sent to the server using `clientActions.setInitialCard(index)`.
+     *
+     * @param model       is the game model
+     * @throws IOException
+     * @throws FileReadException
+     */
+//TODO gestire eccezioni
     @Override
     public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
         ui.show_whichInitialCards();
@@ -483,8 +505,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
+    /**
+     * This method requires the user to choose
+     *  between two Objective Cards by displaying them, and then asks the user to select one by entering either 0 or 1.
+     *
+     *  If the user's selection is invalid, an error message is displayed and the user is prompted again until
+     *  a valid choice is made. Once a valid choice is made, the selected card is sent to the server using
+     *  clientActions.setGoalCard(index)`.
+     * @param model is the game model
+     * @throws RemoteException
+     */
     @Override
-    public void requireGoalsReady(GameImmutable model, ArrayList<ObjectiveCard> objectiveCards) throws RemoteException {
+    public void requireGoalsReady(GameImmutable model) throws RemoteException {
         ui.show_whichObjectiveCards();
         Integer index;
         do {
@@ -496,9 +528,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 index = null;
             }
         } while (index == null);
-        clientActions.setObjectiveCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
+        try {
+            clientActions.setGoalCard(index); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 
     /**
      * A card has been placed on the book
@@ -512,27 +547,25 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
-
+    //TODO
     }
 
     @Override
     public void nextTurn(GameImmutable model) throws RemoteException {
-
-    }
-
-    @Override
-    public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
-
+    //TODO
     }
 
     @Override
     public void lastCircle(GameImmutable model) throws RemoteException {
         ui.addImportantEvent("Last circle begin!");
+        //TODO
     }
 
-    @Override
-    public void setInitialCard(int index) throws IOException {
 
+
+    @Override
+    public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
+    //TODO
     }
 
 
@@ -556,42 +589,35 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    @Override
-    public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
 
-    }
 
     @Override
-    public void leave(String nick, int GameID) throws IOException, NotBoundException {
-        try {
-            clientActions.leave(nick, GameID);
-        } catch (IOException | NotBoundException e) {
-            noConnectionError();
-        }
-    }
-
-    //il client setta se stesso come pronto
-    @Override
-    public void setAsReady() {
-        try {
-            clientActions.setAsReady();
-        } catch (IOException e){
-            noConnectionError();
-        }
+    public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException {
+        //TODO
     }
 
     @Override
     public boolean isMyTurn() throws RemoteException {
         return false;
+        //TODO
     }
 
     @Override
     public void heartbeat() throws RemoteException {
-
+    //TODO
     }
 
     @Override
     public void noConnectionError() {
+    //TODO
+    }
+    @Override
+    public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
+    //TODO
+    }
 
+    @Override
+    public void leave(String nick, int GameID) throws IOException, NotBoundException {
+        //TODO
     }
 }

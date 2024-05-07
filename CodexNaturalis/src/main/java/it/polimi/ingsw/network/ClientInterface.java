@@ -35,6 +35,8 @@ public interface ClientInterface  {
      */
     void joinFirstAvailable(String nick) throws IOException, InterruptedException, NotBoundException;
 
+    void setObjectiveCard(int index) throws IOException;
+
     /**
      * Adds the player to the game
      *
