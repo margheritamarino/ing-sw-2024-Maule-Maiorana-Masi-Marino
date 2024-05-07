@@ -35,8 +35,8 @@ public abstract class UI {
     public abstract void show_alwaysShowForAll(GameImmutable model);
     public abstract void show_askWhichCellMsg(GameImmutable model);
     public abstract void show_cardPlacedMsg(GameImmutable model);
-
-    public abstract void show_joiningToGameMsg(int idGame, String nick) throws IOException, InterruptedException;
+    public abstract void show_pointsAddedMsg(GameImmutable model);
+    public abstract void show_joiningToGameMsg(String nick);
 
 
     //show per mostrare come unirsi al gioco

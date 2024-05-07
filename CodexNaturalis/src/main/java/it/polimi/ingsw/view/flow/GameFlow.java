@@ -530,7 +530,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void pointsAdded(GameImmutable model) throws RemoteException {
-        ui.showPointsAddedMsg();
+        ui.show_pointsAddedMsg(model);
     }
 
 
@@ -559,18 +559,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    /* METODI CHE IL CLIENT RICHIEDE AL SERVER */
 
-    /**
-     * The client asks the server to join a specific game
-     *
-     * @param nick   nickname of the player
-     */
+
     @Override
-    public void joinGame(String nick) throws IOException, InterruptedException {
-        ui.show_joiningToGameMsg(nick);
+    public void joinGame(String nickname) throws IOException, InterruptedException {
+        ui.show_joiningToGameMsg(nickname);
         try {
-            clientActions.joinGame(nick);
+            clientActions.joinGame(nickname);
         } catch (IOException | InterruptedException | NotBoundException e) {
             noConnectionError();
         }
