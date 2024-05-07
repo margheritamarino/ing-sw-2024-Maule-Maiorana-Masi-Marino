@@ -30,7 +30,11 @@ public abstract class UI {
      */
     public abstract void show_publisher() throws IOException, InterruptedException;
 
-    public abstract void show_askPlaceCardsMainMsg();
+    public abstract void show_askPlaceCardsMainMsg(GameImmutable model);
+    public abstract void show_alwaysShow(GameImmutable model, String nickname);
+    public abstract void show_alwaysShowForAll(GameImmutable model);
+    public abstract void show_askWhichCellMsg(GameImmutable model);
+    public abstract void show_cardPlacedMsg(GameImmutable model);
 
     public abstract void show_joiningToGameMsg(int idGame, String nick) throws IOException, InterruptedException;
 
@@ -87,7 +91,7 @@ public abstract class UI {
     public abstract void show_gameEnded(GameImmutable model);
 
 
-    public abstract void show_NotValidMessage();
+    public abstract void show_notValidMessage();
 
     public abstract void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException;
     protected abstract void show_ObjectiveCards(GameImmutable model);

@@ -58,11 +58,13 @@ public class TUI extends UI {
      * Shows all players nicknames
      * @param model
      */
+
     public void show_allPlayers(GameImmutable model) {
         //toStringListPlayer restituisce la lista dei giocatori attuali
         printAsync("Players: \n" + model.toStringListPlayers());
 
     }
+
 
     //show di ciò che deve sempre essere mostrato ad ogni giocatore
     public void show_alwaysShow(GameImmutable model, String nick) {
@@ -130,6 +132,106 @@ public class TUI extends UI {
         printAsync(model.getCurrentPlayer().getPlayerDeckIC().toString());
     }
 
+    @Override
+    public void show_notValidMessage(){
+        printAsync("Not Valid input");
+    }
+
+    @Override
+    public void show_playerJoined(GameImmutable gameModel, String nick) {
+        clearScreen();
+        show_welcome(nick);
+        printAsync(ansi().fg(YELLOW).a("GameID: [" + gameModel.getGameId().toString() + "]\n"));
+        System.out.flush(); //Svuota il buffer di output per garantire che tutti i dati scritti siano visibili immediatamente
+    }
+
+    @Override
+    public void show_readyToStart(GameImmutable gameModel, String nickname) {
+        printAsync("Press y if you are ready to start the game");
+    }
+
+    @Override
+    public void show_youAreReady(GameImmutable model){
+        printAsync("You are ready to start the game!");
+    }
+
+    @Override
+    public void show_whichInitialCards() {
+        printAsync("> Choose the front or the back of  this initial card:");
+    }
+
+    @Override
+    public void show_whichObjectiveCards() {
+        printAsync("> Choose one of this two objective cards:");
+    }
+
+    /**
+     * Clears the console
+     */
+    public void clearScreen(){
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            //if not on a Windows machine
+        } catch (IOException | InterruptedException e) {
+            //for mac
+            printAsyncNoCursorReset("\033\143");
+        }
+    }
+
+    /**
+     * Shows the game id
+     * @param gameModel
+     */
+    public void show_gameId(GameImmutable gameModel) {
+        printAsync(ansi().fg(DEFAULT).a("Game with id: [" + gameModel.getGameId() + "]"));
+    }
+
+    @Override
+    public void show_gameStarted(GameImmutable model) throws IOException, InterruptedException {
+        this.clearScreen();
+        this.show_publisher();
+        this.show_titleCodexNaturalis();
+        this.show_allPlayers(model); //mostra la lista dei giocatori
+        this.show_alwaysShowForAll(model);
+        this.show_gameId(model);
+    }
+
+    @Override
+    public void show_askPlaceCardsMainMsg(GameImmutable model){
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to draw a card!" );
+    }
+
+    @Override
+    public void show_askWhichCellMsg(GameImmutable model){
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to choose a cell to place the card!" );
+    }
+
+    @Override
+    public void show_cardPlacedMsg(GameImmutable model){
+        printAsync( model.getCurrentPlayer().getNickname() + "has placed a card!" );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @param input the string of the important event to add
      */
@@ -181,29 +283,7 @@ public class TUI extends UI {
     }
 
 
-    @Override
-    public void show_whichInitialCards() {
-        printAsync("> Choose the front or the back of  this initial card:");
-    }
 
-    @Override
-    public void show_whichObjectiveCards() {
-        printAsync("> Choose one of this two objective cards:");
-    }
-
-
-    /**
-     * Clears the console
-     */
-    public void clearScreen(){
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            //if not on a Windows machine
-        } catch (IOException | InterruptedException e) {
-            //for mac
-            printAsyncNoCursorReset("\033\143");
-        }
-    }
 
 
     /**
@@ -246,23 +326,6 @@ public class TUI extends UI {
     }
 
 
-    /**
-     * Shows the game id
-     * @param gameModel
-     */
-    public void show_gameId(GameImmutable gameModel) {
-        //printAsync(ansi().cursor(DefaultValue.row_gameID, 0).bold().a("Game with id: [" + gameModel.getGameId() + "]").boldOff());
-    }
-
-    @Override
-    public void show_gameStarted(GameImmutable model) throws IOException, InterruptedException {
-        this.clearScreen();
-        this.show_publisher();
-        this.show_titleCodexNaturalis();
-        this.show_allPlayers(model); //mostra la lista dei giocatori
-        this.show_alwaysShowForAll(model);
-        this.show_gameId(model);
-    }
 
 
     public void show_card(GameImmutable model, int index){
@@ -284,28 +347,6 @@ public class TUI extends UI {
     }
     public void show_ChooseObjectiveCard(){
 
-    }
-    @Override
-    public void show_playerJoined(GameImmutable gameModel, String nick) {
-        clearScreen();
-        show_welcome(nick);
-        printAsync(ansi().fg(YELLOW).a("GameID: [" + gameModel.getGameId().toString() + "]\n"));
-        System.out.flush(); //Svuota il buffer di output per garantire che tutti i dati scritti siano visibili immediatamente
-    }
-
-    @Override
-    public void show_readyToStart(GameImmutable gameModel, String nickname) {
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
-        ).println(ansi().fg(DEFAULT).a("PRESS y if you are ready to start the game").reset());
-    }
-
-    public void show_youAreReady(GameImmutable model){
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
-        ).println(ansi().fg(DEFAULT).a("You are ready to start the game!").reset());
     }
 
     @Override
