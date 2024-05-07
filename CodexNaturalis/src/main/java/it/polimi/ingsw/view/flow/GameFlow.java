@@ -273,7 +273,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     /**
-     * The method repeatedly checks for user input until the user confirms they're ready by entering "yes".
+     * The method repeatedly checks for user input until the user confirms they're ready by entering "y".
      * If any other input is received, the method continues to wait for the correct input.
 
      * Once the user confirms their readiness, the `setAsReady()` method is called to proceed with the next step.
