@@ -90,22 +90,6 @@ public class ListenersHandler {
     }
 
 
-    /**
-     * The notify_NotCorrectChosenCell method notifies that a player chose an unable Cell to put his card
-     * @param model is the Game to pass as a new GameModelImmutable
-     */
-    public synchronized void notify_NotCorrectChosenCell(Game model){
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.wrongChooseCell( new GameImmutable(model));
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_NotCorrectChoosenCell, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
-        }
-    }
 
     /**
      * The notify_PlayerLeft method notifies that a player has left the game

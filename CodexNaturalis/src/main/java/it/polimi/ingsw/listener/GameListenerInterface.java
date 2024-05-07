@@ -32,12 +32,6 @@ public interface GameListenerInterface extends Remote {
      */
     void wrongChooseCard(GameImmutable model) throws RemoteException;
 
-    /**
-     * This method is used to notify the client that the Current player has to choose again the CELL
-     * @param model is the game model
-     * @throws RemoteException if the reference could not be accessed
-     */
-    void wrongChooseCell(GameImmutable model) throws RemoteException;
 
     void pointsAdded(GameImmutable model)throws RemoteException;
 
