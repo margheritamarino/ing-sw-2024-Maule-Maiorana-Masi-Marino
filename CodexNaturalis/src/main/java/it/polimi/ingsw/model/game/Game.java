@@ -535,26 +535,21 @@ public class Game {
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
-				player.pickCard(board, CardType.ResourceCard, true, 0);
+				PlayableCard[] newCard= board.takeCardfromBoard(CardType.ResourceCard, true, 0);
+				player.getPlayerDeck().addCard(newCard);
 			}
-			player.pickCard(board, CardType.GoldCard, true, 0);
+			PlayableCard[] newCard= board.takeCardfromBoard(CardType.GoldCard, true, 0);
+			player.getPlayerDeck().addCard(newCard);
 
 			temporaryObjectiveCards = drawObjectiveCards();
 			// Inizializza gli obiettivi
 			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
 
-		} catch (FileNotFoundException e) {
-			System.err.println("Error: file not found during cards initialization - " + e.getMessage());
-			initializationSuccessful = false;
 
 		} catch (DeckEmptyException e) {
 			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
 			initializationSuccessful = false;
 
-
-		} catch (DeckFullException e) {
-			System.err.println("Error: playerDeck full during cards initialization - " + e.getMessage());
-			initializationSuccessful = false;
 		}
 
 	}

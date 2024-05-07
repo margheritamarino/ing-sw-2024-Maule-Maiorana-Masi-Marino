@@ -317,7 +317,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             } catch (InputMismatchException | NumberFormatException e) {
                 ui.show_notValidMessage();
             }
-        } while (num < 0);
+        } while (num < 0 || num>1);
         return num;
     }
 
@@ -585,7 +585,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_wrongSelectionInitialMsg();
                 index = null;
             }
-        } while (index == null);
+        } while (index == null|| (index < 0 || index >= 2));
         setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
@@ -612,7 +612,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_wrongSelectionObjectiveMsg();
                 index = null;
             }
-        } while (index == null);
+        } while (index == null || index < 0 || index >= 2);
         try {
             setGoalCard(index); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
         } catch (IOException e) {
