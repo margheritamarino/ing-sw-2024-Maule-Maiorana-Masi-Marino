@@ -44,25 +44,12 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
         flow.joinUnableGameFull(triedToJoin, model);
     }
 
-    @Override
-    public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException {
-        flow.playerReconnected(model, nickPlayerReconnected);
-    }
 
     @Override
     public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
         flow.joinUnableNicknameAlreadyIn(triedToJoin);
     }
 
-    @Override
-    public void gameIdNotExists(int gameid) throws RemoteException {
-        flow.gameIdNotExists(gameid);
-    }
-
-    @Override
-    public void genericErrorWhenEnteringGame(String why) throws RemoteException {
-        flow.genericErrorWhenEnteringGame(why);
-    }
 
     @Override
     public void playerIsReadyToStart(GameImmutable model, String nickname) throws IOException {
@@ -70,7 +57,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void (GameImmutable model) throws RemoteException {
+    public void gameStarted(GameImmutable model) throws RemoteException {
         flow.gameStarted(model);
     }
 
@@ -80,7 +67,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void requireInitialReady(GameImmutable model) throws IOException {
+    public void requireInitialReady(GameImmutable model) throws RemoteException {
         flow.requireInitialReady(model);
     }
 

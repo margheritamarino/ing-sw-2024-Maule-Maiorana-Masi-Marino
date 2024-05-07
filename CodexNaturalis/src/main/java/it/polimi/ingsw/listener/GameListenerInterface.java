@@ -57,13 +57,6 @@ public interface GameListenerInterface extends Remote {
      */
     void joinUnableGameFull(Player triedToJoin, GameImmutable model) throws RemoteException;
 
-    /**
-     * This method is used to notify the client that a player has reconnected to the game
-     * @param model is the game model
-     * @param nickPlayerReconnected is the nickname of the player that has reconnected
-     * @throws RemoteException if the reference could not be accessed
-     */
-    void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has tried to join the game but the nickname is already in use
@@ -72,19 +65,7 @@ public interface GameListenerInterface extends Remote {
      */
     void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException;
 
-    /**
-     * This method is used to notify the client that the game id does not exist
-     * @param gameid is the id of the game
-     * @throws RemoteException if the reference could not be accessed
-     */
-    void gameIdNotExists(int gameid) throws RemoteException;
 
-    /**
-     * This is a generic error that can happen when a player is entering the game
-     * @param why is the reason why the error happened
-     * @throws RemoteException if the reference could not be accessed
-     */
-    void genericErrorWhenEnteringGame(String why) throws RemoteException;
 
     /**
      * This method is used to notify that the player is ready to start the game

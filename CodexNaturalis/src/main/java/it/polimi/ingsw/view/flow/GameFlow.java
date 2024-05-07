@@ -583,10 +583,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    @Override
-    public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException {
-        //TODO
-    }
 
     @Override
     public boolean isMyTurn() throws RemoteException {
@@ -601,10 +597,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void noConnectionError() {
-    //TODO
-    }
-    @Override
-    public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
     //TODO
     }
 
