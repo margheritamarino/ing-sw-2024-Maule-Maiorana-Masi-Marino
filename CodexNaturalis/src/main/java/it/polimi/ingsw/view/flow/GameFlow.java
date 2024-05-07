@@ -158,17 +158,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         switch (event.getType()) {
             case GAME_STARTED -> {
                 ui.show_gameStarted(event.getModel());
-
                 this.inputController.setPlayer(event.getModel().getPlayerEntity(nickname));
                 this.inputController.setGameID(event.getModel().getGameId());
-
             }
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
-
                     askPlaceCards(event.getModel(), nickname);
-
-
                 }
             }
 
@@ -374,10 +369,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void wrongChooseCard(GameImmutable model){
-
+        events.add(model, EventType.CARD_PLACED_NOT_CORRECT);
     }
     @Override
     public void wrongChooseCell(GameImmutable model){
+        events.add(model, EventType.NOT_CORRECT_CELL_CARD);
 
     }
 
@@ -533,7 +529,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void pointsAdded(GameImmutable model) throws RemoteException {
         ui.showPointsAddedMsg();
     }
-
 
 
     @Override
