@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.*;
 
@@ -62,6 +63,9 @@ public interface ClientInterface  {
 
     void setInitialCard(int index) throws IOException;
     void setGoalCard(int index) throws IOException;
+
+    void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException;
+
 }
 
 
