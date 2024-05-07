@@ -290,11 +290,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String answer;
         do {
             try {
-                answer = this.inputController.getUnprocessedData().popInputData();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                ui.show_readyToStart(model,nick);
+                try {
+                    answer = this.inputController.getUnprocessedData().popInputData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }catch(InputMismatchException e) {
+                ui.show_NotValidMessage();
             }
-        } while (!answer.equals("yes"));
+        } while (!answer.equals("y"));
         setAsReady();
     }
 
