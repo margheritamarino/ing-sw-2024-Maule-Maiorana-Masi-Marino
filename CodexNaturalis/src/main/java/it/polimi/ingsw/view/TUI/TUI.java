@@ -208,7 +208,18 @@ public class TUI extends UI {
 
     @Override
     public void show_cardPlacedMsg(GameImmutable model){
-        printAsync( model.getCurrentPlayer().getNickname() + "has placed a card!" );
+        printAsync( model.getCurrentPlayer().getNickname() + " has placed a card!" );
+    }
+
+    @Override
+    public void show_pointsAddedMsg(GameImmutable model){
+        printAsync(model.getCurrentPlayer().getNickname() + " scored some points!");
+        show_scoretrack(model);
+    }
+
+    @Override
+    public void show_joiningToGameMsg(String nickname){
+        printAsync("You are joining a game!");
     }
 
 
