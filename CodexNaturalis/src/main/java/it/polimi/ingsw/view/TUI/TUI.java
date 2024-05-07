@@ -58,11 +58,13 @@ public class TUI extends UI {
      * Shows all players nicknames
      * @param model
      */
+
     public void show_allPlayers(GameImmutable model) {
         //toStringListPlayer restituisce la lista dei giocatori attuali
         printAsync("Players: \n" + model.toStringListPlayers());
 
     }
+
 
     //show di ciò che deve sempre essere mostrato ad ogni giocatore
     public void show_alwaysShow(GameImmutable model, String nick) {
@@ -193,6 +195,22 @@ public class TUI extends UI {
         this.show_alwaysShowForAll(model);
         this.show_gameId(model);
     }
+
+    @Override
+    public void show_askPlaceCardsMainMsg(GameImmutable model){
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to draw a card!" );
+    }
+
+    @Override
+    public void show_askWhichCellMsg(GameImmutable model){
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to choose a cell to place the card!" );
+    }
+
+    @Override
+    public void show_cardPlacedMsg(GameImmutable model){
+        printAsync( model.getCurrentPlayer().getNickname() + "has placed a card!" );
+    }
+
 
 
 
