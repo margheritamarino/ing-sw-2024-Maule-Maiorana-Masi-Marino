@@ -366,8 +366,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-
-    @Override
     public void placeCardInBook(GameImmutable model, int chosenCard, int rowCell, int columnCell ){
         try {
             clientActions.placeCardInBook(chosenCard, rowCell, columnCell);
