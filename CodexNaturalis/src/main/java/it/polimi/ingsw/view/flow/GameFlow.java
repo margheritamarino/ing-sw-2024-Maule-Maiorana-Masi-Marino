@@ -148,7 +148,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                 if (nicknameLastPlayer.equals(nickname)) {
                     ui.show_playerJoined(event.getModel(), nickname);
-                    askReadyToStart();
+                    askReadyToStart(event.getModel(), nickname);
                 }
             }
         }
@@ -283,8 +283,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
      * Once the user confirms their readiness, the `setAsReady()` method is called to proceed with the next step.
      */
-    public void askReadyToStart(){
-        String answer;
+    public void askReadyToStart(GameImmutable model, String nick){
+        String answer = null;
         do {
             try {
                 ui.show_readyToStart(model,nick);
@@ -296,7 +296,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }catch(InputMismatchException e) {
                 ui.show_NotValidMessage();
             }
-        } while (!answer.equals("y"));
+        } while (!Objects.equals(answer, "y"));
         setAsReady();
     }
 

@@ -100,7 +100,7 @@ public abstract class UI {
      * @param gameModel     model where events happen
      * @param nicknameofyou player's nickname
      */
-    protected abstract void show_readyToStart(GameImmutable gameModel, String nicknameofyou);
+    public abstract void show_readyToStart(GameImmutable gameModel, String nicknameofyou);
 
     /**
      * Show the message for next turn or reconnected player

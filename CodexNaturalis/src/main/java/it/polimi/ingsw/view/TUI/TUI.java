@@ -294,7 +294,7 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_readyToStart(GameImmutable gameModel, String nicknameofyou) {
+    public void show_readyToStart(GameImmutable gameModel, String nicknameofyou) {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
