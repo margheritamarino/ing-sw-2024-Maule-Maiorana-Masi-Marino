@@ -452,40 +452,16 @@ public class Game {
 		}
 
 
-	public void nextTurn() throws GameEndedException, GameNotStartedException, NoPlayersException, InvalidPointsException, PlayerNotFoundException {
-		if (status.equals(GameStatus.RUNNING) || status.equals(GameStatus.LAST_CIRCLE)) {
-			// Trova l'indice dell'attuale currentPlayer in orderArray
-			int currentIndex = -1;
-			for (int i = 0; i < orderArray.length; i++) {
-				if (players.get(orderArray[i]).equals(currentPlayer)) {
-					currentIndex = i;
-					break;
-				}
-			}
-			if(currentIndex == playersNumber - 1){
-				if (scoretrack.checkTo20()) { //= true -> un giocatore è arrivato alla fine (chiamo ultimo turno)
-					setStatus(GameStatus.LAST_CIRCLE); //viene notificato qui
-				}
-			}
-			if (status.equals(GameStatus.LAST_CIRCLE)){
-				lastTurnGoalCheck();
+	public void nextTurn(int currentIndex) throws GameNotStartedException {
 
-				//condizione FINE GIOCO
-				if(currentIndex == playersNumber-1) {
-					setStatus(GameStatus.ENDED);
-					throw new GameEndedException(); //TERMINA IL GIOCO
-				}
-			}
-
+		if (status.equals(GameStatus.RUNNING) ||status.equals(GameStatus.LAST_CIRCLE)) {
 			// Calcola l'indice del giocatore successivo
 			int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
 			// Imposta il nuovo currentPlayer
 			currentPlayer = players.get(orderArray[nextIndex]);
 			listenersHandler.notify_nextTurn(this);
 		}
-		else if (status.equals(GameStatus.ENDED)) {
-			throw new GameEndedException();
-		} else {
+		if(status.equals(GameStatus.WAIT)){
 			throw new GameNotStartedException();
 		}
 	}
@@ -500,7 +476,7 @@ public class Game {
 	 * @throws InvalidPointsException if there are errors related to points during the goal checks.
 	 * @throws PlayerNotFoundException if the current player is not found.
 	 */
-	public void lastTurnGoalCheck() throws InvalidPointsException, PlayerNotFoundException { //
+	public void lastTurnGoalCheck(){ //
 		// Controlla l'obiettivo del giocatore corrente
 		checkGoal(currentPlayer.getGoal());
 
@@ -514,7 +490,7 @@ public class Game {
 
 	//risale al playerbook del giocatore corrente e
 	//chiama il metodo checkGoal del giocatore corrente per aggiungere i punti
-	public void checkGoal(ObjectiveCard goalToCheck) throws InvalidPointsException, PlayerNotFoundException {
+	public void checkGoal(ObjectiveCard goalToCheck)  {
 		Book currentBook = currentPlayer.getPlayerBook();
 		int goalPoints = currentBook.checkGoal(goalToCheck);
 		scoretrack.addPoints(currentPlayer, goalPoints);

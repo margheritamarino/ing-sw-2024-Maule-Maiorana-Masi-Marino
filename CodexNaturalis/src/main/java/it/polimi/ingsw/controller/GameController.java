@@ -117,9 +117,38 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public synchronized void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos){
+
+        //TODO
         Player p = model.getPlayerByNickname(nickname);
         if(p.equals(model.getCurrentPlayer())){
             model.pickCardTurn(p, cardType, drawFromDeck, pos);
+        }
+
+        // Trova l'indice dell'attuale currentPlayer in orderArray
+        int currentIndex = -1;
+        for (int i = 0; i < model.getOrderArray().length; i++) {
+            if (model.getPlayers().get(model.getOrderArray()[i]).equals(model.getCurrentPlayer())) {
+                currentIndex = i;
+                break;
+            }
+        }
+        if (currentIndex == model.getNumPlayers() - 1) { //se sono nell'ultimo giocatore del giro
+            if (model.getScoretrack().checkTo20()) { //= true -> e un giocatore è arrivato alla fine (chiamo ultimo turno)
+                model.setStatus(GameStatus.LAST_CIRCLE);
+            }
+            if (model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+                model.lastTurnGoalCheck();
+
+                //condizione FINE GIOCO
+                if (currentIndex == model.getNumPlayers() - 1) {
+                    model.setStatus(GameStatus.ENDED);
+                }
+            }
+        }
+        try {
+            model.nextTurn(currentIndex);
+        } catch (GameNotStartedException e) {
+            System.err.println("Error: game not started yet");
         }
     }
 

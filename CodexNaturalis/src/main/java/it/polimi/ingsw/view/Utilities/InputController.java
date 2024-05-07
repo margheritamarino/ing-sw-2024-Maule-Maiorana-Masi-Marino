@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.Utilities;
 
 import it.polimi.ingsw.model.interfaces.PlayerIC;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.Utilities.Buffer;
 import it.polimi.ingsw.view.flow.GameFlow;
 
@@ -14,7 +15,7 @@ public class InputController extends Thread{
 
     private final GameFlow gameFlow;
 
-    private PlayerIC player;
+    private Player player;
     private Integer gameID;
 
     /**
