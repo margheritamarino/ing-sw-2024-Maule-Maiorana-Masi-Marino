@@ -48,22 +48,7 @@ public class GameImmutable implements Serializable {
     //private final ChatIC chat;
 
 
-    /*
-    /**
-     * Constructor
-     */
-    /*public GameImmutable() throws FileNotFoundException, FileReadException, DeckEmptyException {
-        gameID=-1;
-        players = new ArrayList<>();
-        playersNumber= -1;
-        scoreTrack = new ScoreTrack();
-        currentPlayer = new Player();
-        initialCardsDeck = new Deck();
-        board = new Board();
-        status = GameStatus.WAIT;
-        //chat = new Chat();
-    }
-    */
+
 
     /**
      * Constructor

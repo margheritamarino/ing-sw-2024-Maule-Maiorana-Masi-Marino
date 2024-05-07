@@ -25,8 +25,8 @@ import static it.polimi.ingsw.view.PrintAsync.printAsync;
 /**
  * GameController Class
  * Controls a specific Game {@link Game} by allowing a player to perform all actions that can be executed in a game
- * The class can add, remove, reconnect and disconnects players to the game and let players grab and position tiles
- * from the playground to the shelf. <br>
+ * The class can add, remove, reconnect and disconnects players to the game and let players pick and place cards
+ * from the Board to them Book. <br>
  * <br>
  * It manages all the game from the beginning (GameStatus.WAIT to the ending {GameStatus.Ended}
  */
@@ -41,15 +41,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * A random object for implementing pseudo-random choice     */
     private final Random random = new Random();
 
-    /**
-     * Map of heartbeats for detecting disconnections
-     * For implementing AF: "Clients disconnections"
-     */
-    private final transient Map<GameListenerInterface, Heartbeat> heartbeats;
 
-    private Thread reconnectionTh;
-
-    //Singleton
     /**
      * Singleton Pattern, instance of the class
      */
@@ -68,7 +60,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @return the only one instance of the GameController class
      */
-    public synchronized static GameController getInstance() {
+    public synchronized static GameController getInstance() throws FileNotFoundException, FileReadException, DeckEmptyException {
         if (instance == null) {
             instance = new GameController();
         }
