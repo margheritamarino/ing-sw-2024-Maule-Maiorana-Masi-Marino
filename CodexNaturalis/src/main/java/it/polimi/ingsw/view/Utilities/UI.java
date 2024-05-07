@@ -93,14 +93,16 @@ public abstract class UI {
     protected abstract void show_ObjectiveCards(GameImmutable model);
 
     public abstract void show_playerJoined(GameImmutable gameModel, String nick);
+    public abstract void show_allPlayers(GameImmutable model);
+    public abstract void show_youAreReady(GameImmutable model);
 
     /**
      * Shows that the playing player is ready to start
      *
      * @param gameModel     model where events happen
-     * @param nicknameofyou player's nickname
+     * @param nickname player's nickname
      */
-    public abstract void show_readyToStart(GameImmutable gameModel, String nicknameofyou);
+    public abstract void show_readyToStart(GameImmutable gameModel, String nickname);
 
     /**
      * Show the message for next turn or reconnected player
@@ -171,4 +173,8 @@ public abstract class UI {
     public abstract void show_wrongSelectionInitialMsg();
 
     public abstract void show_wrongSelectionObjectiveMsg();
+
+
+
+
 }
