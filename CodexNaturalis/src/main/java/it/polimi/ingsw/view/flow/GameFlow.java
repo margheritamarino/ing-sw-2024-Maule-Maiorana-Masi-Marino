@@ -277,9 +277,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_chosenNickname(nickname);
     }
 
-
-
-
     /**
      * The method repeatedly checks for user input until the user confirms they're ready by entering "yes".
      * If any other input is received, the method continues to wait for the correct input.
@@ -310,7 +307,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
-
 
     //metodo per chiedere il numero della carta (scelta fronte o retro, o carta 1 o 2)
     private Integer askNum(String message, GameImmutable model){
@@ -357,6 +353,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         placeCardInBook(posChosenCard, rowCell, columnCell );
     }
 
+    //TODO IMPLEMENTATION
+    public void askPickCard (GameImmutable model) {
+    }
+
+
+    }
     @Override
     public void placeCardInBook(int ChosenCard, int rowCell, int columnCell ){
         try {
