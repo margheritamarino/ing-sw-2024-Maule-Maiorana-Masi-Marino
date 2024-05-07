@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.*;
 
 import java.io.IOException;
@@ -15,33 +16,14 @@ public interface ClientInterface  {
 
     void setGoalCard(int index) throws IOException;
 
-    /**
-     * Creates a new game
-     *
-     * @param nick
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws NotBoundException
-     */
-    void createGame(String nick) throws IOException, InterruptedException, NotBoundException;
+    void wrongChooseCard(GameImmutable model) throws IOException;
+    void wrongChooseCell(GameImmutable model) throws IOException;
 
-    /**
-     * Joins the first game found in the list of games
-     *
-     * @param nick
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws NotBoundException
-     */
-    void joinFirstAvailable(String nick) throws IOException, InterruptedException, NotBoundException;
-
-    void setObjectiveCard(int index) throws IOException;
 
     /**
      * Adds the player to the game
      *
      * @param nick
-     * @param idGame
      * @throws IOException
      * @throws InterruptedException
      * @throws NotBoundException

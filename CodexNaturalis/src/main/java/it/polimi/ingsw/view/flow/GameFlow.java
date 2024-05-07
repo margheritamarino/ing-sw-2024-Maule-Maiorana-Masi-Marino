@@ -375,9 +375,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
+    @Override
     public void wrongChooseCard(GameImmutable model){
 
     }
+    @Override
     public void wrongChooseCell(GameImmutable model){
 
     }
