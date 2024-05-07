@@ -288,33 +288,17 @@ public class TUI extends UI {
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick) {
         clearScreen();
-        show_titleCodexNaturalis();
-        printAsync(ansi().cursor().a("GameID: [" + gameModel.getGameId().toString() + "]\n").fg(DEFAULT)); //capire come togliere ROW e COLUMN
-        System.out.flush();
-        //StringBuilder players = new StringBuilder();
-        StringBuilder ris = new StringBuilder();
-
-        int i = 0;
-        for (PlayerIC p : gameModel.getPlayers()) {
-            if (p.getReadyToStart()) {
-                ris.append(ansi().cursor(12 + i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" is ready!\n");
-            } else {
-                ris.append(ansi().cursor(12 + i, 0)).append("[EVENT]: ").append(p.getNickname()).append(" has joined!\n");
-            }
-            i++;
-        }
-        printAsyncNoCursorReset(ris);
-
-
-        for (PlayerIC p : gameModel.getPlayers())
-            if (!p.getReadyToStart() && p.getNickname().equals(nick))
-                printAsyncNoCursorReset(ansi().cursor(17, 0).fg(WHITE).a("> When you are ready to start, enter (y): \n"));
-        System.out.flush();
+        show_welcome(nick);
+        printAsync(ansi().fg(YELLOW).a("GameID: [" + gameModel.getGameId().toString() + "]\n"));
+        System.out.flush(); //Svuota il buffer di output per garantire che tutti i dati scritti siano visibili immediatamente
     }
 
     @Override
-    protected void show_youReadyToStart(GameImmutable gameModel, String nicknameofyou) {
-
+    protected void show_readyToStart(GameImmutable gameModel, String nicknameofyou) {
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
+        ).println(ansi().fg(DEFAULT).a("PRESS y if you are ready to start the game").reset());
     }
 
     @Override
