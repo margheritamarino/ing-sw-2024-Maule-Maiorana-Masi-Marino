@@ -9,7 +9,7 @@ import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public abstract class PlayableCard implements PlayableCardIC {
+public abstract class PlayableCard {
     private final int cardID;
     private final int numCorners;
     private final boolean isFront;

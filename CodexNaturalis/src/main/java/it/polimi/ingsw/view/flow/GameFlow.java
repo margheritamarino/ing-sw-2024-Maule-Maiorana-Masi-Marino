@@ -365,7 +365,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         CardType cardType = askCardType("Which card to you want to pick? ", model);
         boolean drawFromDeck = askDrawFromDeck("Do you want to draw from deck?", model);
 
-        if(drawFromDeck== false){
+        if(!drawFromDeck){
             pos= Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
         }
         PickCardFromBoard(cardType, drawFromDeck, pos);
@@ -384,7 +384,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         CardType cardType = null;
         do {
             try {
-                // Mostra un messaggio all'utente per chiedere il tipo di carta desiderato
+                // Mostra un messaggio all'utente per chiedere il tipo di carta desiderato ("R" per Resource, "G" per Goald)
                 //TODO mosta il messaggio passato come parametro e mostra la board(?)
                 ui.show_askCardType(message, model, nickname);
 

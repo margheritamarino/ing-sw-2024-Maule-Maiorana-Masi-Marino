@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.interfaces.PlayableCardIC;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
 
