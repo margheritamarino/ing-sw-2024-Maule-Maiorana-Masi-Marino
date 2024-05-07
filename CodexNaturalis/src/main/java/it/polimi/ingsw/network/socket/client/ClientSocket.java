@@ -168,28 +168,10 @@ public class ClientSocket extends Thread implements ClientInterface {
 
 
 
-
-    /**
-     * Ask the Socket Server to join to first available game
-     *
-     * @param nick of the player
-     * @throws IOException
-     */
-    @Override
-    public void joinFirstAvailable(String nick) throws IOException {
-        nickname = nick;
-        out.writeObject(new SocketClientMessageJoinFirst(nick));
-        finishSending();
-        if(!socketHeartbeat.isAlive()) {
-            socketHeartbeat.start();
-        }
-    }
-
     /**
      * Ask the Socket Server to join a specific game
      *
      * @param nick of the player
-     * @param idGame of the game to join
      * @throws IOException
      */
     @Override
@@ -199,41 +181,6 @@ public class ClientSocket extends Thread implements ClientInterface {
         finishSending();
         if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
-        }
-    }
-
-    /**
-     * Ask the Socket Server to reconnect to a specific game
-     *
-     * @param nick of the player
-     * @param idGame of the game to reconnect
-     * @throws IOException
-     */
-    @Override
-    public void reconnect(String nick, int idGame) throws IOException {
-        nickname = nick;
-        out.writeObject(new SocketClientMessageReconnect(nick, idGame));
-        finishSending();
-        if(!socketHeartbeat.isAlive()) {
-            socketHeartbeat.start();
-        }
-    }
-
-
-    /**
-     * Ask the Socket Server to leave a specific game
-     *
-     * @param nick of the player
-     * @param idGame of the game to leave
-     * @throws IOException
-     */
-    @Override
-    public void leave(String nick, int idGame) throws IOException {
-        out.writeObject(new ClientMessageLeave(nick, idGame));
-        finishSending();
-        nickname=null;
-        if(socketHeartbeat.isAlive()) {
-            socketHeartbeat.interrupt();
         }
     }
 
@@ -249,11 +196,27 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
 
-    @Deprecated
+
+
+    /**
+     * Ask the Socket Server to leave a specific game
+     *
+     * @param nick of the player
+     * @param idGame of the game to leave
+     * @throws IOException
+     */
     @Override
-    public boolean isMyTurn() {
-        return false;
+    public void leave(String nick, int idGame) throws IOException {
+        //TODO
+        out.writeObject(new ClientMessageLeave(nick, idGame));
+        finishSending();
+        nickname=null;
+        if(socketHeartbeat.isAlive()) {
+            socketHeartbeat.interrupt();
+        }
     }
+
+
 
 
     /**
@@ -262,6 +225,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void heartbeat() {
+        //TODO
         if (out != null) {
             try {
                 out.writeObject(new ClientMsgHeartBeat(nickname));

@@ -127,25 +127,6 @@ public class ListenersHandler {
 
 
     /**
-     * The notify_playerReconnected method notifies the view that a player has reconnected to the game
-     * @param model is the Game to pass as a new GameModelImmutable
-     * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
-     */
-    public synchronized void notify_playerReconnected(Game model, String nickPlayerReconnected) {
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.playerReconnected(new GameImmutable(model), nickPlayerReconnected);
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_playerReconnected, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
-        }
-    }
-
-
-    /**
      * The notify_JoinUnableGameFull method notifies that a player cannot join the game because the game is full
      * @param triedToJoin is the player that wanted to join the game <br>
      * @param model is the GameModel to pass as a new GameModelImmutable
