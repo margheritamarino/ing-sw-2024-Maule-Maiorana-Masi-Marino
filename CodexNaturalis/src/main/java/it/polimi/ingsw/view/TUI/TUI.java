@@ -187,7 +187,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_gameStarted(GameImmutable model) throws IOException, InterruptedException {
+    public void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_publisher();
         this.show_titleCodexNaturalis();
@@ -223,29 +223,6 @@ public class TUI extends UI {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * @param input the string of the important event to add
-     */
     @Override
     public void addImportantEvent(String input) {
         //Want to show a numbeMaxEventToShow important event happened
@@ -258,7 +235,8 @@ public class TUI extends UI {
 
     @Override
     public void resetImportantEvents() {
-
+        this.eventsToShow = new ArrayList<>();
+        this.nickname = null;
     }
 
     /**
@@ -267,21 +245,74 @@ public class TUI extends UI {
     public void show_important_events() {
 
         StringBuilder ris = new StringBuilder();
-        int i = 0;
         int longestImportantEvent = eventsToShow.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
-        ris.append(ansi().fg(GREEN).cursor(DefaultValue.row_important_events + i, DefaultValue.col_important_events - 1).bold().a("Latest Events:").fg(DEFAULT).boldOff());
+        ris.append(ansi().fg(GREEN).bold().a("Latest Events:").fg(DEFAULT).boldOff());
         for (String s : eventsToShow) {
-            ris.append(ansi().fg(Ansi.Color.WHITE).cursor(DefaultValue.row_important_events + 1 + i, DefaultValue.col_important_events).a(s).a(" ".repeat(longestImportantEvent - s.length())).fg(DEFAULT));
-            i++;
+            ris.append(ansi().fg(Ansi.Color.WHITE).a(s).a(" ".repeat(longestImportantEvent - s.length())).fg(DEFAULT));
         }
         printAsync(ris);
-
-        printAsync(ansi().cursor(DefaultValue.row_input, 0));
     }
+
     @Override
-    public void show_creatingNewGameMsg(String nickname) {
+    public void show_insertNicknameMessage(){
+        printAsync("Insert your nickname: ");
+    }
+
+    @Override
+    public void show_chosenNickname(String nickname) {
+        printAsync("Your nickname is " + nickname);
+    }
+
+    @Override
+    public void show_gameEnded(GameImmutable model) {
+        clearScreen();
+        show_titleCodexNaturalis();
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
+                //colore del testo ROSSO
+        ).println(ansi().fg(RED).bold().a("GAME ENDED").boldOff().reset()); //per evitare che prossime stampe possano basarsi su questa
 
     }
+
+    @Override
+    public void show_returnToMenuMsg() {
+        printAsync("You are back in the menu!");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     protected void show_temporaryInitialCards(GameImmutable model){
@@ -306,36 +337,6 @@ public class TUI extends UI {
     }
 
 
-    @Override
-    protected void show_joiningFirstAvailableMsg(String nickname) {
-
-    }
-
-    @Override
-    protected void show_joiningToGameIdMsg(int idGame, String nickname) {
-
-    }
-
-    @Override
-    public void show_insertNicknameMessage() {
-
-    }
-
-    @Override
-    public void show_chosenNickname(String nickname) {
-
-    }
-
-    @Override
-    protected void show_noAvailableGamesToJoin(String msg) {
-
-    }
-
-    @Override
-    protected void show_insertPlayersNumber() {
-
-    }
-
 
 
 
@@ -344,29 +345,8 @@ public class TUI extends UI {
     }
 
 
-
-
-    @Override
-    public void show_gameEnded(GameImmutable model) {
-        clearScreen();
-        show_titleCodexNaturalis();
-        //... //TODO stampa scritte di fine gioco
-    }
-
-    public void show_chooseFrontOrBack(){
-
-    }
-    public void show_ChooseObjectiveCard(){
-
-    }
-
     @Override
     protected void show_nextTurnOrPlayerReconnected(GameImmutable model, String nickname) {
-
-    }
-
-    @Override
-    public void show_returnToMenuMsg() {
 
     }
 
@@ -377,30 +357,7 @@ public class TUI extends UI {
     }
 
 
-    @Override
-    protected void show_pickCellRequest() {
 
-    }
-
-    @Override
-    protected void show_pickCardRequest() {
-
-    }
-
-    @Override
-    protected void show_pickDeckRequest() {
-
-    }
-
-    @Override
-    protected void show_chooseArrayPosition() {
-
-    }
-
-    @Override
-    protected void show_InformationGame() {
-
-    }
 
     @Override
     protected void show_noConnectionError() {
