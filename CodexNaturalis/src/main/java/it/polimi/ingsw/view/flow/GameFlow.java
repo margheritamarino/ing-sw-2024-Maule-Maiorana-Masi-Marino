@@ -376,6 +376,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
+    public void setInitialCard(Integer index) throws IOException {
+    clientActions.setInitialCard(index);
+    }
+
+    @Override
+    public void setGoalCard(Integer index) throws IOException {
+        clientActions.setInitialCard(index);
+    }
+
+    @Override
     public void wrongChooseCard(GameImmutable model){
 
     }
@@ -488,7 +498,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 index = null;
             }
         } while (index == null);
-        clientActions.setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
+        setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
 
@@ -516,7 +526,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         } while (index == null);
         try {
-            clientActions.setGoalCard(index); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
+            setGoalCard(index); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -570,11 +580,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * The client asks the server to join a specific game
      *
      * @param nick   nickname of the player
-     * @param idGame id of the game to join
      */
     @Override
     public void joinGame(String nick) throws IOException, InterruptedException {
-        ui.show_joiningToGameMsg(idGame, nick);
+        ui.show_joiningToGameMsg(nick);
         try {
             clientActions.joinGame(nick);
         } catch (IOException | InterruptedException | NotBoundException e) {
@@ -606,4 +615,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void leave(String nick, int GameID) throws IOException, NotBoundException {
         //TODO
     }
+
+
 }

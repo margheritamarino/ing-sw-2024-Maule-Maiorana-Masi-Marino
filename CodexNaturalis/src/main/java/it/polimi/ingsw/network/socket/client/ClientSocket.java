@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.client;
 
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
+import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
@@ -11,6 +12,9 @@ import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGene
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 
@@ -147,18 +151,15 @@ public class ClientSocket extends Thread implements ClientInterface {
             socketHeartbeat.interrupt();
         }
     }
-
-    @Override
-    public void setInitialCard(int index) throws IOException {
+    /*public void setInitialCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetInitial(nickname, index));
         finishSending();
     }
 
-    @Override
     public void setGoalCard(int index) throws IOException {
         out.writeObject(new ClientMsgSetObjective(nickname, index));
         finishSending();
-    }
+    }*/
 
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
@@ -167,6 +168,15 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
 
+    @Override
+    public void wrongChooseCard(GameImmutable model) throws IOException {
+
+    }
+
+    @Override
+    public void wrongChooseCell(GameImmutable model) throws IOException {
+
+    }
 
     /**
      * Ask the Socket Server to join a specific game
@@ -185,6 +195,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
 
+
     /**
      * Ask the Socket Server to set the player as ready
      * @throws IOException
@@ -195,7 +206,10 @@ public class ClientSocket extends Thread implements ClientInterface {
         finishSending();
     }
 
-
+    @Override
+    public boolean isMyTurn() throws RemoteException {
+        return false;
+    }
 
 
     /**

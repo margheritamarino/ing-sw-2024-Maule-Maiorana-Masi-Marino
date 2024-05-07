@@ -12,10 +12,6 @@ import java.rmi.RemoteException;
 public interface ClientInterface  {
 
 
-    void setInitialCard(int index) throws IOException;
-
-    void setGoalCard(int index) throws IOException;
-
     void wrongChooseCard(GameImmutable model) throws IOException;
     void wrongChooseCell(GameImmutable model) throws IOException;
 
@@ -30,16 +26,6 @@ public interface ClientInterface  {
      */
     void joinGame(String nick) throws IOException, InterruptedException, NotBoundException;
 
-    /**
-     * Reconnect the player to the game
-     *
-     * @param nick
-     * @param idGame
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws NotBoundException
-     */
-    void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException;
     //FUNZIONALITA AGGIUNTIVA
     /**
      * Leaves the game
@@ -76,6 +62,9 @@ public interface ClientInterface  {
 
 
     void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
+
+    void setInitialCard(Integer index) throws IOException;
+    void setGoalCard(Integer index) throws IOException;
 }
 
 
