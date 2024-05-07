@@ -197,6 +197,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             //caso: game non valido -> back to menu
             case BACK_TO_MENU -> {
                 //ciclo per chiedere al giocatore di selezionare una partita valida
+                askNickname();
                 joinGame(nickname); //non gli faccio scegliere l'ID
 
             }
@@ -278,30 +279,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    //metodo per chiedere all'utente l'ID del gioco a cui vuole unirsi
-    private Integer askGameId() {
-        String temp;
-        Integer gameID = null;
-        //ciclo do while finché l'ID inserito non è corretto
-        do {
-            ui.show_insertGameIDMessage();
-            try {
-                try {
-                    temp = this.inputController.getUnprocessedData().popInputData();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                if (temp.equals(".")) {
-                    return -1; //processo interrotto
-                }
-                gameID = Integer.parseInt(temp); //conversione input in integer
-            } catch (NumberFormatException e) {
-                ui.show_NotValidMessage(); //messaggio di errore sul gameID inserito
-            }
-
-        } while (gameID == null);
-        return gameID;
-    }
 
     /**
      * The method repeatedly checks for user input until the user confirms they're ready by entering "yes".
