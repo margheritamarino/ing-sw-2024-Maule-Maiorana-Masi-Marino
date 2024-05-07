@@ -162,5 +162,4 @@ public interface GameListenerInterface extends Remote {
     void lastCircle(GameImmutable model) throws RemoteException;
 
 
-
 }

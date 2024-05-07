@@ -373,6 +373,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
+    public void wrongChooseCard(GameImmutable model){
+
+    }
+    public void wrongChooseCell(GameImmutable model){
+
+    }
+
 
     /* METODI CHE IL SERVER HA RICEVUTO DAL CLIENT */
     /**
