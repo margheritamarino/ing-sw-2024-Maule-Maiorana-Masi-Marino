@@ -177,13 +177,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
 
             case CARD_PLACED_NOT_CORRECT -> {
-
+                ui.showNotCorrectPlacedCardMsg(); //TODO messaggio che stampa che il piazzamento non è andato a buon fine
+                askPlaceCards(event.getModel(), nickname);
             }
-
-
-
-
-
 
         }
 
