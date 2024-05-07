@@ -294,11 +294,18 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_readyToStart(GameImmutable gameModel, String nicknameofyou) {
+    public void show_readyToStart(GameImmutable gameModel, String nickname) {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
         ).println(ansi().fg(DEFAULT).a("PRESS y if you are ready to start the game").reset());
+    }
+
+    public void show_youAreReady(GameImmutable model){
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
+        ).println(ansi().fg(DEFAULT).a("You are ready to start the game!").reset());
     }
 
     @Override
