@@ -388,14 +388,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
-    public CardType askCardType(String message, GameImmutable model) {
+    public CardType askCardType(GameImmutable model) {
         String temp;
         CardType cardType = null;
         do {
             try {
-                // Mostra un messaggio all'utente per chiedere il tipo di carta desiderato ("R" per Resource, "G" per Goald)
+                // Mostra un messaggio all'utente per chiedere il tipo di carta desiderato ("R" per Resource, "G" per Gold)
                 //TODO mosta il messaggio passato come parametro e mostra la board(?)
-                ui.show_askCardType(message, model, nickname);
+                ui.show_askCardType(model, nickname);
 
                 // Ottieni l'input dell'utente
                 try {
@@ -614,7 +614,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_whichObjectiveCards();
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Choose one of these  Objective Cards selecting 0 or 1:", model), -1);
+            index = Objects.requireNonNullElse(askNum("\t> Choose one of these  Objective Cards:", model), -1);
             ui.show_ObjectiveCards();
             if (ended) return;
             if (index < 0 || index >= 2) {

@@ -124,12 +124,17 @@ public class TUI extends UI {
 
     //TODO
     public void show_playerBook(GameImmutable model){
-        printAsync(model.getCurrentPlayer().getPlayerBookIC().toString());
+        printAsync(model.getCurrentPlayer().getPlayerBook().toString());
     }
 
     @Override
     protected void show_playerDeck(GameImmutable model) {
-        printAsync(model.getCurrentPlayer().getPlayerDeckIC().toString());
+        printAsync(model.getCurrentPlayer().getPlayerDeck().toString());
+    }
+
+    @Override
+    public void show_askNum(String msg, GameImmutable model, String nickname) {
+        printAsync("Insert 0 or 1: "); //TODO
     }
 
     @Override
@@ -199,6 +204,16 @@ public class TUI extends UI {
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
         printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to draw a card!" );
+    }
+
+    @Override
+    public void show_PickCardMsg(GameImmutable model){
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to pick a card!" );
+    }
+
+    @Override
+    public void show_askCardType(GameImmutable model, String nickname){
+        printAsync("Press R(r) if you want a Resource card or G(g) if you want a Gold card: " );
     }
 
     @Override
@@ -351,11 +366,6 @@ public class TUI extends UI {
 
     }
 
-    @Override
-    protected void show_askNum(String msg, GameImmutable model, String nickname) {
-        this.show_alwaysShow(model, nickname);
-        //TODO
-    }
 
 
 

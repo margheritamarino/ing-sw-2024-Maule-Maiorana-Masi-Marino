@@ -29,6 +29,8 @@ public abstract class UI {
      */
     public abstract void show_publisher() throws IOException, InterruptedException;
     public abstract void show_askPlaceCardsMainMsg(GameImmutable model);
+    public abstract void show_PickCardMsg(GameImmutable model);
+    public abstract void show_askCardType(GameImmutable model, String nickname);
     public abstract void show_alwaysShow(GameImmutable model, String nickname);
     public abstract void show_alwaysShowForAll(GameImmutable model);
     public abstract void show_askWhichCellMsg(GameImmutable model);
@@ -60,16 +62,11 @@ public abstract class UI {
     public abstract void show_allPlayers(GameImmutable model);
     public abstract void show_youAreReady(GameImmutable model);
     protected abstract void show_playerDeck(GameImmutable model);
-    /**
-     * Shows that the playing player is ready to start
-     *
-     * @param gameModel     model where events happen
-     * @param nickname player's nickname
-     */
     public abstract void show_readyToStart(GameImmutable gameModel, String nickname);
     public abstract void show_returnToMenuMsg();
     public abstract void show_whichInitialCards();
     public abstract void show_whichObjectiveCards();
+    public abstract void show_askNum(String msg, GameImmutable gameModel, String nickname);
     /**
      * Shows message on important event added
      * @param input the string of the important event to add
@@ -93,7 +90,6 @@ public abstract class UI {
     //TODO
     public abstract void show_wrongSelectionInitialMsg();
     public abstract void show_wrongSelectionObjectiveMsg();
-    protected abstract void show_askNum(String msg, GameImmutable gameModel, String nickname);
     public abstract void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException;
     protected abstract void show_ObjectiveCards(GameImmutable model);
 
