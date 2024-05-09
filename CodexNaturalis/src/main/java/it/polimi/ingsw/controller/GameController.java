@@ -150,6 +150,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         } catch (GameNotStartedException e) {
             System.err.println("Error: game not started yet");
         }
+
     }
 
     /**

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.flow;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.interfaces.PlayerIC;
+import it.polimi.ingsw.model.player.Player;
 
 
 public abstract class Flow implements GameListenerInterface {
@@ -12,7 +12,7 @@ public abstract class Flow implements GameListenerInterface {
      * @param model
      */
     protected void resetGameId(FileDisconnection fileDisconnection, GameImmutable model) {
-        for (PlayerIC p : model.getPlayers()) {
+        for (Player p : model.getPlayers()) {
             fileDisconnection.setLastGameId(p.getNickname(), -1);
         }
     }
