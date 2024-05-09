@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
@@ -11,38 +12,30 @@ import java.rmi.RemoteException;
  * indicating the request to leave a game.
  */
 public class ClientMessageLeave extends ClientGenericMessage {
-    int idGame;
+
+    String nickname;
 
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
-     * @param idGame the ID of the game to leave
      */
-    public ClientMessageLeave(String nickname, int idGame) {
-        this.idGame = idGame;
+    public ClientMessageLeave(String nickname) {
         this.nickname = nickname;
-        this.isMessageForMainController = true;
+    }
+
+
+    @Override
+    public GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
+        return null;
     }
 
     /**
      * Method to execute the corresponding action for the message.
-     * @param lis the game listener
-     * @param mainController the main controller of the application
-     * @return the game controller interface
+     * @param gameController the game controller interface
      * @throws RemoteException if there is an error in remote communication
      */
     @Override
-    public GameControllerInterface execute(GameListenerInterface lis, MainControllerInterface mainController) throws RemoteException {
-        return mainController.leaveGame(lis, nickname, idGame);
-    }
-
-    /**
-     * Method to execute the corresponding action for the message.
-     * @param mainController the game controller interface
-     * @throws RemoteException if there is an error in remote communication
-     */
-    @Override
-    public void execute(GameControllerInterface mainController) throws RemoteException {
-
+    public void execute(GameControllerInterface gameController) throws RemoteException {
+        gameController.leaveGame(lis, nickname);
     }
 }

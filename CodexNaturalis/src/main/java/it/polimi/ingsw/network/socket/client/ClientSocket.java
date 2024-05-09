@@ -209,15 +209,12 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     /**
      * Ask the Socket Server to leave a specific game
-     *
      * @param nick of the player
-     * @param idGame of the game to leave
      * @throws IOException
      */
     @Override
-    public void leave(String nick, int idGame) throws IOException {
-        //TODO
-        out.writeObject(new ClientMessageLeave(nick, idGame));
+    public void leave(String nick) throws IOException {
+        out.writeObject(new ClientMessageLeave(nick));
         finishSending();
         nickname=null;
         if(socketHeartbeat.isAlive()) {
