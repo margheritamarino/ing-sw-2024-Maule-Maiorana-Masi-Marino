@@ -165,18 +165,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
-    /**
-     * remove a player from the game.
-     *
-     * @param nick the nickname of the player to add.
-     * @throws MatchFull if the match is already full and no more players can be added.
-     * @throws NicknameAlreadyTaken if the specified nickname is already in use by another player.
-     */
-    public void removePlayer(String nick) {
-        model.removePlayer(nick);
-    }
-
-
 
     @Override
     public synchronized void setInitialCard(String playerName, int index) {
