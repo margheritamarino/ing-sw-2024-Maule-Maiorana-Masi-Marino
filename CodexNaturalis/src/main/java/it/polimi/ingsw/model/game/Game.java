@@ -529,6 +529,10 @@ public class Game {
 		return temporaryInitialCard;
 	}
 
+	public ArrayList<ObjectiveCard> getObjectiveCard(){
+		return temporaryObjectiveCards;
+	}
+
 	/**
 	 * Sets the initial card front or back chosen
 	 * in the book of the given player
@@ -720,7 +724,7 @@ public class Game {
 	public PlayableCard[] getTemporaryInitialCardsDeck() {
 		return temporaryInitialCard;
 	}
-
+	public ArrayList<ObjectiveCard> getTemporaryObjectiveCardsDeck() {return temporaryObjectiveCards;}
 	/**
 	 * @param playerNickname
 	 * @return player by nickname

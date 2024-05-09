@@ -66,8 +66,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-
-
     @Override
     public void run() {
         Event event;
@@ -102,7 +100,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                         case ENDED -> {
                             try {
                                 statusEnded(event);
-                            } catch (IOException | InterruptedException e) {
+                            } catch (IOException | NotBoundException e) {
                                 throw new RuntimeException(e);
                             }
                         }
@@ -113,6 +111,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if (event != null) {
                     try {
                         statusNotInAGame(event);
+                    } catch (NotBoundException | IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             }
@@ -396,7 +396,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         do {
             try {
                 // Mostra un messaggio all'utente per chiedere il tipo di carta desiderato ("R" per Resource, "G" per Gold)
-                //TODO mosta il messaggio passato come parametro e mostra la board(?)
                 ui.show_askCardType(model, nickname);
 
                 // Ottieni l'input dell'utente
@@ -436,7 +435,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         // Loop finché non viene fornito un input valido
         do {
             try {
-                //TODO
                 ui.show_askDrawFromDeck(model, nickname);
 
                 // Ottieni l'input dell'utente
@@ -615,7 +613,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         Integer index;
         do {
             index = Objects.requireNonNullElse(askNum("\t> Choose one of these  Objective Cards:", model), -1);
-            ui.show_ObjectiveCards();
+            ui.show_ObjectiveCards(model);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 ui.show_wrongSelectionObjectiveMsg();
@@ -648,13 +646,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
-        ui.show_cardDrawnMsg(); //TODO messaggio carta pescata
+        ui.show_cardDrawnMsg(model);
         events.add(model, EventType.CARD_DRAWN);
     }
 
     @Override
     public void nextTurn(GameImmutable model) throws RemoteException {
-        ui.show_nextTurnMsg(); //TODO messaggio Prossimo Turno
+        ui.show_nextTurnMsg(model);
         events.add(model, EventType.NEXT_TURN);
         this.inputController.getUnprocessedData().popAllData();
     }

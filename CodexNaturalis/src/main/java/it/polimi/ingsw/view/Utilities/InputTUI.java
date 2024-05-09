@@ -27,8 +27,7 @@ public class InputTUI extends Thread implements InputReader {
             String txt = sc.nextLine();
             buffer.addInputData(txt);
             //dopo aver letto uso printAsync per cancellare l'input precedentemente stampato e spostare il cursore nella posizione corretta per leggere l'input successivo
-            printAsync(ansi().cursorUpLine().a(" ".repeat(temp.length())));
-            printAsync(ansi().cursor(DefaultValue.row_input + 1, 0));
+            printAsync(ansi().cursorUpLine().eraseLine());
         }
     }
 

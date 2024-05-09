@@ -33,6 +33,7 @@ public class GameImmutable implements Serializable {
     private final ScoreTrack scoreTrack;
     private final Player currentPlayer;
     private final PlayableCard[] temporaryInitialCard;
+    private final ArrayList<ObjectiveCard> temporaryObjectiveCards;
     private final Board board;
     private final GameStatus status;
 
@@ -50,6 +51,7 @@ public class GameImmutable implements Serializable {
         board = modelToCopy.getBoard();
         status = modelToCopy.getStatus();
         temporaryInitialCard = modelToCopy.getTemporaryInitialCardsDeck();
+        temporaryObjectiveCards = modelToCopy.getTemporaryObjectiveCardsDeck();
     }
 
     /**
@@ -111,6 +113,7 @@ public class GameImmutable implements Serializable {
     public PlayableCard[] getTemporaryInitialCardsDeck() {
         return temporaryInitialCard;
     }
+    public ArrayList<ObjectiveCard> getTemporaryObjectiveCardsDeck() {return temporaryObjectiveCards;}
 
     public Board getBoard(){
         return board;
@@ -126,7 +129,7 @@ public class GameImmutable implements Serializable {
      * @return the instance of Player with that nickname
      */
     public Player getPlayerEntity(String playerNickname) {
-        return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().get(0);
+        return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().getFirst();
     }
 
 
@@ -171,7 +174,16 @@ public class GameImmutable implements Serializable {
         return (ObjectiveCard) currentPlayer.getGoal();
     }
 
+    public ObjectiveCard[] getCommonGoals() {
+        return board.getObjectiveCards();
+    }
 
+    public PlayableCard[] getInitialCard(){
+        return temporaryInitialCard;
+    }
 
+    public ArrayList<ObjectiveCard> getObjectiveCard(){
+        return temporaryObjectiveCards;
+    }
 
 }

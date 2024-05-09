@@ -1,16 +1,13 @@
 package it.polimi.ingsw.view.TUI;
 
-import it.polimi.ingsw.exceptions.DeckEmptyException;
-import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.DefaultValue;
-import it.polimi.ingsw.model.interfaces.PlayerIC;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.Utilities.UI;
-import org.fusesource.jansi.AnsiConsole;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
@@ -22,7 +19,7 @@ import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
 
-//da fare
+
 //la classe TUI deve funzionare come una vista che consenta al gioco di interagire con l'utente per fargli visualizzare lo stato del gioco e fargli delle richieste
 //deve avere gli show del gioco (showTitle, showScoretrack, showBoard, showPlayerDeck)
 //e dei metodi per interagire con l'utente per fargli operare delle scelte (fare una mossa, scegliere la carta obbiettivo iniziale, scegliere fronte\retro delle carte?)
@@ -54,17 +51,11 @@ public class TUI extends UI {
         printAsync(ansi().fg(BLUE).a("Welcome " + nick).bold());
     }
 
-    /**
-     * Shows all players nicknames
-     * @param model
-     */
-
     public void show_allPlayers(GameImmutable model) {
         //toStringListPlayer restituisce la lista dei giocatori attuali
         printAsync("Players: \n" + model.toStringListPlayers());
 
     }
-
 
     //show di ciò che deve sempre essere mostrato ad ogni giocatore
     public void show_alwaysShow(GameImmutable model, String nick) {
@@ -134,12 +125,12 @@ public class TUI extends UI {
 
     @Override
     public void show_askNum(String msg, GameImmutable model, String nickname) {
-        printAsync("Insert 0 or 1: "); //TODO
+        printAsync(msg);
     }
 
     @Override
     public void show_notValidMessage(){
-        printAsync("Not Valid input");
+        printAsync("Not valid input. Please try again. ");
     }
 
     @Override
@@ -162,14 +153,23 @@ public class TUI extends UI {
 
     @Override
     public void show_whichInitialCards() {
-        printAsync("> Choose the front or the back of  this initial card:");
+        printAsync("> Choose one of the following initial cards:");
+    }
+
+    @Override
+    public void show_wrongSelectionInitialMsg() {
+        printAsync("Invalid selection. Please choose 0 or 1.");
     }
 
     @Override
     public void show_whichObjectiveCards() {
-        printAsync("> Choose one of this two objective cards:");
+        printAsync("> Choose one of the following objective cards:");
     }
 
+    @Override
+    public void show_wrongSelectionObjectiveMsg(){
+        printAsync("Invalid selection. Please choose 0 or 1. ");
+    }
     /**
      * Clears the console
      */
@@ -183,10 +183,6 @@ public class TUI extends UI {
         }
     }
 
-    /**
-     * Shows the game id
-     * @param gameModel
-     */
     public void show_gameId(GameImmutable gameModel) {
         printAsync(ansi().fg(DEFAULT).a("Game with id: [" + gameModel.getGameId() + "]"));
     }
@@ -228,13 +224,23 @@ public class TUI extends UI {
 
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname){
-        printAsync("ERROR: Choose again!" );
+        printAsync("ERROR: invalid selection. Choose again!" );
 
     }
 
     @Override
     public void show_cardPlacedMsg(GameImmutable model){
         printAsync( model.getCurrentPlayer().getNickname() + " has placed a card!" );
+    }
+
+    @Override
+    public void show_nextTurnMsg(GameImmutable model){
+        printAsync("Next turn: " + model.getCurrentPlayer().getNickname());
+    }
+
+    @Override
+    public void show_cardDrawnMsg(GameImmutable model){
+        printAsync( model.getCurrentPlayer().getNickname() + " has drawn a card!" );
     }
 
     @Override
@@ -254,7 +260,7 @@ public class TUI extends UI {
     public void addImportantEvent(String input) {
         //Want to show a numbeMaxEventToShow important event happened
         if (eventsToShow.size() + 1 >= DefaultValue.MaxEventToShow) {
-            eventsToShow.remove(0);
+            eventsToShow.removeFirst();
         }
         eventsToShow.add(input);
         show_important_events();
@@ -306,86 +312,25 @@ public class TUI extends UI {
     public void show_returnToMenuMsg() {
         printAsync("You are back in the menu!");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
-    protected void show_temporaryInitialCards(GameImmutable model){
-        //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
+    public void show_temporaryInitialCards(GameImmutable model){
+        printAsync("Temporary display of Initial Cards...");
+        PlayableCard[] initialCards = model.getInitialCard();
+
+        for (int i = 0; i < initialCards.length; i++) {
+            printAsync("[" + i + "]: " + initialCards[i].toString());
+        }
     }
 
     @Override
-    protected void show_ObjectiveCards(GameImmutable model){
-        //TO DO (DECIDERE COME STAMPARE LE DUE INITIAL CARD A VIDEO)
+    public void show_ObjectiveCards(GameImmutable model){
+        printAsync("Objective Cards...");
+        ArrayList<ObjectiveCard> objectiveCards = model.getObjectiveCard();
+
+        for (int i = 0; i < objectiveCards.size(); i++) {
+            printAsync("[" + i + "]: " + objectiveCards.get(i).toString());
+        }
     }
-
-
-
-
-
-    /**
-     * Shows the next player
-     * @param model
-     */
-    public void show_nextTurn(GameImmutable model){
-
-    }
-
-
-
-
-
-    public void show_card(GameImmutable model, int index){
-        model.getCurrentPlayer().getPlayerDeckIC().get(index).
-    }
-
-
-    @Override
-    protected void show_nextTurnOrPlayerReconnected(GameImmutable model, String nickname) {
-
-    }
-
-
-
-
-
-    @Override
-    protected void show_noConnectionError() {
-
-    }
-
 
 
 

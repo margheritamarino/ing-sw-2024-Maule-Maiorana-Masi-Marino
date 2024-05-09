@@ -27,6 +27,6 @@ public class msgGenericErrorWhenEntryingGame extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.genericErrorWhenEnteringGame(why);
+       // lis.genericErrorWhenEnteringGame(why);
     }
 }

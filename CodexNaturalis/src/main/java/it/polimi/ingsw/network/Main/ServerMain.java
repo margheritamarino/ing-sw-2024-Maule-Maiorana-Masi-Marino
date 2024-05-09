@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.Main;
 
-import it.polimi.ingsw.network.rmi.ServerRMI;
+//import it.polimi.ingsw.network.rmi.ServerRMI;
 import it.polimi.ingsw.network.socket.server.ServerTCP;
 
 import java.io.BufferedReader;
@@ -13,24 +13,19 @@ public class ServerMain {
      * The name of the command to type in the console to stop the server.
      */
     private static final String SHUTDOWN_COMMAND = "exit";
-    private ServerRMI rmiServer;
+    //private ServerRMI rmiServer;
     private ServerTCP socketServer;
 
     /**
      * Creates a new server.
      * It initializes both the RMI and the socket servers.
      */
-    public ServerMain() {
-        try {
-            this.rmiServer = new ServerRMI();
-            this.socketServer = new ServerTCP();
-        } catch (IOException e) {
-            System.err.println("Another server is already running. Closing this instance...");
-            System.exit(0);
-        }
+    public ServerMain() throws IOException {
+        //this.rmiServer = new ServerRMI();
+        this.socketServer = new ServerTCP();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ServerMain server = new ServerMain();
 
         try {
@@ -65,7 +60,7 @@ public class ServerMain {
      */
 
     public void start() {
-        rmiServer.start();
+       // rmiServer.start();
         socketServer.start();
         System.out.println("Server started.");
 
@@ -77,7 +72,7 @@ public class ServerMain {
      */
 
     public void stop() {
-        rmiServer.stop();
+        //rmiServer.stop();
         socketServer.stopConnection();
         System.exit(0);
     }

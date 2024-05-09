@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
-
+/*
 public class HeartbeatSender extends Thread{
     private Flow flow;
     private ClientInterface server;
@@ -43,3 +43,4 @@ public class HeartbeatSender extends Thread{
 
     }
 }
+*/

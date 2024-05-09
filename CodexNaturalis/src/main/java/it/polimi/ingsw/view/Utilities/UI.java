@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.Utilities;
 
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.FileNotFoundException;
@@ -21,12 +20,6 @@ public abstract class UI {
      * Initialize GUI or TUI
      */
     public abstract void init();
-    /**
-     * Show's Cranio Creation's logo
-     *
-     * @throws IOException
-     * @throws InterruptedException
-     */
     public abstract void show_publisher() throws IOException, InterruptedException;
     public abstract void show_askPlaceCardsMainMsg(GameImmutable model);
     public abstract void show_PickCardMsg(GameImmutable model);
@@ -35,6 +28,8 @@ public abstract class UI {
     public abstract void show_alwaysShowForAll(GameImmutable model);
     public abstract void show_askWhichCellMsg(GameImmutable model);
     public abstract void show_cardPlacedMsg(GameImmutable model);
+    public abstract void show_cardDrawnMsg(GameImmutable model);
+    public abstract void show_nextTurnMsg(GameImmutable model);
     public abstract void show_pointsAddedMsg(GameImmutable model);
     public abstract void show_joiningToGameMsg(String nick);
     /**
@@ -52,10 +47,6 @@ public abstract class UI {
      * @param model model where the game has started
      */
     public abstract void show_gameStarted(GameImmutable model);
-    /**
-     * Shows the playerDeck
-     * @param model
-     */
     public abstract void show_gameEnded(GameImmutable model);
     public abstract void show_notValidMessage();
     public abstract void show_playerJoined(GameImmutable gameModel, String nick);
@@ -78,40 +69,9 @@ public abstract class UI {
     public abstract void resetImportantEvents();
     public abstract void show_askDrawFromDeck(GameImmutable model, String nickname);
     public abstract void show_playerHasToChooseAgain(GameImmutable model, String nickname);
-
-
-
-
-
-
-
-
-
-
-
-    //TODO
     public abstract void show_wrongSelectionInitialMsg();
     public abstract void show_wrongSelectionObjectiveMsg();
     public abstract void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException;
-    protected abstract void show_ObjectiveCards(GameImmutable model);
-
-
-
-
-
-
-
-    /**
-     * Shows an error when there's no connection
-     */
-    protected abstract void show_noConnectionError();
-    /**
-     * Show the message for next turn or reconnected player
-     *
-     * @param model    model where events happen
-     * @param nickname nick of reconnected player (or of the player that is now in turn)
-     */
-    protected abstract void show_nextTurnOrPlayerReconnected(GameImmutable model, String nickname);
-
+    public abstract void show_ObjectiveCards(GameImmutable model);
 
 }

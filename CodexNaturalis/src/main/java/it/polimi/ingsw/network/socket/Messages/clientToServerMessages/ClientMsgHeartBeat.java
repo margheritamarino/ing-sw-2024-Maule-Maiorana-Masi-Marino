@@ -5,7 +5,7 @@ import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
 import java.rmi.RemoteException;
-
+/*
 public class ClientMsgHeartBeat extends ClientGenericMessage {
     public ClientMsgHeartBeat(String nick) {
         this.nickname = nickname;
@@ -25,3 +25,5 @@ public class ClientMsgHeartBeat extends ClientGenericMessage {
         return;
     }
 }
+
+ */

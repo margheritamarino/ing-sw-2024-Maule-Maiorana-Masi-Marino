@@ -27,7 +27,7 @@ public class msgGameIdNotExists extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.gameIdNotExists(gameid);
+   //     lis.gameIdNotExists(gameid);
     }
 
 }

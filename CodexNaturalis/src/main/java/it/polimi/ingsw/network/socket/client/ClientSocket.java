@@ -4,7 +4,7 @@ package it.polimi.ingsw.network.socket.client;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.network.HeartbeatSender;
+//import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
 import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGenericMessage;
@@ -49,7 +49,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     private String nickname;
 
-    private final HeartbeatSender socketHeartbeat;
+   // private final HeartbeatSender socketHeartbeat;
     private Flow flow;
 
     /**
@@ -62,7 +62,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         startConnection("127.0.0.1", 4320);
         modelInvokedEvents = new GameListenersClient(flow);
         this.start();
-        socketHeartbeat = new HeartbeatSender(flow,this);
+       // socketHeartbeat = new HeartbeatSender(flow,this);
     }
 
     /**
@@ -148,9 +148,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         in.close();
         out.close();
         clientSoc.close();
-        if(socketHeartbeat.isAlive()) {
+        /*if(socketHeartbeat.isAlive()) {
             socketHeartbeat.interrupt();
-        }
+        }*/
     }
 
 
@@ -190,9 +190,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         nickname = nick;
         out.writeObject(new ClientMsgCreateGame(nick));
         finishSending();
-        if(!socketHeartbeat.isAlive()) {
+        /*if(!socketHeartbeat.isAlive()) {
             socketHeartbeat.start();
-        }
+        }*/
     }
 
 
@@ -217,9 +217,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMessageLeave(nick));
         finishSending();
         nickname=null;
-        if(socketHeartbeat.isAlive()) {
+        /*if(socketHeartbeat.isAlive()) {
             socketHeartbeat.interrupt();
-        }
+        }*/
     }
 
 
@@ -229,18 +229,22 @@ public class ClientSocket extends Thread implements ClientInterface {
      * Send a heartbeat to the Socket Server
      * Now it is not used because the Socket Connection automatically detects disconnections by itself
      */
+
+
     @Override
     public void heartbeat() {
+
         //TODO
         if (out != null) {
             try {
-                out.writeObject(new ClientMsgHeartBeat(nickname));
+               // out.writeObject(new ClientMsgHeartBeat(nickname));
                 finishSending();
             } catch (IOException e) {
                 printAsync("Connection lost to the server!! Impossible to send heartbeat...");
             }
         }
     }
+
 
     /**
      * Makes sure the message has been sent
