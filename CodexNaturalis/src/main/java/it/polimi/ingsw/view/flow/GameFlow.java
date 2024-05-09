@@ -463,7 +463,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     @Override
-    public void setInitialCard(int index) throws IOException {
+    public void setInitialCard(int index) {
         try {
             clientActions.setInitialCard(index);
 

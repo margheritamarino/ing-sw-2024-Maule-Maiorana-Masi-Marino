@@ -148,7 +148,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             }catch (GameEndedException e){
                 model.setStatus(GameStatus.ENDED);
             }
-
         }
 
     }
@@ -186,13 +185,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     @Override
-    public synchronized void setInitialCard(String playerName, int index) throws NotPlayerTurnException {
+    public synchronized void setInitialCard(String playerName, int index) {
         Player currentPlayer = model.getPlayerByNickname(playerName);
-        if(currentPlayer.equals(model.getCurrentPlayer())){
-            model.setInitialCard(currentPlayer, index);
-        }else{
-            throw new NotPlayerTurnException("ERROR: not the Player's turn");
-        }
+        model.setInitialCard(currentPlayer, index);
     }
 
 
@@ -206,11 +201,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getGameId();
     }
 
+    /**
+     * It removes a player by nickname @param nick from the game including the associated listeners
+     *
+     * @param lis  GameListener to remove
+     * @param nick of the player to remove
+     * @throws RemoteException
+     */
     @Override
-    public void leave(GameListenerInterface lis, String nick) throws RemoteException {
-        //IMPLEMENTA
+    public synchronized void leave(GameListenerInterface lis, String nick) throws RemoteException {
+        model.removeListener(lis);
+        model.removePlayer(nick);
     }
-
 
     @Override
     public synchronized void setGoalCard(String playerName, int index) throws NotPlayerTurnException {

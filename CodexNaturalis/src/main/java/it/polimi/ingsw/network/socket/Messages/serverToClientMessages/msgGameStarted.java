@@ -14,13 +14,6 @@ public class msgGameStarted extends ServerGenericMessage {
     private GameImmutable model;
 
 
-    /**
-     * Empty constructor of the class.
-     * Used when the game model is not provided.
-     */
-    public msgGameStarted() {
-
-    }
 
     /**
      * Constructor of the class.
