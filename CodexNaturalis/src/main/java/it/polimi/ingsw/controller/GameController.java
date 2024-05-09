@@ -124,31 +124,31 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.pickCardTurn(p, cardType, drawFromDeck, pos);
         }
 
-        // Trova l'indice dell'attuale currentPlayer in orderArray
-        int currentIndex = -1;
-        for (int i = 0; i < model.getOrderArray().length; i++) {
-            if (model.getPlayers().get(model.getOrderArray()[i]).equals(model.getCurrentPlayer())) {
-                currentIndex = i;
-                break;
-            }
-        }
-        if (currentIndex == model.getNumPlayers() - 1) { //se sono nell'ultimo giocatore del giro
-            if (model.getScoretrack().checkTo20()) { //= true -> e un giocatore è arrivato alla fine (chiamo ultimo turno)
-                model.setStatus(GameStatus.LAST_CIRCLE);
-            }
-            if (model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
-                model.lastTurnGoalCheck();
 
-                //condizione FINE GIOCO
-                if (currentIndex == model.getNumPlayers() - 1) {
-                    model.setStatus(GameStatus.ENDED);
+        if (model.getStatus().equals(GameStatus.RUNNING) ||model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+            // Trova l'indice dell'attuale currentPlayer in orderArray
+            int currentIndex = -1;
+            for (int i = 0; i < model.getOrderArray().length; i++) {
+                if (model.getPlayers().get(model.getOrderArray()[i]).equals(model.getCurrentPlayer())) {
+                    currentIndex = i;
+                    break;
                 }
             }
-        }
-        try {
-            model.nextTurn(currentIndex);
-        } catch (GameNotStartedException e) {
-            System.err.println("Error: game not started yet");
+            if (currentIndex == model.getNumPlayers() - 1) { //se sono nell'ultimo giocatore del giro
+                if (!(model.getStatus().equals(GameStatus.LAST_CIRCLE))) {
+                    if (model.getScoretrack().checkTo20()) { //= true -> e un giocatore è arrivato alla fine (chiamo ultimo turno)
+                        model.setStatus(GameStatus.LAST_CIRCLE);
+                    }
+                } else { //se sono nell'ultimo giocatore nell'ultimo ciclo
+                    model.lastTurnGoalCheck(); //controllo gli obbiettivo
+                }
+            }
+            try{
+                model.nextTurn(currentIndex);
+            }catch (GameEndedException e){
+                model.setStatus(GameStatus.ENDED);
+            }
+
         }
 
     }

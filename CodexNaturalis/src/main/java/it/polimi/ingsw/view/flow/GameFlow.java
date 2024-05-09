@@ -682,14 +682,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-
-
-    @Override
-    public boolean isMyTurn() throws RemoteException {
-        return false;
-        //TODO
-    }
-
     @Override
     public void heartbeat() throws RemoteException {
     //TODO

@@ -452,18 +452,17 @@ public class Game {
 		}
 
 
-	public void nextTurn(int currentIndex) throws GameNotStartedException {
-
-		if (status.equals(GameStatus.RUNNING) ||status.equals(GameStatus.LAST_CIRCLE)) {
-			// Calcola l'indice del giocatore successivo
-			int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
-			// Imposta il nuovo currentPlayer
-			currentPlayer = players.get(orderArray[nextIndex]);
-			listenersHandler.notify_nextTurn(this);
-		}
-		if(status.equals(GameStatus.WAIT)){
-			throw new GameNotStartedException();
-		}
+	public void nextTurn(int currentIndex) throws GameEndedException {
+			if(currentIndex == playersNumber- 1 && status.equals(GameStatus.LAST_CIRCLE) ){
+				throw new GameEndedException();
+			}
+			else {
+				// Calcola l'indice del giocatore successivo
+				int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
+				// Imposta il nuovo currentPlayer
+				currentPlayer = players.get(orderArray[nextIndex]);
+				listenersHandler.notify_nextTurn(this);
+			}
 	}
 
 	/**
