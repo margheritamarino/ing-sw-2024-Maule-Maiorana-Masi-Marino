@@ -54,7 +54,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**GameController Constructor
      * Init a GameModel
      */
-    public GameController() throws FileNotFoundException, FileReadException, DeckEmptyException {
+    public GameController()  {
         //Map<GameListenerInterface, Heartbeat> heartbeats;
        // this.heartbeats = heartbeats;
         model = new Game();
