@@ -243,6 +243,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         this.inputController.setPlayer(null); //il giocatore non è più associato al flusso di gioco
         this.inputController.setGameID(null);
     }
+
     public boolean isEnded(){
         return ended;
     }
@@ -652,13 +653,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void nextTurn(GameImmutable model) throws RemoteException {
-    //TODO
+        ui.show_nextTurnMsg(); //TODO messaggio Prossimo Turno
+        events.add(model, EventType.NEXT_TURN);
+        this.inputController.getUnprocessedData().popAllData();
     }
 
     @Override
     public void lastCircle(GameImmutable model) throws RemoteException {
         ui.addImportantEvent("Last circle begin!");
-        //TODO
+
     }
 
 
@@ -693,8 +696,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void leave(String nick, int GameID) throws IOException, NotBoundException {
-        //TODO
+    public void leave(String nick) {
+        try {
+            clientActions.leave(nick);
+        } catch (IOException | NotBoundException e) {
+            noConnectionError();
+        }
     }
 
 
