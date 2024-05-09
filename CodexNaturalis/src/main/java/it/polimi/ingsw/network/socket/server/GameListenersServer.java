@@ -260,7 +260,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void playerLeft(GameImmutable model, String nickname) throws RemoteException {
-        //TODO
         try {
             out.writeObject(new msgPlayerLeft(model, nickname));
             finishSending();

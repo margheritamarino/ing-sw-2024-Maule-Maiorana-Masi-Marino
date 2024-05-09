@@ -510,7 +510,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerLeft(GameImmutable gameImmutable, String nickname) throws RemoteException {
         if (gameImmutable.getStatus().equals(GameStatus.WAIT)) {
-            ui.show_playerJoined(gameImmutable, nickname);
+            ui.show_playerJoined(gameImmutable, nickname); //CONTROLLA SE è OK PER DISCONNESSIONE
         } else {
             ui.addImportantEvent("[EVENT]: Player " + nickname + " decided to leave the game!");
         }
