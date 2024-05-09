@@ -111,7 +111,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             } else {
                 event = events.pop();
                 if (event != null) {
-                    statusNotInAGame(event);
+                    try {
+                        statusNotInAGame(event);
+                    }
                 }
             }
             try {
@@ -660,14 +662,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void lastCircle(GameImmutable model) throws RemoteException {
         ui.addImportantEvent("Last circle begin!");
-
-    }
-
-
-
-    @Override
-    public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
-    //TODO
     }
 
 
@@ -682,18 +676,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
-
-
-    @Override
-    public void heartbeat() throws RemoteException {
-    //TODO
-    }
-
-    @Override
-    public void noConnectionError() {
-    //TODO
-    }
-
     @Override
     public void leave(String nick) {
         try {
@@ -702,6 +684,25 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
+
+    @Override
+    public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
+        //TODO
+    }
+
+    @Override
+    public void noConnectionError() {
+        //TODO
+    }
+
+    @Override
+    public void heartbeat() throws RemoteException {
+    //TODO
+    }
+
+
+
+
 
 
 }
