@@ -44,7 +44,7 @@ public class ObjectiveDeck {
      * and populates the frontCards and backCards lists with the read cards.
      * @author Irene Pia Masi
      */
-    public void initializeDeck() throws FileReadException, FileNotFoundException {
+    public void initializeDeck() {
         Reader frontReader = null;
         Gson gson = new Gson();
 

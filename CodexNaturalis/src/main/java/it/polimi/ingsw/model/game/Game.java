@@ -93,11 +93,7 @@ public class Game {
 		} catch (IllegalArgumentException e) {
 			System.err.println("Error: " + e.getMessage());
 			return null;
-		} catch (FileNotFoundException | FileReadException e) {
-            throw new RuntimeException(e);
-        } catch (DeckEmptyException e) {
-            throw new RuntimeException(e);
-        }
+		}
     }
 
 

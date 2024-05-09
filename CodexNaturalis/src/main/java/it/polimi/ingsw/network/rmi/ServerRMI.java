@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
 
-import it.polimi.ingsw.network.ServerInterface;
+
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -18,7 +18,7 @@ import java.rmi.server.UnicastRemoteObject;
  * by the RMI Network protocol
  */
 
-
+/*
 public class ServerRMI extends UnicastRemoteObject implements MainControllerInterface, ServerInterface {
 
     private static final int PORT_RMI =1099 ;
@@ -59,29 +59,5 @@ public class ServerRMI extends UnicastRemoteObject implements MainControllerInte
     }
 
 
-    @Override
-    public GameControllerInterface createGame(GameListenerInterface lis, String nick) throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public GameControllerInterface joinFirstAvailableGame(GameListenerInterface lis, String nick) throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public GameControllerInterface joinGame(GameListenerInterface lis, String nick, int idGame) throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public GameControllerInterface reconnect(GameListenerInterface lis, String nick, int idGame) throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public GameControllerInterface leaveGame(GameListenerInterface lis, String nick, int idGame) throws RemoteException {
-        return null;
-    }
-}
+}*/
 

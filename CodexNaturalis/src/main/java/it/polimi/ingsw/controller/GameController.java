@@ -6,11 +6,8 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
-import it.polimi.ingsw.listener.ListenersHandler;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
@@ -64,7 +61,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @return the only one instance of the GameController class
      */
-    public synchronized static GameController getInstance() throws FileNotFoundException, FileReadException, DeckEmptyException {
+    public synchronized static GameController getInstance() {
         if (instance == null) {
             instance = new GameController();
         }
@@ -249,11 +246,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void heartbeat(String nick, GameListenerInterface me) throws RemoteException {
-
+        //TODO
     }
     @Override
     public void run() {
-        // IMPLEMENTA
+        //TODO
     }
 
 }
