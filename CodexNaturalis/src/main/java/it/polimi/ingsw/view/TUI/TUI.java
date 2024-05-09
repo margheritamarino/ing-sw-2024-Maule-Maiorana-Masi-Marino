@@ -213,7 +213,7 @@ public class TUI extends UI {
 
     @Override
     public void show_askCardType(GameImmutable model, String nickname){
-        printAsync("Press R(r) if you want a Resource card or G(g) if you want a Gold card: " );
+        printAsync("Which card to you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card: " );
     }
 
     @Override

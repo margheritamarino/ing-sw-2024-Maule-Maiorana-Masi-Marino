@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.flow;
 
 
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
-import it.polimi.ingsw.network.rmi.ClientRMI;
 import it.polimi.ingsw.network.socket.client.ClientSocket;
 import it.polimi.ingsw.view.Utilities.InputController;
 import it.polimi.ingsw.view.Utilities.InputReader;
@@ -371,7 +369,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_PickCardMsg(model); //TODO messaggio "è il tuo turno di pescare una carta"
 
         // Chiedi all'utente il tipo di carta che vuole pescare
-        CardType cardType = askCardType("Which card to you want to pick? ", model);
+        CardType cardType = askCardType(model);
         boolean drawFromDeck = askDrawFromDeck("Do you want to draw from deck?", model);
 
         if(!drawFromDeck){
