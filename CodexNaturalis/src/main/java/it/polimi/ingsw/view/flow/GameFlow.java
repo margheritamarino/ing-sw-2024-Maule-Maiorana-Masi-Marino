@@ -111,7 +111,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             } else {
                 event = events.pop();
                 if (event != null) {
-                    statusNotInAGame(event);
+                    try {
+                        statusNotInAGame(event);
+                    }
                 }
             }
             try {
