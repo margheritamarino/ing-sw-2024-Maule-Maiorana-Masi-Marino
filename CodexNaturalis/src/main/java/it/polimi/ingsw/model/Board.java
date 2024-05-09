@@ -29,7 +29,7 @@ public class Board implements Serializable {
     /**
      * Constructor
      */
-    public Board() throws FileNotFoundException, FileReadException, DeckEmptyException {
+    public Board()  {
         this.goldCards = new ArrayList<>();
         this.resourceCards = new ArrayList<>();
         this.objectiveCards = new ObjectiveCard[2];

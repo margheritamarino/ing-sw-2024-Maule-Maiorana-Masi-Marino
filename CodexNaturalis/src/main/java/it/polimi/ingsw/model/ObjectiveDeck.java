@@ -26,7 +26,7 @@ public class ObjectiveDeck {
     private final ArrayList<ObjectiveCard> frontCards;
 
 
-    public ObjectiveDeck() throws FileReadException, FileNotFoundException {
+    public ObjectiveDeck()  {
         this.frontCards = new ArrayList<>();
         this.numCards = 16;
         initializeDeck();
@@ -44,7 +44,7 @@ public class ObjectiveDeck {
      * and populates the frontCards and backCards lists with the read cards.
      * @author Irene Pia Masi
      */
-    public void initializeDeck() throws FileReadException, FileNotFoundException {
+    public void initializeDeck() {
         Reader frontReader = null;
         Gson gson = new Gson();
 
@@ -61,27 +61,26 @@ public class ObjectiveDeck {
 
         } catch (FileNotFoundException e) {
             // Eccezione lanciata se il file non viene trovato
-            throw new FileNotFoundException("File not found: " + e.getMessage());
+            System.err.println("File not found exception");
 
         } catch (IOException e) {
             // Eccezione lanciata in caso di problemi durante la lettura del file
-            throw new FileReadException("Error reading file: " + e.getMessage());
+            System.err.println("error during reading file");
 
         } catch (JsonSyntaxException | JsonIOException e) {
             // Eccezione lanciata se ci sono problemi di parsing JSON
-            throw new JSONParsingException("JSON file parsing error: " + e.getMessage());
+            System.err.println("JSON file parsing error");
 
         } catch (ClassCastException e) {
             // Eccezione lanciata se ci sono problemi di casting durante l'accesso ai dati JSON
-            throw new FileCastException("CASTING error accessing JSON file data: " + e.getMessage());
+            System.err.println("CASTING error accessing JSON file data: ");
 
         } catch (NullPointerException e) {
             // Eccezione lanciata se ci sono valori nulli non gestiti correttamente
-            throw new NullPointerException("Error null values not handled correctly: " + e.getMessage());
-
+            System.err.println("Error null values not handled correctly ");
         } catch (Exception e) {
             // Eccezione generica per gestire altri tipi di eccezioni
-            throw new FileReadException("Generic exception: " + e.getMessage());
+            System.err.println("Generic error exception during JSON file reading ");
         }
     }
 

@@ -580,7 +580,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
 //TODO gestire eccezioni
     @Override
-    public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
+    public void requireInitialReady(GameImmutable model) throws IOException {
         ui.show_whichInitialCards();
         Integer index;
         do {
@@ -672,7 +672,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     @Override
-    public void joinGame(String nickname) throws IOException, InterruptedException {
+    public void joinGame(String nickname)  {
         ui.show_joiningToGameMsg(nickname);
         try {
             clientActions.joinGame(nickname);

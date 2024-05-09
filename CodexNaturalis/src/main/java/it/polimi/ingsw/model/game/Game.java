@@ -52,7 +52,7 @@ public class Game {
 	 * @param playersNumber The number of players in the game.
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
-	public Game(int playersNumber) throws IllegalArgumentException, FileNotFoundException, FileReadException, DeckEmptyException {
+	public Game(int playersNumber) {
 
 		this.playersNumber = playersNumber;
 		this.initialCardsDeck = new Deck(CardType.InitialCard);
@@ -66,7 +66,7 @@ public class Game {
 		this.listenersHandler = new ListenersHandler();
 
 	}
-	public Game() throws IllegalArgumentException, FileNotFoundException, FileReadException, DeckEmptyException {
+	public Game() {
 		this.playersNumber = 0;
 		this.initialCardsDeck = new Deck(CardType.InitialCard);
 		this.players = new ArrayList<>();
@@ -93,11 +93,7 @@ public class Game {
 		} catch (IllegalArgumentException e) {
 			System.err.println("Error: " + e.getMessage());
 			return null;
-		} catch (FileNotFoundException | FileReadException e) {
-            throw new RuntimeException(e);
-        } catch (DeckEmptyException e) {
-            throw new RuntimeException(e);
-        }
+		}
     }
 
 

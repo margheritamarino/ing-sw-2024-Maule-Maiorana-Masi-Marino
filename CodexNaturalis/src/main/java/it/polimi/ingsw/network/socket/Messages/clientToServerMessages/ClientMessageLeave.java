@@ -26,7 +26,7 @@ public class ClientMessageLeave extends ClientGenericMessage {
 
     @Override
     public GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        return null;
+        return gameController.leave(lis, nickname);
     }
 
     /**
@@ -36,6 +36,6 @@ public class ClientMessageLeave extends ClientGenericMessage {
      */
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException {
-        gameController.leaveGame(lis, nickname);
+
     }
 }
