@@ -229,7 +229,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 }
 
                 //il giocatore lascia la partita
-                this.leave(nickname, event.getModel().getGameId());
+                this.leave(nickname);
                 this.playerLeftForGameEnded(); //notifica l'utente che ha lasciato la partita
             }
         }

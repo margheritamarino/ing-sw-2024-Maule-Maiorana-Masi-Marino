@@ -29,11 +29,10 @@ public interface ClientInterface  {
      * Leaves the game
      *
      * @param nick
-     * @param idGame
      * @throws IOException
      * @throws NotBoundException
      */
-    void leave(String nick, int idGame) throws IOException, NotBoundException;
+    void leave(String nick) throws IOException, NotBoundException;
 
     /**
      * Sets the invoker as ready
@@ -55,6 +54,8 @@ public interface ClientInterface  {
 
     void setInitialCard(int index) throws IOException;
     void setGoalCard(int index) throws IOException;
+
+
 
     void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException;
 
