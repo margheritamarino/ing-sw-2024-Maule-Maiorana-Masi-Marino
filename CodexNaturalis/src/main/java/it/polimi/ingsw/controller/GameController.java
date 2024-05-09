@@ -11,14 +11,11 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.PlayerDeck;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 import static it.polimi.ingsw.view.PrintAsync.printAsync;
@@ -203,12 +200,14 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @param lis  GameListener to remove
      * @param nick of the player to remove
+     * @return
      * @throws RemoteException
      */
     @Override
-    public synchronized void leave(GameListenerInterface lis, String nick) throws RemoteException {
+    public synchronized GameControllerInterface leave(GameListenerInterface lis, String nick) throws RemoteException {
         model.removeListener(lis);
         model.removePlayer(nick);
+        return null;
     }
 
     @Override
