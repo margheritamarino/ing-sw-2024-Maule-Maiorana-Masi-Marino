@@ -196,13 +196,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void nextTurn(GameImmutable model) throws RemoteException {
-        //TODO
         try {
             out.writeObject(new msgNextTurn(model));
             finishSending();
         }  catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            throw new RemoteException("Failed to send CardPlaced message", e);
+            throw new RemoteException("Failed to send Next_Turn message", e);
         }
     }
     /**
@@ -212,13 +211,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void gameEnded(GameImmutable model) throws RemoteException {
-        //TODO
         try {
             out.writeObject(new msgGameEnded(model));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            throw new RemoteException("Failed to send gameStarted message", e);
+            throw new RemoteException("Failed to send Game_Ended message", e);
         }
     }
 
@@ -230,13 +228,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void lastCircle(GameImmutable model) throws RemoteException {
-        //TODO
         try {
             out.writeObject(new msgLastCircle(model));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            throw new RemoteException("Failed to send CardsReady message", e);
+            throw new RemoteException("Failed Last_Circle message", e);
         }
     }
 
