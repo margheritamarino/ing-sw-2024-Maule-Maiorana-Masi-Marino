@@ -76,6 +76,8 @@ public abstract class UI {
      * Resets the important events
      */
     public abstract void resetImportantEvents();
+    public abstract void show_askDrawFromDeck(GameImmutable model, String nickname);
+    public abstract void show_playerHasToChooseAgain(GameImmutable model, String nickname);
 
 
 

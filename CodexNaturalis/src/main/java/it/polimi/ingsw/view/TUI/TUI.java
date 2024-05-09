@@ -213,12 +213,23 @@ public class TUI extends UI {
 
     @Override
     public void show_askCardType(GameImmutable model, String nickname){
-        printAsync("Which card to you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card: " );
+        printAsync("Which card do you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card: " );
+    }
+
+    @Override
+    public void show_askDrawFromDeck(GameImmutable model, String nickname){
+        printAsync("Press Y if you want to draw from deck or N if you want a visible card: " );
     }
 
     @Override
     public void show_askWhichCellMsg(GameImmutable model){
         printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to choose a cell to place the card!" );
+    }
+
+    @Override
+    public void show_playerHasToChooseAgain(GameImmutable model, String nickname){
+        printAsync("ERROR: Choose again!" );
+
     }
 
     @Override

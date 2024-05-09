@@ -367,13 +367,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     public void askPickCard (GameImmutable model) {
         int pos=0;
-        ui.show_PickCardMsg(model); //TODO messaggio "è il tuo turno di pescare una carta"
+        ui.show_PickCardMsg(model); //messaggio "è il tuo turno di pescare una carta"
 
         // Chiedi all'utente il tipo di carta che vuole pescare
         CardType cardType = askCardType(model);
         boolean drawFromDeck = askDrawFromDeck("Do you want to draw from deck?", model);
 
         if(!drawFromDeck){
+            //Non dovrebbe chiedere se vuole la carta 0 o 1 dell'array?
             pos= Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
         }
         PickCardFromBoard(cardType, drawFromDeck, pos);
@@ -434,7 +435,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         do {
             try {
                 //TODO
-                ui.show_askDrawFromDeck(message, model, nickname);
+                ui.show_askDrawFromDeck(model, nickname);
 
                 // Ottieni l'input dell'utente
                 try {
