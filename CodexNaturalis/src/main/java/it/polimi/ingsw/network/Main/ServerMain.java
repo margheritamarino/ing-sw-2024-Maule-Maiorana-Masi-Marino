@@ -60,7 +60,7 @@ public class ServerMain {
      */
 
     public void start() {
-       // rmiServer.start();
+        // rmiServer.start();
         socketServer.start();
         System.out.println("Server started.");
 
