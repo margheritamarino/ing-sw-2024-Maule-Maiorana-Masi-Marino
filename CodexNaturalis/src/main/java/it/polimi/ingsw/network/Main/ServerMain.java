@@ -1,79 +1,68 @@
 package it.polimi.ingsw.network.Main;
 
 //import it.polimi.ingsw.network.rmi.ServerRMI;
+import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.network.socket.server.ServerTCP;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Scanner;
+
+import java.util.List;
+
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class ServerMain {
-
-    /**
-     * The name of the command to type in the console to stop the server.
-     */
-    private static final String SHUTDOWN_COMMAND = "exit";
-    //private ServerRMI rmiServer;
-    private ServerTCP socketServer;
-
-    /**
-     * Creates a new server.
-     * It initializes both the RMI and the socket servers.
-     */
-    public ServerMain() throws IOException {
-        //this.rmiServer = new ServerRMI();
-        this.socketServer = new ServerTCP();
-    }
-
     public static void main(String[] args) throws IOException {
-        ServerMain server = new ServerMain();
 
-        try {
-            server.start();
-        } catch (Exception e) {
-            System.err.println("Unable to start the server.");
+        String input;
+
+        do {
+            clearCMD();
+            printAsync(ansi().a("""
+                    Insert remote IP(leave empty for localhost)
+                    """));
+            input = new Scanner(System.in).next();
+            System.out.println("Input ricevuto: " + input);
+        } while (!input.equals("") && !isValidIP(input));
+        if (input.equals(""))
+            System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
+        else{
+            DefaultValue.serverIp = input;
+            System.setProperty("java.rmi.server.hostname", input);
         }
 
-        // Handle server shutdown
-        new Thread(() -> {
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            String line;
+       // ServerRMI.bind();
 
-            System.out.println("Type " +  SHUTDOWN_COMMAND + " to stop the server.");
+        ServerTCP serverSOCKET = new ServerTCP();
+        serverSOCKET.start(DefaultValue.Default_port_Socket);
 
-            while (true) {
-                try {
-                    line = in.readLine();
-                    if (line.equals(SHUTDOWN_COMMAND)) {
-                        server.stop();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    }
+
+    private static boolean isValidIP(String input) {
+        List<String> parsed;
+        parsed = Arrays.stream(input.split("\\.")).toList();
+        if (parsed.size() != 4) {
+            return false;
+        }
+        for (String part : parsed) {
+            try {
+                Integer.parseInt(part);
+            } catch (NumberFormatException e) {
+                return false;
             }
-        }).start();
+        }
+        return true;
     }
 
-    /**
-     * Starts both the RMI and the socket servers.
-     * It also sends a message to all clients to notify them that the server is up.
-     */
 
-    public void start() {
-        // rmiServer.start();
-        socketServer.start();
-        System.out.println("Server started.");
-
+    private static void clearCMD() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (IOException | InterruptedException e) {
+            printAsync("\033\143");   //for Mac
+        }
     }
 
-    /**
-     * Stops both the RMI and the socket servers.
-     * It also sends a message to all clients to notify them that the server is shutting down.
-     */
-
-    public void stop() {
-        //rmiServer.stop();
-        socketServer.stopConnection();
-        System.exit(0);
-    }
 }

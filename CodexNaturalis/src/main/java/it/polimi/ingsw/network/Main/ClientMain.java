@@ -22,8 +22,9 @@ public class ClientMain {
         if (!DefaultValue.DEBUG) {
             String input;
 
+
             do { //chiedo all'utente di inserire l'indirizzo IP del server remoto (se vuole connettersi a un server diverso dal LocalHost)
-                printAsync(ansi().cursor(1, 0).a("""
+                printAsync(ansi().a("""
                         Insert remote IP (leave empty for localhost)
                         """));
                 input = new Scanner(System.in).nextLine();
@@ -38,7 +39,7 @@ public class ClientMain {
             clearCMD();
 
             do {
-                printAsync(ansi().cursor(1, 0).a("""
+                printAsync(ansi().a("""
                         Insert your IP (leave empty for localhost)
                         """));
                 input = new Scanner(System.in).nextLine();
@@ -53,7 +54,7 @@ public class ClientMain {
 
             clearCMD();
             do {
-                printAsync(ansi().cursor(1, 0).a("""
+                printAsync(ansi().a("""
                         Select option:
                         \t (1) TUI + Socket
                         \t (2) TUI + RMI

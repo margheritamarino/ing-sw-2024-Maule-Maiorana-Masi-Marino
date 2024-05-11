@@ -3,11 +3,11 @@ package it.polimi.ingsw.network.socket.client;
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.game.GameImmutable;
 //import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
 import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGenericMessage;
+import it.polimi.ingsw.model.DefaultValue;
 
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -59,7 +59,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     public ClientSocket(Flow flow) {
         this.flow=flow;
-        startConnection("127.0.0.1", 4320);
+        startConnection("127.0.0.1", DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersClient(flow);
         this.start();
        // socketHeartbeat = new HeartbeatSender(flow,this);
