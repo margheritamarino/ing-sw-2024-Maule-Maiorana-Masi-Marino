@@ -33,6 +33,6 @@ public class InputTUI extends Thread implements InputReader {
 
     @Override
     public Buffer getBuffer() {
-        return null;
+        return buffer;
     }
 }
