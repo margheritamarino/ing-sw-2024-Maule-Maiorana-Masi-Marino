@@ -180,7 +180,15 @@ public class GoldCard extends PlayableCard {
         String cardTypeName = "Gold";
         int points = victoryPoints;
         List<String> corners = getCornerContent();
+        List<String> emojiCorners = new ArrayList<>();
+        for (String corner : corners) {
+            emojiCorners.add(convertToEmoji(corner));
+        }
         List<ResourceType> conditionList = getPlacementCondition();
+        List<String> conditionEmoji = new ArrayList<>();
+        for (ResourceType condition : conditionList) {
+            conditionEmoji.add(convertToEmoji(condition.toString()));
+        }
 
         // Costruzione del risultato con colori e nome della carta
         result.append(ansi().fg(textColor).bg(bgColor).a(" "));
@@ -192,21 +200,15 @@ public class GoldCard extends PlayableCard {
         result.append(points);
         result.append("\n");
         result.append("Corners: ");
-        String formattedCorners = String.join(" ", corners);
+        String formattedCorners = String.join(" ", emojiCorners);
         result.append(formattedCorners);
         result.append("\n");
         result.append("PointsCondition: ");
         result.append(conditionPoint);
         result.append("\n");
         result.append("Placement condition: ");
-        // Aggiungi gli elementi di conditionList formattati con spazi tra di loro
-        for (int i = 0; i < conditionList.size(); i++) {
-            result.append(conditionList.get(i));
-            // Aggiungi uno spazio solo se non è l'ultimo elemento della lista
-            if (i < conditionList.size() - 1) {
-                result.append(" ");
-            }
-        }
+        String formattedCondition = String.join(" ", conditionEmoji);
+        result.append(formattedCondition);
 
         return result.toString();
     }

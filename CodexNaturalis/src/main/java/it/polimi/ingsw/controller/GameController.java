@@ -231,7 +231,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
 
-
     @Override
     public void heartbeat(String nick, GameListenerInterface me) throws RemoteException {
         //TODO

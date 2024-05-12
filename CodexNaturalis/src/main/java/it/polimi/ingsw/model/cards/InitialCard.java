@@ -149,25 +149,29 @@ public class InitialCard extends PlayableCard {
         String cardTypeName = "Initial";
 
         List<String> corners = getCornerContent();
+        List<String> emojiCorners = new ArrayList<>();
+        for (String corner : corners) {
+            emojiCorners.add(convertToEmoji(corner));
+        }
         List<ResourceType> centralR = getCentralResources();
+        List<String> emojiCentral = new ArrayList<>();
+        for (ResourceType central : centralR) {
+            emojiCentral.add(convertToEmoji(central.toString()));
+        }
 
         // Costruzione del risultato con colori e nome della carta
         result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append(cardTypeName);
         result.append(" ");
         result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
-        String formattedCorners = String.join(" ", corners);
+        String formattedCorners = String.join(" ", emojiCorners);
         result.append(formattedCorners);
         result.append(" ");
-        // Aggiungi gli elementi di conditionList formattati con spazi tra di loro
-        for (int i = 0; i < centralR.size(); i++) {
-            result.append(centralR.get(i));
-            // Aggiungi uno spazio solo se non è l'ultimo elemento della lista
-            if (i < centralR.size() - 1) {
-                result.append(" ");
-            }
-        }
-
+        String formattedCentrals = String.join(" ", emojiCentral);
+        result.append(formattedCentrals);
+        
         return result.toString();
     }
+
+
 }
