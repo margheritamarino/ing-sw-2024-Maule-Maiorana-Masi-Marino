@@ -173,6 +173,10 @@ public class ResourceCard extends PlayableCard implements Serializable {
       String cardTypeName = "Resource";
       int points = victoryPoints;
       List<String> corners = getCornerContent();
+      List<String> emojiCorners = new ArrayList<>();
+      for (String corner : corners) {
+         emojiCorners.add(convertToEmoji(corner));
+      }
 
       // Costruzione del risultato con colori e nome della carta
       result.append(ansi().fg(textColor).bg(bgColor).a(" "));
@@ -184,7 +188,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
       result.append(points);
       result.append("\n");
       result.append("Corners: ");
-      String formattedCorners = String.join(" ", corners);
+      String formattedCorners = String.join(" ", emojiCorners);
       result.append(formattedCorners);
       result.append("\n");
 

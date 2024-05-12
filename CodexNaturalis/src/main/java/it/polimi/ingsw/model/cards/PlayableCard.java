@@ -116,4 +116,26 @@ public abstract class PlayableCard implements Serializable {
     public abstract String toString();
 
 
+    public String convertToEmoji(String input){
+        String output;
+        if(input.equals("Fungi")){
+            output =  "\uD83C\uDF44";
+        }else if(input.equals("Animal")){
+            output = "\uD83D\uDC3A";
+        }else if(input.equals("Insect")){
+            output = "\uD83E\uDD8B";
+        }else if(input.equals("Plant")){
+            output = "\uD83C\uDF40";
+        }else if(input.equals("NoCorner")){
+            output = "\u274C";
+        }else if(input.equals("Ink")){
+            output = "\u26AB";
+        }else if(input.equals("Manuscript")){
+            output= "\uD83D\uDCDC";
+        }else if(input.equals("Quill")){
+            output = "\uD83E\uDEB6";
+        }else output = input;
+        return output;
+    }
+
 }
