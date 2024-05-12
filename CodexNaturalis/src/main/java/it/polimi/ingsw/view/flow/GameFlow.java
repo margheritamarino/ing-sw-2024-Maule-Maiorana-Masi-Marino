@@ -57,7 +57,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
         importantEvents = new ArrayList<>();
         nickname = "";
-        //fileDisconnection = new FileDisconnection();
+
         this.inputReader = new InputTUI();
         this.inputController = new InputController(this.inputReader.getBuffer(), this);
 

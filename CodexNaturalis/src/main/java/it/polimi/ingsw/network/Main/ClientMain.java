@@ -28,12 +28,12 @@ public class ClientMain {
                         Insert remote IP (leave empty for localhost)
                         """));
                 input = new Scanner(System.in).nextLine();
-                if(!input.equals("") && !isValidIP(input)){
+                if(!input.equals("empty") && !isValidIP(input)){
                     clearCMD();
                     printAsync("Not valid");
                 }
-            } while (!input.equals("") && !isValidIP(input)); //ripeto fino a quando non viene inserito un IP valido
-            if (!input.equals(""))
+            } while (!input.equals("empty") && !isValidIP(input)); //ripeto fino a quando non viene inserito un IP valido
+            if (!input.equals("empty"))
                 DefaultValue.serverIp = input;
 
             clearCMD();
@@ -43,12 +43,12 @@ public class ClientMain {
                         Insert your IP (leave empty for localhost)
                         """));
                 input = new Scanner(System.in).nextLine();
-                if(!input.equals("") && !isValidIP(input)){
+                if(!input.equals("empty") && !isValidIP(input)){
                     clearCMD();
                     printAsync("Not valid");
                 }
-            } while (!input.equals("") && !isValidIP(input));
-            if (!input.equals(""))
+            } while (!input.equals("empty") && !isValidIP(input));
+            if (!input.equals("empty"))
                 System.setProperty("java.rmi.server.hostname", input);
 
 
@@ -62,6 +62,14 @@ public class ClientMain {
                         \t (3) GUI + Socket
                         \t (4) GUI + RMI
                         """));
+                System.out.println("""
+                        Select option:
+                        \t (1) TUI + Socket
+                        \t (2) TUI + RMI
+                        \t
+                        \t (3) GUI + Socket
+                        \t (4) GUI + RMI
+                        """);
                 input = new Scanner(System.in).nextLine();
                 try {
                     selection = Integer.parseInt(input);
@@ -84,7 +92,7 @@ public class ClientMain {
         }
 
         printAsync("Starting the game!");
-
+        System.out.println("Starting the game!");
         //Starts the UI wanted
         if (selection == 1 || selection == 2) {
             //Starts the game with TUI

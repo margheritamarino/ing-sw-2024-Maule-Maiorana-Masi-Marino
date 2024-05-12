@@ -13,6 +13,7 @@ import java.util.List;
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
 
+
 public class ServerMain {
     public static void main(String[] args) throws IOException {
 
@@ -25,8 +26,8 @@ public class ServerMain {
                     """));
             input = new Scanner(System.in).next();
             System.out.println("Input ricevuto: " + input);
-        } while (!input.equals("") && !isValidIP(input));
-        if (input.equals(""))
+        } while (!input.equals("empty") && !isValidIP(input));
+        if (input.equals("empty"))
             System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
         else{
             DefaultValue.serverIp = input;
@@ -37,7 +38,7 @@ public class ServerMain {
 
         ServerTCP serverSOCKET = new ServerTCP();
         serverSOCKET.start(DefaultValue.Default_port_Socket);
-
+        System.out.println("Server Started");
     }
 
     private static boolean isValidIP(String input) {
