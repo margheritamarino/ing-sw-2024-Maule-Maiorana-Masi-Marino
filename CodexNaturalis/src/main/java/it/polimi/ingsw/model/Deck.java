@@ -33,8 +33,8 @@ public class Deck implements Serializable {
 
         // numero di carte varia in base al tipo di carta
         switch (cardType) {
-                case GoldCard, ResourceCard -> this.numCards = 40;
-                case InitialCard -> this.numCards = 6;
+                case GoldCard, ResourceCard -> this.numCards = DefaultValue.NumOfGoldCards;
+                case InitialCard -> this.numCards = DefaultValue.NumOfInitialCards;
         }
         // Gestisci le eccezioni sollevate da initializeDeck
         try {

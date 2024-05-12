@@ -28,7 +28,7 @@ public class ObjectiveDeck {
 
     public ObjectiveDeck()  {
         this.frontCards = new ArrayList<>();
-        this.numCards = 16;
+        this.numCards = DefaultValue.NumOfObjectiveCards;
         initializeDeck();
     }
 

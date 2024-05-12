@@ -226,7 +226,7 @@ public class Game {
 	 * @return true if the game is full (i.e., there are already 4 players),
 	 */
 	public boolean isFull() {
-		return playersNumber == 4;
+		return playersNumber == DefaultValue.MaxNumOfPlayer;
 	}
 	/**
 	 * @param nickname nickname to check
