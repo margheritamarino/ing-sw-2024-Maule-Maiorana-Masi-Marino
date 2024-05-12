@@ -13,7 +13,7 @@ import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.ClientGenericMessage;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
-
+import it.polimi.ingsw.controller.GameController;
 /**
  * ClientHandler Class<br>
  * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game<br>
@@ -26,7 +26,7 @@ public class ClientHandler extends Thread{
     private final ObjectInputStream in; //per la lettura degli oggetti in INGRESSO dal CLient
     private final ObjectOutputStream out; //per l'INVIO di oggetti al Client
 
-    private GameControllerInterface gameController; //controller associato alla partita
+    //private GameControllerInterface gameController; //controller associato alla partita
 
     private GameListenersServer gameListenersServer;
     /**
@@ -106,8 +106,8 @@ public class ClientHandler extends Thread{
                 temp = processingQueue.take();
 
                 if(temp.isJoinGame()){
-                    temp.execute(gameListenersHandlerSocket, gameController.getInstance());
-                } else temp.execute(gameController.getInstance());
+                    temp.execute(gameListenersHandlerSocket, GameController.getInstance());
+                } else temp.execute(GameController.getInstance());
 
             }
         } catch (RemoteException | GameEndedException e) {

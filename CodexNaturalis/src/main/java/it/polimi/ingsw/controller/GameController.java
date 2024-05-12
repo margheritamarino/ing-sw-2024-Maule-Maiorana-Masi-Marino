@@ -58,7 +58,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @return the only one instance of the GameController class
      */
-    public synchronized GameController getInstance() {
+    public static synchronized GameController getInstance() {
         if (instance == null) {
             instance = new GameController();
         }
