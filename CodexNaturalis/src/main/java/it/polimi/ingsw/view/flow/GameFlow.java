@@ -27,6 +27,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 //Capire come parte il pescaggio delle carte nel 1°Truno di gioco
 
 //Gestisce il flusso di gioco e l'interazione tra client e server
@@ -583,9 +585,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
         ui.show_whichInitialCards();
+        ui.show_temporaryInitialCards(model);
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
+            index = Objects.requireNonNullElse(askNum("\t> Choose the Front (0) or the Back (1) :", model), -1);
             ui.show_temporaryInitialCards(model);
             if (ended) return;
             if (index < 0 || index >= 2) {

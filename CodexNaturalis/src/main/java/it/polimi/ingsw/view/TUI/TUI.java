@@ -48,7 +48,7 @@ public class TUI extends UI {
 
     //messaggio di benvenuto per ogni giocatore in grassetto
     public void show_welcome(String nick) {
-        printAsync(ansi().fg(BLUE).a("Welcome " + nick).bold());
+        printAsync("Welcome " + nick);
     }
 
     public void show_allPlayers(GameImmutable model) {
@@ -78,10 +78,7 @@ public class TUI extends UI {
     @Override
     public void show_publisher(){
         clearScreen();
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset()
-        ).println(ansi().fg(GREEN).a("CRANIO CREATIONS").reset());
+        printAsync("CRANIO CREATIONS");
 
         try {
             Thread.sleep(DefaultValue.time_publisher_showing_seconds);
@@ -95,13 +92,7 @@ public class TUI extends UI {
      * Prints title of the game
      */
     public void show_titleCodexNaturalis(){
-        //printstream per stampare nel terminale
-        //se esiste la console viene usato il set di caratteri della console
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
-                //colore del testo ROSSO
-        ).println(ansi().fg(RED).a("CODEX NATURALIS").reset()); //per evitare che prossime stampe possano basarsi su questa
+        printAsync("CODEX NATURALIS");
     }
 
 
@@ -137,7 +128,7 @@ public class TUI extends UI {
     public void show_playerJoined(GameImmutable gameModel, String nick) {
         clearScreen();
         show_welcome(nick);
-        printAsync(ansi().fg(YELLOW).a("GameID: [" + gameModel.getGameId().toString() + "]\n"));
+        printAsync("GameID: [" + gameModel.getGameId().toString() + "]\n");
         System.out.flush(); //Svuota il buffer di output per garantire che tutti i dati scritti siano visibili immediatamente
     }
 
@@ -300,11 +291,7 @@ public class TUI extends UI {
     public void show_gameEnded(GameImmutable model) {
         clearScreen();
         show_titleCodexNaturalis();
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset() //se non è disponibile la console viene usato il set di caratteri predefinito
-                //colore del testo ROSSO
-        ).println(ansi().fg(RED).bold().a("GAME ENDED").boldOff().reset()); //per evitare che prossime stampe possano basarsi su questa
+        printAsync("GAME ENDED");
 
     }
 
