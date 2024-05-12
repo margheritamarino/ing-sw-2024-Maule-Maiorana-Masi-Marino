@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.CardType;
@@ -75,10 +74,9 @@ public interface GameControllerInterface extends Remote {
      *
      * @param lis  the GameListener of the player {@link GameListenerInterface}
      * @param nick the nickname of the player
-     * @return
      * @throws RemoteException if the connection fails
      */
-    GameControllerInterface leave(GameListenerInterface lis, String nick) throws RemoteException;
+    void leave(GameListenerInterface lis, String nick) throws RemoteException;
 
 
 
@@ -87,7 +85,7 @@ public interface GameControllerInterface extends Remote {
      void setGoalCard(String nickname, int index) throws NotPlayerTurnException;
 
      void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell);
-     GameControllerInterface joinGame(GameListenerInterface lis, String nick) throws RemoteException;
+     void joinGame(GameListenerInterface lis, String nick) throws RemoteException;
 
     void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos);
 }

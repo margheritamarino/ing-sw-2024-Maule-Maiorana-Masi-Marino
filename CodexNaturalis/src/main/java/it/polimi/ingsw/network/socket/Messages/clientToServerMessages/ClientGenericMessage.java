@@ -25,7 +25,7 @@ public abstract class ClientGenericMessage implements Serializable{
      * @return the game controller interface
      * @throws RemoteException if there is a remote exception
      */
-    public abstract GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException;
+    public abstract void execute(GameListenerInterface lis, GameController gameController) throws RemoteException;
 
     /**
      * Executes the corresponding action for the message.
