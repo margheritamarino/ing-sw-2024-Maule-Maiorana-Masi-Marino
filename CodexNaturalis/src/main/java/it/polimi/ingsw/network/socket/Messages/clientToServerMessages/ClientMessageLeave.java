@@ -21,6 +21,7 @@ public class ClientMessageLeave extends ClientGenericMessage {
      */
     public ClientMessageLeave(String nickname) {
         this.nickname = nickname;
+        this.isJoinGame= true;
     }
 
 
@@ -38,4 +39,5 @@ public class ClientMessageLeave extends ClientGenericMessage {
     public void execute(GameControllerInterface gameController) throws RemoteException {
 
     }
+
 }

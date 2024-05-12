@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.CardType;
@@ -21,6 +22,8 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException if the connection fails
      */
     boolean playerIsReadyToStart(String p) throws RemoteException;
+
+
 
 
     /**

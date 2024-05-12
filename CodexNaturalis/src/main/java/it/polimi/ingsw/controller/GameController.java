@@ -58,7 +58,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @return the only one instance of the GameController class
      */
-    public synchronized static GameController getInstance() {
+    public synchronized GameController getInstance() {
         if (instance == null) {
             instance = new GameController();
         }
@@ -218,6 +218,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public GameControllerInterface joinGame(GameListenerInterface lis, String nick) throws RemoteException {
+        System.out.println("Metodo execute del 1° messaggio è stato chiamato: sono entrato nel metodo JoinGame in GameController");
         if(model.getNumPlayers()==0){
 
             model.setGameId(1);

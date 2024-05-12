@@ -28,8 +28,11 @@ public class ClientHandler extends Thread{
 
     private GameControllerInterface gameController; //controller associato alla partita
 
-    private GameListenersServer gameListenersServer; //per inviare NOTIFICHE al Client
-
+    private GameListenersServer gameListenersServer;
+    /**
+     * The GameListener of the ClientSocket for notifications
+     */
+    private GameListenersServer gameListenersHandlerSocket;//per inviare NOTIFICHE al Client
     private String nickname = null; //soprannome (nickname) del SocketClient
 
     private final BlockingQueue<ClientGenericMessage> processingQueue = new LinkedBlockingQueue<>(); //coda bloccante per elaborare i messaggi in arrivo dal client.
@@ -99,11 +102,13 @@ public class ClientHandler extends Thread{
 
         try {
             while (!this.isInterrupted()) {
+                System.out.println("Sono nel SERVER \n Sono dentro al metodo GameLogic di Client Handler");
                 temp = processingQueue.take();
 
-                if (!temp.isHeartbeat()) {
-                    temp.execute(gameController);
-                }
+                if(temp.isJoinGame()){
+                    temp.execute(gameListenersHandlerSocket, gameController.getInstance());
+                } else temp.execute(gameController.getInstance());
+
             }
         } catch (RemoteException | GameEndedException e) {
             throw new RuntimeException(e);
