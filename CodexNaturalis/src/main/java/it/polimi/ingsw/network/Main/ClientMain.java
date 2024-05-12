@@ -62,14 +62,7 @@ public class ClientMain {
                         \t (3) GUI + Socket
                         \t (4) GUI + RMI
                         """));
-                System.out.println("""
-                        Select option:
-                        \t (1) TUI + Socket
-                        \t (2) TUI + RMI
-                        \t
-                        \t (3) GUI + Socket
-                        \t (4) GUI + RMI
-                        """);
+
                 input = new Scanner(System.in).nextLine();
                 try {
                     selection = Integer.parseInt(input);
