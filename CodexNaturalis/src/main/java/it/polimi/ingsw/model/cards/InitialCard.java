@@ -4,12 +4,13 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
 import org.fusesource.jansi.Ansi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class InitialCard extends PlayableCard {
+public class InitialCard extends PlayableCard implements Serializable {
     List<ResourceType> centralResources;
     int numCentralResource;
     int numResources;

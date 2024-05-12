@@ -3,11 +3,12 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
 import org.fusesource.jansi.Ansi;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class ResourceCard extends PlayableCard {
+public class ResourceCard extends PlayableCard implements Serializable {
    private ResourceType mainResource;
    private int victoryPoints;
    private int numResources;

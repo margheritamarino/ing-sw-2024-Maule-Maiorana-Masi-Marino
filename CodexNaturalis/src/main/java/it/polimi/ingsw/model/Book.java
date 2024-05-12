@@ -3,13 +3,15 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.CellNotAvailableException;
 import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 import it.polimi.ingsw.model.cards.*;
+
+import java.io.Serializable;
 import java.util.*;
 import it.polimi.ingsw.model.interfaces.BookIC;
 import it.polimi.ingsw.model.player.Player;
 
 
 // BOOK: disposizione delle carte di ogni player
-public class Book {
+public class Book implements Serializable {
     private final Cell[][] bookMatrix; //matrice di celle
     private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
     private Map<SymbolType, Integer> symbolMap; //n° di simboli per tipo

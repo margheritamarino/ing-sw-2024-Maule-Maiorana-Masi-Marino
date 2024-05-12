@@ -35,6 +35,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     public void playerJoined(GameImmutable model, String nickname) throws RemoteException {
         try {
             out.writeObject(new msgPlayerJoined(model, nickname));
+            System.out.println("Il messaggio PlayerJoined è stato inviato su ObjectOutputStream");
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());

@@ -37,6 +37,7 @@ public class ListenersHandler {
      */
     public void addListener(GameListenerInterface listener){
         listeners.add(listener);
+        System.out.println("Client correttamente aggiunto come LISTENER del Server");
     }
 
     /**

@@ -5,11 +5,12 @@ import it.polimi.ingsw.model.SymbolType;
 import it.polimi.ingsw.model.interfaces.PlayableCardIC;
 import org.fusesource.jansi.Ansi;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public abstract class PlayableCard {
+public abstract class PlayableCard implements Serializable {
     private final int cardID;
     private final int numCorners;
     private final boolean isFront;

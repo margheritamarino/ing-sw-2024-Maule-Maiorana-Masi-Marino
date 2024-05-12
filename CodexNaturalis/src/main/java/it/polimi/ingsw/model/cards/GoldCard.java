@@ -5,12 +5,13 @@ import it.polimi.ingsw.model.SymbolType;
 import org.fusesource.jansi.Ansi;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class GoldCard extends PlayableCard {
+public class GoldCard extends PlayableCard implements Serializable {
 
     private ResourceType mainResource;
     private boolean hasSymbol;

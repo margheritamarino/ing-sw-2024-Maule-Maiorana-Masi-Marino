@@ -3,12 +3,13 @@ import it.polimi.ingsw.model.*;
 import org.fusesource.jansi.Ansi;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class ObjectiveCard {
+public class ObjectiveCard implements Serializable {
     private int cardID;
     private boolean isFront;
     private GoalType goalType;
