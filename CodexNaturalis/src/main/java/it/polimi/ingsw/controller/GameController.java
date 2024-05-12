@@ -58,7 +58,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @return the only one instance of the GameController class
      */
-    public synchronized static GameController getInstance() {
+    public static synchronized GameController getInstance() {
         if (instance == null) {
             instance = new GameController();
         }
@@ -192,10 +192,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public synchronized GameControllerInterface leave(GameListenerInterface lis, String nick) throws RemoteException {
+    public synchronized void leave(GameListenerInterface lis, String nick) throws RemoteException {
         model.removeListener(lis);
         model.removePlayer(nick);
-        return null;
+        //return null;
     }
 
     @Override
@@ -217,7 +217,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public GameControllerInterface joinGame(GameListenerInterface lis, String nick) throws RemoteException {
+    public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
+        System.out.println("Metodo execute del 1° messaggio è stato chiamato: sono entrato nel metodo JoinGame in GameController");
         if(model.getNumPlayers()==0){
 
             model.setGameId(1);
@@ -225,7 +226,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         System.out.println("gameController joinGame");
         model.addListener(lis);
         model.addPlayer(nick);
-        return getInstance();
+        //return getInstance();
 
     }
 

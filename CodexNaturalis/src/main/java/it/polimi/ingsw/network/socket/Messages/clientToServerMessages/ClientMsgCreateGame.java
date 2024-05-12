@@ -18,11 +18,13 @@ public class ClientMsgCreateGame extends ClientGenericMessage {
      */
     public ClientMsgCreateGame(String nickname) {
         this.nickname = nickname;
+        this.isJoinGame= true;
     }
+
     @Override
-    public GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        System.out.println("clientMsg joinGame");
-        return gameController.joinGame(lis, this.nickname);
+    public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
+
+        gameController.joinGame(lis, this.nickname);
     }
 
     /**
@@ -33,7 +35,7 @@ public class ClientMsgCreateGame extends ClientGenericMessage {
      */
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException {
-        System.out.println("clientMsg joinGame");
+
     }
 
 

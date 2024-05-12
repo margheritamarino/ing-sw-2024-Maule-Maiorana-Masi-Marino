@@ -16,8 +16,8 @@ public class ClientMsgSetObjective extends ClientGenericMessage {
     }
 
     @Override
-    public GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        return null;
+    public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
+
     }
 
     /**

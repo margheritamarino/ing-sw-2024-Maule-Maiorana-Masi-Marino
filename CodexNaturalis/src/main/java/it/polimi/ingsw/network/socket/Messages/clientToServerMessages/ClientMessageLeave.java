@@ -21,12 +21,13 @@ public class ClientMessageLeave extends ClientGenericMessage {
      */
     public ClientMessageLeave(String nickname) {
         this.nickname = nickname;
+        this.isJoinGame= true;
     }
 
 
     @Override
-    public GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        return gameController.leave(lis, nickname);
+    public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
+        gameController.leave(lis, nickname);
     }
 
     /**
@@ -38,4 +39,5 @@ public class ClientMessageLeave extends ClientGenericMessage {
     public void execute(GameControllerInterface gameController) throws RemoteException {
 
     }
+
 }

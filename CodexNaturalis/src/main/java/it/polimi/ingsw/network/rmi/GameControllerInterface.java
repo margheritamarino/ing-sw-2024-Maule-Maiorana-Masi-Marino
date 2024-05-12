@@ -23,6 +23,8 @@ public interface GameControllerInterface extends Remote {
     boolean playerIsReadyToStart(String p) throws RemoteException;
 
 
+
+
     /**
      * This method checks if it's the turn of the player
      *
@@ -72,10 +74,9 @@ public interface GameControllerInterface extends Remote {
      *
      * @param lis  the GameListener of the player {@link GameListenerInterface}
      * @param nick the nickname of the player
-     * @return
      * @throws RemoteException if the connection fails
      */
-    GameControllerInterface leave(GameListenerInterface lis, String nick) throws RemoteException;
+    void leave(GameListenerInterface lis, String nick) throws RemoteException;
 
 
 
@@ -84,7 +85,7 @@ public interface GameControllerInterface extends Remote {
      void setGoalCard(String nickname, int index) throws NotPlayerTurnException;
 
      void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell);
-     GameControllerInterface joinGame(GameListenerInterface lis, String nick) throws RemoteException;
+     void joinGame(GameListenerInterface lis, String nick) throws RemoteException;
 
     void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos);
 }

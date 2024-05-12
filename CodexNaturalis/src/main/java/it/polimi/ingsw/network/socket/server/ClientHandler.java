@@ -13,7 +13,7 @@ import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.ClientGenericMessage;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
-
+import it.polimi.ingsw.controller.GameController;
 /**
  * ClientHandler Class<br>
  * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game<br>
@@ -26,9 +26,12 @@ public class ClientHandler extends Thread{
     private final ObjectInputStream in; //per la lettura degli oggetti in INGRESSO dal CLient
     private final ObjectOutputStream out; //per l'INVIO di oggetti al Client
 
-    private GameControllerInterface gameController; //controller associato alla partita
+    //private GameControllerInterface gameController; //controller associato alla partita
 
-    private GameListenersServer gameListenersServer; //per inviare NOTIFICHE al Client
+    private GameListenersServer gameListenersServer;
+    /**
+     * The GameListener of the ClientSocket for notifications
+     */
 
     private String nickname = null; //soprannome (nickname) del SocketClient
 
@@ -45,6 +48,7 @@ public class ClientHandler extends Thread{
         this.in = new ObjectInputStream(soc.getInputStream());
         this.out = new ObjectOutputStream(soc.getOutputStream());
         gameListenersServer = new GameListenersServer(out);
+
     }
 
     /**
@@ -71,18 +75,14 @@ public class ClientHandler extends Thread{
                 try {
                     temp = (ClientGenericMessage) in.readObject(); //legge msg in arrivo dal Client
 
-                    try {
-                        //it's a heartbeat message I handle it as a "special message"
-                        if (temp.isHeartbeat()) {
-                            if (gameController != null) {
-                                gameController.heartbeat(temp.getNickname(), gameListenersServer);
-                            }
-                        } else {
-                            processingQueue.add(temp);
-                        }
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    //it's a heartbeat message I handle it as a "special message"
+//                        if (temp.isHeartbeat()) {
+//                            if (GameController.getInstance() != null) {
+//                                GameController.getInstance().heartbeat(temp.getNickname(), gameListenersServer);
+//                            }
+//                        } else {
+                    processingQueue.add(temp);
+                    // }
 
                 } catch (IOException | ClassNotFoundException e) {
                     printAsync("ClientSocket dies because cannot communicate no more with the client");
@@ -99,11 +99,13 @@ public class ClientHandler extends Thread{
 
         try {
             while (!this.isInterrupted()) {
+                System.out.println("Sono nel SERVER \n Sono dentro al metodo GameLogic di Client Handler");
                 temp = processingQueue.take();
 
-                if (!temp.isHeartbeat()) {
-                    temp.execute(gameController);
-                }
+                if(temp.isJoinGame()){
+                    temp.execute(gameListenersServer, GameController.getInstance());
+                } else temp.execute(GameController.getInstance());
+
             }
         } catch (RemoteException | GameEndedException e) {
             throw new RuntimeException(e);

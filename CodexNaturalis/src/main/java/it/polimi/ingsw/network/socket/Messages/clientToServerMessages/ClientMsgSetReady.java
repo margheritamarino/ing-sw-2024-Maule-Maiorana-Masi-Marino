@@ -24,12 +24,11 @@ public class ClientMsgSetReady extends ClientGenericMessage {
      * Method to execute the corresponding action for the message.
      * @param lis the game listener
      * @param gameController the main controller of the application
-     * @return the game controller interface
      * @throws RemoteException if there is an error in remote communication
      */
     @Override
-    public GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        return null;
+    public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
+
     }
 
     /**

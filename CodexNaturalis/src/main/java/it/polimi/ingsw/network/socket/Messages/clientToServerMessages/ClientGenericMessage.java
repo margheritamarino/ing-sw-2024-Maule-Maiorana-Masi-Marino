@@ -16,6 +16,7 @@ import java.rmi.RemoteException;
 public abstract class ClientGenericMessage implements Serializable{
     protected String nickname; //soprannome associato al messaggio
     protected boolean isHeartbeat=false;
+    boolean isJoinGame= false; //attributo per il primo messaggio di creazione del gioco (JoinGame)
 
     /**
      * Executes the corresponding action for the message.
@@ -24,7 +25,7 @@ public abstract class ClientGenericMessage implements Serializable{
      * @return the game controller interface
      * @throws RemoteException if there is a remote exception
      */
-    public abstract GameControllerInterface execute(GameListenerInterface lis, GameController gameController) throws RemoteException;
+    public abstract void execute(GameListenerInterface lis, GameController gameController) throws RemoteException;
 
     /**
      * Executes the corresponding action for the message.
@@ -50,4 +51,11 @@ public abstract class ClientGenericMessage implements Serializable{
     }
 
 
+    public boolean isJoinGame() {
+        return isJoinGame;
+    }
+
+    public void setJoinGame(boolean joinGame) {
+        isJoinGame = joinGame;
+    }
 }

@@ -58,6 +58,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @param flow to notify network errors
      */
     public ClientSocket(Flow flow) {
+        System.out.println("Sono nel costruttore di ClientSocket");
         this.flow=flow;
         startConnection("127.0.0.1", DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersClient(flow);
@@ -69,8 +70,10 @@ public class ClientSocket extends Thread implements ClientInterface {
      * Reads all the incoming network traffic and execute the requested action
      */
     public void run() {
+        System.out.println("Sono nel metodo run della classe ClientSocket");
         while (true) {
             try {
+                System.out.println("Sono nel try di ClientSocket");
                 ServerGenericMessage msg = (ServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
 
@@ -94,6 +97,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @param port of the Socket server to connect
      */
     private void startConnection(String ip, int port) {
+        System.out.println("Sono nel metodo startConnection di ClientSocket");
         boolean retry = false;
         int attempt = 1;
         int i;
@@ -101,8 +105,11 @@ public class ClientSocket extends Thread implements ClientInterface {
         do {
             try {
                 clientSoc = new Socket(ip, port);
+                System.out.println("Una nuova Socket è stata creata");
                 out = new ObjectOutputStream(clientSoc.getOutputStream());
+                System.out.println("OutputStream creato");
                 in = new ObjectInputStream(clientSoc.getInputStream());
+                System.out.println("InputStream creato");
                 retry = false;
             } catch (IOException e) {
                 if (!retry) {
@@ -189,6 +196,8 @@ public class ClientSocket extends Thread implements ClientInterface {
     public void joinGame(String nick) throws IOException {
         System.out.println("clientSocket joinGame");
         nickname = nick;
+        //ClientMsgCreateGame prova = new ClientMsgCreateGame(nick);
+        //System.out.println("Il messaggio ClientMsgCreateGame è stato creato ");
         out.writeObject(new ClientMsgCreateGame(nick));
         finishSending();
         /*if(!socketHeartbeat.isAlive()) {

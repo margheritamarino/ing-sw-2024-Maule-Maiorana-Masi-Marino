@@ -29,7 +29,7 @@ public class PrintAsync {
         new Thread(()->{System.out.print(msg);}).start();
     }
     public static void printAsyncNoCursorReset(StringBuilder msg){
-        //new Thread(()->{System.out.print(msg);}).start();
+        new Thread(()->{System.out.print(msg);}).start();
     }
 
 }
