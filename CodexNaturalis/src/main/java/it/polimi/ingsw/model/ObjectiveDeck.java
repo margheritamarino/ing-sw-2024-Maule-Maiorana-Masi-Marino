@@ -21,7 +21,7 @@ import java.util.Random;
 /**
  * ObjectiveDeck class
  */
-public class ObjectiveDeck {
+public class ObjectiveDeck implements Serializable {
     private int numCards;
     private final ArrayList<ObjectiveCard> frontCards;
 

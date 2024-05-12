@@ -2,7 +2,9 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.PlayableCard;
 
-public class Cell {
+import java.io.Serializable;
+
+public class Cell implements Serializable {
     private int row; // indice della matrice
     private int column; // indice della matrice
     private boolean wall;
