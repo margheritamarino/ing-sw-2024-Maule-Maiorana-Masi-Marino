@@ -32,7 +32,7 @@ public class ClientHandler extends Thread{
     /**
      * The GameListener of the ClientSocket for notifications
      */
-    private GameListenersServer gameListenersHandlerSocket;//per inviare NOTIFICHE al Client
+
     private String nickname = null; //soprannome (nickname) del SocketClient
 
     private final BlockingQueue<ClientGenericMessage> processingQueue = new LinkedBlockingQueue<>(); //coda bloccante per elaborare i messaggi in arrivo dal client.
@@ -48,6 +48,7 @@ public class ClientHandler extends Thread{
         this.in = new ObjectInputStream(soc.getInputStream());
         this.out = new ObjectOutputStream(soc.getOutputStream());
         gameListenersServer = new GameListenersServer(out);
+
     }
 
     /**
@@ -102,7 +103,7 @@ public class ClientHandler extends Thread{
                 temp = processingQueue.take();
 
                 if(temp.isJoinGame()){
-                    temp.execute(gameListenersHandlerSocket, GameController.getInstance());
+                    temp.execute(gameListenersServer, GameController.getInstance());
                 } else temp.execute(GameController.getInstance());
 
             }
