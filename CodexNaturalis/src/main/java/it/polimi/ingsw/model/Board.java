@@ -215,7 +215,7 @@ public class Board implements Serializable {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyGoldDeckSize(int playersNumber) {
-        return (goldCardsDeck.getNumCards())  == 40- 2 - playersNumber; //su Deck numCards va da 0 a 40
+        return (goldCardsDeck.getNumCards())  == DefaultValue.NumOfGoldCards- 2 - playersNumber; //su Deck numCards va da 0 a 40
     }
 
     /**
@@ -224,7 +224,7 @@ public class Board implements Serializable {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyResourceDeckSize(int playersNumber) {
-        return (resourcesCardsDeck.getNumCards())  == 40- 2 - (2 * playersNumber); //su Deck numCards va da 0 a 40
+        return (resourcesCardsDeck.getNumCards())  == DefaultValue.NumOfResourceCards- 2 - playersNumber; //su Deck numCards va da 0 a 40
 
     }
 
@@ -234,7 +234,7 @@ public class Board implements Serializable {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyObjectiveDeckSize(int playersNumber) {
-        return objectiveCardsDeck.getNumCards() == 16 - 2 - playersNumber;
+        return objectiveCardsDeck.getNumCards() == DefaultValue.NumOfObjectiveCards - 2 - playersNumber;
     }
 
     @Override
