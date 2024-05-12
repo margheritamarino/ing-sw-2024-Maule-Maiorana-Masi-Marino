@@ -85,7 +85,6 @@ public class ClientMain {
         }
 
         printAsync("Starting the game!");
-        System.out.println("Starting the game!");
         //Starts the UI wanted
         if (selection == 1 || selection == 2) {
             //Starts the game with TUI

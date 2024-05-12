@@ -194,6 +194,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void joinGame(String nick) throws IOException {
+        System.out.println("clientSocket joinGame");
         nickname = nick;
         //ClientMsgCreateGame prova = new ClientMsgCreateGame(nick);
         //System.out.println("Il messaggio ClientMsgCreateGame è stato creato ");
