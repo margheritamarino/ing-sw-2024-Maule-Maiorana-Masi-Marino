@@ -21,8 +21,8 @@ public class DefaultValue implements Serializable {
     public final static int NumOfColumnsBook = 70;
     public final static int NumOfRowsBook = 70;
 
-    public final static int Default_port_RMI = 1098;
-    public final static int Default_port_Socket = 1099;
+    public final static int Default_port_RMI = 4321;
+    public final static int Default_port_Socket = 4320;
     public static String serverIp = "127.0.0.1";
     public final static String Remote_ip = "127.0.0.1";
 

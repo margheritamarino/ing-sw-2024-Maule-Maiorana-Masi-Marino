@@ -113,7 +113,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 retry = false;
             } catch (IOException e) {
                 if (!retry) {
-                    printAsync("[ERROR] CONNECTING TO SOCKET SERVER: \n\tClient RMI exception: " + e + "\n");
+                    printAsync("[ERROR] CONNECTING TO SOCKET SERVER: \n\t " + e + "\n");
                 }
                 printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip + "'");
 

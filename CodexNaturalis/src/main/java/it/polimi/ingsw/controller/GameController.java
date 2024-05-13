@@ -201,7 +201,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public synchronized void setGoalCard(String playerName, int index) throws NotPlayerTurnException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
-            model.setPlayerGoal(currentPlayer, index);
+        model.setPlayerGoal(currentPlayer, index);
     }
 
     /**
