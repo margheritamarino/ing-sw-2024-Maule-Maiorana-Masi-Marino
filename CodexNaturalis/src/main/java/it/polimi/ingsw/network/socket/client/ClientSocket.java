@@ -60,7 +60,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public ClientSocket(Flow flow) {
         System.out.println("Sono nel costruttore di ClientSocket");
         this.flow=flow;
-        startConnection("127.0.0.1", DefaultValue.Default_port_Socket);
+        startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersClient(flow);
         this.start();
        // socketHeartbeat = new HeartbeatSender(flow,this);
