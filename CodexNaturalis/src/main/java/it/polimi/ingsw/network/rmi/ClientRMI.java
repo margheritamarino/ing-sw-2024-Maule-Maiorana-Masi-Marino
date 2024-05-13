@@ -32,7 +32,7 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
  * by the RMI Network Protocol
  */
 
-    public class ClientRMI implements ClientInterface {
+public class ClientRMI implements ClientInterface {
 
     /**
      * The remote object returned by the registry that represents the game controller
@@ -124,8 +124,8 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
                 }
                 retry = true;
                 attempt++;
-                }
-            } while (retry) ;
+            }
+        } while (retry) ;
 
     }
 
