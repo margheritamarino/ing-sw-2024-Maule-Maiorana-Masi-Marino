@@ -102,7 +102,7 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
                 printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to RMI Server on port: '" + DefaultValue.Default_port_RMI + "' with name: '" + DefaultValue.Default_servername_RMI + "'");
 
                 i = 0;
-                while (i < DefaultValue.seconds_between_reconnection) {
+                while (i < DefaultValue.secondsToReconnection) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
@@ -113,7 +113,7 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
                 }
                 printAsyncNoLine("\n");
 
-                if (attempt >= DefaultValue.num_of_attempt_to_connect_toServer_before_giveup) { //se supera il numero massimo di tentativi di connessione al server senza riuscire
+                if (attempt >= DefaultValue.maxAttemptsBeforeGiveUp) { //se supera il numero massimo di tentativi di connessione al server senza riuscire
                     printAsyncNoLine("Give up!");
                     try {
                         System.in.read();
