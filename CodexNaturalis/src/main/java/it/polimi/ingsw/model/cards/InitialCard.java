@@ -170,19 +170,19 @@ public class InitialCard extends PlayableCard implements Serializable {
         result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append("CardType: ");
         result.append(cardTypeName);
-        result.append(" ");
+        result.append("\n");
         result.append("Face: ");
         result.append(FoB);
-        result.append(" ");
+        result.append("\n");
         result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
         result.append("Corners: ");
         String formattedCorners = String.join(" ", emojiCorners);
         result.append(formattedCorners);
-        result.append(" ");
+        result.append("\n");
         result.append("Central Resources: ");
         String formattedCentrals = String.join(" ", emojiCentral);
         result.append(formattedCentrals);
-        
+        result.append("\n");
         return result.toString();
     }
 
