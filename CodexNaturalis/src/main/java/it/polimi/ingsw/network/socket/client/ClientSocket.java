@@ -119,13 +119,13 @@ public class ClientSocket extends Thread implements ClientInterface {
                 printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip + "'");
 
                 try {
-                    Thread.sleep(DefaultValue.secondsToreconnection * 1000);
+                    Thread.sleep(DefaultValue.secondsToReconnection * 1000);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
 
                 i = 0;
-                while (i < DefaultValue.secondsToreconnection) {
+                while (i < DefaultValue.secondsToReconnection) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
@@ -135,7 +135,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 }
                 printAsyncNoLine("\n");
 
-                if (attempt >= DefaultValue.maxAttemptsbeforeGiveUp) {
+                if (attempt >= DefaultValue.maxAttemptsBeforeGiveUp) {
                     printAsyncNoLine("Give up!");
                     try {
                         System.in.read();
@@ -146,7 +146,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 }
                 attempt++;
             }
-        } while  (!connectionEstablished && attempt <= DefaultValue.maxAttemptsbeforeGiveUp);
+        } while  (!connectionEstablished && attempt <= DefaultValue.maxAttemptsBeforeGiveUp);
 
     }
 
