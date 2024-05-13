@@ -46,7 +46,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Singleton Pattern, instance of the class
      */
     private static GameController instance = null;
-   private final transient Map<GameListenerInterface, Ping> receivedPings;
+    private final transient Map<GameListenerInterface, Ping> receivedPings;
     /**GameController Constructor
      * Init a GameModel
      */
@@ -67,6 +67,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return instance;
     }
 
+    /*
     /**
      * Add a ping to the map of received Pings
      *
@@ -74,6 +75,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @param me   the player's GameListener associated to the ping
      * @throws RemoteException
      */
+
     @Override
     public synchronized void ping(String nickname, GameListenersServer me) throws RemoteException {
         synchronized (receivedPings) {

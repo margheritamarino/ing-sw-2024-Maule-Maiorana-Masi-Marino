@@ -54,7 +54,10 @@ public interface GameControllerInterface extends Remote {
      */
     int getGameId() throws RemoteException;
 
+
     void ping(String nickname, GameListenersServer me) throws RemoteException;
+
+
 
     /**
      * This method return the number of the online players

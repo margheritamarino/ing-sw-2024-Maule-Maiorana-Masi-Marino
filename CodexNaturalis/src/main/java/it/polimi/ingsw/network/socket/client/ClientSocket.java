@@ -239,6 +239,7 @@ public class ClientSocket extends Thread implements ClientInterface {
 
 
 
+
     /**
      * Send a ping() to the Socket Server
      * Now it is not used because the Socket Connection automatically detects disconnections by itself

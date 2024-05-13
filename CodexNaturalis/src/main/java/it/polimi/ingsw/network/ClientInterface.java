@@ -42,15 +42,15 @@ public interface ClientInterface  {
      */
     void setAsReady() throws IOException;
 
-
+    /*
     /**
      * Pings the server
      *
      * @throws RemoteException
-     */
+
     void ping() throws RemoteException;
 
-
+*/
     void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
 
     void setInitialCard(int index) throws IOException;
