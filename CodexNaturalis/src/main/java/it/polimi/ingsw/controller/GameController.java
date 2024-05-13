@@ -46,13 +46,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Singleton Pattern, instance of the class
      */
     private static GameController instance = null;
-    private final transient Map<GameListenerInterface, Ping> receivedPings;
+   private final transient Map<GameListenerInterface, Ping> receivedPings;
     /**GameController Constructor
      * Init a GameModel
      */
     public GameController()  {
         model = new Game();
-        receivedPings = new HashMap<>();
+      //  receivedPings = new HashMap<>(); PingSender
         new Thread(this).start();
     }
     /**

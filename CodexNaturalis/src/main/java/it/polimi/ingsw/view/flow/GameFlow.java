@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.flow;
 
 
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -487,6 +488,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
         } catch (IOException e) {
             noConnectionError();
+        } catch (NotPlayerTurnException e) {
+            throw new RuntimeException(e);
         }
     }
 
