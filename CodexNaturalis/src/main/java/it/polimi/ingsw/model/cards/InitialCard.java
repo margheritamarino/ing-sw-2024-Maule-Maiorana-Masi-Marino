@@ -148,6 +148,12 @@ public class InitialCard extends PlayableCard implements Serializable {
         Ansi.Color bgColor = Ansi.Color.YELLOW;
         Ansi.Color textColor = Ansi.Color.WHITE;
         String cardTypeName = "Initial";
+        String FoB;
+        if(isFront()){
+            FoB = "Front";
+        }else{
+            FoB = "Back";
+        }
 
         List<String> corners = getCornerContent();
         List<String> emojiCorners = new ArrayList<>();
@@ -162,12 +168,18 @@ public class InitialCard extends PlayableCard implements Serializable {
 
         // Costruzione del risultato con colori e nome della carta
         result.append(ansi().fg(textColor).bg(bgColor).a(" "));
+        result.append("CardType: ");
         result.append(cardTypeName);
         result.append(" ");
+        result.append("Face: ");
+        result.append(FoB);
+        result.append(" ");
         result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        result.append("Corners: ");
         String formattedCorners = String.join(" ", emojiCorners);
         result.append(formattedCorners);
         result.append(" ");
+        result.append("Central Resources: ");
         String formattedCentrals = String.join(" ", emojiCentral);
         result.append(formattedCentrals);
         
