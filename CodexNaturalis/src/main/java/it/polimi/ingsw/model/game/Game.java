@@ -61,7 +61,7 @@ public class Game {
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
-		this.temporaryInitialCard= new InitialCard[2];
+		this.temporaryInitialCard= new PlayableCard[2];
 		this.listenersHandler = new ListenersHandler();
 
 	}
@@ -74,7 +74,7 @@ public class Game {
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
-		this.temporaryInitialCard= new InitialCard[2];
+		this.temporaryInitialCard= new PlayableCard[2];
 		this.listenersHandler = new ListenersHandler();
 
 	}
