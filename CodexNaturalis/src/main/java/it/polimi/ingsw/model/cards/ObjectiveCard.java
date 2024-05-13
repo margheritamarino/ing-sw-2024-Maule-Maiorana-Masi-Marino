@@ -148,6 +148,7 @@ public class ObjectiveCard implements Serializable {
                 result.append(" ");
             }
         }
+        result.append("\n");
 
         return result.toString();
     }
