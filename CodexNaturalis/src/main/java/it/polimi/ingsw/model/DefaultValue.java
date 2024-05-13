@@ -18,6 +18,7 @@ public class DefaultValue implements Serializable {
     public final static int NumOfInitialCards = 6;
     public final static int NumOfObjectiveCards = 16;
 
+
     public final static int NumOfColumnsBook = 70;
     public final static int NumOfRowsBook = 70;
 
