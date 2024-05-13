@@ -98,7 +98,7 @@ public class ObjectiveCard implements Serializable {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        Ansi.Color bgColor = null;
+        Ansi.Color bgColor = Ansi.Color.DEFAULT;
         Ansi.Color textColor = Ansi.Color.WHITE;
         String condition = " ";
         List<String> emojiSymbol = new ArrayList<>();
@@ -135,6 +135,9 @@ public class ObjectiveCard implements Serializable {
         result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
         result.append("Points: ");
         result.append(points);
+        result.append("\n");
+        result.append("ConditionType: ");
+        result.append(goalType.toString());
         result.append("\n");
         result.append("Condition: ");
         result.append(condition);

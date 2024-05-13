@@ -144,7 +144,7 @@ public class TUI extends UI {
 
     @Override
     public void show_whichInitialCards() {
-        printAsync("> Choose one of the following initial cards:");
+        printAsync("> Choose the front[0] or the back[1] of the following initial card:");
     }
 
     @Override
@@ -154,7 +154,7 @@ public class TUI extends UI {
 
     @Override
     public void show_whichObjectiveCards() {
-        printAsync("> Choose one of the following objective cards:");
+        printAsync("> Choose the first[0] or the second[1] objective cards:");
     }
 
     @Override
@@ -301,7 +301,7 @@ public class TUI extends UI {
     }
     @Override
     public void show_temporaryInitialCards(GameImmutable model){
-        printAsync("Temporary display of Initial Cards...");
+        printAsync("Initial Card...");
         PlayableCard[] initialCards = model.getInitialCard();
 
         for (int i = 0; i < initialCards.length; i++) {

@@ -588,8 +588,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_temporaryInitialCards(model);
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Choose the Front (0) or the Back (1) :", model), -1);
-            ui.show_temporaryInitialCards(model);
+            index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 ui.show_wrongSelectionInitialMsg();
@@ -613,10 +612,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void requireGoalsReady(GameImmutable model) throws RemoteException {
         ui.show_whichObjectiveCards();
+        ui.show_ObjectiveCards(model);
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Choose one of these  Objective Cards:", model), -1);
-            ui.show_ObjectiveCards(model);
+            index = Objects.requireNonNullElse(askNum("\t> Choose the Objective card:", model), -1);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 ui.show_wrongSelectionObjectiveMsg();
