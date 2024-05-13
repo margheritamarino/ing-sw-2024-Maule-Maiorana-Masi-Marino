@@ -18,11 +18,7 @@ public class BoardTest {
 
     @BeforeEach
     public void setUp() {
-        try {
-            board = new Board();
-        } catch (FileNotFoundException| DeckEmptyException | FileReadException e) {
-            e.printStackTrace(); // Gestisci l'eccezione in modo appropriato nel tuo codice reale
-        }
+        board = new Board();
     }
 
     @Test

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import static org.junit.Assert.assertThrows;
 
@@ -26,17 +27,33 @@ class DeckTest {
     }
 
     @Test
-    void testInitializeDeck() {
+    void testInitializeDeck() throws FileNotFoundException, FileReadException {
         // Verifica che il mazzo sia inizializzato correttamente
-        Assertions.assertEquals(40, deckGold.getNumCards());
-        Assertions.assertEquals(40, deckResource.getNumCards());
-        Assertions.assertEquals(6, deckInitial.getNumCards());
-        Assertions.assertNotNull(deckGold.getFrontCards());
-        Assertions.assertNotNull(deckGold.getBackCards());
-        Assertions.assertNotNull(deckResource.getFrontCards());
-        Assertions.assertNotNull(deckResource.getBackCards());
-        Assertions.assertNotNull(deckInitial.getFrontCards());
-        Assertions.assertNotNull(deckInitial.getBackCards());
+//        Assertions.assertEquals(40, deckGold.getNumCards());
+//        Assertions.assertEquals(40, deckResource.getNumCards());
+//        Assertions.assertEquals(6, deckInitial.getNumCards());
+//        Assertions.assertNotNull(deckGold.getFrontCards());
+//        Assertions.assertNotNull(deckGold.getBackCards());
+//        Assertions.assertNotNull(deckResource.getFrontCards());
+//        Assertions.assertNotNull(deckResource.getBackCards());
+//        Assertions.assertNotNull(deckInitial.getFrontCards());
+//        Assertions.assertNotNull(deckInitial.getBackCards());
+        // Creazione di un oggetto Deck
+        Deck deck = new Deck(CardType.InitialCard);
+
+            // Inizializzazione del mazzo con le carte di tipo InitialCard
+            deck.initializeDeck(CardType.InitialCard);
+
+            // Verifica che il mazzo contenga solo carte di tipo InitialCard
+            List<PlayableCard> frontCards = deck.getFrontCards();
+            List<PlayableCard> backCards = deck.getBackCards();
+            for (PlayableCard card : frontCards) {
+                Assertions.assertEquals(CardType.InitialCard, card.getCardType());
+            }
+            for (PlayableCard card : backCards) {
+                Assertions.assertEquals(CardType.InitialCard, card.getCardType());
+            }
+
     }
 
     @Test

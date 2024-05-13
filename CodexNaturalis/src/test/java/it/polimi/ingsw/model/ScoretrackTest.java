@@ -31,11 +31,7 @@ public class ScoretrackTest {
     @Test
     public void testRemovePlayer() throws PlayerNotFoundException {
         scoreTrack.addPlayer(player1);
-        try {
-            scoreTrack.removePlayer(player1);
-        } catch (PlayerNotFoundException e) {
-            fail("PlayerNotFoundException not going");
-        }
+        scoreTrack.removePlayer(player1);
 
         assertFalse(scoreTrack.checkPlayerExists(player1)); // Restituisce false se il giocatore non è più nel tracker dei punteggi
     }
@@ -44,27 +40,19 @@ public class ScoretrackTest {
     public void testAddPoints() {
         scoreTrack.addPlayer(player1);
         int initialPoints = 5; //punti che il giocatore ha già al turno precedente, anche 0
-        try {
-            scoreTrack.setPlayerScore(player1, initialPoints);
-            scoreTrack.addPoints(player1, 10); //aggiungo dei nuovi punti e verifico che vengono aggiunti a quelli precedenti
-            assertEquals(initialPoints + 10, scoreTrack.getPlayerScore(player1));
-        } catch (PlayerNotFoundException | InvalidPointsException e) {
-            fail("Unexpected exception: " + e.getMessage());
-        }
+        scoreTrack.setPlayerScore(player1, initialPoints);
+        scoreTrack.addPoints(player1, 10); //aggiungo dei nuovi punti e verifico che vengono aggiunti a quelli precedenti
+        assertEquals(initialPoints + 10, scoreTrack.getPlayerScore(player1));
     }
 
     @Test
     public void testGetPlayerScore() {
         scoreTrack.addPlayer(player1);
         scoreTrack.addPlayer(player2);
-        try {
-            scoreTrack.addPoints(player1, 5);
-            scoreTrack.addPoints(player2, 10);
-            assertEquals(5, scoreTrack.getPlayerScore(player1));
-            assertEquals(10, scoreTrack.getPlayerScore(player2));
-        } catch (PlayerNotFoundException | InvalidPointsException e) {
-            fail("Unexpected exception: " + e.getMessage());
-        }
+        scoreTrack.addPoints(player1, 5);
+        scoreTrack.addPoints(player2, 10);
+        assertEquals(5, scoreTrack.getPlayerScore(player1));
+        assertEquals(10, scoreTrack.getPlayerScore(player2));
     }
 
     @Test
@@ -78,14 +66,10 @@ public class ScoretrackTest {
     public void testCheckTo20() {
         scoreTrack.addPlayer(player1);
         scoreTrack.addPlayer(player2);
-        try {
-            scoreTrack.addPoints(player2, 15); //il giocatore 2 non ha raggiunto i 20 punti
-            assertFalse(scoreTrack.checkTo20());
-            scoreTrack.addPoints(player1, 20);
-            assertTrue(scoreTrack.checkTo20());
-        } catch (PlayerNotFoundException | InvalidPointsException e) {
-            fail("Unexpected exception: " + e.getMessage());
-        }
+        scoreTrack.addPoints(player2, 15); //il giocatore 2 non ha raggiunto i 20 punti
+        assertFalse(scoreTrack.checkTo20());
+        scoreTrack.addPoints(player1, 20);
+        assertTrue(scoreTrack.checkTo20());
     }
 
     @Test
@@ -96,7 +80,7 @@ public class ScoretrackTest {
             scoreTrack.addPoints(player1, 22);
             scoreTrack.addPoints(player2, 20);
             assertEquals(player1, scoreTrack.getWinner());
-        } catch (PlayerNotFoundException | InvalidPointsException | NoPlayersException e) {
+        } catch (NoPlayersException e) {
             fail("Unexpected exception: " + e.getMessage());
         }
     }

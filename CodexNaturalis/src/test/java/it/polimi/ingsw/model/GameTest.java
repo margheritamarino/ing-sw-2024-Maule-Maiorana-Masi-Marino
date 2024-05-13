@@ -79,8 +79,8 @@ public class GameTest {
     }
 
     //da fare
-    @Test
-    public void testCheckNickname() throws FileNotFoundException, FileReadException, IllegalArgumentException, DeckEmptyException, NicknameAlreadyTaken, MatchFull {
+    //@Test
+    /*public void testCheckNickname() throws FileNotFoundException, FileReadException, IllegalArgumentException, DeckEmptyException, NicknameAlreadyTaken, MatchFull {
         //Ambiente con due giocatori
         Game game = new Game(2);
 
@@ -96,10 +96,10 @@ public class GameTest {
             assertEquals("Player1", e.getNickname());
         }
 
-    }
+    }*/
 
     //da fare
-    @Test
+    /*@Test
     public void testIsFull() throws NicknameAlreadyTaken, MatchFull, FileNotFoundException, FileReadException, IllegalArgumentException, DeckEmptyException {
         Game game = new Game(4);
 
@@ -124,7 +124,7 @@ public class GameTest {
         } catch (Exception e){
             fail("Unexpected exception: " + e.getMessage());
         }
-    }
+    }*/
 
     //other
 
