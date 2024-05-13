@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.Main;
 
 //import it.polimi.ingsw.network.rmi.ServerRMI;
 import it.polimi.ingsw.model.DefaultValue;
+import it.polimi.ingsw.network.rmi.ServerRMI;
 import it.polimi.ingsw.network.socket.server.ServerTCP;
 import javafx.application.Application;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class ServerMain {
             System.setProperty("java.rmi.server.hostname", input);
         }
 
-       // ServerRMI.bind();
+        ServerRMI.bind();
 
         ServerTCP serverSOCKET = new ServerTCP();
         serverSOCKET.start(DefaultValue.Default_port_Socket);

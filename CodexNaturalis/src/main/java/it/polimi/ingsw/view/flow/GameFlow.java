@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.network.rmi.ClientRMI;
 import it.polimi.ingsw.network.socket.client.ClientSocket;
 import it.polimi.ingsw.view.Utilities.InputController;
 import it.polimi.ingsw.view.Utilities.InputReader;
@@ -53,7 +54,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //Invoked for starting with TUI
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
-          //  case RMI -> clientActions = new ClientRMI(this);
+            case RMI -> clientActions = new ClientRMI(this);
         }
         ui = new TUI();
 
@@ -696,7 +697,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * Throw a nonConnection error
      */
     public void noConnectionError() {
-        ui.show_noConnectionError();
+        ui.show_noConnectionError(); //TODO
     }
 
 
