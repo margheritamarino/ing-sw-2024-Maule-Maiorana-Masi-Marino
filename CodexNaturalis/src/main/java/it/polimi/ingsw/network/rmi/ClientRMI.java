@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.rmi;
 
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.cards.CardType;
@@ -130,29 +131,24 @@ public class ClientRMI implements ClientInterface {
     }
 
 
-
     @Override
     public void setInitialCard(int index) throws IOException {
-        out.writeObject(new ClientMsgSetInitial(nickname, index));
-        finishSending();
+        GameController.getInstance().setInitialCard(nickname, index);
     }
 
     @Override
-    public void setGoalCard(int index) throws IOException {
-        out.writeObject(new ClientMsgSetObjective(nickname, index));
-        finishSending();
+    public void setGoalCard(int index) throws IOException, NotPlayerTurnException {
+        GameController.getInstance().setGoalCard(nickname, index);
     }
 
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
-        out.writeObject(new ClientMsgPlaceCard(nickname, chosenCard, rowCell, columnCell));
-        finishSending();
+        GameController.getInstance().placeCardInBook(nickname, chosenCard, rowCell, columnCell );
     }
 
     @Override
     public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
-        out.writeObject(new ClientMsgPickCard(nickname, cardType, drawFromDeck, pos));
-        finishSending();
+        GameController.getInstance().PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
 
 
@@ -178,8 +174,15 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void setAsReady() throws IOException {
-        out.writeObject(new ClientMsgSetReady(nickname));
-        finishSending();
+        if ( GameController.getInstance() != null) {
+            GameController.getInstance().playerIsReadyToStart(nickname);
+        }
+    }
+
+    //TODO
+    @Override
+    public void ping() throws RemoteException {
+
     }
 
     /**
@@ -187,14 +190,15 @@ public class ClientRMI implements ClientInterface {
      * @param nick of the player
      * @throws IOException
      */
-    @Override
-    public void leave(String nick) throws IOException {
-        out.writeObject(new ClientMessageLeave(nick));
-        finishSending();
-        nickname=null;
-        /*if(socketHeartbeat.isAlive()) {
-            socketHeartbeat.interrupt();
-        }*/
+    //TODO: Method LEAVE for RMI Disconnection
+   @Override
+    public void leave(String nick) throws IOException, NotBoundException {
+//        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+//        registry.lookup(DefaultValue.Default_servername_RMI);
+//
+//        GameController.getInstance().leaveGame(modelInvokedEvents, nick, idGame);
+//        gameController = null;
+//        nickname = null;
     }
 
 
@@ -205,30 +209,17 @@ public class ClientRMI implements ClientInterface {
      * Now it is not used because the Socket Connection automatically detects disconnections by itself
      */
 
-
-    @Override
+    //TODO: HEARTBEAT METHOD
+    /*@Override
     public void heartbeat() {
 
         //TODO
-        if (out != null) {
-            try {
-                // out.writeObject(new ClientMsgHeartBeat(nickname));
-                finishSending();
-            } catch (IOException e) {
-                PrintAsync.printAsync("Connection lost to the server!! Impossible to send heartbeat...");
-            }
+        if (GameController.getInstance() != null) {
+            GameController.getInstance().heartbeat(nickname, modelInvokedEvents);
         }
-    }
+    }*/
 
 
-    /**
-     * Makes sure the message has been sent
-     * @throws IOException
-     */
-    private void finishSending() throws IOException {
-        out.flush();
-        out.reset();
-    }
 
 
 
