@@ -3,10 +3,10 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.exceptions.IllegalArgumentException;
 import it.polimi.ingsw.exceptions.GameEndedException;
-import it.polimi.ingsw.exceptions.GameNotStartedException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.InitialCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
@@ -15,7 +15,6 @@ import it.polimi.ingsw.model.player.PlayerDeck;
 import it.polimi.ingsw.listener.ListenersHandler;
 
 
-import java.io.FileNotFoundException;
 import java.lang.IllegalStateException;
 import java.util.*;
 
@@ -62,7 +61,7 @@ public class Game {
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
-		this.temporaryInitialCard= new PlayableCard[2];
+		this.temporaryInitialCard= new InitialCard[2];
 		this.listenersHandler = new ListenersHandler();
 
 	}
@@ -75,7 +74,7 @@ public class Game {
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
-		this.temporaryInitialCard= new PlayableCard[2];
+		this.temporaryInitialCard= new InitialCard[2];
 		this.listenersHandler = new ListenersHandler();
 
 	}
@@ -167,7 +166,6 @@ public class Game {
 
 	/**
 	 * * @return the list of listeners
-	 *
 	 * */
 	public List<GameListenerInterface> getListeners() {
 		return listenersHandler.getListeners();

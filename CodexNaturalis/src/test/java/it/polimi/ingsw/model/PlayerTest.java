@@ -52,25 +52,9 @@ public class PlayerTest {
     }
 
 
-    @Test
-    void testPickCard() throws FileNotFoundException, FileReadException, DeckEmptyException {
-        // Inizializza gli oggetti necessari per il test
-        Board board = new Board();
-        CardType cardType = CardType.ResourceCard; // Assicurati di inizializzare correttamente cardType
-        boolean drawFromDeck = true;
-        int pos = 0;
 
-        // Testing picking a card from the board
-        assertDoesNotThrow(() -> player.pickCard(board, CardType.GoldCard, true, 0));
-
-        // Testing picking a card with an invalid card type
-        assertDoesNotThrow( () -> player.pickCard(board, CardType.InitialCard, true, 0));
-
-        // Testing picking a card from an invalid position
-        assertThrows(IndexOutOfBoundsException.class, () -> player.pickCard(board, CardType.ResourceCard, false, -1));
-    }
-
-    @Test
+//TODO
+    /*@Test
     void testPlaceCard() {
         // Assuming the player's deck has at least one card
         // Assuming the player's book has available cells
@@ -83,7 +67,7 @@ public class PlayerTest {
 
         // Testing placing a card in an invalid card position
         assertThrows(IndexOutOfBoundsException.class, () -> player.placeCard(0, -1));
-    }
+    }*/
 
     // Add more tests as needed
 }

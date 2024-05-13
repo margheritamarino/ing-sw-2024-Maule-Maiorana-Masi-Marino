@@ -97,6 +97,7 @@ public class Deck implements Serializable {
                     backCardList = gson.fromJson(backReader, initialCardType);
                     backCards.addAll(backCardList);
                     backReader.close();
+                    break;
 
                 case ResourceCard:
                     frontReader = new InputStreamReader(Objects.requireNonNull(Deck.class.getResourceAsStream("/json/ResourceCardsFront.json")), StandardCharsets.UTF_8);
@@ -110,6 +111,7 @@ public class Deck implements Serializable {
                     backCardList = gson.fromJson(backReader, resourceCardType);
                     backCards.addAll(backCardList);
                     backReader.close();
+                    break;
 
                 case GoldCard:
                     frontReader = new InputStreamReader(Objects.requireNonNull(Deck.class.getResourceAsStream("/json/GoldCardsFront.json")), StandardCharsets.UTF_8);
