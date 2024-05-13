@@ -76,13 +76,13 @@ public class ClientHandler extends Thread{
                     temp = (ClientGenericMessage) in.readObject(); //legge msg in arrivo dal Client
 
                     //it's a heartbeat message I handle it as a "special message"
-//                        if (temp.isHeartbeat()) {
-//                            if (GameController.getInstance() != null) {
-//                                GameController.getInstance().heartbeat(temp.getNickname(), gameListenersServer);
-//                            }
-//                        } else {
-                    processingQueue.add(temp);
-                    // }
+                    if (temp.isPing()) {
+                        if (GameController.getInstance() != null) {
+                            GameController.getInstance().ping(temp.getNickname(), gameListenersServer);
+                        }
+                    } else {
+                        processingQueue.add(temp);
+                    }
 
                 } catch (IOException | ClassNotFoundException e) {
                     printAsync("ClientSocket dies because cannot communicate no more with the client");

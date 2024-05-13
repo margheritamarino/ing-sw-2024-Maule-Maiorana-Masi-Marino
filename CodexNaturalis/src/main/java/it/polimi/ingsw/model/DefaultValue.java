@@ -35,7 +35,8 @@ public class DefaultValue implements Serializable {
     public final static int timeoutConnection_millis =3000;
     public final static int secondToWaitToSend_heartbeat =500;
     public final static Long timeout_for_detecting_disconnection = 4000L;
-
+    public static int secondsToreconnection= 5;
+    public static int maxAttemptsbeforeGiveUp=5;
 
 
     //aggiungiamo tutti i valori ROW/COL che specificano in quale parte

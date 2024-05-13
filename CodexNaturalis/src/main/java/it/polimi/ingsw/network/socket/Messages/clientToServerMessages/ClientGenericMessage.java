@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.exceptions.GameEndedException;
@@ -15,7 +14,7 @@ import java.rmi.RemoteException;
  */
 public abstract class ClientGenericMessage implements Serializable{
     protected String nickname; //soprannome associato al messaggio
-    protected boolean isHeartbeat=false;
+    protected boolean isPing =false;
     boolean isJoinGame= false; //attributo per il primo messaggio di creazione del gioco (JoinGame)
 
     /**
@@ -46,8 +45,8 @@ public abstract class ClientGenericMessage implements Serializable{
     /**
      * @return if it's a heartbeat message
      */
-    public boolean isHeartbeat(){
-        return isHeartbeat;
+    public boolean isPing(){
+        return isPing;
     }
 
 

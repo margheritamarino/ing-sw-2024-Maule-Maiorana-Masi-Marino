@@ -692,12 +692,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
+    /**
+     * Throw a nonConnection error
+     */
     public void noConnectionError() {
-        //TODO
+        ui.show_noConnectionError();
     }
 
+
     @Override
-    public void heartbeat() throws RemoteException {
+    public void ping() throws RemoteException {
     //TODO
     }
 
