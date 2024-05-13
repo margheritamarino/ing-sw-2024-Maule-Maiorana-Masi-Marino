@@ -298,7 +298,7 @@ public class TUI extends UI {
     }
     @Override
     public void show_temporaryInitialCards(GameImmutable model){
-        printAsync("Initial Card...");
+        printAsync("Initial Card...\n");
         PlayableCard[] initialCards = model.getInitialCard();
 
         for (int i = 0; i < initialCards.length; i++) {
@@ -308,7 +308,7 @@ public class TUI extends UI {
 
     @Override
     public void show_ObjectiveCards(GameImmutable model){
-        printAsync("Objective Cards...");
+        printAsync("Objective Cards...\n");
         ArrayList<ObjectiveCard> objectiveCards = model.getObjectiveCard();
 
         for (int i = 0; i < objectiveCards.size(); i++) {
