@@ -148,7 +148,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_wrongSelectionInitialMsg() {
+    public void show_wrongSelectionMsg() {
         printAsync("Invalid selection. Please choose 0 or 1.");
     }
 
@@ -157,10 +157,7 @@ public class TUI extends UI {
         printAsync("> Choose the first[0] or the second[1] objective cards:");
     }
 
-    @Override
-    public void show_wrongSelectionObjectiveMsg(){
-        printAsync("Invalid selection. Please choose 0 or 1. ");
-    }
+
     /**
      * Clears the console
      */

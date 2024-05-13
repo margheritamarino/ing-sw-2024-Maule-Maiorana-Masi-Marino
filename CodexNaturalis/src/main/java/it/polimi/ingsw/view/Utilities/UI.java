@@ -69,8 +69,7 @@ public abstract class UI {
     public abstract void resetImportantEvents();
     public abstract void show_askDrawFromDeck(GameImmutable model, String nickname);
     public abstract void show_playerHasToChooseAgain(GameImmutable model, String nickname);
-    public abstract void show_wrongSelectionInitialMsg();
-    public abstract void show_wrongSelectionObjectiveMsg();
+    public abstract void show_wrongSelectionMsg();
     public abstract void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException;
     public abstract void show_ObjectiveCards(GameImmutable model);
 

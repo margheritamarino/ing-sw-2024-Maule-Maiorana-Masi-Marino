@@ -326,6 +326,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     throw new RuntimeException(e);
                 }
                 num = Integer.parseInt(temp); //traduco il numero in integer
+                if(num < 0 || num>1){
+                    ui.show_wrongSelectionMsg();
+                }
             } catch (InputMismatchException | NumberFormatException e) {
                 ui.show_notValidMessage();
             }
@@ -591,7 +594,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
             if (ended) return;
             if (index < 0 || index >= 2) {
-                ui.show_wrongSelectionInitialMsg();
                 index = null;
             }
         } while (index == null|| (index < 0 || index >= 2));
@@ -618,7 +620,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             index = Objects.requireNonNullElse(askNum("\t> Choose the Objective card:", model), -1);
             if (ended) return;
             if (index < 0 || index >= 2) {
-                ui.show_wrongSelectionObjectiveMsg();
                 index = null;
             }
         } while (index == null || index < 0 || index >= 2);
