@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.network.*;
@@ -47,13 +48,13 @@ public interface ClientInterface  {
      *
      * @throws RemoteException
      */
-    void heartbeat() throws RemoteException;
+    void ping() throws RemoteException;
 
 
     void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
 
     void setInitialCard(int index) throws IOException;
-    void setGoalCard(int index) throws IOException;
+    void setGoalCard(int index) throws IOException, NotPlayerTurnException;
 
 
 

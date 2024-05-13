@@ -4,6 +4,7 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.network.socket.server.GameListenersServer;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -38,19 +39,11 @@ public interface GameControllerInterface extends Remote {
      * This method disconnect a player and remove him from the GameListener list{@link GameListenerInterface}
      *
      * @param nick        the nickname of the player
-     * @param lisOfClient the GameListener of the player {@link GameListenerInterface}
+     * @param listener the GameListener of the player {@link GameListenerInterface}
      * @throws RemoteException if the connection fails
      */
-    void disconnectPlayer(String nick, GameListenerInterface lisOfClient) throws RemoteException;
+    void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException;
 
-    /**
-     * This method is used to check if the client is connected, every x seconds the server send a ping to the client
-     *
-     * @param nick the nickname of the player
-     * @param me   the GameListener of the player {@link GameListenerInterface}
-     * @throws RemoteException if the connection fails
-     */
-    void heartbeat(String nick, GameListenerInterface me) throws RemoteException;
 
 
     /**
@@ -60,6 +53,8 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException if the connection fails
      */
     int getGameId() throws RemoteException;
+
+    void ping(String nickname, GameListenersServer me) throws RemoteException;
 
     /**
      * This method return the number of the online players

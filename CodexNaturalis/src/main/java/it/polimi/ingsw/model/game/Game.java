@@ -320,8 +320,7 @@ public class Game {
 				players.remove(i);
 				listenersHandler.notify_PlayerLeft(this, nickname);
 				if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::isConnected).toList().size() <= 1) {
-					//Not enough players to keep playing
-					this.setStatus(GameStatus.ENDED);
+					setStatus(GameStatus.ENDED);
 				}
 			}
 		}

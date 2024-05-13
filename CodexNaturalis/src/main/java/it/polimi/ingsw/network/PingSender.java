@@ -10,27 +10,26 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
-/*
-public class HeartbeatSender extends Thread{
-    private Flow flow;
-    private ClientInterface server;
 
-    public HeartbeatSender(Flow flow, ClientInterface server) {
+public class PingSender extends Thread{
+    private Flow flow;
+    private ClientInterface clientSender;
+
+    public PingSender(Flow flow, ClientInterface server) {
         this.flow=flow;
-        this.server=server;
+        this.clientSender=clientSender;
     }
 
 
     @Override
     public void run() {
-        //For the heartbeat
         while (!Thread.interrupted()) {
             Timer timer = new Timer();
             TimerTask task = new TaskOnNetworkDisconnection(flow);
             timer.schedule(task, 3000);
-            //send heartbeat so the server knows I am still online
+            //send ping every 3s so the server knows I am still online
             try {
-                server.heartbeat();
+                clientSender.ping();
             } catch (RemoteException e) {
                 printAsync("Connection to server lost! Impossible to send heartbeat...");
             }
@@ -43,4 +42,3 @@ public class HeartbeatSender extends Thread{
 
     }
 }
-*/

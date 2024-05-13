@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.rmi;
 
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.cards.CardType;
@@ -32,7 +33,7 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
  * by the RMI Network Protocol
  */
 
-    public class ClientRMI implements ClientInterface {
+public class ClientRMI implements ClientInterface {
 
     /**
      * The remote object returned by the registry that represents the game controller
@@ -102,7 +103,7 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
                 printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to RMI Server on port: '" + DefaultValue.Default_port_RMI + "' with name: '" + DefaultValue.Default_servername_RMI + "'");
 
                 i = 0;
-                while (i < DefaultValue.seconds_between_reconnection) {
+                while (i < DefaultValue.secondsToReconnection) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
@@ -113,7 +114,7 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
                 }
                 printAsyncNoLine("\n");
 
-                if (attempt >= DefaultValue.num_of_attempt_to_connect_toServer_before_giveup) { //se supera il numero massimo di tentativi di connessione al server senza riuscire
+                if (attempt >= DefaultValue.maxAttemptsBeforeGiveUp) { //se supera il numero massimo di tentativi di connessione al server senza riuscire
                     printAsyncNoLine("Give up!");
                     try {
                         System.in.read();
@@ -124,35 +125,30 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
                 }
                 retry = true;
                 attempt++;
-                }
-            } while (retry) ;
+            }
+        } while (retry) ;
 
     }
-
 
 
     @Override
     public void setInitialCard(int index) throws IOException {
-        out.writeObject(new ClientMsgSetInitial(nickname, index));
-        finishSending();
+        GameController.getInstance().setInitialCard(nickname, index);
     }
 
     @Override
-    public void setGoalCard(int index) throws IOException {
-        out.writeObject(new ClientMsgSetObjective(nickname, index));
-        finishSending();
+    public void setGoalCard(int index) throws IOException, NotPlayerTurnException {
+        GameController.getInstance().setGoalCard(nickname, index);
     }
 
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
-        out.writeObject(new ClientMsgPlaceCard(nickname, chosenCard, rowCell, columnCell));
-        finishSending();
+        GameController.getInstance().placeCardInBook(nickname, chosenCard, rowCell, columnCell );
     }
 
     @Override
     public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
-        out.writeObject(new ClientMsgPickCard(nickname, cardType, drawFromDeck, pos));
-        finishSending();
+        GameController.getInstance().PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
 
 
@@ -178,8 +174,15 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
      */
     @Override
     public void setAsReady() throws IOException {
-        out.writeObject(new ClientMsgSetReady(nickname));
-        finishSending();
+        if ( GameController.getInstance() != null) {
+            GameController.getInstance().playerIsReadyToStart(nickname);
+        }
+    }
+
+    //TODO
+    @Override
+    public void ping() throws RemoteException {
+
     }
 
     /**
@@ -187,14 +190,15 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
      * @param nick of the player
      * @throws IOException
      */
-    @Override
-    public void leave(String nick) throws IOException {
-        out.writeObject(new ClientMessageLeave(nick));
-        finishSending();
-        nickname=null;
-        /*if(socketHeartbeat.isAlive()) {
-            socketHeartbeat.interrupt();
-        }*/
+    //TODO: Method LEAVE for RMI Disconnection
+   @Override
+    public void leave(String nick) throws IOException, NotBoundException {
+//        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+//        registry.lookup(DefaultValue.Default_servername_RMI);
+//
+//        GameController.getInstance().leaveGame(modelInvokedEvents, nick, idGame);
+//        gameController = null;
+//        nickname = null;
     }
 
 
@@ -205,30 +209,17 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
      * Now it is not used because the Socket Connection automatically detects disconnections by itself
      */
 
-
-    @Override
+    //TODO: HEARTBEAT METHOD
+    /*@Override
     public void heartbeat() {
 
         //TODO
-        if (out != null) {
-            try {
-                // out.writeObject(new ClientMsgHeartBeat(nickname));
-                finishSending();
-            } catch (IOException e) {
-                PrintAsync.printAsync("Connection lost to the server!! Impossible to send heartbeat...");
-            }
+        if (GameController.getInstance() != null) {
+            GameController.getInstance().heartbeat(nickname, modelInvokedEvents);
         }
-    }
+    }*/
 
 
-    /**
-     * Makes sure the message has been sent
-     * @throws IOException
-     */
-    private void finishSending() throws IOException {
-        out.flush();
-        out.reset();
-    }
 
 
 

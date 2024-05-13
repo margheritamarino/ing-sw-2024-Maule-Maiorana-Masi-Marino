@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.flow;
 
 
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.network.rmi.ClientRMI;
 import it.polimi.ingsw.network.socket.client.ClientSocket;
 import it.polimi.ingsw.view.Utilities.InputController;
 import it.polimi.ingsw.view.Utilities.InputReader;
@@ -53,7 +55,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //Invoked for starting with TUI
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
-          //  case RMI -> clientActions = new ClientRMI(this);
+            case RMI -> clientActions = new ClientRMI(this);
         }
         ui = new TUI();
 
@@ -486,6 +488,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
         } catch (IOException e) {
             noConnectionError();
+        } catch (NotPlayerTurnException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -692,12 +696,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
+    /**
+     * Throw a nonConnection error
+     */
     public void noConnectionError() {
-        //TODO
+        ui.show_noConnectionError(); //TODO
     }
 
+
     @Override
-    public void heartbeat() throws RemoteException {
+    public void ping() throws RemoteException {
     //TODO
     }
 

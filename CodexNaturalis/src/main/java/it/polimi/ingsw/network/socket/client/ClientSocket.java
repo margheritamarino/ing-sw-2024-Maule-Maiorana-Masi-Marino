@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
 //import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
+import it.polimi.ingsw.network.PingSender;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
 import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGenericMessage;
 import it.polimi.ingsw.model.DefaultValue;
@@ -12,8 +13,6 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -29,7 +28,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     /**
      * Socket that represents the Client
      */
-    private Socket clientSoc;
+    private Socket clientSocket;
     /**
      * ObjectOutputStream out
      */
@@ -49,7 +48,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     private String nickname;
 
-   // private final HeartbeatSender socketHeartbeat;
+   private final PingSender pingSender;
     private Flow flow;
 
     /**
@@ -62,8 +61,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         this.flow=flow;
         startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersClient(flow);
+        pingSender = new PingSender(flow, this);
         this.start();
-       // socketHeartbeat = new HeartbeatSender(flow,this);
+
     }
 
     /**
@@ -98,38 +98,44 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     private void startConnection(String ip, int port) {
         System.out.println("Sono nel metodo startConnection di ClientSocket");
-        boolean retry = false;
+        boolean connectionEstablished = false;
         int attempt = 1;
         int i;
 
         do {
             try {
-                clientSoc = new Socket(ip, port);
-                System.out.println("Una nuova Socket è stata creata");
-                out = new ObjectOutputStream(clientSoc.getOutputStream());
-                System.out.println("OutputStream creato");
-                in = new ObjectInputStream(clientSoc.getInputStream());
-                System.out.println("InputStream creato");
-                retry = false;
+                clientSocket = new Socket(ip, port);
+                System.out.println("Una nuova Socket è stata creata"); //TODO cancella
+                out = new ObjectOutputStream(clientSocket.getOutputStream());
+                System.out.println("OutputStream creato");  //TODO cancella
+                in = new ObjectInputStream(clientSocket.getInputStream());
+                System.out.println("InputStream creato"); //TODO cancella
+                connectionEstablished = true;
+
             } catch (IOException e) {
-                if (!retry) {
+                if (attempt == 1) {
                     printAsync("[ERROR] CONNECTING TO SOCKET SERVER: \n\t " + e + "\n");
                 }
                 printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip + "'");
 
+                try {
+                    Thread.sleep(DefaultValue.secondsToReconnection * 1000);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+
                 i = 0;
-                while (i < 5) { //second between reconnection
+                while (i < DefaultValue.secondsToReconnection) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
-                    printAsyncNoLine(".");
                     i++;
                 }
                 printAsyncNoLine("\n");
 
-                if (attempt >= 5) { //num_of_attempt_to_connect_toServer_before_giveup
+                if (attempt >= DefaultValue.maxAttemptsBeforeGiveUp) {
                     printAsyncNoLine("Give up!");
                     try {
                         System.in.read();
@@ -138,10 +144,9 @@ public class ClientSocket extends Thread implements ClientInterface {
                     }
                     System.exit(-1);
                 }
-                retry = true;
                 attempt++;
             }
-        } while (retry);
+        } while  (!connectionEstablished && attempt <= DefaultValue.maxAttemptsBeforeGiveUp);
 
     }
 
@@ -151,13 +156,12 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @throws IOException
      */
     public void stopConnection() throws IOException {
-        //TODO
         in.close();
         out.close();
-        clientSoc.close();
-        /*if(socketHeartbeat.isAlive()) {
-            socketHeartbeat.interrupt();
-        }*/
+        clientSocket.close();
+        if(pingSender.isAlive()) {
+            pingSender.interrupt();
+        }
     }
 
 
@@ -200,9 +204,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         //System.out.println("Il messaggio ClientMsgCreateGame è stato creato ");
         out.writeObject(new ClientMsgCreateGame(nick));
         finishSending();
-        /*if(!socketHeartbeat.isAlive()) {
-            socketHeartbeat.start();
-        }*/
+        if(!pingSender.isAlive()) {
+            pingSender.start();
+        }
     }
 
 
@@ -227,30 +231,29 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMessageLeave(nick));
         finishSending();
         nickname=null;
-        /*if(socketHeartbeat.isAlive()) {
-            socketHeartbeat.interrupt();
-        }*/
+        if(pingSender.isAlive()) {
+            pingSender.interrupt();
+        }
     }
 
 
 
 
     /**
-     * Send a heartbeat to the Socket Server
+     * Send a ping() to the Socket Server
      * Now it is not used because the Socket Connection automatically detects disconnections by itself
      */
 
-
     @Override
-    public void heartbeat() {
+    public void ping() {
 
-        //TODO
         if (out != null) {
             try {
-               // out.writeObject(new ClientMsgHeartBeat(nickname));
+               out.writeObject(new ClientMsgPing(nickname));
                 finishSending();
             } catch (IOException e) {
-                printAsync("Connection lost to the server!! Impossible to send heartbeat...");
+
+                printAsync("Connection lost to the server!! Impossible to send ping()...");
             }
         }
     }

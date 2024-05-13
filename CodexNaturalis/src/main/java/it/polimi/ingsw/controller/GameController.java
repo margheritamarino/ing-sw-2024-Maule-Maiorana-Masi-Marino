@@ -7,16 +7,18 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 
+import it.polimi.ingsw.model.DefaultValue;
+import it.polimi.ingsw.model.Ping;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
+import it.polimi.ingsw.network.socket.server.GameListenersServer;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 import static it.polimi.ingsw.view.PrintAsync.printAsync;
 
@@ -44,14 +46,14 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Singleton Pattern, instance of the class
      */
     private static GameController instance = null;
-
+   private final transient Map<GameListenerInterface, Ping> receivedPings;
     /**GameController Constructor
      * Init a GameModel
      */
     public GameController()  {
-        //Map<GameListenerInterface, Heartbeat> heartbeats;
-       // this.heartbeats = heartbeats;
         model = new Game();
+      //  receivedPings = new HashMap<>(); PingSender
+        new Thread(this).start();
     }
     /**
      * Singleton Pattern
@@ -64,6 +66,63 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
         return instance;
     }
+
+    /**
+     * Add a ping to the map of received Pings
+     *
+     * @param nickname the player's nickname associated to the ping
+     * @param me   the player's GameListener associated to the ping
+     * @throws RemoteException
+     */
+    @Override
+    public synchronized void ping(String nickname, GameListenersServer me) throws RemoteException {
+        synchronized (receivedPings) {
+            receivedPings.put(me, new Ping(System.currentTimeMillis(), nickname));
+        }
+    }
+
+    @Override
+    public void run() {
+        while (!Thread.interrupted()) {
+            //checks all the heartbeat to detect disconnection
+            if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
+                synchronized (receivedPings) {
+                    // Ottiene un set di tutte le coppie chiave-valore nella mappa
+                    Set<Map.Entry<GameListenerInterface, Ping>> entries = receivedPings.entrySet();
+
+                    // Itera attraverso tutte le coppie chiave-valore nella mappa
+                    for (Map.Entry<GameListenerInterface, Ping> entry : entries) {
+                        GameListenerInterface listener = entry.getKey();
+                        Ping ping = entry.getValue();
+
+                        // Verifica se il giocatore è disconnesso
+                        if (System.currentTimeMillis() - ping.getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
+                            try {
+                                // Disconnette il giocatore
+                                disconnectPlayer(ping.getNick(), listener);
+                                printAsync("Disconnection detected by ping of player: " + ping.getNick());
+
+                                // Controlla se tutti i giocatori sono disconnessi
+                                if (getNumOnlinePlayers() == 0) {
+                                    model.setStatus(GameStatus.ENDED);
+                                }
+                            } catch (RemoteException e) {
+                                throw new RuntimeException(e);
+                            }
+                            // Rimuove il giocatore dalla mappa dei ping
+                            entries.remove(entry);
+                        }
+                    }
+                }
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
 
     /**
@@ -112,7 +171,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public synchronized void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos){
 
-        //TODO
         Player p = model.getPlayerByNickname(nickname);
         if(p.equals(model.getCurrentPlayer())){
             model.pickCardTurn(p, cardType, drawFromDeck, pos);
@@ -160,8 +218,23 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     @Override
-    public void disconnectPlayer(String nick, GameListenerInterface lisOfClient) throws RemoteException {
-        //TODO
+    public void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException {
+        //Player has just disconnected, so I remove the notifications for him
+        Player p = model.getPlayerByNickname(nick);
+        if(p!=null) {
+            model.removeListener(listener);
+
+            if (model.getStatus().equals(GameStatus.WAIT)) {
+                model.removePlayer(nick); //remove Player from the lobby
+            } else {
+
+                model.setPlayerDisconnected(nick);//Tha game is running, so I set him as disconnected
+                model.removePlayer(nick);
+            }
+
+
+        }
+
     }
 
 
@@ -175,7 +248,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     /**
      * gets th Game ID of the current Game
-     * @return
+     * @return the ID of the game
      * @throws RemoteException
      */
     @Override
@@ -195,7 +268,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized void leave(GameListenerInterface lis, String nick) throws RemoteException {
         model.removeListener(lis);
         model.removePlayer(nick);
-        //return null;
     }
 
     @Override
@@ -228,13 +300,5 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
 
-    @Override
-    public void heartbeat(String nick, GameListenerInterface me) throws RemoteException {
-        //TODO
-    }
-    @Override
-    public void run() {
-        //TODO
-    }
 
 }
