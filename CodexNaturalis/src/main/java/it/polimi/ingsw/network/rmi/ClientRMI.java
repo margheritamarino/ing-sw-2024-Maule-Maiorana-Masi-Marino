@@ -90,7 +90,7 @@ public class ClientRMI implements ClientInterface {
         do{
             try {
                 registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-                registry.lookup(DefaultValue.Default_servername_RMI);
+                gameController= (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
                 modelInvokedEvents = (GameListenerInterface) UnicastRemoteObject.exportObject(gameListenersHandler, 0);
 
                 printAsync("Client RMI ready");
@@ -161,11 +161,39 @@ public class ClientRMI implements ClientInterface {
     @Override
     public void joinGame(String nick) throws IOException, NotBoundException {
         System.out.println("Into Client_RMI joinGame");
-        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-        gameController= (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-        gameController.joinGame(modelInvokedEvents, nick);
 
+        try {
+            // Ottieni il registro all'indirizzo IP e porta specificati
+            System.out.println("Attempting to get the registry...");
+            registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+            System.out.println("Registry obtained.");
+
+            // Esegui il lookup dell'oggetto remoto nel registro
+            System.out.println("Looking up the remote object...");
+            gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+            System.out.println("Remote object found.");
+
+            // Unisciti al gioco
+            System.out.println("Joining the game...");
+            gameController.joinGame(modelInvokedEvents, nick);
+            System.out.println("Joined the game successfully.");
+
+            nickname = nick;
+        } catch (RemoteException e) {
+            System.err.println("RemoteException: " + e.getMessage());
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            System.err.println("NotBoundException: " + e.getMessage());
+            e.printStackTrace();
+        } catch (ClassCastException e) {
+            System.err.println("ClassCastException: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Exception: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
 
 
     /**
@@ -174,9 +202,9 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void setAsReady() throws IOException {
-        //if ( gameController != null) {
+        if ( gameController != null) {
             gameController.playerIsReadyToStart(nickname);
-        //}
+        }
     }
 
     //TODO

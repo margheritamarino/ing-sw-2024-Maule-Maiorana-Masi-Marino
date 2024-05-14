@@ -37,7 +37,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     /**
      * ServerRMI object
      */
-    private static ServerRMI serverObject = null;
+     private static ServerRMI serverObject = null;
 
     /**
      * Registry associated with the RMI Server
@@ -50,18 +50,33 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     public static ServerRMI bind() throws RemoteException {
         try {
-            serverObject = new ServerRMI();
-            // Bind the remote object's stub in the registry
-            registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI); //crea il registro
-            getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject); // Registra l'oggetto remoto nel registro
+            // Assicurati che serverObject sia un singleton
+            if (serverObject == null) {
+                serverObject = new ServerRMI();
+            }
+
+            // Prova a recuperare il registro esistente, se non esiste creane uno nuovo
+            try {
+                registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
+                registry.list(); // Chiamata per verificare se il registro è effettivamente accessibile
+            } catch (RemoteException e) {
+                registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
+            }
+
+            // Registra l'oggetto remoto nel registro
+            getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
+
             System.out.println("RMI server started on port " + DefaultValue.Default_port_RMI + ".");
             printAsync("Server RMI ready");
+
         } catch (RemoteException e) {
             e.printStackTrace();
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
+            throw e; // Rilancia l'eccezione per assicurare che il chiamante sia a conoscenza del fallimento
         }
         return getInstance();
     }
+
 
 
     /**
