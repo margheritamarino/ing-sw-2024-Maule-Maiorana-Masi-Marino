@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.Utilities;
 
-//scopo: leggere input da un'interfaciia grafica e aggiungerli al buffer
+//scopo: leggere gli input dall'interfaccia grafica e aggiungerli al buffer
 public class InputGUI implements InputReader{
 
     private final Buffer buffer;
@@ -14,7 +14,7 @@ public class InputGUI implements InputReader{
     }
 
     //syncronized: può essere chiamato da più thread contemporaneamente in modo sicuro
-    public synchronized void addTxt(String txt){
-        buffer.addInputData(txt);
+    public synchronized void addTxt(String text){
+        buffer.addInputData(text);
     }
 }
