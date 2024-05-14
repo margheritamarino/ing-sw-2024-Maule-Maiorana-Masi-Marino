@@ -53,7 +53,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //Invoked for starting with TUI
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
-            case RMI -> clientActions = new ClientRMI(this);
+            case RMI -> {
+                System.out.println("RMI correttamente aggiunto a clientActions");
+                clientActions = new ClientRMI(this);
+
+            }
         }
         ui = new TUI();
 
