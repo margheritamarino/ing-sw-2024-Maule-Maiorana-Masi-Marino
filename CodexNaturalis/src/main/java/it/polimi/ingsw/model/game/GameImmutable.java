@@ -128,7 +128,7 @@ public class GameImmutable implements Serializable {
      * @param playerNickname search for this player in the game
      * @return the instance of Player with that nickname
      */
-    public Player getPlayerEntity(String playerNickname) {
+    public Player getPlayerByNickname(String playerNickname) {
         return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().getFirst();
     }
 

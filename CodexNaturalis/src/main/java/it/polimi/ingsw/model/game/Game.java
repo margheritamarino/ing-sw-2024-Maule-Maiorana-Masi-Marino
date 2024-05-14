@@ -123,19 +123,7 @@ public class Game {
 		return this.playersNumber;
 	}
 
-	/**
-	 * Returns the number of players who are currently online.
-	 * @return the number of players online
-	 */
-	public int getNumPlayersOnline() { //serve perché uno dei giocatori iscritto al gioco potrebbe accidentalmente perdere la connessione
-		int numplayers = 0;
-		for (Player player : players) {
-			if (player.isConnected()) {
-				numplayers++;
-			}
-		}
-		return numplayers;
-	}
+
 
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -309,62 +297,19 @@ public class Game {
 	/**
 	 * The function removes the player with username "username" from the game.
 	 * @param nickname is the nickname of the Player that you want to remove from the game.
-	 *
-	 * @throws  IllegalArgumentException if the player's nickname is not in the game
 	 */
 	public void removePlayer (String nickname) {
-
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).getNickname().equals(nickname)) {
 				scoretrack.removePlayer(players.get(i));
 				players.remove(i);
 				listenersHandler.notify_PlayerLeft(this, nickname);
-				if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::isConnected).toList().size() <= 1) {
-					setStatus(GameStatus.ENDED);
-				}
+
 			}
 		}
 
-
 	}
 
-	/**
-	 * @return true if the player in turn is online
-	 */
-	public boolean isTheCurrentPlayerOnline() {
-		return currentPlayer.isConnected();
-	}
-
-	/**
-	 * Sets the player with the specified nickname as disconnected.
-	 * Removes the player disconnected from the game and notifies listeners.
-	 *
-	 * @param nickname the nickname of the player to set as disconnected.
-	 */
-	public void setPlayerDisconnected(String nickname) {
-		//TODO
-		Player disconnectedPlayer = null;
-		for (Player player : players) {
-			if (player.getNickname().equals(nickname)) {
-				disconnectedPlayer = player;
-				break;
-			}
-		}
-		// Se il giocatore disconnesso è stato trovato
-		if (disconnectedPlayer != null) {
-			// Imposta il giocatore come disconnesso e come non pronto a giocare
-			disconnectedPlayer.setConnected(false);
-			disconnectedPlayer.setNotReadyToStart();
-
-			// Notifica tutti gli altri giocatori sulla disconnessione
-			for (Player player : players) {
-				if (!player.getNickname().equals(nickname)) {
-					listenersHandler.notify_playerDisconnected(this, nickname);
-				}
-			}
-
-		}
-	}
 
 
 	/**
@@ -734,5 +679,9 @@ public class Game {
 
 		// Restituisce il giocatore se trovato, altrimenti null
 		return optionalPlayer.orElse(null);
+	}
+
+	public void setPlayerDisconnected(Player p) {
+		p.setConnected(false);
 	}
 }

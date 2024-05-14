@@ -74,4 +74,6 @@ public abstract class UI {
     public abstract void show_ObjectiveCards(GameImmutable model);
 
     public abstract void show_noConnectionError();
+
+
 }

@@ -55,17 +55,10 @@ public interface GameControllerInterface extends Remote {
     int getGameId() throws RemoteException;
 
 
-    void ping(String nickname, GameListenersServer me) throws RemoteException;
+    void ping(String nickname, GameListenerInterface me) throws RemoteException;
 
 
 
-    /**
-     * This method return the number of the online players
-     *
-     * @return the number of the online players
-     * @throws RemoteException if the connection fails
-     */
-    int getNumOnlinePlayers() throws RemoteException;
 
     /**
      * This method remove a player from the GameListener list {@link GameListenerInterface} and from the game

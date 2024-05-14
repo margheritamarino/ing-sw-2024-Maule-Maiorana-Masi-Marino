@@ -12,10 +12,10 @@ import java.util.TimerTask;
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 public class PingSender extends Thread{
-    private Flow flow;
-    private ClientInterface clientSender;
+    private final Flow flow;
+    private final ClientInterface clientSender;
 
-    public PingSender(Flow flow, ClientInterface server) {
+    public PingSender(Flow flow, ClientInterface clientSender) {
         this.flow=flow;
         this.clientSender=clientSender;
     }
@@ -25,8 +25,8 @@ public class PingSender extends Thread{
     public void run() {
         while (!Thread.interrupted()) {
             Timer timer = new Timer();
-            //TimerTask task = new TaskOnNetworkDisconnection(flow);
-            //timer.schedule(task, 3000);
+            TimerTask task = new TaskOnNetworkDisconnection(flow);
+            timer.schedule(task, 3000);
             //send ping every 3s so the server knows I am still online
             try {
                 clientSender.ping();

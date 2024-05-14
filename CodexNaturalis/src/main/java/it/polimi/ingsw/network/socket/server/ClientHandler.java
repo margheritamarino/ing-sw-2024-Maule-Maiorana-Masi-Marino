@@ -47,7 +47,7 @@ public class ClientHandler extends Thread{
         this.clientSocket = soc;
         this.in = new ObjectInputStream(soc.getInputStream());
         this.out = new ObjectOutputStream(soc.getOutputStream());
-        gameListenersServer = new GameListenersServer(out);
+        this.gameListenersServer = new GameListenersServer(out);
 
     }
 
@@ -60,9 +60,11 @@ public class ClientHandler extends Thread{
 
 
     /**
-     * Receive all the actions sent by the player, execute them on the specific controller required
-     * It detects client network disconnections by catching Exceptions
-     */
+     *  * This method runs in a separate thread and handles incoming messages,
+     *  * including ping messages, which are treated as special cases.
+     *  * If a ping message is received, it is handled by the game controller.
+     *  * All other messages are added to a processing queue for further handling.
+     *  */
 
     @Override
     public void run() {
@@ -75,7 +77,7 @@ public class ClientHandler extends Thread{
                 try {
                     temp = (ClientGenericMessage) in.readObject(); //legge msg in arrivo dal Client
 
-                    //it's a heartbeat message I handle it as a "special message"
+                    //if it's a ping message I handle it as a "special message"
                     if (temp.isPing()) {
                         if (GameController.getInstance() != null) {
                             GameController.getInstance().ping(temp.getNickname(), gameListenersServer);

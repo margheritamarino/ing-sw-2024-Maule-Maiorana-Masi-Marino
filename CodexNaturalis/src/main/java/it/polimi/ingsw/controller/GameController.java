@@ -69,7 +69,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return instance;
     }
 
-    /*
+
     /**
      * Add a ping to the map of received Pings
      *
@@ -78,22 +78,34 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
 
+    /**
+     * this method adds a Ping to the receivedPing map
+     * when a ClientMsgPing is sent and calls the method
+     * @param nickname nickname of the player who sent the ping message
+     * @param me the client who sends ping messages
+     */
     @Override
-    public synchronized void ping(String nickname, GameListenersServer me) throws RemoteException {
+    public synchronized void ping(String nickname, GameListenerInterface me) throws RemoteException {
         synchronized (receivedPings) {
             receivedPings.put(me, new Ping(System.currentTimeMillis(), nickname));
         }
     }
 
+    /**
+     * Monitors the ping messages to detect player disconnections.
+     * This method runs in a separate thread and continuously checks
+     * the status of the game and the received ping messages.
+     * If a player is detected as disconnected based on the ping timeout,
+     * the player is disconnected and removed from the ping map.
+     */
     @Override
     public void run() {
         while (!Thread.interrupted()) {
-            //checks all the heartbeat to detect disconnection
+            //checks all the ping messages to detect disconnections
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
-                    // Ottiene un set di tutte le coppie chiave-valore nella mappa
+                    // cerca nella mappa
                     Set<Map.Entry<GameListenerInterface, Ping>> entries = receivedPings.entrySet();
-
                     // Itera attraverso tutte le coppie chiave-valore nella mappa
                     for (Map.Entry<GameListenerInterface, Ping> entry : entries) {
                         GameListenerInterface listener = entry.getKey();
@@ -106,10 +118,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                                 disconnectPlayer(ping.getNick(), listener);
                                 printAsync("Disconnection detected by ping of player: " + ping.getNick());
 
-                                // Controlla se tutti i giocatori sono disconnessi
-                                if (getNumOnlinePlayers() == 0) {
-                                    model.setStatus(GameStatus.ENDED);
-                                }
                             } catch (RemoteException e) {
                                 throw new RuntimeException(e);
                             }
@@ -127,15 +135,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
-
-
-    /**
-     * @return the number of online players that are in the game
-     */
-    @Override
-    public int getNumOnlinePlayers() throws RemoteException{
-        return model.getNumPlayersOnline();
-    }
 
     /**
      * Set the @param p player ready to start
@@ -223,20 +222,15 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     @Override
     public void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException {
-        //Player has just disconnected, so I remove the notifications for him
         Player p = model.getPlayerByNickname(nick);
         if(p!=null) {
             model.removeListener(listener);
-
-            if (model.getStatus().equals(GameStatus.WAIT)) {
-                model.removePlayer(nick); //remove Player from the lobby
-            } else {
-
-                model.setPlayerDisconnected(nick);//Tha game is running, so I set him as disconnected
-                model.removePlayer(nick);
+            model.setPlayerDisconnected(p);
+            model.removePlayer(nick); //remove Player from the Game
+            //if a player is disconnectes the Game finishes
+            if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
+                model.setStatus(GameStatus.ENDED);
             }
-
-
         }
 
     }
@@ -253,7 +247,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * gets th Game ID of the current Game
      * @return the ID of the game
-     * @throws RemoteException
+     *
      */
     @Override
     public int getGameId() throws RemoteException {
@@ -262,16 +256,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     /**
      * It removes a player by nickname @param nick from the game including the associated listeners
+     * If a player leaves the game has to end so GameStatus is set to ENDED.
      *
-     * @param lis  GameListener to remove
+     * @param lis  The listener (related to the client) to remove
      * @param nick of the player to remove
-     * @return
-     * @throws RemoteException
      */
     @Override
     public synchronized void leave(GameListenerInterface lis, String nick) throws RemoteException {
         model.removeListener(lis);
         model.removePlayer(nick);
+        if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
+            model.setStatus(GameStatus.ENDED);
+        }
     }
 
     @Override
@@ -298,6 +294,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         System.out.println("gameController joinGame");
         model.addListener(lis);
         model.addPlayer(nick);
+        model.getPlayerByNickname(nick).setConnected(true);
         //return getInstance();
 
     }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
@@ -148,7 +147,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         switch (event.getType()) {
             case GAME_STARTED -> {
                 ui.show_gameStarted(event.getModel());
-                this.inputController.setPlayer(event.getModel().getPlayerEntity(nickname));
+                this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
                 this.inputController.setGameID(event.getModel().getGameId());
             }
             case NEXT_TURN -> {
@@ -169,7 +168,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
             case CARD_DRAWN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
-
+                    //TODO
                 }
             }
 
@@ -517,10 +516,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     }
 
+    /**
+     * Handles the event when a player leaves the game passing a different message to the event
+     * whether a player is connected or not
+     *
+     * @param gameImmutable the immutable state of the game
+     * @param nickname the nickname of the player who left
+     * @throws RemoteException if there is an issue with remote communication
+     */
     @Override
     public void playerLeft(GameImmutable gameImmutable, String nickname) throws RemoteException {
-        if (gameImmutable.getStatus().equals(GameStatus.WAIT)) {
-            ui.show_playerJoined(gameImmutable, nickname); //CONTROLLA SE è OK PER DISCONNESSIONE
+        if (!gameImmutable.getPlayerByNickname(nickname).isConnected()) {
+            ui.addImportantEvent("[EVENT]: Player " + nickname + " disconnected from the game!");
         } else {
             ui.addImportantEvent("[EVENT]: Player " + nickname + " decided to leave the game!");
         }
@@ -547,8 +554,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //System.out.println("[EVENT]: "+ tryToJoin.getNickname() + " has already in");
         events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
-
-
 
 
     /**

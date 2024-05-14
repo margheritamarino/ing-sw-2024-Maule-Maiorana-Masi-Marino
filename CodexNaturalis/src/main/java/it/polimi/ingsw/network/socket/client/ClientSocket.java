@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -49,7 +50,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     private String nickname;
 
    private final PingSender pingSender;
-    private Flow flow;
+    private final Flow flow;
 
     /**
      * Create a Client Socket
@@ -61,7 +62,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         this.flow=flow;
         startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersClient(flow);
-        pingSender = new PingSender(flow, this);
+        pingSender = new PingSender(this.flow, this);
         this.start();
 
     }
@@ -114,9 +115,9 @@ public class ClientSocket extends Thread implements ClientInterface {
 
             } catch (IOException e) {
                 if (attempt == 1) {
-                    printAsync("[ERROR] CONNECTING TO SOCKET SERVER: \n\t " + e + "\n");
+                    printAsync("[ERROR] CONNECTING TO SOCKET SERVER:\t " + e + "\n");
                 }
-                printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip + "'");
+                printAsyncNoLine("[#" + attempt + "]Waiting to reconnect to Socket Server on port: '" + port + "' with ip: '" + ip );
 
                 try {
                     Thread.sleep(DefaultValue.secondsToReconnection * 1000);
@@ -238,23 +239,15 @@ public class ClientSocket extends Thread implements ClientInterface {
 
 
 
-
-
-    /**
-     * Send a ping() to the Socket Server
-     * Now it is not used because the Socket Connection automatically detects disconnections by itself
-     */
-
     @Override
-    public void ping() {
+    public void ping()  {
 
         if (out != null) {
             try {
                out.writeObject(new ClientMsgPing(nickname));
                 finishSending();
             } catch (IOException e) {
-
-                printAsync("Connection lost to the server!! Impossible to send ping()...");
+                printAsync("Connection lost to the server! Impossible to send ping()...");
             }
         }
     }
