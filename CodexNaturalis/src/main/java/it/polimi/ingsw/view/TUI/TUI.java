@@ -142,7 +142,7 @@ public class TUI extends UI {
 
     @Override
     public void show_whichInitialCards() {
-        printAsync("> Choose the front[0] or the back[1] of the following initial card:");
+        printAsync("> Choose the front[0] or the back[1] of the following initial card to place it at the center of your book:");
     }
 
     @Override
@@ -155,6 +155,10 @@ public class TUI extends UI {
         printAsync("> Choose the first[0] or the second[1] objective cards:");
     }
 
+    @Override
+    public void show_personalObjective(){
+        printAsync("This is your personal objective card! ");
+    }
 
     /**
      * Clears the console

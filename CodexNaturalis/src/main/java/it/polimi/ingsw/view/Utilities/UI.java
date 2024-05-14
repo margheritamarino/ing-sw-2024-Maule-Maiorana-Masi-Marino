@@ -72,6 +72,7 @@ public abstract class UI {
     public abstract void show_wrongSelectionMsg();
     public abstract void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException;
     public abstract void show_ObjectiveCards(GameImmutable model);
+    public abstract void show_personalObjective();
 
     public abstract void show_noConnectionError();
 
