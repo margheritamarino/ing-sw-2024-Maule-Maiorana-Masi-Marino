@@ -38,12 +38,14 @@ public class ClientRMI implements ClientInterface {
     /**
      * The remote object returned by the registry that represents the game controller
      */
-    private static GameListenerInterface gameController;
+    private static GameControllerInterface gameController;
 
     /**
      * The remote object on which the server will invoke remote methods
      */
     private static GameListenerInterface modelInvokedEvents;
+
+
     /**
      * The nickname associated to the client (!=null only when connected in a game)
      */
@@ -72,10 +74,8 @@ public class ClientRMI implements ClientInterface {
     public ClientRMI(Flow flow) {
         super();
         gameListenersHandler = new GameListenersClient(flow);
-        connect();
-
         this.flow = flow;
-
+        connect();
         //  rmiHeartbeat = new HeartbeatSender(flow,this);
         //  rmiHeartbeat.start();
     }
@@ -133,22 +133,22 @@ public class ClientRMI implements ClientInterface {
 
     @Override
     public void setInitialCard(int index) throws IOException {
-        GameController.getInstance().setInitialCard(nickname, index);
+        gameController.setInitialCard(nickname, index);
     }
 
     @Override
     public void setGoalCard(int index) throws IOException, NotPlayerTurnException {
-        GameController.getInstance().setGoalCard(nickname, index);
+        gameController.setGoalCard(nickname, index);
     }
 
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
-        GameController.getInstance().placeCardInBook(nickname, chosenCard, rowCell, columnCell );
+        gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell );
     }
 
     @Override
     public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
-        GameController.getInstance().PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
+        gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
 
 
@@ -162,8 +162,8 @@ public class ClientRMI implements ClientInterface {
     public void joinGame(String nick) throws IOException, NotBoundException {
         System.out.println("Into Client_RMI joinGame");
         registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-        registry.lookup(DefaultValue.Default_servername_RMI);
-        GameController.getInstance().joinGame(modelInvokedEvents, nick);
+        gameController= (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+        gameController.joinGame(modelInvokedEvents, nick);
 
     }
 
@@ -174,9 +174,9 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void setAsReady() throws IOException {
-        if ( GameController.getInstance() != null) {
-            GameController.getInstance().playerIsReadyToStart(nickname);
-        }
+        //if ( gameController != null) {
+            gameController.playerIsReadyToStart(nickname);
+        //}
     }
 
     //TODO
