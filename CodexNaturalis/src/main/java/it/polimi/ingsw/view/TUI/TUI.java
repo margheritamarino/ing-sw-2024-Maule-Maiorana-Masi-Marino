@@ -9,8 +9,6 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.Utilities.UI;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
@@ -316,6 +314,15 @@ public class TUI extends UI {
         }
     }
 
-
+    @Override
+    public void show_noConnectionError(){
+        printAsync("CONNECTION TO SERVER LOST!\n");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.exit(-1);
+    }
 
 }

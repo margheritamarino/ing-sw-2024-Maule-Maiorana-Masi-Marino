@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.PingSender;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.socket.server.GameListenersServer;
 
@@ -52,7 +53,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public GameController()  {
         model = new Game();
-      //  receivedPings = new HashMap<>(); PingSender
+       receivedPings = new HashMap<>();
+
         new Thread(this).start();
     }
     /**

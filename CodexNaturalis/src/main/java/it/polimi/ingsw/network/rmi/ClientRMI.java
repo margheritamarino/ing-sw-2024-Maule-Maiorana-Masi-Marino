@@ -181,7 +181,7 @@ public class ClientRMI implements ClientInterface {
 
     //TODO
     @Override
-    public void ping() throws RemoteException {
+    public void ping() {
 
     }
 
