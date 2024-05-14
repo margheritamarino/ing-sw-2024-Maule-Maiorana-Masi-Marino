@@ -28,7 +28,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
-import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 //Capire come parte il pescaggio delle carte nel 1°Truno di gioco
 
@@ -163,21 +162,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             }
 
-            case CARD_PLACED_NOT_CORRECT -> { //ask the Player to choose again
+            case CARD_PLACED_NOT_CORRECT -> //ask the Player to choose again
                 askPlaceCards(event.getModel(), nickname);
-            }
+
             case CARD_DRAWN -> {
-                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
-                    //TODO
-                }
+                ui.show_cardDrawnMsg(event.getModel());
+
             }
-
-
-
-
-
-
-
 
         }
 
@@ -299,7 +290,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     /**
      * Sets the client as ready by calling the server methods.
-     * @throws IOException if there is a communication error during the operation.
      */
     @Override
     public void setAsReady() {
@@ -355,7 +345,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         do {
             columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose column: ", model), -1);
             if (ended) return;
-        } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin);
+        } while (columnCell > DefaultValue.BookSizeMax || columnCell < DefaultValue.BookSizeMin);
 
         placeCardInBook(posChosenCard, rowCell, columnCell );
     }
@@ -379,7 +369,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
         // Chiedi all'utente il tipo di carta che vuole pescare
         CardType cardType = askCardType(model);
-        boolean drawFromDeck = askDrawFromDeck("Do you want to draw from deck?", model);
+        boolean drawFromDeck = askDrawFromDeck( model);
 
         if(!drawFromDeck){
             //Non dovrebbe chiedere se vuole la carta 0 o 1 dell'array?
@@ -433,7 +423,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
-    public boolean askDrawFromDeck(String message, GameImmutable model) {
+    public boolean askDrawFromDeck( GameImmutable model) {
         String temp;
         boolean drawFromDeck = false;
         boolean isValidInput = false;
@@ -456,7 +446,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     drawFromDeck = true;
                     isValidInput = true;
                 } else if (temp.equalsIgnoreCase("no") || temp.equalsIgnoreCase("n")) {
-                    drawFromDeck = false;
                     isValidInput = true;
                 } else {
                     ui.show_notValidMessage();
@@ -590,8 +579,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      *  is sent to the server using `clientActions.setInitialCard(index)`.
      *
      * @param model       is the game model
-     * @throws IOException
-     * @throws FileReadException
+     * @throws IOException //GESTIRE
+     * @throws FileReadException //GESTIRE
      */
 //TODO gestire eccezioni
     @Override
@@ -613,12 +602,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     /**
      * This method requires the user to choose
      *  between two Objective Cards by displaying them, and then asks the user to select one by entering either 0 or 1.
-     *
      *  If the user's selection is invalid, an error message is displayed and the user is prompted again until
      *  a valid choice is made. Once a valid choice is made, the selected card is sent to the server using
      *  clientActions.setGoalCard(index)`.
      * @param model is the game model
-     * @throws RemoteException
+     * @throws RemoteException IF THERE IS A PROBLEM IN THE NETWORK
      */
     @Override
     public void requireGoalsReady(GameImmutable model) throws RemoteException {
@@ -643,7 +631,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     /**
      * A card has been placed on the book
      * @param model is the game model
-     * @throws RemoteException
+     * @throws RemoteException if there is  problem in the network
      */
     @Override
     public void cardPlaced(GameImmutable model) throws RemoteException {
@@ -659,7 +647,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
-        ui.show_cardDrawnMsg(model);
+
         events.add(model, EventType.CARD_DRAWN);
     }
 
@@ -701,10 +689,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //TODO
     }
 
-    @Override
     /**
-     * Throw a nonConnection error
+     * Throws a message if there is an error within connection
      */
+    @Override
     public void noConnectionError() {
         ui.show_noConnectionError();
     }

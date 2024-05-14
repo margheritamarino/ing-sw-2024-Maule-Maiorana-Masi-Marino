@@ -39,11 +39,20 @@ public class InputController extends Thread{
                 // Estrai dati dall'inputBuffer
                 inputData = inputBuffer.popInputData();
 
-                //manca la chat
-                unprocessedDataBuffer.addInputData(inputData);
+
 
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
+            }
+             if (inputData.startsWith("/quit") || (inputData.startsWith("/leave"))) {
+                assert player != null;
+                System.exit(1);
+                gameFlow.leave(player.getNickname());
+                gameFlow. playerLeftForGameEnded();
+
+            } else {
+                //I add the data to the buffer processed via GameFlow
+                 unprocessedDataBuffer.addInputData(inputData);
             }
         }
     }
