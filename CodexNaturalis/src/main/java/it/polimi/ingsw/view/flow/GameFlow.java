@@ -166,17 +166,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 askPlaceCards(event.getModel(), nickname);
 
             case CARD_DRAWN -> {
-                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
-                    //TODO
-                }
+                ui.show_cardDrawnMsg(event.getModel());
+
             }
-
-
-
-
-
-
-
 
         }
 
@@ -655,7 +647,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
-        ui.show_cardDrawnMsg(model);
+
         events.add(model, EventType.CARD_DRAWN);
     }
 
