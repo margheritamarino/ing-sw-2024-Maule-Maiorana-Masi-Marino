@@ -137,5 +137,4 @@ public abstract class PlayableCard implements Serializable {
         }else output = input;
         return output;
     }
-
 }

@@ -194,4 +194,5 @@ public class ResourceCard extends PlayableCard implements Serializable {
 
       return result.toString();
    }
-   }
+
+}
