@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 //estende la classe Application che fa parte di JavaFX e serve a fornire un'infrastruttura per la creazione delle applicazioni
@@ -25,10 +26,10 @@ public class GUIApplication extends Application {
     //metodo principe della classe Application che viene chiamato quando l'applicazione JavaFX viene avviata
     @Override
     public void start(Stage primaryStage) {
-       // gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().get(0)));
+        //gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().get(0)));
         loadScenes(); //carica le scene
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Codex Naturalis"); //titolo finestra principale
+        this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
 
         //si può aggiungere un suono di apertura
@@ -40,21 +41,11 @@ public class GUIApplication extends Application {
         scenes = new ArrayList<>();
         FXMLLoader loader; //formato per definire l'interfaccia utente dell'applicazione JavaFX in modo dichiarativo e che associa un controller ad ogni vista caricata
         Parent root;
-        // ControllerGUI controller;
+        ControllerGUI controller;
 
-        /*
-        for (int i = 0; i < SceneEnum.values().length; i++) {
-            loader = new FXMLLoader(getClass().getResource(SceneEnum.values()[i].value()));
-            try {
-                root = loader.load();
-                controller = loader.getController();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            scenes.add(new Scene(new Scene(root), SceneEnum.values()[i], controller));
-        }
+        //TODO
 
-         */
+
     }
 
 }
