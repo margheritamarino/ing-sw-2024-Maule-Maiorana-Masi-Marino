@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI.controllers;
 
 import it.polimi.ingsw.view.Utilities.InputGUI;
 
