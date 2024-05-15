@@ -1,16 +1,11 @@
 package it.polimi.ingsw.network.rmi;
 
-
-//import it.polimi.ingsw.model.Chat.Message; (CHAT)
-import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
-import it.polimi.ingsw.controller.GameController;
+
 import it.polimi.ingsw.model.cards.CardType;
-//import it.polimi.ingsw.network.HeartbeatSender;
+
 import it.polimi.ingsw.network.ClientInterface;
-import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
-import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGenericMessage;
 import it.polimi.ingsw.model.DefaultValue;
 
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
@@ -149,6 +144,11 @@ public class ClientRMI implements ClientInterface {
     }
 
     @Override
+    public void settingGame(int numPlayers, int GameID) throws IOException {
+
+    }
+
+    @Override
     public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
         gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
@@ -196,10 +196,7 @@ public class ClientRMI implements ClientInterface {
         }
     }
 
-    @Override
-    public void createGame(int numPlayers, int GameID, String nickname) throws IOException {
 
-    }
 
 
 

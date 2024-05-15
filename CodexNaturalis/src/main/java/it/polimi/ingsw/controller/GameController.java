@@ -45,7 +45,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Singleton Pattern, instance of the class
      */
     private static GameController instance = null;
-    boolean gameCreated=false;
+    boolean gameCreated;
     private final transient Map<GameListenerInterface, Ping> receivedPings;
     /**GameController Constructor
      * Init a GameModel
@@ -53,6 +53,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public GameController()  {
         model = new Game();
        receivedPings = new HashMap<>();
+       this.gameCreated= false;
 
         new Thread(this).start();
     }
@@ -70,9 +71,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized boolean isGameCreated(){
         return gameCreated;
     }
-    public synchronized void setGameCreated(boolean bool){
-        this.gameCreated=bool;
-    }
+
 
     /**
      * Add a ping to the map of received Pings
@@ -291,23 +290,28 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
+        if(!isGameCreated()){
+            model.createGame(lis);
+
+        }else{
+            model.addListener(lis);
+            model.addPlayer(nick);
+            model.getPlayerByNickname(nick).setConnected(true);
+        }
+    }
+
+    public void setGameCreated(boolean toSet){
+        this.gameCreated= toSet;
+    }
+
+    public synchronized void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick)throws RemoteException{
+        model.setGameId(GameID);
+        model.setPlayersNumber(numPlayers);
+        setGameCreated(true);
         model.addListener(lis);
         model.addPlayer(nick);
         model.getPlayerByNickname(nick).setConnected(true);
 
     }
-    @Override
-    public synchronized void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick)throws RemoteException{
-        this.model.setPlayersNumber(numPlayers);
-        this.model.setGameId(GameID);
-        setGameCreated(true);
-        try {
-            joinGame(lis, nick);
-        }catch (RemoteException e){
-            System.err.println("RemoteException during JoinGame in CreateGame");
-        }
-    }
-
-
 
 }

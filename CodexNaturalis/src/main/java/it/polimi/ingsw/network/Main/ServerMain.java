@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.Main;
 
-//import it.polimi.ingsw.network.rmi.ServerRMI;
+
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.network.rmi.ServerRMI;
 import it.polimi.ingsw.network.socket.server.ServerTCP;
-import javafx.application.Application;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -13,9 +13,9 @@ import java.util.List;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
-import java.io.Serializable;
+
 import java.rmi.RemoteException;
-import java.util.*;
+
 
 
 public class ServerMain {
