@@ -1,21 +1,13 @@
 package it.polimi.ingsw.network.rmi;
 
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
-import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.cards.CardType;
 //import it.polimi.ingsw.network.HeartbeatSender;
-import it.polimi.ingsw.network.ClientInterface;
-import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
-import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.ServerGenericMessage;
 import it.polimi.ingsw.model.DefaultValue;
 
-import it.polimi.ingsw.network.socket.client.GameListenersClient;
-import it.polimi.ingsw.view.flow.Flow;
-import java.io.*;
-import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -145,9 +137,14 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         printAsync("[RMI] " + nick + " joined to game");
     }
 
-    @Override
+  /*  @Override
     public boolean playerIsReadyToStart(String p) throws RemoteException {
-        return serverObject.gameController.playerIsReadyToStart(p);
+        //return serverObject.gameController.playerIsReadyToStart(p);
+    }*/
+//  TODO controlla se va bene
+    @Override
+    public boolean playerIsReadyToStart( GameListenerInterface lis, String p) throws RemoteException {
+        return serverObject.gameController.playerIsReadyToStart(lis, p);
     }
 
     @Override
@@ -201,6 +198,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname) throws RemoteException {
 
     }
+
+
 
     /*@Override
     public void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick) throws RemoteException{

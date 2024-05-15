@@ -4,7 +4,6 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.network.socket.server.GameListenersServer;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -18,10 +17,9 @@ public interface GameControllerInterface extends Remote {
      * This method is used to check if the player is ready to start
      *
      * @param p the nickname of the player
-     * @return true if the player is ready to start
      * @throws RemoteException if the connection fails
      */
-    boolean playerIsReadyToStart(String p) throws RemoteException;
+    boolean playerIsReadyToStart(GameListenerInterface lis, String p ) throws RemoteException;
 
 
 
@@ -82,4 +80,5 @@ public interface GameControllerInterface extends Remote {
     void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos)throws RemoteException;
 
     void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname)throws RemoteException;
+
 }

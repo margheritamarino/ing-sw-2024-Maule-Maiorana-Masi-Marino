@@ -18,6 +18,7 @@ public class ClientMsgSetReady extends ClientGenericMessage {
      */
     public ClientMsgSetReady(String nickname) {
         this.nickname = nickname;
+        this.isJoinGame= true;
     }
 
     /**
@@ -28,7 +29,7 @@ public class ClientMsgSetReady extends ClientGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-
+        gameController.playerIsReadyToStart(lis, this.nickname);
     }
 
     /**
@@ -38,6 +39,6 @@ public class ClientMsgSetReady extends ClientGenericMessage {
      */
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException {
-        gameController.playerIsReadyToStart(this.nickname);
+
     }
 }

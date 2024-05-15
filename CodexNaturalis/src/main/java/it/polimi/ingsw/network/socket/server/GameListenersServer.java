@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class GameListenersServer implements GameListenerInterface, Serializable {
     private final ObjectOutputStream out; //per l'invio dei dati al Client
 
+
     /**
      * This constructor creates a GameListenersHandlerSocket
      * @param out the ObjectOutputStream
@@ -241,6 +242,17 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     public void lastCircle(GameImmutable model) throws RemoteException {
         try {
             out.writeObject(new msgLastCircle(model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed Last_Circle message", e);
+        }
+    }
+
+    @Override
+    public void CardsReady(GameImmutable model) throws RemoteException {
+        try {
+            out.writeObject(new msgCardsReady(model));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
