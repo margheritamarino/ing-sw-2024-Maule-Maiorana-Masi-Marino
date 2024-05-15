@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.events;
 public enum EventType {
     BACK_TO_MENU,
     PLAYER_JOINED,
+    PLAYER_READY,
     GAME_FULL,
     NICKNAME_ALREADY_IN,
     GENERIC_ERROR,
@@ -15,7 +16,6 @@ public enum EventType {
     CARD_PLACED,
     CARD_PLACED_NOT_CORRECT,
     CARD_DRAWN,
-    ENTERING_GAME
-
-
+    ENTERING_GAME,
+    CARDS_READY;
 }

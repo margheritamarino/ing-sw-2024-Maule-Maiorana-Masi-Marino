@@ -207,7 +207,7 @@ public class ClientRMI implements ClientInterface {
     @Override
     public void setAsReady() throws IOException {
         if ( gameController != null) {
-            gameController.playerIsReadyToStart(nickname);
+        //    gameController.playerIsReadyToStart(nickname);
         }
     }
 

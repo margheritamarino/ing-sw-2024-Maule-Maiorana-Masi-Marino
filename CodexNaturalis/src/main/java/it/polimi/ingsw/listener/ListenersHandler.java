@@ -22,7 +22,7 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 //ASCOLTATORI DEL CLIENT E DEL SERVER
 public class ListenersHandler {
-    private List<GameListenerInterface> listeners;
+    private ArrayList<GameListenerInterface> listeners;
 
     /**
      * Constructor
@@ -200,31 +200,23 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_requireInitial(Game model){
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
+    public synchronized void notify_requireInitial(GameListenerInterface l, Game model){
+            try{
                 l.requireInitialReady(new GameImmutable(model));
             } catch ( FileReadException| IOException e) {
                 printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
-                i.remove();
             }
-        }
     }
 
-    public synchronized void notify_requireGoals(Game model){
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
-                l.requireGoalsReady(new GameImmutable(model));
-            } catch (RemoteException | IllegalStateException  e) {
-                printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
+    public synchronized void notify_requireGoals(GameListenerInterface l, Game model){
+        try {
+            // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
+            l.requireGoalsReady(new GameImmutable(model));
+        } catch (RemoteException | IllegalStateException  e) {
+            printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
+
         }
+
     }
 
 
@@ -325,6 +317,16 @@ public class ListenersHandler {
                 printAsync("During notification of notify_LastCircle, a disconnection has been detected before heartbeat");
                 i.remove();
             }
+        }
+    }
+
+    public void notify_CardsReady(GameListenerInterface l, Game model) {
+        try {
+            // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
+            l.CardsReady(new GameImmutable(model));
+        } catch (RemoteException | IllegalStateException  e) {
+            printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
+
         }
     }
 }

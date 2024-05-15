@@ -249,7 +249,7 @@ public class TUI extends UI {
 
     @Override
     public void show_joiningToGameMsg(String nickname){
-        printAsync("You are joining a game!");
+        printAsync("Trying to join a game...");
     }
 
 

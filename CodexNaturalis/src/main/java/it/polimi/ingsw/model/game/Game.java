@@ -262,6 +262,7 @@ public class Game {
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname);
 		}
+
 	}
 
 	/**
@@ -431,12 +432,11 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void initializeCards(Player player) {
-		boolean initializationSuccessful = true;
+	public void initializeCards(GameListenerInterface lis, Player player) {
 
 		try {
 			temporaryInitialCard = initialCardsDeck.returnCard();
-			listenersHandler.notify_requireInitial(this);
+			listenersHandler.notify_requireInitial(lis,this);
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
@@ -448,15 +448,14 @@ public class Game {
 
 			temporaryObjectiveCards = drawObjectiveCards();
 			// Inizializza gli obiettivi
-			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
+			listenersHandler.notify_requireGoals(lis,this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
 
 
 		} catch (DeckEmptyException e) {
 			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
-			initializationSuccessful = false;
 
 		}
-
+		listenersHandler.notify_CardsReady(lis, this);
 	}
 
 	public PlayableCard[] getInitialCard(){

@@ -152,9 +152,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         in.close();
         out.close();
         clientSocket.close();
-        if(pingSender.isAlive()) {
+       /* if(pingSender.isAlive()) {
             pingSender.interrupt();
-        }
+        }*/
     }
 
     @Override
@@ -200,9 +200,9 @@ public class ClientSocket extends Thread implements ClientInterface {
 
         out.writeObject(new ClientMsgJoinGame(nick));
         finishSending();
-        if(!pingSender.isAlive()) {
+       /* if(!pingSender.isAlive()) {
             pingSender.start();
-        }
+        }*/
     }
 
 
@@ -245,7 +245,6 @@ public class ClientSocket extends Thread implements ClientInterface {
             }
         }
     }
-
 
     /**
      * Makes sure the message has been sent

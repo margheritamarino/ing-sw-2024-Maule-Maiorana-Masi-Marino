@@ -143,8 +143,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     askReadyToStart(event.getModel(), nickname);
                 }
             }
+
+
         }
     }
+
+
 
     public void statusRunning(Event event) throws IOException, InterruptedException{
         switch (event.getType()) {
@@ -337,7 +341,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         } while (!Objects.equals(answer, "y"));
         ui.show_youAreReady(model);
-        ui.show_allPlayers(model);
         setAsReady();
     }
 
@@ -519,6 +522,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
+
     @Override
     public void setInitialCard(int index) {
         try {
@@ -611,6 +615,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerIsReadyToStart(GameImmutable model, String nick) throws IOException {
         ui.show_playerJoined(model, nickname);
+        events.add(model, EventType.PLAYER_READY);
     }
 
     /**
@@ -730,6 +735,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.addImportantEvent("Last circle begin!");
     }
 
+    @Override
+    public void CardsReady(GameImmutable model) throws RemoteException {
+        events.add(model, EventType.CARDS_READY);
+    }
 
 
     @Override
