@@ -33,6 +33,8 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
  * by the RMI Network Protocol
  */
 
+//Il Client invoca metodi sul Server tramite l'interfaccia remota GameController
+
 public class ClientRMI implements ClientInterface {
 
     /**

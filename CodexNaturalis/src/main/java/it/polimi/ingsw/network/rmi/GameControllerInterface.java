@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.socket.server.GameListenersServer;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-//Controlla se servono altri Metodi (azioni che può compiere un Player)
+//Interfaccia Remota che definisce i metodi che possono essere invocati dal Client sul Server
 /**
  * This interface contains all the action a player can do in a single game */
 

@@ -241,6 +241,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized void setInitialCard(String playerName, int index) {
         Player currentPlayer = model.getPlayerByNickname(playerName);
         model.setInitialCard(currentPlayer, index);
+        System.out.println("Sono in setInitialCard di GameController, vado nel Game");
     }
 
 

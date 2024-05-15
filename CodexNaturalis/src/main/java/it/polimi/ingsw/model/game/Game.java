@@ -483,6 +483,7 @@ public class Game {
 	 *            This index is used to fetch the card from the `temporaryInitialCard` array.
 	 */
 	public void setInitialCard(Player player, int pos){
+		System.out.println("Sono in setInitialCard del Model");
 		PlayableCard chosenInitialCard = temporaryInitialCard[pos];
 		Book playerBook= player.getPlayerBook();
 		playerBook.addInitial(chosenInitialCard);
