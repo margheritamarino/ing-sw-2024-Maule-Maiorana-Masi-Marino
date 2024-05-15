@@ -176,25 +176,30 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
     @Override
-    public void setInitialCard(String nickname, int index) throws RemoteException {
+    public void setInitialCard(String nickname, int index) {
         serverObject.gameController.setInitialCard(nickname,index);
     }
 
     @Override
-    public void setGoalCard(String nickname, int index) throws RemoteException, NotPlayerTurnException {
+    public void setGoalCard(String nickname, int index) throws NotPlayerTurnException {
         serverObject.gameController.setGoalCard(nickname,index);
     }
 
     @Override
-    public void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) throws RemoteException{
+    public void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) {
         serverObject.gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell);
     }
 
 
 
     @Override
-    public void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException {
+    public void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos) {
         serverObject.gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
+    }
+
+    @Override
+    public void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick) {
+
     }
 }
 
