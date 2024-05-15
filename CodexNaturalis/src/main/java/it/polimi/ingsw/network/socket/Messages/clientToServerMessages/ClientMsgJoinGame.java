@@ -11,19 +11,18 @@ import java.rmi.RemoteException;
  * Extends SocketClientGenericMessage and is used to send a message to the server
  * indicating the request to create a new game.
  */
-public class ClientMsgCreateGame extends ClientGenericMessage {
+public class ClientMsgJoinGame extends ClientGenericMessage {
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
      */
-    public ClientMsgCreateGame(String nickname) {
+    public ClientMsgJoinGame(String nickname) {
         this.nickname = nickname;
         this.isJoinGame= true;
     }
 
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-
         gameController.joinGame(lis, this.nickname);
     }
 

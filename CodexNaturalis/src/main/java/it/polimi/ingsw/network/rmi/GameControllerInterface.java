@@ -80,4 +80,6 @@ public interface GameControllerInterface extends Remote {
      void joinGame(GameListenerInterface lis, String nick) throws RemoteException;
 
     void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos);
+
+    void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick);
 }

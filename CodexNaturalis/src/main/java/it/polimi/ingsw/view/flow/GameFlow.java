@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.flow;
 
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
@@ -183,7 +184,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case BACK_TO_MENU -> {
                 //ciclo per chiedere al giocatore di selezionare una partita valida
                 askNickname();
-                joinGame(nickname); //non gli faccio scegliere l'ID
+                if(!GameController.getInstance().isGameCreated()){
+                    int numPlayers = askNumPlayers();
+                    int GameID= askGameID();
+                    createGame(numPlayers,GameID, nickname);
+                }
+                else
+                    joinGame(nickname); //non gli faccio scegliere l'ID
 
             }
 
@@ -211,6 +218,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         }
     }
+
 
     public void statusEnded(Event event) throws NotBoundException, IOException {
         switch (event.getType()) {
@@ -252,7 +260,56 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     /* METODI ASK DA FARE */
     //Azioni che il Server richiede al Client di eseguire
 
+    private int askNumPlayers() {
+        String temp;
+        int numPlayers = -1;
+        do {
+            try {
+                ui.show_askNumPlayersMessage(); // "Inserire il numero di giocatori nella partita:"
 
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                numPlayers = Integer.parseInt(temp); // Traduce il numero in intero
+
+                // Verifica che il numero sia nel range accettabile
+                if (numPlayers < 0 || numPlayers < DefaultValue.minNumOfPlayer || numPlayers > DefaultValue.MaxNumOfPlayer) {
+                    ui.show_notValidMessage(); // Mostra un messaggio di errore
+                    numPlayers = -1; // Resetta numPlayers per ripetere il ciclo
+                }
+            } catch (NumberFormatException e) {
+                ui.show_notValidMessage(); // Mostra un messaggio di errore per input non numerico
+                numPlayers = -1; // Resetta numPlayers per ripetere il ciclo
+            }
+        } while (numPlayers == -1);
+
+        return numPlayers;
+    }
+
+    private int askGameID(){
+        String temp;
+        int GameID= -1;
+        do {
+            try {
+                ui.show_askGameIDMessage();
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                GameID = Integer.parseInt(temp); //traduco il numero in integer
+                if(GameID < 0)
+                    ui.show_notValidMessage();
+            } catch ( NumberFormatException e) {
+                ui.show_notValidMessage();
+            }
+        } while (GameID < 0 );
+        return GameID;
+    }
     private void askNickname() {
         ui.show_insertNicknameMessage();
         try {
@@ -671,6 +728,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         try {
             clientActions.joinGame(nickname);
         } catch (IOException | InterruptedException | NotBoundException e) {
+            noConnectionError();
+        }
+    }
+    @Override
+    public void createGame(int numPlayers,int GameID, String nickname) {
+        try {
+            clientActions.createGame(numPlayers, GameID,nickname);
+        } catch (IOException e ) {
             noConnectionError();
         }
     }
