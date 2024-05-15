@@ -13,6 +13,9 @@ import java.util.List;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
+import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.*;
 
 
 public class ServerMain {
@@ -35,7 +38,14 @@ public class ServerMain {
             System.setProperty("java.rmi.server.hostname", input);
         }
 
-        ServerRMI.bind();
+        System.out.println("Sto per eseguire il BIND (da ServerMain chiamo ServerRMI.bind()): " + input);
+        try {
+            ServerRMI.bind();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
+            System.exit(1); // Termina il programma in caso di errore
+        }
 
         ServerTCP serverSOCKET = new ServerTCP();
         serverSOCKET.start(DefaultValue.Default_port_Socket);
@@ -50,7 +60,10 @@ public class ServerMain {
         }
         for (String part : parsed) {
             try {
-                Integer.parseInt(part);
+                int segment = Integer.parseInt(part);
+                if (segment < 0 || segment > 255) {
+                    return false;
+                }
             } catch (NumberFormatException e) {
                 return false;
             }

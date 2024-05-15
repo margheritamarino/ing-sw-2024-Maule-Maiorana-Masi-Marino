@@ -15,6 +15,7 @@ public class InitialCard extends PlayableCard implements Serializable {
     int numCentralResource;
     int numResources;
     List<ResourceType> resourceList;
+    private String[][] initialCardPrint;
 
     public List<ResourceType> getCentralResources() {
         return centralResources;
@@ -188,3 +189,6 @@ public class InitialCard extends PlayableCard implements Serializable {
 
 
 }
+
+
+
