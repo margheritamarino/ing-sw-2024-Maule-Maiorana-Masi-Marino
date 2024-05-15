@@ -321,7 +321,7 @@ public class Game {
 	public boolean arePlayersReadyToStartAndEnough() {
 		//If every player is ready, the game starts
 		return players.stream().filter(Player::getReadyToStart)
-				.count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
+				.count() == playersNumber;
 	}
 	/**
 	 * @return the game status
