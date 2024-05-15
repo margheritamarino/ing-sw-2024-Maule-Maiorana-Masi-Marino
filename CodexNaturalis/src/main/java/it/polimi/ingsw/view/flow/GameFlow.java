@@ -735,10 +735,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.addImportantEvent("Last circle begin!");
     }
 
-    @Override
-    public void CardsReady(GameImmutable model) throws RemoteException {
-        events.add(model, EventType.CARDS_READY);
-    }
 
 
     @Override

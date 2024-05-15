@@ -320,13 +320,5 @@ public class ListenersHandler {
         }
     }
 
-    public void notify_CardsReady(GameListenerInterface l, Game model) {
-        try {
-            // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
-            l.CardsReady(new GameImmutable(model));
-        } catch (RemoteException | IllegalStateException  e) {
-            printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
 
-        }
-    }
 }

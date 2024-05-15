@@ -109,8 +109,5 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
         flow.lastCircle(model);
     }
 
-    @Override
-    public void CardsReady(GameImmutable model) throws RemoteException {
-        flow.CardsReady(model);
-    }
+
 }

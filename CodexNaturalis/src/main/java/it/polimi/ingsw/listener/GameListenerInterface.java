@@ -138,6 +138,4 @@ public interface GameListenerInterface extends Remote {
      */
     void lastCircle(GameImmutable model) throws RemoteException;
 
-
-    void CardsReady(GameImmutable gameImmutable)throws RemoteException;
 }

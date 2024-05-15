@@ -253,8 +253,10 @@ public class Game {
 		else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname);
+			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
 			addListener(lis);
+
 			scoretrack.addPlayer(newPlayer);
 			// Increment the number of players
 			playersNumber++;
@@ -436,7 +438,7 @@ public class Game {
 
 		try {
 			temporaryInitialCard = initialCardsDeck.returnCard();
-			listenersHandler.notify_requireInitial(lis,this);
+			player.notify_requireInitial(this);
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
@@ -448,14 +450,13 @@ public class Game {
 
 			temporaryObjectiveCards = drawObjectiveCards();
 			// Inizializza gli obiettivi
-			listenersHandler.notify_requireGoals(lis,this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
+			player.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
 
 
 		} catch (DeckEmptyException e) {
 			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
 
 		}
-		listenersHandler.notify_CardsReady(lis, this);
 	}
 
 	public PlayableCard[] getInitialCard(){
