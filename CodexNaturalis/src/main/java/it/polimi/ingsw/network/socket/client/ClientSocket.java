@@ -13,7 +13,6 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
-import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -58,7 +57,6 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @param flow to notify network errors
      */
     public ClientSocket(Flow flow) {
-        System.out.println("Sono nel costruttore di ClientSocket");
         this.flow=flow;
         startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersClient(flow);
@@ -71,10 +69,8 @@ public class ClientSocket extends Thread implements ClientInterface {
      * Reads all the incoming network traffic and execute the requested action
      */
     public void run() {
-        System.out.println("Sono nel metodo run della classe ClientSocket");
         while (true) {
             try {
-                System.out.println("Sono nel try di ClientSocket");
                 ServerGenericMessage msg = (ServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
 
@@ -98,7 +94,6 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @param port of the Socket server to connect
      */
     private void startConnection(String ip, int port) {
-        System.out.println("Sono nel metodo startConnection di ClientSocket");
         boolean connectionEstablished = false;
         int attempt = 1;
         int i;
@@ -106,11 +101,8 @@ public class ClientSocket extends Thread implements ClientInterface {
         do {
             try {
                 clientSocket = new Socket(ip, port);
-                System.out.println("Una nuova Socket è stata creata"); //TODO cancella
                 out = new ObjectOutputStream(clientSocket.getOutputStream());
-                System.out.println("OutputStream creato");  //TODO cancella
                 in = new ObjectInputStream(clientSocket.getInputStream());
-                System.out.println("InputStream creato"); //TODO cancella
                 connectionEstablished = true;
 
             } catch (IOException e) {
@@ -165,6 +157,11 @@ public class ClientSocket extends Thread implements ClientInterface {
         }
     }
 
+    @Override
+    public void settingGame(int numPlayers, int GameID) throws IOException {
+        out.writeObject(new ClientMsgCreateGame( numPlayers, GameID, nickname));
+        finishSending();
+    }
 
     @Override
     public void setInitialCard(int index) throws IOException {
@@ -199,17 +196,14 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void joinGame(String nick) throws IOException {
-        System.out.println("clientSocket joinGame");
         nickname = nick;
-        //ClientMsgCreateGame prova = new ClientMsgCreateGame(nick);
-        //System.out.println("Il messaggio ClientMsgCreateGame è stato creato ");
-        out.writeObject(new ClientMsgCreateGame(nick));
+
+        out.writeObject(new ClientMsgJoinGame(nick));
         finishSending();
         if(!pingSender.isAlive()) {
             pingSender.start();
         }
     }
-
 
 
     /**

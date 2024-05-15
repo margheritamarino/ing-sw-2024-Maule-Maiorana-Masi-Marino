@@ -23,7 +23,7 @@ public interface GameListenerInterface extends Remote {
      * @throws RemoteException if the reference could not be accessed
      */
     void playerJoined(GameImmutable model, String nickname) throws RemoteException;
-
+    void requireNumPlayersGameID(GameImmutable model)throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has to choose again the CARD
@@ -54,7 +54,7 @@ public interface GameListenerInterface extends Remote {
 
     /**
      * This method is used to notify the client that a player has tried to join the game but the nickname is already in use
-     * @param triedToJoin is the player that has tried to join the game
+
      * @throws RemoteException if the reference could not be accessed
      */
     void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException;
@@ -67,7 +67,7 @@ public interface GameListenerInterface extends Remote {
      * @param nick is the nickname of the player that is ready to start
      * @throws IOException if the reference could not be accessed
      */
-    void playerIsReadyToStart(GameImmutable model, String nick) throws IOException;
+    void playerIsReadyToStart(GameImmutable model, String nick) throws RemoteException, IOException;
 
 
     /**
@@ -90,7 +90,7 @@ public interface GameListenerInterface extends Remote {
      * @param model       is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void requireInitialReady(GameImmutable model) throws IOException, FileReadException;
+    void requireInitialReady(GameImmutable model) throws RemoteException, IOException, FileReadException;
 
     /**
      * Notifies the listeners that objective cards are ready to be chosen

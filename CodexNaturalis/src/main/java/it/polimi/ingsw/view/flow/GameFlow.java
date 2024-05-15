@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.flow;
 
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
@@ -54,7 +55,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
             case RMI -> {
-                System.out.println("RMI correttamente aggiunto a clientActions");
                 clientActions = new ClientRMI(this);
 
             }
@@ -151,7 +151,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case GAME_STARTED -> {
                 ui.show_gameStarted(event.getModel());
                 this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
-                this.inputController.setGameID(event.getModel().getGameId());
+               // this.inputController.setGameID(event.getModel().getGameId());
             }
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
@@ -187,7 +187,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case BACK_TO_MENU -> {
                 //ciclo per chiedere al giocatore di selezionare una partita valida
                 askNickname();
-                joinGame(nickname); //non gli faccio scegliere l'ID
+                joinGame(nickname);
 
             }
 
@@ -199,8 +199,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             case GAME_FULL -> {
                 nickname = null;
-                events.add(null, EventType.BACK_TO_MENU);
-                ui.addImportantEvent("ERROR: Game is full!");
+                ui.addImportantEvent("ERROR: Game is Full, you can't play!");
             }
 
             case GENERIC_ERROR -> {
@@ -215,6 +214,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         }
     }
+
 
     public void statusEnded(Event event) throws NotBoundException, IOException {
         switch (event.getType()) {
@@ -256,7 +256,56 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     /* METODI ASK DA FARE */
     //Azioni che il Server richiede al Client di eseguire
 
+    private int askNumPlayers() {
+        String temp;
+        int numPlayers = -1;
+        do {
+            try {
+                ui.show_askNumPlayersMessage(); // "Inserire il numero di giocatori nella partita:"
 
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                numPlayers = Integer.parseInt(temp); // Traduce il numero in intero
+
+                // Verifica che il numero sia nel range accettabile
+                if (numPlayers < 0 || numPlayers < DefaultValue.minNumOfPlayer || numPlayers > DefaultValue.MaxNumOfPlayer) {
+                    ui.show_notValidMessage(); // Mostra un messaggio di errore
+                    numPlayers = -1; // Resetta numPlayers per ripetere il ciclo
+                }
+            } catch (NumberFormatException e) {
+                ui.show_notValidMessage(); // Mostra un messaggio di errore per input non numerico
+                numPlayers = -1; // Resetta numPlayers per ripetere il ciclo
+            }
+        } while (numPlayers == -1);
+
+        return numPlayers;
+    }
+
+    private int askGameID(){
+        String temp;
+        int GameID= -1;
+        do {
+            try {
+                ui.show_askGameIDMessage();
+                try {
+                    temp = this.inputController.getUnprocessedData().popInputData();
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                GameID = Integer.parseInt(temp); //traduco il numero in integer
+                if(GameID < 0)
+                    ui.show_notValidMessage();
+            } catch ( NumberFormatException e) {
+                ui.show_notValidMessage();
+            }
+        } while (GameID < 0 );
+        return GameID;
+    }
     private void askNickname() {
         ui.show_insertNicknameMessage();
         try {
@@ -462,7 +511,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         return drawFromDeck;
     }
 
-
+    @Override
+    public void settingGame(int numPlayers, int GameID){
+        try {
+            clientActions.settingGame(numPlayers, GameID);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
     @Override
     public void setInitialCard(int index) {
         try {
@@ -504,7 +560,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         events.add(gameModel, EventType.PLAYER_JOINED);
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
-        ui.show_playerJoined(gameModel, nickname);
+       // ui.show_playerJoined(gameModel, nickname);
         ui.addImportantEvent("[EVENT]: Player " + nickname + " joined the game!");
 
     }
@@ -539,12 +595,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     /**
      * A player wanted to join a game but the nickname is already in
-     * @param tryToJoin player that wanted to join {@link Player}
      * @throws RemoteException if the reference could not be accessed
      */
     @Override
-    public void joinUnableNicknameAlreadyIn(Player tryToJoin) throws RemoteException {
-        //System.out.println("[EVENT]: "+ tryToJoin.getNickname() + " has already in");
+    public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
         events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
 
@@ -575,6 +629,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_gameEnded(gameImmutable);
         //TODO quando aggiungiamo la disconnessione fai metodo RESET gioco
     }
+    @Override
+    public void requireNumPlayersGameID(GameImmutable model)throws RemoteException {
+
+        int numPlayers=askNumPlayers();
+        int GameID= askGameID();
+        settingGame(numPlayers, GameID);
+
+    }
+
 
     /** Prompts the user to choose between the front or back of the available Initial Cards.
      *   The method continues prompting the user for a valid choice until one is provided.
@@ -598,7 +661,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             if (index < 0 || index >= 2) {
                 index = null;
             }
-        } while (index == null|| (index < 0 || index >= 2));
+        } while (index == null);
         setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
@@ -678,6 +741,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
+
 
     @Override
     public void leave(String nick) {

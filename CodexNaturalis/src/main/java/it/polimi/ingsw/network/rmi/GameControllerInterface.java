@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.socket.server.GameListenersServer;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-//Controlla se servono altri Metodi (azioni che può compiere un Player)
+//Interfaccia Remota che definisce i metodi che possono essere invocati dal Client sul Server
 /**
  * This interface contains all the action a player can do in a single game */
 
@@ -72,12 +72,14 @@ public interface GameControllerInterface extends Remote {
 
 
 
-     void setInitialCard(String nickname, int index) throws RemoteException ;
+     void setInitialCard(String nickname, int index)throws RemoteException ;
 
-     void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException;
+     void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException ;
 
-     void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) throws RemoteException;
+     void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell)throws RemoteException;
      void joinGame(GameListenerInterface lis, String nick) throws RemoteException;
 
-    void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException;
+    void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos)throws RemoteException;
+
+    void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname)throws RemoteException;
 }

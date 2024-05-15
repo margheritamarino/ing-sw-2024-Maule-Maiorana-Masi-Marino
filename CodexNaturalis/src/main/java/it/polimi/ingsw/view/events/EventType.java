@@ -14,7 +14,8 @@ public enum EventType {
     PLAYER_RECONNECTED,
     CARD_PLACED,
     CARD_PLACED_NOT_CORRECT,
-    CARD_DRAWN
+    CARD_DRAWN,
+    ENTERING_GAME
 
 
 }
