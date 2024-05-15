@@ -85,7 +85,7 @@ public class Game {
 	 */
 	public static synchronized Game getInstance(int playersNumber) {
 		try {
-			if (instance == null || instance.playersNumber != playersNumber) {
+			if (instance == null ) {
 				instance = new Game(playersNumber);
 			}
 			return instance;
@@ -152,6 +152,10 @@ public class Game {
 		this.gameID = gameID;
 	}
 
+	public void setPlayersNumber(int playersNumber) {
+		this.playersNumber = playersNumber;
+	}
+
 	/**
 	 * * @return the list of listeners
 	 * */
@@ -186,9 +190,7 @@ public class Game {
 		return currentPlayer.getGoal();
 	}
 
-	public void setNumPlayers(int playersNumber) {
-		this.playersNumber = playersNumber;
-	}
+
 
 	/**
 	 * Returns the player at the specified position in the list of players.

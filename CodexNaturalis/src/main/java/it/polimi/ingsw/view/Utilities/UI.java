@@ -48,6 +48,11 @@ public abstract class UI {
      */
     public abstract void show_gameStarted(GameImmutable model);
     public abstract void show_gameEnded(GameImmutable model);
+
+    public abstract void show_askNumPlayersMessage();
+
+    public abstract void show_askGameIDMessage();
+
     public abstract void show_notValidMessage();
     public abstract void show_playerJoined(GameImmutable gameModel, String nick);
     public abstract void show_allPlayers(GameImmutable model);
@@ -75,6 +80,7 @@ public abstract class UI {
     public abstract void show_personalObjective();
 
     public abstract void show_noConnectionError();
+
 
 
 }

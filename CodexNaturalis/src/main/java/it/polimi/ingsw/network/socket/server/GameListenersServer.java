@@ -250,7 +250,8 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgPlayerDisconnected(model,nickname));
             finishSending();
         } catch (IOException e) {
-            //TODO
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send playerLeft message", e);
         }
     }
     /**

@@ -118,6 +118,15 @@ public class TUI extends UI {
     }
 
     @Override
+    public void show_askNumPlayersMessage(){
+        printAsync("Insert the number of the players in the Game: ");
+    }
+
+    @Override
+    public void show_askGameIDMessage(){
+        printAsync("Insert the GameID: ");
+    }
+    @Override
     public void show_notValidMessage(){
         printAsync("Not valid input. Please try again. ");
     }

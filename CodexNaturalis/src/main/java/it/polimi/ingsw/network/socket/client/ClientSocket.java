@@ -13,7 +13,6 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
-import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -201,16 +200,23 @@ public class ClientSocket extends Thread implements ClientInterface {
     public void joinGame(String nick) throws IOException {
         System.out.println("clientSocket joinGame");
         nickname = nick;
-        //ClientMsgCreateGame prova = new ClientMsgCreateGame(nick);
-        //System.out.println("Il messaggio ClientMsgCreateGame è stato creato ");
-        out.writeObject(new ClientMsgCreateGame(nick));
+
+        out.writeObject(new ClientMsgJoinGame(nick));
         finishSending();
         if(!pingSender.isAlive()) {
             pingSender.start();
         }
     }
 
-
+    @Override
+    public void createGame(int numPlayers, int GameID, String nick) throws IOException {
+        nickname = nick;
+        out.writeObject(new ClientMsgCreateGame(numPlayers,  GameID,nickname));
+        finishSending();
+        if(!pingSender.isAlive()) {
+            pingSender.start();
+        }
+    }
 
     /**
      * Ask the Socket Server to set the player as ready

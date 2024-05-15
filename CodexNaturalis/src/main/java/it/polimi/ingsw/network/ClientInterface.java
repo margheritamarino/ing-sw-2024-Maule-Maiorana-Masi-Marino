@@ -26,6 +26,9 @@ public interface ClientInterface  {
     void joinGame(String nick) throws IOException, InterruptedException, NotBoundException;
 
     //FUNZIONALITA AGGIUNTIVA
+
+    void createGame(int numPlayers, int GameID, String nickname)throws IOException;
+
     /**
      * Leaves the game
      *

@@ -196,6 +196,11 @@ public class ClientRMI implements ClientInterface {
         }
     }
 
+    @Override
+    public void createGame(int numPlayers, int GameID, String nickname) throws IOException {
+
+    }
+
 
 
     /**

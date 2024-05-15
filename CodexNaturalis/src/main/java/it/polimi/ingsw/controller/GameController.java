@@ -13,9 +13,7 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.network.PingSender;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.socket.server.GameListenersServer;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -36,7 +34,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * The {@link Game} to control
      */
-    private final Game model;
+    private Game model;
 
     /**
      * A random object for implementing pseudo-random choice     */
@@ -47,6 +45,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Singleton Pattern, instance of the class
      */
     private static GameController instance = null;
+    boolean gameCreated=false;
     private final transient Map<GameListenerInterface, Ping> receivedPings;
     /**GameController Constructor
      * Init a GameModel
@@ -68,7 +67,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
         return instance;
     }
-
+    public synchronized boolean isGameCreated(){
+        return gameCreated;
+    }
+    public synchronized void setGameCreated(boolean bool){
+        this.gameCreated=bool;
+    }
 
     /**
      * Add a ping to the map of received Pings
@@ -286,20 +290,23 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
-        System.out.println("Metodo execute del 1° messaggio è stato chiamato: sono entrato nel metodo JoinGame in GameController");
-        if(model.getNumPlayers()==0){
-
-            model.setGameId(1);
-        }
-        System.out.println("gameController joinGame");
+    public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
         model.addListener(lis);
         model.addPlayer(nick);
         model.getPlayerByNickname(nick).setConnected(true);
-        //return getInstance();
 
     }
-
+    @Override
+    public synchronized void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick){
+        this.model.setPlayersNumber(numPlayers);
+        this.model.setGameId(GameID);
+        setGameCreated(true);
+        try {
+            joinGame(lis, nick);
+        }catch (RemoteException e){
+            System.err.println("RemoteException during JoinGame in CreateGame");
+        }
+    }
 
 
 
