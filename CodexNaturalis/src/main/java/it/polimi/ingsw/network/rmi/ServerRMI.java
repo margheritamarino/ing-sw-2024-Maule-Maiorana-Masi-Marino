@@ -34,7 +34,7 @@ import static java.rmi.registry.LocateRegistry.getRegistry;
 
 // implementa l'Interfaccia GameControllerInterface, contenete i metodi che il Client può invocare sul Server
 // Chiamando metodi della GameListenerInterface il Server può notificare al Client degli eventi di gioco (poi il Client reagirà di conseguenza)
-public class ServerRMI extends UnicastRemoteObject implements GameControllerInterface, Serializable { //Capisci se è giusto che implementi Serializable
+public class ServerRMI extends UnicastRemoteObject implements GameControllerInterface { //Capisci se: implements GameControllerInterface
     /**
      * ServerRMI object
      */
@@ -181,7 +181,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
     @Override
-    public void setGoalCard(String nickname, int index) throws RemoteException, NotPlayerTurnException {
+    public void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException {
         serverObject.gameController.setGoalCard(nickname,index);
     }
 
@@ -198,8 +198,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
     @Override
-    public void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick) throws RemoteException {
-
+    public void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick) throws RemoteException{
+        serverObject.gameController.createGame(lis, numPlayers,GameID, nick);
     }
 }
 
