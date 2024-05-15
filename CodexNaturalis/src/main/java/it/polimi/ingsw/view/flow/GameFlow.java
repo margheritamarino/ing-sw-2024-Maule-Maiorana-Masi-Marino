@@ -199,8 +199,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             case GAME_FULL -> {
                 nickname = null;
-                events.add(null, EventType.BACK_TO_MENU);
-                ui.addImportantEvent("ERROR: Game is full!");
+                ui.addImportantEvent("ERROR: Game is Full, you can't play!");
             }
 
             case GENERIC_ERROR -> {
@@ -561,7 +560,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         events.add(gameModel, EventType.PLAYER_JOINED);
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
-        ui.show_playerJoined(gameModel, nickname);
+       // ui.show_playerJoined(gameModel, nickname);
         ui.addImportantEvent("[EVENT]: Player " + nickname + " joined the game!");
 
     }
@@ -596,11 +595,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     /**
      * A player wanted to join a game but the nickname is already in
-     * @param tryToJoin player that wanted to join {@link Player}
      * @throws RemoteException if the reference could not be accessed
      */
     @Override
-    public void joinUnableNicknameAlreadyIn(Player tryToJoin) throws RemoteException {
+    public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
         events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
 
@@ -663,7 +661,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             if (index < 0 || index >= 2) {
                 index = null;
             }
-        } while (index == null|| (index < 0 || index >= 2));
+        } while (index == null);
         setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 

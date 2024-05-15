@@ -294,13 +294,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.createGame(lis);
 
         }else{
-            model.addListener(lis);
-            model.addPlayer(nick);
+            model.addPlayer(lis, nick);
             model.getPlayerByNickname(nick).setConnected(true);
         }
     }
 
-    public void setGameCreated(boolean toSet){
+    public synchronized void setGameCreated(boolean toSet){
         this.gameCreated= toSet;
     }
 
@@ -308,10 +307,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
         setGameCreated(true);
-        model.addListener(lis);
-        model.addPlayer(nick);
-        model.getPlayerByNickname(nick).setConnected(true);
-
+        joinGame(lis, nick);
     }
 
 }

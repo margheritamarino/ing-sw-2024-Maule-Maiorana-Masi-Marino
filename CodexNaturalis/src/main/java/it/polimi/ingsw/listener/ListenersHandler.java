@@ -124,33 +124,24 @@ public class ListenersHandler {
      * @param triedToJoin is the player that wanted to join the game <br>
      * @param model is the GameModel to pass as a new GameModelImmutable
      */
-    public synchronized void notify_JoinUnableGameFull(Player triedToJoin, Game model) {
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.joinUnableGameFull(triedToJoin, new GameImmutable(model));
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
+    public synchronized void notify_JoinUnableGameFull(GameListenerInterface lis, Player triedToJoin, Game model) {
+        try {
+            lis.joinUnableGameFull(triedToJoin, new GameImmutable(model));
+        } catch (RemoteException e) {
+            printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat");
         }
+
     }
 
     /**
      * The notify_JoinUnableNicknameAlreadyIn method notifies that a player cannot join the game because the nickname is already in use
-     * @param triedToJoin is the player that wanted to join the game
+
      */
-    public synchronized void notify_JoinUnableNicknameAlreadyIn(Player triedToJoin) {
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.joinUnableNicknameAlreadyIn(triedToJoin);
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_JoinUnableNicknameAlreadyIn, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
+    public synchronized void notify_JoinUnableNicknameAlreadyIn(GameListenerInterface lis, Player triedToJoin ) {
+        try {
+            lis.joinUnableNicknameAlreadyIn(triedToJoin);
+        } catch (RemoteException e) {
+            printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat");
         }
     }
 

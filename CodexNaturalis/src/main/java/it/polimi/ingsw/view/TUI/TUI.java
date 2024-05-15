@@ -58,7 +58,6 @@ public class TUI extends UI {
     //show di ciò che deve sempre essere mostrato ad ogni giocatore
     public void show_alwaysShow(GameImmutable model, String nick) {
         show_alwaysShowForAll(model);
-        show_welcome(nick);
         show_playerDeck(model);
         show_playerBook(model);
     }
@@ -193,7 +192,6 @@ public class TUI extends UI {
         this.show_titleCodexNaturalis();
         this.show_allPlayers(model); //mostra la lista dei giocatori
         this.show_alwaysShowForAll(model);
-        this.show_gameId(model);
     }
 
     @Override
@@ -274,6 +272,7 @@ public class TUI extends UI {
     /**
      * Shows the important events
      */
+
     public void show_important_events() {
 
         StringBuilder ris = new StringBuilder();

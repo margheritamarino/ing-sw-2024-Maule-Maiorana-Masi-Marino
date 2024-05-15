@@ -32,6 +32,9 @@ public abstract class UI {
     public abstract void show_nextTurnMsg(GameImmutable model);
     public abstract void show_pointsAddedMsg(GameImmutable model);
     public abstract void show_joiningToGameMsg(String nick);
+
+
+
     /**
      * Asks the player for his nickname
      */
