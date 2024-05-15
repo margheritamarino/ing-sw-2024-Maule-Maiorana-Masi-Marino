@@ -13,9 +13,7 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.network.PingSender;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
-import it.polimi.ingsw.network.socket.server.GameListenersServer;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -36,7 +34,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * The {@link Game} to control
      */
-    private final Game model;
+    private Game model;
 
     /**
      * A random object for implementing pseudo-random choice     */
@@ -47,6 +45,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Singleton Pattern, instance of the class
      */
     private static GameController instance = null;
+    boolean gameCreated;
     private final transient Map<GameListenerInterface, Ping> receivedPings;
     /**GameController Constructor
      * Init a GameModel
@@ -54,6 +53,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public GameController()  {
         model = new Game();
        receivedPings = new HashMap<>();
+       this.gameCreated= false;
 
         new Thread(this).start();
     }
@@ -67,6 +67,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             instance = new GameController();
         }
         return instance;
+    }
+    public synchronized boolean isGameCreated(){
+        return gameCreated;
     }
 
 
@@ -238,9 +241,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     @Override
-    public synchronized void setInitialCard(String playerName, int index) {
+    public synchronized void setInitialCard(String playerName, int index) throws RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
         model.setInitialCard(currentPlayer, index);
+        System.out.println("Sono in setInitialCard di GameController, vado nel Game");
     }
 
 
@@ -271,7 +275,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     @Override
-    public synchronized void setGoalCard(String playerName, int index) throws NotPlayerTurnException {
+    public synchronized void setGoalCard(String playerName, int index) throws NotPlayerTurnException, RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
         model.setPlayerGoal(currentPlayer, index);
     }
@@ -285,21 +289,25 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
-        System.out.println("Metodo execute del 1° messaggio è stato chiamato: sono entrato nel metodo JoinGame in GameController");
-        if(model.getNumPlayers()==0){
+    public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
+        if(!isGameCreated()){
+            model.createGame(lis);
 
-            model.setGameId(1);
+        }else{
+            model.addPlayer(lis, nick);
+            model.getPlayerByNickname(nick).setConnected(true);
         }
-        System.out.println("gameController joinGame");
-        model.addListener(lis);
-        model.addPlayer(nick);
-        model.getPlayerByNickname(nick).setConnected(true);
-        //return getInstance();
-
     }
 
+    public synchronized void setGameCreated(boolean toSet){
+        this.gameCreated= toSet;
+    }
 
-
+    public synchronized void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick)throws RemoteException{
+        model.setGameId(GameID);
+        model.setPlayersNumber(numPlayers);
+        setGameCreated(true);
+        joinGame(lis, nick);
+    }
 
 }

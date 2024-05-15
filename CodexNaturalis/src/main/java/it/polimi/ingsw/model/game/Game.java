@@ -6,7 +6,6 @@ import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.InitialCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
@@ -85,7 +84,7 @@ public class Game {
 	 */
 	public static synchronized Game getInstance(int playersNumber) {
 		try {
-			if (instance == null || instance.playersNumber != playersNumber) {
+			if (instance == null ) {
 				instance = new Game(playersNumber);
 			}
 			return instance;
@@ -152,6 +151,10 @@ public class Game {
 		this.gameID = gameID;
 	}
 
+	public void setPlayersNumber(int playersNumber) {
+		this.playersNumber = playersNumber;
+	}
+
 	/**
 	 * * @return the list of listeners
 	 * */
@@ -186,9 +189,7 @@ public class Game {
 		return currentPlayer.getGoal();
 	}
 
-	public void setNumPlayers(int playersNumber) {
-		this.playersNumber = playersNumber;
-	}
+
 
 	/**
 	 * Returns the player at the specified position in the list of players.
@@ -226,50 +227,41 @@ public class Game {
 		}
 		return false;
 	}
+	public void createGame( GameListenerInterface lis){
+		listenersHandler.notify_requireNumPlayersGameID(lis, this);
 
+	}
 	/**
 	 * Adds a new player to the game.
 	 * after checking if there is space in the match and if the nickname is available
 	 * @param nickname the nickname of the player to be added.
-	 * @throws NicknameAlreadyTaken if the provided nickname is already taken.
-	 * @throws MatchFull if the game is full and cannot accommodate more players.
 	 */
-	public void addPlayer(String nickname) {
+	public void addPlayer(GameListenerInterface lis, String nickname) {
 		// Check if the game is not full and the nickname is not taken
-		try {
-			// Check if the game is not full
-			if (isFull()) {
-				// Game is full
-				listenersHandler.notify_JoinUnableGameFull(null, this);
-				throw new MatchFull("There are already 4 players");
-			}
 
-			// Check if the nickname is already taken
-			if (checkNickname(nickname)) {
-				// Nickname is already taken
-				listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
-				throw new NicknameAlreadyTaken("The nickname " + nickname + " is already taken");
-			}
+		// Check if the game is not full
+		if (isFull()) {
+			// Game is full
+			listenersHandler.notify_JoinUnableGameFull(lis, getPlayerByNickname(nickname), this);
+		}
 
+		// Check if the nickname is already taken
+		if (checkNickname(nickname)) {
+			// Nickname is already taken
+			listenersHandler.notify_JoinUnableNicknameAlreadyIn(lis, getPlayerByNickname(nickname));
+		}
+		else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname);
 			players.add(newPlayer);
+			addListener(lis);
 			scoretrack.addPlayer(newPlayer);
 			// Increment the number of players
 			playersNumber++;
 
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname);
-
-		} catch (NicknameAlreadyTaken e) {
-			// Handle the case where the nickname is already taken
-			System.err.println("Error: " + e.getMessage());
-
-		} catch (MatchFull e) {
-			// Handle the case where the game is full
-			System.err.println("Error: " + e.getMessage());
 		}
-
 	}
 
 	/**
@@ -318,7 +310,7 @@ public class Game {
 	public boolean arePlayersReadyToStartAndEnough() {
 		//If every player is ready, the game starts
 		return players.stream().filter(Player::getReadyToStart)
-				.count() == players.size() && players.size() >= DefaultValue.minNumOfPlayer;
+				.count() == playersNumber;
 	}
 	/**
 	 * @return the game status
@@ -483,6 +475,7 @@ public class Game {
 	 *            This index is used to fetch the card from the `temporaryInitialCard` array.
 	 */
 	public void setInitialCard(Player player, int pos){
+		System.out.println("Sono in setInitialCard del Model");
 		PlayableCard chosenInitialCard = temporaryInitialCard[pos];
 		Book playerBook= player.getPlayerBook();
 		playerBook.addInitial(chosenInitialCard);

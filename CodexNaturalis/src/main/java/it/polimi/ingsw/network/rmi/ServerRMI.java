@@ -32,12 +32,18 @@ import static java.rmi.registry.LocateRegistry.getRegistry;
  * by the RMI Network protocol
  */
 
-
+// implementa l'Interfaccia GameControllerInterface, contenete i metodi che il Client può invocare sul Server
+// Chiamando metodi della GameListenerInterface il Server può notificare al Client degli eventi di gioco (poi il Client reagirà di conseguenza)
 public class ServerRMI extends UnicastRemoteObject implements GameControllerInterface { //Capisci se: implements GameControllerInterface
     /**
      * ServerRMI object
      */
      private static ServerRMI serverObject = null;
+    /**
+     * MainController of all the games
+     */
+    private final GameControllerInterface gameController;
+
 
     /**
      * Registry associated with the RMI Server
@@ -106,6 +112,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     public ServerRMI() throws RemoteException {
         super();
+        gameController= GameController.getInstance();
     }
 
 
@@ -122,8 +129,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
             UnicastRemoteObject.unexportObject(getRegistry(), true);
             printAsync("Server RMI correctly closed");
         } catch (RemoteException e) {
-            e.printStackTrace();
             System.err.println("[ERROR] CLOSING RMI SERVER: \n\tServer RMI exception: " + e);
+            e.printStackTrace();
         } catch (NotBoundException e) {
             System.err.println("[ERROR] CLOSING RMI SERVER: \n\tServer RMI exception: " + e);
             e.printStackTrace();
@@ -132,15 +139,20 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         return getInstance();
     }
 
+    @Override
+    public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
+        serverObject.gameController.joinGame(lis, nick);
+        printAsync("[RMI] " + nick + " joined to game");
+    }
 
     @Override
     public boolean playerIsReadyToStart(String p) throws RemoteException {
-        return false;
+        return serverObject.gameController.playerIsReadyToStart(p);
     }
 
     @Override
     public boolean isThisMyTurn(String nick) throws RemoteException {
-        return false;
+        return serverObject.gameController.isThisMyTurn(nick);
     }
 
     @Override
@@ -165,27 +177,34 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
 
     @Override
     public void setInitialCard(String nickname, int index) throws RemoteException {
-
+        serverObject.gameController.setInitialCard(nickname,index);
     }
 
     @Override
-    public void setGoalCard(String nickname, int index) throws RemoteException, NotPlayerTurnException {
-
+    public void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException {
+        serverObject.gameController.setGoalCard(nickname,index);
     }
 
     @Override
-    public void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) throws RemoteException{
-
+    public void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) throws RemoteException {
+        serverObject.gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell);
     }
 
-    @Override
-    public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
 
-    }
 
     @Override
     public void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException {
+        serverObject.gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
+    }
+
+    @Override
+    public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname) throws RemoteException {
 
     }
+
+    /*@Override
+    public void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick) throws RemoteException{
+        serverObject.gameController.createGame(lis, numPlayers,GameID, nick);
+    }*/
 }
 

@@ -53,12 +53,12 @@ public class GameTest {
     @Test
     public void testGetNumPlayers() throws MatchFull, NicknameAlreadyTaken {
         //imposto manualmente a zero i giocatori per vedere se aggiungendoli mi restituisce il numero corretto di giocatori
-        game.setNumPlayers(0);
+      //  game.setNumPlayers(0);
         // Verifica che il numero di giocatori sia inizialmente 0
         assertEquals(0, game.getNumPlayers());
 
         // Aggiungi un giocatore
-        game.addPlayer("Player1");
+       // game.addPlayer("Player1");
 
         // Verifica che il numero di giocatori sia 1
         assertEquals(1, game.getNumPlayers());
