@@ -34,7 +34,7 @@ import static java.rmi.registry.LocateRegistry.getRegistry;
 
 // implementa l'Interfaccia GameControllerInterface, contenete i metodi che il Client può invocare sul Server
 // Chiamando metodi della GameListenerInterface il Server può notificare al Client degli eventi di gioco (poi il Client reagirà di conseguenza)
-public class ServerRMI extends UnicastRemoteObject implements GameControllerInterface { //Capisci se: implements GameControllerInterface
+public class ServerRMI extends UnicastRemoteObject implements GameControllerInterface, Serializable { //Capisci se è giusto che implementi Serializable
     /**
      * ServerRMI object
      */
@@ -176,29 +176,29 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
     @Override
-    public void setInitialCard(String nickname, int index) {
+    public void setInitialCard(String nickname, int index) throws RemoteException {
         serverObject.gameController.setInitialCard(nickname,index);
     }
 
     @Override
-    public void setGoalCard(String nickname, int index) throws NotPlayerTurnException {
+    public void setGoalCard(String nickname, int index) throws RemoteException, NotPlayerTurnException {
         serverObject.gameController.setGoalCard(nickname,index);
     }
 
     @Override
-    public void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) {
+    public void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) throws RemoteException {
         serverObject.gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell);
     }
 
 
 
     @Override
-    public void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos) {
+    public void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException {
         serverObject.gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
 
     @Override
-    public void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick) {
+    public void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick) throws RemoteException {
 
     }
 }

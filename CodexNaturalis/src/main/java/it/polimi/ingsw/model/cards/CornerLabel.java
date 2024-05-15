@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards;
 
-public enum CornerLabel {
+import java.io.Serializable;
+
+public enum CornerLabel implements Serializable {
     WithResource,
     WithSymbol,
     Empty,

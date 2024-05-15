@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards;
 
-public enum CornerType {
+import java.io.Serializable;
+
+public enum CornerType implements Serializable {
     TRCorner,
     TLCorner,
     BRCorner,
