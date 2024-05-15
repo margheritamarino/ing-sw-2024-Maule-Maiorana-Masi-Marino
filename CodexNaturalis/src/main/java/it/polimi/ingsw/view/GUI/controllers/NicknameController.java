@@ -10,8 +10,9 @@ import java.io.IOException;
  * NicknameController class.
  */
 public class NicknameController extends  ControllerGUI{
+
     @FXML
-    private TextField Nickname;
+    private TextField nickname;
 
     /**
      * Method to control the nickname.
@@ -19,8 +20,8 @@ public class NicknameController extends  ControllerGUI{
      * @throws IOException if there are connection problems
      */
     public void actionEnter(ActionEvent e) throws IOException {
-        if (!Nickname.getText().isEmpty()) {
-            getInputGUI().addTxt(Nickname.getText());
+        if (!nickname.getText().isEmpty()) {
+            getInputGUI().addTxt(nickname.getText());
         }
     }
 }
