@@ -249,16 +249,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-    @Override
-    public void CardsReady(GameImmutable model) throws RemoteException {
-        try {
-            out.writeObject(new msgCardsReady(model));
-            finishSending();
-        } catch (IOException e) {
-            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            throw new RemoteException("Failed Last_Circle message", e);
-        }
-    }
+
 
     /**
      * This method is used to write on the ObjectOutputStream that a player has disconnected
