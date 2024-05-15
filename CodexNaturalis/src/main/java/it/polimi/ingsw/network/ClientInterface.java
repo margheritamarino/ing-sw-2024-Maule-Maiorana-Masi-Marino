@@ -18,23 +18,17 @@ public interface ClientInterface  {
     /**
      * Adds the player to the game
      *
-     * @param nick
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws NotBoundException
+     *
      */
     void joinGame(String nick) throws IOException, InterruptedException, NotBoundException;
 
     //FUNZIONALITA AGGIUNTIVA
 
-    void createGame(int numPlayers, int GameID, String nickname)throws IOException;
 
     /**
      * Leaves the game
      *
-     * @param nick
-     * @throws IOException
-     * @throws NotBoundException
+     *
      */
     void leave(String nick) throws IOException, NotBoundException;
 
@@ -55,6 +49,8 @@ public interface ClientInterface  {
 
 */
     void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
+
+    void settingGame(int numPlayers, int GameID)throws IOException;
 
     void setInitialCard(int index) throws IOException;
     void setGoalCard(int index) throws IOException, NotPlayerTurnException;

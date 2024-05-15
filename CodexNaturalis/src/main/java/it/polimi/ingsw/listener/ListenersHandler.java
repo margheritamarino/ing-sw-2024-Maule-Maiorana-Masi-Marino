@@ -39,7 +39,14 @@ public class ListenersHandler {
         listeners.add(listener);
         System.out.println("Client correttamente aggiunto come LISTENER del Server");
     }
+    public synchronized void notify_requireNumPlayersGameID(GameListenerInterface listener,Game model ){
+        try {
+            listener.requireNumPlayersGameID(new GameImmutable(model));
+        }catch (RemoteException e){
+            printAsync("During notification of notify_askCreateGame, a disconnection has been detected before heartbeat");
+        }
 
+    }
     /**
      * Removes a new GameListener from the list.
      * @param listener the listener to remove

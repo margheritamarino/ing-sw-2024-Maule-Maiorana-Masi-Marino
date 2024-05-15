@@ -55,7 +55,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
             case RMI -> {
-                System.out.println("RMI correttamente aggiunto a clientActions");
                 clientActions = new ClientRMI(this);
 
             }
@@ -152,7 +151,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case GAME_STARTED -> {
                 ui.show_gameStarted(event.getModel());
                 this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
-                this.inputController.setGameID(event.getModel().getGameId());
+               // this.inputController.setGameID(event.getModel().getGameId());
             }
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
@@ -188,13 +187,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case BACK_TO_MENU -> {
                 //ciclo per chiedere al giocatore di selezionare una partita valida
                 askNickname();
-                if(!GameController.getInstance().isGameCreated()){
-                    int numPlayers = askNumPlayers();
-                    int GameID= askGameID();
-                    createGame(numPlayers,GameID, nickname);
-                }
-                else
-                    joinGame(nickname); //non gli faccio scegliere l'ID
+                joinGame(nickname);
 
             }
 
@@ -519,7 +512,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         return drawFromDeck;
     }
 
-
+    @Override
+    public void settingGame(int numPlayers, int GameID){
+        try {
+            clientActions.settingGame(numPlayers, GameID);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
     @Override
     public void setInitialCard(int index) {
         try {
@@ -601,7 +601,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void joinUnableNicknameAlreadyIn(Player tryToJoin) throws RemoteException {
-        //System.out.println("[EVENT]: "+ tryToJoin.getNickname() + " has already in");
         events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
 
@@ -632,6 +631,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_gameEnded(gameImmutable);
         //TODO quando aggiungiamo la disconnessione fai metodo RESET gioco
     }
+    @Override
+    public void requireNumPlayersGameID(GameImmutable model)throws RemoteException {
+
+        int numPlayers=askNumPlayers();
+        int GameID= askGameID();
+        settingGame(numPlayers, GameID);
+
+    }
+
 
     /** Prompts the user to choose between the front or back of the available Initial Cards.
      *   The method continues prompting the user for a valid choice until one is provided.
@@ -735,14 +743,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
-    @Override
-    public void createGame(int numPlayers,int GameID, String nickname) {
-        try {
-            clientActions.createGame(numPlayers, GameID,nickname);
-        } catch (IOException e ) {
-            noConnectionError();
-        }
-    }
+
 
     @Override
     public void leave(String nick) {

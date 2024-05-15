@@ -228,13 +228,14 @@ public class Game {
 		}
 		return false;
 	}
+	public void createGame( GameListenerInterface lis){
+		listenersHandler.notify_requireNumPlayersGameID(lis, this);
 
+	}
 	/**
 	 * Adds a new player to the game.
 	 * after checking if there is space in the match and if the nickname is available
 	 * @param nickname the nickname of the player to be added.
-	 * @throws NicknameAlreadyTaken if the provided nickname is already taken.
-	 * @throws MatchFull if the game is full and cannot accommodate more players.
 	 */
 	public void addPlayer(String nickname) {
 		// Check if the game is not full and the nickname is not taken

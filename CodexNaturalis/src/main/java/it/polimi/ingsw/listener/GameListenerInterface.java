@@ -23,7 +23,7 @@ public interface GameListenerInterface extends Remote {
      * @throws RemoteException if the reference could not be accessed
      */
     void playerJoined(GameImmutable model, String nickname) throws RemoteException;
-
+    void requireNumPlayersGameID(GameImmutable model)throws RemoteException;
 
     /**
      * This method is used to notify the client that a player has to choose again the CARD

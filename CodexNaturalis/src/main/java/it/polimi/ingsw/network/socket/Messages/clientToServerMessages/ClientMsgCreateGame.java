@@ -23,7 +23,7 @@ public class ClientMsgCreateGame extends ClientGenericMessage {
 
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        gameController.createGame(lis,numPlayers, GameID, this.nickname);
+        gameController.settingGame(lis,numPlayers, GameID, this.nickname);
     }
 
 
