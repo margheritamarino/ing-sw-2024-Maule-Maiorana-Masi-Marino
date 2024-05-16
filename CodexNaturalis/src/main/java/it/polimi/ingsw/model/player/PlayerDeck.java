@@ -75,20 +75,32 @@ public class PlayerDeck implements Serializable{
 
      public String toString(){
           StringBuilder result = new StringBuilder();
-          result.append("*******YOUR DECK*******\n");
+          result.append("**********YOUR DECK**********\n");
+          result.append("\n");
           result.append("CARD 0: front\n");
           result.append(miniDeck.get(0).toString());
+          result.append("\n");
           result.append("CARD 0: back\n");
           result.append(miniDeck.get(1).toString());
+          result.append("\n");
+          result.append("---------------------------\n");
+          result.append("\n");
           result.append("CARD 1: front\n");
           result.append(miniDeck.get(2).toString());
+          result.append("\n");
           result.append("CARD 1: back\n");
           result.append(miniDeck.get(3).toString());
+          result.append("\n");
+          result.append("---------------------------\n");
+          result.append("\n");
           result.append("CARD 2: front\n");
           result.append(miniDeck.get(4).toString());
+          result.append("\n");
           result.append("CARD 2: back\n");
           result.append(miniDeck.get(5).toString());
-
+          result.append("\n");
+          result.append("***************************\n");
+          result.append("\n");
           return result.toString();
      }
 

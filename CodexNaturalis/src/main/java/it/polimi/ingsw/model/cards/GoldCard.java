@@ -210,6 +210,7 @@ public class GoldCard extends PlayableCard implements Serializable {
         result.append("Placement condition: ");
         String formattedCondition = String.join(" ", conditionEmoji);
         result.append(formattedCondition);
+        result.append("\n");
 
         return result.toString();
     }
