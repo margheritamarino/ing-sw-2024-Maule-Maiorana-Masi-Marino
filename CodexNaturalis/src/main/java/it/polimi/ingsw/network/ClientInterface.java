@@ -14,7 +14,6 @@ import java.rmi.RemoteException;
 public interface ClientInterface  {
 
 
-
     /**
      * Adds the player to the game
      *
@@ -62,6 +61,7 @@ public interface ClientInterface  {
     void ping () throws RemoteException;
 
 
+    void makeGameStart(String nick)throws IOException;
 }
 
 
