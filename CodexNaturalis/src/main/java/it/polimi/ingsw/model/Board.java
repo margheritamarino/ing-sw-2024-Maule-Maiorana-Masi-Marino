@@ -240,28 +240,51 @@ public class Board implements Serializable {
     @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
-        result.append("*******BOARD*******\n");
+        result.append("***********BOARD***********\n");
+        result.append("\n");
         //GOLDCARDS
-        result.append("GOLDCARDS DECK: \n");
+        result.append("***GOLDCARDS DECK(back)***: \n");
         result.append(goldCardsDeck.getBackCards().get(0).toString());
+        result.append("\n");
+        result.append("***************************\n");
         result.append("GOLDCARD 0: \n");
         result.append(goldCards.get(0)[0].toString());
+        result.append("\n");
+        result.append("----------------------------\n");
+        result.append("\n");
         result.append("GOLDCARD 1: \n");
         result.append(goldCards.get(1)[0].toString());
-
+        result.append("\n");
+        result.append("----------------------------\n");
+        result.append("\n");
         //RESOURCECARD
-        result.append("RESOURCECARDS DECK: \n");
+        result.append("***RESOURCECARDS DECK(back)***: \n");
         result.append(resourcesCardsDeck.getBackCards().get(0).toString());
+        result.append("\n");
+        result.append("***************************\n");
         result.append("RESOURCECARD 0: \n");
         result.append(resourceCards.get(0)[0].toString());
+        result.append("\n");
+        result.append("----------------------------\n");
+        result.append("\n");
         result.append("RESOURCECARD 1: \n");
         result.append(resourceCards.get(1)[0].toString());
-
+        result.append("\n");
+        result.append("----------------------------\n");
+        result.append("\n");
+        result.append("\n");
         //OBJECTIVE
+        result.append("*******COMMON GOALS*******: \n");
         result.append("OBJECTIVECARD 0: \n");
         result.append(objectiveCards[0].toString());
+        result.append("\n");
+        result.append("----------------------------\n");
+        result.append("\n");
         result.append("OBJECTIVECARD 1: \n");
         result.append(objectiveCards[1].toString());
+        result.append("\n");
+        result.append("----------------------------\n");
+        result.append("\n");
 
         return result.toString();
     }
