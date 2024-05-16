@@ -217,14 +217,15 @@ public class ClientRMI implements ClientInterface {
      * Ask the Socket Server to set the player as ready
      * @throws IOException
      */
-    @Override
+
     public void setAsReady() throws IOException {
         try {
-            gameController.playerIsReadyToStart(nickname);
+            gameController.playerIsReadyToStart(modelInvokedEvents, nickname);
         } catch (RemoteException e) {
             throw new IOException(e);
         }
     }
+
 
     //TODO
     @Override
