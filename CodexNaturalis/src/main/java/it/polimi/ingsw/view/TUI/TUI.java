@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerDeck;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -118,7 +119,9 @@ public class TUI extends UI {
 
     public void show_playerDeck(GameImmutable model, String nick) {
         Player p = model.getPlayerByNickname(nick);
-        printAsync(p.getPlayerDeck().toString());
+        for (int i = 0; i < p.getPlayerDeck().getMiniDeck().size(); i++) {
+            printAsync("[" + i + "]: " + p.getPlayerDeck().getMiniDeck().get(i).toString());
+        }
     }
 
     @Override
@@ -200,12 +203,12 @@ public class TUI extends UI {
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
-        printAsync("WAIT! It's "+ model.getCurrentPlayer().getNickname()+" TURN");
+        printAsync("WAIT! It's "+ model.getCurrentPlayer().getNickname()+" TURN\n");
 
     }
     @Override
     public void show_CurrentTurnMsg(){
-        printAsync("It's your TURN!!");
+        printAsync("It's your TURN!\n");
     }
     @Override
     public void show_gameStarted(GameImmutable model) {
@@ -223,38 +226,38 @@ public class TUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to Place a card!" );
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to Place a card!\n" );
     }
 
     @Override
     public void show_PickCardMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to pick a card!" );
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to pick a card!\n" );
     }
 
     @Override
     public void show_askCardType(GameImmutable model, String nickname){
-        printAsync("Which card do you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card: " );
+        printAsync("Which card do you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card: \n" );
     }
 
     @Override
     public void show_askDrawFromDeck(GameImmutable model, String nickname){
-        printAsync("Press Y if you want to draw from deck or N if you want a visible card: " );
+        printAsync("Press Y if you want to draw from deck or N if you want a visible card: \n" );
     }
 
     @Override
     public void show_askWhichCellMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to choose a cell to place the card!" );
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to choose a cell to place the card!\n" );
     }
 
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname){
-        printAsync("ERROR: invalid selection. Choose again!" );
+        printAsync("ERROR: invalid selection. Choose again!\n" );
 
     }
 
     @Override
     public void show_cardPlacedMsg(GameImmutable model){
-        printAsync( model.getCurrentPlayer().getNickname() + " has placed a card!" );
+        printAsync( model.getCurrentPlayer().getNickname() + " has placed a card!\n" );
     }
 
     @Override
@@ -264,19 +267,19 @@ public class TUI extends UI {
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model){
-        printAsync( model.getCurrentPlayer().getNickname() + " has drawn a card!" );
+        printAsync( model.getCurrentPlayer().getNickname() + " has drawn a card!\n" );
     }
 
     @Override
     public void show_pointsAddedMsg(GameImmutable model){
-        printAsync(model.getCurrentPlayer().getNickname() + " scored some points!");
-        printAsync("New total score: ");
+        printAsync(model.getCurrentPlayer().getNickname() + " scored some points!\n");
+        printAsync("New total score: \n");
         show_scoretrack(model);
     }
 
     @Override
     public void show_joiningToGameMsg(String nickname){
-        printAsync("Trying to join a game...");
+        printAsync("Trying to join a game...\n");
     }
 
 
@@ -313,7 +316,7 @@ public class TUI extends UI {
 
     @Override
     public void show_insertNicknameMessage(){
-        printAsync("Insert your nickname: ");
+        printAsync("Insert your nickname: \n");
     }
 
     @Override
@@ -325,13 +328,13 @@ public class TUI extends UI {
     public void show_gameEnded(GameImmutable model) {
         clearScreen();
         show_titleCodexNaturalis();
-        printAsync("GAME ENDED");
+        printAsync("GAME ENDED\n");
 
     }
 
     @Override
     public void show_returnToMenuMsg() {
-        printAsync("You are back in the menu!");
+        printAsync("You are back in the menu!\n");
     }
     @Override
     public void show_temporaryInitialCards(GameImmutable model){

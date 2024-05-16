@@ -904,6 +904,7 @@ public class Book implements Serializable {
             System.out.print("─");
         }
         System.out.println("┘");
+        System.out.println("\n");
         return false;
     }
 
