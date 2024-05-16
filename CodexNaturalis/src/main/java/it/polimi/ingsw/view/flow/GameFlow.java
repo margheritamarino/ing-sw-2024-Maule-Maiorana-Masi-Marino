@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.flow;
 
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
@@ -12,10 +11,9 @@ import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.rmi.ClientRMI;
 import it.polimi.ingsw.network.socket.client.ClientSocket;
-import it.polimi.ingsw.view.Utilities.InputController;
-import it.polimi.ingsw.view.Utilities.InputReader;
-import it.polimi.ingsw.view.Utilities.InputTUI;
-import it.polimi.ingsw.view.Utilities.UI;
+import it.polimi.ingsw.view.GUI.GUI;
+import it.polimi.ingsw.view.GUI.GUIApplication;
+import it.polimi.ingsw.view.Utilities.*;
 import it.polimi.ingsw.view.TUI.TUI;
 import it.polimi.ingsw.view.events.Event;
 import it.polimi.ingsw.view.events.EventList;
@@ -65,6 +63,22 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         nickname = "";
 
         this.inputReader = new InputTUI();
+        this.inputController = new InputController(this.inputReader.getBuffer(), this);
+
+        new Thread(this).start();
+
+    }
+
+    public GameFlow(GUIApplication guiApplication, ConnectionType connectionType){
+        switch (connectionType){
+            case SOCKET -> clientActions = new ClientSocket(this);
+            case RMI -> clientActions = new ClientRMI(this);
+        }
+        this.inputReader = new InputGUI();
+        ui = new GUI(guiApplication, (InputGUI) inputReader);
+        importantEvents = new ArrayList<>();
+        nickname = "";
+
         this.inputController = new InputController(this.inputReader.getBuffer(), this);
 
         new Thread(this).start();
@@ -136,13 +150,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String nicknameLastPlayer = event.getModel().getLastPlayer().getNickname();
         switch (event.getType()) {
             case PLAYER_JOINED -> {
-                System.out.println("In StatusWait gestisco evento PLAYER_JOINED");
-                //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
-                //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                 if (nicknameLastPlayer.equals(nickname)) {
                     ui.show_playerJoined(event.getModel(), nickname);
                     askReadyToStart(event.getModel(), nickname);
                 }
+            }
+            case CARDS_READY -> {
+                System.out.println("sono nel case Cards_Ready");
+                makeGameStart(nickname);
             }
 
 
@@ -156,7 +171,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case GAME_STARTED -> {
                 ui.show_gameStarted(event.getModel());
                 this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
-               // this.inputController.setGameID(event.getModel().getGameId());
+                this.inputController.setGameID(event.getModel().getGameId());
             }
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
@@ -523,6 +538,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
+    @Override
+    public void makeGameStart(String nick){
+        System.out.println("sono anbcora in gameflow");
+        try {
+            clientActions.makeGameStart(nick);
+        } catch (IOException e) {
+            noConnectionError();
+        }
+    }
 
     @Override
     public void setInitialCard(int index) {
@@ -563,12 +587,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void playerJoined(GameImmutable gameModel, String nickname) {
         //shared.setLastModelReceived(gameModel);
         events.add(gameModel, EventType.PLAYER_JOINED);
-        System.out.println("sono in playerJoined in GameFlow e ho aggiunto l'evento PLAYER_JOINED");
-
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
        // ui.show_playerJoined(gameModel, nickname);
-        System.out.println("sono in playerJoined in GameFlow e ho aggiunto l'evento PLAYER_JOINED");
-
         ui.addImportantEvent("[EVENT]: Player " + nickname + " joined the game!");
 
     }
@@ -610,17 +630,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
 
-
+    @Override
+    public void cardsReady(GameImmutable model, String nickname)throws RemoteException{
+        if(nickname.equals(nickname)){
+            ui.show_playerDeck(model, nickname);
+        }
+        events.add(model, EventType.CARDS_READY);
+    }
     /**
      * Print that a player is ready to start
      * @param model is the game model
      * @param nick is the nickname of the player that is ready to start
      */
-    @Override
-    public void playerIsReadyToStart(GameImmutable model, String nick) throws IOException {
-        ui.show_playerJoined(model, nickname);
-        events.add(model, EventType.PLAYER_READY);
-    }
 
     /**
      * The game started
@@ -690,7 +711,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_ObjectiveCards(model);
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Choose the Objective card:", model), -1);
+            index = Objects.requireNonNullElse(askNum("\t> Insert [0] front - [1] back:", model), -1);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 index = null;

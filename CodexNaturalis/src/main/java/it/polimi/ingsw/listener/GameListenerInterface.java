@@ -60,16 +60,6 @@ public interface GameListenerInterface extends Remote {
     void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException;
 
 
-
-    /**
-     * This method is used to notify that the player is ready to start the game
-     * @param model is the game model
-     * @param nick is the nickname of the player that is ready to start
-     * @throws IOException if the reference could not be accessed
-     */
-    void playerIsReadyToStart(GameImmutable model, String nick) throws RemoteException, IOException;
-
-
     /**
      * This method is used to notify the client that the game has started
      * @param model is the game model {@link GameImmutable}
@@ -138,4 +128,5 @@ public interface GameListenerInterface extends Remote {
      */
     void lastCircle(GameImmutable model) throws RemoteException;
 
+    void cardsReady(GameImmutable gameImmutable, String nickname)throws RemoteException;
 }

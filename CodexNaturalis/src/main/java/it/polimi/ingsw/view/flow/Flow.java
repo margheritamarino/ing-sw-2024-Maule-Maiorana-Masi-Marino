@@ -3,6 +3,8 @@ import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 
+import java.rmi.RemoteException;
+
 
 public abstract class Flow implements GameListenerInterface {
 
@@ -28,6 +30,7 @@ public abstract class Flow implements GameListenerInterface {
 //        fileDisconnection.setLastGameId(nick, gameId);
 //    }
 //
+
 
     /**
      * Shows no connection error

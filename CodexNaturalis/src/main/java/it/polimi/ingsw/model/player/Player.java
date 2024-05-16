@@ -222,6 +222,18 @@ public class Player implements Serializable {
             }
         }
     }
+    public synchronized void notify_cardsReady( Game model){
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.cardsReady(new GameImmutable(model), nickname);
+            } catch ( IOException e) {
+                printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
 
     public synchronized void notify_requireGoals( Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();

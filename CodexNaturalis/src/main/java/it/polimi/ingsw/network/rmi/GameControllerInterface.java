@@ -19,7 +19,7 @@ public interface GameControllerInterface extends Remote {
      * @param p the nickname of the player
      * @throws RemoteException if the connection fails
      */
-    boolean playerIsReadyToStart(GameListenerInterface lis, String p ) throws RemoteException;
+    void playerIsReadyToStart(GameListenerInterface lis, String p ) throws RemoteException;
 
 
 
@@ -81,4 +81,5 @@ public interface GameControllerInterface extends Remote {
 
     void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname)throws RemoteException;
 
+    boolean makeGameStart(GameListenerInterface lis, String nickname)throws RemoteException;
 }

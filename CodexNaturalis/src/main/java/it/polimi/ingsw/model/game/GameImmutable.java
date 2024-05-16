@@ -36,7 +36,7 @@ public class GameImmutable implements Serializable {
     private final ArrayList<ObjectiveCard> temporaryObjectiveCards;
     private final Board board;
     private final GameStatus status;
-
+    private final int[] orderArray;
 
     /**
      * Constructor
@@ -52,6 +52,7 @@ public class GameImmutable implements Serializable {
         status = modelToCopy.getStatus();
         temporaryInitialCard = modelToCopy.getTemporaryInitialCardsDeck();
         temporaryObjectiveCards = modelToCopy.getTemporaryObjectiveCardsDeck();
+        this.orderArray = modelToCopy.getOrderArray();
     }
 
     /**
@@ -142,6 +143,15 @@ public class GameImmutable implements Serializable {
         for (Player p : players) {
             ris.append("[#").append(i).append("]: ").append(p.getNickname()).append("\n");
             i++;
+        }
+        return ris.toString();
+    }
+    public String toStringListOrderArray() {
+        StringBuilder ris = new StringBuilder();
+
+        for (int o : orderArray) {
+            ris.append("[#").append(o).append("]: ").append(players.get(o).getNickname()).append("\n");
+
         }
         return ris.toString();
     }

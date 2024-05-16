@@ -146,23 +146,32 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @param p Player to set has ready
      */
     @Override
-    public synchronized boolean playerIsReadyToStart( GameListenerInterface lis, String p) {
+    public synchronized void playerIsReadyToStart( GameListenerInterface lis, String p) {
+        System.out.println("sdono in gameController");
         model.playerIsReadyToStart(model.getPlayerByNickname(p));
         model.initializeCards( lis, model.getPlayerByNickname(p));
 
+    }
+    public synchronized boolean makeGameStart(GameListenerInterface lis, String nickname) {
+
+        System.out.println("sono in gameController");
+        System.out.println(model.getNumReady());
         if (model.arePlayersReadyToStartAndEnough()) {
+            System.out.println("Sono in ENOUGH");
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
+            System.out.println("Sono in chooseOrderPlayers");
             ArrayList<Player> players= model.getPlayers();
             int[] orderArray= model.getOrderArray();
             model.setCurrentPlayer(players.get(orderArray[0]));
-
+            System.out.println("Sono in setCurrentPlayer");
             model.initializeBoard();
+            System.out.println("Sono dopo initializeBoard");
             model.setInitialStatus();
             return true;
         }
-        return false;
+        else
+            return false;
     }
-
 
     @Override
     public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int colCell){

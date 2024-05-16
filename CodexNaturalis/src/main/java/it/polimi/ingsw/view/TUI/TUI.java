@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.TUI;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.player.Player;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -51,7 +52,12 @@ public class TUI extends UI {
 
     public void show_allPlayers(GameImmutable model) {
         //toStringListPlayer restituisce la lista dei giocatori attuali
-        printAsync("Players: \n" + model.toStringListPlayers());
+        printAsync( model.toStringListPlayers());
+
+    }
+    public void show_OrderPlayers(GameImmutable model) {
+        //toStringListPlayer restituisce la lista dei giocatori attuali
+        printAsync("The ORDER of the players is: \n" + model.toStringListOrderArray());
 
     }
 
@@ -107,8 +113,13 @@ public class TUI extends UI {
     }
 
     @Override
-    protected void show_playerDeck(GameImmutable model) {
+    public void show_playerDeck(GameImmutable model) {
         printAsync(model.getCurrentPlayer().getPlayerDeck().toString());
+    }
+
+    public void show_playerDeck(GameImmutable model, String nick) {
+        Player p = model.getPlayerByNickname(nick);
+        printAsync(p.getPlayerDeck().toString());
     }
 
     @Override
@@ -134,7 +145,9 @@ public class TUI extends UI {
     public void show_playerJoined(GameImmutable gameModel, String nick) {
         clearScreen();
         show_welcome(nick);
-        printAsync("GameID: [" + gameModel.getGameId().toString() + "]\n");
+        printAsync("GameID: [" + gameModel.getGameId().toString() + "]");
+        printAsync("Players in the LOBBY:");
+        show_allPlayers(gameModel);
         System.out.flush(); //Svuota il buffer di output per garantire che tutti i dati scritti siano visibili immediatamente
     }
 
@@ -160,7 +173,8 @@ public class TUI extends UI {
 
     @Override
     public void show_whichObjectiveCards() {
-        printAsync("> Choose the first[0] or the second[1] objective cards:");
+        printAsync("Set your GOAL for the Game:");
+        printAsync("> Choose one between these objective cards:");
     }
 
     @Override
@@ -189,9 +203,14 @@ public class TUI extends UI {
     public void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_publisher();
-        this.show_titleCodexNaturalis();
-        this.show_allPlayers(model); //mostra la lista dei giocatori
-        this.show_alwaysShowForAll(model);
+        printAsync(ansi().fg(DEFAULT).a("GAME STARTED!"));
+        show_OrderPlayers(model);
+        show_board(model);
+        show_scoretrack(model);
+
+      //  this.show_titleCodexNaturalis();
+       // this.show_allPlayers(model); //mostra la lista dei giocatori
+      //  this.show_alwaysShowForAll(model);
     }
 
     @Override

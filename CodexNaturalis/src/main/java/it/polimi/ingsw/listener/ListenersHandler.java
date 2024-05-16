@@ -148,24 +148,6 @@ public class ListenersHandler {
     }
 
 
-    /**
-     * The notify_PlayerIsReadyToStart method notifies that a player is ready to start the game
-     * @param model is the GameModel to pass as a new GameModelImmutable {@link GameImmutable}
-     * @param nick is the nickname of the player that is ready to start the game
-     */
-    public synchronized void notify_PlayerIsReadyToStart(Game model, String nick) {
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.playerIsReadyToStart(new GameImmutable(model), nick);
-            } catch (IOException e) {
-                printAsync("During notification of notify_PlayerIsReadyToStart, a disconnection has been detected before heartbeat");
-                i.remove();
-            }
-        }
-    }
-
 
     /**
      * The notify_GameStarted method notifies that the game has started

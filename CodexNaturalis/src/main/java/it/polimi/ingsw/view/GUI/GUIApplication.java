@@ -31,7 +31,7 @@ public class GUIApplication extends Application {
     //metodo principe della classe Application che viene chiamato quando l'applicazione JavaFX viene avviata
     @Override
     public void start(Stage primaryStage) {
-        gameFlow = new GameFlow(ConnectionType.valueOf(getParameters().getUnnamed().get(0))); //TODO
+        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().get(0))); //TODO
         loadScenes(); //carica le scene
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Codex Naturalis");
