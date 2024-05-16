@@ -63,7 +63,6 @@ public class TUI extends UI {
 
     //show di ciò che deve sempre essere mostrato ad ogni giocatore
     public void show_alwaysShow(GameImmutable model, String nick) {
-        show_alwaysShowForAll(model);
         show_playerDeck(model);
         show_playerBook(model);
     }
@@ -200,6 +199,15 @@ public class TUI extends UI {
     }
 
     @Override
+    public void show_WaitTurnMsg(GameImmutable model, String nickname) {
+        printAsync("WAIT! It's "+ model.getCurrentPlayer().getNickname()+" TURN");
+
+    }
+    @Override
+    public void show_CurrentTurnMsg(){
+        printAsync("It's your TURN!!");
+    }
+    @Override
     public void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_publisher();
@@ -215,7 +223,7 @@ public class TUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to draw a card!" );
+        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to Place a card!" );
     }
 
     @Override

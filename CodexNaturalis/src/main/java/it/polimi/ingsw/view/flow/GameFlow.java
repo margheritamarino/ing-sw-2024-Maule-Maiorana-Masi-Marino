@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.flow;
 
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
@@ -174,6 +175,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_gameStarted(event.getModel());
                 this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
                 this.inputController.setGameID(event.getModel().getGameId());
+                if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
+                    ui.show_CurrentTurnMsg();
+                    askPlaceCards(event.getModel(), nickname);
+                }
+                else{
+                    ui.show_WaitTurnMsg(event.getModel(), nickname);
+                }
             }
             case NEXT_TURN -> {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {

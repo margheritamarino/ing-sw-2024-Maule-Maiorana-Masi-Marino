@@ -264,6 +264,7 @@ public class Game {
 
 	}
 
+
 	/**
 	 * Chooses a random first player from the array of players, assigns them to currentPlayer,
 	 * and saves the order of players for the next turns starting from the first player.
@@ -274,7 +275,7 @@ public class Game {
 
 		Random random = new Random();
 		int randomIndex = random.nextInt(players.size());
-		currentPlayer = players.get(randomIndex);
+		this.currentPlayer = players.get(randomIndex);
 
 		// Create an array to store the order of players starting from the chosen first player
 		int[] orderArray = new int[players.size()];
