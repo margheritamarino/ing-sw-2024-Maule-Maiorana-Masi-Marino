@@ -179,7 +179,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         if(currentPlayer.equals(model.getCurrentPlayer())){
             int points= model.placeCardTurn(model.getPlayerByNickname(playerName), chosenCard, rowCell, colCell);
             model.addPoints(model.getPlayerByNickname(playerName), points);
-
         }
     }
 

@@ -39,9 +39,9 @@ public class Book implements Serializable {
     }
 
     public void initializePrintMatrix(){
-        this.matrix = new String[DefaultValue.BookSizeMin][DefaultValue.BookSizeMin];
-        for (int i = 0; i < DefaultValue.BookSizeMin; i++) {
-            for (int j = 0; j < DefaultValue.BookSizeMin; j++) {
+        this.matrix = new String[DefaultValue.BookSizeMax][DefaultValue.BookSizeMax];
+        for (int i = 0; i < DefaultValue.BookSizeMax; i++) {
+            for (int j = 0; j < DefaultValue.BookSizeMax; j++) {
                 matrix[i][j] = " ";
             }
         }
@@ -904,6 +904,7 @@ public class Book implements Serializable {
             System.out.print("─");
         }
         System.out.println("┘");
+        System.out.println("\n");
         return false;
     }
 

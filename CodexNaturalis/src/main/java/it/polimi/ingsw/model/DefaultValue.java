@@ -9,7 +9,7 @@ public class DefaultValue implements Serializable {
 
     public final static int BookSizeMax = 70;
 
-    public final static int BookSizeMin = 70;
+    public final static int BookSizeMin = 0;
     public final static int MaxNumOfPlayer = 4;
     public final static int minNumOfPlayer = 2;
 
