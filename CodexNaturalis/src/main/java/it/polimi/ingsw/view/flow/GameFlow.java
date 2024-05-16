@@ -151,6 +151,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         switch (event.getType()) {
             case PLAYER_JOINED -> {
                 if (nicknameLastPlayer.equals(nickname)) {
+                    System.out.println("In StatusWait gestisco evento PLAYER_JOINED");
+                    //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
+                    //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                     ui.show_playerJoined(event.getModel(), nickname);
                     askReadyToStart(event.getModel(), nickname);
                 }
@@ -540,7 +543,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
     @Override
     public void makeGameStart(String nick){
-        System.out.println("sono anbcora in gameflow");
+        System.out.println("sono ancora in gameflow MAKE GAME START");
         try {
             clientActions.makeGameStart(nick);
         } catch (IOException e) {

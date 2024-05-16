@@ -69,6 +69,7 @@ public class ListenersHandler {
      * @param model is the Game to pass as a new GameModelImmutable
      */
     public synchronized void notify_PlayerJoined(Game model, String nickname) {
+        System.out.println("Sono in notify_PlayerJoined di ListenersHandler");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();

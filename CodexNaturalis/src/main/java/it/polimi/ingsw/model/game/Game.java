@@ -236,7 +236,7 @@ public class Game {
 	 */
 	public void addPlayer(GameListenerInterface lis, String nickname) {
 		// Check if the game is not full and the nickname is not taken
-
+		System.out.println("Sono in addPlayer nel model: sto aggiungendo il giocatore al game");
 		// Check if the game is not full
 		if (isFull()) {
 			// Game is full
@@ -256,8 +256,7 @@ public class Game {
 			addListener(lis);
 
 			scoretrack.addPlayer(newPlayer);
-			// Increment the number of players
-			playersNumber++;
+
 
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname);
@@ -319,10 +318,11 @@ public class Game {
 	public boolean arePlayersReadyToStartAndEnough() {
 		//If every player is ready, the game starts
 		int numReady=0;
-		 for(Player p: players)
-				if(p.getReadyToStart())
-					numReady++;
-
+		 for(Player p: players) {
+			 if (p.getReadyToStart()) {
+				 numReady++;
+			 }
+		 }
 		 if(numReady== playersNumber)
 			 return true;
 		 else
@@ -386,10 +386,10 @@ public class Game {
 			// Verifying all conditions together
 			if (!(board.verifyGoldCardsNumber() &&
 					board.verifyResourceCardsNumber() &&
-					board.verifyObjectiveCardsNumber() &&
-					board.verifyGoldDeckSize(playersNumber) &&
-					board.verifyResourceDeckSize(playersNumber) &&
-					board.verifyObjectiveDeckSize(playersNumber))) {
+					board.verifyObjectiveCardsNumber()) ){
+					//board.verifyGoldDeckSize(playersNumber) &&
+					//board.verifyResourceDeckSize(playersNumber) &&
+					//board.verifyObjectiveDeckSize(playersNumber))) {
 				throw new BoardSetupException("Board setup is incorrect");
 				}
 

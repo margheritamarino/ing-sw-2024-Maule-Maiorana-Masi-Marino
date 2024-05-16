@@ -201,7 +201,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
 
     @Override
     public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname) throws RemoteException {
-
+        serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname);
     }
 
     @Override

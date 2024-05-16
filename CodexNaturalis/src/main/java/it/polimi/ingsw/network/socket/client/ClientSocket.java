@@ -212,6 +212,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void setAsReady() throws IOException {
+        System.out.println("sono in ClientSocket--> setAsReady ");
         out.writeObject(new ClientMsgSetReady(nickname));
         finishSending();
     }
