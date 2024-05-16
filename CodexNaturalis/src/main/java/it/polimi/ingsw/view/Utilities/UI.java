@@ -99,4 +99,6 @@ public abstract class UI {
     public abstract void show_playerDeck(GameImmutable model, String nickname) ;
 
     public abstract void show_WaitTurnMsg(GameImmutable model, String nickname) ;
+
+    public abstract void show_visibleCardsBoard(GameImmutable model);
 }

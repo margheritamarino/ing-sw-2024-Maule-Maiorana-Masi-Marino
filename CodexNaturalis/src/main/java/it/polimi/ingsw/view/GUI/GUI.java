@@ -283,4 +283,8 @@ public class GUI extends UI {
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
 
     }
+    @Override
+    public void show_visibleCardsBoard(GameImmutable model){
+
+    }
 }

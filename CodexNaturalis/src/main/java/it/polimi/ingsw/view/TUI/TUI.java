@@ -117,8 +117,8 @@ public class TUI extends UI {
     @Override
     public void show_playerDeck(GameImmutable model, String nick) {
         Player p = model.getPlayerByNickname(nick);
-        for (int i = 0; i < p.getPlayerDeck().getMiniDeck().size(); i++) {
-            printAsync("[" + i + "]: " + p.getPlayerDeck().getMiniDeck().get(i).toString());
+        for (int i = 0; i < p.getPlayerDeck().miniDeck.size(); i++) {
+            printAsync("[" + i + "]: \n" + p.getPlayerDeck().miniDeck.get(i).toString());
         }
     }
 
@@ -351,7 +351,7 @@ public class TUI extends UI {
         PlayableCard[] initialCards = model.getInitialCard();
 
         for (int i = 0; i < initialCards.length; i++) {
-            printAsync("[" + i + "]: " + initialCards[i].toString());
+            printAsync("[" + i + "]: \n" + initialCards[i].toString());
         }
     }
 
@@ -361,7 +361,7 @@ public class TUI extends UI {
         ArrayList<ObjectiveCard> objectiveCards = model.getObjectiveCard();
 
         for (int i = 0; i < objectiveCards.size(); i++) {
-            printAsync("[" + i + "]: " + objectiveCards.get(i).toString());
+            printAsync("[" + i + "]: \n" + objectiveCards.get(i).toString());
         }
     }
 
@@ -374,6 +374,11 @@ public class TUI extends UI {
             throw new RuntimeException(e);
         }
         System.exit(-1);
+    }
+
+    @Override
+    public void show_visibleCardsBoard(GameImmutable model){
+        //TODO
     }
 
 }

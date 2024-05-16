@@ -178,6 +178,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
                     ui.show_CurrentTurnMsg();
                     askPlaceCards(event.getModel(), nickname);
+                    ui.show_alwaysShow(event.getModel(), nickname);
                 }
                 else{
                     ui.show_WaitTurnMsg(event.getModel(), nickname);
@@ -192,6 +193,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case CARD_PLACED ->{
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
                     askPickCard(event.getModel());
+                    ui.show_playerDeck(event.getModel(), nickname);
                 }
 
             }
@@ -486,8 +488,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         boolean drawFromDeck = askDrawFromDeck( model);
 
         if(!drawFromDeck){
+            ui.show_visibleCardsBoard(model);
             //Non dovrebbe chiedere se vuole la carta 0 o 1 dell'array?
-            pos= Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
+            pos= Objects.requireNonNullElse(askNum("\t> Choose [0] for the first card or [1] for the second card:", model), -1);
         }
         PickCardFromBoard(cardType, drawFromDeck, pos);
     }
