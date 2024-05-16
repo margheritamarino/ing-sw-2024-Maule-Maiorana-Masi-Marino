@@ -200,6 +200,16 @@ public class GUI extends UI {
     }
 
     @Override
+    public void show_wrongCardSelMsg() {
+
+    }
+
+    @Override
+    public void show_wrongCellSelMsg() {
+
+    }
+
+    @Override
     public void show_whichObjectiveCards() {
 
     }
