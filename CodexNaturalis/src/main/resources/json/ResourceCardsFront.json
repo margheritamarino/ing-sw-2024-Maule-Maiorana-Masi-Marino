@@ -96,7 +96,7 @@
     "numResources": 2,
     "resourceList": ["Fungi", "Animal"],
     "hasSymbol": true,
-    "symbol": "Inkwell"
+    "symbol": "Ink"
   }
 ,
   {
@@ -266,7 +266,7 @@
     "numResources": 2,
     "resourceList": ["Fungi", "Plant"],
     "hasSymbol": true,
-    "symbol": "Inkwell"
+    "symbol": "Ink"
   }
 ,
   {
@@ -420,7 +420,7 @@
     "numResources": 2,
     "resourceList": ["Animal", "Animal"],
     "hasSymbol": true,
-    "symbol": "Inkwell"
+    "symbol": "Ink"
   }
 ,
   {
@@ -626,7 +626,7 @@
     "numResources": 2,
     "resourceList": ["Insect", "Plant"],
     "hasSymbol": true,
-    "symbol": "Inkwell"
+    "symbol": "Ink"
 
   }
 ,
