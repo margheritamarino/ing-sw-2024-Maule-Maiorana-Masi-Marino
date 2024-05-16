@@ -54,7 +54,6 @@
     "cardType": "ResourceCard",
     "numCorners": 3,
     "victoryPoints": 0,
-    "symbol": null,
     "TLCorner": "NoCorner",
     "TRCorner": "WithResource",
     "BRCorner": "WithResource",
@@ -62,7 +61,8 @@
     "mainResource": "Fungi",
     "numResources": 2,
     "resourceList": ["Fungi", "Fungi"],
-    "hasSymbol": false
+    "hasSymbol": false,
+    "symbol": null
   }
 ,
   {
