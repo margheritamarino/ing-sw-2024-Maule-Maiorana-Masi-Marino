@@ -142,14 +142,14 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * Set the @param p player ready to start
      * When all the players are ready to start, the game starts (game status changes to running)
+     *
      * @param p Player to set has ready
-     * @return true if the game has started, false else            */
+     */
     @Override
-    public synchronized boolean playerIsReadyToStart(String p) {
+    public synchronized boolean playerIsReadyToStart( GameListenerInterface lis, String p) {
         model.playerIsReadyToStart(model.getPlayerByNickname(p));
-        model.initializeCards(model.getPlayerByNickname(p));
+        model.initializeCards( lis, model.getPlayerByNickname(p));
 
-        //La partita parte automaticamente quando tutti i giocatori sono pronti
         if (model.arePlayersReadyToStartAndEnough()) {
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
             ArrayList<Player> players= model.getPlayers();
@@ -160,7 +160,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.setInitialStatus();
             return true;
         }
-        return false;//Game non started yet
+        return false;
     }
 
 
@@ -295,13 +295,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.createGame(lis);
 
         }else{
-            model.addListener(lis);
-            model.addPlayer(nick);
+            model.addPlayer(lis, nick);
             model.getPlayerByNickname(nick).setConnected(true);
         }
     }
 
-    public void setGameCreated(boolean toSet){
+    public synchronized void setGameCreated(boolean toSet){
         this.gameCreated= toSet;
     }
 
@@ -309,10 +308,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
         setGameCreated(true);
-        model.addListener(lis);
-        model.addPlayer(nick);
-        model.getPlayerByNickname(nick).setConnected(true);
-
+        joinGame(lis, nick);
     }
+
 
 }

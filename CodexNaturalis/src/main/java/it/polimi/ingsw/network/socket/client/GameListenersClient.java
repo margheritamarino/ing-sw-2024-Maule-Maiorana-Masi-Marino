@@ -108,4 +108,6 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     public void lastCircle(GameImmutable model) throws RemoteException {
         flow.lastCircle(model);
     }
+
+
 }

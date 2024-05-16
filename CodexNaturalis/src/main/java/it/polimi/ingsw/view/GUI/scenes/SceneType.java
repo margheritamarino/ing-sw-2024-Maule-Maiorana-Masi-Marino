@@ -1,10 +1,18 @@
 package it.polimi.ingsw.view.GUI.scenes;
 
-//enumerazione che contiene i nomi dei file FXML associati alle diverse scene
+/**
+ * SceneType class. It is used to store the paths of the FXML files of the scenes.
+ */
 public enum SceneType {
-    MENU("/Menu.fxml");
+    PUBLISHER("/Publisher.fxml"),
+    NICKNAME("/Nickname.fxml"),
+    MENU("/Menu.fxml"),
+    LOBBY("/Lobby.fxml"),
+    INGAME("/InGame.fxml"),
+    OTHERSBOOK("/OthersBook.fxml"),
+    GAMEWAIT("/GameWait.fxml"),
+    GAMEENDED("/GameEnded.fxml");
 
-    //TODO
 
 
     private final String path; //contiene il percorso dei file FXML associati alle scene

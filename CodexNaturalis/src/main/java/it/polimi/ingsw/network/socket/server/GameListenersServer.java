@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class GameListenersServer implements GameListenerInterface, Serializable {
     private final ObjectOutputStream out; //per l'invio dei dati al Client
 
+
     /**
      * This constructor creates a GameListenersHandlerSocket
      * @param out the ObjectOutputStream
@@ -247,6 +248,8 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed Last_Circle message", e);
         }
     }
+
+
 
     /**
      * This method is used to write on the ObjectOutputStream that a player has disconnected

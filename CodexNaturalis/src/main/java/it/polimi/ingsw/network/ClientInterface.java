@@ -60,6 +60,8 @@ public interface ClientInterface  {
     void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException;
 
     void ping () throws RemoteException;
+
+
 }
 
 

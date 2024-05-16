@@ -144,8 +144,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     askReadyToStart(event.getModel(), nickname);
                 }
             }
+
+
         }
     }
+
+
 
     public void statusRunning(Event event) throws IOException, InterruptedException{
         switch (event.getType()) {
@@ -200,8 +204,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             case GAME_FULL -> {
                 nickname = null;
-                events.add(null, EventType.BACK_TO_MENU);
-                ui.addImportantEvent("ERROR: Game is full!");
+                ui.addImportantEvent("ERROR: Game is Full, you can't play!");
             }
 
             case GENERIC_ERROR -> {
@@ -339,7 +342,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         } while (!Objects.equals(answer, "y"));
         ui.show_youAreReady(model);
-        ui.show_allPlayers(model);
         setAsReady();
     }
 
@@ -521,6 +523,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
+
     @Override
     public void setInitialCard(int index) {
         try {
@@ -563,7 +566,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         System.out.println("sono in playerJoined in GameFlow e ho aggiunto l'evento PLAYER_JOINED");
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
-        ui.show_playerJoined(gameModel, nickname);
+       // ui.show_playerJoined(gameModel, nickname);
         ui.addImportantEvent("[EVENT]: Player " + nickname + " joined the game!");
 
     }
@@ -598,11 +601,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     /**
      * A player wanted to join a game but the nickname is already in
-     * @param tryToJoin player that wanted to join {@link Player}
      * @throws RemoteException if the reference could not be accessed
      */
     @Override
-    public void joinUnableNicknameAlreadyIn(Player tryToJoin) throws RemoteException {
+    public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
         events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
 
@@ -615,6 +617,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerIsReadyToStart(GameImmutable model, String nick) throws IOException {
         ui.show_playerJoined(model, nickname);
+        events.add(model, EventType.PLAYER_READY);
     }
 
     /**
@@ -665,7 +668,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             if (index < 0 || index >= 2) {
                 index = null;
             }
-        } while (index == null|| (index < 0 || index >= 2));
+        } while (index == null);
         setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 

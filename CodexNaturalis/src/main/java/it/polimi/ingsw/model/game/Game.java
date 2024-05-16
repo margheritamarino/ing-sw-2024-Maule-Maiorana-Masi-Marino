@@ -6,7 +6,6 @@ import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.InitialCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
@@ -236,40 +235,33 @@ public class Game {
 	 * after checking if there is space in the match and if the nickname is available
 	 * @param nickname the nickname of the player to be added.
 	 */
-	public void addPlayer(String nickname) {
+	public void addPlayer(GameListenerInterface lis, String nickname) {
 		// Check if the game is not full and the nickname is not taken
-		try {
-			// Check if the game is not full
-			if (isFull()) {
-				// Game is full
-				listenersHandler.notify_JoinUnableGameFull(null, this);
-				throw new MatchFull("There are already 4 players");
-			}
 
-			// Check if the nickname is already taken
-			if (checkNickname(nickname)) {
-				// Nickname is already taken
-				listenersHandler.notify_JoinUnableNicknameAlreadyIn(null);
-				throw new NicknameAlreadyTaken("The nickname " + nickname + " is already taken");
-			}
+		// Check if the game is not full
+		if (isFull()) {
+			// Game is full
+			listenersHandler.notify_JoinUnableGameFull(lis, getPlayerByNickname(nickname), this);
+		}
 
+		// Check if the nickname is already taken
+		if (checkNickname(nickname)) {
+			// Nickname is already taken
+			listenersHandler.notify_JoinUnableNicknameAlreadyIn(lis, getPlayerByNickname(nickname));
+		}
+		else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname);
+			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
+			addListener(lis);
+
 			scoretrack.addPlayer(newPlayer);
 			// Increment the number of players
 			playersNumber++;
 
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname);
-
-		} catch (NicknameAlreadyTaken e) {
-			// Handle the case where the nickname is already taken
-			System.err.println("Error: " + e.getMessage());
-
-		} catch (MatchFull e) {
-			// Handle the case where the game is full
-			System.err.println("Error: " + e.getMessage());
 		}
 
 	}
@@ -441,12 +433,11 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void initializeCards(Player player) {
-		boolean initializationSuccessful = true;
+	public void initializeCards(GameListenerInterface lis, Player player) {
 
 		try {
 			temporaryInitialCard = initialCardsDeck.returnCard();
-			listenersHandler.notify_requireInitial(this);
+			player.notify_requireInitial(this);
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
@@ -458,15 +449,13 @@ public class Game {
 
 			temporaryObjectiveCards = drawObjectiveCards();
 			// Inizializza gli obiettivi
-			listenersHandler.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
+			player.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
 
 
 		} catch (DeckEmptyException e) {
 			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
-			initializationSuccessful = false;
 
 		}
-
 	}
 
 	public PlayableCard[] getInitialCard(){

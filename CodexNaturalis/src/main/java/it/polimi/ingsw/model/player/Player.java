@@ -1,25 +1,31 @@
 package it.polimi.ingsw.model.player;
 
 import java.io.FileNotFoundException;
-import java.util.Collection;
-import java.util.List;
+import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.*;
 
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.DeckFullException;
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.PlacementConditionViolated;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.interfaces.*;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 public class Player implements Serializable {
 
@@ -30,6 +36,7 @@ public class Player implements Serializable {
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
     private boolean connected;
     private boolean readyToStart = false;
+    private transient ArrayList<GameListenerInterface>listeners;
 
     public Player(String nickname) {
         this.nickname = nickname;
@@ -38,8 +45,18 @@ public class Player implements Serializable {
         this.playerBook = new Book(40, 40); //ho messo 40 x 40 solo per verificare la correttezza del metodo, questo valore dobbiamo poi renderlo variabile in base al numero di giocatori
         this.playerDeck = new PlayerDeck();
         this.connected = false;
+        this.listeners= new ArrayList<>();
     }
-
+    public ArrayList<GameListenerInterface> getListeners(){
+        return this.listeners;
+    }
+    /**
+     * Adds a listener to the list
+     * @param lis listener to add
+     */
+    public void addListener(GameListenerInterface lis) {
+        listeners.add(lis);
+    }
     /**
      * Retrieves the nickname of the player.
      *
@@ -192,5 +209,31 @@ public class Player implements Serializable {
         // Place the chosen card on the chosen cell using the addCard method of the player's book
         return playerBook.addCard(chosenCard, chosenCell);
 
+    }
+    public synchronized void notify_requireInitial( Game model){
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.requireInitialReady(new GameImmutable(model));
+            } catch (FileReadException | IOException e) {
+                printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    public synchronized void notify_requireGoals( Game model){
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
+                l.requireGoalsReady(new GameImmutable(model));
+            } catch (RemoteException | IllegalStateException e) {
+                printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
+
+            }
+        }
     }
 }

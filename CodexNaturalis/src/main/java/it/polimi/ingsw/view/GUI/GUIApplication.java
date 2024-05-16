@@ -94,14 +94,30 @@ public class GUIApplication extends Application {
         if (index != -1) {
             SceneInformation s = scenes.get(getSceneIndex(scene));
             switch (scene) {
+                case PUBLISHER -> {
+                    this.primaryStage.setAlwaysOnTop(true);
+                    this.primaryStage.centerOnScreen();
+                }
+                case NICKNAME -> {
+
+                }
                 case MENU -> {
                     this.primaryStage.centerOnScreen();
-                    this.primaryStage.setAlwaysOnTop(false); //disabilitata
+                    this.primaryStage.setAlwaysOnTop(false);
                     MenuController controller = (MenuController) s.getControllerGUI();
                 }
+
+
+
 
 
             }
         }
     }
+
+
+
+
+
+
 }
