@@ -174,7 +174,6 @@ public class ScoreTrack implements Serializable {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		result.append("**********SCORETRACK**********: \n");
-		result.append("\n");
 		for (Map.Entry<Player, Integer> entry : pointsPlayers.entrySet()) {
 			Player player = entry.getKey();
 			int score = entry.getValue();

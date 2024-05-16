@@ -76,7 +76,6 @@ public class PlayerDeck implements Serializable{
      public String toString(){
           StringBuilder result = new StringBuilder();
           result.append("**********YOUR DECK**********\n");
-          result.append("\n");
           result.append("CARD 0: front\n");
           result.append(miniDeck.get(0).toString());
           result.append("\n");
