@@ -133,13 +133,10 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
 
     @Override
     public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
-        System.out.println("Sono in joinGame di ServerRMI");
+        System.out.println("ServerRMI: method joinGame()");
         serverObject.gameController.joinGame(lis, nick); //TRY
-        //GameController.getInstance().joinGame(lis, nick);
-        //UnicastRemoteObject.exportObject(gameController, 0); //controlla
 
         printAsync("[RMI] " + nick + " joined to game");
-
     }
 
   /*  @Override

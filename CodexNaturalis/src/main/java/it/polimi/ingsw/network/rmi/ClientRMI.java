@@ -155,7 +155,11 @@ public class ClientRMI implements ClientInterface {
 
     @Override
     public void settingGame(int numPlayers, int GameID) throws IOException {
-
+        try {
+            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nickname);
+        } catch (RemoteException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
@@ -164,7 +168,8 @@ public class ClientRMI implements ClientInterface {
             gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
         } catch (RemoteException e) {
             throw new IOException(e);
-        }}
+        }
+    }
 
 
     /**
@@ -175,7 +180,7 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void joinGame(String nick) throws IOException, NotBoundException {
-        System.out.println("Into Client_RMI joinGame");
+        System.out.println("ClientRMI: method joinGame()");
 
         try {
             // Ottieni il registro all'indirizzo IP e porta specificati
@@ -227,15 +232,21 @@ public class ClientRMI implements ClientInterface {
     }
 
 
-    //TODO
-    @Override
-    public void ping() {
 
+    @Override
+    public void ping() throws RemoteException {
+        if (gameController != null) {
+            gameController.ping(nickname, modelInvokedEvents);
+        }
     }
 
     @Override
     public void makeGameStart(String nick) throws IOException {
-
+        try {
+            gameController.makeGameStart(modelInvokedEvents, nickname);
+        } catch (RemoteException e) {
+            throw new IOException(e);
+        }
     }
 
     /**
@@ -243,35 +254,16 @@ public class ClientRMI implements ClientInterface {
      * @param nick of the player
      * @throws IOException
      */
-    //TODO: Method LEAVE for RMI Disconnection
    @Override
     public void leave(String nick) throws IOException, NotBoundException {
-//        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-//        registry.lookup(DefaultValue.Default_servername_RMI);
-//
-//        GameController.getInstance().leaveGame(modelInvokedEvents, nick, idGame);
-//        gameController = null;
-//        nickname = null;
+
+       registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+       gameController= (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+
+       gameController.leave(modelInvokedEvents, nick);
+       gameController = null;
+       nickname = null;
     }
-
-
-
-
-    /**
-     * Send a heartbeat to the Socket Server
-     * Now it is not used because the Socket Connection automatically detects disconnections by itself
-     */
-
-    //TODO: HEARTBEAT METHOD
-    /*@Override
-    public void heartbeat() {
-
-        //TODO
-        if (GameController.getInstance() != null) {
-            GameController.getInstance().heartbeat(nickname, modelInvokedEvents);
-        }
-    }*/
-
 
 
 

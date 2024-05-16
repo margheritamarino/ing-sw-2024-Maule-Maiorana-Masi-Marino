@@ -588,7 +588,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void playerJoined(GameImmutable gameModel, String nickname) {
-        //shared.setLastModelReceived(gameModel);
+        System.out.println("GameFlow: PlayerJoined");
         events.add(gameModel, EventType.PLAYER_JOINED);
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
        // ui.show_playerJoined(gameModel, nickname);
@@ -664,7 +664,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
     @Override
     public void requireNumPlayersGameID(GameImmutable model)throws RemoteException {
-
+        System.out.println("GameFlow: requireNumPlayersGameID");
         int numPlayers=askNumPlayers();
         int GameID= askGameID();
         settingGame(numPlayers, GameID);
@@ -767,6 +767,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void joinGame(String nickname)  {
+        System.out.println("GameFlow: method JoinGame()");
         ui.show_joiningToGameMsg(nickname);
         try {
             clientActions.joinGame(nickname);

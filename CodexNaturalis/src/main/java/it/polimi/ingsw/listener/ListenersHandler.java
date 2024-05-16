@@ -41,6 +41,7 @@ public class ListenersHandler {
     }
 
     public synchronized void notify_requireNumPlayersGameID(GameListenerInterface listener,Game model ){
+        System.out.println("ListenersHandler: notify_requireNumPlayersGameID");
         try {
             listener.requireNumPlayersGameID(new GameImmutable(model));
         }catch (RemoteException e){
@@ -69,7 +70,7 @@ public class ListenersHandler {
      * @param model is the Game to pass as a new GameModelImmutable
      */
     public synchronized void notify_PlayerJoined(Game model, String nickname) {
-        System.out.println("Sono in notify_PlayerJoined di ListenersHandler");
+        System.out.println("ListenersHandler: notify_PlayerJoined");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
