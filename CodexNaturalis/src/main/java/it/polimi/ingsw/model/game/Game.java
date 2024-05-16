@@ -384,15 +384,17 @@ public class Game {
 		 */
 		public boolean checkBoard() throws BoardSetupException {
 			// Verifying all conditions together
+			System.out.println("numero Gold="+ board.getGoldCards().size());
+			System.out.println("numero Resource="+ board.getResourceCards().size());
+			System.out.println("numero Objective="+ board.getObjectiveCards().length);
 			if (!(board.verifyGoldCardsNumber() &&
 					board.verifyResourceCardsNumber() &&
-					board.verifyObjectiveCardsNumber()) ){
-					//board.verifyGoldDeckSize(playersNumber) &&
-					//board.verifyResourceDeckSize(playersNumber) &&
-					//board.verifyObjectiveDeckSize(playersNumber))) {
+					board.verifyObjectiveCardsNumber()) &&
+					board.verifyGoldDeckSize(playersNumber) &&
+					board.verifyResourceDeckSize(playersNumber) &&
+					board.verifyObjectiveDeckSize(playersNumber)) {
 				throw new BoardSetupException("Board setup is incorrect");
-				}
-
+			}
 			// All verifications passed, return true
 			return true;
 		}
