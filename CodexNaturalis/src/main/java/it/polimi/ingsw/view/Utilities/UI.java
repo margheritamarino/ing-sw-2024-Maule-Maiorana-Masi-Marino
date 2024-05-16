@@ -45,6 +45,9 @@ public abstract class UI {
      * @param nickname nickname just chosen by the player
      */
     public abstract void show_chosenNickname(String nickname);
+
+    public abstract void show_CurrentTurnMsg();
+
     /**
      * Shows game started message
      * @param model model where the game has started
@@ -86,4 +89,6 @@ public abstract class UI {
 
 
     public abstract void show_playerDeck(GameImmutable model, String nickname) ;
+
+    public abstract void show_WaitTurnMsg(GameImmutable model, String nickname) ;
 }

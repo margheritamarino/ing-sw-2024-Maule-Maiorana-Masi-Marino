@@ -72,20 +72,13 @@ public class GUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname) {
-
+        //TODO
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public void show_CurrentTurnMsg() {
+        //TODO
+    }
 
 
     //TODO
@@ -263,6 +256,11 @@ public class GUI extends UI {
 
     @Override
     public void show_playerDeck(GameImmutable model, String nickname) {
+
+    }
+
+    @Override
+    public void show_WaitTurnMsg(GameImmutable model, String nickname) {
 
     }
 }

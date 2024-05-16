@@ -157,9 +157,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         System.out.println(model.getNumReady());
         if (model.arePlayersReadyToStartAndEnough()) {
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
-            ArrayList<Player> players= model.getPlayers();
+            System.out.println(model.getCurrentPlayer().getNickname());
             int[] orderArray= model.getOrderArray();
-            model.setCurrentPlayer(players.get(orderArray[0]));
+            System.out.println(model.getPlayers().get(orderArray[0]));
+         //   ArrayList<Player> players= model.getPlayers();
+           //
+           // model.setCurrentPlayer(players.get(orderArray[0]));
             model.initializeBoard();
             model.setInitialStatus();
             return true;
