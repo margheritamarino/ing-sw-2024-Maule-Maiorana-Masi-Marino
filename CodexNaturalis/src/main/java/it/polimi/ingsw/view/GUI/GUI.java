@@ -59,7 +59,6 @@ public class GUI extends UI {
         pauseTransition.setOnFinished(event -> {
             showedPublisher = true; //serve un booleano per evitare che venga mostrato nuovamente in futuro
 
-            //CHE SHOW MANDARE PER ANDARE ALLA SCENA NICKNAME ?
             this.show_insertNicknameMessage();
         });
     }
@@ -73,20 +72,13 @@ public class GUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname) {
-
+        //TODO
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public void show_CurrentTurnMsg() {
+        //TODO
+    }
 
 
     //TODO
@@ -264,6 +256,11 @@ public class GUI extends UI {
 
     @Override
     public void show_playerDeck(GameImmutable model, String nickname) {
+
+    }
+
+    @Override
+    public void show_WaitTurnMsg(GameImmutable model, String nickname) {
 
     }
 }
