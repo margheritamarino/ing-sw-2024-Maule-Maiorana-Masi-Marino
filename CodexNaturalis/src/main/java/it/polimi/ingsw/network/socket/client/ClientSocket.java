@@ -246,6 +246,14 @@ public class ClientSocket extends Thread implements ClientInterface {
         }
     }
 
+    @Override
+    public void makeGameStart(String nick) throws IOException {
+        System.out.println("sono nella clòient Socket");
+        this.nickname=nick;
+        out.writeObject(new ClientMsgStartGame(nickname));
+        finishSending();
+    }
+
     /**
      * Makes sure the message has been sent
      * @throws IOException

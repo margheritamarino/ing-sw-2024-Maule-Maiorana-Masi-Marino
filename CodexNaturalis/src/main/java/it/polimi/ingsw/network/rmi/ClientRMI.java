@@ -233,6 +233,11 @@ public class ClientRMI implements ClientInterface {
 
     }
 
+    @Override
+    public void makeGameStart(String nick) throws IOException {
+
+    }
+
     /**
      * Ask the Socket Server to leave a specific game
      * @param nick of the player

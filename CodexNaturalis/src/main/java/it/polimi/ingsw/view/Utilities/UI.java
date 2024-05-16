@@ -85,5 +85,5 @@ public abstract class UI {
     public abstract void show_noConnectionError();
 
 
-
+    public abstract void show_playerDeck(GameImmutable model, String nickname) ;
 }

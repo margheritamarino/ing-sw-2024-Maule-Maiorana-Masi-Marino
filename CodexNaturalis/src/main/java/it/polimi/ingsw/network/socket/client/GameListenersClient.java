@@ -53,10 +53,6 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
 
-    @Override
-    public void playerIsReadyToStart(GameImmutable model, String nickname) throws IOException {
-        flow.playerIsReadyToStart(model, nickname);
-    }
 
     @Override
     public void gameStarted(GameImmutable model) throws RemoteException {
@@ -109,5 +105,9 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
         flow.lastCircle(model);
     }
 
+    @Override
+    public void cardsReady(GameImmutable model, String nickname) throws RemoteException {
+        flow.cardsReady(model, nickname);
+    }
 
 }

@@ -104,24 +104,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     }
 
 
-
-    /**
-     * This method is used to write on the ObjectOutputStream the message that player is ready to start
-     * @param model is the game model {@link GameImmutable}
-     * @param nickname is the nickname of the player
-     * @throws RemoteException if the connection fails
-     */
-    @Override
-    public void playerIsReadyToStart(GameImmutable model, String nickname) throws IOException {
-        try {
-            out.writeObject(new msgPlayerIsReadyToStart(model, nickname));
-            finishSending();
-        } catch (IOException e) {
-            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
-            throw new RemoteException("Failed to send gameStarted message", e);
-        }
-    }
-
     /**
      * This method is used to write on the ObjectOutputStream the game started
      * @param model is the game model {@link GameImmutable}
@@ -131,6 +113,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     public void gameStarted(GameImmutable model) throws RemoteException {
         //System.out.println(gamemodel.getGameId() +" game started by socket");
         try {
+            out.writeObject(new msgGameStarted(model));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
@@ -249,6 +232,16 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
+    @Override
+    public void cardsReady(GameImmutable model, String nickname) throws RemoteException {
+        try {
+            out.writeObject(new msgCardsReady(model, nickname));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed Last_Circle message", e);
+        }
+    }
 
 
     /**

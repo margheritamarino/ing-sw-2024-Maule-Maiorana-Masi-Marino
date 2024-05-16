@@ -204,7 +204,6 @@ public class Game {
 	 */
 	public void playerIsReadyToStart(Player player) {
 		player.setReadyToStart();
-		listenersHandler.notify_PlayerIsReadyToStart(this, player.getNickname());
 	}
 
 	/**
@@ -304,15 +303,30 @@ public class Game {
 
 	}
 
+	public int getNumReady() {
 
+		//If every player is ready, the game starts
+		int numReady = 0;
+		for (Player p : players)
+			if (p.getReadyToStart())
+				numReady++;
+		return numReady;
+	}
 
 	/**
 	 * @return true if there are enough players to start, and if every one of them is ready
 	 */
 	public boolean arePlayersReadyToStartAndEnough() {
 		//If every player is ready, the game starts
-		return players.stream().filter(Player::getReadyToStart)
-				.count() == playersNumber;
+		int numReady=0;
+		 for(Player p: players)
+				if(p.getReadyToStart())
+					numReady++;
+
+		 if(numReady== playersNumber)
+			 return true;
+		 else
+			 return false;
 	}
 	/**
 	 * @return the game status
@@ -339,7 +353,7 @@ public class Game {
 	public void setInitialStatus() {
 		try {
 			if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
-					players.size() >= 2
+					players.size() == playersNumber
 					&& checkBoard()
 					&& currentPlayer != null) {
 				this.status = GameStatus.RUNNING;
@@ -456,6 +470,7 @@ public class Game {
 			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
 
 		}
+		player.notify_cardsReady(this);
 	}
 
 	public PlayableCard[] getInitialCard(){

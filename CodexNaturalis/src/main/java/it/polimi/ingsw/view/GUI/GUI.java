@@ -261,4 +261,9 @@ public class GUI extends UI {
     public void show_noConnectionError() {
 
     }
+
+    @Override
+    public void show_playerDeck(GameImmutable model, String nickname) {
+
+    }
 }
