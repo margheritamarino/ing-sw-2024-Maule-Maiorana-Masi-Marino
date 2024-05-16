@@ -112,11 +112,8 @@ public class TUI extends UI {
         System.out.println(model.getCurrentPlayer().getPlayerBook().printMatrix(model.getCurrentPlayer().getPlayerBook().findSubMatrix()[0], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[1], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[2], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[3]));
     }
 
-    @Override
-    public void show_playerDeck(GameImmutable model) {
-        printAsync(model.getCurrentPlayer().getPlayerDeck().toString());
-    }
 
+    @Override
     public void show_playerDeck(GameImmutable model, String nick) {
         Player p = model.getPlayerByNickname(nick);
         for (int i = 0; i < p.getPlayerDeck().getMiniDeck().size(); i++) {
