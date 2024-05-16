@@ -198,7 +198,7 @@ public class Board implements Serializable {
      * @return TRUE if there's a correct number of Resource Cards on the Board
      */
     public boolean verifyResourceCardsNumber() {
-        return resourceCards.size() == 2;
+        return resourceCards.size() == 4;
     }
 
     /**
@@ -206,7 +206,7 @@ public class Board implements Serializable {
      * @return TRUE if there's a correct number of Objective Cards on the Board
      */
     public boolean verifyObjectiveCardsNumber() {
-        return objectiveCards.length == 2;
+        return objectiveCards.length == 4;
     }
 
     /**
@@ -215,7 +215,7 @@ public class Board implements Serializable {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyGoldDeckSize(int playersNumber) {
-        return (goldCardsDeck.getNumCards())  == DefaultValue.NumOfGoldCards- 2 - playersNumber; //su Deck numCards va da 0 a 40
+        return (goldCardsDeck.getNumCards())  == DefaultValue.NumOfGoldCards- 4 - playersNumber; //su Deck numCards va da 0 a 40
     }
 
     /**
@@ -224,7 +224,7 @@ public class Board implements Serializable {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyResourceDeckSize(int playersNumber) {
-        return (resourcesCardsDeck.getNumCards())  == DefaultValue.NumOfResourceCards- 2 - playersNumber; //su Deck numCards va da 0 a 40
+        return (resourcesCardsDeck.getNumCards())  == DefaultValue.NumOfResourceCards- 4 - playersNumber; //su Deck numCards va da 0 a 40
 
     }
 
