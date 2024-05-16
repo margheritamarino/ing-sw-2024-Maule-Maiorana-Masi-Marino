@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.Main;
 
-
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.network.rmi.ServerRMI;
 import it.polimi.ingsw.network.socket.server.ServerTCP;
@@ -39,6 +38,7 @@ public class ServerMain {
         }
 
         System.out.println("Sto per eseguire il BIND (da ServerMain chiamo ServerRMI.bind()): " + input);
+
         try {
             ServerRMI.bind();
         } catch (RemoteException e) {

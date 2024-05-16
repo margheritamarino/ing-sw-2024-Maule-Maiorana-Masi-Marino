@@ -311,6 +311,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     public synchronized void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick)throws RemoteException{
+        System.out.println("GameController: method settingGame()");
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
         System.out.println("numero giocatori:" + numPlayers);
