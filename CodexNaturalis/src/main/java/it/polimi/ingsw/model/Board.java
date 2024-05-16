@@ -198,7 +198,7 @@ public class Board implements Serializable {
      * @return TRUE if there's a correct number of Resource Cards on the Board
      */
     public boolean verifyResourceCardsNumber() {
-        return resourceCards.size() == 2;
+        return resourceCards.size() == 4;
     }
 
     /**
@@ -206,7 +206,7 @@ public class Board implements Serializable {
      * @return TRUE if there's a correct number of Objective Cards on the Board
      */
     public boolean verifyObjectiveCardsNumber() {
-        return objectiveCards.length == 2;
+        return objectiveCards.length == 4;
     }
 
     /**
@@ -215,7 +215,7 @@ public class Board implements Serializable {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyGoldDeckSize(int playersNumber) {
-        return (goldCardsDeck.getNumCards())  == DefaultValue.NumOfGoldCards- 2 - playersNumber; //su Deck numCards va da 0 a 40
+        return (goldCardsDeck.getNumCards())  == DefaultValue.NumOfGoldCards- 4 - playersNumber; //su Deck numCards va da 0 a 40
     }
 
     /**
@@ -224,7 +224,7 @@ public class Board implements Serializable {
      * @param playersNumber to calculate the right number of Cards
      */
     public boolean verifyResourceDeckSize(int playersNumber) {
-        return (resourcesCardsDeck.getNumCards())  == DefaultValue.NumOfResourceCards- 2 - playersNumber; //su Deck numCards va da 0 a 40
+        return (resourcesCardsDeck.getNumCards())  == DefaultValue.NumOfResourceCards- 4 - playersNumber; //su Deck numCards va da 0 a 40
 
     }
 
@@ -240,28 +240,48 @@ public class Board implements Serializable {
     @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
-        result.append("*******BOARD*******\n");
+        result.append("***********BOARD***********\n");
+        result.append("\n");
         //GOLDCARDS
-        result.append("GOLDCARDS DECK: \n");
+        result.append("***GOLDCARDS DECK(back)***: \n");
+        result.append("\n");
         result.append(goldCardsDeck.getBackCards().get(0).toString());
+        result.append("----------------------------\n");
+        result.append("\n");
         result.append("GOLDCARD 0: \n");
         result.append(goldCards.get(0)[0].toString());
+        result.append("----------------------------\n");
+        result.append("\n");
         result.append("GOLDCARD 1: \n");
         result.append(goldCards.get(1)[0].toString());
+        result.append("***************************\n");
 
+        result.append("\n");
         //RESOURCECARD
-        result.append("RESOURCECARDS DECK: \n");
+        result.append("***RESOURCECARDS DECK(back)***: \n");
+        result.append("\n");
         result.append(resourcesCardsDeck.getBackCards().get(0).toString());
+        result.append("----------------------------\n");
+        result.append("\n");
         result.append("RESOURCECARD 0: \n");
         result.append(resourceCards.get(0)[0].toString());
+        result.append("----------------------------\n");
+        result.append("\n");
         result.append("RESOURCECARD 1: \n");
         result.append(resourceCards.get(1)[0].toString());
-
+        result.append("----------------------------\n");
+        result.append("\n");
         //OBJECTIVE
+        result.append("*******COMMON GOALS*******: \n");
+        result.append("\n");
         result.append("OBJECTIVECARD 0: \n");
         result.append(objectiveCards[0].toString());
+        result.append("----------------------------\n");
+        result.append("\n");
         result.append("OBJECTIVECARD 1: \n");
         result.append(objectiveCards[1].toString());
+        result.append("----------------------------\n");
+        result.append("\n");
 
         return result.toString();
     }

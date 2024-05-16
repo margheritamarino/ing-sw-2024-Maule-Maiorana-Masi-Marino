@@ -154,23 +154,17 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
     public boolean makeGameStart(GameListenerInterface lis, String nickname) {
 
-        System.out.println("sono in gameController make GameStart");
         System.out.println(model.getNumReady());
         if (model.arePlayersReadyToStartAndEnough()) {
-            System.out.println("Sono in ENOUGH");
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
-            System.out.println("Sono in chooseOrderPlayers");
             ArrayList<Player> players= model.getPlayers();
             int[] orderArray= model.getOrderArray();
             model.setCurrentPlayer(players.get(orderArray[0]));
-            System.out.println("Sono in setCurrentPlayer");
             model.initializeBoard();
-            System.out.println("Sono dopo initializeBoard");
             model.setInitialStatus();
             return true;
         }
         else {
-            System.out.println("Non vado avanti in Make Game Start perchè ci sono pochi giocatori");
             return false;
         }
 

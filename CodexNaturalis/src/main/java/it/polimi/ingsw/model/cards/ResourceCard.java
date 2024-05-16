@@ -90,20 +90,17 @@ public class ResourceCard extends PlayableCard implements Serializable {
     */
    // Metodo per ottenere la stringa rappresentante il contenuto di un angolo
    public String getCornerContentString(CornerLabel cornerLabel, int i) {
-      switch (cornerLabel) {
-         case Empty:
-            return "Empty";
-         case WithResource:
-            // Se l'angolo contiene una risorsa, restituisci la risorsa effettiva
-           return resourceList.get(i).toString();
-         case WithSymbol:
-            // Se l'angolo contiene un simbolo, restituisci il simbolo effettivo
-            return symbol.toString();
-         case NoCorner:
-            return "NoCorner";
-         default:
-            throw new IllegalArgumentException();
-      }
+       return switch (cornerLabel) {
+           case Empty -> "Empty";
+           case WithResource ->
+               // Se l'angolo contiene una risorsa, restituisci la risorsa effettiva
+                   resourceList.get(i).toString();
+           case WithSymbol ->
+               // Se l'angolo contiene un simbolo, restituisci il simbolo effettivo
+                   symbol.toString();
+           case NoCorner -> "NoCorner";
+           default -> throw new IllegalArgumentException();
+       };
    }
 
    public List<ResourceType> getCentralResources() {
