@@ -175,7 +175,8 @@ public class GoldCard extends PlayableCard implements Serializable {
         }else if(isPointsCondition() && isCornerCondition()){
             conditionPoint = "cornerCondition";
         }else if(isPointsCondition() && !isCornerCondition()){
-             conditionPoint = symbolCondition.toString();
+
+             conditionPoint = convertToEmoji(symbolCondition.toString());
         }
 
         String cardTypeName = "Gold";
