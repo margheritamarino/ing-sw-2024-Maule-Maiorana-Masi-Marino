@@ -256,8 +256,7 @@ public class Game {
 			addListener(lis);
 
 			scoretrack.addPlayer(newPlayer);
-			// Increment the number of players
-			playersNumber++;
+
 
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname);
@@ -319,10 +318,11 @@ public class Game {
 	public boolean arePlayersReadyToStartAndEnough() {
 		//If every player is ready, the game starts
 		int numReady=0;
-		 for(Player p: players)
-				if(p.getReadyToStart())
-					numReady++;
-
+		 for(Player p: players) {
+			 if (p.getReadyToStart()) {
+				 numReady++;
+			 }
+		 }
 		 if(numReady== playersNumber)
 			 return true;
 		 else

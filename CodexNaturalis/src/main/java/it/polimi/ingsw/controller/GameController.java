@@ -147,14 +147,14 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void playerIsReadyToStart( GameListenerInterface lis, String p) {
-        System.out.println("sdono in gameController");
+        System.out.println("sono in gameController player is ready");
         model.playerIsReadyToStart(model.getPlayerByNickname(p));
         model.initializeCards( lis, model.getPlayerByNickname(p));
 
     }
-    public synchronized boolean makeGameStart(GameListenerInterface lis, String nickname) {
+    public boolean makeGameStart(GameListenerInterface lis, String nickname) {
 
-        System.out.println("sono in gameController");
+        System.out.println("sono in gameController make GameStart");
         System.out.println(model.getNumReady());
         if (model.arePlayersReadyToStartAndEnough()) {
             System.out.println("Sono in ENOUGH");
@@ -169,8 +169,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             model.setInitialStatus();
             return true;
         }
-        else
+        else {
+            System.out.println("Non vado avanti in Make Game Start perchè ci sono pochi giocatori");
             return false;
+        }
+
     }
 
     @Override
@@ -316,6 +319,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick)throws RemoteException{
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
+        System.out.println("numero giocatori:" + numPlayers);
         setGameCreated(true);
         joinGame(lis, nick);
     }

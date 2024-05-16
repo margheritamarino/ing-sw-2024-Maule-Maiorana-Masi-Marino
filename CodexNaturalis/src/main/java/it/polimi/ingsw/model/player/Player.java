@@ -84,14 +84,14 @@ public class Player implements Serializable {
      * @return the player's readiness to start
      */
     public boolean getReadyToStart() {
-        return readyToStart;
+        return this.readyToStart;
     }
 
     /**
      * Sets the player as ready to play
      */
     public void setReadyToStart() {
-        readyToStart = true;
+        this.readyToStart = true;
     }
 
     /**
