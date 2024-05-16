@@ -73,8 +73,6 @@ public class ClientRMI implements ClientInterface {
         gameListenersHandler = new GameListenersClient(flow);
         this.flow = flow;
         connect();
-        //  rmiHeartbeat = new HeartbeatSender(flow,this);
-        //  rmiHeartbeat.start();
     }
 
     /**
@@ -87,9 +85,9 @@ public class ClientRMI implements ClientInterface {
         do{
             try {
                 registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-                gameController= (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-                modelInvokedEvents = (GameListenerInterface) UnicastRemoteObject.exportObject(gameListenersHandler, 0);
-
+                gameController= (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI); //ClientRMI si connette al server RMI e riceve il riferimento al GameController
+                modelInvokedEvents = (GameListenerInterface) UnicastRemoteObject.exportObject(gameListenersHandler, 0); //ClientRMI registra un listener per ricevere aggiornamenti dal ServerRMI: è usato dal Server al Client per notificare gli aggiornamenti del gioco
+                                                                                                                             //Il ClientRMI invia comandi al GameController tramite il ServerRMI per eseguire azioni nel gioco.
                 printAsync("Client RMI ready");
                 retry = false;
 
@@ -130,17 +128,29 @@ public class ClientRMI implements ClientInterface {
 
     @Override
     public void setInitialCard(int index) throws IOException {
-        gameController.setInitialCard(nickname, index);
+        try {
+            gameController.setInitialCard(nickname, index);
+        } catch (RemoteException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
     public void setGoalCard(int index) throws IOException, NotPlayerTurnException {
-        gameController.setGoalCard(nickname, index);
+        try {
+            gameController.setGoalCard(nickname, index);
+        } catch (RemoteException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
-        gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell );
+        try {
+            gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell);
+        } catch (RemoteException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
@@ -150,8 +160,11 @@ public class ClientRMI implements ClientInterface {
 
     @Override
     public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
-        gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
-    }
+        try {
+            gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
+        } catch (RemoteException e) {
+            throw new IOException(e);
+        }}
 
 
     /**
@@ -206,8 +219,10 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void setAsReady() throws IOException {
-        if ( gameController != null) {
+        try {
             gameController.playerIsReadyToStart(nickname);
+        } catch (RemoteException e) {
+            throw new IOException(e);
         }
     }
 

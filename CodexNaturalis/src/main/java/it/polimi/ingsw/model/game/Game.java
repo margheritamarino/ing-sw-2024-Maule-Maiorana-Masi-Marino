@@ -230,7 +230,6 @@ public class Game {
 	}
 	public void createGame( GameListenerInterface lis){
 		listenersHandler.notify_requireNumPlayersGameID(lis, this);
-
 	}
 	/**
 	 * Adds a new player to the game.

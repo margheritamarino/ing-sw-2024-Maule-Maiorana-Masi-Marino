@@ -136,6 +136,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String nicknameLastPlayer = event.getModel().getLastPlayer().getNickname();
         switch (event.getType()) {
             case PLAYER_JOINED -> {
+                System.out.println("In StatusWait gestisco evento PLATER_JOINED");
                 //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
                 //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                 if (nicknameLastPlayer.equals(nickname)) {
@@ -559,6 +560,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void playerJoined(GameImmutable gameModel, String nickname) {
         //shared.setLastModelReceived(gameModel);
         events.add(gameModel, EventType.PLAYER_JOINED);
+        System.out.println("sono in playerJoined in GameFlow e ho aggiunto l'evento PLAYER_JOINED");
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         ui.show_playerJoined(gameModel, nickname);

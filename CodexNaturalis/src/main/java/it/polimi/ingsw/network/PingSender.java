@@ -5,6 +5,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.view.flow.Flow;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Timer;
 import java.util.TimerTask;

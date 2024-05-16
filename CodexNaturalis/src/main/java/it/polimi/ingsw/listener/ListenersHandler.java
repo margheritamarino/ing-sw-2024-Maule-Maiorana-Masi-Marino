@@ -39,6 +39,7 @@ public class ListenersHandler {
         listeners.add(listener);
         System.out.println("Client correttamente aggiunto come LISTENER del Server");
     }
+
     public synchronized void notify_requireNumPlayersGameID(GameListenerInterface listener,Game model ){
         try {
             listener.requireNumPlayersGameID(new GameImmutable(model));
