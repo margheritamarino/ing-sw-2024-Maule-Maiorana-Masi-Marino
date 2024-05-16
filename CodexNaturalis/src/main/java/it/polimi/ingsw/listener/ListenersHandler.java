@@ -185,24 +185,6 @@ public class ListenersHandler {
         }
     }
 
-    public synchronized void notify_requireInitial(GameListenerInterface l, Game model){
-            try{
-                l.requireInitialReady(new GameImmutable(model));
-            } catch ( FileReadException| IOException e) {
-                printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
-            }
-    }
-
-    public synchronized void notify_requireGoals(GameListenerInterface l, Game model){
-        try {
-            // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
-            l.requireGoalsReady(new GameImmutable(model));
-        } catch (RemoteException | IllegalStateException  e) {
-            printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
-
-        }
-
-    }
 
 
         /** The notify_CardPlaced method notifies that a card has been placed on the board
