@@ -712,7 +712,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_ObjectiveCards(model);
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Insert [0] front - [1] back:", model), -1);
+            index = Objects.requireNonNullElse(askNum("\t> Insert [0] for the first card or [1] for the second card:", model), -1);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 index = null;

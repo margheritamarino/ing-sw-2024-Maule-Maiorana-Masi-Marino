@@ -179,7 +179,7 @@ public class TUI extends UI {
 
     @Override
     public void show_personalObjective(){
-        printAsync("This is your personal objective card! ");
+        printAsync("This is your personal objective card! \n");
     }
 
     /**
