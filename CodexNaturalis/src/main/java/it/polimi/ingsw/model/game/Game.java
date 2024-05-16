@@ -227,6 +227,7 @@ public class Game {
 		return false;
 	}
 	public void createGame( GameListenerInterface lis){
+		System.out.println("Game: method createGame()");
 		listenersHandler.notify_requireNumPlayersGameID(lis, this);
 	}
 	/**
@@ -236,7 +237,7 @@ public class Game {
 	 */
 	public void addPlayer(GameListenerInterface lis, String nickname) {
 		// Check if the game is not full and the nickname is not taken
-		System.out.println("Sono in addPlayer nel model: sto aggiungendo il giocatore al game");
+		System.out.println("Game: method addPlayer()");
 		// Check if the game is not full
 		if (isFull()) {
 			// Game is full

@@ -34,6 +34,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void playerJoined(GameImmutable model, String nickname) throws RemoteException {
+        System.out.println("GameListenersServer: PlayerJoined");
         try {
             out.writeObject(new msgPlayerJoined(model, nickname));
             System.out.println("Il messaggio PlayerJoined è stato inviato su ObjectOutputStream");
@@ -45,6 +46,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     }
     @Override
     public void requireNumPlayersGameID(GameImmutable model) throws RemoteException {
+        System.out.println("GameListenersServer: requireNumPlayersGameID");
         try {
             out.writeObject(new MsgNumPlayersGameID(model));
             System.out.println("Il messaggio PlayerJoined è stato inviato su ObjectOutputStream");

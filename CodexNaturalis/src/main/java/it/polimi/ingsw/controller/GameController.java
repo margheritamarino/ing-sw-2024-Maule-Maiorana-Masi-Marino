@@ -299,7 +299,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
-        System.out.println("Sono in joinGame di GameController");
+        System.out.println("GameController: method joinGame()");
         if(!isGameCreated()){
             model.createGame(lis);
 
