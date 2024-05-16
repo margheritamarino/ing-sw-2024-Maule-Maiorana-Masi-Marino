@@ -178,9 +178,10 @@ public class ScoreTrack implements Serializable {
 			Player player = entry.getKey();
 			int score = entry.getValue();
 			result.append(player.getNickname()).append(": ").append(score).append("\n");
-			result.append("***************************\n");
 			result.append("\n");
 		}
+		result.append("***************************\n");
+		result.append("\n");
 		return result.toString();
 	}
 
