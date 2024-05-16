@@ -155,6 +155,7 @@ public class ClientRMI implements ClientInterface {
 
     @Override
     public void settingGame(int numPlayers, int GameID) throws IOException {
+        System.out.println("ClientRMI: method settingGame()");
         try {
             gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nickname);
         } catch (RemoteException e) {

@@ -59,7 +59,6 @@ public class GUI extends UI {
         pauseTransition.setOnFinished(event -> {
             showedPublisher = true; //serve un booleano per evitare che venga mostrato nuovamente in futuro
 
-            //CHE SHOW MANDARE PER ANDARE ALLA SCENA NICKNAME ?
             this.show_insertNicknameMessage();
         });
     }

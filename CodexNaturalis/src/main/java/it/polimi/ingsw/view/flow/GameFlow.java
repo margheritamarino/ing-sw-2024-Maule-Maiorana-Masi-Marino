@@ -542,6 +542,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void settingGame(int numPlayers, int GameID){
+        System.out.println("GameFlow: settingGame");
         try {
             clientActions.settingGame(numPlayers, GameID);
         } catch (IOException e) {

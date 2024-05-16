@@ -198,12 +198,13 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
 
     @Override
     public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname) throws RemoteException {
+        System.out.println("ServerRMI: method settingGame()");
         serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname);
     }
 
     @Override
     public boolean makeGameStart(GameListenerInterface lis, String nickname) throws RemoteException {
-        return false;
+        return serverObject.gameController.makeGameStart(lis, nickname);
     }
 
 
