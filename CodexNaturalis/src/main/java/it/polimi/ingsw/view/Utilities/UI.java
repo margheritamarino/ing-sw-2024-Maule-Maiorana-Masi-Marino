@@ -63,7 +63,6 @@ public abstract class UI {
     public abstract void show_playerJoined(GameImmutable gameModel, String nick);
     public abstract void show_allPlayers(GameImmutable model);
     public abstract void show_youAreReady(GameImmutable model);
-    protected abstract void show_playerDeck(GameImmutable model);
     public abstract void show_readyToStart(GameImmutable gameModel, String nickname);
     public abstract void show_returnToMenuMsg();
     public abstract void show_whichInitialCards();

@@ -63,7 +63,7 @@ public class TUI extends UI {
 
     //show di ciò che deve sempre essere mostrato ad ogni giocatore
     public void show_alwaysShow(GameImmutable model, String nick) {
-        show_playerDeck(model);
+        show_playerDeck(model, nick);
         show_playerBook(model);
     }
 
@@ -112,10 +112,6 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_playerDeck(GameImmutable model) {
-        printAsync(model.getCurrentPlayer().getPlayerDeck().toString());
-    }
-
     public void show_playerDeck(GameImmutable model, String nick) {
         Player p = model.getPlayerByNickname(nick);
         for (int i = 0; i < p.getPlayerDeck().getMiniDeck().size(); i++) {
@@ -161,6 +157,7 @@ public class TUI extends UI {
     public void show_youAreReady(GameImmutable model){
         printAsync("You are ready to start the game!");
     }
+
 
     @Override
     public void show_whichInitialCards() {
