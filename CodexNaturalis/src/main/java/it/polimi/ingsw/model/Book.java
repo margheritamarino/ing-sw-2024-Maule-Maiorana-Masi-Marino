@@ -876,7 +876,7 @@ public class Book implements Serializable {
         // Stampare le righe interne e i valori della sottomatrice
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
-                printAsync("│ %" + (maxLengths[j] + 1) + "s", subMatrix[i][j]);
+                printAsync("│ %" + (maxLengths[j] + 2) + "s", subMatrix[i][j]);
             }
             printAsync("│");
 
