@@ -16,6 +16,12 @@ public class PrintAsync {
     public static void printAsync(StringBuilder msg){
         new Thread(()->{System.out.println(msg);System.out.println(ansi());}).start();
     }
+    public static void printAsync(String msg1, String msg2) {
+        new Thread(() -> {
+            System.out.println(msg1);
+            System.out.println(msg2);
+        }).start();
+    }
     public static void printAsyncNoLine(String msg){
         new Thread(()->{System.out.print(msg);System.out.println(ansi());}).start();
     }

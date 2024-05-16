@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.cards.*;
 import java.io.Serializable;
 import java.util.*;
 
+import static it.polimi.ingsw.view.TUI.PrintAsync.printAsync;
+
 
 // BOOK: disposizione delle carte di ogni player
 public class Book implements Serializable {
@@ -835,6 +837,8 @@ public class Book implements Serializable {
     }
 
     public boolean printMatrix(int minI, int minJ, int maxI, int maxJ) {
+
+        printAsync("\n");
         // Calcolare la lunghezza massima delle stringhe nella sottomatrice
         int numRows = maxI - minI + 1;
         int numCols = maxJ - minJ + 1;
@@ -857,54 +861,54 @@ public class Book implements Serializable {
         }
 
         // Stampare i bordi superiori della sottomatrice
-        System.out.print("┌");
+        printAsync("┌");
         for (int i = 0; i < numCols - 1; i++) {
             for (int k = 0; k < maxLengths[i] + 2; k++) {
-                System.out.print("─");
+                printAsync("─");
             }
-            System.out.print("┬");
+            printAsync("┬");
         }
         for (int k = 0; k < maxLengths[numCols - 1] + 2; k++) {
-            System.out.print("─");
+            printAsync("─");
         }
-        System.out.println("┐");
+        printAsync("┐");
 
         // Stampare le righe interne e i valori della sottomatrice
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
-                System.out.printf("│ %" + (maxLengths[j] + 1) + "s", subMatrix[i][j]);
+                printAsync("│ %" + (maxLengths[j] + 1) + "s", subMatrix[i][j]);
             }
-            System.out.println("│");
+            printAsync("│");
 
             // Stampare i bordi intermedi
             if (i < numRows - 1) {
-                System.out.print("├");
+                printAsync("├");
                 for (int j = 0; j < numCols - 1; j++) {
                     for (int k = 0; k < maxLengths[j] + 2; k++) {
-                        System.out.print("─");
+                        printAsync("─");
                     }
-                    System.out.print("┼");
+                    printAsync("┼");
                 }
                 for (int k = 0; k < maxLengths[numCols - 1] + 2; k++) {
-                    System.out.print("─");
+                    printAsync("─");
                 }
-                System.out.println("┤");
+                printAsync("┤");
             }
         }
 
         // Stampare il bordo inferiore della sottomatrice
-        System.out.print("└");
+        printAsync("└");
         for (int i = 0; i < numCols - 1; i++) {
             for (int k = 0; k < maxLengths[i] + 2; k++) {
-                System.out.print("─");
+                printAsync("─");
             }
-            System.out.print("┴");
+            printAsync("┴");
         }
         for (int k = 0; k < maxLengths[numCols - 1] + 2; k++) {
-            System.out.print("─");
+            printAsync("─");
         }
-        System.out.println("┘");
-        System.out.println("\n");
+        printAsync("┘");
+        printAsync("\n");
         return false;
     }
 
