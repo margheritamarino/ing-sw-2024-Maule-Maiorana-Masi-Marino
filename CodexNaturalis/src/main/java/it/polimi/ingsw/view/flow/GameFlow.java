@@ -411,25 +411,57 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     public void askPlaceCards(GameImmutable model, String nickname){
-        int posChosenCard;
+
+        String temp;
         ui.show_askPlaceCardsMainMsg(model);
-        ui.show_alwaysShow(model, nickname); // Il Book del CURRENT PLAYER viene mostrato a video a TUTTI i Player appena si passa a NEXT_TURN
-        posChosenCard = Objects.requireNonNullElse(askNum("> Choose which card to place: ", model), - 1);
+        ui.show_alwaysShow(model, nickname);
+        ui.show_askNum("Choose which CARD you want to place:", model, nickname);
+        int posChosenCard=-1;
+        do {
+            try {
+                temp = this.inputController.getUnprocessedData().popInputData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            posChosenCard = Integer.parseInt(temp); //traduco il numero in integer
+            if (posChosenCard < 0 || posChosenCard > 6) {
+                ui.show_wrongCardSelMsg();
+                posChosenCard = -1;
+            }
+        }while (posChosenCard<0);
 
-        int rowCell;
+        int rowCell=-1;
         ui.show_askWhichCellMsg(model);
+        ui.show_askNum("Choose the ROW of the cell:", model, nickname);
         do {
-            rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose row: ", model), -1);
-            if (ended) return;
-        } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin );
+            try {
+                temp = this.inputController.getUnprocessedData().popInputData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            rowCell = Integer.parseInt(temp); //traduco il numero in integer
+            if (rowCell < DefaultValue.BookSizeMin || rowCell > DefaultValue.BookSizeMax) {
+                ui.show_wrongCardSelMsg();
+                rowCell = -1;
+            }
+        }while (rowCell<0);
 
-        int columnCell;
+        int colCell=-1;
+        ui.show_askNum("Choose the COLUMN of the cell:", model, nickname);
         do {
-            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose column: ", model), -1);
-            if (ended) return;
-        } while (columnCell > DefaultValue.BookSizeMax || columnCell < DefaultValue.BookSizeMin);
+            try {
+                temp = this.inputController.getUnprocessedData().popInputData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            colCell = Integer.parseInt(temp); //traduco il numero in integer
+            if (colCell < DefaultValue.BookSizeMin || colCell > DefaultValue.BookSizeMax) {
+                ui.show_wrongCardSelMsg();
+                colCell = -1;
+            }
+        }while (colCell<0);
 
-        placeCardInBook(posChosenCard, rowCell, columnCell );
+        placeCardInBook(posChosenCard, rowCell, colCell );
     }
 
 

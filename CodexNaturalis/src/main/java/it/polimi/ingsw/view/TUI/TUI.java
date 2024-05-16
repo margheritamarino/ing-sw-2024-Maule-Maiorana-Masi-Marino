@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.PlayerDeck;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -171,6 +170,16 @@ public class TUI extends UI {
     }
 
     @Override
+    public void show_wrongCardSelMsg() {
+        printAsync("Invalid selection. Please choose a number between 0 and 6.");
+    }
+
+    @Override
+    public void show_wrongCellSelMsg() {
+        printAsync("Invalid selection. Please choose a number between: "+ DefaultValue.BookSizeMin+ " and " + DefaultValue.BookSizeMax);
+    }
+
+    @Override
     public void show_whichObjectiveCards() {
         printAsync("Set your GOAL for the Game:");
         printAsync("> Choose one between these objective cards:");
@@ -223,7 +232,7 @@ public class TUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to Place a card!\n" );
+        printAsync("It's your turn to Place a card!\n" );
     }
 
     @Override
@@ -243,7 +252,7 @@ public class TUI extends UI {
 
     @Override
     public void show_askWhichCellMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to choose a cell to place the card!\n" );
+        printAsync("Choose a Cell in the book to place the card:\n" );
     }
 
     @Override

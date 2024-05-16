@@ -66,6 +66,11 @@ public abstract class UI {
     public abstract void show_readyToStart(GameImmutable gameModel, String nickname);
     public abstract void show_returnToMenuMsg();
     public abstract void show_whichInitialCards();
+
+    public abstract void show_wrongCardSelMsg();
+
+    public abstract void show_wrongCellSelMsg();
+
     public abstract void show_whichObjectiveCards();
     public abstract void show_askNum(String msg, GameImmutable gameModel, String nickname);
     /**
