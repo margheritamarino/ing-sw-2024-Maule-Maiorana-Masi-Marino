@@ -525,7 +525,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
     @Override
     public void makeGameStart(String nick){
-        System.out.println("sono anbcora in gameflow");
+        System.out.println("sono ancora in gameflow MAKE GAME START");
         try {
             clientActions.makeGameStart(nick);
         } catch (IOException e) {

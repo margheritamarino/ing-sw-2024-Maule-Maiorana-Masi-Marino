@@ -101,7 +101,7 @@ public class ClientHandler extends Thread{
 
         try {
             while (!this.isInterrupted()) {
-                System.out.println("Sono nel SERVER \n Sono dentro al metodo GameLogic di Client Handler");
+            //    System.out.println("Sono nel SERVER \n Sono dentro al metodo GameLogic di Client Handler");
                 temp = processingQueue.take();
 
                 if(temp.isJoinGame()){
