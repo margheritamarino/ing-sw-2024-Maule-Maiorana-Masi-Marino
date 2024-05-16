@@ -11,10 +11,9 @@ import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.rmi.ClientRMI;
 import it.polimi.ingsw.network.socket.client.ClientSocket;
-import it.polimi.ingsw.view.Utilities.InputController;
-import it.polimi.ingsw.view.Utilities.InputReader;
-import it.polimi.ingsw.view.Utilities.InputTUI;
-import it.polimi.ingsw.view.Utilities.UI;
+import it.polimi.ingsw.view.GUI.GUI;
+import it.polimi.ingsw.view.GUI.GUIApplication;
+import it.polimi.ingsw.view.Utilities.*;
 import it.polimi.ingsw.view.TUI.TUI;
 import it.polimi.ingsw.view.events.Event;
 import it.polimi.ingsw.view.events.EventList;
@@ -64,6 +63,22 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         nickname = "";
 
         this.inputReader = new InputTUI();
+        this.inputController = new InputController(this.inputReader.getBuffer(), this);
+
+        new Thread(this).start();
+
+    }
+
+    public GameFlow(GUIApplication guiApplication, ConnectionType connectionType){
+        switch (connectionType){
+            case SOCKET -> clientActions = new ClientSocket(this);
+            case RMI -> clientActions = new ClientRMI(this);
+        }
+        this.inputReader = new InputGUI();
+        ui = new GUI(guiApplication, (InputGUI) inputReader);
+        importantEvents = new ArrayList<>();
+        nickname = "";
+
         this.inputController = new InputController(this.inputReader.getBuffer(), this);
 
         new Thread(this).start();
