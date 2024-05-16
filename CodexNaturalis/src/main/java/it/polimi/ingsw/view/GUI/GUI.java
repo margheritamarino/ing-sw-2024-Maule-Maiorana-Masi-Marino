@@ -179,10 +179,6 @@ public class GUI extends UI {
 
     }
 
-    @Override
-    protected void show_playerDeck(GameImmutable model) {
-
-    }
 
     @Override
     public void show_readyToStart(GameImmutable gameModel, String nickname) {
