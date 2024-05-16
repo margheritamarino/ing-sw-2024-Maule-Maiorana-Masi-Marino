@@ -148,11 +148,13 @@ public class Game {
 	 * @param gameID new game id
 	 */
 	public void setGameId(int gameID) {
+		System.out.println("Model: method setGameId()");
 		this.gameID = gameID;
 	}
 
 	public void setPlayersNumber(int playersNumber) {
 		this.playersNumber = playersNumber;
+		System.out.println("Model: method setGameId()");
 	}
 
 	/**
