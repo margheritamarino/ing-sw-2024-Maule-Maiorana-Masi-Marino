@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 //Definisce l'interfaccia per la visualizzazione del gioco comune che servirà sia per la TUI che per la GUI
 
 /**
@@ -32,7 +34,9 @@ public abstract class UI {
     public abstract void show_nextTurnMsg(GameImmutable model);
     public abstract void show_pointsAddedMsg(GameImmutable model);
     public abstract void show_joiningToGameMsg(String nick);
-
+    public abstract void show_playerBook(GameImmutable model);
+    public abstract void show_scoretrack(GameImmutable model);
+    public abstract void show_board(GameImmutable model);
 
 
     /**

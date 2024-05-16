@@ -98,6 +98,7 @@ public class Book implements Serializable {
 
         //inserisco la carta nella matrice da stampare
         matrix[35][35] = initialCard.toString();
+
     }
 
     /**
@@ -877,6 +878,8 @@ public class Book implements Serializable {
                 System.out.printf("│ %" + (maxLengths[j] + 1) + "s", subMatrix[i][j]);
             }
             System.out.println("│");
+
+
 
             // Stampare i bordi intermedi
             if (i < numRows - 1) {

@@ -98,15 +98,18 @@ public class TUI extends UI {
     }
 
 
+    @Override
     public void show_scoretrack(GameImmutable model) {
         printAsync(model.getScoretrack().toString());
     }
 
+    @Override
     public void show_board(GameImmutable model) {
         printAsync(model.getBoard().toString());
     }
 
-    //TODO
+
+    @Override
     public void show_playerBook(GameImmutable model){
         System.out.println(model.getCurrentPlayer().getPlayerBook().printMatrix(model.getCurrentPlayer().getPlayerBook().findSubMatrix()[0], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[1], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[2], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[3]));
     }
