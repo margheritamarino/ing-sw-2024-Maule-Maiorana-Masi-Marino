@@ -47,7 +47,7 @@
   "numCorners": 3,
   "hasSymbol": true,
   "symbol": "Manuscript",
-  "TLCorner": "Symbol",
+  "TLCorner": "WithSymbol",
   "TRCorner": "Empty",
   "BRCorner": "NoCorner",
   "BLCorner": "Empty",
