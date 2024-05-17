@@ -45,7 +45,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Singleton Pattern, instance of the class
      */
     private static GameController instance = null;
-    boolean gameCreated;
+    private boolean gameCreated;
+
     private final transient Map<GameListenerInterface, Ping> receivedPings;
     /**GameController Constructor
      * Init a GameModel
@@ -178,9 +179,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         Player currentPlayer = model.getPlayerByNickname(playerName);
         if(currentPlayer.equals(model.getCurrentPlayer())){
             int points= model.placeCardTurn(model.getPlayerByNickname(playerName), chosenCard, rowCell, colCell);
-            model.addPoints(model.getPlayerByNickname(playerName), points);
+            if(points>=0)
+                model.addPoints(model.getPlayerByNickname(playerName), points);
         }
     }
+
 
     @Override
     public synchronized void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos){

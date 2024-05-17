@@ -116,6 +116,7 @@ public class TUI extends UI {
 
     @Override
     public void show_playerDeck(GameImmutable model, String nick) {
+        printAsync("*** YOUR DECK ***");
         Player p = model.getPlayerByNickname(nick);
         for (int i = 0; i < p.getPlayerDeck().miniDeck.size(); i++) {
             printAsync("[" + i + "]: \n" + p.getPlayerDeck().miniDeck.get(i).toString());
@@ -220,10 +221,10 @@ public class TUI extends UI {
         printAsync("It's your TURN!\n");
     }
     @Override
-    public void show_gameStarted(GameImmutable model) {
+    public synchronized void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_publisher();
-        printAsync(ansi().fg(DEFAULT).a("GAME STARTED!"));
+        printAsync(ansi().fg(DEFAULT).a("***GAME STARTED!***"));
         show_OrderPlayers(model);
         show_board(model);
         show_scoretrack(model);
@@ -235,7 +236,7 @@ public class TUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
-        printAsync("It's your turn to Place a card!\n" );
+        printAsync("--- first action: PLACE A CARD ---" );
     }
 
     @Override
@@ -280,9 +281,12 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_pointsAddedMsg(GameImmutable model){
-        printAsync(model.getCurrentPlayer().getNickname() + " scored some points!\n");
-        printAsync("New total score: \n");
+    public void show_pointsAddedMsg(GameImmutable model, String nickname){
+        if(model.getCurrentPlayer().equals(nickname) )
+            printAsync("You scored " + model.getCurrentCardPoints()+ "points!");
+        else
+            printAsync(model.getCurrentPlayer().getNickname() + " scored " + model.getCurrentCardPoints()+ "points!");
+        printAsync("NEW TOTAL SCORE");
         show_scoretrack(model);
     }
 

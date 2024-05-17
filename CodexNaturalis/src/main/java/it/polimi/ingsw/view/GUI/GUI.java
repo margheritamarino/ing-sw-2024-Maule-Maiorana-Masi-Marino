@@ -129,7 +129,7 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_pointsAddedMsg(GameImmutable model) {
+    public void show_pointsAddedMsg(GameImmutable model, String nickname) {
 
     }
 

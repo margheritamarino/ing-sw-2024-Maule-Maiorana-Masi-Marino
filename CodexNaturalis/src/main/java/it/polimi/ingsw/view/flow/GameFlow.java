@@ -28,6 +28,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 
 //Capire come parte il pescaggio delle carte nel 1°Truno di gioco
 
@@ -178,7 +180,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
                     ui.show_CurrentTurnMsg();
                     askPlaceCards(event.getModel(), nickname);
-                    ui.show_alwaysShow(event.getModel(), nickname);
+                  //  ui.show_alwaysShow(event.getModel(), nickname);
                 }
                 else{
                     ui.show_WaitTurnMsg(event.getModel(), nickname);
@@ -192,8 +194,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             case CARD_PLACED ->{
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
+                    ui.show_pointsAddedMsg(event.getModel(), nickname);
                     askPickCard(event.getModel());
-                    ui.show_playerDeck(event.getModel(), nickname);
                 }
 
             }
@@ -412,15 +414,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    public void askPlaceCards(GameImmutable model, String nickname){
+    public synchronized void askPlaceCards(GameImmutable model, String nickname){
 
         String temp;
         ui.show_askPlaceCardsMainMsg(model);
         ui.show_alwaysShow(model, nickname);
-        ui.show_askNum("Choose which CARD you want to place:", model, nickname);
         int posChosenCard=-1;
         do {
             try {
+                ui.show_askNum("Choose which CARD you want to place:", model, nickname);
                 temp = this.inputController.getUnprocessedData().popInputData();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -479,7 +481,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    public void askPickCard (GameImmutable model) {
+    public synchronized void askPickCard (GameImmutable model) {
         int pos=0;
         ui.show_PickCardMsg(model); //messaggio "è il tuo turno di pescare una carta"
 
@@ -677,9 +679,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void cardsReady(GameImmutable model, String nickname)throws RemoteException{
-        if(nickname.equals(nickname)){
+       /* if(nickname.equals(nickname)){
             ui.show_playerDeck(model, nickname);
-        }
+        }*/
         events.add(model, EventType.CARDS_READY);
     }
     /**
@@ -731,7 +733,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_temporaryInitialCards(model);
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
+            index = Objects.requireNonNullElse(askNum("\t> Insert number:", model), -1);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 index = null;
@@ -777,13 +779,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void cardPlaced(GameImmutable model) throws RemoteException {
-        ui.show_cardPlacedMsg(model);
+       // ui.show_cardPlacedMsg(model);
         events.add(model, EventType.CARD_PLACED);
     }
 
     @Override
     public void pointsAdded(GameImmutable model) throws RemoteException {
-        ui.show_pointsAddedMsg(model);
+        ui.show_pointsAddedMsg(model, nickname);
     }
 
 

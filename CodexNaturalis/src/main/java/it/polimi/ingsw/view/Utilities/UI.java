@@ -32,7 +32,7 @@ public abstract class UI {
     public abstract void show_cardPlacedMsg(GameImmutable model);
     public abstract void show_cardDrawnMsg(GameImmutable model);
     public abstract void show_nextTurnMsg(GameImmutable model);
-    public abstract void show_pointsAddedMsg(GameImmutable model);
+    public abstract void show_pointsAddedMsg(GameImmutable model, String nickname);
     public abstract void show_joiningToGameMsg(String nick);
     public abstract void show_playerBook(GameImmutable model);
     public abstract void show_scoretrack(GameImmutable model);
