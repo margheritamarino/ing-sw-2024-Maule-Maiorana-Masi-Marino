@@ -69,7 +69,7 @@ public class ListenersHandler {
      * The notifyPlayerJoined method notifies the view that a player has joined the game
      * @param model is the Game to pass as a new GameModelImmutable
      */
-    public synchronized void notify_PlayerJoined(Game model, String nickname) {
+    public void notify_PlayerJoined(Game model, String nickname) {
         System.out.println("ListenersHandler: notify_PlayerJoined");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {

@@ -303,7 +303,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
         System.out.println("GameController: method joinGame()");
         if(!isGameCreated()){
-            model.createGame(lis);
+            model.createGame(lis, nick);
+
 
         }else{
             model.addPlayer(lis, nick);
@@ -311,17 +312,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
-    public synchronized void setGameCreated(boolean toSet){
+    public void setGameCreated(boolean toSet){
         this.gameCreated= toSet;
     }
 
-    public synchronized void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick)throws RemoteException{
+    public void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick) throws RemoteException{
         System.out.println("GameController: method settingGame()");
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
         System.out.println("numero giocatori:" + numPlayers);
         setGameCreated(true);
-        joinGame(lis, nick);
+        model.addPlayer(lis, nick);
+        model.getPlayerByNickname(nick).setConnected(true);
     }
 
 

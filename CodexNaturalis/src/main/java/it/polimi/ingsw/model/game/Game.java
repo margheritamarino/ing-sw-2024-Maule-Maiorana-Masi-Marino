@@ -228,7 +228,7 @@ public class Game {
 		}
 		return false;
 	}
-	public void createGame( GameListenerInterface lis){
+	public void createGame( GameListenerInterface lis, String nickname){
 		System.out.println("Game: method createGame()");
 		listenersHandler.notify_requireNumPlayersGameID(lis, this);
 	}
@@ -259,10 +259,12 @@ public class Game {
 			addListener(lis);
 
 			scoretrack.addPlayer(newPlayer);
+			System.out.println("Game: player added to the Scoretrack");
 
 
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname);
+			System.out.println("Game: sent notify_PlayerJoined");
 		}
 
 	}

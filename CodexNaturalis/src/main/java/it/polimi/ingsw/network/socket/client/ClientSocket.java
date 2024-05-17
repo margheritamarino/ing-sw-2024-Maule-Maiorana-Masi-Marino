@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socket.client;
 
 //import it.polimi.ingsw.model.Chat.Message; (CHAT)
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.CardType;
 //import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
@@ -158,7 +159,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void settingGame(int numPlayers, int GameID) throws IOException {
+    public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
         out.writeObject(new ClientMsgCreateGame( numPlayers, GameID, nickname));
         finishSending();
     }

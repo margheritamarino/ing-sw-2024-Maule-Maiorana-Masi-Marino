@@ -578,10 +578,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void settingGame(int numPlayers, int GameID){
+    public void settingGame(int numPlayers, int GameID, String nick){
         System.out.println("GameFlow: settingGame");
         try {
-            clientActions.settingGame(numPlayers, GameID);
+            clientActions.settingGame(numPlayers, GameID, nick);
         } catch (IOException e) {
             noConnectionError();
         }
@@ -711,7 +711,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         System.out.println("GameFlow: requireNumPlayersGameID");
         int numPlayers=askNumPlayers();
         int GameID= askGameID();
-        settingGame(numPlayers, GameID);
+        settingGame(numPlayers, GameID, nickname);
 
     }
 

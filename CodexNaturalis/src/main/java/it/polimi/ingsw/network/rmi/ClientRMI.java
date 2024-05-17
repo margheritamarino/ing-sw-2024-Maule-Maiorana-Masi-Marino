@@ -154,10 +154,10 @@ public class ClientRMI implements ClientInterface {
     }
 
     @Override
-    public void settingGame(int numPlayers, int GameID) throws IOException {
+    public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
         System.out.println("ClientRMI: method settingGame()");
         try {
-            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nickname);
+            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick);
         } catch (RemoteException e) {
             throw new IOException(e);
         }
@@ -194,12 +194,14 @@ public class ClientRMI implements ClientInterface {
             gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
             System.out.println("Remote object found.");
 
+            this.nickname = nick;
+
             // Unisciti al gioco
             System.out.println("Joining the game...");
-            gameController.joinGame(modelInvokedEvents, nick);
+            gameController.joinGame(modelInvokedEvents, nickname);
             System.out.println("Joined the game successfully.");
 
-            nickname = nick;
+
         } catch (RemoteException e) {
             System.err.println("RemoteException: " + e.getMessage());
             e.printStackTrace();
