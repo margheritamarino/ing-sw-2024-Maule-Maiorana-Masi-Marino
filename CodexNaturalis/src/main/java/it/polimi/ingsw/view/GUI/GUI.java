@@ -129,7 +129,7 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_pointsAddedMsg(GameImmutable model) {
+    public void show_pointsAddedMsg(GameImmutable model, String nickname) {
 
     }
 
@@ -195,6 +195,17 @@ public class GUI extends UI {
 
     }
 
+
+    @Override
+    public void show_wrongCardSelMsg() {
+
+    }
+
+    @Override
+    public void show_wrongCellSelMsg() {
+
+    }
+
     @Override
     public void show_whichObjectiveCards() {
 
@@ -254,9 +265,26 @@ public class GUI extends UI {
     public void show_playerDeck(GameImmutable model, String nickname) {
 
     }
+    @Override
+    public void show_playerBook(GameImmutable model) {
+
+    }
+    @Override
+    public void show_scoretrack(GameImmutable model) {
+
+    }
+    @Override
+    public void show_board(GameImmutable model) {
+
+    }
+
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
+
+    }
+    @Override
+    public void show_visibleCardsBoard(GameImmutable model){
 
     }
 }

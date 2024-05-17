@@ -37,6 +37,7 @@ public class GameImmutable implements Serializable {
     private final Board board;
     private final GameStatus status;
     private final int[] orderArray;
+    private int currentCardPoints;
 
     /**
      * Constructor
@@ -53,6 +54,7 @@ public class GameImmutable implements Serializable {
         temporaryInitialCard = modelToCopy.getTemporaryInitialCardsDeck();
         temporaryObjectiveCards = modelToCopy.getTemporaryObjectiveCardsDeck();
         this.orderArray = modelToCopy.getOrderArray();
+        this.currentCardPoints= modelToCopy.getCurrentCardPoints();
     }
 
     /**
@@ -196,4 +198,7 @@ public class GameImmutable implements Serializable {
         return temporaryObjectiveCards;
     }
 
+    public int getCurrentCardPoints(){
+         return currentCardPoints;
+    }
 }

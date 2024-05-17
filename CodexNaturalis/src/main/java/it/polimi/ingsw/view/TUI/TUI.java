@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.PlayerDeck;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -99,24 +98,28 @@ public class TUI extends UI {
     }
 
 
+    @Override
     public void show_scoretrack(GameImmutable model) {
         printAsync(model.getScoretrack().toString());
     }
 
+    @Override
     public void show_board(GameImmutable model) {
         printAsync(model.getBoard().toString());
     }
 
-    //TODO
+
+    @Override
     public void show_playerBook(GameImmutable model){
         System.out.println(model.getCurrentPlayer().getPlayerBook().printMatrix(model.getCurrentPlayer().getPlayerBook().findSubMatrix()[0], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[1], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[2], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[3]));
     }
 
     @Override
     public void show_playerDeck(GameImmutable model, String nick) {
+        printAsync("*** YOUR DECK ***");
         Player p = model.getPlayerByNickname(nick);
-        for (int i = 0; i < p.getPlayerDeck().getMiniDeck().size(); i++) {
-            printAsync("[" + i + "]: " + p.getPlayerDeck().getMiniDeck().get(i).toString());
+        for (int i = 0; i < p.getPlayerDeck().miniDeck.size(); i++) {
+            printAsync("[" + i + "]: \n" + p.getPlayerDeck().miniDeck.get(i).toString());
         }
     }
 
@@ -173,6 +176,16 @@ public class TUI extends UI {
     }
 
     @Override
+    public void show_wrongCardSelMsg() {
+        printAsync("Invalid selection. Please choose a number between 0 and 6.");
+    }
+
+    @Override
+    public void show_wrongCellSelMsg() {
+        printAsync("Invalid selection. Please choose a number between: "+ DefaultValue.BookSizeMin+ " and " + DefaultValue.BookSizeMax);
+    }
+
+    @Override
     public void show_whichObjectiveCards() {
         printAsync("Set your GOAL for the Game:");
         printAsync("> Choose one between these objective cards:");
@@ -210,10 +223,10 @@ public class TUI extends UI {
         printAsync("It's your TURN!\n");
     }
     @Override
-    public void show_gameStarted(GameImmutable model) {
+    public synchronized void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_publisher();
-        printAsync(ansi().fg(DEFAULT).a("GAME STARTED!"));
+        printAsync(ansi().fg(DEFAULT).a("***GAME STARTED!***"));
         show_OrderPlayers(model);
         show_board(model);
         show_scoretrack(model);
@@ -225,7 +238,7 @@ public class TUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to Place a card!\n" );
+        printAsync("--- first action: PLACE A CARD ---" );
     }
 
     @Override
@@ -245,7 +258,7 @@ public class TUI extends UI {
 
     @Override
     public void show_askWhichCellMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to choose a cell to place the card!\n" );
+        printAsync("Choose a Cell in the book to place the card:\n" );
     }
 
     @Override
@@ -270,9 +283,12 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_pointsAddedMsg(GameImmutable model){
-        printAsync(model.getCurrentPlayer().getNickname() + " scored some points!\n");
-        printAsync("New total score: \n");
+    public void show_pointsAddedMsg(GameImmutable model, String nickname){
+        if(model.getCurrentPlayer().equals(nickname) )
+            printAsync("You scored " + model.getCurrentCardPoints()+ "points!");
+        else
+            printAsync(model.getCurrentPlayer().getNickname() + " scored " + model.getCurrentCardPoints()+ "points!");
+        printAsync("NEW TOTAL SCORE");
         show_scoretrack(model);
     }
 
@@ -341,7 +357,7 @@ public class TUI extends UI {
         PlayableCard[] initialCards = model.getInitialCard();
 
         for (int i = 0; i < initialCards.length; i++) {
-            printAsync("[" + i + "]: " + initialCards[i].toString());
+            printAsync("[" + i + "]: \n" + initialCards[i].toString());
         }
     }
 
@@ -351,7 +367,7 @@ public class TUI extends UI {
         ArrayList<ObjectiveCard> objectiveCards = model.getObjectiveCard();
 
         for (int i = 0; i < objectiveCards.size(); i++) {
-            printAsync("[" + i + "]: " + objectiveCards.get(i).toString());
+            printAsync("[" + i + "]: \n" + objectiveCards.get(i).toString());
         }
     }
 
@@ -364,6 +380,11 @@ public class TUI extends UI {
             throw new RuntimeException(e);
         }
         System.exit(-1);
+    }
+
+    @Override
+    public void show_visibleCardsBoard(GameImmutable model){
+        //TODO
     }
 
 }

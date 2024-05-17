@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 //Definisce l'interfaccia per la visualizzazione del gioco comune che servirà sia per la TUI che per la GUI
 
 /**
@@ -30,9 +32,11 @@ public abstract class UI {
     public abstract void show_cardPlacedMsg(GameImmutable model);
     public abstract void show_cardDrawnMsg(GameImmutable model);
     public abstract void show_nextTurnMsg(GameImmutable model);
-    public abstract void show_pointsAddedMsg(GameImmutable model);
+    public abstract void show_pointsAddedMsg(GameImmutable model, String nickname);
     public abstract void show_joiningToGameMsg(String nick);
-
+    public abstract void show_playerBook(GameImmutable model);
+    public abstract void show_scoretrack(GameImmutable model);
+    public abstract void show_board(GameImmutable model);
 
 
     /**
@@ -67,6 +71,11 @@ public abstract class UI {
     public abstract void show_readyToStart(GameImmutable gameModel, String nickname);
     public abstract void show_returnToMenuMsg();
     public abstract void show_whichInitialCards();
+
+    public abstract void show_wrongCardSelMsg();
+
+    public abstract void show_wrongCellSelMsg();
+
     public abstract void show_whichObjectiveCards();
     public abstract void show_askNum(String msg, GameImmutable gameModel, String nickname);
     /**
@@ -91,4 +100,6 @@ public abstract class UI {
     public abstract void show_playerDeck(GameImmutable model, String nickname) ;
 
     public abstract void show_WaitTurnMsg(GameImmutable model, String nickname) ;
+
+    public abstract void show_visibleCardsBoard(GameImmutable model);
 }

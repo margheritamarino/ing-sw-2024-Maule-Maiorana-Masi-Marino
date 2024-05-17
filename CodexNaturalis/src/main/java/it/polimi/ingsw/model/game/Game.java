@@ -44,6 +44,7 @@ public class Game {
 
 
 	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
+	private int currentCardPoints;
 
 	/**
 	 * Private Constructor
@@ -51,7 +52,6 @@ public class Game {
 	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
 	public Game(int playersNumber) {
-
 		this.playersNumber = playersNumber;
 		this.initialCardsDeck = new Deck(CardType.InitialCard);
 		this.players = new ArrayList<>();
@@ -573,28 +573,25 @@ public class Game {
 	 * @param rowCell   the row index of the cell in which to place the card.
 	 * @param colCell   the column index of the cell in which to place the card.
 	 * @return          the number of points gained from placing the card successfully.
-	 *
-	 * @throws PlacementConditionViolated if the chosen card has a condition that is not satisfied.
-	 * @throws IndexOutOfBoundsException if the specified cell indices are not available in the boo.
 	 */
 	public int placeCardTurn( Player p, int chosenCard, int rowCell, int colCell)  {
 		try {
-			int points=  p.placeCard(chosenCard, rowCell, colCell);
-			listenersHandler.notify_CardPlaced(this);
-			return points;
-		}catch(PlacementConditionViolated e){
-			listenersHandler.notify_NotCorrectChosenCard(this);
-			return 0;
-		}catch (IndexOutOfBoundsException e){
-			listenersHandler.notify_NotCorrectChosenCard(this);
-			return 0;
+			currentCardPoints=  p.placeCard(chosenCard, rowCell, colCell);
+			//p.notify_CardPlaced(this);
+			return currentCardPoints;
+		}catch(PlacementConditionViolated | IndexOutOfBoundsException e){
+			p.notify_NotCorrectChosenCard(this);
+			return -1;
 		}
 
 	}
+	public int getCurrentCardPoints(){
+		return this.currentCardPoints;
 
+	}
 	public void addPoints(Player p, int points) {
 		scoretrack.addPoints(p, points);
-		listenersHandler.notify_PointsAdded(this);
+		listenersHandler.notify_PointsAdded(p.getListeners(), this);
 	}
 
 

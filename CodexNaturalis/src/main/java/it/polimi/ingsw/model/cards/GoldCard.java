@@ -151,6 +151,12 @@ public class GoldCard extends PlayableCard implements Serializable {
         Ansi.Color bgColor;
         Ansi.Color textColor = Ansi.Color.WHITE;
         String conditionPoint = "";
+        String FoB;
+        if(isFront()){
+            FoB = "Front";
+        }else{
+            FoB = "Back";
+        }
 
         //cambia il colore della carta in base alla mainResource
         switch(mainResource){
@@ -197,17 +203,24 @@ public class GoldCard extends PlayableCard implements Serializable {
         result.append("CardType: ");
         result.append(cardTypeName);
         result.append("\n");
-        result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
+        result.append("Face: ");
+        result.append(FoB);
+        result.append("\n");
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append("Points: ");
         result.append(points);
         result.append("\n");
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append("Corners: ");
         String formattedCorners = String.join(" ", emojiCorners);
         result.append(formattedCorners);
         result.append("\n");
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append("PointsCondition: ");
         result.append(conditionPoint);
         result.append("\n");
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append("Placement condition: ");
         String formattedCondition = String.join(" ", conditionEmoji);
         result.append(formattedCondition);

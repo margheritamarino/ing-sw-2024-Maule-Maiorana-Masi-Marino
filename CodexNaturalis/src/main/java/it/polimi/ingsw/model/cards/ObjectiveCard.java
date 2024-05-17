@@ -132,13 +132,15 @@ public class ObjectiveCard implements Serializable {
         result.append("CardType: ");
         result.append(cardTypeName);
         result.append("\n");
-        result.append(ansi().fg(Ansi.Color.DEFAULT).bg(Ansi.Color.DEFAULT));
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append("Points: ");
         result.append(points);
         result.append("\n");
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append("ConditionType: ");
         result.append(goalType.toString());
         result.append("\n");
+        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
         result.append("Condition: ");
         result.append(condition);
         for (int i = 0; i < symbols.size(); i++) {

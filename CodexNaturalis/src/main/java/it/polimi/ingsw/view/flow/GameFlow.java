@@ -28,6 +28,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 
 //Capire come parte il pescaggio delle carte nel 1°Truno di gioco
 
@@ -178,6 +180,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
                     ui.show_CurrentTurnMsg();
                     askPlaceCards(event.getModel(), nickname);
+                  //  ui.show_alwaysShow(event.getModel(), nickname);
                 }
                 else{
                     ui.show_WaitTurnMsg(event.getModel(), nickname);
@@ -191,6 +194,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             case CARD_PLACED ->{
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
+                    ui.show_pointsAddedMsg(event.getModel(), nickname);
                     askPickCard(event.getModel());
                 }
 
@@ -410,26 +414,58 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    public void askPlaceCards(GameImmutable model, String nickname){
-        int posChosenCard;
+    public synchronized void askPlaceCards(GameImmutable model, String nickname){
+
+        String temp;
         ui.show_askPlaceCardsMainMsg(model);
-        ui.show_alwaysShow(model, nickname); // Il Book del CURRENT PLAYER viene mostrato a video a TUTTI i Player appena si passa a NEXT_TURN
-        posChosenCard = Objects.requireNonNullElse(askNum("> Choose which card to place: ", model), - 1);
+        ui.show_alwaysShow(model, nickname);
+        int posChosenCard=-1;
+        do {
+            try {
+                ui.show_askNum("Choose which CARD you want to place:", model, nickname);
+                temp = this.inputController.getUnprocessedData().popInputData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            posChosenCard = Integer.parseInt(temp); //traduco il numero in integer
+            if (posChosenCard < 0 || posChosenCard > 6) {
+                ui.show_wrongCardSelMsg();
+                posChosenCard = -1;
+            }
+        }while (posChosenCard<0);
 
-        int rowCell;
+        int rowCell=-1;
         ui.show_askWhichCellMsg(model);
+        ui.show_askNum("Choose the ROW of the cell:", model, nickname);
         do {
-            rowCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose row: ", model), -1);
-            if (ended) return;
-        } while (rowCell > DefaultValue.BookSizeMax || rowCell < DefaultValue.BookSizeMin );
+            try {
+                temp = this.inputController.getUnprocessedData().popInputData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            rowCell = Integer.parseInt(temp); //traduco il numero in integer
+            if (rowCell < DefaultValue.BookSizeMin || rowCell > DefaultValue.BookSizeMax) {
+                ui.show_wrongCardSelMsg();
+                rowCell = -1;
+            }
+        }while (rowCell<0);
 
-        int columnCell;
+        int colCell=-1;
+        ui.show_askNum("Choose the COLUMN of the cell:", model, nickname);
         do {
-            columnCell = Objects.requireNonNullElse(askNum("> Which Cell do you want to place your card in?\n\t> Choose column: ", model), -1);
-            if (ended) return;
-        } while (columnCell > DefaultValue.BookSizeMax || columnCell < DefaultValue.BookSizeMin);
+            try {
+                temp = this.inputController.getUnprocessedData().popInputData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            colCell = Integer.parseInt(temp); //traduco il numero in integer
+            if (colCell < DefaultValue.BookSizeMin || colCell > DefaultValue.BookSizeMax) {
+                ui.show_wrongCardSelMsg();
+                colCell = -1;
+            }
+        }while (colCell<0);
 
-        placeCardInBook(posChosenCard, rowCell, columnCell );
+        placeCardInBook(posChosenCard, rowCell, colCell );
     }
 
 
@@ -445,7 +481,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    public void askPickCard (GameImmutable model) {
+    public synchronized void askPickCard (GameImmutable model) {
         int pos=0;
         ui.show_PickCardMsg(model); //messaggio "è il tuo turno di pescare una carta"
 
@@ -454,8 +490,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         boolean drawFromDeck = askDrawFromDeck( model);
 
         if(!drawFromDeck){
+            ui.show_visibleCardsBoard(model);
             //Non dovrebbe chiedere se vuole la carta 0 o 1 dell'array?
-            pos= Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
+            pos= Objects.requireNonNullElse(askNum("\t> Choose [0] for the first card or [1] for the second card:", model), -1);
         }
         PickCardFromBoard(cardType, drawFromDeck, pos);
     }
@@ -642,9 +679,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void cardsReady(GameImmutable model, String nickname)throws RemoteException{
-        if(nickname.equals(nickname)){
+       /* if(nickname.equals(nickname)){
             ui.show_playerDeck(model, nickname);
-        }
+        }*/
         events.add(model, EventType.CARDS_READY);
     }
     /**
@@ -696,7 +733,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_temporaryInitialCards(model);
         Integer index;
         do {
-            index = Objects.requireNonNullElse(askNum("\t> Choose the Front or the Back :", model), -1);
+            index = Objects.requireNonNullElse(askNum("\t> Insert number:", model), -1);
             if (ended) return;
             if (index < 0 || index >= 2) {
                 index = null;
@@ -742,13 +779,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void cardPlaced(GameImmutable model) throws RemoteException {
-        ui.show_cardPlacedMsg(model);
+       // ui.show_cardPlacedMsg(model);
         events.add(model, EventType.CARD_PLACED);
     }
 
     @Override
     public void pointsAdded(GameImmutable model) throws RemoteException {
-        ui.show_pointsAddedMsg(model);
+        ui.show_pointsAddedMsg(model, nickname);
     }
 
 
