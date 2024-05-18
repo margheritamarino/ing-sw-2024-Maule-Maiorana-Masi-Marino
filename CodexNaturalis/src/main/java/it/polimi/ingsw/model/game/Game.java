@@ -469,7 +469,7 @@ public class Game {
 			}
 			PlayableCard[] newCard= board.takeCardfromBoard(CardType.GoldCard, true, 0);
 			player.getPlayerDeck().addCard(newCard);
-
+			System.out.println("Initial Card aggiunta");
 			temporaryObjectiveCards = drawObjectiveCards();
 			// Inizializza gli obiettivi
 			System.out.println("Game: initializeCards, mando la notifica notify_requireGoals al player  ");
