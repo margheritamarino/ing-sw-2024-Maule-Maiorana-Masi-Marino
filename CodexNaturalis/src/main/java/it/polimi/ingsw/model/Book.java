@@ -131,21 +131,19 @@ public class Book implements Serializable {
      * @param cell         The cell onto which the card will be placed.
      * @return The points earned by placing the card on the cell. Returns 0 if the card has no points.
      */
-    public int addResourceCard(PlayableCard resourceCard, Cell cell){ //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
+    public int addResourceCard(PlayableCard resourceCard, Cell cell) throws CellNotAvailableException { //metodo che piazza le carte nel gioco e restituisce i punti di quella carte (se non ha punti restituisce 0)
         int numPoints = 0;
-        try {
-            if(!cell.isAvailable()){
-                throw new CellNotAvailableException("This Cell is not Available");
-            }
-            cell.setCardPointer(resourceCard); //setto il puntatore della cella alla carta che ho appena piazzato
-            cell.setAvailable(false);
-            cell.setWall(true);
-            updateMaps(resourceCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
-            updateBook(resourceCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
-            numPoints = resourceCard.getVictoryPoints();
-        }catch (CellNotAvailableException e){
-            System.err.println("Unable to place the card: " + e.getMessage());
+
+        if(!cell.isAvailable()){
+            throw new CellNotAvailableException("This Cell is not Available");
         }
+        cell.setCardPointer(resourceCard); //setto il puntatore della cella alla carta che ho appena piazzato
+        cell.setAvailable(false);
+        cell.setWall(true);
+        updateMaps(resourceCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
+        updateBook(resourceCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
+        numPoints = resourceCard.getVictoryPoints();
+
         return numPoints;
     }
 
@@ -158,32 +156,27 @@ public class Book implements Serializable {
      * @return The number of victory points gained by adding the gold card.
      * @throws PlacementConditionViolated If the placement condition for the gold card is not met.
      */
-    public int addGoldCard(PlayableCard goldCard, Cell cell) throws PlacementConditionViolated {
+    public int addGoldCard(PlayableCard goldCard, Cell cell) throws PlacementConditionViolated, CellNotAvailableException {
         int numPoints = 0;
-        try{
-            if (!checkPlacementCondition(goldCard)) {
-                throw new PlacementConditionViolated("you don't have enough resources on the book!");
-            }
-            try {
-                if (!cell.isAvailable()) {
-                    throw new CellNotAvailableException("This Cell is not Available");
-                }
-                cell.setCardPointer(goldCard); //setto il puntatore della cella alla carta che ho appena piazzato
-                cell.setAvailable(false); //setto disponibilità cella a false
-                cell.setWall(true);
-                updateMaps(goldCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
-                updateBook(goldCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
-                if (!goldCard.isPointsCondition()) {
-                    numPoints = goldCard.getVictoryPoints();
-                } else {
-                    numPoints = checkGoldPoints(goldCard, cell);
-                }
-            } catch (CellNotAvailableException e) {
-                System.err.println("Unable to place the card: " + e.getMessage());
-            }
-        }catch (PlacementConditionViolated e) {
-            System.err.println("Unable to place the card: " + e.getMessage());
+
+        if (!checkPlacementCondition(goldCard)) {
+            throw new PlacementConditionViolated("you don't have enough resources on the book!");
         }
+
+        if (!cell.isAvailable()) {
+            throw new CellNotAvailableException("This Cell is not Available");
+        }
+        cell.setCardPointer(goldCard); //setto il puntatore della cella alla carta che ho appena piazzato
+        cell.setAvailable(false); //setto disponibilità cella a false
+        cell.setWall(true);
+        updateMaps(goldCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
+        updateBook(goldCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
+        if (!goldCard.isPointsCondition()) {
+            numPoints = goldCard.getVictoryPoints();
+        } else {
+            numPoints = checkGoldPoints(goldCard, cell);
+        }
+
         return numPoints;
     }
 
@@ -283,7 +276,7 @@ public class Book implements Serializable {
      * @param cell The cell to which the card will be added.
      * @return The number of points earned by adding the card to the cell.
      */
-    public int addCard(PlayableCard card, Cell cell) throws PlacementConditionViolated {
+    public int addCard(PlayableCard card, Cell cell) throws PlacementConditionViolated, CellNotAvailableException {
         int numPoints = 0;
         switch (card.getCardType()){
             case GoldCard -> numPoints = addGoldCard(card, cell);

@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.model.DefaultValue;
 
+import it.polimi.ingsw.network.PingSender;
+import it.polimi.ingsw.network.TaskOnNetworkDisconnection;
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -17,6 +19,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -61,7 +65,7 @@ public class ClientRMI implements ClientInterface {
      */
     private Flow flow;
 
-    // private HeartbeatSender rmiHeartbeat;
+    private final PingSender pingSender;
 
 
     /**
@@ -72,6 +76,7 @@ public class ClientRMI implements ClientInterface {
         super();
         gameListenersHandler = new GameListenersClient(flow);
         this.flow = flow;
+        pingSender = new PingSender(this.flow, this);
         connect();
     }
 
@@ -125,6 +130,38 @@ public class ClientRMI implements ClientInterface {
 
     }
 
+   /* //CAPISCI SE SERVE:
+    /**
+     * Send pings to the RMI server
+     * If sending a message takes more than {@link DefaultValue#timeoutConnection_millis} millis, the client
+     * will be considered no longer connected to the server
+     */
+/*
+@SuppressWarnings("BusyWait") //CAPISCI SE LASCIARE
+public void run() {
+    //For the ping
+    while (!Thread.interrupted()) {
+        try {
+            Timer timer = new Timer();
+            TimerTask task = new TaskOnNetworkDisconnection(flow);
+            timer.schedule(task, DefaultValue.timeoutConnection_millis);
+
+            //send ping so the server knows I am still online
+            ping();
+
+            timer.cancel();
+        } catch (RemoteException e) {
+            return;
+        }
+        try {
+            Thread.sleep(DefaultValue.secondToWaitToSend_ping);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+*/
 
     @Override
     public void setInitialCard(int index, String nickname) throws IOException {

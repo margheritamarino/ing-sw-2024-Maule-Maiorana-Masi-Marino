@@ -23,13 +23,11 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
 
     @Override
     public void playerJoined(GameImmutable model, String nickname) throws RemoteException {
-        System.out.println("GameListenersClient: PlayerJoined");
         flow.playerJoined(model, nickname);
     }
 
     @Override
     public void requireNumPlayersGameID(GameImmutable model)throws RemoteException{
-        System.out.println("GameListenersClient: requireNumPlayersGameID");
             flow.requireNumPlayersGameID(model);
     }
     @Override
@@ -73,7 +71,6 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
 
     @Override
     public void requireGoalsReady(GameImmutable model) throws RemoteException {
-        System.out.println("GameListenersClient: requireGoalsReady");
         flow.requireGoalsReady(model);
     }
 

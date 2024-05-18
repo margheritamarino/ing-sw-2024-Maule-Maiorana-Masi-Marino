@@ -2,14 +2,12 @@ package it.polimi.ingsw.model.player;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.IllegalStateException;
 import java.rmi.RemoteException;
 import java.util.*;
 
 
-import it.polimi.ingsw.exceptions.DeckEmptyException;
-import it.polimi.ingsw.exceptions.DeckFullException;
-import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.exceptions.PlacementConditionViolated;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
@@ -180,7 +178,7 @@ public class Player implements Serializable {
      * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
      * @return the victoryPoints of the placed card
      */
-    public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, IndexOutOfBoundsException{
+    public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, IndexOutOfBoundsException, CellNotAvailableException {
         ArrayList<Cell> availableCells = this.playerBook.showAvailableCells();
         Cell chosenCell = null;
         PlayableCard chosenCard= null;
@@ -194,17 +192,13 @@ public class Player implements Serializable {
             }
         }
         if (!found)
-            throw new IndexOutOfBoundsException("Invalid cell position");
+            throw new IndexOutOfBoundsException("Invalid Cell position");
 
-        // Check if the card position is valid
-        ArrayList<PlayableCard> miniDeck = this.playerDeck.getMiniDeck();
-        if (posCard < 0 || posCard >= miniDeck.size()) {
-            throw new IndexOutOfBoundsException("Invalid card position");
-        }
 
         // Retrieve the card at the specified position from the player's deck
         chosenCard = this.playerDeck.getMiniDeck().get(posCard);
         playerDeck.removeCard(posCard);
+
 
         // Place the chosen card on the chosen cell using the addCard method of the player's book
         return playerBook.addCard(chosenCard, chosenCell);
@@ -265,5 +259,9 @@ public class Player implements Serializable {
                 i.remove();
             }
         }
+    }
+
+    public void removeListener(GameListenerInterface lis) {
+        listeners.remove(lis);
     }
 }

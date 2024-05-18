@@ -45,7 +45,7 @@ public class ListenersHandler {
         try {
             listener.requireNumPlayersGameID(new GameImmutable(model));
         }catch (RemoteException e){
-            printAsync("During notification of notify_askCreateGame, a disconnection has been detected before heartbeat");
+            printAsync("During notification of notify_askCreateGame, a disconnection has been detected before ping");
         }
 
     }
@@ -100,7 +100,7 @@ public class ListenersHandler {
             try {
                 l.playerLeft(new GameImmutable(model), nickname);
             } catch (RemoteException e) {
-                printAsync("During notification of notify_PlayerLeft, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_PlayerLeft, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -116,7 +116,7 @@ public class ListenersHandler {
         try {
             lis.joinUnableGameFull(triedToJoin, new GameImmutable(model));
         } catch (RemoteException e) {
-            printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat");
+            printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before ping");
         }
 
     }
@@ -129,7 +129,7 @@ public class ListenersHandler {
         try {
             lis.joinUnableNicknameAlreadyIn(triedToJoin);
         } catch (RemoteException e) {
-            printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before heartbeat");
+            printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before ping");
         }
     }
 
@@ -147,7 +147,7 @@ public class ListenersHandler {
             try {
                 l.gameStarted(new GameImmutable(model)); //ogni listener riceve una copia immutabile del game model
             } catch (RemoteException e) {
-                printAsync("During notification of notify_GameStarted, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_GameStarted, a disconnection has been detected before ping");
                 i.remove(); //metodo remove dell'iteratore che rimuove i listener che si sono disconnessi
             }
         }
@@ -164,7 +164,7 @@ public class ListenersHandler {
             try {
                 l.gameEnded(new GameImmutable(model));
             } catch (RemoteException e) {
-                printAsync("During notification of notify_GameEnded, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_GameEnded, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -185,7 +185,7 @@ public class ListenersHandler {
             try {
                 l.cardDrawn(new GameImmutable(model));
             } catch (RemoteException e) {
-                printAsync("During notification of notify_CardDrawn, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_CardDrawn, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -202,7 +202,7 @@ public class ListenersHandler {
             try {
                 l.nextTurn(new GameImmutable(model));
             } catch (RemoteException e) {
-                printAsync("During notification of notify_nextTurn, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_nextTurn, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -221,7 +221,7 @@ public class ListenersHandler {
             try {
                 l.playerDisconnected(new GameImmutable(gamemodel), nick);
             } catch (RemoteException e) {
-                printAsync("During notification of notify_playerDisconnected, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_playerDisconnected, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -238,7 +238,7 @@ public class ListenersHandler {
             try {
                 l.lastCircle(new GameImmutable(model));
             } catch (RemoteException e) {
-                printAsync("During notification of notify_LastCircle, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_LastCircle, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -257,7 +257,7 @@ public class ListenersHandler {
 
                 }
             } catch (RemoteException e) {
-                printAsync("During notification of notify_LastCircle, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_LastCircle, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -272,7 +272,7 @@ public class ListenersHandler {
             try {
                 l.cardPlaced(new GameImmutable(model));
             } catch (RemoteException e) {
-                printAsync("During notification of notify_CardPlaced, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_CardPlaced, a disconnection has been detected before ping");
                 i.remove();
             }
         }

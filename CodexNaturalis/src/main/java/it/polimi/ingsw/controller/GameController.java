@@ -109,24 +109,20 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
                     // cerca nella mappa
-                    Set<Map.Entry<GameListenerInterface, Ping>> entries = receivedPings.entrySet();
+                    Iterator<Map.Entry<GameListenerInterface, Ping>> pingIter = receivedPings.entrySet().iterator();
                     // Itera attraverso tutte le coppie chiave-valore nella mappa
-                    for (Map.Entry<GameListenerInterface, Ping> entry : entries) {
-                        GameListenerInterface listener = entry.getKey();
-                        Ping ping = entry.getValue();
-
-                        // Verifica se il giocatore è disconnesso
-                        if (System.currentTimeMillis() - ping.getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
+                    while (pingIter.hasNext()) {
+                        Map.Entry<GameListenerInterface, Ping> el = (Map.Entry<GameListenerInterface, Ping>) pingIter.next();
+                        if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                             try {
-                                // Disconnette il giocatore
-                                disconnectPlayer(ping.getNick(), listener);
-                                printAsync("Disconnection detected by ping of player: " + ping.getNick());
+                                this.disconnectPlayer(el.getValue().getNick(), el.getKey());
+                                printAsync("Disconnection detected by Ping of player: "+el.getValue().getNick()+"");
 
                             } catch (RemoteException e) {
                                 throw new RuntimeException(e);
                             }
-                            // Rimuove il giocatore dalla mappa dei ping
-                            entries.remove(entry);
+
+                            pingIter.remove();
                         }
                     }
                 }
@@ -275,6 +271,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void leave(GameListenerInterface lis, String nick) throws RemoteException {
+        model.getPlayerByNickname(nick).removeListener(lis);
         model.removeListener(lis);
         model.removePlayer(nick);
         if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {

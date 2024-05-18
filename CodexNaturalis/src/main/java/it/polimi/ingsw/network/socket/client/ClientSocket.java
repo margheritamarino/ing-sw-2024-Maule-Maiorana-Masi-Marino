@@ -61,8 +61,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         this.flow=flow;
         startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersClient(flow);
-        pingSender = new PingSender(this.flow, this);
         this.start();
+        pingSender = new PingSender(this.flow, this);
+
 
     }
 
@@ -153,9 +154,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         in.close();
         out.close();
         clientSocket.close();
-       /* if(pingSender.isAlive()) {
+       if(pingSender.isAlive()) {
             pingSender.interrupt();
-        }*/
+       }
     }
 
     @Override
@@ -198,12 +199,11 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void joinGame(String nick) throws IOException {
         nickname = nick;
-
         out.writeObject(new ClientMsgJoinGame(nick));
         finishSending();
-       /* if(!pingSender.isAlive()) {
+       if(!pingSender.isAlive()) {
             pingSender.start();
-        }*/
+       }
     }
 
 
@@ -237,7 +237,6 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void ping()  {
-
         if (out != null) {
             try {
                out.writeObject(new ClientMsgPing(nickname));

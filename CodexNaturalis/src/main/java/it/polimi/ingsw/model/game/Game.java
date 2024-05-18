@@ -298,15 +298,8 @@ public class Game {
 	 * @param nickname is the nickname of the Player that you want to remove from the game.
 	 */
 	public void removePlayer (String nickname) {
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getNickname().equals(nickname)) {
-				scoretrack.removePlayer(players.get(i));
-				players.remove(i);
-				listenersHandler.notify_PlayerLeft(this, nickname);
-
-			}
-		}
-
+		players.remove(players.stream().filter(x -> x.getNickname().equals(nickname)).toList().get(0));
+		listenersHandler.notify_PlayerLeft(this, nickname);
 	}
 
 	public int getNumReady() {
@@ -583,7 +576,7 @@ public class Game {
 			currentCardPoints=  p.placeCard(chosenCard, rowCell, colCell);
 			//p.notify_CardPlaced(this);
 			return currentCardPoints;
-		}catch(PlacementConditionViolated | IndexOutOfBoundsException e){
+		}catch(PlacementConditionViolated | IndexOutOfBoundsException | CellNotAvailableException e){
 			p.notify_NotCorrectChosenCard(this);
 			return -1;
 		}
