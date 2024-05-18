@@ -37,7 +37,7 @@ public interface ClientInterface  {
      *
      * @throws IOException
      */
-    void setAsReady() throws IOException;
+    void setAsReady(String nickname) throws IOException;
 
     /*
     /**
@@ -52,8 +52,8 @@ public interface ClientInterface  {
 
     void settingGame(int numPlayers, int GameID, String nick)throws IOException;
 
-    void setInitialCard(int index) throws IOException;
-    void setGoalCard(int index) throws IOException, NotPlayerTurnException;
+    void setInitialCard(int index, String nickname) throws IOException;
+    void setGoalCard(int index, String nickname) throws IOException, NotPlayerTurnException;
 
 
 

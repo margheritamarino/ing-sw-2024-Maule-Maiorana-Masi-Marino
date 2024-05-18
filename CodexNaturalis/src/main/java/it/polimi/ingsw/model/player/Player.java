@@ -236,6 +236,7 @@ public class Player implements Serializable {
     }
 
     public synchronized void notify_requireGoals( Game model){
+        System.out.println("Player: notify_requireGoals");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();

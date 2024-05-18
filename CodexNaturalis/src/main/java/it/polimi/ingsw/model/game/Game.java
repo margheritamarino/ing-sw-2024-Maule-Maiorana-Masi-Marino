@@ -205,6 +205,7 @@ public class Game {
 	 * @param player is set as ready, then everyone is notified
 	 */
 	public void playerIsReadyToStart(Player player) {
+		System.out.println("Game: playerIsReadyToStart");
 		player.setReadyToStart();
 	}
 
@@ -471,6 +472,7 @@ public class Game {
 
 			temporaryObjectiveCards = drawObjectiveCards();
 			// Inizializza gli obiettivi
+			System.out.println("Game: initializeCards, mando la notifica notify_requireGoals al player  ");
 			player.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
 
 

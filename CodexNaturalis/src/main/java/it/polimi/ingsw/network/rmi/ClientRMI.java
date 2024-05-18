@@ -127,7 +127,7 @@ public class ClientRMI implements ClientInterface {
 
 
     @Override
-    public void setInitialCard(int index) throws IOException {
+    public void setInitialCard(int index, String nickname) throws IOException {
         try {
             gameController.setInitialCard(nickname, index);
         } catch (RemoteException e) {
@@ -136,7 +136,7 @@ public class ClientRMI implements ClientInterface {
     }
 
     @Override
-    public void setGoalCard(int index) throws IOException, NotPlayerTurnException {
+    public void setGoalCard(int index, String nickname) throws IOException, NotPlayerTurnException {
         try {
             gameController.setGoalCard(nickname, index);
         } catch (RemoteException e) {
@@ -226,7 +226,7 @@ public class ClientRMI implements ClientInterface {
      * @throws IOException
      */
 
-    public void setAsReady() throws IOException {
+    public void setAsReady(String nickname) throws IOException {
         try {
             gameController.playerIsReadyToStart(modelInvokedEvents, nickname);
         } catch (RemoteException e) {

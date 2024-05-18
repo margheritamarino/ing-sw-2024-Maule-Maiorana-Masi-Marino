@@ -252,7 +252,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     @Override
-    public synchronized void setInitialCard(String playerName, int index) throws RemoteException {
+    public void setInitialCard(String playerName, int index) throws RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
         model.setInitialCard(currentPlayer, index);
         System.out.println("Sono in setInitialCard di GameController, vado nel Game");
@@ -286,7 +286,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     @Override
-    public synchronized void setGoalCard(String playerName, int index) throws NotPlayerTurnException, RemoteException {
+    public void setGoalCard(String playerName, int index) throws NotPlayerTurnException, RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
         model.setPlayerGoal(currentPlayer, index);
     }

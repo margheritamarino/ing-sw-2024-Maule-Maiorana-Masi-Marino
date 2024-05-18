@@ -371,16 +371,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         } while (!Objects.equals(answer, "y"));
         ui.show_youAreReady(model);
-        setAsReady();
+        setAsReady(nick);
     }
 
     /**
      * Sets the client as ready by calling the server methods.
      */
     @Override
-    public void setAsReady() {
+    public void setAsReady(String nickname) {
         try {
-            clientActions.setAsReady();
+            clientActions.setAsReady(nickname);
 
         } catch (IOException e){
             noConnectionError();
@@ -596,9 +596,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void setInitialCard(int index) {
+    public void setInitialCard(int index, String nickname) {
         try {
-            clientActions.setInitialCard(index);
+            clientActions.setInitialCard(index, nickname);
 
         } catch (IOException e) {
             noConnectionError();
@@ -606,9 +606,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void setGoalCard(int index) throws IOException {
+    public void setGoalCard(int index, String nickname) throws IOException {
         try {
-            clientActions.setGoalCard(index);
+            clientActions.setGoalCard(index, nickname);
 
         } catch (IOException e) {
             noConnectionError();
@@ -739,7 +739,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 index = null;
             }
         } while (index == null);
-        setInitialCard(index); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
+        setInitialCard(index, nickname); //manda l'indice selezionato per far risalire al Controller la InitialCard selezionata
     }
 
 
@@ -765,7 +765,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         } while (index == null || index < 0 || index >= 2);
         try {
-            setGoalCard(index); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
+            setGoalCard(index, nickname); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
             ui.show_personalObjective();
         } catch (IOException e) {
             throw new RuntimeException(e);

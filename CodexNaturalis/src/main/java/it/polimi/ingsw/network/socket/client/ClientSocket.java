@@ -165,13 +165,13 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void setInitialCard(int index) throws IOException {
+    public void setInitialCard(int index, String nickname) throws IOException {
         out.writeObject(new ClientMsgSetInitial(nickname, index));
         finishSending();
     }
 
     @Override
-    public void setGoalCard(int index) throws IOException {
+    public void setGoalCard(int index, String nickname) throws IOException {
         out.writeObject(new ClientMsgSetObjective(nickname, index));
         finishSending();
     }
@@ -212,7 +212,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @throws IOException
      */
     @Override
-    public void setAsReady() throws IOException {
+    public void setAsReady(String nickname) throws IOException {
         System.out.println("sono in ClientSocket--> setAsReady ");
         out.writeObject(new ClientMsgSetReady(nickname));
         finishSending();
