@@ -6,6 +6,8 @@ import java.io.Serializable;
 public class DefaultValue implements Serializable {
 
     public final static boolean DEBUG = false;
+    public final static int printHeight = 7;
+    public final static int printLenght = 30;
 
     public final static int BookSizeMax = 70;
 

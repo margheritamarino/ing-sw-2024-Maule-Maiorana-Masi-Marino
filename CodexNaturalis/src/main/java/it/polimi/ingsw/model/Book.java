@@ -96,8 +96,6 @@ public class Book implements Serializable {
         UpdateMapInitial(initialCard); //aggiorno la mappa delle risorse presenti sul book in base alle risorse presenti sugli angoli e o nel centro della initialCard
         updateBook(initialCard, initialCell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata in base alla presenza o meno degli angoli
 
-        //inserisco la carta nella matrice da stampare
-        matrix[35][35] = initialCard.toString();
 
     }
 
@@ -282,8 +280,6 @@ public class Book implements Serializable {
             case GoldCard -> numPoints = addGoldCard(card, cell);
             case ResourceCard -> numPoints = addResourceCard(card, cell);
         }
-        //inserisco la carta nella matrice da stampare
-        matrix[cell.getRow()][cell.getColumn()] = card.toString();
         return numPoints;
     }
 
@@ -829,35 +825,62 @@ public class Book implements Serializable {
         int maxI = limits[2];
         int maxJ = limits[3];
 
-
         result.append("*****BOOK*****\n");
-        for (int i = minI; i <= maxI; i++) {
-            for (int j = minJ; j <= maxJ; j++) {
-                if (bookMatrix[i][j].getCard() != null) {
-                    result.append(bookMatrix[i][j].getCard().toString()).append("\n");
-                }else if(bookMatrix[i][j].getCard() == null){
-                    result.append(nullCardPrint()).append("\n");
 
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<ArrayList<String>> rows = new ArrayList<>();
+
+        for (int i = minI; i <= maxI; i++) { // righe
+            ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+            for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+                rowBuilders.add(new StringBuilder());
+            }
+
+            for (int j = minJ; j <= maxJ; j++) { // colonne
+                String[] lines;
+                if (bookMatrix[i][j].getCard() != null) {
+                    lines = bookMatrix[i][j].getCard().toString().split("\n");
+                } else {
+                    lines = nullCardPrint().split("\n");
+                }
+
+                for (int k = 0; k < lines.length; k++) {
+                    rowBuilders.get(k).append(lines[k]).append(" ");
                 }
             }
+
+            ArrayList<String> rowStrings = new ArrayList<>();
+            for (StringBuilder sb : rowBuilders) {
+                rowStrings.add(sb.toString());
+            }
+            rows.add(rowStrings);
         }
-        result.append("\n");
-        result.append(showMaps());
-        result.append("\n");
+
+        for (ArrayList<String> row : rows) {
+            for (String line : row) {
+                result.append(line).append("\n");
+            }
+        }
+
+        // Aggiungiamo showMaps() se necessario
+        // result.append("\n");
+        // result.append(showMaps());
+        // result.append("\n");
 
         return result.toString();
     }
 
+
     public String nullCardPrint() {
         StringBuilder result = new StringBuilder();
 
-        int maxWidth = 30;
+        int maxWidth = DefaultValue.printLenght;
 
         String borderLine = "+" + "-".repeat(maxWidth + 2) + "+"; // Usiamo dim[1] per la larghezza massima delle righe
-        result.append(borderLine).append("\n");
+       result.append(borderLine).append("\n");
 
         // Costruzione delle linee di contenuto con bordi laterali
-        for (int i = 0; i<10; i++) {
+        for (int i = 0; i<DefaultValue.printHeight; i++) {
             result.append("| ");
             // Aggiungi spazi per allineare al massimo
             result.append(" ".repeat(maxWidth));

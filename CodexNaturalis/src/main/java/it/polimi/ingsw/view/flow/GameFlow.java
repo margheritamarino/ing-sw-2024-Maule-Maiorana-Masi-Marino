@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.flow;
 
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
@@ -27,8 +26,6 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
-
-import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 
 //Capire come parte il pescaggio delle carte nel 1°Truno di gioco
@@ -160,11 +157,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     askReadyToStart(event.getModel(), nickname);
                 }
             }
-            case CARDS_READY -> {
+            case CARDS_READY ->
                 makeGameStart(nickname);
-            }
-
-
         }
     }
 

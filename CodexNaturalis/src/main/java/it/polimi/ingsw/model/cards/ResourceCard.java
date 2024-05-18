@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.cards;
+import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
 import org.fusesource.jansi.Ansi;
@@ -189,29 +190,38 @@ public class ResourceCard extends PlayableCard implements Serializable {
       contentLines.add("Corners: " + String.join(" ", emojiCorners));
 
       // Trova la lunghezza massima delle linee di contenuto
-      int maxWidth = 30;
-      /*
-      for (String line : contentLines) {
-         maxWidth = Math.max(maxWidth, line.length());
-      }
+      // Trova la lunghezza massima delle linee di contenuto
+      int maxWidth = DefaultValue.printLenght;
+        /*
+        for (String line : contentLines) {
+            maxWidth = Math.max(maxWidth, line.length());
+        }
 
-       */
+         */
 
       // Costruzione del bordo superiore
       String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
       result.append(borderLine).append("\n");
 
       // Costruzione delle linee di contenuto con bordi laterali
+
+
       for (String line : contentLines) {
          result.append("| ").append(line);
          // Aggiungi spazi per allineare al massimo
          result.append(" ".repeat(maxWidth - line.length()));
          result.append(" |\n");
       }
+      for(int i=contentLines.size(); i< DefaultValue.printHeight; i++){
+
+         result.append("| ");
+         // Aggiungi spazi per allineare al massimo
+         result.append(" ".repeat(maxWidth));
+         result.append(" |\n");
+      }
 
       // Costruzione del bordo inferiore
       result.append(borderLine);
-
 
 
       return result.toString();
