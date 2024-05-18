@@ -103,8 +103,7 @@ public class ObjectiveCard implements Serializable {
         String condition = " ";
         List<String> emojiSymbol = new ArrayList<>();
 
-
-        switch(goalType){
+        switch(goalType) {
             case ResourceCondition:
                 changeColor();
                 condition = convertToEmoji(mainResource.toString());
@@ -127,33 +126,49 @@ public class ObjectiveCard implements Serializable {
         String cardTypeName = "Objective";
         int points = victoryPoints;
 
-        // Costruzione del risultato con colori e nome della carta
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("CardType: ");
-        result.append(cardTypeName);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Points: ");
-        result.append(points);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("ConditionType: ");
-        result.append(goalType.toString());
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Condition: ");
-        result.append(condition);
-        for (int i = 0; i < symbols.size(); i++) {
-            result.append(emojiSymbol.get(i));
-            // Aggiungi uno spazio solo se non è l'ultimo elemento della lista
-            if (i < symbols.size() - 1) {
-                result.append(" ");
+        // Costruzione delle righe del contenuto
+        List<String> contentLines = new ArrayList<>();
+        contentLines.add("CardType: " + cardTypeName);
+        contentLines.add("Points: " + points);
+        contentLines.add("ConditionType: " + goalType.toString());
+
+        StringBuilder conditionLine = new StringBuilder("Condition: " + condition);
+        for (int i = 0; i < emojiSymbol.size(); i++) {
+            conditionLine.append(emojiSymbol.get(i));
+            if (i < emojiSymbol.size() - 1) {
+                conditionLine.append(" ");
             }
         }
-        result.append("\n");
+        contentLines.add(conditionLine.toString());
 
-        return result.toString();
+        // Trova la larghezza massima delle linee di contenuto
+        int maxWidth = 0;
+        for (String line : contentLines) {
+            maxWidth = Math.max(maxWidth, line.length());
+        }
+
+        // Costruzione del bordo superiore
+        String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
+        result.append(borderLine).append("\n");
+
+        // Costruzione delle linee di contenuto con bordi laterali
+        for (String line : contentLines) {
+            result.append("| ").append(line);
+            // Aggiungi spazi per allineare al massimo
+            result.append(" ".repeat(maxWidth - line.length()));
+            result.append(" |\n");
+        }
+
+        // Costruzione del bordo inferiore
+        result.append(borderLine);
+
+        // Applicazione del colore
+        String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
+
+        return finalResult;
     }
+
+
 
     public void changeColor(){
         Ansi.Color bgColor = switch (mainResource) {

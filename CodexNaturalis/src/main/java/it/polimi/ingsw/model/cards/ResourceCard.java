@@ -149,14 +149,14 @@ public class ResourceCard extends PlayableCard implements Serializable {
       Ansi.Color bgColor;
       Ansi.Color textColor = Ansi.Color.WHITE;
       String FoB;
-      if(isFront()){
+      if (isFront()) {
          FoB = "Front";
-      }else{
+      } else {
          FoB = "Back";
       }
 
-      //cambia il colore della carta in base alla mainResource
-      switch(mainResource){
+      // Cambia il colore della carta in base alla mainResource
+      switch (mainResource) {
          case Fungi:
             bgColor = Ansi.Color.RED;
             break;
@@ -181,26 +181,43 @@ public class ResourceCard extends PlayableCard implements Serializable {
          emojiCorners.add(convertToEmoji(corner));
       }
 
-      // Costruzione del risultato con colori e nome della carta
-      result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-      result.append("CardType: ");
-      result.append(cardTypeName);
-      result.append("\n");
-      result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-      result.append("Face: ");
-      result.append(FoB);
-      result.append("\n");
-      result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-      result.append("Points: ");
-      result.append(points);
-      result.append("\n");
-      result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-      result.append("Corners: ");
-      String formattedCorners = String.join(" ", emojiCorners);
-      result.append(formattedCorners);
-      result.append("\n");
+      // Costruzione delle righe del contenuto
+      List<String> contentLines = new ArrayList<>();
+      contentLines.add("CardType: " + cardTypeName);
+      contentLines.add("Face: " + FoB);
+      contentLines.add("Points: " + points);
+      contentLines.add("Corners: " + String.join(" ", emojiCorners));
+
+      // Trova la lunghezza massima delle linee di contenuto
+      int maxWidth = 30;
+      /*
+      for (String line : contentLines) {
+         maxWidth = Math.max(maxWidth, line.length());
+      }
+
+       */
+
+      // Costruzione del bordo superiore
+      String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
+      result.append(borderLine).append("\n");
+
+      // Costruzione delle linee di contenuto con bordi laterali
+      for (String line : contentLines) {
+         result.append("| ").append(line);
+         // Aggiungi spazi per allineare al massimo
+         result.append(" ".repeat(maxWidth - line.length()));
+         result.append(" |\n");
+      }
+
+      // Costruzione del bordo inferiore
+      result.append(borderLine);
+
+
 
       return result.toString();
    }
+
+
+
 
 }

@@ -151,15 +151,10 @@ public class GoldCard extends PlayableCard implements Serializable {
         Ansi.Color bgColor;
         Ansi.Color textColor = Ansi.Color.WHITE;
         String conditionPoint = "";
-        String FoB;
-        if(isFront()){
-            FoB = "Front";
-        }else{
-            FoB = "Back";
-        }
+        String FoB = isFront() ? "Front" : "Back";
 
-        //cambia il colore della carta in base alla mainResource
-        switch(mainResource){
+        // Cambia il colore della carta in base alla mainResource
+        switch (mainResource) {
             case Fungi:
                 bgColor = Ansi.Color.RED;
                 break;
@@ -176,13 +171,12 @@ public class GoldCard extends PlayableCard implements Serializable {
                 bgColor = Ansi.Color.DEFAULT;
         }
 
-        if(!isPointsCondition()){
+        if (!isPointsCondition()) {
             conditionPoint = "no condition";
-        }else if(isPointsCondition() && isCornerCondition()){
+        } else if (isPointsCondition() && isCornerCondition()) {
             conditionPoint = "cornerCondition";
-        }else if(isPointsCondition() && !isCornerCondition()){
-
-             conditionPoint = convertToEmoji(symbolCondition.toString());
+        } else if (isPointsCondition() && !isCornerCondition()) {
+            conditionPoint = convertToEmoji(symbolCondition.toString());
         }
 
         String cardTypeName = "Gold";
@@ -192,42 +186,52 @@ public class GoldCard extends PlayableCard implements Serializable {
         for (String corner : corners) {
             emojiCorners.add(convertToEmoji(corner));
         }
+
         List<ResourceType> conditionList = getPlacementCondition();
         List<String> conditionEmoji = new ArrayList<>();
         for (ResourceType condition : conditionList) {
             conditionEmoji.add(convertToEmoji(condition.toString()));
         }
 
-        // Costruzione del risultato con colori e nome della carta
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("CardType: ");
-        result.append(cardTypeName);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Face: ");
-        result.append(FoB);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Points: ");
-        result.append(points);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Corners: ");
-        String formattedCorners = String.join(" ", emojiCorners);
-        result.append(formattedCorners);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("PointsCondition: ");
-        result.append(conditionPoint);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Placement condition: ");
-        String formattedCondition = String.join(" ", conditionEmoji);
-        result.append(formattedCondition);
-        result.append("\n");
+        // Costruzione delle righe del contenuto
+        List<String> contentLines = new ArrayList<>();
+        contentLines.add("CardType: " + cardTypeName);
+        contentLines.add("Face: " + FoB);
+        contentLines.add("Points: " + points);
+        contentLines.add("Corners: " + String.join(" ", emojiCorners));
+        contentLines.add("PointsC: " + conditionPoint);
+        contentLines.add("PlacementC: " + String.join(" ", conditionEmoji));
 
-        return result.toString();
+        // Trova la lunghezza massima delle linee di contenuto
+        int maxWidth = 30;
+        /*
+        for (String line : contentLines) {
+            maxWidth = Math.max(maxWidth, line.length());
+        }
+
+         */
+
+        // Costruzione del bordo superiore
+        String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
+        result.append(borderLine).append("\n");
+
+        // Costruzione delle linee di contenuto con bordi laterali
+        for (String line : contentLines) {
+            result.append("| ").append(line);
+            // Aggiungi spazi per allineare al massimo
+            result.append(" ".repeat(maxWidth - line.length()));
+            result.append(" |\n");
+        }
+
+        // Costruzione del bordo inferiore
+        result.append(borderLine);
+
+        // Applicazione del colore
+        String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
+
+        return finalResult;
     }
+
 
 }
 

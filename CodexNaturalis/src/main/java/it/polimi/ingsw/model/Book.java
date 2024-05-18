@@ -825,16 +825,65 @@ public class Book implements Serializable {
         return result.toString();
     }
 
-    public String toString(){
+
+    @Override
+    public String toString() {
         StringBuilder result = new StringBuilder();
+        int[] limits = findSubMatrix();
+
+        int minI = limits[0];
+        int minJ = limits[1];
+        int maxI = limits[2];
+        int maxJ = limits[3];
+
+
+        result.append("*****BOOK*****\n");
+        for (int i = minI; i <= maxI; i++) {
+            for (int j = minJ; j <= maxJ; j++) {
+                if (bookMatrix[i][j].getCard() != null) {
+                    result.append(bookMatrix[i][j].getCard().toString()).append("\n");
+                }else if(bookMatrix[i][j].getCard() == null){
+                    result.append(nullCardPrint()).append("\n");
+
+                }
+            }
+        }
+        result.append("\n");
         result.append(showMaps());
         result.append("\n");
-
-        //TODO restituire il book
 
         return result.toString();
     }
 
+    public String nullCardPrint() {
+        StringBuilder result = new StringBuilder();
+
+        int maxWidth = 30;
+
+        String borderLine = "+" + "-".repeat(maxWidth + 2) + "+"; // Usiamo dim[1] per la larghezza massima delle righe
+        result.append(borderLine).append("\n");
+
+        // Costruzione delle linee di contenuto con bordi laterali
+        for (int i = 0; i<10; i++) {
+            result.append("| ");
+            // Aggiungi spazi per allineare al massimo
+            result.append(" ".repeat(maxWidth));
+            result.append(" |\n");
+        }
+
+        // Costruzione del bordo inferiore
+        result.append(borderLine);
+
+
+        return result.toString();
+    }
+
+
+
+
+
+
+    /*
     public boolean printMatrix(int minI, int minJ, int maxI, int maxJ) {
 
         System.out.println("\n");
@@ -913,15 +962,21 @@ public class Book implements Serializable {
         return false;
     }
 
+
+     */
+
+
+
+
     public int[] findSubMatrix() {
         int[] limits = new int[4];
-        int minI = matrix.length; // Inizializza minI con un valore superiore alla dimensione massima della matrice
-        int minJ = matrix[0].length; // Inizializza minJ con un valore superiore alla dimensione massima della matrice
+        int minI = bookMatrix.length; // Inizializza minI con un valore superiore alla dimensione massima della matrice
+        int minJ = bookMatrix[0].length; // Inizializza minJ con un valore superiore alla dimensione massima della matrice
         int maxI = -1; // Inizializza maxI con un valore inferiore alla dimensione minima della matrice
         int maxJ = -1; // Inizializza maxJ con un valore inferiore alla dimensione minima della matrice
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                if (!matrix[i][j].equals(" ")) {
+        for (int i = 0; i < bookMatrix.length; i++) {
+            for (int j = 0; j < bookMatrix[i].length; j++) {
+                if (bookMatrix[i][j].getCard()!=null) {
                     minI = minLimit(i, minI);
                     minJ = minLimit(j, minJ);
                     maxI = maxLimit(i, maxI);
@@ -958,5 +1013,7 @@ public class Book implements Serializable {
             }
         }else return maxLimit;
     }
+
+
 
 }

@@ -149,45 +149,57 @@ public class InitialCard extends PlayableCard implements Serializable {
         Ansi.Color bgColor = Ansi.Color.YELLOW;
         Ansi.Color textColor = Ansi.Color.WHITE;
         String cardTypeName = "Initial";
-        String FoB;
-        if(isFront()){
-            FoB = "Front";
-        }else{
-            FoB = "Back";
-        }
+        String FoB = isFront() ? "Front" : "Back";
 
         List<String> corners = getCornerContent();
         List<String> emojiCorners = new ArrayList<>();
         for (String corner : corners) {
             emojiCorners.add(convertToEmoji(corner));
         }
+
         List<ResourceType> centralR = getCentralResources();
         List<String> emojiCentral = new ArrayList<>();
         for (ResourceType central : centralR) {
             emojiCentral.add(convertToEmoji(central.toString()));
         }
 
-        // Costruzione del risultato con colori e nome della carta
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("CardType: ");
-        result.append(cardTypeName);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Face: ");
-        result.append(FoB);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Corners: ");
-        String formattedCorners = String.join(" ", emojiCorners);
-        result.append(formattedCorners);
-        result.append("\n");
-        result.append(ansi().fg(textColor).bg(bgColor).a(" "));
-        result.append("Central Resources: ");
-        String formattedCentrals = String.join(" ", emojiCentral);
-        result.append(formattedCentrals);
-        result.append("\n");
-        return result.toString();
+        // Costruzione delle righe del contenuto
+        List<String> contentLines = new ArrayList<>();
+        contentLines.add("CardType: " + cardTypeName);
+        contentLines.add("Face: " + FoB);
+        contentLines.add("Corners: " + String.join(" ", emojiCorners));
+        contentLines.add("Central: " + String.join(" ", emojiCentral));
+
+        // Trova la lunghezza massima delle linee di contenuto
+        int maxWidth = 30;
+        /*
+        for (String line : contentLines) {
+            maxWidth = Math.max(maxWidth, line.length());
+        }
+
+         */
+
+        // Costruzione del bordo superiore
+        String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
+        result.append(borderLine).append("\n");
+
+        // Costruzione delle linee di contenuto con bordi laterali
+        for (String line : contentLines) {
+            result.append("| ").append(line);
+            // Aggiungi spazi per allineare al massimo
+            result.append(" ".repeat(maxWidth - line.length()));
+            result.append(" |\n");
+        }
+
+        // Costruzione del bordo inferiore
+        result.append(borderLine);
+
+        // Applicazione del colore
+        String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
+
+        return finalResult;
     }
+
 
 
 }

@@ -19,6 +19,7 @@ public abstract class PlayableCard implements Serializable {
     private final CornerLabel TRCorner;
     private final CornerLabel BRCorner;
     private final CornerLabel BLCorner;
+    private String[][] cardMatrix = new String[2][3];
 
     public int getCardID() {
         return cardID;
@@ -135,7 +136,9 @@ public abstract class PlayableCard implements Serializable {
             output= "\uD83D\uDCDC";
         }else if(input.equals("Quill")){
             output = "\uD83E\uDEB6";
-        }else output = input;
+        }else output = "E";
         return output;
     }
+
+
 }

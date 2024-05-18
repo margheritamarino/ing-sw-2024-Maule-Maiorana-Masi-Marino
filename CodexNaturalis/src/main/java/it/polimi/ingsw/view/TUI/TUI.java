@@ -111,7 +111,7 @@ public class TUI extends UI {
 
     @Override
     public void show_playerBook(GameImmutable model){
-        System.out.println(model.getCurrentPlayer().getPlayerBook().printMatrix(model.getCurrentPlayer().getPlayerBook().findSubMatrix()[0], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[1], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[2], model.getCurrentPlayer().getPlayerBook().findSubMatrix()[3]));
+        printAsync(model.getCurrentPlayer().getPlayerBook().toString());
     }
 
     @Override
