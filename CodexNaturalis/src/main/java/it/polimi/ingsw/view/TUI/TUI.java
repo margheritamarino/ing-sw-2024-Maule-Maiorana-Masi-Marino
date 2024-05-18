@@ -238,32 +238,32 @@ public class TUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
-        printAsync("--- first action: PLACE A CARD ---" );
+        printAsync("It's your turn to PLACE A CARD" );
     }
 
     @Override
     public void show_PickCardMsg(GameImmutable model){
-        printAsync("It's " + model.getCurrentPlayer().getNickname() + "'s turn to pick a card!\n" );
+        printAsync("It's your turn to PICK A CARD " );
     }
 
     @Override
     public void show_askCardType(GameImmutable model, String nickname){
-        printAsync("Which card do you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card: \n" );
+        printAsync("Which card do you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card:" );
     }
 
     @Override
     public void show_askDrawFromDeck(GameImmutable model, String nickname){
-        printAsync("Press Y if you want to draw from deck or N if you want a visible card: \n" );
+        printAsync("Press Y if you want to draw from deck or N if you want a visible card:" );
     }
 
     @Override
     public void show_askWhichCellMsg(GameImmutable model){
-        printAsync("Choose a Cell in the book to place the card:\n" );
+        printAsync("Choose a Cell in the book to place the card:" );
     }
 
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname){
-        printAsync("ERROR: invalid selection. Choose again!\n" );
+        printAsync("ERROR: invalid selection. Choose again!" );
 
     }
 
@@ -287,7 +287,7 @@ public class TUI extends UI {
         if(model.getCurrentPlayer().equals(nickname) )
             printAsync("You scored " + model.getCurrentCardPoints()+ "points!");
         else
-            printAsync(model.getCurrentPlayer().getNickname() + " scored " + model.getCurrentCardPoints()+ "points!");
+            printAsync(model.getCurrentPlayer().getNickname() + " scored " + model.getCurrentCardPoints()+ " points!");
         printAsync("NEW TOTAL SCORE");
         show_scoretrack(model);
     }

@@ -77,7 +77,7 @@ public class ListenersHandler {
             try {
                 l.playerJoined(new GameImmutable(model), nickname);
             } catch (RemoteException e) {
-                printAsync("During notification of notify_playerJoined, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_playerJoined, a disconnection has been detected before ping");
                 i.remove();
             }
         }
