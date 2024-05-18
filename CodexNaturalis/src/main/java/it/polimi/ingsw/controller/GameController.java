@@ -275,6 +275,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void leave(GameListenerInterface lis, String nick) throws RemoteException {
+        model.getPlayerByNickname(nick).removeListener(lis);
         model.removeListener(lis);
         model.removePlayer(nick);
         if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {

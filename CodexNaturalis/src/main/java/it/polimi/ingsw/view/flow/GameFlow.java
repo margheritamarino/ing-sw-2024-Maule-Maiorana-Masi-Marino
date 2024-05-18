@@ -186,6 +186,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 }
             }
             case NEXT_TURN -> {
+                ui.show_nextTurnMsg(event.getModel());
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
                     askPlaceCards(event.getModel(), nickname);
                 }
@@ -204,7 +205,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 askPlaceCards(event.getModel(), nickname);
             }
             case CARD_DRAWN -> {
-                ui.show_cardDrawnMsg(event.getModel());
+                ui.show_cardDrawnMsg(event.getModel(), nickname);
 
             }
 
@@ -219,10 +220,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             //caso: game non valido -> back to menu
             case BACK_TO_MENU -> {
+                if(ended)
+                    ui.show_returnToMenuMsg();
+                else{
+                    askNickname();
+                    joinGame(nickname);
+                }
                 //ciclo per chiedere al giocatore di selezionare una partita valida
-                askNickname();
-                joinGame(nickname);
-
             }
 
             case NICKNAME_ALREADY_IN -> {
@@ -253,7 +257,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void statusEnded(Event event) throws NotBoundException, IOException {
         switch (event.getType()) {
             case GAME_ENDED -> {
-                ui.show_returnToMenuMsg();
+                ui.show_gameEnded(event.getModel());
                 //rimuove tutt i dati non elaborati dal buffer
                 this.inputController.getUnprocessedData().popAllData();
                 try {
@@ -702,7 +706,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void gameEnded(GameImmutable gameImmutable) throws RemoteException {
         events.add(gameImmutable, EventType.GAME_ENDED);
         ended = true;
-        ui.show_gameEnded(gameImmutable);
+
         //TODO quando aggiungiamo la disconnessione fai metodo RESET gioco
     }
     @Override
@@ -795,14 +799,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void nextTurn(GameImmutable model) throws RemoteException {
-        ui.show_nextTurnMsg(model);
+
         events.add(model, EventType.NEXT_TURN);
         this.inputController.getUnprocessedData().popAllData();
     }
 
     @Override
     public void lastCircle(GameImmutable model) throws RemoteException {
-        ui.addImportantEvent("Last circle begin!");
+        ui.addImportantEvent("LAST CIRCLE BEGIN!");
     }
 
 

@@ -260,4 +260,8 @@ public class Player implements Serializable {
             }
         }
     }
+
+    public void removeListener(GameListenerInterface lis) {
+        listeners.remove(lis);
+    }
 }
