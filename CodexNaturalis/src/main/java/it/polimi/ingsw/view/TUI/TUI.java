@@ -118,9 +118,10 @@ public class TUI extends UI {
     public void show_playerDeck(GameImmutable model, String nick) {
         printAsync("*** YOUR DECK ***");
         Player p = model.getPlayerByNickname(nick);
-        for (int i = 0; i < p.getPlayerDeck().miniDeck.size(); i++) {
+      /*  for (int i = 0; i < p.getPlayerDeck().miniDeck.size(); i++) {
             printAsync("[" + i + "]: \n" + p.getPlayerDeck().miniDeck.get(i).toString());
-        }
+        }*/
+        printAsync(p.getPlayerDeck().toString());
     }
 
     @Override
