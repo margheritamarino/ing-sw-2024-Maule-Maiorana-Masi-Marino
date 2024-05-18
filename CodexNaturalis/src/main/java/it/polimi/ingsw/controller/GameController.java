@@ -148,13 +148,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void playerIsReadyToStart( GameListenerInterface lis, String p) {
-        System.out.println("sono in gameController player is ready");
         model.playerIsReadyToStart(model.getPlayerByNickname(p));
         model.initializeCards( lis, model.getPlayerByNickname(p));
 
     }
     public boolean makeGameStart(GameListenerInterface lis, String nickname) {
-
         System.out.println(model.getNumReady());
         if (model.arePlayersReadyToStartAndEnough()) {
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
@@ -255,7 +253,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public void setInitialCard(String playerName, int index) throws RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
         model.setInitialCard(currentPlayer, index);
-        System.out.println("Sono in setInitialCard di GameController, vado nel Game");
     }
 
 
@@ -301,7 +298,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
-        System.out.println("GameController: method joinGame()");
         if(!isGameCreated()){
             model.createGame(lis, nick);
 
@@ -317,10 +313,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     public void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick) throws RemoteException{
-        System.out.println("GameController: method settingGame()");
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
-        System.out.println("numero giocatori:" + numPlayers);
         setGameCreated(true);
         model.addPlayer(lis, nick);
         model.getPlayerByNickname(nick).setConnected(true);

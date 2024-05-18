@@ -155,7 +155,6 @@ public class ClientRMI implements ClientInterface {
 
     @Override
     public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
-        System.out.println("ClientRMI: method settingGame()");
         try {
             gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick);
         } catch (RemoteException e) {
@@ -181,7 +180,6 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void joinGame(String nick) throws IOException, NotBoundException {
-        System.out.println("ClientRMI: method joinGame()");
 
         try {
             // Ottieni il registro all'indirizzo IP e porta specificati
