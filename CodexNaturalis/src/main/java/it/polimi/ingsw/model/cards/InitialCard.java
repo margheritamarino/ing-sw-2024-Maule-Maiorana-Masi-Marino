@@ -127,13 +127,13 @@ public class InitialCard extends PlayableCard implements Serializable {
         return null;
     }
 
-    public InitialCard() {
+    /*public InitialCard() {
         super();
         this.resourceList = new ArrayList<ResourceType>();
         this.numCentralResource = 0;
         this.numResources = 0;
         this.centralResources = new ArrayList<>();
-    }
+    }*/
 
     public InitialCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, List<ResourceType> centralResources, int numCentralResource, int numResources, List<ResourceType> resourceList) {
         super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);

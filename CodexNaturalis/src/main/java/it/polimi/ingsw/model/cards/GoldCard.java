@@ -119,7 +119,7 @@ public class GoldCard extends PlayableCard implements Serializable {
         return null;
     }
 
-    public GoldCard() {
+    /*public GoldCard() {
         // Chiama il costruttore della classe base PlayableCard
         super();
         this.victoryPoints = 0;
@@ -130,7 +130,7 @@ public class GoldCard extends PlayableCard implements Serializable {
         this.pointsCondition = false;
         this.cornerCondition = false;
         this.symbolCondition = null;
-    }
+    }*/
 
 
     public GoldCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, boolean hasSymbol, SymbolType symbol, int victoryPoints, List<ResourceType> placementCondition, boolean pointsCondition, boolean cornerCondition, SymbolType symbolCondition) {

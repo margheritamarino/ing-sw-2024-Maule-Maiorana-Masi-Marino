@@ -90,7 +90,8 @@ public abstract class PlayableCard implements Serializable {
     public abstract boolean isCornerCondition();
     public abstract SymbolType getSymbolCondition();
 
-    public PlayableCard() {
+    //Inizializza a NULL i CORNER
+    /*public PlayableCard() {
         this.cardID = 0;
         this.isFront = true;
         this.cardType = null;
@@ -99,7 +100,7 @@ public abstract class PlayableCard implements Serializable {
         this.TRCorner = null;
         this.BRCorner = null;
         this.BLCorner = null;
-    }
+    }*/
 
     public PlayableCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner) {
         this.cardID = cardID;

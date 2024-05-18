@@ -122,7 +122,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
       return null;
    }
 
-   public ResourceCard() {
+  /* public ResourceCard() {
       super();
       this.victoryPoints = 0; //
       this.mainResource = null;
@@ -130,7 +130,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
       this.resourceList = new ArrayList<>();
       this.hasSymbol = false;
       this.symbol = null;
-   }
+   }*/
 
    public ResourceCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, int victoryPoints, int numResources, List<ResourceType> resourceList, boolean hasSymbol, SymbolType symbol) {
       super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
