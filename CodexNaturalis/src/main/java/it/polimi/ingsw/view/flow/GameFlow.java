@@ -199,9 +199,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             }
 
-            case CARD_PLACED_NOT_CORRECT -> //ask the Player to choose again
+            case CARD_PLACED_NOT_CORRECT -> {//ask the Player to choose again
+                ui.show_playerHasToChooseAgain(event.getModel(), nickname);
                 askPlaceCards(event.getModel(), nickname);
-
+            }
             case CARD_DRAWN -> {
                 ui.show_cardDrawnMsg(event.getModel());
 
@@ -413,7 +414,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
 
-    public synchronized void askPlaceCards(GameImmutable model, String nickname){
+    public void askPlaceCards(GameImmutable model, String nickname){
 
         String temp;
         ui.show_askPlaceCardsMainMsg(model);
@@ -620,7 +621,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void wrongChooseCard(GameImmutable model){
         events.add(model, EventType.CARD_PLACED_NOT_CORRECT);
-        ui.show_playerHasToChooseAgain(model, nickname);
+
     }
 
 

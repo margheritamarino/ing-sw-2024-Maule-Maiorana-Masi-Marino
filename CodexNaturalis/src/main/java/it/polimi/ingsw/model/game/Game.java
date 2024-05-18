@@ -583,7 +583,7 @@ public class Game {
 			currentCardPoints=  p.placeCard(chosenCard, rowCell, colCell);
 			//p.notify_CardPlaced(this);
 			return currentCardPoints;
-		}catch(PlacementConditionViolated | IndexOutOfBoundsException e){
+		}catch(PlacementConditionViolated | IndexOutOfBoundsException | CellNotAvailableException e){
 			p.notify_NotCorrectChosenCard(this);
 			return -1;
 		}
