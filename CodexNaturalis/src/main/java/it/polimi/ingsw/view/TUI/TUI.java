@@ -349,7 +349,7 @@ public class TUI extends UI {
     public void show_gameEnded(GameImmutable model) {
         clearScreen();
         show_titleCodexNaturalis();
-        printAsync("GAME ENDED\n");
+        printAsync("***GAME ENDED***\n");
 
     }
 

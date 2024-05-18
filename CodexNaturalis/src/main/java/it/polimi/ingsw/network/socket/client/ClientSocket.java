@@ -61,8 +61,9 @@ public class ClientSocket extends Thread implements ClientInterface {
         this.flow=flow;
         startConnection(DefaultValue.serverIp, DefaultValue.Default_port_Socket);
         modelInvokedEvents = new GameListenersClient(flow);
-        pingSender = new PingSender(this.flow, this);
         this.start();
+        pingSender = new PingSender(this.flow, this);
+
 
     }
 

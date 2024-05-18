@@ -32,7 +32,7 @@ public class PingSender extends Thread{
             try {
                 clientSender.ping();
             } catch (RemoteException e) {
-                printAsync("Connection to server lost! Impossible to send heartbeat...");
+                printAsync("Connection to server lost! Impossible to send ping ...");
             }
             timer.cancel();
 

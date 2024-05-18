@@ -653,11 +653,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void playerLeft(GameImmutable gameImmutable, String nickname) throws RemoteException {
-        if (!gameImmutable.getPlayerByNickname(nickname).isConnected()) {
-            ui.addImportantEvent("[EVENT]: Player " + nickname + " disconnected from the game!");
-        } else {
-            ui.addImportantEvent("[EVENT]: Player " + nickname + " decided to leave the game!");
-        }
+         ui.addImportantEvent("[EVENT]: Player " + nickname + " decided to leave the game!");
+
     }
 
     /**
