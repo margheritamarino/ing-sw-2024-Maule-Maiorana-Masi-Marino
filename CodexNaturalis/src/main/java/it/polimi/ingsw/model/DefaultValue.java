@@ -39,7 +39,7 @@ public class DefaultValue implements Serializable {
 
     public final static int maxAttemptsBeforeGiveUp= 5;
     public final static int secondsToReconnection = 5;
-
+    public static final int secondToWaitToSend_ping = 500;
 
 
     //aggiungiamo tutti i valori ROW/COL che specificano in quale parte

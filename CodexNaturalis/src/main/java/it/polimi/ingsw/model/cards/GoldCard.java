@@ -96,17 +96,21 @@ public class GoldCard extends PlayableCard implements Serializable {
      * @throws IllegalArgumentException If an invalid corner label is provided.
      */
     public String getCornerContentString(CornerLabel cornerLabel) {
-        switch (cornerLabel) {
-            case Empty:
-                return "Empty";
-            case WithSymbol:
-                // Se l'angolo contiene un simbolo, restituisci il simbolo effettivo
-                return symbol.toString();
-            case NoCorner:
-                return "NoCorner";
-            default:
-                throw new IllegalArgumentException();
-        }
+        if(cornerLabel != null){
+            switch (cornerLabel) {
+                case Empty:
+                    return "Empty";
+                case WithSymbol:
+                    // Se l'angolo contiene un simbolo, restituisci il simbolo effettivo
+                    return symbol.toString();
+                case NoCorner:
+                    return "NoCorner";
+                default:
+                    throw new IllegalArgumentException();
+            }
+
+        } else System.out.println("cornerLabel is null!!! \n Errors comes on GoldCard "+ this.getCardID());
+        return "error";
     }
 
     public List<ResourceType> getCentralResources() {
