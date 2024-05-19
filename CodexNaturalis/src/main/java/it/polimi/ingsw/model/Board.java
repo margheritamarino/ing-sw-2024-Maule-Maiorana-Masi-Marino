@@ -238,45 +238,125 @@ public class Board implements Serializable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("***********BOARD***********\n");
         result.append("\n");
-        //GOLDCARDS
-        result.append("***GOLDCARDS DECK(back)***: \n");
-        result.append("\n");
-        result.append(goldCardsDeck.getBackCards().get(0).toString());
-        result.append("\n");
-        result.append("GOLDCARD 0: \n");
-        result.append(goldCards.get(0)[0].toString());
-        result.append("\n");
-        result.append("GOLDCARD 1: \n");
-        result.append(goldCards.get(1)[0].toString());
 
+        // Inizializziamo le righe con StringBuilder
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
+
+        // GOLDCARDS
+        result.append("***GOLDCARDS***: \n");
         result.append("\n");
-        //RESOURCECARD
-        result.append("***RESOURCECARDS DECK(back)***: \n");
+
+        result.append(cardsGoldToString());
+        /*
+        rowBuilders.get(0).append(goldCardsDeck.getBackCards().get(0).toString()).append(" ");
+        rowBuilders.get(0).append(goldCards.get(0)[0].toString()).append(" ");
+        rowBuilders.get(0).append(goldCards.get(1)[0].toString()).append("\n");
+        result.append(rowBuilders.get(0).toString().stripTrailing()).append("\n");
+        rowBuilders.get(0).setLength(0);  // Reset the StringBuilder for reuse
+
+
+         */
+        // RESOURCECARDS
+        result.append("***RESOURCECARDS***: \n");
         result.append("\n");
-        result.append(resourcesCardsDeck.getBackCards().get(0).toString());
-        result.append("\n");
-        result.append("RESOURCECARD 0: \n");
-        result.append(resourceCards.get(0)[0].toString());
-        result.append("\n");
-        result.append("RESOURCECARD 1: \n");
-        result.append(resourceCards.get(1)[0].toString());
-        result.append("\n");
-        //OBJECTIVE
+        result.append(cardsResourceToString());
+         /*
+        rowBuilders.get(0).append(resourcesCardsDeck.getBackCards().get(0).toString()).append(" ");
+        rowBuilders.get(0).append(resourceCards.get(0)[0].toString()).append(" ");
+        rowBuilders.get(0).append(resourceCards.get(1)[0].toString()).append("\n");
+        result.append(rowBuilders.get(0).toString().stripTrailing()).append("\n");
+        rowBuilders.get(0).setLength(0);  // Reset the StringBuilder for reuse
+          */
+        // OBJECTIVE
         result.append("*******COMMON GOALS*******: \n");
         result.append("\n");
-        result.append("OBJECTIVECARD 0: \n");
-        result.append(objectiveCards[0].toString());
-        result.append("\n");
-        result.append("OBJECTIVECARD 1: \n");
-        result.append(objectiveCards[1].toString());
-        result.append("\n");
+        rowBuilders.get(0).append(objectiveCards[0].toString()).append(" ");
+        rowBuilders.get(0).append(objectiveCards[1].toString()).append("\n");
+        result.append(rowBuilders.get(0).toString().stripTrailing()).append("\n");
+        rowBuilders.get(0).setLength(0);  // Reset the StringBuilder for reuse
 
         return result.toString();
     }
+
+
+    public String cardsGoldToString() {
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+
+        // Inizializziamo le righe con StringBuilder
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
+
+        PlayableCard card = goldCardsDeck.getBackCards().get(0);
+        String[] lines = card.toString().split("\n");
+
+        for (int k = 0; k < lines.length; k++) {
+            rowBuilders.get(k).append(lines[k]).append(" ");
+        }
+
+        // Iteriamo attraverso le carte
+        for (int i = 0; i < 2; i++) {
+            card = goldCards.get(i)[0];
+            lines = card.toString().split("\n");
+
+            for (int k = 0; k < lines.length; k++) {
+                rowBuilders.get(k).append(lines[k]).append(" ");
+            }
+        }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+
+        return result.toString();
+    }
+    public String cardsResourceToString() {
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+
+        // Inizializziamo le righe con StringBuilder
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
+
+        PlayableCard card = resourcesCardsDeck.getBackCards().get(0);
+        String[] lines = card.toString().split("\n");
+
+        for (int k = 0; k < lines.length; k++) {
+            rowBuilders.get(k).append(lines[k]).append(" ");
+        }
+
+        // Iteriamo attraverso le carte
+        for (int i = 0; i < 2; i++) {
+            card = resourceCards.get(i)[0];
+            lines = card.toString().split("\n");
+
+            for (int k = 0; k < lines.length; k++) {
+                rowBuilders.get(k).append(lines[k]).append(" ");
+            }
+        }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+
+        return result.toString();
+    }
+
+
+
 
 }
 
