@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.player;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.IllegalStateException;
 import java.rmi.RemoteException;
@@ -9,19 +8,14 @@ import java.util.*;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.interfaces.*;
-
-
 import java.io.Serializable;
-import java.util.List;
+
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
@@ -194,16 +188,36 @@ public class Player implements Serializable {
         if (!found)
             throw new IndexOutOfBoundsException("Invalid Cell position");
 
+        int points;
+        try {
 
-        // Retrieve the card at the specified position from the player's deck
-        chosenCard = this.playerDeck.getMiniDeck().get(posCard);
+            // Retrieve the card at the specified position from the player's deck
+            chosenCard = this.playerDeck.getMiniDeck().get(posCard);
+            points= playerBook.addCard(chosenCard, chosenCell);
+
+        }catch (PlacementConditionViolated e){
+            throw new PlacementConditionViolated("you don't have enough resources on the book!");
+        }
         playerDeck.removeCard(posCard);
-
-
-        // Place the chosen card on the chosen cell using the addCard method of the player's book
-        return playerBook.addCard(chosenCard, chosenCell);
-
+        return points;
     }
+    /**
+     * The notify_CardDrawn method notifies that a card has been drawn
+     * @param model is the Game to pass as a new GameModelImmutable
+     */
+    public synchronized void notify_CardDrawn(Game model) {
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.cardDrawn(new GameImmutable(model));
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_CardDrawn, a disconnection has been detected before ping");
+                i.remove();
+            }
+        }
+    }
+
     public synchronized void notify_requireInitial( Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
