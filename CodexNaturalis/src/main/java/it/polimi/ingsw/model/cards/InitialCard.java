@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class InitialCard extends PlayableCard implements Serializable {
@@ -209,6 +210,8 @@ public class InitialCard extends PlayableCard implements Serializable {
 
         return finalResult;
     }
+
+
 
 
 

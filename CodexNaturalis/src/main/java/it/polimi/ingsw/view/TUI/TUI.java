@@ -356,24 +356,79 @@ public class TUI extends UI {
         printAsync("You are back in the menu!\n");
     }
     @Override
-    public void show_temporaryInitialCards(GameImmutable model){
+    public void show_temporaryInitialCards(GameImmutable model) {
         printAsync("Initial Card...\n");
         PlayableCard[] initialCards = model.getInitialCard();
 
-        for (int i = 0; i < initialCards.length; i++) {
-            printAsync("[" + i + "]: \n" + initialCards[i].toString());
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+
+        // Inizializziamo le righe con StringBuilder
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
         }
+
+        for (int i = 0; i < initialCards.length; i++) {
+            PlayableCard card = initialCards[i];
+            String[] lines = card.toString().split("\n");
+
+            // Aggiungi il numero identificativo alla prima riga della carta
+            rowBuilders.get(0).append("[").append(i).append("] "); // Formattato per aggiungere indice
+            for (int k = 0; k < lines.length; k++) {
+                if (k > 0) {
+                    rowBuilders.get(k).append("   "); // Spazi per allineare con il numero identificativo
+                }
+                rowBuilders.get(k).append(lines[k]).append(" ");
+            }
+        }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+
+        printAsync(result.toString());
     }
 
+
+
     @Override
-    public void show_ObjectiveCards(GameImmutable model){
+    public void show_ObjectiveCards(GameImmutable model) {
         printAsync("Objective Cards...\n");
         ArrayList<ObjectiveCard> objectiveCards = model.getObjectiveCard();
 
-        for (int i = 0; i < objectiveCards.size(); i++) {
-            printAsync("[" + i + "]: \n" + objectiveCards.get(i).toString());
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+
+        // Inizializziamo le righe con StringBuilder
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
         }
+
+        for (int i = 0; i < objectiveCards.size(); i++) {
+            ObjectiveCard card = objectiveCards.get(i);
+            String[] lines = card.toString().split("\n");
+
+            // Aggiungi il numero identificativo alla prima riga della carta
+            rowBuilders.get(0).append("[").append(i).append("] "); // Formattato per aggiungere indice
+            for (int k = 0; k < lines.length; k++) {
+                if (k > 0) {
+                    rowBuilders.get(k).append("   "); // Spazi per allineare con il numero identificativo
+                }
+                rowBuilders.get(k).append(lines[k]).append(" ");
+            }
+        }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+
+        printAsync(result.toString());
     }
+
 
     @Override
     public void show_noConnectionError(){
