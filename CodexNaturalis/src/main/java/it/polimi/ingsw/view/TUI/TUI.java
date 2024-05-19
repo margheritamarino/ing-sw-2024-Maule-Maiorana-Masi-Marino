@@ -281,12 +281,9 @@ public class TUI extends UI {
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname){
-        if(model.getCurrentPlayer().equals(nickname)){
             int lastPos= model.getCurrentPlayer().getPlayerDeck().getNumCards()-1;
-            printAsync( "This is your drawn card: " + model.getCurrentPlayer().getPlayerDeck().getMiniDeck().get(lastPos) );
-        }else{
-            printAsync( model.getCurrentPlayer().getNickname() + " has drawn a card\n" );
-        }
+            printAsync( "This is your drawn card:\n " + model.getCurrentPlayer().getPlayerDeck().getMiniDeck().get(lastPos).toString());
+
     }
 
     @Override

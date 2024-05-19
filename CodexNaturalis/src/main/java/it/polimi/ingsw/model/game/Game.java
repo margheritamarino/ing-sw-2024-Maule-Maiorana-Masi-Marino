@@ -603,7 +603,7 @@ public class Game {
 			if (newCard != null) {
 				p.getPlayerDeck().addCard(newCard);
 			}
-			listenersHandler.notify_CardDrawn(this);
+			p.notify_CardDrawn(this);
 
 		}catch (DeckEmptyException e){
 			listenersHandler.notify_GameEnded(this);

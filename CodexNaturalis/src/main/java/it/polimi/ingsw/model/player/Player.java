@@ -201,6 +201,23 @@ public class Player implements Serializable {
         playerDeck.removeCard(posCard);
         return points;
     }
+    /**
+     * The notify_CardDrawn method notifies that a card has been drawn
+     * @param model is the Game to pass as a new GameModelImmutable
+     */
+    public synchronized void notify_CardDrawn(Game model) {
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.cardDrawn(new GameImmutable(model));
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_CardDrawn, a disconnection has been detected before ping");
+                i.remove();
+            }
+        }
+    }
+
     public synchronized void notify_requireInitial( Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
