@@ -17,6 +17,8 @@ import it.polimi.ingsw.listener.ListenersHandler;
 import java.lang.IllegalStateException;
 import java.util.*;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 /**
  * Game model
  *  GameModel is the class that represents the game, it contains all the information about the game, and it's based on a MVC pattern
@@ -691,4 +693,8 @@ public class Game {
 	public void setPlayerDisconnected(Player p) {
 		p.setConnected(false);
 	}
+
+
+
+
 }
