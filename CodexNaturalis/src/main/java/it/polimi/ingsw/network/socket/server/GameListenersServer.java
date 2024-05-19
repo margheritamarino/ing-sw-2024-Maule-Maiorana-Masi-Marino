@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket.server;
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -285,5 +286,18 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     private void finishSending() throws IOException {
         out.flush();
         out.reset();
+    }
+
+
+    @Override
+    public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
+        try {
+            out.writeObject(new msgSentMessage(model, msg));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send SentMessage message", e);
+
+        }
     }
 }

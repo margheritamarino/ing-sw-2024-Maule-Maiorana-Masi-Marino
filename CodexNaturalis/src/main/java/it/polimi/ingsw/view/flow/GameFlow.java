@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.flow;
 
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
@@ -594,6 +595,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
+    public void sendMessage(Message msg) throws RemoteException {
+
+    }
+
+    @Override
     public void setInitialCard(int index, String nickname) {
         try {
             clientActions.setInitialCard(index, nickname);
@@ -678,6 +684,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }*/
         events.add(model, EventType.CARDS_READY);
     }
+
     /**
      * Print that a player is ready to start
      * @param model is the game model
@@ -841,6 +848,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     //TODO
     }
 
+    @Override
+    public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
+
+    }
 
 
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.listener;
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.game.Game;
@@ -252,6 +253,19 @@ public class ListenersHandler {
                 l.cardPlaced(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_CardPlaced, a disconnection has been detected before ping");
+                i.remove();
+            }
+        }
+    }
+
+    public synchronized void notify_SentMessage(Game gameModel, Message msg) {
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.sentMessage(new GameImmutable(gameModel), msg);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_SentMessage, a disconnection has been detected before heartbeat");
                 i.remove();
             }
         }

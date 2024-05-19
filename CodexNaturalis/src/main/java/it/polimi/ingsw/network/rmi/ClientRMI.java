@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 
@@ -303,6 +304,10 @@ public void run() {
        nickname = null;
     }
 
+    @Override
+    public void sendMessage(Message msg) throws RemoteException {
+        gameController.sentMessage(msg);
+    }
 
 
 

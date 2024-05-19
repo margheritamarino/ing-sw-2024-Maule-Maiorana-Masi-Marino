@@ -4,6 +4,7 @@ package it.polimi.ingsw.controller;
 //implementa i metodi dell'interfaccia GameControllerInterface (cartella RMI). chiama i rispettivi metodi del model
 //saranno da implementare altri metodi in base agli input della view
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 
@@ -315,6 +316,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         setGameCreated(true);
         model.addPlayer(lis, nick);
         model.getPlayerByNickname(nick).setConnected(true);
+    }
+
+    @Override
+    public synchronized void sentMessage(Message msg) throws RemoteException{
+        model.sentMessage(msg);
     }
 
 

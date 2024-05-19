@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.CardType;
@@ -82,4 +83,6 @@ public interface GameControllerInterface extends Remote {
     void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick)throws RemoteException;
 
     boolean makeGameStart(GameListenerInterface lis, String nickname)throws RemoteException;
+
+    void sentMessage(Message msg) throws RemoteException;
 }
