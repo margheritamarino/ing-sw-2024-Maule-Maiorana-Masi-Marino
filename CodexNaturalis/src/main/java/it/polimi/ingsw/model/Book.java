@@ -862,10 +862,11 @@ public class Book implements Serializable {
             }
         }
 
-        // Aggiungiamo showMaps() se necessario
-        // result.append("\n");
-        // result.append(showMaps());
-        // result.append("\n");
+
+
+        result.append("\n");
+        result.append(showMaps());
+        result.append("\n");
 
         return result.toString();
     }
