@@ -209,12 +209,7 @@ public class GoldCard extends PlayableCard implements Serializable {
 
         // Trova la lunghezza massima delle linee di contenuto
         int maxWidth = DefaultValue.printLenght;
-        /*
-        for (String line : contentLines) {
-            maxWidth = Math.max(maxWidth, line.length());
-        }
 
-         */
 
         // Costruzione del bordo superiore
         String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";

@@ -130,9 +130,9 @@ public class ObjectiveCard implements Serializable {
         List<String> contentLines = new ArrayList<>();
         contentLines.add("CardType: " + cardTypeName);
         contentLines.add("Points: " + points);
-        contentLines.add("ConditionType: " + goalType.toString());
+        contentLines.add("CondType: " + goalType.toString());
 
-        StringBuilder conditionLine = new StringBuilder("Condition: " + condition);
+        StringBuilder conditionLine = new StringBuilder("Cond: " + condition);
         for (int i = 0; i < emojiSymbol.size(); i++) {
             conditionLine.append(emojiSymbol.get(i));
             if (i < emojiSymbol.size() - 1) {
@@ -141,21 +141,23 @@ public class ObjectiveCard implements Serializable {
         }
         contentLines.add(conditionLine.toString());
 
-        // Trova la larghezza massima delle linee di contenuto
-        int maxWidth = 0;
-        for (String line : contentLines) {
-            maxWidth = Math.max(maxWidth, line.length());
-        }
+
+        int maxWidth = DefaultValue.printLenght;
 
         // Costruzione del bordo superiore
         String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
         result.append(borderLine).append("\n");
 
-        // Costruzione delle linee di contenuto con bordi laterali
         for (String line : contentLines) {
             result.append("| ").append(line);
             // Aggiungi spazi per allineare al massimo
             result.append(" ".repeat(maxWidth - line.length()));
+            result.append(" |\n");
+        }
+        for(int i=contentLines.size(); i< DefaultValue.printHeight; i++){
+            result.append("| ");
+            // Aggiungi spazi per allineare al massimo
+            result.append(" ".repeat(maxWidth));
             result.append(" |\n");
         }
 

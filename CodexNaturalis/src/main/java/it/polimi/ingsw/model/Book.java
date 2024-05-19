@@ -825,7 +825,7 @@ public class Book implements Serializable {
         int maxI = limits[2];
         int maxJ = limits[3];
 
-        result.append("*****BOOK*****\n");
+        result.append("********************BOOK********************\n");
 
         // Lista per accumulare le stringhe delle righe
         ArrayList<ArrayList<String>> rows = new ArrayList<>();
@@ -896,138 +896,36 @@ public class Book implements Serializable {
 
 
 
-
-
-
-    /*
-    public boolean printMatrix(int minI, int minJ, int maxI, int maxJ) {
-
-        System.out.println("\n");
-        // Calcolare la lunghezza massima delle stringhe nella sottomatrice
-        int numRows = maxI - minI + 1;
-        int numCols = maxJ - minJ + 1;
-        String[][] subMatrix = new String[numRows][numCols];
-
-        // Copia la sottomatrice dalla matrice originale
-        for (int i = minI; i <= maxI; i++) {
-            for (int j = minJ; j <= maxJ; j++) {
-                subMatrix[i - minI][j - minJ] = matrix[i][j];
-            }
-        }
-
-        int[] maxLengths = new int[numCols];
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                if (subMatrix[i][j].length() > maxLengths[j]) {
-                    maxLengths[j] = subMatrix[i][j].length();
-                }
-            }
-        }
-
-        // Stampare i bordi superiori della sottomatrice
-        System.out.print("┌");
-        for (int i = 0; i < numCols - 1; i++) {
-            for (int k = 0; k < maxLengths[i] + 2; k++) {
-                System.out.print("─");
-            }
-            System.out.print("┬");
-        }
-        for (int k = 0; k < maxLengths[numCols - 1] + 2; k++) {
-            System.out.print("─");
-        }
-        System.out.println("┐");
-
-        // Stampare le righe interne e i valori della sottomatrice
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                System.out.printf("│ %" + (maxLengths[j] + 1) + "s", subMatrix[i][j]);
-            }
-            System.out.println("│");
-
-
-
-            // Stampare i bordi intermedi
-            if (i < numRows - 1) {
-                System.out.print("├");
-                for (int j = 0; j < numCols - 1; j++) {
-                    for (int k = 0; k < maxLengths[j] + 2; k++) {
-                        System.out.print("─");
-                    }
-                    System.out.print("┼");
-                }
-                for (int k = 0; k < maxLengths[numCols - 1] + 2; k++) {
-                    System.out.print("─");
-                }
-                System.out.println("┤");
-            }
-        }
-
-        // Stampare il bordo inferiore della sottomatrice
-        System.out.print("└");
-        for (int i = 0; i < numCols - 1; i++) {
-            for (int k = 0; k < maxLengths[i] + 2; k++) {
-                System.out.print("─");
-            }
-            System.out.print("┴");
-        }
-        for (int k = 0; k < maxLengths[numCols - 1] + 2; k++) {
-            System.out.print("─");
-        }
-        System.out.println("┘");
-        System.out.println("\n");
-        return false;
-    }
-
-
-     */
-
-
-
-
     public int[] findSubMatrix() {
         int[] limits = new int[4];
-        int minI = bookMatrix.length; // Inizializza minI con un valore superiore alla dimensione massima della matrice
-        int minJ = bookMatrix[0].length; // Inizializza minJ con un valore superiore alla dimensione massima della matrice
-        int maxI = -1; // Inizializza maxI con un valore inferiore alla dimensione minima della matrice
-        int maxJ = -1; // Inizializza maxJ con un valore inferiore alla dimensione minima della matrice
+        int minI = bookMatrix.length;
+        int minJ = bookMatrix[0].length;
+        int maxI = -1;
+        int maxJ = -1;
+
         for (int i = 0; i < bookMatrix.length; i++) {
             for (int j = 0; j < bookMatrix[i].length; j++) {
-                if (bookMatrix[i][j].getCard()!=null) {
-                    minI = minLimit(i, minI);
-                    minJ = minLimit(j, minJ);
-                    maxI = maxLimit(i, maxI);
-                    maxJ = maxLimit(j, maxJ);
+                if (bookMatrix[i][j].getCard() != null) {
+                    if (i < minI) minI = i;
+                    if (j < minJ) minJ = j;
+                    if (i > maxI) maxI = i;
+                    if (j > maxJ) maxJ = j;
                 }
             }
         }
+
+        // Incrementa i limiti superiori per includere le celle adiacenti, se necessario
+        if (minI > 0) minI--;
+        if (minJ > 0) minJ--;
+        if (maxI < bookMatrix.length - 1) maxI++;
+        if (maxJ < bookMatrix[0].length - 1) maxJ++;
+
         limits[0] = minI;
         limits[1] = minJ;
         limits[2] = maxI;
         limits[3] = maxJ;
+
         return limits;
-    }
-
-    public int minLimit(int tmp, int minLimit){
-        if(tmp < minLimit){
-            minLimit = tmp;
-
-            if(minLimit == 0){
-                return minLimit;
-            }else{
-                return minLimit-1;
-            }
-        }else return minLimit;
-
-    }
-    public int maxLimit(int tmp, int maxLimit){
-        if(tmp > maxLimit){
-            maxLimit = tmp;
-            if(maxLimit == DefaultValue.BookSizeMax){
-                return maxLimit;
-            }else{
-                return maxLimit +1;
-            }
-        }else return maxLimit;
     }
 
 
