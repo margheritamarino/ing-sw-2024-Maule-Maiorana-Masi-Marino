@@ -411,7 +411,6 @@ public class TUI extends UI {
             String[] lines = card.toString().split("\n");
 
             // Aggiungi il numero identificativo alla prima riga della carta
-            rowBuilders.get(0).append("[").append(i).append("] "); // Formattato per aggiungere indice
             for (int k = 0; k < lines.length; k++) {
                 if (k > 0) {
                     rowBuilders.get(k).append("   "); // Spazi per allineare con il numero identificativo
