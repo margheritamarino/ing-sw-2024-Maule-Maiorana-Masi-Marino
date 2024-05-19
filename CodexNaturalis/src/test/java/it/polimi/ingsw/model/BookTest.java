@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.CellNotAvailableException;
 import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 import it.polimi.ingsw.model.cards.*;
 import org.junit.jupiter.api.Assertions;
@@ -117,11 +118,23 @@ public class BookTest {
     public void testClear() {
         // Creiamo un oggetto Book
         Book book = new Book(4, 4);
-
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Fungi);
+        resourceList2.add(ResourceType.Fungi);
+        resourceList2.add(ResourceType.Animal);
         // Creiamo alcuni oggetti Card da aggiungere al libro
-        GoldCard card1 = new GoldCard();
-        ResourceCard card2 = new ResourceCard();
-        ResourceCard card3 = new ResourceCard();
+        GoldCard card1 = new GoldCard(0,3,true,CardType.GoldCard, CornerLabel.NoCorner,CornerLabel.Empty,CornerLabel.WithSymbol,CornerLabel.Empty, ResourceType.Fungi,true,SymbolType.Quill,1,resourceList2,true,false, SymbolType.Quill);
+
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Animal);
+        ResourceCard card2 = new ResourceCard(5,3,true, CardType.ResourceCard, CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList,true,SymbolType.Ink);
+
+        List<ResourceType> resourceList3 = new ArrayList<>();
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Animal);
+        ResourceCard card3 = new ResourceCard(5,3,true, CardType.ResourceCard, CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList3,true,SymbolType.Ink);
+
 
         // Aggiungiamo le carte alle celle del libro
         book.getBookMatrix()[0][0].setCardPointer(card1);
@@ -454,7 +467,7 @@ public class BookTest {
    }
 
     @Test
-    void testAddResourceCard(){
+    void testAddResourceCard() throws CellNotAvailableException {
         Book book = new Book(10,10);
         int points;
         //resourceCard1
@@ -649,7 +662,7 @@ public class BookTest {
     }
 
     @Test
-    void TestCheckGoldCornerCondition(){
+    void TestCheckGoldCornerCondition() throws CellNotAvailableException {
         Book book = new Book(10,10);
         int points;
         //resourceCard1
@@ -694,7 +707,7 @@ public class BookTest {
     }
 
     @Test
-    void testCheckGoldPoints(){
+    void testCheckGoldPoints() throws CellNotAvailableException {
         Book book = new Book(10,10);
         int points;
         //resourceCard1
@@ -756,7 +769,7 @@ public class BookTest {
     }
 
     @Test
-    void TestAddGoldCard() throws PlacementConditionViolated {
+    void TestAddGoldCard() throws PlacementConditionViolated, CellNotAvailableException {
         Book book = new Book(10,10);
         int points;
 
@@ -862,7 +875,7 @@ public class BookTest {
     }
 
     @Test
-    void TestAddCard(){
+    void TestAddCard() throws CellNotAvailableException {
         Book book = new Book(10,10);
         int points;
         //resourceCard1
@@ -1028,7 +1041,7 @@ public class BookTest {
     }
 
     @Test
-    void testCheckDiagonalPlacement() {
+    void testCheckDiagonalPlacement() throws CellNotAvailableException {
         //creo una istanza di carta Obiettivo0 che sia di tipo DiagonalPlacementCondition (Diagonale secondaria- Fungi)
         List<SymbolType> symbolList0 = new ArrayList<>();
         ObjectiveCard objectiveCard0 = new ObjectiveCard(0,true,GoalType.DiagonalPlacement,2, ResourceType.Fungi, CornerType.BLCorner, 0, 0, symbolList0, null);

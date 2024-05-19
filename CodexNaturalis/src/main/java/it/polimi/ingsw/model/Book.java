@@ -827,6 +827,16 @@ public class Book implements Serializable {
 
         result.append("********************BOOK********************\n");
 
+        // Calcolare la larghezza massima delle colonne
+        int maxWidth = DefaultValue.printLenght + 2; // aggiungiamo 2 per lo spazio tra le colonne e i bordi
+
+        // Aggiungere gli indici delle colonne
+        result.append("     "); // spazio per l'indice delle righe
+        for (int j = minJ; j <= maxJ; j++) {
+            result.append(String.format("%-" + maxWidth + "d", 0 + j));
+        }
+        result.append("\n");
+
         // Lista per accumulare le stringhe delle righe
         ArrayList<ArrayList<String>> rows = new ArrayList<>();
 
@@ -845,7 +855,8 @@ public class Book implements Serializable {
                 }
 
                 for (int k = 0; k < lines.length; k++) {
-                    rowBuilders.get(k).append(lines[k]).append(" ");
+                    int spacesToAdd = Math.max(0, maxWidth - lines[k].length());
+                    rowBuilders.get(k).append(lines[k]).append(" ".repeat(spacesToAdd));
                 }
             }
 
@@ -856,13 +867,13 @@ public class Book implements Serializable {
             rows.add(rowStrings);
         }
 
-        for (ArrayList<String> row : rows) {
-            for (String line : row) {
+        for (int i = 0; i < rows.size(); i++) {
+            // Aggiungere l'indice della riga
+            result.append(String.format("%-4d", 0 + minI + i));
+            for (String line : rows.get(i)) {
                 result.append(line).append("\n");
             }
         }
-
-
 
         result.append("\n");
         result.append(showMaps());
