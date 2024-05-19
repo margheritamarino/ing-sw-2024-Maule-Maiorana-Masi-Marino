@@ -155,7 +155,7 @@ public class Book implements Serializable {
      * @throws PlacementConditionViolated If the placement condition for the gold card is not met.
      */
     public int addGoldCard(PlayableCard goldCard, Cell cell) throws PlacementConditionViolated, CellNotAvailableException {
-        int numPoints = 0;
+        int numPoints;
 
         if (!checkPlacementCondition(goldCard)) {
             throw new PlacementConditionViolated("you don't have enough resources on the book!");
