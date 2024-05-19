@@ -131,7 +131,7 @@ public abstract class PlayableCard implements Serializable {
         }else if(input.equals("NoCorner")){
             output = "\u274C";
         }else if(input.equals("Ink")){
-            output = "\u26AB";
+            output = "\uD83D\uDD8A\uFE0F";
         }else if(input.equals("Manuscript")){
             output= "\uD83D\uDCDC";
         }else if(input.equals("Quill")){
