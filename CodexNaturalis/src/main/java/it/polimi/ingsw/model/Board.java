@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
 import java.io.Serializable;
 import java.util.*;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 
 /**
  * Board model class
@@ -248,39 +250,48 @@ public class Board implements Serializable {
         // GOLDCARDS
         result.append("***GOLDCARDS***: \n");
         result.append("\n");
-
         result.append(cardsGoldToString());
-        /*
-        rowBuilders.get(0).append(goldCardsDeck.getBackCards().get(0).toString()).append(" ");
-        rowBuilders.get(0).append(goldCards.get(0)[0].toString()).append(" ");
-        rowBuilders.get(0).append(goldCards.get(1)[0].toString()).append("\n");
-        result.append(rowBuilders.get(0).toString().stripTrailing()).append("\n");
-        rowBuilders.get(0).setLength(0);  // Reset the StringBuilder for reuse
-
-
-         */
+        result.append("\n");
         // RESOURCECARDS
         result.append("***RESOURCECARDS***: \n");
         result.append("\n");
         result.append(cardsResourceToString());
-         /*
-        rowBuilders.get(0).append(resourcesCardsDeck.getBackCards().get(0).toString()).append(" ");
-        rowBuilders.get(0).append(resourceCards.get(0)[0].toString()).append(" ");
-        rowBuilders.get(0).append(resourceCards.get(1)[0].toString()).append("\n");
-        result.append(rowBuilders.get(0).toString().stripTrailing()).append("\n");
-        rowBuilders.get(0).setLength(0);  // Reset the StringBuilder for reuse
-          */
+        result.append("\n");
         // OBJECTIVE
         result.append("*******COMMON GOALS*******: \n");
         result.append("\n");
-        rowBuilders.get(0).append(objectiveCards[0].toString()).append(" ");
-        rowBuilders.get(0).append(objectiveCards[1].toString()).append("\n");
-        result.append(rowBuilders.get(0).toString().stripTrailing()).append("\n");
-        rowBuilders.get(0).setLength(0);  // Reset the StringBuilder for reuse
-
+        result.append(cardsObjectiveToString());
+        result.append("\n");
         return result.toString();
     }
 
+    public String cardsObjectiveToString() {
+        ObjectiveCard[] objectiveCards = getObjectiveCards();
+
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+
+        // Inizializziamo le righe con StringBuilder
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
+
+        for (int i = 0; i < objectiveCards.length; i++) {
+            ObjectiveCard card = objectiveCards[i];
+            String[] lines = card.toString().split("\n");
+
+            for (int k = 0; k < lines.length; k++) {
+                rowBuilders.get(k).append(lines[k]).append(" ");
+            }
+        }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+        return result.toString();
+    }
 
     public String cardsGoldToString() {
         // Lista per accumulare le stringhe delle righe

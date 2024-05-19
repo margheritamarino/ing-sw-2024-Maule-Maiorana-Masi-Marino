@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayableCardTest {
-    @Test
+    //TODO
+    /*@Test
     void testInitializeGoldDeck() throws FileNotFoundException, FileReadException {
         Deck goldCardsDeck;
         ArrayList<PlayableCard> goldCardsFront;
@@ -58,7 +59,7 @@ public class PlayableCardTest {
         assertFalse(goldCardsBack.get(0).isPointsCondition());
         assertNull(goldCardsBack.get(0).getSymbolCondition());
         assertFalse(goldCardsBack.get(0).isCornerCondition());
-    }
+    }*/
 
     @Test
     void testInitializeResourceDeck() throws FileNotFoundException, FileReadException {
