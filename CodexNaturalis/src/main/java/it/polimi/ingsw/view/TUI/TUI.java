@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.TUI;
 
 import it.polimi.ingsw.model.DefaultValue;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
@@ -442,8 +443,13 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_visibleCardsBoard(GameImmutable model){
-        //TODO
-    }
+    public void show_visibleCardsBoard(GameImmutable model, CardType cardType){
+        if(cardType.equals(CardType.ResourceCard)){
+            printAsync(model.getBoard().cardsVisibleResourceToString());
+        }else if(cardType.equals(CardType.GoldCard))
+            printAsync(  model.getBoard().cardsVisibleGoldToString());
+        else
+            show_wrongSelectionMsg();
 
+    }
 }

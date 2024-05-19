@@ -1,15 +1,11 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
-import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.model.interfaces.BoardIC;
 import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
-import it.polimi.ingsw.model.interfaces.PlayableCardIC;
 
 import java.io.Serializable;
 import java.util.*;
-import java.io.FileNotFoundException;
 
 
 /**
@@ -320,6 +316,8 @@ public class Board implements Serializable {
 
         return result.toString();
     }
+
+
     public String cardsResourceToString() {
         // Lista per accumulare le stringhe delle righe
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
@@ -357,6 +355,70 @@ public class Board implements Serializable {
 
 
 
+    public String cardsVisibleGoldToString() {
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
 
+        // Inizializziamo le righe con StringBuilder
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
+
+
+        // Iteriamo attraverso le carte
+        for (int i = 0; i < 2; i++) {
+            PlayableCard card = goldCards.get(i)[0];
+            String[] lines = card.toString().split("\n");
+
+            for (int k = 0; k < lines.length; k++) {
+                if (k == 0) {
+                    // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
+                    rowBuilders.get(k).append(i).append(" ").append(lines[k]).append(" ");
+                } else {
+                    rowBuilders.get(k).append("  ").append(lines[k]).append(" ");
+                }
+            }
+        }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+        return result.toString();
+    }
+
+
+public String cardsVisibleResourceToString() {
+    // Lista per accumulare le stringhe delle righe
+    ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+
+    // Inizializziamo le righe con StringBuilder
+    for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+        rowBuilders.add(new StringBuilder());
+    }
+
+    for (int i = 0; i < 2; i++) {
+        PlayableCard card = resourceCards.get(i)[0];
+        String[] lines = card.toString().split("\n");
+
+        for (int k = 0; k < lines.length; k++) {
+            if (k == 0) {
+                // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
+                rowBuilders.get(k).append(i).append(" ").append(lines[k]).append(" ");
+            } else {
+                rowBuilders.get(k).append("  ").append(lines[k]).append(" ");
+            }
+        }
+    }
+
+    // Costruiamo l'output finale unendo tutte le righe
+    StringBuilder result = new StringBuilder();
+    for (StringBuilder sb : rowBuilders) {
+        result.append(sb.toString().stripTrailing()).append("\n");
+    }
+
+    return result.toString();
+    }
 }
 

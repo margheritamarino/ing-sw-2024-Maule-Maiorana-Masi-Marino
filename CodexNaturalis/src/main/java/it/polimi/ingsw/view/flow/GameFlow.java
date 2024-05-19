@@ -488,7 +488,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         boolean drawFromDeck = askDrawFromDeck( model);
 
         if(!drawFromDeck){
-            ui.show_visibleCardsBoard(model);
+            ui.show_visibleCardsBoard(model, cardType);
             //Non dovrebbe chiedere se vuole la carta 0 o 1 dell'array?
             pos= Objects.requireNonNullElse(askNum("\t> Choose [0] for the first card or [1] for the second card:", model), -1);
         }
