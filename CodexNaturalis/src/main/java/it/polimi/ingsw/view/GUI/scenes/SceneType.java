@@ -7,7 +7,8 @@ public enum SceneType {
     PUBLISHER("/Publisher.fxml"),
     NICKNAME("/Nickname.fxml"),
     NICKNAME_POPUP("/NicknamePopUp.fxml"), //popup with nickname
-    MENU("/Menu.fxml"),
+    ASK_NUM_PLAYERS("/AskNumPlayers.fxml"), //scena per chiedere il numero di giocatori
+    ASK_GAME_ID("/AskGameID.fxml"), //scena per chiedere il Game ID
     LOBBY("/Lobby.fxml"),
     INGAME("/InGame.fxml"),
     OTHERSBOOK("/OthersBook.fxml"),
