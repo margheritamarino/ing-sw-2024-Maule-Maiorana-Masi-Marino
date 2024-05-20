@@ -373,63 +373,1160 @@
 
 /*CARDS*/
 
-.cc1{
-    -fx-background-image: url("img/img/common_goal_cards/1.jpg");
+/* INITIAL_CARDS*/
+/*Initial Back*/
+.ib0{
+    -fx-background-image: url("img/Cards/initialCards/0_InitialBack.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cc2{
-    -fx-background-image: url("img/img/common_goal_cards/2.jpg");
+.ib1{
+    -fx-background-image: url("img/Cards/initialCards/1_InitialBack.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cc3{
-    -fx-background-image: url("img/img/common_goal_cards/3.jpg");
+.ib2{
+    -fx-background-image: url("img/Cards/initialCards/2_InitialBack.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cc4{
-    -fx-background-image: url("img/img/common_goal_cards/4.jpg");
+.ib3{
+    -fx-background-image: url("img/Cards/initialCards/3_InitialBack.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cc5{
-    -fx-background-image: url("img/img/common_goal_cards/5.jpg");
+.ib4{
+    -fx-background-image: url("img/Cards/initialCards/4_InitialBack.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cc6{
-    -fx-background-image: url("img/img/common_goal_cards/6.jpg");
+.ib5{
+    -fx-background-image: url("img/Cards/initialCards/5_InitialBack.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cc7{
-    -fx-background-image: url("img/img/common_goal_cards/7.jpg");
+/*Initial Front*/
+.if0{
+    -fx-background-image: url("img/Cards/initialCards/0_InitialFront.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cc8{
-    -fx-background-image: url("img/img/common_goal_cards/8.jpg");
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-}.cc9{
-     -fx-background-image: url("img/img/common_goal_cards/9.jpg");
-     -fx-background-repeat: stretch;
-     -fx-background-size: cover;
- }.cc10{
-      -fx-background-image: url("img/img/common_goal_cards/10.jpg");
-      -fx-background-repeat: stretch;
-      -fx-background-size: cover;
-  }.cc11{
-       -fx-background-image: url("img/img/common_goal_cards/11.jpg");
-       -fx-background-repeat: stretch;
-       -fx-background-size: cover;
-   }
-.cc12{
-    -fx-background-image: url("img/img/common_goal_cards/12.jpg");
+.if1{
+    -fx-background-image: url("img/Cards/initialCards/1_InitialFront.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+.if2{
+    -fx-background-image: url("img/Cards/initialCards/2_InitialFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.if3{
+    -fx-background-image: url("img/Cards/initialCards/3_InitialFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.if4{
+    -fx-background-image: url("img/Cards/initialCards/4_InitialFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.if5{
+    -fx-background-image: url("img/Cards/initialCards/5_InitialFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+/*RESOURCE_CARDS*/
+/*Resource Front*/
+.rf0{
+    -fx-background-image: url("img/Cards/ResourceCards/0_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf1{
+    -fx-background-image: url("img/Cards/ResourceCards/1_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rf2{
+    -fx-background-image: url("img/Cards/ResourceCards/2_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rf3{
+    -fx-background-image: url("img/Cards/ResourceCards/3_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rf4{
+    -fx-background-image: url("img/Cards/ResourceCards/4_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rf5 {
+    -fx-background-image: url("img/Cards/ResourceCards/5_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf6 {
+    -fx-background-image: url("img/Cards/ResourceCards/6_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf7 {
+    -fx-background-image: url("img/Cards/ResourceCards/7_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf8 {
+    -fx-background-image: url("img/Cards/ResourceCards/8_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf9 {
+    -fx-background-image: url("img/Cards/ResourceCards/9_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf10 {
+    -fx-background-image: url("img/Cards/ResourceCards/10_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf11 {
+    -fx-background-image: url("img/Cards/ResourceCards/11_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf12 {
+    -fx-background-image: url("img/Cards/ResourceCards/12_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf13 {
+    -fx-background-image: url("img/Cards/ResourceCards/13_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf14 {
+    -fx-background-image: url("img/Cards/ResourceCards/14_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf15 {
+    -fx-background-image: url("img/Cards/ResourceCards/15_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf16 {
+    -fx-background-image: url("img/Cards/ResourceCards/16_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf17 {
+    -fx-background-image: url("img/Cards/ResourceCards/17_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf18 {
+    -fx-background-image: url("img/Cards/ResourceCards/18_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf19 {
+    -fx-background-image: url("img/Cards/ResourceCards/19_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf20 {
+    -fx-background-image: url("img/Cards/ResourceCards/20_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf21 {
+    -fx-background-image: url("img/Cards/ResourceCards/21_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf22 {
+    -fx-background-image: url("img/Cards/ResourceCards/22_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf23 {
+    -fx-background-image: url("img/Cards/ResourceCards/23_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf24 {
+    -fx-background-image: url("img/Cards/ResourceCards/24_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf25 {
+    -fx-background-image: url("img/Cards/ResourceCards/25_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf26 {
+    -fx-background-image: url("img/Cards/ResourceCards/26_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf27 {
+    -fx-background-image: url("img/Cards/ResourceCards/27_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf28 {
+    -fx-background-image: url("img/Cards/ResourceCards/28_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf29 {
+    -fx-background-image: url("img/Cards/ResourceCards/29_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf30 {
+    -fx-background-image: url("img/Cards/ResourceCards/30_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf31 {
+    -fx-background-image: url("img/Cards/ResourceCards/31_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf32 {
+    -fx-background-image: url("img/Cards/ResourceCards/32_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf33 {
+    -fx-background-image: url("img/Cards/ResourceCards/33_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf34 {
+    -fx-background-image: url("img/Cards/ResourceCards/34_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf35 {
+    -fx-background-image: url("img/Cards/ResourceCards/35_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf36 {
+    -fx-background-image: url("img/Cards/ResourceCards/36_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf37 {
+    -fx-background-image: url("img/Cards/ResourceCards/37_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf38 {
+    -fx-background-image: url("img/Cards/ResourceCards/38_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.rf39 {
+    -fx-background-image: url("img/Cards/ResourceCards/39_ResourceFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+/*Resource Back*/
+.rb0 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb1 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb2 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb3 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb4 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb5 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb6 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb7 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb8 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb9 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb10 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb11 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb12 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb13 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb14 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb15 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb16 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb17 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb18 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb19 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourcePlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb20 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb21 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb22 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb23 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb24 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb25 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb26 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb27 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb28 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb29 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb30 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb31 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb32 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb33 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb34 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb35 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb36 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb37 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb38 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rb39 {
+    -fx-background-image: url("img/Cards/ResourceCards/ResourceInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+
+
+/*GOLD_CARDS*/
+/*Gold Front*/
+.gf0 {
+    -fx-background-image: url("img/Cards/GoldCards/0_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf1 {
+    -fx-background-image: url("img/Cards/GoldCards/1_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf2 {
+    -fx-background-image: url("img/Cards/GoldCards/2_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf3 {
+    -fx-background-image: url("img/Cards/GoldCards/3_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf4 {
+    -fx-background-image: url("img/Cards/GoldCards/4_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf5 {
+    -fx-background-image: url("img/Cards/GoldCards/5_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf6 {
+    -fx-background-image: url("img/Cards/GoldCards/6_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf7 {
+    -fx-background-image: url("img/Cards/GoldCards/7_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf8 {
+    -fx-background-image: url("img/Cards/GoldCards/8_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf9 {
+    -fx-background-image: url("img/Cards/GoldCards/9_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf10 {
+    -fx-background-image: url("img/Cards/GoldCards/10_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf11 {
+    -fx-background-image: url("img/Cards/GoldCards/11_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf12 {
+    -fx-background-image: url("img/Cards/GoldCards/12_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf13 {
+    -fx-background-image: url("img/Cards/GoldCards/13_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf14 {
+    -fx-background-image: url("img/Cards/GoldCards/14_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf15 {
+    -fx-background-image: url("img/Cards/GoldCards/15_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf16 {
+    -fx-background-image: url("img/Cards/GoldCards/16_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf17 {
+    -fx-background-image: url("img/Cards/GoldCards/17_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf18 {
+    -fx-background-image: url("img/Cards/GoldCards/18_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf19 {
+    -fx-background-image: url("img/Cards/GoldCards/19_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf20 {
+    -fx-background-image: url("img/Cards/GoldCards/20_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf21 {
+    -fx-background-image: url("img/Cards/GoldCards/21_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf22 {
+    -fx-background-image: url("img/Cards/GoldCards/22_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf23 {
+    -fx-background-image: url("img/Cards/GoldCards/23_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf24 {
+    -fx-background-image: url("img/Cards/GoldCards/24_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf25 {
+    -fx-background-image: url("img/Cards/GoldCards/25_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf26 {
+    -fx-background-image: url("img/Cards/GoldCards/26_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf27 {
+    -fx-background-image: url("img/Cards/GoldCards/27_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf28 {
+    -fx-background-image: url("img/Cards/GoldCards/28_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf29 {
+    -fx-background-image: url("img/Cards/GoldCards/29_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf30 {
+    -fx-background-image: url("img/Cards/GoldCards/30_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf31 {
+    -fx-background-image: url("img/Cards/GoldCards/31_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf32 {
+    -fx-background-image: url("img/Cards/GoldCards/32_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf33 {
+    -fx-background-image: url("img/Cards/GoldCards/33_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf34 {
+    -fx-background-image: url("img/Cards/GoldCards/34_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf35 {
+    -fx-background-image: url("img/Cards/GoldCards/35_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.gf36 {
+    -fx-background-image: url("img/Cards/GoldCards/36_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gf37 {
+    -fx-background-image: url("img/Cards/GoldCards/37_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gf38 {
+    -fx-background-image: url("img/Cards/GoldCards/38_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gf39 {
+    -fx-background-image: url("img/Cards/GoldCards/39_GoldFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+/*Gold Back*/
+.gb0 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb1 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb2 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb3 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb4 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb5 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb6 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb7 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb8 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb9 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb10 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb11 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb12 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb13 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb14 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb15 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb16 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb17 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb18 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb19 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldPlantBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb20 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb21 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb22 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb23 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb24 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb25 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb26 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb27 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb28 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb29 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldAnimalBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb30 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb31 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb32 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb33 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb34 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb35 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb36 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb37 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb38 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.gb39 {
+    -fx-background-image: url("img/Cards/GoldCards/GoldInsectBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+
+
+
+/*OBJECTIVE_CARDS*/
+/*Objective Front*/
+.of0 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/0_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.of0 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/0_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of1 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/1_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of2 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/2_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of3 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/3_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of4 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/4_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of5 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/5_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of6 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/6_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of7 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/7_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of8 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/8_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of9 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/9_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of10 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/10_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of11 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/11_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of12 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/12_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of13 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/13_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of14 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/14_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.of15 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/15_ObjectiveFront.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+
+/*Objective Back*/
+.ob0 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.ob0 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob1 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob2 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob3 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob4 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob5 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob6 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob7 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob8 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob9 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob10 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob11 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob12 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob13 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.ob14 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.ob15 {
+    -fx-background-image: url("img/Cards/ObjectiveCards/ObjectiveBack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
 
 
 
