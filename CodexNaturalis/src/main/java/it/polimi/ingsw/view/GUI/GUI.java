@@ -40,6 +40,9 @@ public class GUI extends UI {
     }
 
 
+    /**
+     * The init method is used to initialize the GUI.
+     */
     @Override
     public void init() {
         eventsToShow = new ArrayList<>();
@@ -64,6 +67,9 @@ public class GUI extends UI {
     }
 
 
+    /**
+     * The show method is used to show the GUI, and set the active scene to the publisher.
+     */
     @Override
     public void show_insertNicknameMessage() {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME));

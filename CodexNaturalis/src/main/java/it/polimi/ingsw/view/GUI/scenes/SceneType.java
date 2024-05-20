@@ -11,11 +11,14 @@ public enum SceneType {
     INGAME("/InGame.fxml"),
     OTHERSBOOK("/OthersBook.fxml"),
     GAMEWAIT("/GameWait.fxml"),
-    GAMEENDED("/GameEnded.fxml");
+    GAMEENDED("/GameEnded.fxml"),
+    PLAYER_LOBBY0("/PlayerLobby0.fxml.fxml"),
+    PLAYER_LOBBY1("/PlayerLobby1.fxml.fxml"),
+    PLAYER_LOBBY2("/PlayerLobby2.fxml.fxml"),
+    PLAYER_LOBBY3("/PlayerLobby3.fxml.fxml");
+    private final String path; //contiene il
 
-
-
-    private final String path; //contiene il percorso dei file FXML associati alle scene
+    // percorso dei file FXML associati alle scene
 
     //costruttore
     SceneType(final String path){
