@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.client;
 
-//import it.polimi.ingsw.model.Chat.Message; (CHAT)
+//import it.polimi.ingsw.Chat.Chat.Message; (CHAT)
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.CardType;
@@ -261,6 +262,16 @@ public class ClientSocket extends Thread implements ClientInterface {
     private void finishSending() throws IOException {
         out.flush();
         out.reset();
+    }
+
+    @Override
+    public void sendMessage(Message msg){
+        try {
+            out.writeObject(new ClientMsgNewChatMessage(msg));
+            finishSending();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
     }
 
 

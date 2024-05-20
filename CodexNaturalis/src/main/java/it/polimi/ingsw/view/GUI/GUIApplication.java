@@ -44,7 +44,7 @@ public class GUIApplication extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().get(0))); //TODO
+        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().getFirst())); //TODO
         loadScenes(); //carica le scene
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Codex Naturalis");

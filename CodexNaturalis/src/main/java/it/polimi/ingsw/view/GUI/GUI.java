@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.DefaultValue;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
@@ -290,7 +291,7 @@ public class GUI extends UI {
 
     }
     @Override
-    public void show_visibleCardsBoard(GameImmutable model){
+    public void show_visibleCardsBoard(GameImmutable model, CardType cardType){
 
     }
 }

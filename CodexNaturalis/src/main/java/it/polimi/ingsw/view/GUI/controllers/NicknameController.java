@@ -11,8 +11,9 @@ import java.io.IOException;
  */
 public class NicknameController extends ControllerGUI {
 
+
     @FXML
-    private TextField nickname;
+    private TextField nickname; //campo in cui l'utente inserisce il proprio nome
 
     /**
      * Method to control the nickname.

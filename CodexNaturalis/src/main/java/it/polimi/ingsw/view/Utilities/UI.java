@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.Utilities;
 
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.FileNotFoundException;
@@ -101,5 +102,5 @@ public abstract class UI {
 
     public abstract void show_WaitTurnMsg(GameImmutable model, String nickname) ;
 
-    public abstract void show_visibleCardsBoard(GameImmutable model);
+    public abstract void show_visibleCardsBoard(GameImmutable model, CardType cardType);
 }

@@ -13,6 +13,12 @@ public class SceneInformation {
 
     private ControllerGUI controller;
 
+    /**
+     * Constructor of the class.
+     * @param scene the scene {@link Scene}
+     * @param sceneType the scene enum {@link SceneType}
+     * @param controller the generic controller {@link ControllerGUI}
+     */
     public SceneInformation(Scene scene, SceneType sceneType, ControllerGUI controller){
         this.scene = scene;
         this.sceneType = sceneType;

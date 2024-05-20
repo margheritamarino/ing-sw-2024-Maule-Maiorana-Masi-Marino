@@ -8,13 +8,11 @@ public class DefaultValue implements Serializable {
     public final static boolean DEBUG = false;
     public final static int printHeight = 7;
     public final static int printLenght = 30;
-
+    public final static int max_messagesShow = 5;
     public final static int BookSizeMax = 70;
-
     public final static int BookSizeMin = 0;
     public final static int MaxNumOfPlayer = 4;
     public final static int minNumOfPlayer = 2;
-
     public final static int NumOfGoldCards = 40;
     public final static int NumOfResourceCards = 40;
     public final static int NumOfInitialCards = 6;

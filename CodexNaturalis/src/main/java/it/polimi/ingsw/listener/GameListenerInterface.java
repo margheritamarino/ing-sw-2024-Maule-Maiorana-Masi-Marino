@@ -1,5 +1,6 @@
 package it.polimi.ingsw.listener;
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -129,4 +130,6 @@ public interface GameListenerInterface extends Remote {
     void lastCircle(GameImmutable model) throws RemoteException;
 
     void cardsReady(GameImmutable gameImmutable, String nickname)throws RemoteException;
+
+    void sentMessage(GameImmutable model, Message msg) throws RemoteException;
 }
