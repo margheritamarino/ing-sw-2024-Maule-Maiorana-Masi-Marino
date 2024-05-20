@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * NicknameController class.
  */
-public class NicknameController extends  ControllerGUI{
+public class NicknameController extends ControllerGUI {
 
 
     @FXML
