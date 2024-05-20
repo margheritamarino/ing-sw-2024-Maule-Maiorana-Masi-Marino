@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket.client;
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -108,6 +109,11 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     @Override
     public void cardsReady(GameImmutable model, String nickname) throws RemoteException {
         flow.cardsReady(model, nickname);
+    }
+
+    @Override
+    public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
+        flow.sentMessage(model, msg);
     }
 
 }

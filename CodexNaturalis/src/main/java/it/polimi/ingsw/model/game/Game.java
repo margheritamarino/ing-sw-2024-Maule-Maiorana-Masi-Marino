@@ -10,6 +10,8 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
+import it.polimi.ingsw.Chat.Chat;
+import it.polimi.ingsw.Chat.Message;
 
 import it.polimi.ingsw.listener.ListenersHandler;
 
@@ -47,6 +49,7 @@ public class Game {
 
 	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
 	private int currentCardPoints;
+	private Chat chat;
 
 	/**
 	 * Private Constructor
@@ -75,6 +78,7 @@ public class Game {
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
+		chat = new Chat();
 		this.temporaryInitialCard= new PlayableCard[2];
 		this.listenersHandler = new ListenersHandler();
 
@@ -694,6 +698,19 @@ public class Game {
 		p.setConnected(false);
 	}
 
+	public Chat getChat(){
+		return chat;
+	}
+
+	public void sentMessage(Message msg){
+		//controllo se il mittente del messaggio è effettivamente un giocatore che partecipa alla partita
+		if (players.stream().filter(x -> x.equals(msg.getSender())).count() == 1) {
+			chat.addMsg(msg);
+			listenersHandler.notify_SentMessage(this, chat.getLastMessage());
+		} else {
+			throw new ActionByAPlayerNotInTheGameException();
+		}
+	}
 
 
 

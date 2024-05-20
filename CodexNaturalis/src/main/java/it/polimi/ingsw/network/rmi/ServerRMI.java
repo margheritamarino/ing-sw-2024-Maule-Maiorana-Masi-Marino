@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
-//import it.polimi.ingsw.model.Chat.Message; (CHAT)
+//import it.polimi.ingsw.Chat.Chat.Message; (CHAT)
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.controller.GameController;
@@ -203,6 +204,11 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     @Override
     public boolean makeGameStart(GameListenerInterface lis, String nickname) throws RemoteException {
         return serverObject.gameController.makeGameStart(lis, nickname);
+    }
+
+    @Override
+    public void sentMessage(Message msg) throws RemoteException {
+        serverObject.gameController.sentMessage(msg);
     }
 
 
