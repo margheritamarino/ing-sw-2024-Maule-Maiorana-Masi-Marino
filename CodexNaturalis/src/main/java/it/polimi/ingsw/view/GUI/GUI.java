@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.Utilities.UI;
@@ -77,6 +78,18 @@ public class GUI extends UI {
         this.show_chosenNickname(nickname);
     }
 
+    /**
+     * This method show the info about the chosen nickname.
+     *
+     * @param nick the nickname
+     * @param text the info
+     */
+    private void show_popupInfoAndNickname(String nick, String text) {
+        callPlatformRunLater(() -> ((NicknamePopUpController) this.guiApplication.getController(SceneType.NICKNAME_POPUP)).showNicknameAndText(nick, text));
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME_POPUP));
+        nickname = nick;
+    }
+
     @Override
     public void show_chosenNickname(String nickname) {
 
@@ -143,6 +156,7 @@ public class GUI extends UI {
     @Override
     public void show_joiningToGameMsg(String nick) {
 
+        show_popupInfoAndNickname(nickname, "Trying to join a Game...");
     }
 
 

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.view.GUI.controllers.ControllerGUI;
 import it.polimi.ingsw.view.GUI.controllers.MenuController;
@@ -11,17 +9,16 @@ import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+import javafx.stage.StageStyle;
 /**
  * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
  * methods to change the scene and to get the controller of a specific scene.
@@ -30,7 +27,7 @@ import java.util.ArrayList;
 public class GUIApplication extends Application {
 
     private GameFlow gameFlow;
-    private Stage primaryStage; //scena principale mostrata all'utente
+    private Stage primaryStage, popUpStage;
     private StackPane root; //radice dell'interfaccia utente
     private ArrayList<SceneInformation> scenes;
     private boolean resizing=true;
@@ -44,13 +41,16 @@ public class GUIApplication extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().getFirst()));
+        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().getFirst())); //TODO
         loadScenes(); //carica le scene
         this.primaryStage = primaryStage;
+
         this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
 
+        //si può aggiungere un suono di apertura
     }
+
 
 
     /**
@@ -127,11 +127,18 @@ public class GUIApplication extends Application {
                 case NICKNAME -> {
                 //TODO
                 }
-                case MENU -> {
-                    this.primaryStage.centerOnScreen();
-                    this.primaryStage.setAlwaysOnTop(false);
-                    MenuController controller = (MenuController) s.getControllerGUI();
+                case NICKNAME_POPUP -> {
+                    openPopup(scenes.get(getSceneIndex(scene)).getScene());
+                    return;
                 }
+                case ASK_NUM_PLAYERS -> {
+                    //TODO
+                }
+                case  ASK_GAME_ID-> {
+                    //TODO
+                }
+
+
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
 
@@ -176,6 +183,31 @@ public class GUIApplication extends Application {
 
 
 
+    /**
+     * This method is used to open the popup.
+     * @param scene the scene {@link Scene}
+     */
+    private void openPopup(Scene scene) {
+        popUpStage = new Stage();
+        popUpStage.setTitle("Info");
+        popUpStage.setResizable(false);
+        popUpStage.setScene(scene);
+
+        popUpStage.initStyle(StageStyle.UNDECORATED);
+        popUpStage.setOnCloseRequest(we -> System.exit(0));
+        popUpStage.show();
+
+        popUpStage.setX(primaryStage.getX() + (primaryStage.getWidth() - scene.getWidth()) * 0.5);
+        popUpStage.setY(primaryStage.getY() + (primaryStage.getHeight() - scene.getHeight()) * 0.5);
+    }
+
+    /**
+     * This method is used to close the popup.
+     */
+    public void closePopUpStage() {
+        if (popUpStage != null)
+            popUpStage.hide();
+    }
 
 
 
