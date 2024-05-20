@@ -6,14 +6,14 @@ import javafx.fxml.FXML;
 import java.awt.*;
 import java.io.IOException;
 
+import javafx.scene.control.TextField;
 /**
  * NicknameController class.
  */
 public class NicknameController extends ControllerGUI {
 
-
     @FXML
-    private TextField nickname; //campo in cui l'utente inserisce il proprio nome
+    TextField nicknameTextField; //campo in cui l'utente inserisce il proprio nome
 
     /**
      * Method to control the nickname.
@@ -21,8 +21,8 @@ public class NicknameController extends ControllerGUI {
      * @throws IOException if there are connection problems
      */
     public void actionEnter(ActionEvent e) throws IOException {
-        if (!nickname.getText().isEmpty()) {
-            getInputGUI().addTxt(nickname.getText());
+        if (!nicknameTextField.getText().isEmpty()) {
+            getInputGUI().addTxt(nicknameTextField.getText());
         }
     }
 }

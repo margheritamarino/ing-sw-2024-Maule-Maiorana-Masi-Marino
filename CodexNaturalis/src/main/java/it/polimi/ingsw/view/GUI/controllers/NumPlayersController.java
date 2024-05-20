@@ -2,8 +2,8 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class NumPlayersController extends ControllerGUI{

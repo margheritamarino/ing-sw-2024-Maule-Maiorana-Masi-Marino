@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
-
+import javafx.scene.control.TextField;
 public class NicknamePopUpController extends ControllerGUI{
     @FXML
     private Text nicknameLable;
