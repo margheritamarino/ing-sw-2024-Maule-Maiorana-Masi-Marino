@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class GUIApplication extends Application {
 
     private GameFlow gameFlow;
-    private Stage primaryStage;
+    private Stage primaryStage; //scena principale mostrata all'utente
     private StackPane root; //radice dell'interfaccia utente
     private ArrayList<SceneInformation> scenes;
     private boolean resizing=true;
@@ -44,15 +44,13 @@ public class GUIApplication extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().getFirst())); //TODO
+        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().getFirst()));
         loadScenes(); //carica le scene
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
 
-        //si può aggiungere un suono di apertura
     }
-
 
 
     /**

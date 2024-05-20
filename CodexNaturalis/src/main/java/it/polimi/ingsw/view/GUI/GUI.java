@@ -79,7 +79,7 @@ public class GUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname) {
-        //TODO
+
     }
 
     @Override
