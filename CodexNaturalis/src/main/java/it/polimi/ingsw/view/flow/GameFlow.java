@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.flow;
 
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.Chat.MessagePrivate;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.DefaultValue;
@@ -193,6 +194,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     askPickCard(event.getModel());
                 }
 
+            }
+            case SENT_MESSAGE -> {
+                ui.show_sentMessage(event.getModel(), nickname);
             }
 
             case CARD_PLACED_NOT_CORRECT -> {//ask the Player to choose again
@@ -595,11 +599,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void sendMessage(Message msg) throws RemoteException {
-
-    }
-
-    @Override
     public void setInitialCard(int index, String nickname) {
         try {
             clientActions.setInitialCard(index, nickname);
@@ -848,9 +847,26 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     //TODO
     }
 
+    //gestisce i messaggi inviati (pubblici o privati)
     @Override
     public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
+        //mostra il messaggio solo se è destinato a tutti(*), al destinatario corrente o è stato mandato dal giocatore corrente
+        if (msg.whoIsReceiver().equals("*") || msg.whoIsReceiver().equalsIgnoreCase(nickname) || msg.getSender().getNickname().equalsIgnoreCase(nickname)) {
+            ui.addMessage(msg, model);
+            events.add(model, EventType.SENT_MESSAGE);
+            msg.setText("[PRIVATE]: " + msg.getText());
+        }
+    }
 
+
+    //client invia i messaggi al server
+    @Override
+    public void sendMessage(Message msg) {
+        try {
+            clientActions.sendMessage(msg);
+        } catch (RemoteException e) {
+            noConnectionError();
+        }
     }
 
 

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.view.TUI;
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -76,6 +78,8 @@ public class TUI extends UI {
         show_board(model);
         show_scoretrack(model);
         show_important_events();
+        //mostro tutti i messaggi della chat
+        show_messages(model);
     }
 
     @Override
@@ -450,5 +454,48 @@ public class TUI extends UI {
         else
             show_wrongSelectionMsg();
 
+    }
+
+
+
+    //*****CHAT******
+
+    public void show_askForChat(GameImmutable model, String nick){
+        printAsync("Do you want to send a public message, a private message or neither?\n ");
+        printAsync("Select\n" +
+                "'c' to send a public message\n" +
+                "'cs' to sent a private message\n" +
+                "'n' to not send any message\n");
+    }
+
+    //mostra i messaggi presenti nel modello di gioco nella chat
+    public void show_messages(GameImmutable model){
+        String ris = "Latest Messages:\n" + model.getChat().toString(this.nickname);
+        printAsync(ris);
+    }
+
+    /**
+     * Search for the longest message
+     * @param model
+     * @return
+     */
+    @Override
+    public int getLengthLongestMessage(GameImmutable model) {
+        return model.getChat().getMsgs().stream()
+                .map(Message::getText)
+                .reduce((a, b) -> a.length() > b.length() ? a : b)
+                .toString().length();
+    }
+
+    //mostra i messaggi già presenti per aggiungerne altri
+    @Override
+    public void addMessage(Message msg, GameImmutable model) {
+        show_messages(model);
+    }
+
+    //mostra i messaggi inviati da un utente specifico
+    @Override
+    public void show_sentMessage(GameImmutable model, String nickname) {
+        this.show_alwaysShow(model, nickname);
     }
 }
