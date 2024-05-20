@@ -6,6 +6,7 @@ package it.polimi.ingsw.view.GUI.scenes;
 public enum SceneType {
     PUBLISHER("/Publisher.fxml"),
     NICKNAME("/Nickname.fxml"),
+    NICKNAME_POPUP("/NicknamePopUp.fxml"), //popup with nickname
     MENU("/Menu.fxml"),
     LOBBY("/Lobby.fxml"),
     INGAME("/InGame.fxml"),

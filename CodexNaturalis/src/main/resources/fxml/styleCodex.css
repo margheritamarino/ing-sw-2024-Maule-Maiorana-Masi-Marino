@@ -1117,7 +1117,7 @@
     -fx-background-size: cover;
 }
 
-/*Gold Back*/ //TODO con il giusto back
+/*Gold Back*/
 .gb0 {
     -fx-background-image: url("img/Cards/GoldCards/GoldFungiBack.png");
     -fx-background-repeat: stretch;
