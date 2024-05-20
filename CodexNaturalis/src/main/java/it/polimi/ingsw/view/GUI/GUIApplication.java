@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.view.GUI.controllers.ControllerGUI;
 import it.polimi.ingsw.view.GUI.controllers.MenuController;
@@ -11,17 +9,15 @@ import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 /**
  * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
@@ -130,6 +126,10 @@ public class GUIApplication extends Application {
                 }
                 case NICKNAME -> {
                 //TODO
+                }
+                case NICKNAME_POPUP -> {
+                    openPopup(scenes.get(getSceneIndex(scene)).getScene());
+                    return;
                 }
                 case MENU -> {
                     this.primaryStage.centerOnScreen();
