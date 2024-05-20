@@ -21,7 +21,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 /**
  * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
  * methods to change the scene and to get the controller of a specific scene.
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 public class GUIApplication extends Application {
 
     private GameFlow gameFlow;
-    private Stage primaryStage;
+    private Stage primaryStage, popUpStage;
     private StackPane root; //radice dell'interfaccia utente
     private ArrayList<SceneInformation> scenes;
     private boolean resizing=true;
@@ -47,6 +48,7 @@ public class GUIApplication extends Application {
         gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().getFirst())); //TODO
         loadScenes(); //carica le scene
         this.primaryStage = primaryStage;
+
         this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
 
@@ -178,6 +180,31 @@ public class GUIApplication extends Application {
 
 
 
+    /**
+     * This method is used to open the popup.
+     * @param scene the scene {@link Scene}
+     */
+    private void openPopup(Scene scene) {
+        popUpStage = new Stage();
+        popUpStage.setTitle("Info");
+        popUpStage.setResizable(false);
+        popUpStage.setScene(scene);
+
+        popUpStage.initStyle(StageStyle.UNDECORATED);
+        popUpStage.setOnCloseRequest(we -> System.exit(0));
+        popUpStage.show();
+
+        popUpStage.setX(primaryStage.getX() + (primaryStage.getWidth() - scene.getWidth()) * 0.5);
+        popUpStage.setY(primaryStage.getY() + (primaryStage.getHeight() - scene.getHeight()) * 0.5);
+    }
+
+    /**
+     * This method is used to close the popup.
+     */
+    public void closePopUpStage() {
+        if (popUpStage != null)
+            popUpStage.hide();
+    }
 
 
 
