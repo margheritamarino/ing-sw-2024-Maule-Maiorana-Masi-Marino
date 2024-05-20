@@ -17,5 +17,6 @@ public enum EventType {
     CARD_PLACED_NOT_CORRECT,
     CARD_DRAWN,
     ENTERING_GAME,
-    CARDS_READY;
+    CARDS_READY,
+    SENT_MESSAGE;
 }

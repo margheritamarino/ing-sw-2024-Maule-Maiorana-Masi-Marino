@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.Chat.Chat;
 import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.ScoreTrack;
@@ -38,6 +39,7 @@ public class GameImmutable implements Serializable {
     private final GameStatus status;
     private final int[] orderArray;
     private int currentCardPoints;
+    private final Chat chat;
 
     /**
      * Constructor
@@ -50,6 +52,7 @@ public class GameImmutable implements Serializable {
         scoreTrack = modelToCopy.getScoretrack();
         currentPlayer = modelToCopy.getCurrentPlayer();
         board = modelToCopy.getBoard();
+        chat = modelToCopy.getChat();
         status = modelToCopy.getStatus();
         temporaryInitialCard = modelToCopy.getTemporaryInitialCardsDeck();
         temporaryObjectiveCards = modelToCopy.getTemporaryObjectiveCardsDeck();
@@ -200,6 +203,10 @@ public class GameImmutable implements Serializable {
 
     public int getCurrentCardPoints(){
          return currentCardPoints;
+    }
+
+    public Chat getChat(){
+        return chat;
     }
 
 

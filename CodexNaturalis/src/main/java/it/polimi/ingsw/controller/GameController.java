@@ -318,6 +318,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.getPlayerByNickname(nick).setConnected(true);
     }
 
+    /**
+     * Add a message to the chat list
+     * @param msg to add
+     * @throws RemoteException
+     */
     @Override
     public synchronized void sentMessage(Message msg) throws RemoteException{
         model.sentMessage(msg);
