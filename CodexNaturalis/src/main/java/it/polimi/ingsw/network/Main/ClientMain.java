@@ -3,7 +3,9 @@ package it.polimi.ingsw.network.Main;
 
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.view.GUI.GUIApplication;
 import it.polimi.ingsw.view.flow.GameFlow;
+import javafx.application.Application;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -86,10 +88,15 @@ public class ClientMain {
 
         printAsync("Starting the game!");
         //Starts the UI wanted
+        //Starts the UI wanted
         if (selection == 1 || selection == 2) {
             //Starts the game with TUI
             //I can start directly here the GameFlow
             new GameFlow(conSel);
+        } else {
+            //Starts the game with GUI
+            //For doing so, I need to start the Main of GUI (GameFlow needs to be started inside the thread of GUI)
+            Application.launch(GUIApplication.class, conSel.toString());
         }
 
     }
