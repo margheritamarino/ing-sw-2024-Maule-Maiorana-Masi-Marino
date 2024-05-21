@@ -157,6 +157,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                     ui.show_playerJoined(event.getModel(), nickname);
                     askReadyToStart(event.getModel(), nickname);
+                    ui.show_askForChat(event.getModel(), nickname);
                 }
             }
             case CARDS_READY ->
@@ -174,7 +175,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 this.inputController.setGameID(event.getModel().getGameId());
                 if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
                     ui.show_CurrentTurnMsg();
-                   // ui.show_askForChat(event.getModel(), nickname);
                     askPlaceCards(event.getModel(), nickname);
                   //  ui.show_alwaysShow(event.getModel(), nickname);
                 }
