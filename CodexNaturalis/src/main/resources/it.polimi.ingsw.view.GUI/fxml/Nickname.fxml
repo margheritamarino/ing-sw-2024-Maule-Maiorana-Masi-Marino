@@ -13,7 +13,7 @@
             <Image url="@../../img/Background.png" />
          </image>
       </ImageView>
-      <Pane layoutX="447.0" layoutY="241.0" opacity="0.8" prefHeight="302.0" prefWidth="466.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;" stylesheets="@dex.css">
+      <Pane layoutX="447.0" layoutY="241.0" opacity="0.8" prefHeight="302.0" prefWidth="466.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;" stylesheets="@styleCodex.css">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
@@ -28,7 +28,7 @@
                   <Font name="Arial" size="22.0" />
                </font>
             </TextField>
-            <Button fx:id="EnterButton" defaultButton="true" layoutX="185.0" layoutY="216.0" mnemonicParsing="false" onAction="#actionEnter" styleClass="record-sales" stylesheets="@dex.css" text="ENTER">
+            <Button fx:id="EnterButton" defaultButton="true" layoutX="185.0" layoutY="216.0" mnemonicParsing="false" onAction="#actionEnter" styleClass="record-sales" stylesheets="@styleCodex.css" text="ENTER">
                <font>
                   <Font name="Arial" size="22.0" />
                </font>

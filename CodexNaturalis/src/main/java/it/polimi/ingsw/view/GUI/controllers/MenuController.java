@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 import javafx.fxml.FXML;
 
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.io.IOException;
 import javafx.scene.control.TextField;
 public class MenuController extends ControllerGUI {
@@ -25,6 +25,5 @@ public class MenuController extends ControllerGUI {
             getInputGUI().addTxt(gameID.getText());
         }
     }
-
 
 }
