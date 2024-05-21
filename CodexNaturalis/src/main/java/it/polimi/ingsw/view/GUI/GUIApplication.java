@@ -9,7 +9,6 @@ import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
