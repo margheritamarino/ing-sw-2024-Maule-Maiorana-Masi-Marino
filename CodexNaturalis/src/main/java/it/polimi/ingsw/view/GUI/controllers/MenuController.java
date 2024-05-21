@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 import javafx.fxml.FXML;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import javafx.scene.control.TextField;
