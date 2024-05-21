@@ -87,6 +87,7 @@ public class ClientMain {
         }
 
         printAsync("Starting the game!");
+
         //Starts the UI wanted
         //Starts the UI wanted
         if (selection == 1 || selection == 2) {
@@ -96,7 +97,7 @@ public class ClientMain {
         } else {
             //Starts the game with GUI
             //For doing so, I need to start the Main of GUI (GameFlow needs to be started inside the thread of GUI)
-            Application.launch(GUIApplication.class, conSel.toString());
+            Application.launch(GUIApplication.class, String.valueOf(conSel));
         }
 
     }
