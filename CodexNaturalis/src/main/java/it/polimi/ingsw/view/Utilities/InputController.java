@@ -56,7 +56,7 @@ public class InputController extends Thread{
                 //I send a message
                 inputData = inputData.charAt(2) == ' ' ? inputData.substring(3) : inputData.substring(2);
                 gameFlow.sendMessage(new Message(inputData, player));
-            } else if (inputData.startsWith("/quit") || (inputData.startsWith("/leave"))) {
+            } else if (inputData.startsWith("/quit")) {
                 assert player != null;
                 System.exit(1);
                 gameFlow.leave(player.getNickname());
