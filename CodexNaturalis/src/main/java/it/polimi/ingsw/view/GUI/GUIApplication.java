@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import javafx.stage.StageStyle;
 /**
  * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
@@ -40,12 +42,33 @@ public class GUIApplication extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().getFirst())); //TODO
-        loadScenes(); //carica le scene
         this.primaryStage = primaryStage;
+        List<String> unnamedParams = getParameters().getUnnamed();
+        ConnectionType connectionType = null;
+
+        if (unnamedParams == null || unnamedParams.isEmpty()) {
+            System.err.println("No parameteres for ConnectionType. Used SOCKET.");
+            connectionType = ConnectionType.SOCKET; // Valore predefinito
+        } else {
+            String firstParam = unnamedParams.get(0);
+            try {
+                connectionType = ConnectionType.valueOf(firstParam);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Parameter not valid for ConnectionType: " + firstParam + ". Used SOCKET.");
+                connectionType = ConnectionType.SOCKET; // Valore predefinito in caso di errore
+            }
+        }
+
+        // Crea GameFlow con il ConnectionType
+        gameFlow = new GameFlow(this, connectionType);
+
+        loadScenes(); //carica le scene
 
         this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
+        Scene scene = new Scene(root, 1320, 720);
+        this.primaryStage.setScene(new Scene(root));
+        this.primaryStage.show();
 
         //si può aggiungere un suono di apertura
     }
@@ -61,15 +84,16 @@ public class GUIApplication extends Application {
         Parent root;
         ControllerGUI controller;
 
-        for (int i = 0; i < SceneType.values().length; i++) {
-            loader = new FXMLLoader(getClass().getResource(SceneType.values()[i].path()));
+        for (SceneType sceneType : SceneType.values()) {
+            loader = new FXMLLoader(getClass().getResource(sceneType.path()));
             try {
                 root = loader.load();
                 controller = loader.getController();
+                scenes.add(new SceneInformation(new Scene(root), sceneType, controller));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                throw new RuntimeException("Failed to load FXML file: " + sceneType.path(), e);
             }
-            scenes.add(new SceneInformation(new Scene(root), SceneType.values()[i], controller));
         }
     }
 
@@ -116,7 +140,7 @@ public class GUIApplication extends Application {
         resizing = false; //disabilità la possibilità di ridimensionare la finestra durante il cambio di scena
         int index = getSceneIndex(scene); //indice della scena
         if (index != -1) {
-            SceneInformation s = scenes.get(getSceneIndex(scene));
+            SceneInformation s = scenes.get(index);
             switch (scene) {
                 case PUBLISHER -> {
                     this.primaryStage.setAlwaysOnTop(true);

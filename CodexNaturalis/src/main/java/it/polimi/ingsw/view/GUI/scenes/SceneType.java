@@ -4,7 +4,7 @@ package it.polimi.ingsw.view.GUI.scenes;
  * SceneType class. It is used to store the paths of the FXML files of the scenes.
  */
 public enum SceneType {
-    PUBLISHER("/Publisher.fxml"),
+    PUBLISHER("/it/polimi/ingsw/view/GUI/fxml/Publisher.fxml"),
     NICKNAME("/Nickname.fxml"),
     NICKNAME_POPUP("/NicknamePopUp.fxml"), //popup with nickname
     ASK_NUM_PLAYERS("/AskNumPlayers.fxml"), //scena per chiedere il numero di giocatori
