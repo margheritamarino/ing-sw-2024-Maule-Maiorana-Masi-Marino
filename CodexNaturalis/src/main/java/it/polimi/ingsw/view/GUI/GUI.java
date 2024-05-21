@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
@@ -306,6 +307,36 @@ public class GUI extends UI {
     }
     @Override
     public void show_visibleCardsBoard(GameImmutable model, CardType cardType){
+
+    }
+
+
+
+
+
+
+
+
+    //TODO
+
+    @Override
+    public void show_sentMessage(GameImmutable model, String nickname) {
+
+    }
+
+    @Override
+    public void show_askForChat(GameImmutable model, String nick) {
+
+    }
+
+    @Override
+    protected int getLengthLongestMessage(GameImmutable model) {
+        return 0;
+    }
+
+
+    @Override
+    public void addMessage(Message msg, GameImmutable model) {
 
     }
 }

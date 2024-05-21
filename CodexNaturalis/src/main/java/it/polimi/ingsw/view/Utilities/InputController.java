@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.Utilities;
 
+import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.Chat.MessagePrivate;
 import it.polimi.ingsw.model.interfaces.PlayerIC;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.Utilities.Buffer;
@@ -38,17 +40,27 @@ public class InputController extends Thread{
             try {
                 // Estrai dati dall'inputBuffer
                 inputData = inputBuffer.popInputData();
-
-
-
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-             if (inputData.startsWith("/quit") || (inputData.startsWith("/leave"))) {
+
+            //I popped an input from the buffer
+            if (player != null && inputData.startsWith("/cs")) {
+                inputData = inputData.charAt(3) == ' ' ? inputData.substring(4) : inputData.substring(3);
+                if(inputData.contains(" ")){
+                    String receiver = inputData.substring(0, inputData.indexOf(" "));
+                    String msg = inputData.substring(receiver.length() + 1);
+                    gameFlow.sendMessage(new MessagePrivate(msg, player, receiver));
+                }
+            } else if (player != null && inputData.startsWith("/c")) {
+                //I send a message
+                inputData = inputData.charAt(2) == ' ' ? inputData.substring(3) : inputData.substring(2);
+                gameFlow.sendMessage(new Message(inputData, player));
+            } else if (inputData.startsWith("/quit") || (inputData.startsWith("/leave"))) {
                 assert player != null;
                 System.exit(1);
                 gameFlow.leave(player.getNickname());
-                gameFlow. playerLeftForGameEnded();
+                gameFlow.playerLeftForGameEnded();
 
             } else {
                 //I add the data to the buffer processed via GameFlow

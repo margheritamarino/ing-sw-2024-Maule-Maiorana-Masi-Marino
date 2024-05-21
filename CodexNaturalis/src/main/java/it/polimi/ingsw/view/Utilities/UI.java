@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.Utilities;
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -103,4 +104,8 @@ public abstract class UI {
     public abstract void show_WaitTurnMsg(GameImmutable model, String nickname) ;
 
     public abstract void show_visibleCardsBoard(GameImmutable model, CardType cardType);
+    public abstract void show_sentMessage(GameImmutable model, String nickname);
+    public abstract void show_askForChat(GameImmutable model, String nick);
+    protected abstract int getLengthLongestMessage(GameImmutable model);
+    public abstract void addMessage(Message msg, GameImmutable model);
 }
