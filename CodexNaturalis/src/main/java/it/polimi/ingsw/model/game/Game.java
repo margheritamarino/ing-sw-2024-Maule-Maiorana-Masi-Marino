@@ -18,6 +18,7 @@ import it.polimi.ingsw.listener.ListenersHandler;
 
 import java.lang.IllegalStateException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
@@ -263,6 +264,10 @@ public class Game {
 			Player newPlayer = new Player(nickname);
 			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
+
+			System.out.println("Player " + nickname + " added to the game.");
+			System.out.println("Current players: " + players.stream().map(Player::getNickname).collect(Collectors.joining(", ")));
+
 			addListener(lis);
 
 			scoretrack.addPlayer(newPlayer);
@@ -703,11 +708,19 @@ public class Game {
 	}
 
 	public void sentMessage(Message msg){
+		Player sender = msg.getSender();
+		System.out.println("Game received message from player: " + sender.getNickname());
+		System.out.println("Current players in the game: " + players.stream().map(Player::getNickname).collect(Collectors.joining(", ")));
+
+
 		//controllo se il mittente del messaggio è effettivamente un giocatore che partecipa alla partita
-		if (players.stream().filter(x -> x.equals(msg.getSender())).count() == 1) {
+		long count = players.stream().filter(x -> x.equals(sender)).count();
+		if (count == 1) {
 			chat.addMsg(msg);
+			System.out.println("Message added to chat: " + msg.getText());
 			listenersHandler.notify_SentMessage(this, chat.getLastMessage());
 		} else {
+			System.err.println("Player " + sender.getNickname() + " is not in the game.");
 			throw new ActionByAPlayerNotInTheGameException();
 		}
 	}

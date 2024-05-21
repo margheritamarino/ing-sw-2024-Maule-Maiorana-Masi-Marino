@@ -325,6 +325,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void sentMessage(Message msg) throws RemoteException{
+        System.out.println("GameController forwarding message: " + msg.getText());
         model.sentMessage(msg);
     }
 

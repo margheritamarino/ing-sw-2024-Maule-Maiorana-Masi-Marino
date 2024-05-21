@@ -865,8 +865,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void sendMessage(Message msg) {
         try {
             clientActions.sendMessage(msg);
+            System.out.println("Message sent: " + msg.getText());
         } catch (RemoteException e) {
             noConnectionError();
+            System.err.println("Failed to send message: " + e.getMessage());
         }
     }
 

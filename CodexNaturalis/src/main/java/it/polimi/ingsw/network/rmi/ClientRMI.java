@@ -306,6 +306,8 @@ public void run() {
 
     @Override
     public void sendMessage(Message msg) throws RemoteException {
+
+        System.out.println("ClientRMI sending message from player: " + msg.getSender().getNickname());
         gameController.sentMessage(msg);
     }
 
