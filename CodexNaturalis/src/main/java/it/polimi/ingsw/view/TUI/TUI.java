@@ -462,10 +462,14 @@ public class TUI extends UI {
 
     public void show_askForChat(GameImmutable model, String nick){
         printAsync("Do you want to send a public message, a private message or neither?\n ");
-        printAsync("Select\n" +
-                "'c' to send a public message\n" +
-                "'cs' to sent a private message\n" +
-                "'n' to not send any message\n");
+        printAsyncNoCursorReset(ansi().a("""
+                > Select one option:
+                \t
+                \t -> Useful commands that can be used at any point in the game:
+                \t\t  type "/c [msg]" to send a public message!
+                \t\t  type "/cs [playerName] [msg]" to send a private message!
+                \t\t  type "/quit" and you can leave the game!
+                \t""").fg(DEFAULT));
     }
 
     //mostra i messaggi presenti nel modello di gioco nella chat
