@@ -27,7 +27,5 @@ public class PublisherController {
         // Esempio di inizializzazione dei componenti se necessario
         titleLabel.setText("CODEX NATURALIS");
     }
-
-    // Aggiungi altri metodi per gestire le azioni degli utenti se necessario
 }
 
