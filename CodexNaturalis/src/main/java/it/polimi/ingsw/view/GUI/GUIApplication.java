@@ -233,8 +233,4 @@ public class GUIApplication extends Application {
     }
 
 
-
-
-
-
 }
