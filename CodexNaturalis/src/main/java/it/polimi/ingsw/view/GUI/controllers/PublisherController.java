@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
  * PublisherController class.
  */
 
-public class PublisherController {
+public class PublisherController extends ControllerGUI{
 
     @FXML
     private Pane CodexNaturalis; // Assicurati che l'ID corrisponda a quello del file FXML

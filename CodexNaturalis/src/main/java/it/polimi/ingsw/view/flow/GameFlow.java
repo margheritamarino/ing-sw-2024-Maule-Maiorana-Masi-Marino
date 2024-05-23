@@ -344,7 +344,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         } while (GameID < 0 );
         return GameID;
     }
-    private void askNickname() {
+    public void askNickname() {
         ui.show_insertNicknameMessage();
         try {
             nickname = this.inputController.getUnprocessedData().popInputData();
@@ -353,7 +353,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
         ui.show_chosenNickname(nickname);
     }
-
+    public void setNickname(String nick){
+        this.nickname=nick;
+    }
     /**
      * The method repeatedly checks for user input until the user confirms they're ready by entering "y".
      * If any other input is received, the method continues to wait for the correct input.

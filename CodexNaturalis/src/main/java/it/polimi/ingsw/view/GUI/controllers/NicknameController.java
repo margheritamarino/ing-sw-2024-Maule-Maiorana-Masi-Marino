@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
+import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -24,5 +25,17 @@ public class NicknameController extends ControllerGUI {
         if (!nicknameTextField.getText().isEmpty()) {
             getInputGUI().addTxt(nicknameTextField.getText());
         }
+
+    }
+    @FXML
+    private void initialize() {
+        // Configura il TextField per catturare l'evento di pressione del tasto ENTER
+        nicknameTextField.setOnAction(event -> {
+            try {
+                actionEnter(new ActionEvent());
+            } catch (IOException e) {
+                System.err.println("Error during actionEnter");
+            }
+        });
     }
 }

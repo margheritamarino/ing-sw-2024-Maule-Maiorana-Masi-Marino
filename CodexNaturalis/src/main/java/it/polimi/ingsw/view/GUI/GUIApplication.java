@@ -3,11 +3,13 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.view.GUI.controllers.ControllerGUI;
 import it.polimi.ingsw.view.GUI.controllers.MenuController;
+import it.polimi.ingsw.view.GUI.controllers.NicknameController;
 import it.polimi.ingsw.view.GUI.scenes.SceneInformation;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -66,11 +68,10 @@ public class GUIApplication extends Application {
 
         this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
-        Scene scene = new Scene(root, 1320, 720);
-        this.primaryStage.setScene(new Scene(root));
+        Scene mainScene = new Scene(root, 1320, 720);
+        this.primaryStage.setScene(mainScene);
         this.primaryStage.show();
 
-        //si può aggiungere un suono di apertura
     }
 
 
@@ -85,14 +86,16 @@ public class GUIApplication extends Application {
         ControllerGUI controller;
 
         for (SceneType sceneType : SceneType.values()) {
-            loader = new FXMLLoader(getClass().getResource(sceneType.path()));
+            String path = sceneType.path();
+            System.out.println("Loading FXML file: " + path); // Messaggio di debug
+            loader = new FXMLLoader(getClass().getResource(path));
             try {
                 root = loader.load();
                 controller = loader.getController();
                 scenes.add(new SceneInformation(new Scene(root), sceneType, controller));
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("Failed to load FXML file: " + sceneType.path(), e);
+                throw new RuntimeException("Failed to load FXML file: " + path, e);
             }
         }
     }
@@ -148,27 +151,30 @@ public class GUIApplication extends Application {
 
                 }
                 case NICKNAME -> {
-                //TODO
+
                 }
                 case NICKNAME_POPUP -> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
-                case ASK_NUM_PLAYERS -> {
+               /* case ASK_NUM_PLAYERS -> {
                     //TODO
                 }
                 case  ASK_GAME_ID-> {
                     //TODO
                 }
-
+                */
 
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
 
                 }
+
             }
             this.primaryStage.setScene(s.getScene());
             this.primaryStage.show();
+            root.getChildren().clear();
+            root.getChildren().add(s.getScene().getRoot());
         }
 
         widthOld=primaryStage.getScene().getWidth();
@@ -181,6 +187,7 @@ public class GUIApplication extends Application {
             rescale(widthOld,(double)newVal-39);
         });
         resizing=true;
+        // Cambia il contenuto del root StackPane per mostrare la nuova scena
 
     }
 

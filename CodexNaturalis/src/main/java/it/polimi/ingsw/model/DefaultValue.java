@@ -27,7 +27,7 @@ public class DefaultValue implements Serializable {
     public static String serverIp = "127.0.0.1";
     public final static String Remote_ip = "127.0.0.1";
 
-    public final static int time_publisher_showing_seconds = 120;
+    public final static int time_publisher_showing_seconds = 60;
 
     public final static int MaxEventToShow = 6; //da definire
     public final static String Default_servername_RMI = "CodexNaturalis";
