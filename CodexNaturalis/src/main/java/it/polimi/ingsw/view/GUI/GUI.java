@@ -63,10 +63,10 @@ public class GUI extends UI {
 
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(DefaultValue.time_publisher_showing_seconds));
         pauseTransition.setOnFinished(event -> {
-            showedPublisher = true; //serve un booleano per evitare che venga mostrato nuovamente in futuro
-
+            showedPublisher = true; // Serve un booleano per evitare che venga mostrato nuovamente in futuro
             this.show_insertNicknameMessage();
         });
+        pauseTransition.play(); // Non dimenticare di far partire la transizione
     }
 
 
@@ -75,8 +75,10 @@ public class GUI extends UI {
      */
     @Override
     public void show_insertNicknameMessage() {
-        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME));
-        this.show_chosenNickname(nickname);
+        if(showedPublisher) {
+            callPlatformRunLater(() -> this.guiApplication.setInputReaderGUItoAllControllers(this.inputGUI));
+            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME));
+        }
     }
 
     /**
@@ -93,7 +95,7 @@ public class GUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname) {
-
+        show_popupInfoAndNickname(nickname, "Trying to join a Game...");
     }
 
     @Override

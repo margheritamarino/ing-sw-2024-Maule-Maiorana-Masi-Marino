@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane fx:id="CodexNaturalis" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPublisher" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.PublisherController">
+   <children>
+      <ImageView fx:id="backgroundImageView" fitHeight="727.0" fitWidth="1289.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../img/copertina.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="titleLabel" layoutX="900.0" layoutY="37.0" prefHeight="85.0" prefWidth="345.0" text="CODEX NATURALIS" textAlignment="CENTER" textFill="#ffcc00">
+         <font>
+            <Font name="Bodoni MT Poster Compressed" size="72.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

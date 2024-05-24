@@ -157,6 +157,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
                     ui.show_playerJoined(event.getModel(), nickname);
                     askReadyToStart(event.getModel(), nickname);
+                    ui.show_askForChat(event.getModel(), nickname);
                 }
             }
             case CARDS_READY ->
@@ -343,7 +344,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         } while (GameID < 0 );
         return GameID;
     }
-    private void askNickname() {
+    public void askNickname() {
         ui.show_insertNicknameMessage();
         try {
             nickname = this.inputController.getUnprocessedData().popInputData();
@@ -352,7 +353,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
         ui.show_chosenNickname(nickname);
     }
-
+    public void setNickname(String nick){
+        this.nickname=nick;
+    }
     /**
      * The method repeatedly checks for user input until the user confirms they're ready by entering "y".
      * If any other input is received, the method continues to wait for the correct input.
@@ -582,7 +585,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void settingGame(int numPlayers, int GameID, String nick){
-        System.out.println("GameFlow: settingGame");
+        //System.out.println("GameFlow: settingGame");
         try {
             clientActions.settingGame(numPlayers, GameID, nick);
         } catch (IOException e) {
@@ -864,8 +867,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void sendMessage(Message msg) {
         try {
             clientActions.sendMessage(msg);
+            System.out.println("Message sent: " + msg.getText());
         } catch (RemoteException e) {
             noConnectionError();
+            System.err.println("Failed to send message: " + e.getMessage());
         }
     }
 

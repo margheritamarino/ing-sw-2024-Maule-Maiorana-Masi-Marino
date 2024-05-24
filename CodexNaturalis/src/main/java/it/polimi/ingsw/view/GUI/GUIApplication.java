@@ -3,13 +3,14 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.view.GUI.controllers.ControllerGUI;
 import it.polimi.ingsw.view.GUI.controllers.MenuController;
+import it.polimi.ingsw.view.GUI.controllers.NicknameController;
 import it.polimi.ingsw.view.GUI.scenes.SceneInformation;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -18,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import javafx.stage.StageStyle;
 /**
  * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
@@ -41,14 +44,34 @@ public class GUIApplication extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        gameFlow = new GameFlow(this, ConnectionType.valueOf(getParameters().getUnnamed().getFirst())); //TODO
-        loadScenes(); //carica le scene
         this.primaryStage = primaryStage;
+        List<String> unnamedParams = getParameters().getUnnamed();
+        ConnectionType connectionType = null;
+
+        if (unnamedParams == null || unnamedParams.isEmpty()) {
+            System.err.println("No parameteres for ConnectionType. Used SOCKET.");
+            connectionType = ConnectionType.SOCKET; // Valore predefinito
+        } else {
+            String firstParam = unnamedParams.get(0);
+            try {
+                connectionType = ConnectionType.valueOf(firstParam);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Parameter not valid for ConnectionType: " + firstParam + ". Used SOCKET.");
+                connectionType = ConnectionType.SOCKET; // Valore predefinito in caso di errore
+            }
+        }
+
+        // Crea GameFlow con il ConnectionType
+        gameFlow = new GameFlow(this, connectionType);
+
+        loadScenes(); //carica le scene
 
         this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
+        Scene mainScene = new Scene(root, 1320, 720);
+        this.primaryStage.setScene(mainScene);
+        this.primaryStage.show();
 
-        //si può aggiungere un suono di apertura
     }
 
 
@@ -62,15 +85,18 @@ public class GUIApplication extends Application {
         Parent root;
         ControllerGUI controller;
 
-        for (int i = 0; i < SceneType.values().length; i++) {
-            loader = new FXMLLoader(getClass().getResource(SceneType.values()[i].path()));
+        for (SceneType sceneType : SceneType.values()) {
+            String path = sceneType.path();
+            System.out.println("Loading FXML file: " + path); // Messaggio di debug
+            loader = new FXMLLoader(getClass().getResource(path));
             try {
                 root = loader.load();
                 controller = loader.getController();
+                scenes.add(new SceneInformation(new Scene(root), sceneType, controller));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                throw new RuntimeException("Failed to load FXML file: " + path, e);
             }
-            scenes.add(new SceneInformation(new Scene(root), SceneType.values()[i], controller));
         }
     }
 
@@ -117,7 +143,7 @@ public class GUIApplication extends Application {
         resizing = false; //disabilità la possibilità di ridimensionare la finestra durante il cambio di scena
         int index = getSceneIndex(scene); //indice della scena
         if (index != -1) {
-            SceneInformation s = scenes.get(getSceneIndex(scene));
+            SceneInformation s = scenes.get(index);
             switch (scene) {
                 case PUBLISHER -> {
                     this.primaryStage.setAlwaysOnTop(true);
@@ -125,27 +151,30 @@ public class GUIApplication extends Application {
 
                 }
                 case NICKNAME -> {
-                //TODO
+
                 }
                 case NICKNAME_POPUP -> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
-                case ASK_NUM_PLAYERS -> {
+               /* case ASK_NUM_PLAYERS -> {
                     //TODO
                 }
                 case  ASK_GAME_ID-> {
                     //TODO
                 }
-
+                */
 
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
 
                 }
+
             }
             this.primaryStage.setScene(s.getScene());
             this.primaryStage.show();
+            root.getChildren().clear();
+            root.getChildren().add(s.getScene().getRoot());
         }
 
         widthOld=primaryStage.getScene().getWidth();
@@ -158,6 +187,7 @@ public class GUIApplication extends Application {
             rescale(widthOld,(double)newVal-39);
         });
         resizing=true;
+        // Cambia il contenuto del root StackPane per mostrare la nuova scena
 
     }
 
@@ -208,10 +238,6 @@ public class GUIApplication extends Application {
         if (popUpStage != null)
             popUpStage.hide();
     }
-
-
-
-
 
 
 }

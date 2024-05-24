@@ -267,6 +267,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void sendMessage(Message msg){
         try {
+            System.out.println("ClientSocket sending message: " + msg.getText());
             out.writeObject(new ClientMsgNewChatMessage(msg));
             finishSending();
         } catch (IOException e){

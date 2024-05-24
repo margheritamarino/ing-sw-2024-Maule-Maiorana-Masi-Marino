@@ -259,11 +259,13 @@ public class ListenersHandler {
     }
 
     public synchronized void notify_SentMessage(Game gameModel, Message msg) {
+        System.out.println("Notifying listeners of new message: " + msg.getText());
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
                 l.sentMessage(new GameImmutable(gameModel), msg);
+                System.out.println("Listener notified: " + l.toString());
             } catch (RemoteException e) {
                 printAsync("During notification of notify_SentMessage, a disconnection has been detected before heartbeat");
                 i.remove();

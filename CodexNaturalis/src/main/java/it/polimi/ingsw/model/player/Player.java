@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 
+import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Book;
@@ -273,6 +274,34 @@ public class Player implements Serializable {
                 i.remove();
             }
         }
+    }
+
+    public synchronized void notify_SentMessage(Game gameModel, Message msg) {
+        System.out.println("Notifying listeners of new message: " + msg.getText());
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.sentMessage(new GameImmutable(gameModel), msg);
+                System.out.println("Listener notified: " + l.toString());
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_SentMessage, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Player player = (Player) obj;
+        return Objects.equals(nickname, player.nickname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname);
     }
 
     public void removeListener(GameListenerInterface lis) {
