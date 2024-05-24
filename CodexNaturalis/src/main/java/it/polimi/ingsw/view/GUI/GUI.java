@@ -77,7 +77,9 @@ public class GUI extends UI {
     public void show_insertNicknameMessage() {
         if(showedPublisher) {
             callPlatformRunLater(() -> this.guiApplication.setInputReaderGUItoAllControllers(this.inputGUI));
+            callPlatformRunLater(() -> this.guiApplication.createNewWindowWithStyle());
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME));
+
         }
     }
 

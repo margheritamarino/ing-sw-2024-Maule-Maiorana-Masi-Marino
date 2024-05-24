@@ -150,9 +150,7 @@ public class GUIApplication extends Application {
                     this.primaryStage.centerOnScreen();
 
                 }
-                case NICKNAME -> {
 
-                }
                 case NICKNAME_POPUP -> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
@@ -173,8 +171,8 @@ public class GUIApplication extends Application {
             }
             this.primaryStage.setScene(s.getScene());
             this.primaryStage.show();
-            root.getChildren().clear();
-            root.getChildren().add(s.getScene().getRoot());
+           /* root.getChildren().clear();
+            root.getChildren().add(s.getScene().getRoot());*/
         }
 
         widthOld=primaryStage.getScene().getWidth();
@@ -239,5 +237,28 @@ public class GUIApplication extends Application {
             popUpStage.hide();
     }
 
+    public void createNewWindowWithStyle() {
+        // Crea una nuova finestra con lo stile desiderato
+        Stage newStage = new Stage();
 
+        // Copia la scena dalla finestra precedente
+        newStage.setScene(this.primaryStage.getScene());
+
+        // Mostra la nuova finestra
+        newStage.show();
+
+        // Chiudi la finestra precedente
+        this.primaryStage.close();
+
+        // Imposta la nuova finestra come primaryStage
+        this.primaryStage = newStage;
+        this.primaryStage.centerOnScreen();
+        this.primaryStage.setAlwaysOnTop(true);
+
+        this.primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Closing all");
+
+            System.exit(1);
+        });
+    }
 }
