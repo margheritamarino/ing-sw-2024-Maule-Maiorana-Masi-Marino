@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.Utilities;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 
@@ -35,7 +36,7 @@ public abstract class UI {
     public abstract void show_cardDrawnMsg(GameImmutable model, String nickname);
     public abstract void show_nextTurnMsg(GameImmutable model);
     public abstract void show_pointsAddedMsg(GameImmutable model, String nickname);
-    public abstract void show_joiningToGameMsg(String nick);
+    public abstract void show_joiningToGameMsg(String nick, Color color);
     public abstract void show_playerBook(GameImmutable model);
     public abstract void show_scoretrack(GameImmutable model);
     public abstract void show_board(GameImmutable model);
@@ -50,7 +51,7 @@ public abstract class UI {
      *
      * @param nickname nickname just chosen by the player
      */
-    public abstract void show_chosenNickname(String nickname);
+    public abstract void show_chosenNickname(String nickname, Color color);
 
     public abstract void show_CurrentTurnMsg();
 

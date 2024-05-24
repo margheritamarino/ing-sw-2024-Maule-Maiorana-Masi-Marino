@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -89,15 +90,16 @@ public class GUI extends UI {
      * @param nick the nickname
      * @param text the info
      */
-    private void show_popupInfoAndNickname(String nick, String text) {
-        callPlatformRunLater(() -> ((NicknamePopUpController) this.guiApplication.getController(SceneType.NICKNAME_POPUP)).showNicknameAndText(nick, text));
+    private void show_popupInfoAndNickname(String nick, String text, String imagePath) {
+        callPlatformRunLater(() -> ((NicknamePopUpController) this.guiApplication.getController(SceneType.NICKNAME_POPUP)).showNicknameAndText(nick, text, imagePath));
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME_POPUP));
         nickname = nick;
     }
 
     @Override
-    public void show_chosenNickname(String nickname) {
-        show_popupInfoAndNickname(nickname, "Trying to join a Game...");
+    public void show_chosenNickname(String nickname, Color color) {
+        String imagePath= color.path();
+        show_popupInfoAndNickname(nickname, "Trying to join a Game...", imagePath);
     }
 
     @Override
@@ -159,9 +161,9 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_joiningToGameMsg(String nick) {
+    public void show_joiningToGameMsg(String nick, Color color) {
 
-        show_popupInfoAndNickname(nickname, "Trying to join a Game...");
+        show_popupInfoAndNickname(nickname, "Trying to join a Game...", color.path());
     }
 
 
