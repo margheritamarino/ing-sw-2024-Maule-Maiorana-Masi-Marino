@@ -22,6 +22,21 @@ public class ObjectiveCard implements Serializable {
     private List<SymbolType> symbols;
     private ResourceType secondResource;
 
+    /**
+     * this method is used for the GUI
+     * @return the path for the specific istance of Objective Card (contained in the package resources-->img)
+     */
+    public String getImagePath(){
+        int idTemp= this.getCardID();
+
+        if(this.isFront()){
+            return("/it.polimi.ingsw.resources.img.Cards.ObjectiveCards."+ idTemp+ "_ObjectiveFront.png");
+
+        } else {
+            return("/it.polimi.ingsw.resources.img.Cards.ObjectiveCards.ObjectiveBack.png");
+        }
+    }
+
     public int getCardID() {
         return cardID;
     }

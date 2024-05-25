@@ -55,6 +55,45 @@ public abstract class PlayableCard implements Serializable {
     }
 
     /**
+     * this method is used for the GUI
+     * @return the path for the specific istance of Card (contained in the package resources-->img)
+     */
+    public String getImagePath(){
+        int idTemp = this.getCardID();
+        String typeTemp= this.getCardType().toString();
+        String sideTemp;
+        String mainResource= this.getMainResource().toString(); //used only for Back img
+
+        if(this.isFront()){
+            sideTemp= "Front";
+        } else {
+            sideTemp= "Back";
+        }
+
+        if(typeTemp=="InitialCard"){
+            return("/it.polimi.ingsw.resources.img.Cards.GoldCards."+ idTemp+ "_Gold"+ sideTemp+ ".png");
+        } else {
+
+            switch (typeTemp) {
+            case "GoldCard":
+                typeTemp = "Gold";
+                break;
+            case "ResourceCard":
+                typeTemp = "Resource";
+                break;
+            default:
+                throw new IllegalArgumentException("Card type not recognized: " + typeTemp);
+            }
+            if (sideTemp=="Front") {
+                return("/it.polimi.ingsw.resources.img.Cards."+ typeTemp+"Cards."+ idTemp+ "_"+ typeTemp+ "Front.png");
+
+            } else {
+                return("/it.polimi.ingsw.resources.img.Cards."+ typeTemp+"Cards."+ typeTemp+ mainResource+ "Back.png");
+            }
+        }
+    }
+
+    /**
      * Retrieves the content of the specified corner of a PlayableCard.
      *
      * @author Margherita Marino
