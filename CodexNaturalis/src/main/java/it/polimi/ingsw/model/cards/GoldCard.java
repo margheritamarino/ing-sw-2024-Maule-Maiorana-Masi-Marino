@@ -138,8 +138,8 @@ public class GoldCard extends PlayableCard implements Serializable {
     }*/
 
 
-    public GoldCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, boolean hasSymbol, SymbolType symbol, int victoryPoints, List<ResourceType> placementCondition, boolean pointsCondition, boolean cornerCondition, SymbolType symbolCondition) {
-        super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
+    public GoldCard(String cssLabel,int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, boolean hasSymbol, SymbolType symbol, int victoryPoints, List<ResourceType> placementCondition, boolean pointsCondition, boolean cornerCondition, SymbolType symbolCondition) {
+        super(cssLabel, cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
         this.mainResource = mainResource;
         this.hasSymbol = hasSymbol;
         this.symbol = symbol;
