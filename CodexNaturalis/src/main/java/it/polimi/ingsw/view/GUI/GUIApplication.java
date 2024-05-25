@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.view.GUI.controllers.ControllerGUI;
+import it.polimi.ingsw.view.GUI.controllers.GenericErrorController;
 import it.polimi.ingsw.view.GUI.controllers.MenuController;
 import it.polimi.ingsw.view.GUI.controllers.NicknameController;
 import it.polimi.ingsw.view.GUI.scenes.SceneInformation;
@@ -261,4 +262,19 @@ public class GUIApplication extends Application {
             System.exit(1);
         });
     }
+
+    //GENERIC ERROR
+/*
+    public void showGenericError(String message){
+        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneType.GENERIC_ERROR)).getControllerGUI();
+        controller.setMsg(message, false);
+    }
+
+    public void showErrorGeneric(String msg, boolean needToExitApp) {
+        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneType.GENERIC_ERROR)).getControllerGUI();
+        controller.setMsg(msg,needToExitApp);
+    }
+
+ */
+
 }

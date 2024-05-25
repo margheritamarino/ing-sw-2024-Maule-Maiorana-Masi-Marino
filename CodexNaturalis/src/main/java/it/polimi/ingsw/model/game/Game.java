@@ -704,7 +704,7 @@ public class Game {
 	}
 
 	public Chat getChat(){
-		return chat;
+		return this.chat;
 	}
 
 	public void sentMessage(Message msg){
