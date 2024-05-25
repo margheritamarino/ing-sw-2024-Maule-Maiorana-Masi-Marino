@@ -12,7 +12,8 @@
     "resourceList": ["Plant","Insect"],
     "numCentralResource": 1,
     "numResources": 2,
-    "centralResources": ["Insect"]
+    "centralResources": ["Insect"],
+    "cssLabel": "if0"
   },
 
   {
@@ -27,7 +28,8 @@
     "resourceList": ["Animal","Fungi"],
     "numCentralResource": 1,
     "numResources": 2,
-    "centralResources": ["Fungi"]
+    "centralResources": ["Fungi"],
+    "cssLabel": "if1"
   },
 
   {
@@ -42,7 +44,8 @@
     "resourceList": [],
     "numCentralResource": 2,
     "numResources": 0,
-    "centralResources": ["Animal","Fungi"]
+    "centralResources": ["Animal","Fungi"],
+    "cssLabel": "if2"
   },
 
   {
@@ -57,7 +60,8 @@
     "resourceList": [],
     "numCentralResource": 2,
     "numResources": 0,
-    "centralResources": ["Animal","Insect"]
+    "centralResources": ["Animal","Insect"],
+    "cssLabel": "if3"
   },
 
   {
@@ -72,7 +76,8 @@
     "resourceList": [],
     "numCentralResource": 3,
     "numResources": 0,
-    "centralResources": ["Animal","Insect","Plant"]
+    "centralResources": ["Animal","Insect","Plant"],
+    "cssLabel": "if4"
   },
 
   {
@@ -87,6 +92,7 @@
     "resourceList": [],
     "numCentralResource": 3,
     "numResources": 0,
-    "centralResources": ["Plant","Animal","Fungi"]
+    "centralResources": ["Plant","Animal","Fungi"],
+    "cssLabel": "if5"
   }
 ]

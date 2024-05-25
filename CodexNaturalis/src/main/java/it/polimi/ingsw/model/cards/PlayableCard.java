@@ -11,6 +11,7 @@ import java.util.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public abstract class PlayableCard implements Serializable {
+    private String cssLabel;
     private final int cardID;
     private final int numCorners;
     private final boolean isFront;
@@ -70,6 +71,7 @@ public abstract class PlayableCard implements Serializable {
     }
 
 
+
     /**
      * Retrieves the content of the corners of the card as a list of strings.
      * This method is intended to be overridden in subclasses such as GoldCard to provide specific behavior.
@@ -103,7 +105,8 @@ public abstract class PlayableCard implements Serializable {
         this.BLCorner = null;
     }*/
 
-    public PlayableCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner) {
+    public PlayableCard(String cssLabel, int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner) {
+        this.cssLabel = cssLabel;
         this.cardID = cardID;
         this.numCorners = numCorners;
         this.isFront = isFront;
@@ -112,6 +115,13 @@ public abstract class PlayableCard implements Serializable {
         this.TRCorner = TRCorner;
         this.BRCorner = BRCorner;
         this.BLCorner = BLCorner;
+    }
+    public String getCssLabel() {
+        return cssLabel;
+    }
+
+    public void setCssLabel(String cssLabel) {
+        this.cssLabel = cssLabel;
     }
 
     @Override
@@ -139,6 +149,7 @@ public abstract class PlayableCard implements Serializable {
         }else output = "E";
         return output;
     }
+
 
 
 }
