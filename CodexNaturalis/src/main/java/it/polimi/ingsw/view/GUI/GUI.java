@@ -90,7 +90,7 @@ public class GUI extends UI {
      * @param nick the nickname
      * @param text the info
      */
-    private void show_popupInfoAndNickname(String nick, String text, String imagePath) {
+    public void show_popupInfoAndNickname(String nick, String text, String imagePath) {
         callPlatformRunLater(() -> ((NicknamePopUpController) this.guiApplication.getController(SceneType.NICKNAME_POPUP)).showNicknameAndText(nick, text, imagePath));
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME_POPUP));
         nickname = nick;
@@ -98,7 +98,7 @@ public class GUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname, Color color) {
-        String imagePath= color.path();
+        String imagePath= color.getPath();
         show_popupInfoAndNickname(nickname, "Trying to join a Game...", imagePath);
     }
 
@@ -162,8 +162,7 @@ public class GUI extends UI {
 
     @Override
     public void show_joiningToGameMsg(String nick, Color color) {
-
-        show_popupInfoAndNickname(nickname, "Trying to join a Game...", color.path());
+        show_popupInfoAndNickname(nickname, "Trying to join a Game...", color.getPath());
     }
 
 

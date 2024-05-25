@@ -20,8 +20,15 @@ public class NicknamePopUpController extends ControllerGUI{
     public void showNicknameAndText(String nickname,String txt, String path){
         nicknameLable.setText(nickname);
         textLable.setText(txt);
-        Image image = new Image(path);
-        playerImageView.setImage(image);
+        try {
+            Image image = new Image(path);
+            playerImageView.setImage(image);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid image path: " + path);
+
+        }
+
+
     }
 
 

@@ -3,10 +3,10 @@ package it.polimi.ingsw.model;
 import java.util.Random;
 
 public enum Color {
-    YELLOW("/it.polimi.ingsw.view.GUI/img/yellow.png"), //TODO
-    BLUE("/it.polimi.ingsw.view.GUI/img/blue.png"),//TODO
-    RED("/it.polimi.ingsw.view.GUI/img/red.png"),//TODO
-    GREEN("/it.polimi.ingsw.view.GUI/img/green.png");
+    YELLOW("/img/yellow.png"),
+    BLUE("/img/blue.png"),
+    RED("/img/red.png"),
+    GREEN("/img/green.png");
 
     private final String path;
     Color(final String path){
@@ -14,8 +14,8 @@ public enum Color {
     }
 
     //metodo per restituire il percorso del file FXML
-    public String path(){
-        return path;
+    public String getPath(){
+        return getClass().getResource(path).toExternalForm();
     }
     // Metodo per restituire un colore casuale
     public static Color getRandomColor() {
