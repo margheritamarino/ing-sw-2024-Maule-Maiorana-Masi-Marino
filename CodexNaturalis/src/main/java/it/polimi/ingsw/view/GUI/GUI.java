@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.view.GUI.controllers.LobbyController;
 import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
@@ -29,6 +30,7 @@ public class GUI extends UI {
 
     private String nickname;
     boolean showedPublisher = false;
+    private boolean alreadyShowedLobby = false;
 
     /**
      * Constructor of the class.
@@ -192,8 +194,24 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_playerJoined(GameImmutable gameModel, String nick) {
+    public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
+        if (!alreadyShowedLobby) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> {
+                callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+                callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneType.LOBBY)).setUsername(nick));
+                callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneType.LOBBY)).setGameid(gameModel.getGameId()));
 
+                callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.LOBBY));
+                callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel, color));
+                alreadyShowedLobby = true;
+            });
+            pause.play();
+
+        } else {
+            //The player is in lobby and another player has joined
+          //  callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
+        }
     }
 
     @Override
@@ -209,7 +227,7 @@ public class GUI extends UI {
 
     @Override
     public void show_readyToStart(GameImmutable gameModel, String nickname) {
-
+        callPlatformRunLater(() -> this.guiApplication.disableBtnReadyToStart());
     }
 
     @Override

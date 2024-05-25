@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public enum Color {
@@ -9,6 +12,8 @@ public enum Color {
     GREEN("/img/green.png");
 
     private final String path;
+    private static final ArrayList<Color> availableColors = new ArrayList<>();
+    private static final Random RANDOM = new Random();
     Color(final String path){
         this.path = path;
     }
@@ -19,9 +24,13 @@ public enum Color {
     }
     // Metodo per restituire un colore casuale
     public static Color getRandomColor() {
-        Random random = new Random();
-        Color[] colors = values();
-        int index = random.nextInt(colors.length);
-        return colors[index];
+        if (availableColors.isEmpty()) {
+            resetAvailableColors();
+        }
+        return availableColors.remove(RANDOM.nextInt(availableColors.size()));
+    }
+
+    private static void resetAvailableColors() {
+        Collections.addAll(availableColors, values());
     }
 }

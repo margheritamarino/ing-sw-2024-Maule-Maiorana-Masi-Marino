@@ -150,7 +150,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_playerJoined(GameImmutable gameModel, String nick) {
+    public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
         clearScreen();
         show_welcome(nick);
         printAsync("GameID: [" + gameModel.getGameId().toString() + "]");

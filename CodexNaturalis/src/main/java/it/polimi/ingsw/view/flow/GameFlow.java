@@ -157,7 +157,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if (nicknameLastPlayer.equals(nickname)) {
                     //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
                     //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
-                    ui.show_playerJoined(event.getModel(), nickname);
+                    ui.show_playerJoined(event.getModel(), nickname, color);
                     askReadyToStart(event.getModel(), nickname);
                     ui.show_askForChat(event.getModel(), nickname);
                 }

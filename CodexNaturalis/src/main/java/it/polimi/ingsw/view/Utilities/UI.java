@@ -67,7 +67,7 @@ public abstract class UI {
     public abstract void show_askGameIDMessage();
 
     public abstract void show_notValidMessage();
-    public abstract void show_playerJoined(GameImmutable gameModel, String nick);
+    public abstract void show_playerJoined(GameImmutable gameModel, String nick, Color color);
     public abstract void show_allPlayers(GameImmutable model);
     public abstract void show_youAreReady(GameImmutable model);
 

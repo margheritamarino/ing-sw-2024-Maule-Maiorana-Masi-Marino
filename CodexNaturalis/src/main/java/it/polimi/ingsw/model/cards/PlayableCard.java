@@ -71,7 +71,7 @@ public abstract class PlayableCard implements Serializable {
         }
 
         if(typeTemp=="InitialCard"){
-            return("/it.polimi.ingsw.resources.img.Cards.GoldCards."+ idTemp+ "_Gold"+ sideTemp+ ".png");
+            return("/img.Cards.GoldCards."+ idTemp+ "_Gold"+ sideTemp+ ".png");
         } else {
 
             switch (typeTemp) {
@@ -85,10 +85,10 @@ public abstract class PlayableCard implements Serializable {
                 throw new IllegalArgumentException("Card type not recognized: " + typeTemp);
             }
             if (sideTemp=="Front") {
-                return("/it.polimi.ingsw.resources.img.Cards."+ typeTemp+"Cards."+ idTemp+ "_"+ typeTemp+ "Front.png");
+                return("/img.Cards."+ typeTemp+"Cards."+ idTemp+ "_"+ typeTemp+ "Front.png");
 
             } else {
-                return("/it.polimi.ingsw.resources.img.Cards."+ typeTemp+"Cards."+ typeTemp+ mainResource+ "Back.png");
+                return("/img.Cards."+ typeTemp+"Cards."+ typeTemp+ mainResource+ "Back.png");
             }
         }
     }
