@@ -16,26 +16,26 @@
          <children>
             <Text fill="#fcfcfc" layoutX="324.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MENU" wrappingWidth="175.9609375">
                <font>
-                  <Font name="Arial Black" size="48.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="50.0" />
                </font>
             </Text>
             <Text fill="WHITE" layoutX="54.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a game...">
                <font>
-                  <Font name="Arial Black" size="30.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="36.0" />
                </font>
             </Text>
             <Text fill="#fffefe" layoutX="54.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert number of players:">
                <font>
-                  <Font name="Arial Black" size="22.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="30.0" />
                </font>
             </Text>
             <Text fill="WHITE" layoutX="54.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert gameID:">
                <font>
-                  <Font name="Arial Black" size="22.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="30.0" />
                </font>
             </Text>
-            <TextField fx:id="playersNumber" layoutX="377.0" layoutY="288.0" prefHeight="26.0" prefWidth="105.0" />
-            <TextField fx:id="gameID" layoutX="255.0" layoutY="346.0" prefHeight="26.0" prefWidth="105.0" />
+            <TextField fx:id="playersNumber" layoutX="395.0" layoutY="285.0" prefHeight="26.0" prefWidth="105.0" />
+            <TextField fx:id="gameID" layoutX="272.0" layoutY="344.0" prefHeight="26.0" prefWidth="105.0" />
             <Button fx:id="ContinueButton" defaultButton="true" layoutX="663.0" layoutY="441.0" mnemonicParsing="false" onAction="#actionContinue" styleClass="record-sales" stylesheets="@styleCodex.css" text="CONTINUE">
                <font>
                   <Font name="Arial" size="22.0" />

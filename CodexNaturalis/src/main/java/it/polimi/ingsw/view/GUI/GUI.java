@@ -180,6 +180,9 @@ public class GUI extends UI {
 
     @Override
     public void show_askNumPlayersMessage() {
+        Platform.runLater(() -> this.guiApplication.setInputReaderGUItoAllControllers(this.inputGUI));
+        Platform.runLater(() -> this.guiApplication.createNewWindowWithStyle());
+        Platform.runLater(() -> this.guiApplication.setActiveScene(SceneType.MENU));
 
     }
 

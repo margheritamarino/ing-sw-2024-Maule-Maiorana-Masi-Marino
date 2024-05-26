@@ -7,11 +7,10 @@ public enum SceneType {
     PUBLISHER("/it.polimi.ingsw.view.GUI/fxml/Publisher.fxml"),
     NICKNAME("/it.polimi.ingsw.view.GUI/fxml/Nickname.fxml"),
     NICKNAME_POPUP("/it.polimi.ingsw.view.GUI/fxml/NicknamePopUp.fxml"),
-    LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"); //popup with nickname
+    LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"), //popup with nickname
+    MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml");
 
-  /*  ASK_NUM_PLAYERS("/it.polimi.ingsw.view.GUI/fxml/AskNumPlayers.fxml"), //scena per chiedere il numero di giocatori
-    ASK_GAME_ID("/it.polimi.ingsw.view.GUI/fxml/AskGameID.fxml"), //scena per chiedere il Game ID
-
+  /*
     INGAME("/it.polimi.ingsw.view.GUI/fxml/InGame.fxml"),
     OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),
     GAMEWAIT("/it.polimi.ingsw.view.GUI/fxml/GameWait.fxml"),
