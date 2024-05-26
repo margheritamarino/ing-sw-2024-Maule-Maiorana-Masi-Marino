@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="329.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.GenericErrorController">
+    <children>
+        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="backgroundInfo" stylesheets="@styleCodex.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Pane layoutX="43.0" layoutY="35.0" prefHeight="234.0" prefWidth="522.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="35.0" />
+      <ImageView fitHeight="496.0" fitWidth="833.0" layoutX="-34.0" layoutY="-132.0" opacity="0.63" pickOnBounds="true" preserveRatio="true" styleClass="backgroundNickname">
+         <image>
+            <Image url="@../../img/Background.png" />
+         </image>
+      </ImageView>
+        <Button fx:id="button" defaultButton="true" layoutX="214.0" layoutY="290.0" mnemonicParsing="false" onAction="#actionMenu" prefHeight="57.0" prefWidth="175.0" styleClass="record-sales" stylesheets="@styleCodex.css" text="MENU" AnchorPane.leftAnchor="214.0" AnchorPane.topAnchor="290.0">
+            <font>
+                <Font name="Arial Black" size="18.0" />
+            </font>
+        </Button>
+      <Text fill="#f51616" layoutX="238.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="record-sales" text="ERROR">
+         <font>
+            <Font name="Arial Black" size="37.0" />
+         </font>
+      </Text>
+      <TextArea fx:id="message" layoutX="80.0" layoutY="82.0" prefHeight="137.0" prefWidth="453.0" styleClass="@styleCodex.css" text="Ciao" />
+    </children>
+</AnchorPane>

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ConnectionType;
-import it.polimi.ingsw.view.GUI.controllers.ControllerGUI;
-import it.polimi.ingsw.view.GUI.controllers.MenuController;
-import it.polimi.ingsw.view.GUI.controllers.NicknameController;
+import it.polimi.ingsw.view.GUI.controllers.*;
 import it.polimi.ingsw.view.GUI.scenes.SceneInformation;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
@@ -11,8 +12,10 @@ import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
@@ -150,9 +153,7 @@ public class GUIApplication extends Application {
                     this.primaryStage.centerOnScreen();
 
                 }
-                case NICKNAME -> {
 
-                }
                 case NICKNAME_POPUP -> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
@@ -173,8 +174,8 @@ public class GUIApplication extends Application {
             }
             this.primaryStage.setScene(s.getScene());
             this.primaryStage.show();
-            root.getChildren().clear();
-            root.getChildren().add(s.getScene().getRoot());
+           /* root.getChildren().clear();
+            root.getChildren().add(s.getScene().getRoot());*/
         }
 
         widthOld=primaryStage.getScene().getWidth();
@@ -239,5 +240,81 @@ public class GUIApplication extends Application {
             popUpStage.hide();
     }
 
+    public void createNewWindowWithStyle() {
+        // Crea una nuova finestra con lo stile desiderato
+        Stage newStage = new Stage();
 
+        // Copia la scena dalla finestra precedente
+        newStage.setScene(this.primaryStage.getScene());
+
+        // Mostra la nuova finestra
+        newStage.show();
+
+        // Chiudi la finestra precedente
+        this.primaryStage.close();
+
+        // Imposta la nuova finestra come primaryStage
+        this.primaryStage = newStage;
+        this.primaryStage.centerOnScreen();
+        this.primaryStage.setAlwaysOnTop(true);
+
+        this.primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Closing all");
+
+            System.exit(1);
+        });
+    }
+
+    /*GENERIC ERROR
+
+    public void showGenericError(String message){
+        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneType.GENERIC_ERROR)).getControllerGUI();
+        controller.setMsg(message, false);
+    }
+
+    public void showErrorGeneric(String msg, boolean needToExitApp) {
+        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneType.GENERIC_ERROR)).getControllerGUI();
+        controller.setMsg(msg,needToExitApp);
+    }*/
+
+
+    public void showPlayerToLobby(GameImmutable model, Color color) {
+        hidePanesInLobby();
+        int i = 0;
+        for (Player p : model.getPlayers()) {
+            addLobbyPanePlayer(p.getNickname(), i, p.getReadyToStart(), color);
+            i++;
+        }
+    }
+    private void addLobbyPanePlayer(String nick, int indexPlayer, boolean isReady, Color color) {
+        LobbyController controller = (LobbyController) this.primaryStage.getScene().getRoot().getUserData();
+
+        // Imposta l'immagine del giocatore
+        controller.setPlayerImage(color.getPath(), indexPlayer);
+
+        Pane paneReady = (Pane) this.primaryStage.getScene().getRoot().lookup("#ready" + indexPlayer);
+        paneReady.setVisible(isReady);
+
+        Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup("#pane" + indexPlayer);
+        panePlayerLobby.setVisible(true);
+
+        panePlayerLobby.getChildren().clear();
+
+
+
+    }
+
+    private void hidePanesInLobby() {
+        for (int i = 0; i < 4; i++) {
+            Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup("#pane" + i);
+            panePlayerLobby.setVisible(false);
+
+            Pane paneReady = (Pane) this.primaryStage.getScene().getRoot().lookup("#ready" + i);
+            paneReady.setVisible(false);
+        }
+    }
+    public void disableBtnReadyToStart() {
+        //I set not visible the btn "Ready to start"
+        ((LobbyController) scenes.get(getSceneIndex(SceneType.LOBBY)).getControllerGUI()).setVisibleBtnReady(false);
+    }
 }

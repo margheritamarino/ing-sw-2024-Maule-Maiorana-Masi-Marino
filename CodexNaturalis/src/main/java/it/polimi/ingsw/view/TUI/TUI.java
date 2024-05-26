@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.TUI;
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -149,7 +150,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_playerJoined(GameImmutable gameModel, String nick) {
+    public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
         clearScreen();
         show_welcome(nick);
         printAsync("GameID: [" + gameModel.getGameId().toString() + "]");
@@ -302,7 +303,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_joiningToGameMsg(String nickname){
+    public void show_joiningToGameMsg(String nickname, Color color){
         printAsync("Trying to join a game...\n");
     }
 
@@ -344,8 +345,8 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_chosenNickname(String nickname) {
-        printAsync("Your nickname is " + nickname);
+    public void show_chosenNickname(String nickname, Color color) {
+        printAsync("Your nickname is " + nickname + " your color is:" + color);
     }
 
     @Override

@@ -2,9 +2,11 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.view.GUI.controllers.LobbyController;
 import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
@@ -28,6 +30,7 @@ public class GUI extends UI {
 
     private String nickname;
     boolean showedPublisher = false;
+    private boolean alreadyShowedLobby = false;
 
     /**
      * Constructor of the class.
@@ -77,7 +80,9 @@ public class GUI extends UI {
     public void show_insertNicknameMessage() {
         if(showedPublisher) {
             callPlatformRunLater(() -> this.guiApplication.setInputReaderGUItoAllControllers(this.inputGUI));
+            callPlatformRunLater(() -> this.guiApplication.createNewWindowWithStyle());
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME));
+
         }
     }
 
@@ -87,15 +92,16 @@ public class GUI extends UI {
      * @param nick the nickname
      * @param text the info
      */
-    private void show_popupInfoAndNickname(String nick, String text) {
-        callPlatformRunLater(() -> ((NicknamePopUpController) this.guiApplication.getController(SceneType.NICKNAME_POPUP)).showNicknameAndText(nick, text));
+    public void show_popupInfoAndNickname(String nick, String text, String imagePath) {
+        callPlatformRunLater(() -> ((NicknamePopUpController) this.guiApplication.getController(SceneType.NICKNAME_POPUP)).showNicknameAndText(nick, text, imagePath));
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME_POPUP));
         nickname = nick;
     }
 
     @Override
-    public void show_chosenNickname(String nickname) {
-        show_popupInfoAndNickname(nickname, "Trying to join a Game...");
+    public void show_chosenNickname(String nickname, Color color) {
+        String imagePath= color.getPath();
+        show_popupInfoAndNickname(nickname, "Trying to join a Game...", imagePath);
     }
 
     @Override
@@ -157,9 +163,8 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_joiningToGameMsg(String nick) {
-
-        show_popupInfoAndNickname(nickname, "Trying to join a Game...");
+    public void show_joiningToGameMsg(String nick, Color color) {
+        show_popupInfoAndNickname(nickname, "Trying to join a Game...", color.getPath());
     }
 
 
@@ -189,8 +194,24 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_playerJoined(GameImmutable gameModel, String nick) {
+    public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
+        if (!alreadyShowedLobby) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> {
+                callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+                callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneType.LOBBY)).setUsername(nick));
+                callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneType.LOBBY)).setGameid(gameModel.getGameId()));
 
+                callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.LOBBY));
+                callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel, color));
+                alreadyShowedLobby = true;
+            });
+            pause.play();
+
+        } else {
+            //The player is in lobby and another player has joined
+          //  callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
+        }
     }
 
     @Override
@@ -206,7 +227,7 @@ public class GUI extends UI {
 
     @Override
     public void show_readyToStart(GameImmutable gameModel, String nickname) {
-
+        callPlatformRunLater(() -> this.guiApplication.disableBtnReadyToStart());
     }
 
     @Override

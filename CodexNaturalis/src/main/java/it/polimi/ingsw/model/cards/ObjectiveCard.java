@@ -10,6 +10,7 @@ import java.util.List;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class ObjectiveCard implements Serializable {
+    private String cssLabel;
     private int cardID;
     private boolean isFront;
     private GoalType goalType;
@@ -20,6 +21,21 @@ public class ObjectiveCard implements Serializable {
     private int numSymbols;
     private List<SymbolType> symbols;
     private ResourceType secondResource;
+
+    /**
+     * this method is used for the GUI
+     * @return the path for the specific istance of Objective Card (contained in the package resources-->img)
+     */
+    public String getImagePath(){
+        int idTemp= this.getCardID();
+
+        if(this.isFront()){
+            return("/it.polimi.ingsw.resources.img.Cards.ObjectiveCards."+ idTemp+ "_ObjectiveFront.png");
+
+        } else {
+            return("/it.polimi.ingsw.resources.img.Cards.ObjectiveCards.ObjectiveBack.png");
+        }
+    }
 
     public int getCardID() {
         return cardID;
@@ -61,8 +77,16 @@ public class ObjectiveCard implements Serializable {
         return secondResource;
     }
 
+    public String getCssLabel() {
+        return cssLabel;
+    }
 
-    public ObjectiveCard(int cardID, boolean isFront, GoalType goalType, int victoryPoints, ResourceType mainResource, CornerType direction, int numResources, int numSymbols, List<SymbolType> symbols, ResourceType secondResource) {
+    public void setCssLabel(String cssLabel) {
+        this.cssLabel = cssLabel;
+    }
+
+    public ObjectiveCard(String cssLabel,int cardID, boolean isFront, GoalType goalType, int victoryPoints, ResourceType mainResource, CornerType direction, int numResources, int numSymbols, List<SymbolType> symbols, ResourceType secondResource) {
+        this.cssLabel= cssLabel;
         this.cardID = cardID;
         this.isFront = isFront;
         this.goalType = goalType;
@@ -81,6 +105,7 @@ public class ObjectiveCard implements Serializable {
     public ObjectiveCard copy(){
         // Creo una nuova istanza di ObjectiveCard con gli stessi valori dei campi
         ObjectiveCard copiedCard = new ObjectiveCard(
+                this.cssLabel,
                 this.cardID,
                 this.isFront,
                 this.goalType,

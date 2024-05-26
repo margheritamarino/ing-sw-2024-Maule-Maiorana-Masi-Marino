@@ -11,6 +11,7 @@ import java.util.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public abstract class PlayableCard implements Serializable {
+    private String cssLabel;
     private final int cardID;
     private final int numCorners;
     private final boolean isFront;
@@ -54,6 +55,45 @@ public abstract class PlayableCard implements Serializable {
     }
 
     /**
+     * this method is used for the GUI
+     * @return the path for the specific istance of Card (contained in the package resources-->img)
+     */
+    public String getImagePath(){
+        int idTemp = this.getCardID();
+        String typeTemp= this.getCardType().toString();
+        String sideTemp;
+        String mainResource= this.getMainResource().toString(); //used only for Back img
+
+        if(this.isFront()){
+            sideTemp= "Front";
+        } else {
+            sideTemp= "Back";
+        }
+
+        if(typeTemp=="InitialCard"){
+            return("/img.Cards.GoldCards."+ idTemp+ "_Gold"+ sideTemp+ ".png");
+        } else {
+
+            switch (typeTemp) {
+            case "GoldCard":
+                typeTemp = "Gold";
+                break;
+            case "ResourceCard":
+                typeTemp = "Resource";
+                break;
+            default:
+                throw new IllegalArgumentException("Card type not recognized: " + typeTemp);
+            }
+            if (sideTemp=="Front") {
+                return("/img.Cards."+ typeTemp+"Cards."+ idTemp+ "_"+ typeTemp+ "Front.png");
+
+            } else {
+                return("/img.Cards."+ typeTemp+"Cards."+ typeTemp+ mainResource+ "Back.png");
+            }
+        }
+    }
+
+    /**
      * Retrieves the content of the specified corner of a PlayableCard.
      *
      * @author Margherita Marino
@@ -68,6 +108,7 @@ public abstract class PlayableCard implements Serializable {
                 else content = getCornerContent().get(3);
         return content;
     }
+
 
 
     /**
@@ -103,7 +144,8 @@ public abstract class PlayableCard implements Serializable {
         this.BLCorner = null;
     }*/
 
-    public PlayableCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner) {
+    public PlayableCard(String cssLabel, int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner) {
+        this.cssLabel = cssLabel;
         this.cardID = cardID;
         this.numCorners = numCorners;
         this.isFront = isFront;
@@ -112,6 +154,13 @@ public abstract class PlayableCard implements Serializable {
         this.TRCorner = TRCorner;
         this.BRCorner = BRCorner;
         this.BLCorner = BLCorner;
+    }
+    public String getCssLabel() {
+        return cssLabel;
+    }
+
+    public void setCssLabel(String cssLabel) {
+        this.cssLabel = cssLabel;
     }
 
     @Override
@@ -139,6 +188,7 @@ public abstract class PlayableCard implements Serializable {
         }else output = "E";
         return output;
     }
+
 
 
 }

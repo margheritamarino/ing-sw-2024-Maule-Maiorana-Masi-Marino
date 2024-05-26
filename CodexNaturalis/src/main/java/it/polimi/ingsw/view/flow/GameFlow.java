@@ -5,6 +5,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.Chat.MessagePrivate;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -35,6 +36,7 @@ import java.util.Objects;
 //Gestisce il flusso di gioco e l'interazione tra client e server
 public class GameFlow extends Flow implements Runnable, ClientInterface {
     private String nickname;
+    private Color color;
     private final EventList events = new EventList();
     private ClientInterface clientActions;
     private final UI ui;
@@ -155,7 +157,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if (nicknameLastPlayer.equals(nickname)) {
                     //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
                     //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
-                    ui.show_playerJoined(event.getModel(), nickname);
+                    ui.show_playerJoined(event.getModel(), nickname, color);
                     askReadyToStart(event.getModel(), nickname);
                     ui.show_askForChat(event.getModel(), nickname);
                 }
@@ -351,10 +353,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        ui.show_chosenNickname(nickname);
+        Color randColor = Color.getRandomColor();
+        setColor(randColor);
+        ui.show_chosenNickname(nickname, randColor);
     }
+
     public void setNickname(String nick){
         this.nickname=nick;
+    }
+    public void setColor(Color color){
+        this.color=color;
     }
     /**
      * The method repeatedly checks for user input until the user confirms they're ready by entering "y".
@@ -812,8 +820,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     @Override
-    public void joinGame(String nickname)  {
-        ui.show_joiningToGameMsg(nickname);
+    public void joinGame(String nickname )  {
+        ui.show_joiningToGameMsg(nickname, this.color);
         try {
             clientActions.joinGame(nickname);
         } catch (IOException | InterruptedException | NotBoundException e) {

@@ -11,6 +11,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.Game;
@@ -39,6 +40,7 @@ public class Player implements Serializable {
         this.playerDeck = new PlayerDeck();
         this.connected = false;
         this.listeners= new ArrayList<>();
+
     }
     public ArrayList<GameListenerInterface> getListeners(){
         return this.listeners;
