@@ -346,7 +346,7 @@ public class TUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname, Color color) {
-        printAsync("Your nickname is " + nickname + " your color is:" + color);
+        printAsync("Your nickname is " + nickname + " \nYour color is:" + color);
     }
 
     @Override
