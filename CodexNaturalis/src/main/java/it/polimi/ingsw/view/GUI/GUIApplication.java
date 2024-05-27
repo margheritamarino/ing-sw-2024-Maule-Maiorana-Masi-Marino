@@ -158,13 +158,10 @@ public class GUIApplication extends Application {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
-               /* case ASK_NUM_PLAYERS -> {
-                    //TODO
+                case MENU -> {
+                    this.primaryStage.centerOnScreen();
+                    this.primaryStage.setAlwaysOnTop(false);
                 }
-                case  ASK_GAME_ID-> {
-                    //TODO
-                }
-                */
 
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
