@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.InitializeCardsController">
    <children>
       <ImageView fitHeight="795.0" fitWidth="1038.0" layoutX="-38.0" layoutY="-25.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -28,12 +28,12 @@
       </Pane>
       <HBox layoutX="185.0" layoutY="313.0" opacity="0.81" prefHeight="225.0" prefWidth="606.0" spacing="10.0" style="-fx-background-color: black;">
          <children>
-            <ImageView fitHeight="201.0" fitWidth="382.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView1" fitHeight="201.0" fitWidth="382.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img/Cards/initialCards/0_InitialBack.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="369.0" fitWidth="302.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView2" fitHeight="369.0" fitWidth="302.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img/Cards/initialCards/1_initialFront.png" />
                </image>
