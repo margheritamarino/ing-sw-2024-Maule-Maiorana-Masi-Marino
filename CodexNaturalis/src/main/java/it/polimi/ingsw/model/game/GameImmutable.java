@@ -89,7 +89,13 @@ public class GameImmutable implements Serializable {
     public List<Player> getPlayers() {
         return players;
     }
-
+    public int getIndexPlayer(Player p){
+        for(int i=0; i< playersNumber; i++){
+            if(players.get(i).equals(p))
+                return i;
+        }
+        return -1;
+    }
     /**
      * @return the ID of the game
      */

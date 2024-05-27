@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.GUI.controllers.LobbyController;
 import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
@@ -95,11 +96,12 @@ public class GUI extends UI {
     public void show_popupInfoAndNickname(String nick, String text, String imagePath) {
         callPlatformRunLater(() -> ((NicknamePopUpController) this.guiApplication.getController(SceneType.NICKNAME_POPUP)).showNicknameAndText(nick, text, imagePath));
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.NICKNAME_POPUP));
-        nickname = nick;
+        this.nickname = nick;
     }
 
     @Override
     public void show_chosenNickname(String nickname, Color color) {
+
         String imagePath= color.getPath();
         show_popupInfoAndNickname(nickname, "Trying to join a Game...", imagePath);
     }
@@ -198,39 +200,51 @@ public class GUI extends UI {
 
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
+
         if (!alreadyShowedLobby) {
+            System.out.println("player color is"+color);
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(event -> {
                 callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
-                callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneType.LOBBY)).setUsername(nick));
-                callPlatformRunLater(() -> ((LobbyController) this.guiApplication.getController(SceneType.LOBBY)).setGameid(gameModel.getGameId()));
 
-                callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.LOBBY));
-                callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel, color));
-                alreadyShowedLobby = true;
+                callPlatformRunLater(() -> {
+                    LobbyController lobbyController = (LobbyController) this.guiApplication.getController(SceneType.LOBBY);
+                    if (lobbyController != null) {
+
+                        lobbyController.setGameid(gameModel.getGameId());
+                        lobbyController.setVisibleBtnReady(true);
+                        this.guiApplication.setActiveScene(SceneType.LOBBY);
+                        this.guiApplication.showPlayerToLobby(gameModel, color);
+                        alreadyShowedLobby = true;
+                    } else {
+                        System.err.println("LobbyController is null or invalid");
+                    }
+                });
             });
             pause.play();
-
         } else {
-            //The player is in lobby and another player has joined
-          //  callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
+            // The player is in lobby and another player has joined
+            callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel, color));
         }
     }
+
 
     @Override
     public void show_allPlayers(GameImmutable model) {
 
     }
 
+
+
     @Override
     public void show_youAreReady(GameImmutable model) {
-
+        callPlatformRunLater(() -> this.guiApplication.disableBtnReadyToStart());
+        callPlatformRunLater(() -> this.guiApplication.setPaneReady(model.getIndexPlayer(model.getPlayerByNickname(nickname)),model.getPlayerByNickname(nickname).getReadyToStart()));
     }
 
 
     @Override
     public void show_readyToStart(GameImmutable gameModel, String nickname) {
-        callPlatformRunLater(() -> this.guiApplication.disableBtnReadyToStart());
     }
 
     @Override

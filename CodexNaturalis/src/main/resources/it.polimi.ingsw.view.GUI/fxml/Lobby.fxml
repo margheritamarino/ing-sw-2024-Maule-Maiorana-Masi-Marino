@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1320.0" styleClass="backgroundLobby" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.LobbyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.9" prefHeight="750.0" prefWidth="1320.0" styleClass="backgroundLobby" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.LobbyController">
    <children>
-      <Pane layoutX="30.0" layoutY="20.0" opacity="0.8" prefHeight="600.0" prefWidth="1250.0" style="-fx-background-color: black;">
+      <Pane layoutX="61.0" layoutY="37.0" opacity="0.8" prefHeight="600.0" prefWidth="1250.0" style="-fx-background-color: black;">
          <children>
-            <Pane layoutX="64.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
+            <Pane fx:id="pane0" layoutX="64.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
                <children>
-                  <ImageView fx:id="imgPlayer1" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
-                  <Pane fx:id="ready0" layoutX="25.0" layoutY="296.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
+                  <ImageView fx:id="imgPlayer0" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane fx:id="ready0" layoutX="25.0" layoutY="293.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
                      <children>
                         <Text fill="#ff1b00f5" layoutX="42.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READY">
                            <font>
@@ -25,9 +24,9 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane layoutX="351.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
+            <Pane fx:id="pane1" layoutX="351.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
                <children>
-                  <ImageView fx:id="imgPlayer2" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgPlayer1" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
                   <Pane fx:id="ready1" layoutX="25.0" layoutY="293.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
                      <children>
                         <Text fill="#ff1b00f5" layoutX="42.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READY">
@@ -37,11 +36,16 @@
                         </Text>
                      </children>
                   </Pane>
+                  <Text fx:id="nick1" fill="WHITE" layoutX="103.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="text">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
-            <Pane layoutX="641.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
+            <Pane fx:id="pane2" layoutX="641.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
                <children>
-                  <ImageView fx:id="imgPlayer3" fitHeight="250.0" fitWidth="200.0" layoutX="24.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgPlayer2" fitHeight="250.0" fitWidth="200.0" layoutX="24.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
                   <Pane fx:id="ready2" layoutX="24.0" layoutY="295.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
                      <children>
                         <Text fill="#ff1b00f5" layoutX="42.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READY">
@@ -53,9 +57,9 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane layoutX="934.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
+            <Pane fx:id="pane3" layoutX="934.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
                <children>
-                  <ImageView fx:id="imgPlayer4" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgPlayer3" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
                   <Pane fx:id="ready3" layoutX="25.0" layoutY="298.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
                      <children>
                         <Text fill="#ff1b00f5" layoutX="42.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READY">
@@ -67,22 +71,36 @@
                   </Pane>
                </children>
             </Pane>
-            <Text fx:id="GameIDTextField" fill="#fcfcfc" layoutX="612.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="GameIDTextField" fill="#fcfcfc" layoutX="444.0" layoutY="555.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="362.2792968749999">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Berlin Sans FB" size="36.0" />
                </font>
             </Text>
-            <Button fx:id="btnReady" layoutX="1000.0" layoutY="509.0" mnemonicParsing="false" onAction="#actionReady" styleClass="record-sales5" stylesheets="@styleCodex.css" text="READY">
+            <Button fx:id="btnReady" layoutX="1000.0" layoutY="509.0" mnemonicParsing="false" onAction="#actionReady" stylesheets="@styleCodex.css" text="READY">
                <font>
                   <Font name="Berlin Sans FB" size="24.0" />
                </font>
+               <styleClass>
+                  <String fx:value="record-sales5" />
+                  <String fx:value="glow-button" />
+               </styleClass>
             </Button>
-            <Text fill="#ff9000" layoutX="449.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are in the lobby">
+            <Text fill="#ff9000" layoutX="450.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are in the lobby">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="36.0" />
                </font>
             </Text>
-            <Text fx:id="NicknameTextField" fill="#fffefe" layoutX="612.0" layoutY="546.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="nick0" fill="#fffefe" layoutX="160.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nick" wrappingWidth="57.000022888183594">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick2" fill="WHITE" layoutX="743.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick3" fill="WHITE" layoutX="1028.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="24.0" />
                </font>

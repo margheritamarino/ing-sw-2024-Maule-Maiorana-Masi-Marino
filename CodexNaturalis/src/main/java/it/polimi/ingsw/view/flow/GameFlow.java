@@ -36,7 +36,7 @@ import java.util.Objects;
 //Gestisce il flusso di gioco e l'interazione tra client e server
 public class GameFlow extends Flow implements Runnable, ClientInterface {
     private String nickname;
-    private Color color;
+    public Color color;
     private final EventList events = new EventList();
     private ClientInterface clientActions;
     private final UI ui;
@@ -157,7 +157,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if (nicknameLastPlayer.equals(nickname)) {
                     //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
                     //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
-                    ui.show_playerJoined(event.getModel(), nickname, color);
+                    ui.show_playerJoined(event.getModel(), this.nickname, this.color);
+
+
                     askReadyToStart(event.getModel(), nickname);
                     ui.show_askForChat(event.getModel(), nickname);
                 }
@@ -349,13 +351,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void askNickname() {
         ui.show_insertNicknameMessage();
         try {
-            nickname = this.inputController.getUnprocessedData().popInputData();
+            String nick = this.inputController.getUnprocessedData().popInputData();
+            setNickname(nick);
+            Color randColor = Color.getRandomColor();
+            setColor(randColor);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Color randColor = Color.getRandomColor();
-        setColor(randColor);
-        ui.show_chosenNickname(nickname, randColor);
+
+        ui.show_chosenNickname(this.nickname, this.color);
     }
 
     public void setNickname(String nick){

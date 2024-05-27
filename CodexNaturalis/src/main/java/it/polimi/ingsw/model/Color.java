@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public enum Color {
     YELLOW("/img/yellow.png"),
@@ -20,7 +17,7 @@ public enum Color {
 
     //metodo per restituire il percorso del file FXML
     public String getPath(){
-        return getClass().getResource(path).toExternalForm();
+        return Objects.requireNonNull(getClass().getResource(path)).toExternalForm();
     }
     // Metodo per restituire un colore casuale
     public static Color getRandomColor() {
