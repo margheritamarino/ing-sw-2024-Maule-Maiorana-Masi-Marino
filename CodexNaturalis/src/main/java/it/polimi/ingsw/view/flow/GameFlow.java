@@ -228,7 +228,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     ui.show_returnToMenuMsg();
                 else{
                     askNickname();
-                    joinGame(nickname);
+                    joinGame(nickname, color);
                 }
                 //ciclo per chiedere al giocatore di selezionare una partita valida
             }
@@ -596,10 +596,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void settingGame(int numPlayers, int GameID, String nick){
+    public void settingGame(int numPlayers, int GameID, String nick, Color color){
         //System.out.println("GameFlow: settingGame");
         try {
-            clientActions.settingGame(numPlayers, GameID, nick);
+            clientActions.settingGame(numPlayers, GameID, nick, color);
         } catch (IOException e) {
             noConnectionError();
         }
@@ -725,7 +725,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void requireNumPlayersGameID(GameImmutable model)throws RemoteException {
         int numPlayers=askNumPlayers();
         int GameID= askGameID();
-        settingGame(numPlayers, GameID, nickname);
+        settingGame(numPlayers, GameID, nickname, color);
 
     }
 
@@ -824,10 +824,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     @Override
-    public void joinGame(String nickname )  {
-        ui.show_joiningToGameMsg(nickname, this.color);
+    public void joinGame(String nickname, Color color )  {
+        ui.show_joiningToGameMsg(nickname, color);
         try {
-            clientActions.joinGame(nickname);
+            clientActions.joinGame(nickname, color);
         } catch (IOException | InterruptedException | NotBoundException e) {
             noConnectionError();
         }

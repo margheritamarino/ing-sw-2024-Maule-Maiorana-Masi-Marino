@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
 
 import java.rmi.RemoteException;
@@ -16,14 +17,16 @@ public class ClientMsgJoinGame extends ClientGenericMessage {
      * Constructor of the class.
      * @param nickname the player's nickname
      */
-    public ClientMsgJoinGame(String nickname) {
+    private Color color;
+    public ClientMsgJoinGame(String nickname, Color color) {
         this.nickname = nickname;
         this.isJoinGame= true;
+        this.color= color;
     }
 
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        gameController.joinGame(lis, this.nickname);
+        gameController.joinGame(lis, this.nickname, this.color);
     }
 
     /**

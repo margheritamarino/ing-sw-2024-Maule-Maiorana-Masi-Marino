@@ -31,8 +31,8 @@ public class Player implements Serializable {
     private boolean connected;
     private boolean readyToStart = false;
     private transient ArrayList<GameListenerInterface>listeners;
-
-    public Player(String nickname) {
+    private Color playerColor;
+    public Player(String nickname, Color color) {
         this.nickname = nickname;
         this.playerGoal = null;
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
@@ -40,6 +40,7 @@ public class Player implements Serializable {
         this.playerDeck = new PlayerDeck();
         this.connected = false;
         this.listeners= new ArrayList<>();
+        this.playerColor=color;
 
     }
     public ArrayList<GameListenerInterface> getListeners(){
@@ -133,6 +134,9 @@ public class Player implements Serializable {
 
     public PlayerDeck getPlayerDeck() {
         return this.playerDeck;
+    }
+    public Color getPlayerColor(){
+        return this.playerColor;
     }
 
     /**

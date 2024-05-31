@@ -5,6 +5,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
 //import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.model.DefaultValue;
@@ -133,8 +134,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
     @Override
-    public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
-        serverObject.gameController.joinGame(lis, nick); //TRY
+    public void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException {
+        serverObject.gameController.joinGame(lis, nick, color); //TRY
 
         printAsync("[RMI] " + nick + " joined to game");
     }
@@ -197,8 +198,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
     @Override
-    public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname) throws RemoteException {
-        serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname);
+    public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname, Color color) throws RemoteException {
+        serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname, color);
     }
 
     @Override

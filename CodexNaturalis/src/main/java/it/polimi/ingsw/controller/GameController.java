@@ -8,6 +8,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.Ping;
 import it.polimi.ingsw.model.cards.CardType;
@@ -295,13 +296,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException
      */
     @Override
-    public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
+    public synchronized void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException {
         if(!isGameCreated()){
             model.createGame(lis, nick);
 
 
         }else{
-            model.addPlayer(lis, nick);
+            model.addPlayer(lis, nick, color);
             model.getPlayerByNickname(nick).setConnected(true);
         }
     }
@@ -310,11 +311,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         this.gameCreated= toSet;
     }
 
-    public void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick) throws RemoteException{
+    public void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick, Color color) throws RemoteException{
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
         setGameCreated(true);
-        model.addPlayer(lis, nick);
+        model.addPlayer(lis, nick, color);
         model.getPlayerByNickname(nick).setConnected(true);
     }
 

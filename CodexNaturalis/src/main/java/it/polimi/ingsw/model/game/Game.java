@@ -245,7 +245,7 @@ public class Game {
 	 * after checking if there is space in the match and if the nickname is available
 	 * @param nickname the nickname of the player to be added.
 	 */
-	public void addPlayer(GameListenerInterface lis, String nickname) {
+	public void addPlayer(GameListenerInterface lis, String nickname, Color playerColor) {
 		// Check if the game is not full and the nickname is not taken
 		System.out.println("Game: method addPlayer()");
 		// Check if the game is not full
@@ -261,7 +261,7 @@ public class Game {
 		}
 		else{
 			// Create a new player with the given nickname
-			Player newPlayer = new Player(nickname);
+			Player newPlayer = new Player(nickname, playerColor);
 			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
 
