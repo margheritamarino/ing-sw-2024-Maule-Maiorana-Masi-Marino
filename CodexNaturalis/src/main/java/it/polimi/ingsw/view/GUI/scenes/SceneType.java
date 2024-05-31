@@ -10,6 +10,7 @@ public enum SceneType {
     LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"), //popup with nickname
     MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml");
 
+   // INITIALIZE_CARDS("it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml");
   /*
     INGAME("/it.polimi.ingsw.view.GUI/fxml/InGame.fxml"),
     OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),

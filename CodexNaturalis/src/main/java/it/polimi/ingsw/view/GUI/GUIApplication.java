@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -209,8 +210,16 @@ public class GUIApplication extends Application {
             widthOld = widthWindow;
             heightOld = heightWindow;
             Scale scale = new Scale(w, h, 0, 0);
+
+            Node contentNode = primaryStage.getScene().lookup("#content");
+            if (contentNode != null) {
+                contentNode.getTransforms().add(scale);
+            } else {
+                System.err.println("Nodo con ID 'content' non trovato.");
+            }
+
             //primaryStage.getScene().getRoot().getTransforms().add(scale);
-            primaryStage.getScene().lookup("#content").getTransforms().add(scale);
+            //primaryStage.getScene().lookup("#content").getTransforms().add(scale);
         }
     }
 
