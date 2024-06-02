@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.flow;
 
 
 import it.polimi.ingsw.Chat.Message;
-import it.polimi.ingsw.Chat.MessagePrivate;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.Color;
@@ -56,10 +55,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //Invoked for starting with TUI
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
-            case RMI -> {
-                clientActions = new ClientRMI(this);
+            case RMI -> clientActions = new ClientRMI(this);
 
-            }
         }
         ui = new TUI();
 
@@ -161,11 +158,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
                     askReadyToStart(event.getModel(), nickname);
-                    ui.show_askForChat(event.getModel(), nickname);
+                   // ui.show_askForChat(event.getModel(), nickname);
                 }
             }
-            case CARDS_READY ->
-                makeGameStart(nickname);
+            case PLAYER_READY ->
+                ui.show_youAreReady(event.getModel());
         }
     }
 
@@ -300,7 +297,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     private int askNumPlayers() {
         String temp;
-        int numPlayers = -1;
+        int numPlayers;
         do {
             try {
                 ui.show_askNumPlayersMessage(); // "Inserire il numero di giocatori nella partita:"
@@ -314,7 +311,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 numPlayers = Integer.parseInt(temp); // Traduce il numero in intero
 
                 // Verifica che il numero sia nel range accettabile
-                if (numPlayers < 0 || numPlayers < DefaultValue.minNumOfPlayer || numPlayers > DefaultValue.MaxNumOfPlayer) {
+                if ( numPlayers < DefaultValue.minNumOfPlayer || numPlayers > DefaultValue.MaxNumOfPlayer) {
                     ui.show_notValidMessage(); // Mostra un messaggio di errore
                     numPlayers = -1; // Resetta numPlayers per ripetere il ciclo
                 }
@@ -388,7 +385,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_notValidMessage();
             }
         } while (!Objects.equals(answer, "y"));
-        ui.show_youAreReady(model);
         setAsReady(nick);
     }
 
@@ -437,7 +433,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String temp;
         ui.show_askPlaceCardsMainMsg(model);
         ui.show_alwaysShow(model, nickname);
-        int posChosenCard=-1;
+        int posChosenCard;
         do {
             try {
                 ui.show_askNum("Choose which CARD you want to place:", model, nickname);
@@ -452,7 +448,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         }while (posChosenCard<0);
 
-        int rowCell=-1;
+        int rowCell;
         ui.show_askWhichCellMsg(model);
         ui.show_askNum("Choose the ROW of the cell:", model, nickname);
         do {
@@ -604,14 +600,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
-    @Override
+  /*  @Override
     public void makeGameStart(String nick){
         try {
             clientActions.makeGameStart(nick);
         } catch (IOException e) {
             noConnectionError();
         }
-    }
+    }*/
 
     @Override
     public void setInitialCard(int index, String nickname) {
@@ -691,19 +687,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
 
-    @Override
-    public void cardsReady(GameImmutable model, String nickname)throws RemoteException{
-       /* if(nickname.equals(nickname)){
-            ui.show_playerDeck(model, nickname);
-        }*/
-        events.add(model, EventType.CARDS_READY);
+   @Override
+    public void playerReady(GameImmutable model, String nickname)throws RemoteException{
+
+        events.add(model, EventType.PLAYER_READY);
     }
 
-    /**
-     * Print that a player is ready to start
-     * @param model is the game model
-     * @param nick is the nickname of the player that is ready to start
-     */
+
 
     /**
      * The game started

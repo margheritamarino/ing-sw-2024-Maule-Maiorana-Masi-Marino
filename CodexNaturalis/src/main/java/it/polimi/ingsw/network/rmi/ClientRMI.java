@@ -11,18 +11,15 @@ import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.model.DefaultValue;
 
 import it.polimi.ingsw.network.PingSender;
-import it.polimi.ingsw.network.TaskOnNetworkDisconnection;
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
-import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -282,14 +279,14 @@ public void run() {
         }
     }
 
-    @Override
+   /* @Override
     public void makeGameStart(String nick) throws IOException {
         try {
             gameController.makeGameStart(modelInvokedEvents, nickname);
         } catch (RemoteException e) {
             throw new IOException(e);
         }
-    }
+    }*/
 
     /**
      * Ask the Socket Server to leave a specific game

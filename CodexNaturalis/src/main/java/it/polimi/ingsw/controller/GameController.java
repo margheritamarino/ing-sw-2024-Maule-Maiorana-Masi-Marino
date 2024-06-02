@@ -36,11 +36,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     /**
      * The {@link Game} to control
      */
-    private Game model;
-
-    /**
-     * A random object for implementing pseudo-random choice     */
-    private final Random random = new Random();
+    private final Game model;
 
 
     /**
@@ -76,13 +72,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
-    /**
-     * Add a ping to the map of received Pings
-     *
-     * @param nickname the player's nickname associated to the ping
-     * @param me   the player's GameListener associated to the ping
-     * @throws RemoteException
-     */
 
     /**
      * this method adds a Ping to the receivedPing map
@@ -114,11 +103,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                     Iterator<Map.Entry<GameListenerInterface, Ping>> pingIter = receivedPings.entrySet().iterator();
                     // Itera attraverso tutte le coppie chiave-valore nella mappa
                     while (pingIter.hasNext()) {
-                        Map.Entry<GameListenerInterface, Ping> el = (Map.Entry<GameListenerInterface, Ping>) pingIter.next();
+                        Map.Entry<GameListenerInterface, Ping> el =  pingIter.next();
                         if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                             try {
                                 this.disconnectPlayer(el.getValue().getNick(), el.getKey());
-                                printAsync("Disconnection detected by Ping of player: "+el.getValue().getNick()+"");
+                                printAsync("Disconnection detected by Ping of player: "+el.getValue().getNick());
 
                             } catch (RemoteException e) {
                                 throw new RuntimeException(e);
@@ -142,21 +131,35 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Set the @param p player ready to start
      * When all the players are ready to start, the game starts (game status changes to running)
      *
-     * @param p Player to set has ready
+     * @return
      */
     @Override
-    public synchronized void playerIsReadyToStart( GameListenerInterface lis, String p) {
-        model.playerIsReadyToStart(model.getPlayerByNickname(p));
-        model.initializeCards( lis, model.getPlayerByNickname(p));
+    public synchronized boolean playerIsReadyToStart(GameListenerInterface lis, String player) {
+        model.playerIsReadyToStart(model.getPlayerByNickname(player));
+        if (model.arePlayersReadyToStartAndEnough()){
+            ArrayList<Player> players= model.getPlayers();
+            for(Player p: players){
+                model.initializeCards( lis, p);
+            }
+
+            model.chooseOrderPlayers();
+            model.initializeBoard();
+            model.setInitialStatus();
+            return true;
+
+        }else {
+            return false;
+        }
+
 
     }
-    public boolean makeGameStart(GameListenerInterface lis, String nickname) {
+ /* public boolean makeGameStart(GameListenerInterface lis, String nickname) {
         System.out.println(model.getNumReady());
         if (model.arePlayersReadyToStartAndEnough()) {
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
-            System.out.println(model.getCurrentPlayer().getNickname());
+            //System.out.println(model.getCurrentPlayer().getNickname());
             int[] orderArray= model.getOrderArray();
-            System.out.println(model.getPlayers().get(orderArray[0]));
+           // System.out.println(model.getPlayers().get(orderArray[0]));
          //   ArrayList<Player> players= model.getPlayers();
            //
            // model.setCurrentPlayer(players.get(orderArray[0]));
@@ -168,7 +171,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             return false;
         }
 
-    }
+    }*/
 
     @Override
     public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int colCell){
@@ -282,7 +285,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     @Override
-    public void setGoalCard(String playerName, int index) throws NotPlayerTurnException, RemoteException {
+    public void setGoalCard(String playerName, int index) throws RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
         model.setPlayerGoal(currentPlayer, index);
     }
@@ -292,7 +295,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @param lis GameListener of the player who is creating the game
      * @param nick Nickname of the player who is creating the game
-     * @return GameControllerInterface associated to the created game
      * @throws RemoteException
      */
     @Override

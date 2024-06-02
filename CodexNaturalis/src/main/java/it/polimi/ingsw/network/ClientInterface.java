@@ -5,12 +5,9 @@ import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.network.*;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 //interface for common client actions
@@ -64,7 +61,7 @@ public interface ClientInterface  {
     void ping () throws RemoteException;
 
 
-    void makeGameStart(String nick)throws IOException;
+    //void makeGameStart(String nick)throws IOException;
 
     void sendMessage(Message msg) throws RemoteException;
 }

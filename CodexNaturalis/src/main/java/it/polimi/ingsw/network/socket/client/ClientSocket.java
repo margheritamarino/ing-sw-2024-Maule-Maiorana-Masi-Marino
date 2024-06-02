@@ -1,12 +1,9 @@
 package it.polimi.ingsw.network.socket.client;
 
-//import it.polimi.ingsw.Chat.Chat.Message; (CHAT)
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
-//import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.PingSender;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.*;
@@ -215,7 +212,6 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void setAsReady(String nickname) throws IOException {
-        System.out.println("sono in ClientSocket--> setAsReady ");
         out.writeObject(new ClientMsgSetReady(nickname));
         finishSending();
     }
@@ -249,13 +245,13 @@ public class ClientSocket extends Thread implements ClientInterface {
         }
     }
 
-    @Override
+ /*   @Override
     public void makeGameStart(String nick) throws IOException {
         this.nickname=nick;
         out.writeObject(new ClientMsgStartGame(nickname));
         finishSending();
     }
-
+*/
     /**
      * Makes sure the message has been sent
      * @throws IOException

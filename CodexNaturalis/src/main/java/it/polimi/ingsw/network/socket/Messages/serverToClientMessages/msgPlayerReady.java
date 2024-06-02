@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.rmi.RemoteException;
 
-public class msgCardsReady extends ServerGenericMessage {
+public class msgPlayerReady extends ServerGenericMessage {
     private final GameImmutable model;
     private final String nickname;
 
@@ -13,7 +13,7 @@ public class msgCardsReady extends ServerGenericMessage {
      * Constructor of the class.
      * @param model the immutable game model
      */
-    public msgCardsReady(GameImmutable model, String nickname) {
+    public msgPlayerReady(GameImmutable model, String nickname) {
         this.model = model;
         this.nickname = nickname;
     }
@@ -25,7 +25,7 @@ public class msgCardsReady extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.cardsReady(model, nickname);
+        lis.playerReady(model, nickname);
     }
 
 }

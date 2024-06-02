@@ -51,7 +51,7 @@ public class TUI extends UI {
 
     //messaggio di benvenuto per ogni giocatore in grassetto
     public void show_welcome(String nick) {
-        printAsync("Welcome " + nick);
+        printAsync("*** WELCOME " + nick+"!***");
     }
 
     public void show_allPlayers(GameImmutable model) {
@@ -166,7 +166,10 @@ public class TUI extends UI {
 
     @Override
     public void show_youAreReady(GameImmutable model){
-        printAsync("You are ready to start the game!");
+        printAsync("You are ready to start the game!\n PLAYERS READY in the LOBBY:");
+        printAsync( model.toStringListPlayersReady());
+
+
     }
 
 
