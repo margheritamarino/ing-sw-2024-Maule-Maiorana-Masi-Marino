@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.9" prefHeight="750.0" prefWidth="1320.0" styleClass="backgroundLobby" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.LobbyController">
+<AnchorPane fx:id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.9" prefHeight="750.0" prefWidth="1320.0" styleClass="backgroundLobby" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.LobbyController">
    <children>
       <Pane layoutX="61.0" layoutY="37.0" opacity="0.8" prefHeight="600.0" prefWidth="1250.0" style="-fx-background-color: black;">
          <children>
@@ -85,12 +85,12 @@
                   <String fx:value="glow-button" />
                </styleClass>
             </Button>
-            <Text fill="#ff9000" layoutX="450.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are in the lobby">
+            <Text fill="#ff9000" layoutX="450.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are in the lobby">
                <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="36.0" />
+                  <Font name="Arial Black" size="36.0" />
                </font>
             </Text>
-            <Text fx:id="nick0" fill="#fffefe" layoutX="160.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nick" wrappingWidth="57.000022888183594">
+            <Text fx:id="nick0" fill="#fffefe" layoutX="160.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nick" wrappingWidth="57.000022888183594">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="24.0" />
                </font>
@@ -103,6 +103,11 @@
             <Text fx:id="nick3" fill="WHITE" layoutX="1028.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="465.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font size="24.0" />
                </font>
             </Text>
          </children>

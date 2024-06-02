@@ -14,6 +14,7 @@ import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.Utilities.UI;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
@@ -104,6 +105,11 @@ public class GUI extends UI {
 
         String imagePath= color.getPath();
         show_popupInfoAndNickname(nickname, "Trying to join a Game...", imagePath);
+    }
+
+
+    public void showInitializeCardsScene(){
+    //    callPlatformRunLater(()-> this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS));
     }
 
     @Override
