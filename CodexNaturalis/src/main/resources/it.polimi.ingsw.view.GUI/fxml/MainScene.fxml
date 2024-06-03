@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.8" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #e4d5b7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="59.0" fitWidth="123.0" layoutX="19.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../img/copertina.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="297.0" layoutY="14.0" prefHeight="59.0" prefWidth="687.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <Text fx:id="actionMessage" layoutX="331.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Text layoutX="1159.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:">
+         <font>
+            <Font name="Arial Black" size="22.0" />
+         </font>
+      </Text>
+      <Text fx:id="gameId" layoutX="1203.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Arial Black" size="22.0" />
+         </font>
+      </Text>
+      <Pane layoutX="19.0" layoutY="111.0" prefHeight="447.0" prefWidth="235.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <ImageView fitHeight="456.0" fitWidth="216.0" layoutX="9.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../img/Scoretrack.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="21.0" layoutY="570.0" prefHeight="136.0" prefWidth="235.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <Button fx:id="sendChat" defaultButton="true" layoutX="167.0" layoutY="91.0" mnemonicParsing="false" onAction="#chatOnClick" prefHeight="31.0" prefWidth="55.0" style="-fx-background-color: #744700;" styleClass="record-sales" text="send">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Button>
+            <TextField layoutX="14.0" layoutY="91.0" prefHeight="31.0" prefWidth="149.0" style="-fx-border-width: 2; -fx-border-color: black;" />
+            <TextField layoutX="15.0" layoutY="12.0" prefHeight="69.0" prefWidth="205.0" style="-fx-border-width: 2; -fx-border-color: black;" />
+         </children>
+      </Pane>
+      <AnchorPane layoutX="994.0" layoutY="117.0" prefHeight="469.0" prefWidth="261.0" style="-fx-background-color: white;">
+         <children>
+            <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="14.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox layoutX="9.0" layoutY="142.0" prefHeight="100.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <HBox layoutX="3.0" layoutY="280.0" prefHeight="100.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
