@@ -158,11 +158,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
                     askReadyToStart(event.getModel(), nickname);
-                   // ui.show_askForChat(event.getModel(), nickname);
                 }
             }
-            case PLAYER_READY ->
+            case PLAYER_READY -> {
                 ui.show_youAreReady(event.getModel());
+                ui.show_askForChat(event.getModel(), nickname);
+            }
         }
     }
 
