@@ -173,13 +173,6 @@ public class TUI extends UI {
     }
 
 
-
-
-    @Override
-    public void show_whichInitialCards() {
-        printAsync("> Choose the front[0] or the back[1] of the following initial card to place it at the center of your book:");
-    }
-
     @Override
     public void show_wrongSelectionMsg() {
         printAsync("Invalid selection. Please choose 0 or 1.");
@@ -366,7 +359,8 @@ public class TUI extends UI {
     }
     @Override
     public void show_temporaryInitialCards(GameImmutable model) {
-        printAsync("Initial Card...\n");
+        printAsync("> Choose the front[0] or the back[1] of the following initial card to place it at the center of your book:");
+       // printAsync("Initial Card...\n");
         PlayableCard[] initialCards = model.getInitialCard();
 
         // Lista per accumulare le stringhe delle righe

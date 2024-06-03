@@ -224,7 +224,6 @@ public class Game {
 	 */
 	public void addPlayer(GameListenerInterface lis, String nickname, Color playerColor) {
 		// Check if the game is not full and the nickname is not taken
-		System.out.println("Game: method addPlayer()");
 		// Check if the game is not full
 		if (isFull()) {
 			// Game is full

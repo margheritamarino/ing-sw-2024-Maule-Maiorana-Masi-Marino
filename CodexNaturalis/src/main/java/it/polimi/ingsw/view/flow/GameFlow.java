@@ -233,12 +233,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             case NICKNAME_ALREADY_IN -> {
                 nickname = null;
+                Color.addColor(this.color);
+                this.color= null;
+
                 events.add(null, EventType.BACK_TO_MENU); //aggiunge evento nullo per tornare al menu principale
                 ui.addImportantEvent("ERROR: Nickname already used!");
             }
 
             case GAME_FULL -> {
                 nickname = null;
+                this.color=null;
                 ui.addImportantEvent("ERROR: Game is Full, you can't play!");
             }
 
@@ -734,7 +738,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 //TODO gestire eccezioni
     @Override
     public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
-        ui.show_whichInitialCards();
+      //  ui.show_whichInitialCards();
         ui.show_temporaryInitialCards(model);
         Integer index;
         do {

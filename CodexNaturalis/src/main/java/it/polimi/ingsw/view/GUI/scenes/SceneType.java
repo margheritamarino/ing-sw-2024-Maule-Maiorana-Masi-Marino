@@ -8,9 +8,9 @@ public enum SceneType {
     NICKNAME("/it.polimi.ingsw.view.GUI/fxml/Nickname.fxml"),
     NICKNAME_POPUP("/it.polimi.ingsw.view.GUI/fxml/NicknamePopUp.fxml"),
     LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"), //popup with nickname
-    MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml");
+    MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml"),
 
-   // INITIALIZE_CARDS("it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml");
+     INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml");
   /*
     INGAME("/it.polimi.ingsw.view.GUI/fxml/InGame.fxml"),
     OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),

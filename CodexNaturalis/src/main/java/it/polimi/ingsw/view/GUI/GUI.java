@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.view.GUI.controllers.InitializeCardsController;
 import it.polimi.ingsw.view.GUI.controllers.LobbyController;
 import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
@@ -17,7 +17,6 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.util.Duration;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -105,11 +104,6 @@ public class GUI extends UI {
 
         String imagePath= color.getPath();
         show_popupInfoAndNickname(nickname, "Trying to join a Game...", imagePath);
-    }
-
-
-    public void showInitializeCardsScene(){
-    //    callPlatformRunLater(()-> this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS));
     }
 
     @Override
@@ -208,7 +202,6 @@ public class GUI extends UI {
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
 
         if (!alreadyShowedLobby) {
-            System.out.println("player color is"+color);
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(event -> {
                 callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
@@ -220,7 +213,7 @@ public class GUI extends UI {
                         lobbyController.setGameid(gameModel.getGameId());
                         lobbyController.setVisibleBtnReady(true);
                         this.guiApplication.setActiveScene(SceneType.LOBBY);
-                        this.guiApplication.showPlayerToLobby(gameModel, color);
+                        this.guiApplication.showPlayerToLobby(gameModel);
                         alreadyShowedLobby = true;
                     } else {
                         System.err.println("LobbyController is null or invalid");
@@ -230,7 +223,7 @@ public class GUI extends UI {
             pause.play();
         } else {
             // The player is in lobby and another player has joined
-            callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel, color));
+            callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
         }
     }
 
@@ -258,10 +251,6 @@ public class GUI extends UI {
 
     }
 
-    @Override
-    public void show_whichInitialCards() {
-
-    }
 
 
     @Override
@@ -310,8 +299,23 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException {
+    public void show_temporaryInitialCards(GameImmutable gameModel)  {
+        callPlatformRunLater(()-> this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS));
+        callPlatformRunLater(() -> {
+            InitializeCardsController controller = (InitializeCardsController) this.guiApplication.getController(SceneType.INITIALIZE_CARDS);
+            if (controller != null) {
+                try {
+                    String path1= gameModel.getInitialCard()[0].getImagePath();
+                    String path2= gameModel.getInitialCard()[1].getImagePath();
+                    controller.setCards(path1, path2);
+                }catch (RuntimeException e){
+                    System.err.println("Errore nel path");
+                }
 
+            } else {
+                System.err.println("controller is null or invalid");
+            }
+        });
     }
 
     @Override

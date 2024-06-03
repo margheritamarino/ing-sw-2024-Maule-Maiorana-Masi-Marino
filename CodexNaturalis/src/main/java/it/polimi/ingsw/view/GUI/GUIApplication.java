@@ -289,11 +289,11 @@ public class GUIApplication extends Application {
     }*/
 
 
-    public void showPlayerToLobby(GameImmutable model, Color color) {
+    public void showPlayerToLobby(GameImmutable model) {
         hidePanesInLobby();
         int i = 0;
         for (Player p : model.getPlayers()) {
-            addLobbyPanePlayer(p.getNickname(), i, p.getReadyToStart(), color);
+            addLobbyPanePlayer(p.getNickname(), i, p.getReadyToStart(), p.getPlayerColor());
             i++;
         }
     }
@@ -308,8 +308,6 @@ public class GUIApplication extends Application {
             String imagePath= color.getPath();
             controller.setPlayerImage(imagePath, indexPlayer);
             setPaneReady( indexPlayer , isReady);
-          /*  Pane paneReady = (Pane) this.primaryStage.getScene().lookup("#ready" + indexPlayer);
-            paneReady.setVisible(isReady);*/
 
         } else {
             System.err.println("LobbyController is null or invalid");

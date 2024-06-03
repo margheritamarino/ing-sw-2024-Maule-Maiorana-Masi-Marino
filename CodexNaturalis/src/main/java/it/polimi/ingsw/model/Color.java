@@ -26,6 +26,9 @@ public enum Color {
         }
         return availableColors.remove(RANDOM.nextInt(availableColors.size()));
     }
+    public static void addColor(Color color){
+        availableColors.add(color);
+    }
 
     private static void resetAvailableColors() {
         Collections.addAll(availableColors, values());

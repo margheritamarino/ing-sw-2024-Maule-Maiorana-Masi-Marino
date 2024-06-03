@@ -36,11 +36,6 @@
                         </Text>
                      </children>
                   </Pane>
-                  <Text fx:id="nick1" fill="WHITE" layoutX="103.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="text">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
                </children>
             </Pane>
             <Pane fx:id="pane2" layoutX="641.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
@@ -90,7 +85,7 @@
                   <Font name="Arial Black" size="36.0" />
                </font>
             </Text>
-            <Text fx:id="nick0" fill="#fffefe" layoutX="160.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nick" wrappingWidth="57.000022888183594">
+            <Text fx:id="nick0" fill="#fffefe" layoutX="160.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="57.000022888183594">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="24.0" />
                </font>
@@ -105,7 +100,7 @@
                   <Font name="Berlin Sans FB Demi Bold" size="24.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="465.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="nick1" fill="WHITE" layoutX="465.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font size="24.0" />
                </font>

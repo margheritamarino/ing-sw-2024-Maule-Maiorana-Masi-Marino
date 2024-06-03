@@ -73,7 +73,7 @@ public abstract class UI {
 
     public abstract void show_readyToStart(GameImmutable gameModel, String nickname);
     public abstract void show_returnToMenuMsg();
-    public abstract void show_whichInitialCards();
+   // public abstract void show_whichInitialCards();
 
     public abstract void show_wrongCardSelMsg();
 

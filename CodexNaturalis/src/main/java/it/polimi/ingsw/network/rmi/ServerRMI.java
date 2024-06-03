@@ -144,7 +144,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     public boolean playerIsReadyToStart(String p) throws RemoteException {
         //return serverObject.gameController.playerIsReadyToStart(p);
     }*/
-//  TODO controlla se va bene
     @Override
     public boolean playerIsReadyToStart(GameListenerInterface lis, String p) throws RemoteException {
          serverObject.gameController.playerIsReadyToStart(lis, p);
