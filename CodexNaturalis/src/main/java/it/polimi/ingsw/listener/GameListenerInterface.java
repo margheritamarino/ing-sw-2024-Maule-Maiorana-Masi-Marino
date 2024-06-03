@@ -2,16 +2,12 @@ package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 /**
  * Contains methods to NOTIFY the CLIENT about different game events
@@ -81,7 +77,7 @@ public interface GameListenerInterface extends Remote {
      * @param model       is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void requireInitialReady(GameImmutable model) throws RemoteException, IOException, FileReadException;
+    void requireInitialReady(GameImmutable model) throws IOException, FileReadException;
 
     /**
      * Notifies the listeners that objective cards are ready to be chosen
@@ -129,7 +125,9 @@ public interface GameListenerInterface extends Remote {
      */
     void lastCircle(GameImmutable model) throws RemoteException;
 
-    void cardsReady(GameImmutable gameImmutable, String nickname)throws RemoteException;
+   void playerReady(GameImmutable gameImmutable, String nickname)throws RemoteException;
 
     void sentMessage(GameImmutable model, Message msg) throws RemoteException;
+
+
 }

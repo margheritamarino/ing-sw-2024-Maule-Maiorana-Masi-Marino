@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -95,7 +96,12 @@ public class GUIApplication extends Application {
             try {
                 root = loader.load();
                 controller = loader.getController();
-                scenes.add(new SceneInformation(new Scene(root), sceneType, controller));
+                Scene scene = new Scene(root);
+
+                // Imposta il controller come UserData della scena
+                scene.setUserData(controller);
+
+                scenes.add(new SceneInformation(scene, sceneType, controller));
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Failed to load FXML file: " + path, e);
@@ -204,8 +210,16 @@ public class GUIApplication extends Application {
             widthOld = widthWindow;
             heightOld = heightWindow;
             Scale scale = new Scale(w, h, 0, 0);
+
+            Node contentNode = primaryStage.getScene().lookup("#content");
+            if (contentNode != null) {
+                contentNode.getTransforms().add(scale);
+            } else {
+                System.err.println("Nodo con ID 'content' non trovato.");
+            }
+
             //primaryStage.getScene().getRoot().getTransforms().add(scale);
-            primaryStage.getScene().lookup("#content").getTransforms().add(scale);
+            //primaryStage.getScene().lookup("#content").getTransforms().add(scale);
         }
     }
 
@@ -284,21 +298,26 @@ public class GUIApplication extends Application {
         }
     }
     private void addLobbyPanePlayer(String nick, int indexPlayer, boolean isReady, Color color) {
-        LobbyController controller = (LobbyController) this.primaryStage.getScene().getRoot().getUserData();
+        // Recupera il controller dalla scena attiva
+        //LobbyController controller = (LobbyController) this.primaryStage.getScene().getUserData();
+        LobbyController controller = (LobbyController) this.getController(SceneType.LOBBY);
+        if (controller != null) {
+            controller.setUsername(nick, indexPlayer);
+            Pane panePlayerLobby = (Pane) this.primaryStage.getScene().lookup("#pane" + indexPlayer);
+            panePlayerLobby.setVisible(true);
+            String imagePath= color.getPath();
+            controller.setPlayerImage(imagePath, indexPlayer);
+            setPaneReady( indexPlayer , isReady);
+          /*  Pane paneReady = (Pane) this.primaryStage.getScene().lookup("#ready" + indexPlayer);
+            paneReady.setVisible(isReady);*/
 
-        // Imposta l'immagine del giocatore
-        controller.setPlayerImage(color.getPath(), indexPlayer);
-
-        Pane paneReady = (Pane) this.primaryStage.getScene().getRoot().lookup("#ready" + indexPlayer);
+        } else {
+            System.err.println("LobbyController is null or invalid");
+        }
+    }
+    public void setPaneReady(int indexPlayer, boolean isReady){
+        Pane paneReady = (Pane) this.primaryStage.getScene().lookup("#ready" + indexPlayer);
         paneReady.setVisible(isReady);
-
-        Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup("#pane" + indexPlayer);
-        panePlayerLobby.setVisible(true);
-
-        panePlayerLobby.getChildren().clear();
-
-
-
     }
 
     private void hidePanesInLobby() {

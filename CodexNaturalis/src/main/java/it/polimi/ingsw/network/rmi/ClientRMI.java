@@ -4,24 +4,22 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
 
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.model.DefaultValue;
 
 import it.polimi.ingsw.network.PingSender;
-import it.polimi.ingsw.network.TaskOnNetworkDisconnection;
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
-import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -52,6 +50,7 @@ public class ClientRMI implements ClientInterface {
      * The nickname associated to the client (!=null only when connected in a game)
      */
     private String nickname;
+    private Color playerColor;
     /**
      * Client listeners of the game
      */
@@ -192,9 +191,9 @@ public void run() {
     }
 
     @Override
-    public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
+    public void settingGame(int numPlayers, int GameID, String nick, Color color) throws IOException {
         try {
-            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick);
+            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick, color);
         } catch (RemoteException e) {
             throw new IOException(e);
         }
@@ -217,7 +216,7 @@ public void run() {
      * @throws IOException
      */
     @Override
-    public void joinGame(String nick) throws IOException, NotBoundException {
+    public void joinGame(String nick, Color color) throws IOException, NotBoundException {
 
         try {
             // Ottieni il registro all'indirizzo IP e porta specificati
@@ -231,10 +230,11 @@ public void run() {
             System.out.println("Remote object found.");
 
             this.nickname = nick;
+            this.playerColor= color;
 
             // Unisciti al gioco
             System.out.println("Joining the game...");
-            gameController.joinGame(modelInvokedEvents, nickname);
+            gameController.joinGame(modelInvokedEvents, nickname, playerColor);
             System.out.println("Joined the game successfully.");
 
 
@@ -279,14 +279,14 @@ public void run() {
         }
     }
 
-    @Override
+   /* @Override
     public void makeGameStart(String nick) throws IOException {
         try {
             gameController.makeGameStart(modelInvokedEvents, nickname);
         } catch (RemoteException e) {
             throw new IOException(e);
         }
-    }
+    }*/
 
     /**
      * Ask the Socket Server to leave a specific game

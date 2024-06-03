@@ -51,7 +51,7 @@ public class TUI extends UI {
 
     //messaggio di benvenuto per ogni giocatore in grassetto
     public void show_welcome(String nick) {
-        printAsync("Welcome " + nick);
+        printAsync("*** WELCOME " + nick+"!***");
     }
 
     public void show_allPlayers(GameImmutable model) {
@@ -166,7 +166,10 @@ public class TUI extends UI {
 
     @Override
     public void show_youAreReady(GameImmutable model){
-        printAsync("You are ready to start the game!");
+        printAsync("You are ready to start the game!\n PLAYERS READY in the LOBBY:");
+        printAsync( model.toStringListPlayersReady());
+
+
     }
 
 
@@ -346,7 +349,7 @@ public class TUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname, Color color) {
-        printAsync("Your nickname is " + nickname + " your color is:" + color);
+        printAsync("Your nickname is " + nickname + " \nYour color is:" + color);
     }
 
     @Override
@@ -462,7 +465,7 @@ public class TUI extends UI {
     //*****CHAT******
 
     public void show_askForChat(GameImmutable model, String nick){
-        printAsync("If during the game you want to send a public message, a private message or you want to exit from the game, you can write one of this following commands:\n ");
+        printAsync("\nIf during the game you want to send a public message, a private message or you want to exit from the game, you can write one of this following commands:\n ");
         printAsyncNoCursorReset(ansi().a("""
                 > Commands:
                 \t\t  type "/c + [msg]" to send a public message!

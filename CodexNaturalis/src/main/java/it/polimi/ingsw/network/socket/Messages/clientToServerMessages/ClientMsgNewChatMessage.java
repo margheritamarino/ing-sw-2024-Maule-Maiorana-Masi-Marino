@@ -19,12 +19,11 @@ public class ClientMsgNewChatMessage extends ClientGenericMessage{
 
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException{
-        System.out.println("ClientMsgNewChatMessage executing for listener");
+
     }
 
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException {
-        System.out.println("ClientMsgNewChatMessage executing for GameControllerInterface");
         gameController.sentMessage(msg);
     }
 }

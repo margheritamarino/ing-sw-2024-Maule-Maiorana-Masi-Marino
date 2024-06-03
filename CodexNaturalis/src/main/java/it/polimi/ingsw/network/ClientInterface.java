@@ -3,13 +3,11 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.network.*;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 //interface for common client actions
@@ -21,7 +19,7 @@ public interface ClientInterface  {
      *
      *
      */
-    void joinGame(String nick) throws IOException, InterruptedException, NotBoundException;
+    void joinGame(String nick, Color color) throws IOException, InterruptedException, NotBoundException;
 
     //FUNZIONALITA AGGIUNTIVA
 
@@ -51,7 +49,7 @@ public interface ClientInterface  {
 */
     void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
 
-    void settingGame(int numPlayers, int GameID, String nick)throws IOException;
+    void settingGame(int numPlayers, int GameID, String nick, Color color)throws IOException;
 
     void setInitialCard(int index, String nickname) throws IOException;
     void setGoalCard(int index, String nickname) throws IOException, NotPlayerTurnException;
@@ -63,7 +61,7 @@ public interface ClientInterface  {
     void ping () throws RemoteException;
 
 
-    void makeGameStart(String nick)throws IOException;
+    //void makeGameStart(String nick)throws IOException;
 
     void sendMessage(Message msg) throws RemoteException;
 }

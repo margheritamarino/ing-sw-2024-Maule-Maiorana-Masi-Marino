@@ -20,8 +20,6 @@ import java.lang.IllegalStateException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.network.PrintAsync.printAsync;
-
 /**
  * Game model
  *  GameModel is the class that represents the game, it contains all the information about the game, and it's based on a MVC pattern
@@ -185,35 +183,14 @@ public class Game {
 		listenersHandler.removeListener(listener);
 	}
 
-	/**
-	 * @return the book of the CurrentPlayer
-	 */
-	public Book getCurrentPlayerBook(){
-		return currentPlayer.getPlayerBook();
-	}
-	/**
-	 * @return the Goal (ObjectiveCard of the CurrentPlayer
-	 */
-	public ObjectiveCard getCurrentPlayerGoal(){
-		return currentPlayer.getGoal();
-	}
 
-
-
-	/**
-	 * Returns the player at the specified position in the list of players.
-	 * @param pos The position of the player to retrieve
-	 * @return The player at the specified position in the list.**/
-	public Player getPlayer(int pos) {
-		return players.get(pos);
-	}
 
 	/**
 	 * @param player is set as ready, then everyone is notified
 	 */
 	public void playerIsReadyToStart(Player player) {
-		System.out.println("Game: playerIsReadyToStart");
 		player.setReadyToStart();
+		player.notify_playerReady(this);
 	}
 
 	/**
@@ -245,7 +222,7 @@ public class Game {
 	 * after checking if there is space in the match and if the nickname is available
 	 * @param nickname the nickname of the player to be added.
 	 */
-	public void addPlayer(GameListenerInterface lis, String nickname) {
+	public void addPlayer(GameListenerInterface lis, String nickname, Color playerColor) {
 		// Check if the game is not full and the nickname is not taken
 		System.out.println("Game: method addPlayer()");
 		// Check if the game is not full
@@ -261,7 +238,7 @@ public class Game {
 		}
 		else{
 			// Create a new player with the given nickname
-			Player newPlayer = new Player(nickname);
+			Player newPlayer = new Player(nickname, playerColor);
 			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
 
@@ -285,7 +262,6 @@ public class Game {
 	/**
 	 * Chooses a random first player from the array of players, assigns them to currentPlayer,
 	 * and saves the order of players for the next turns starting from the first player.
-	 * @return An array with the order of players starting from the first player chosen.
 	 */
 	//ORDINE DEI GIOCATORI: scelgo a caso il primo, gli altri sONO QUELLI SUCCESSIVI AL PRIMO in ordine di inserimento
 	public void chooseOrderPlayers() {
@@ -309,7 +285,7 @@ public class Game {
 	 * @param nickname is the nickname of the Player that you want to remove from the game.
 	 */
 	public void removePlayer (String nickname) {
-		players.remove(players.stream().filter(x -> x.getNickname().equals(nickname)).toList().get(0));
+		players.remove(players.stream().filter(x -> x.getNickname().equals(nickname)).toList().getFirst());
 		listenersHandler.notify_PlayerLeft(this, nickname);
 	}
 
@@ -430,9 +406,6 @@ public class Game {
 	 * verifies the common goals present on the board. If any errors occur during the
 	 * checks, such as invalid points or player not found, the exceptions
 	 * `InvalidPointsException` and `PlayerNotFoundException` will be thrown.
-	 *
-	 * @throws InvalidPointsException if there are errors related to points during the goal checks.
-	 * @throws PlayerNotFoundException if the current player is not found.
 	 */
 	public void lastTurnGoalCheck(){ //
 		// Controlla l'obiettivo del giocatore corrente
@@ -484,7 +457,7 @@ public class Game {
 			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
 
 		}
-		player.notify_cardsReady(this);
+		//player.notify_cardsReady(this);
 	}
 
 	public PlayableCard[] getInitialCard(){

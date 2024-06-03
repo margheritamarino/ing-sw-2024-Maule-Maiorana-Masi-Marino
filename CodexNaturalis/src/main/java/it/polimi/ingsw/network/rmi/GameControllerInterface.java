@@ -4,6 +4,7 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
 
 import java.rmi.Remote;
@@ -18,10 +19,10 @@ public interface GameControllerInterface extends Remote {
      * This method is used to check if the player is ready to start
      *
      * @param p the nickname of the player
+     * @return
      * @throws RemoteException if the connection fails
      */
-    void playerIsReadyToStart(GameListenerInterface lis, String p ) throws RemoteException;
-
+    boolean playerIsReadyToStart(GameListenerInterface lis, String p ) throws RemoteException;
 
 
 
@@ -76,13 +77,13 @@ public interface GameControllerInterface extends Remote {
      void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException ;
 
      void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell)throws RemoteException;
-     void joinGame(GameListenerInterface lis, String nick) throws RemoteException;
+     void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException;
 
     void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos)throws RemoteException;
 
-    void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick)throws RemoteException;
+    void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick, Color color)throws RemoteException;
 
-    boolean makeGameStart(GameListenerInterface lis, String nickname)throws RemoteException;
+   // boolean makeGameStart(GameListenerInterface lis, String nickname)throws RemoteException;
 
     void sentMessage(Message msg) throws RemoteException;
 }

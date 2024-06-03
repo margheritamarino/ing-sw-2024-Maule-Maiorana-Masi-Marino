@@ -31,8 +31,8 @@ public class Player implements Serializable {
     private boolean connected;
     private boolean readyToStart = false;
     private transient ArrayList<GameListenerInterface>listeners;
-
-    public Player(String nickname) {
+    private Color playerColor;
+    public Player(String nickname, Color color) {
         this.nickname = nickname;
         this.playerGoal = null;
         this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
@@ -40,6 +40,7 @@ public class Player implements Serializable {
         this.playerDeck = new PlayerDeck();
         this.connected = false;
         this.listeners= new ArrayList<>();
+        this.playerColor=color;
 
     }
     public ArrayList<GameListenerInterface> getListeners(){
@@ -89,21 +90,6 @@ public class Player implements Serializable {
         this.readyToStart = true;
     }
 
-    /**
-     * Sets the player as not ready to play
-     */
-    public void setNotReadyToStart() {
-        readyToStart = false;
-    }
-
-    /**
-     * Sets the state of the player
-     *
-     * @param state -> the actual state of the player
-     */
-    public void setPlayerState(PlayerState state) {
-        this.state = state;
-    }
 
     /**
      * Retrieves the state of the player.
@@ -133,6 +119,9 @@ public class Player implements Serializable {
 
     public PlayerDeck getPlayerDeck() {
         return this.playerDeck;
+    }
+    public Color getPlayerColor(){
+        return this.playerColor;
     }
 
     /**
@@ -228,19 +217,19 @@ public class Player implements Serializable {
             try {
                 l.requireInitialReady(new GameImmutable(model));
             } catch (FileReadException | IOException e) {
-                printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_requireInitial, a disconnection has been detected before ping");
                 i.remove();
             }
         }
     }
-    public synchronized void notify_cardsReady( Game model){
+  public synchronized void notify_playerReady( Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.cardsReady(new GameImmutable(model), nickname);
+                l.playerReady(new GameImmutable(model), nickname);
             } catch ( IOException e) {
-                printAsync("During notification of notify_requireInitial, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_playerReady, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -255,7 +244,7 @@ public class Player implements Serializable {
                 // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
                 l.requireGoalsReady(new GameImmutable(model));
             } catch (RemoteException | IllegalStateException e) {
-                printAsync("During notification of notify_requireGoals, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_requireGoals, a disconnection has been detected before ping");
 
             }
         }

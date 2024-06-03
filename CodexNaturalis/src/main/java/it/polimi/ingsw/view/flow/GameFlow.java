@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.flow;
 
 
 import it.polimi.ingsw.Chat.Message;
-import it.polimi.ingsw.Chat.MessagePrivate;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.Color;
@@ -36,7 +35,7 @@ import java.util.Objects;
 //Gestisce il flusso di gioco e l'interazione tra client e server
 public class GameFlow extends Flow implements Runnable, ClientInterface {
     private String nickname;
-    private Color color;
+    public Color color;
     private final EventList events = new EventList();
     private ClientInterface clientActions;
     private final UI ui;
@@ -56,10 +55,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         //Invoked for starting with TUI
         switch (connectionType) {
             case SOCKET -> clientActions = new ClientSocket(this);
-            case RMI -> {
-                clientActions = new ClientRMI(this);
+            case RMI -> clientActions = new ClientRMI(this);
 
-            }
         }
         ui = new TUI();
 
@@ -157,13 +154,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if (nicknameLastPlayer.equals(nickname)) {
                     //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
                     //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
-                    ui.show_playerJoined(event.getModel(), nickname, color);
+                    ui.show_playerJoined(event.getModel(), this.nickname, this.color);
+
+
                     askReadyToStart(event.getModel(), nickname);
-                    ui.show_askForChat(event.getModel(), nickname);
                 }
             }
-            case CARDS_READY ->
-                makeGameStart(nickname);
+            case PLAYER_READY -> {
+                ui.show_youAreReady(event.getModel());
+                ui.show_askForChat(event.getModel(), nickname);
+            }
         }
     }
 
@@ -226,7 +226,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     ui.show_returnToMenuMsg();
                 else{
                     askNickname();
-                    joinGame(nickname);
+                    joinGame(nickname, color);
                 }
                 //ciclo per chiedere al giocatore di selezionare una partita valida
             }
@@ -298,7 +298,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     private int askNumPlayers() {
         String temp;
-        int numPlayers = -1;
+        int numPlayers;
         do {
             try {
                 ui.show_askNumPlayersMessage(); // "Inserire il numero di giocatori nella partita:"
@@ -312,7 +312,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 numPlayers = Integer.parseInt(temp); // Traduce il numero in intero
 
                 // Verifica che il numero sia nel range accettabile
-                if (numPlayers < 0 || numPlayers < DefaultValue.minNumOfPlayer || numPlayers > DefaultValue.MaxNumOfPlayer) {
+                if ( numPlayers < DefaultValue.minNumOfPlayer || numPlayers > DefaultValue.MaxNumOfPlayer) {
                     ui.show_notValidMessage(); // Mostra un messaggio di errore
                     numPlayers = -1; // Resetta numPlayers per ripetere il ciclo
                 }
@@ -349,13 +349,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void askNickname() {
         ui.show_insertNicknameMessage();
         try {
-            nickname = this.inputController.getUnprocessedData().popInputData();
+            String nick = this.inputController.getUnprocessedData().popInputData();
+            setNickname(nick);
+            Color randColor = Color.getRandomColor();
+            setColor(randColor);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Color randColor = Color.getRandomColor();
-        setColor(randColor);
-        ui.show_chosenNickname(nickname, randColor);
+
+        ui.show_chosenNickname(this.nickname, this.color);
     }
 
     public void setNickname(String nick){
@@ -384,7 +386,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_notValidMessage();
             }
         } while (!Objects.equals(answer, "y"));
-        ui.show_youAreReady(model);
         setAsReady(nick);
     }
 
@@ -433,7 +434,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String temp;
         ui.show_askPlaceCardsMainMsg(model);
         ui.show_alwaysShow(model, nickname);
-        int posChosenCard=-1;
+        int posChosenCard;
         do {
             try {
                 ui.show_askNum("Choose which CARD you want to place:", model, nickname);
@@ -448,7 +449,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
         }while (posChosenCard<0);
 
-        int rowCell=-1;
+        int rowCell;
         ui.show_askWhichCellMsg(model);
         ui.show_askNum("Choose the ROW of the cell:", model, nickname);
         do {
@@ -592,22 +593,22 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
 
     @Override
-    public void settingGame(int numPlayers, int GameID, String nick){
+    public void settingGame(int numPlayers, int GameID, String nick, Color color){
         //System.out.println("GameFlow: settingGame");
         try {
-            clientActions.settingGame(numPlayers, GameID, nick);
+            clientActions.settingGame(numPlayers, GameID, nick, color);
         } catch (IOException e) {
             noConnectionError();
         }
     }
-    @Override
+  /*  @Override
     public void makeGameStart(String nick){
         try {
             clientActions.makeGameStart(nick);
         } catch (IOException e) {
             noConnectionError();
         }
-    }
+    }*/
 
     @Override
     public void setInitialCard(int index, String nickname) {
@@ -687,19 +688,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         events.add(null, EventType.NICKNAME_ALREADY_IN);
     }
 
-    @Override
-    public void cardsReady(GameImmutable model, String nickname)throws RemoteException{
-       /* if(nickname.equals(nickname)){
-            ui.show_playerDeck(model, nickname);
-        }*/
-        events.add(model, EventType.CARDS_READY);
+   @Override
+    public void playerReady(GameImmutable model, String nickname)throws RemoteException{
+
+        events.add(model, EventType.PLAYER_READY);
     }
 
-    /**
-     * Print that a player is ready to start
-     * @param model is the game model
-     * @param nick is the nickname of the player that is ready to start
-     */
+
 
     /**
      * The game started
@@ -721,7 +716,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void requireNumPlayersGameID(GameImmutable model)throws RemoteException {
         int numPlayers=askNumPlayers();
         int GameID= askGameID();
-        settingGame(numPlayers, GameID, nickname);
+        settingGame(numPlayers, GameID, nickname, color);
 
     }
 
@@ -820,10 +815,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     @Override
-    public void joinGame(String nickname )  {
-        ui.show_joiningToGameMsg(nickname, this.color);
+    public void joinGame(String nickname, Color color )  {
+        ui.show_joiningToGameMsg(nickname, color);
         try {
-            clientActions.joinGame(nickname);
+            clientActions.joinGame(nickname, color);
         } catch (IOException | InterruptedException | NotBoundException e) {
             noConnectionError();
         }

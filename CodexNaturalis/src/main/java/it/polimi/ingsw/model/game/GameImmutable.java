@@ -89,7 +89,13 @@ public class GameImmutable implements Serializable {
     public List<Player> getPlayers() {
         return players;
     }
-
+    public int getIndexPlayer(Player p){
+        for(int i=0; i< playersNumber; i++){
+            if(players.get(i).equals(p))
+                return i;
+        }
+        return -1;
+    }
     /**
      * @return the ID of the game
      */
@@ -151,6 +157,43 @@ public class GameImmutable implements Serializable {
         }
         return ris.toString();
     }
+    /**
+     * @return the list of players in string format with their ready status colored
+     */
+    public String toStringListPlayersReady() {
+        final String RESET = "\u001B[0m";
+        final String GREEN = "\u001B[32m";
+        final String RED = "\u001B[31m";
+
+        StringBuilder ris = new StringBuilder();
+        int i = 1;
+        for (Player p : players) {
+            ris.append("[#").append(i).append("]: ").append(p.getNickname());
+            if (p.getReadyToStart()) {
+                ris.append(" - ").append(GREEN).append("Ready").append(RESET);
+            } else {
+                ris.append(" - ").append(RED).append("NOT Ready").append(RESET);
+            }
+            ris.append("\n");
+            i++;
+        }
+        return ris.toString();
+    }
+    /*public String toStringListPlayersReady() {
+        StringBuilder ris = new StringBuilder();
+        int i = 1;
+        for (Player p : players) {
+            ris.append("[#").append(i).append("]: ").append(p.getNickname());
+            if (p.getReadyToStart()) {
+                ris.append(" - Ready");
+            } else {
+                ris.append(" - NOT Ready");
+            }
+            ris.append("\n");
+            i++;
+        }
+        return ris.toString();
+    }*/
     public String toStringListOrderArray() {
         StringBuilder ris = new StringBuilder();
 
