@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socket.Messages.serverToClientMessages;
 
 
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.IOException;
@@ -14,14 +15,16 @@ import java.io.IOException;
 public class msgPlayerJoined extends ServerGenericMessage {
     private GameImmutable model;
     private String nickname;
+    private Color playerColor;
 
     /**
      * Constructor of the class.
      * @param model the immutable game model
      */
-    public msgPlayerJoined(GameImmutable model, String nickname) {
+    public msgPlayerJoined(GameImmutable model, String nickname,  Color playerColor) {
         this.model = model;
         this.nickname = nickname;
+        this.playerColor=playerColor;
     }
 
     /**
@@ -32,6 +35,6 @@ public class msgPlayerJoined extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws IOException, InterruptedException {
-        lis.playerJoined(model, nickname);
+        lis.playerJoined(model, nickname, playerColor);
     }
 }

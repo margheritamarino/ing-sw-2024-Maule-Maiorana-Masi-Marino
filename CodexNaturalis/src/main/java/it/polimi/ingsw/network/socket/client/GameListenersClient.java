@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.socket.client;
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
@@ -23,8 +24,8 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
 
 
     @Override
-    public void playerJoined(GameImmutable model, String nickname) throws RemoteException {
-        flow.playerJoined(model, nickname);
+    public void playerJoined(GameImmutable model, String nickname, Color playerColor) throws RemoteException {
+        flow.playerJoined(model, nickname, playerColor);
     }
 
     @Override

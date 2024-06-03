@@ -304,7 +304,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
         }else{
-            model.addPlayer(lis, nick, color);
+            synchronized (Color.class) {
+                Color randColor = Color.getRandomColor();
+                model.addPlayer(lis, nick, randColor);
+            }
             model.getPlayerByNickname(nick).setConnected(true);
         }
     }
@@ -317,7 +320,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
         setGameCreated(true);
-        model.addPlayer(lis, nick, color);
+        synchronized (Color.class) {
+            Color randColor = Color.getRandomColor();
+            model.addPlayer(lis, nick, randColor);
+        }
+
         model.getPlayerByNickname(nick).setConnected(true);
     }
 

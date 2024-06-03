@@ -100,9 +100,9 @@
                   <Font name="Berlin Sans FB Demi Bold" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="nick1" fill="WHITE" layoutX="465.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="nick1" fill="WHITE" layoutX="418.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="116.27929687499994">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Arial Black" size="24.0" />
                </font>
             </Text>
          </children>

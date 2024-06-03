@@ -3,6 +3,7 @@ package it.polimi.ingsw.listener;
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 
@@ -70,13 +71,13 @@ public class ListenersHandler {
      * The notifyPlayerJoined method notifies the view that a player has joined the game
      * @param model is the Game to pass as a new GameModelImmutable
      */
-    public void notify_PlayerJoined(Game model, String nickname) {
+    public void notify_PlayerJoined(Game model, String nickname, Color playerColor) {
         System.out.println("ListenersHandler: notify_PlayerJoined");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.playerJoined(new GameImmutable(model), nickname);
+                l.playerJoined(new GameImmutable(model), nickname, playerColor);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_playerJoined, a disconnection has been detected before ping");
                 i.remove();

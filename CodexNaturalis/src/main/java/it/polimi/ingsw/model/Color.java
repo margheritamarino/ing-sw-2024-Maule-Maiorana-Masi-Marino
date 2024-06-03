@@ -20,7 +20,7 @@ public enum Color {
         return Objects.requireNonNull(getClass().getResource(path)).toExternalForm();
     }
     // Metodo per restituire un colore casuale
-    public static Color getRandomColor() {
+    public static synchronized Color getRandomColor() {
         if (availableColors.isEmpty()) {
             resetAvailableColors();
         }

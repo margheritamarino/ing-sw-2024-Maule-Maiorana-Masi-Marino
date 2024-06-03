@@ -151,11 +151,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String nicknameLastPlayer = event.getModel().getLastPlayer().getNickname();
         switch (event.getType()) {
             case PLAYER_JOINED -> {
+
+                //TODO: faccio vedere la lobby a tutti
+                ui.show_playerJoined(event.getModel(), this.nickname, this.color);
                 if (nicknameLastPlayer.equals(nickname)) {
                     //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
                     //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
-                    ui.show_playerJoined(event.getModel(), this.nickname, this.color);
-
 
                     askReadyToStart(event.getModel(), nickname);
                 }
@@ -355,13 +356,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         try {
             String nick = this.inputController.getUnprocessedData().popInputData();
             setNickname(nick);
-            Color randColor = Color.getRandomColor();
-            setColor(randColor);
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        ui.show_chosenNickname(this.nickname, this.color);
+        ui.show_chosenNickname(this.nickname);
     }
 
     public void setNickname(String nick){
@@ -650,7 +650,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @param gameModel game model {@link GameImmutable}
      */
     @Override
-    public void playerJoined(GameImmutable gameModel, String nickname) {
+    public void playerJoined(GameImmutable gameModel, String nickname, Color playerColor) {
+        setColor(playerColor);
         events.add(gameModel, EventType.PLAYER_JOINED);
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
        // ui.show_playerJoined(gameModel, nickname);

@@ -2,6 +2,7 @@ package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 
@@ -19,7 +20,7 @@ public interface GameListenerInterface extends Remote {
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void playerJoined(GameImmutable model, String nickname) throws RemoteException;
+    void playerJoined(GameImmutable model, String nickname, Color playerColor) throws RemoteException;
     void requireNumPlayersGameID(GameImmutable model)throws RemoteException;
 
     /**

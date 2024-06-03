@@ -214,7 +214,6 @@ public class Game {
 		return false;
 	}
 	public void createGame( GameListenerInterface lis, String nickname){
-		System.out.println("Game: method createGame()");
 		listenersHandler.notify_requireNumPlayersGameID(lis, this);
 	}
 	/**
@@ -238,6 +237,7 @@ public class Game {
 		else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname, playerColor);
+			System.out.println("player added: "+nickname+playerColor);
 			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
 
@@ -251,7 +251,7 @@ public class Game {
 
 
 			// Notify listeners that a player has joined the game
-			listenersHandler.notify_PlayerJoined(this, nickname);
+			listenersHandler.notify_PlayerJoined(this, nickname, playerColor);
 			System.out.println("Game: sent notify_PlayerJoined");
 		}
 

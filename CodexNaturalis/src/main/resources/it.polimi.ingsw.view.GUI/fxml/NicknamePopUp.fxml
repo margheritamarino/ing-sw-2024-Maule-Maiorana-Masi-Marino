@@ -27,6 +27,9 @@
             <Font name="Arial Black" size="25.0" />
          </font>
       </Text>
-      <ImageView fx:id="playerImageView" fitHeight="188.0" fitWidth="206.0" layoutX="98.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="playerImageView" fitHeight="188.0" fitWidth="206.0" layoutX="121.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../img/wait.png" />
+         </image></ImageView>
    </children>
 </AnchorPane>

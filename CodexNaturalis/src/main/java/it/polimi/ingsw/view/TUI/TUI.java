@@ -31,6 +31,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class TUI extends UI {
 
     private String nickname; //scopo: personalizzare l'interazione con l'utente
+    private boolean alreadyShowedLobby;
 
 
     /**
@@ -151,12 +152,26 @@ public class TUI extends UI {
 
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
-        clearScreen();
-        show_welcome(nick);
-        printAsync("GameID: [" + gameModel.getGameId().toString() + "]");
-        printAsync("Players in the LOBBY:");
-        show_allPlayers(gameModel);
+        if (!alreadyShowedLobby) {
+            clearScreen();
+            show_welcome(nick);
+            printAsync("GameID: [" + gameModel.getGameId().toString() + "]");
+            printAsync("Players in the LOBBY:");
+            show_allPlayers(gameModel);
+        }else{
+            add_newPlayer(gameModel);
+        }
+
+
+
         System.out.flush(); //Svuota il buffer di output per garantire che tutti i dati scritti siano visibili immediatamente
+    }
+    // Metodo per aggiungere solo il nuovo giocatore
+    private void add_newPlayer(GameImmutable gameModel) {
+        Player newPlayer = gameModel.getLastPlayer();
+        if (newPlayer != null) {
+            printAsync("[# " + gameModel.getPlayers().size() + "]: " + newPlayer.getNickname());
+        }
     }
 
     @Override
@@ -341,8 +356,8 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_chosenNickname(String nickname, Color color) {
-        printAsync("Your nickname is " + nickname + " \nYour color is:" + color);
+    public void show_chosenNickname(String nickname) {
+        printAsync("Your nickname is " + nickname );
     }
 
     @Override

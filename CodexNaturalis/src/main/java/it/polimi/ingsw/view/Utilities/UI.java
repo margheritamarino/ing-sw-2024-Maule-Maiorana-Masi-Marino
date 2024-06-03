@@ -51,7 +51,7 @@ public abstract class UI {
      *
      * @param nickname nickname just chosen by the player
      */
-    public abstract void show_chosenNickname(String nickname, Color color);
+    public abstract void show_chosenNickname(String nickname);
 
     public abstract void show_CurrentTurnMsg();
 

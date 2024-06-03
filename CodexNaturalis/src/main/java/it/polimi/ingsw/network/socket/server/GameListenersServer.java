@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socket.server;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
@@ -34,11 +35,9 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void playerJoined(GameImmutable model, String nickname) throws RemoteException {
-        System.out.println("GameListenersServer: PlayerJoined");
+    public void playerJoined(GameImmutable model, String nickname, Color playerColor) throws RemoteException {
         try {
-            out.writeObject(new msgPlayerJoined(model, nickname));
-            System.out.println("Il messaggio PlayerJoined è stato inviato su ObjectOutputStream");
+            out.writeObject(new msgPlayerJoined(model, nickname, playerColor));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());

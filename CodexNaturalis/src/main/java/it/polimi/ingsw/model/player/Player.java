@@ -30,8 +30,8 @@ public class Player implements Serializable {
     private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
     private boolean connected;
     private boolean readyToStart = false;
-    private transient ArrayList<GameListenerInterface>listeners;
-    private Color playerColor;
+    private final transient ArrayList<GameListenerInterface>listeners;
+    private final Color playerColor;
     public Player(String nickname, Color color) {
         this.nickname = nickname;
         this.playerGoal = null;

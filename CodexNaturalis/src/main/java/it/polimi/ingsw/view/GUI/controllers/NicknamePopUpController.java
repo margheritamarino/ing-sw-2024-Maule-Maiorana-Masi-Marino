@@ -17,17 +17,9 @@ public class NicknamePopUpController extends ControllerGUI{
      * @param nickname the nickname
      * @param txt the text
      */
-    public void showNicknameAndText(String nickname,String txt, String path){
+    public void showNicknameAndText(String nickname,String txt){
         nicknameLable.setText(nickname);
         textLable.setText(txt);
-        try {
-            Image image = new Image(path);
-            playerImageView.setImage(image);
-        } catch (IllegalArgumentException e) {
-            System.err.println("Invalid image path: " + path);
-
-        }
-
 
     }
 
