@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.GUI.controllers.InitializeCardsController;
 import it.polimi.ingsw.view.GUI.controllers.LobbyController;
@@ -15,6 +16,7 @@ import it.polimi.ingsw.view.Utilities.UI;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -303,12 +305,14 @@ public class GUI extends UI {
         callPlatformRunLater(() -> {
             InitializeCardsController controller = (InitializeCardsController) this.guiApplication.getController(SceneType.INITIALIZE_CARDS);
             if (controller != null) {
-                try {
-                    String path1= gameModel.getInitialCard()[0].getImagePath();
-                    String path2= gameModel.getInitialCard()[1].getImagePath();
+                PlayableCard[] temp = gameModel.getInitialCard();
+                String path1 = temp[0].getImagePath();
+                String path2 = temp[1].getImagePath();
+                if (isValidImagePath(path1) && isValidImagePath(path2)) {
                     controller.setCards(path1, path2);
-                }catch (RuntimeException e){
-                    System.err.println("Errore nel path");
+                } else {
+                    System.err.println("Uno o entrambi i percorsi delle immagini non sono validi");
+                    // Puoi impostare delle immagini di fallback o gestire l'errore diversamente
                 }
 
             } else {
@@ -316,7 +320,14 @@ public class GUI extends UI {
             }
         });
     }
-
+    private boolean isValidImagePath(String imagePath) {
+        try {
+            Image image = new Image(imagePath);
+            return image.getWidth() > 0 && image.getHeight() > 0; // Verifica se l'immagine è stata caricata correttamente
+        } catch (Exception e) {
+            return false; // Se c'è un'eccezione, il percorso non è valido
+        }
+    }
     @Override
     public void show_ObjectiveCards(GameImmutable model) {
 

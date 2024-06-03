@@ -75,14 +75,14 @@ public abstract class PlayableCard implements Serializable {
         } else {
 
             switch (typeTemp) {
-            case "GoldCard":
-                typeTemp = "Gold";
-                break;
-            case "ResourceCard":
-                typeTemp = "Resource";
-                break;
-            default:
-                throw new IllegalArgumentException("Card type not recognized: " + typeTemp);
+                case "GoldCard":
+                    typeTemp = "Gold";
+                    break;
+                case "ResourceCard":
+                    typeTemp = "Resource";
+                    break;
+                default:
+                    throw new IllegalArgumentException("Card type not recognized: " + typeTemp);
             }
             if (sideTemp=="Front") {
                 return("/img.Cards."+ typeTemp+"Cards."+ idTemp+ "_"+ typeTemp+ "Front.png");
@@ -92,6 +92,7 @@ public abstract class PlayableCard implements Serializable {
             }
         }
     }
+
 
     /**
      * Retrieves the content of the specified corner of a PlayableCard.

@@ -151,8 +151,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String nicknameLastPlayer = event.getModel().getLastPlayer().getNickname();
         switch (event.getType()) {
             case PLAYER_JOINED -> {
-
-                //TODO: faccio vedere la lobby a tutti
                 ui.show_playerJoined(event.getModel(), this.nickname, this.color);
                 if (nicknameLastPlayer.equals(nickname)) {
                     //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
