@@ -364,6 +364,12 @@
     -fx-background-size: cover;
 }
 
+.backgroundGame{
+    -fx-background-image: url("../../img/Deck.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
 .backgroundLobby{
     -fx-background-image: url("../../img/Background.png");
     -fx-background-repeat: stretch;
