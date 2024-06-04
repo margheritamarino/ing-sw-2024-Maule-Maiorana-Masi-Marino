@@ -197,7 +197,7 @@ public class GUI extends UI {
 
     @Override
     public void show_notValidMessage() {
-
+        //callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Selection not valid: NaN", false));
     }
 
     @Override

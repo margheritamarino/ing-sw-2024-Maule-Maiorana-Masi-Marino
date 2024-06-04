@@ -33,8 +33,6 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private Label personalObjective;
     @FXML
-    private Button otherPlayers;
-    @FXML
     private ImageView actionSendMessage;
 
     /**
@@ -110,19 +108,6 @@ public class MainSceneController extends ControllerGUI{
                 chatList.getItems().add("[Private] " + r);
             }
         }
-    }
-
-
-
-
-
-
-
-
-    @FXML
-    void viewPlayersBook(ActionEvent event) {
-        // Logica per visualizzare i dettagli degli altri giocatori
-        System.out.println("Visualizza i dettagli degli altri giocatori");
     }
 
 }
