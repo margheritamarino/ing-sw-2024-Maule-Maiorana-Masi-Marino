@@ -168,6 +168,10 @@ public class GUIApplication extends Application {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);
                 }
+                /*case MAINSCENE -> {
+                    this.closePopUpStage();
+                    MainSceneController controller = (MainSceneController) s.getControllerGUI();
+                }*/
 
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
@@ -289,6 +293,7 @@ public class GUIApplication extends Application {
     }*/
 
 
+
     public void showPlayerToLobby(GameImmutable model) {
         hidePanesInLobby();
         int i = 0;
@@ -331,4 +336,29 @@ public class GUIApplication extends Application {
         //I set not visible the btn "Ready to start"
         ((LobbyController) scenes.get(getSceneIndex(SceneType.LOBBY)).getControllerGUI()).setVisibleBtnReady(false);
     }
+
+
+    //MAIN SCENE
+
+    /*
+    public void showMainScene(GameImmutable model, String nickname){
+        MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
+        controller.setNicknameAndPoints(model, nickname);
+        controller.setBoard(model);
+        controller.setScoretrack(model);
+        controller.setBook(model, nickname);
+    }
+
+    public void showMessageInGame(String msg, Boolean success) {
+        MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
+        controller.setMsgToShow(msg, success);
+    }
+
+    public void showMessages(GameImmutable model, String myNickname) {
+        MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
+        controller.setMessage(model.getChat().getMsgs(), myNickname);
+    }
+     */
+
+
 }
