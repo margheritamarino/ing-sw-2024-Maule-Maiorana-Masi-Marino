@@ -22,6 +22,7 @@ public abstract class PlayableCard implements Serializable {
     private final CornerLabel BLCorner;
     private String[][] cardMatrix = new String[2][3];
 
+
     public int getCardID() {
         return cardID;
     }
@@ -59,19 +60,21 @@ public abstract class PlayableCard implements Serializable {
      * @return the path for the specific istance of Card (contained in the package resources-->img)
      */
     public String getImagePath(){
+        final String path;
         int idTemp = this.getCardID();
         String typeTemp= this.getCardType().toString();
         String sideTemp;
-        String mainResource= this.getMainResource().toString(); //used only for Back img
+        String mainResource=null;
 
         if(this.isFront()){
             sideTemp= "Front";
         } else {
             sideTemp= "Back";
+
         }
 
         if(typeTemp=="InitialCard"){
-            return("/img.Cards.GoldCards."+ idTemp+ "_Gold"+ sideTemp+ ".png");
+            path= "/img/Cards/initialCards/"+ idTemp+ "_Initial"+ sideTemp+ ".png";
         } else {
 
             switch (typeTemp) {
@@ -85,12 +88,14 @@ public abstract class PlayableCard implements Serializable {
                     throw new IllegalArgumentException("Card type not recognized: " + typeTemp);
             }
             if (sideTemp=="Front") {
-                return("/img.Cards."+ typeTemp+"Cards."+ idTemp+ "_"+ typeTemp+ "Front.png");
+                path="/img/Cards/"+ typeTemp+"Cards/"+ idTemp+ "_"+ typeTemp+ "Front.png";
 
             } else {
-                return("/img.Cards."+ typeTemp+"Cards."+ typeTemp+ mainResource+ "Back.png");
+                mainResource= this.getMainResource().toString(); //used only for Back img
+                path="/img/Cards/"+ typeTemp+"Cards/"+ typeTemp+ mainResource+ "Back.png";
             }
         }
+        return Objects.requireNonNull(getClass().getResource(path)).toExternalForm();
     }
 
 

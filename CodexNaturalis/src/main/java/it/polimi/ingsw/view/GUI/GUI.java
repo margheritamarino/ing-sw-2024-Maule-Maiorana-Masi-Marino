@@ -308,15 +308,9 @@ public class GUI extends UI {
                 PlayableCard[] temp = gameModel.getInitialCard();
                 String path1 = temp[0].getImagePath();
                 String path2 = temp[1].getImagePath();
-                if (isValidImagePath(path1) && isValidImagePath(path2)) {
-                    controller.setCards(path1, path2);
-                } else {
-                    System.err.println("Uno o entrambi i percorsi delle immagini non sono validi");
-                    // Puoi impostare delle immagini di fallback o gestire l'errore diversamente
-                }
-
-            } else {
-                System.err.println("controller is null or invalid");
+                controller.setCards(path1, path2);
+            }else{
+                System.err.println("Controller is null");
             }
         });
     }

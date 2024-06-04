@@ -734,7 +734,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws IOException //GESTIRE
      * @throws FileReadException //GESTIRE
      */
-//TODO gestire eccezioni
     @Override
     public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
       //  ui.show_whichInitialCards();
