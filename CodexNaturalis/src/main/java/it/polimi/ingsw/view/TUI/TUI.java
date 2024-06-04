@@ -203,11 +203,6 @@ public class TUI extends UI {
         printAsync("Invalid selection. Please choose a number between: "+ DefaultValue.BookSizeMin+ " and " + DefaultValue.BookSizeMax);
     }
 
-    @Override
-    public void show_whichObjectiveCards() {
-        printAsync("Set your GOAL for the Game:");
-        printAsync("> Choose one between these objective cards:");
-    }
 
     @Override
     public void show_personalObjective(){
@@ -413,7 +408,8 @@ public class TUI extends UI {
 
     @Override
     public void show_ObjectiveCards(GameImmutable model) {
-        printAsync("Objective Cards...\n");
+        printAsync("Set your GOAL for the Game:\n> Choose one between these objective cards:");
+
         ArrayList<ObjectiveCard> objectiveCards = model.getObjectiveCard();
 
         // Lista per accumulare le stringhe delle righe

@@ -79,7 +79,6 @@ public abstract class UI {
 
     public abstract void show_wrongCellSelMsg();
 
-    public abstract void show_whichObjectiveCards();
     public abstract void show_askNum(String msg, GameImmutable gameModel, String nickname);
     /**
      * Shows message on important event added

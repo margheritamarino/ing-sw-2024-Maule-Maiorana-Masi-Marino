@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.Chat.Message;
-import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.GUI.controllers.InitializeCardsController;
@@ -15,8 +15,6 @@ import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.Utilities.UI;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -266,11 +264,6 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_whichObjectiveCards() {
-
-    }
-
-    @Override
     public void show_askNum(String msg, GameImmutable gameModel, String nickname) {
 
     }
@@ -301,31 +294,36 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_temporaryInitialCards(GameImmutable gameModel)  {
+    public void show_temporaryInitialCards(GameImmutable model)  {
         callPlatformRunLater(()-> this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS));
         callPlatformRunLater(() -> {
             InitializeCardsController controller = (InitializeCardsController) this.guiApplication.getController(SceneType.INITIALIZE_CARDS);
             if (controller != null) {
-                PlayableCard[] temp = gameModel.getInitialCard();
+                controller.setTitleField("Choose if you want to place the Front or the Back");
+                PlayableCard[] temp = model.getInitialCard();
                 String path1 = temp[0].getImagePath();
                 String path2 = temp[1].getImagePath();
                 controller.setCards(path1, path2);
+
             }else{
                 System.err.println("Controller is null");
             }
         });
     }
-    private boolean isValidImagePath(String imagePath) {
-        try {
-            Image image = new Image(imagePath);
-            return image.getWidth() > 0 && image.getHeight() > 0; // Verifica se l'immagine è stata caricata correttamente
-        } catch (Exception e) {
-            return false; // Se c'è un'eccezione, il percorso non è valido
-        }
-    }
+
     @Override
     public void show_ObjectiveCards(GameImmutable model) {
-
+        callPlatformRunLater(()-> this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS));
+        callPlatformRunLater(() -> {
+            InitializeCardsController controller = (InitializeCardsController) this.guiApplication.getController(SceneType.INITIALIZE_CARDS);
+            if (controller != null) {
+                controller.setTitleField("Choose your PERSONAL GOAL for the Game...");
+                ArrayList<ObjectiveCard> temp = model.getObjectiveCard();
+                String path1 = temp.get(0).getImagePath();
+                String path2 = temp.get(0).getImagePath();
+                controller.setCards(path1, path2);
+            }
+        });
     }
 
     @Override

@@ -761,7 +761,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void requireGoalsReady(GameImmutable model) throws RemoteException {
-        ui.show_whichObjectiveCards();
+        //ui.show_whichObjectiveCards();
         ui.show_ObjectiveCards(model);
         Integer index;
         do {
