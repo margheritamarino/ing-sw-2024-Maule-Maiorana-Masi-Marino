@@ -12,7 +12,7 @@ public enum SceneType {
 
      INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml");
   /*
-    INGAME("/it.polimi.ingsw.view.GUI/fxml/InGame.fxml"),
+    MAINSCENE("/it.polimi.ingsw.view.GUI/fxml/MainScene.fxml"),
     OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),
     GAMEWAIT("/it.polimi.ingsw.view.GUI/fxml/GameWait.fxml"),
     GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml"),
