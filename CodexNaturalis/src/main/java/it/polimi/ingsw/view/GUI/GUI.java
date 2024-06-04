@@ -173,12 +173,13 @@ public class GUI extends UI {
 
     @Override
     public void show_gameStarted(GameImmutable model) {
-
+     //   callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
+        //   callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
     }
 
     @Override
     public void show_gameEnded(GameImmutable model) {
-
+       // callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GAME_ENDED));
     }
 
     @Override
@@ -196,7 +197,7 @@ public class GUI extends UI {
 
     @Override
     public void show_notValidMessage() {
-
+        //callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Selection not valid: NaN", false));
     }
 
     @Override
@@ -334,7 +335,8 @@ public class GUI extends UI {
 
     @Override
     public void show_noConnectionError() {
-
+        //callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
+        //callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Connection to server lost!", true));
     }
 
     @Override
@@ -375,7 +377,7 @@ public class GUI extends UI {
 
     @Override
     public void show_sentMessage(GameImmutable model, String nickname) {
-
+       // callPlatformRunLater(() -> this.guiApplication.showMessages(model, this.nickname));
     }
 
     @Override
@@ -391,6 +393,6 @@ public class GUI extends UI {
 
     @Override
     public void addMessage(Message msg, GameImmutable model) {
-
+        show_sentMessage(model, model.getChat().getLastMessage().getSender().getNickname());
     }
 }
