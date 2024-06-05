@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="PSP24" options="" />
+      <module name="PSP24" options="--add-exports javafx.graphics/com.sun.javafx.util=PSP24" />
     </option>
   </component>
 </project>

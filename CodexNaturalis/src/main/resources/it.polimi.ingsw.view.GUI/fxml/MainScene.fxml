@@ -82,13 +82,16 @@
             </HBox>
             <HBox layoutX="3.0" layoutY="267.0" prefHeight="100.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
                <children>
-                  <ImageView fx:id="imgDeckObjective" fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/Cards/ObjectiveCards/ObjectiveBack.png" />
+                     </image>
                      <HBox.margin>
                         <Insets left="2.0" right="2.0" />
                      </HBox.margin>
                   </ImageView>
                   <ImageView fx:id="imgObjective0" fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgObjective2" fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgObjective1" fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
             <Label layoutX="199.0" layoutY="-13.0" text="BOARD" textFill="#fc2626">

@@ -70,8 +70,6 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private ImageView imgResource1;
     @FXML
-    private ImageView imgDeckOnjective;
-    @FXML
     private ImageView imgObjective0;
     @FXML
     private ImageView imgObjective1;
@@ -214,16 +212,14 @@ public class MainSceneController extends ControllerGUI{
         imagePath = board.getResourceCards().get(1)[0].getImagePath();
         imgResource1.setImage(new Image(imagePath));
 
-        /*
+
         //OBJECTIVE CARD
-        imagePath = board.getObjectiveCardsDeck().getBackCards().get(0).getImagePath();
-        imgDeckOnjective.setImage(new Image(imagePath));
         imagePath = board.getObjectiveCards()[0].getImagePath();
         imgObjective0.setImage(new Image(imagePath));
         imagePath = board.getObjectiveCards()[1].getImagePath();
         imgObjective1.setImage(new Image(imagePath));
 
-         */
+
     }
 
     public void setScoretrack(GameImmutable model) {
