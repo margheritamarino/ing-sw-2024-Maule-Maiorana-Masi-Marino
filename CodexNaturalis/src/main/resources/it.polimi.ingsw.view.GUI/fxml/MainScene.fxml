@@ -38,9 +38,9 @@
       </Text>
       <Pane layoutX="22.0" layoutY="563.0" prefHeight="136.0" prefWidth="235.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
          <children>
-            <TextField fx:id="messageText" layoutX="69.0" layoutY="91.0" prefHeight="31.0" prefWidth="94.0" style="-fx-border-width: 2; -fx-border-color: black;" />
+            <TextField fx:id="messageText" layoutX="69.0" layoutY="91.0" prefHeight="31.0" prefWidth="94.0" onKeyPressed="#handleKeyPressed" style="-fx-border-width: 2; -fx-border-color: black;" />
             <ListView fx:id="chatList" layoutX="18.0" layoutY="13.0" prefHeight="68.0" prefWidth="200.0" stylesheets="@styleCodex.css" />
-            <ImageView fitHeight="26.0" fitWidth="25.0" layoutX="185.0" layoutY="94.0" onMouseClicked="#actionSendMessage" pickOnBounds="true" preserveRatio="true" styleClass="tileHover">
+            <ImageView fx:id="actionSendMessage" fitHeight="26.0" fitWidth="25.0" layoutX="185.0" layoutY="94.0" onKeyPressed="#chatOnClick" onMouseClicked="#actionSendMessage" pickOnBounds="true" preserveRatio="true" styleClass="tileHover">
                <image>
                   <Image url="@../../img/arrow.png" />
                </image>
