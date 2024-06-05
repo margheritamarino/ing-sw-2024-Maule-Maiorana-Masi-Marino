@@ -513,6 +513,7 @@ public class Game {
 	public void setPlayerGoal(Player player, int index) {
 		ObjectiveCard chosenObjectiveCard = temporaryObjectiveCards.get(index);
 		player.setGoal(chosenObjectiveCard);
+		System.out.println("Player goal set: " + chosenObjectiveCard.getImagePath());
 	}
 
 

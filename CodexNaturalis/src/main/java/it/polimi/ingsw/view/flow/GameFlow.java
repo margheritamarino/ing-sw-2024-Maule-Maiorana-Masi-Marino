@@ -410,11 +410,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         int num = -1;
         do {
             try {
+                System.out.println("Waiting for input...");
                 ui.show_askNum(message, model, nickname);
                 //System.out.flush();
 
                 try {
                     temp = this.inputController.getUnprocessedData().popInputData();
+                    System.out.println("Input received: " + temp);
                     if (ended) return null; //il giocatore non può fare mosse
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

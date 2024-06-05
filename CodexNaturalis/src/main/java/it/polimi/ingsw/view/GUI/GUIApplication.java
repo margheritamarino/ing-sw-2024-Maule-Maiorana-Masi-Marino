@@ -14,9 +14,7 @@ import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -54,13 +52,13 @@ public class GUIApplication extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         List<String> unnamedParams = getParameters().getUnnamed();
-        ConnectionType connectionType = null;
+        ConnectionType connectionType ;
 
         if (unnamedParams == null || unnamedParams.isEmpty()) {
             System.err.println("No parameteres for ConnectionType. Used SOCKET.");
             connectionType = ConnectionType.SOCKET; // Valore predefinito
         } else {
-            String firstParam = unnamedParams.get(0);
+            String firstParam = unnamedParams.getFirst();
             try {
                 connectionType = ConnectionType.valueOf(firstParam);
             } catch (IllegalArgumentException e) {
@@ -195,9 +193,7 @@ public class GUIApplication extends Application {
             rescale((double)newVal-16,heightOld);
         });
 
-        this.primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
-            rescale(widthOld,(double)newVal-39);
-        });
+        this.primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> rescale(widthOld,(double)newVal-39));
         resizing=true;
         // Cambia il contenuto del root StackPane per mostrare la nuova scena
 
@@ -366,13 +362,18 @@ public class GUIApplication extends Application {
 
     public void showMainScene(GameImmutable model, String nickname){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
+
+         controller.setPersonalObjective(model, nickname);
+
+
+
         controller.setNicknameAndID(model, nickname);
         controller.setBoard(model);
         controller.setScoretrack(model);
-        controller.setBook(model, nickname);
-        controller.setPlayerDeck(model, nickname);
-        controller.setPersonalObjective(model, nickname);
 
+        controller.setPlayerDeck(model, nickname);
+
+        //controller.setBook(model, nickname);
         List<Player> players = model.getPlayers();
         List<String> playerNames = new ArrayList<>();
         for (Player player : players) {

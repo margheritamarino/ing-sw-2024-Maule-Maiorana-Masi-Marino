@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
@@ -39,6 +40,8 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private ImageView actionSendMessage;
 
+    @FXML
+    private ImageView initialCardImg;
 
     //PLAYER DECK
     private PlayerDeck playerDeck;
@@ -58,8 +61,6 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private ImageView personalObjective;
 
-    //BOARD
-    private Board board;
     @FXML
     private ImageView imgDeckGold;
     @FXML
@@ -115,7 +116,7 @@ public class MainSceneController extends ControllerGUI{
     public void actionSendMessage(MouseEvent e) {
         if (e == null || e.getSource() == actionSendMessage) {
             if (!messageText.getText().isEmpty()) {
-                String recipient = boxMessage.getValue().toString();
+                String recipient = boxMessage.getValue();
 
                 if (recipient.equals("All players")) {
                     getInputGUI().addTxt("/c " + messageText.getText()); // Invia a tutti
@@ -183,6 +184,13 @@ public class MainSceneController extends ControllerGUI{
 
 
     public void setBook(GameImmutable model, String nickname) {
+        try {
+            String imagePath= model.getPlayerByNickname(nickname).getPlayerBook().getInitialCard().getImagePath();
+            Image image = new Image(imagePath);
+            initialCardImg.setImage(image);
+        }catch (NullPointerException e){
+            System.err.println("InitialCard Null");
+        }
     }
 
     public void setPlayerDeck(GameImmutable model, String nickname) {
@@ -226,7 +234,8 @@ public class MainSceneController extends ControllerGUI{
     }
 
     public void setBoard(GameImmutable model) {
-        this.board = model.getBoard();
+        //BOARD
+        Board board = model.getBoard();
         String imagePath;
 
         //GOLD CARD
@@ -238,7 +247,7 @@ public class MainSceneController extends ControllerGUI{
         imgGold1.setImage(new Image(imagePath));
 
         //RESOURCE CARD
-        imagePath = board.getResourcesCardsDeck().getBackCards().get(0).getImagePath();
+        imagePath = board.getResourcesCardsDeck().getBackCards().getFirst().getImagePath();
         imgDeckResource.setImage(new Image(imagePath));
         imagePath = board.getResourceCards().get(0)[0].getImagePath();
         imgResource0.setImage(new Image(imagePath));
@@ -256,17 +265,21 @@ public class MainSceneController extends ControllerGUI{
     }
 
     public void setPersonalObjective(GameImmutable model, String nickname) {
-
-        Player p= model.getPlayerByNickname(nickname);
-        int index= model.getIndexPlayer(p);
-
-        try{
-            String imagePath=model.getPlayers().get(index).getGoal().getImagePath();
-            personalObjective.setImage(new Image(imagePath));
-        } catch(NullPointerException e){
-            System.err.println("playerGoal null");
+        try {
+            Player player = model.getPlayerByNickname(nickname);
+            System.out.println("Player obtained: " +player.getNickname());
+            if (player.getGoal() == null) {
+                System.err.println("Player goal is null for player: " + nickname);
+                return;
+            }
+            String imagePath = player.getGoal().getImagePath();
+            Image image = new Image(imagePath);
+            personalObjective.setImage(image);
+        } catch (NullPointerException e) {
+            System.err.println("Player goal is null (caught in exception) for player: " + nickname);
         }
     }
+
 
     public void setScoretrack(GameImmutable model){
 

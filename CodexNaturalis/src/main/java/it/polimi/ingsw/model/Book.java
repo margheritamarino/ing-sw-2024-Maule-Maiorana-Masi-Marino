@@ -85,9 +85,14 @@ public class Book implements Serializable {
      * @author Margherita Marino
      * @param initialCard The initial card to add to the center of the book matrix.
      */
+    private PlayableCard initialCard;
+    public PlayableCard getInitialCard(){
+        return this.initialCard;
+    }
     public void addInitial(PlayableCard initialCard){ //cella 35x35
         //int dim= dimension %2; Se mi serve prendere in ingresso la dimensione della matrice
         //Cell initialCell = bookMatrix[dim][dim];
+        this.initialCard=initialCard;
         Cell initialCell = bookMatrix[35][35];
         initialCell.setAvailable(true);
         initialCell.setCardPointer(initialCard);

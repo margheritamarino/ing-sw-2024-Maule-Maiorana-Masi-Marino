@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import java.awt.*;
+import javafx.scene.control.TextField;
 
 public class InitializeCardsController extends ControllerGUI {
     @FXML
@@ -34,20 +34,24 @@ public class InitializeCardsController extends ControllerGUI {
         // Logica per aggiornare il campo titleField
         titleField.setText(text); // Esempio di aggiornamento
     }
-
+    @FXML
+    private TextField inputField;
     public void chooseCardClick(javafx.scene.input.MouseEvent mouseEvent) {
         int selectedIndex = -1;
-
         if (mouseEvent.getSource() == imageView0) {
             selectedIndex = 0;
         } else if (mouseEvent.getSource() == imageView1) {
             selectedIndex = 1;
         }
 
+        System.out.println("Card chosen: " + selectedIndex);
         if (selectedIndex != -1) {
+            inputField.setText(String.valueOf(selectedIndex)); // For debugging
             getInputGUI().addTxt(String.valueOf(selectedIndex)); // Passa l'indice come stringa
+            System.out.println("Input added to queue: " + selectedIndex);
         }
     }
+
 
     @FXML
     public void initialize() {
