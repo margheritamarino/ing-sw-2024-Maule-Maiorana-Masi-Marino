@@ -371,6 +371,7 @@ public class GUIApplication extends Application {
         controller.setScoretrack(model);
         controller.setBook(model, nickname);
         controller.setPlayerDeck(model, nickname);
+        controller.setPersonalObjective(model, nickname);
 
         List<Player> players = model.getPlayers();
         List<String> playerNames = new ArrayList<>();
@@ -381,7 +382,7 @@ public class GUIApplication extends Application {
         controller.setPlayerComboBoxItems(playerNames);
     }
 
-    public void showMessageInGame(String msg, Boolean success) {
+    public void changeLabelMessage(String msg, Boolean success) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setMsgToShow(msg, success);
     }
