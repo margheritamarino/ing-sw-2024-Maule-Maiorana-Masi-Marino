@@ -8,30 +8,57 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * The Chat class manages a list of messages exchanged between players.
+ */
 public class Chat implements Serializable {
     private List<Message> msgs;
 
+    /**
+     * Default constructor that initializes an empty list of messages.
+     */
     public Chat() {
         msgs = new ArrayList<>();
     }
 
-    // Costruttore che accetta una lista di messaggi esistenti
+    /**
+     * Constructor that initializes the chat with a given list of messages.
+     *
+     * @param msgs the list of messages
+     */
     public Chat(List<Message> msgs) {
         this.msgs = msgs;
     }
 
+    /**
+     * Returns the list of messages.
+     *
+     * @return msgs
+     */
     public List<Message> getMsgs() {
         return msgs;
     }
 
-    // Aggiunge un messaggio alla lista e se è piena li rimuove
+
+    /**
+     * Adds a message to the list. If the list exceeds the maximum number of messages allowed,
+     * it removes the oldest message.
+     *
+     * @param m the message to add
+     */
     public void addMsg(Message m) {
         if (msgs.size() >= DefaultValue.max_messagesShow)
             msgs.remove(0);
         msgs.add(m);
     }
 
-    // Crea un messaggio con un mittente e un testo
+    /**
+     * Creates a message with a sender and text, then adds it to the list. If the list exceeds
+     * the maximum number of messages allowed, it removes the oldest message.
+     *
+     * @param sender the player sending the message
+     * @param text   the text of the message
+     */
     public void addMsg(Player sender, String text) {
         Message temp = new Message(text, sender);
         if (msgs.size() >= DefaultValue.max_messagesShow)
@@ -39,8 +66,9 @@ public class Chat implements Serializable {
         msgs.add(temp);
     }
 
+
     /**
-     * @return the last message in string form
+     * @return the last message as a string.
      */
     public String getLast() {
         return msgs.get(msgs.size() - 1).toString();
@@ -54,7 +82,7 @@ public class Chat implements Serializable {
     }
 
     /**
-     * Imposta i messaggi della chat
+     * Sets the list of messages
      *
      * @param msgs messages
      */
@@ -63,7 +91,7 @@ public class Chat implements Serializable {
     }
 
     /**
-     * @return la chat in formato stringa
+     * @return the chat as a string
      */
     @Override
     public String toString() {
@@ -82,8 +110,10 @@ public class Chat implements Serializable {
     }
 
     /**
-     * @param privateMsgByNickname
-     * @return la chat privata in formato stringa
+     * Returns the private chat as a string for a specific user.
+     *
+     * @param privateMsgByNickname the nickname of the user
+     * @return the private chat as a string for the specified user
      */
     public String toString(String privateMsgByNickname) {
         StringBuilder ret = new StringBuilder();

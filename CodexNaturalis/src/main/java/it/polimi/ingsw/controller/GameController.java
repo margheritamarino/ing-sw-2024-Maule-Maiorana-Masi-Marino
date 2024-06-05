@@ -1,9 +1,5 @@
 package it.polimi.ingsw.controller;
 
-//da capire addPlayer e disconnectPlayer
-//implementa i metodi dell'interfaccia GameControllerInterface (cartella RMI). chiama i rispettivi metodi del model
-//saranno da implementare altri metodi in base agli input della view
-
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
@@ -44,10 +40,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     private static GameController instance = null;
     private boolean gameCreated;
-
     private final transient Map<GameListenerInterface, Ping> receivedPings;
+
     /**GameController Constructor
-     * Init a GameModel
+     * Initializes a GameModel
      */
     public GameController()  {
         model = new Game();
@@ -56,6 +52,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
         new Thread(this).start();
     }
+
     /**
      * Singleton Pattern
      *
@@ -67,16 +64,20 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
         return instance;
     }
+
+    /**
+     * Checks if the game is created.
+     *
+     * @return true if the game is created, false otherwise
+     */
     public synchronized boolean isGameCreated(){
         return gameCreated;
     }
 
-
-
     /**
-     * this method adds a Ping to the receivedPing map
-     * when a ClientMsgPing is sent and calls the method
-     * @param nickname nickname of the player who sent the ping message
+     * Adds a Ping to the receivedPing map when a ClientMsgPing is sent and calls the method.
+     *
+     * @param nickname the nickname of the player who sent the ping message
      * @param me the client who sends ping messages
      */
     @Override
@@ -131,7 +132,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Set the @param p player ready to start
      * When all the players are ready to start, the game starts (game status changes to running)
      *
-     * @return
+     * @param lis    the GameListenerInterface of the player
+     * @param player the nickname of the player
+     * @return true if the game starts, false otherwise
      */
     @Override
     public synchronized boolean playerIsReadyToStart(GameListenerInterface lis, String player) {
@@ -153,6 +156,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     }
+
  /* public boolean makeGameStart(GameListenerInterface lis, String nickname) {
         System.out.println(model.getNumReady());
         if (model.arePlayersReadyToStartAndEnough()) {
@@ -173,6 +177,14 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }*/
 
+    /**
+     * Places a card in the book.
+     *
+     * @param playerName the name of the player placing the card
+     * @param chosenCard the chosen card to place
+     * @param rowCell    the row position to place the card
+     * @param colCell    the column position to place the card
+     */
     @Override
     public synchronized void placeCardInBook(String playerName, int chosenCard, int rowCell, int colCell){
         Player currentPlayer = model.getPlayerByNickname(playerName);
@@ -183,7 +195,14 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
-
+    /**
+     * Picks a card from the board.
+     *
+     * @param nickname   the nickname of the player picking the card
+     * @param cardType   the type of card to pick
+     * @param drawFromDeck indicates if the card should be drawn from the deck
+     * @param pos        the position to pick the card from
+     */
     @Override
     public synchronized void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos){
 
@@ -232,7 +251,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getCurrentPlayer().getNickname().equals(nick);
     }
 
-
+    /**
+     * Disconnects a player from the game.
+     *
+     * @param nick     the nickname of the player to disconnect
+     * @param listener the listener associated with the player
+     * @throws RemoteException if there is a connection error (RMI)
+     */
     @Override
     public void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException {
         Player p = model.getPlayerByNickname(nick);
@@ -249,7 +274,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
 
-
+    /**
+     * Sets the initial card for the specified player.
+     *
+     * @param playerName the name of the player
+     * @param index the index of the card to set as the initial card
+     * @throws RemoteException if a remote communication error occurs
+     */
     @Override
     public void setInitialCard(String playerName, int index) throws RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
@@ -258,9 +289,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
     /**
-     * gets th Game ID of the current Game
-     * @return the ID of the game
+     * Gets th Game ID of the current Game.
      *
+     * @return the ID of the game
+     * @throws RemoteException if a remote communication error occurs
      */
     @Override
     public int getGameId() throws RemoteException {
@@ -268,7 +300,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     /**
-     * It removes a player by nickname @param nick from the game including the associated listeners
+     * Removes a player by nickname @param nick from the game including the associated listeners
      * If a player leaves the game has to end so GameStatus is set to ENDED.
      *
      * @param lis  The listener (related to the client) to remove
@@ -284,6 +316,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
+    /**
+     * Sets the objective card for the specified player.
+     *
+     * @param playerName the name of the player
+     * @param index the index of the card to set as the objective card
+     * @throws RemoteException if a remote communication error occurs
+     */
     @Override
     public void setGoalCard(String playerName, int index) throws RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
@@ -295,7 +334,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @param lis GameListener of the player who is creating the game
      * @param nick Nickname of the player who is creating the game
-     * @throws RemoteException
+     * @param color the color chosen by the player
+     * @throws RemoteException if a remote communication error occurs
      */
     @Override
     public synchronized void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException {
@@ -312,10 +352,25 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         }
     }
 
+    /**
+     * Sets the game creation status.
+     *
+     * @param toSet the status to set
+     */
     public void setGameCreated(boolean toSet){
         this.gameCreated= toSet;
     }
 
+    /**
+     * Sets up the game with the specified parameters.
+     *
+     * @param lis the GameListener of the player
+     * @param numPlayers the number of players in the game
+     * @param GameID the ID of the game
+     * @param nick the nickname of the player
+     * @param color the color chosen by the player
+     * @throws RemoteException if a remote communication error occurs
+     */
     public void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick, Color color) throws RemoteException{
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
@@ -329,9 +384,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     /**
-     * Add a message to the chat list
-     * @param msg to add
-     * @throws RemoteException
+     * Adds a message to the chat list.
+     *
+     * @param msg the message to add
+     * @throws RemoteException if a remote communication error occurs
      */
     @Override
     public synchronized void sentMessage(Message msg) throws RemoteException{
