@@ -366,10 +366,11 @@ public class GUIApplication extends Application {
 
     public void showMainScene(GameImmutable model, String nickname){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
-        controller.setNicknameAndPoints(model, nickname);
+        controller.setNicknameAndID(model, nickname);
         controller.setBoard(model);
         controller.setScoretrack(model);
         controller.setBook(model, nickname);
+        controller.setPlayerDeck(model, nickname);
     }
 
     public void showMessageInGame(String msg, Boolean success) {
@@ -381,7 +382,7 @@ public class GUIApplication extends Application {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setMessage(model.getChat().getMsgs(), myNickname);
     }
-     */
+
 
 
 }
