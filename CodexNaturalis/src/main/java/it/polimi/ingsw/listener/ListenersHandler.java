@@ -21,8 +21,6 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
  * ListenersHandler class is responsible for managing a List of GameListener objects
  * and for notifying the view when a change occurs in the GameModel
  */
-
-//ASCOLTATORI DEL CLIENT E DEL SERVER
 public class ListenersHandler {
     private ArrayList<GameListenerInterface> listeners;
 
@@ -35,6 +33,7 @@ public class ListenersHandler {
 
     /**
      * Adds a new GameListener to the list of GameListeners
+     *
      * @param listener the listener to add
      */
     public void addListener(GameListenerInterface listener){
@@ -42,6 +41,13 @@ public class ListenersHandler {
         System.out.println("Client correttamente aggiunto come LISTENER del Server");
     }
 
+
+    /**
+     * Notifies the listener to require the number of players and game ID.
+     *
+     * @param listener the listener to notify
+     * @param model    the game model
+     */
     public synchronized void notify_requireNumPlayersGameID(GameListenerInterface listener,Game model ){
         System.out.println("ListenersHandler: notify_requireNumPlayersGameID");
         try {
@@ -53,14 +59,17 @@ public class ListenersHandler {
     }
     /**
      * Removes a new GameListener from the list.
+     *
      * @param listener the listener to remove
      */
     public void removeListener(GameListenerInterface listener){
         listeners.remove(listener);
     }
 
+
     /**
-     * Method getter that returns the list of GameListener
+     * Gets the list of GameListeners.
+     *
      * @return the list of GameListeners
      */
     public List<GameListenerInterface> getListeners() {
@@ -68,8 +77,11 @@ public class ListenersHandler {
     }
 
     /**
-     * The notifyPlayerJoined method notifies the view that a player has joined the game
-     * @param model is the Game to pass as a new GameModelImmutable
+     * Notifies the view that a player has joined the game.
+     *
+     * @param model       the game model to pass as a new GameModelImmutable
+     * @param nickname    the nickname of the player who joined
+     * @param playerColor the color of the player who joined
      */
     public void notify_PlayerJoined(Game model, String nickname, Color playerColor) {
         System.out.println("ListenersHandler: notify_PlayerJoined");
@@ -85,15 +97,11 @@ public class ListenersHandler {
         }
     }
 
-
-
-
-
-
     /**
-     * The notify_PlayerLeft method notifies that a player has left the game
-     * @param model is the Game to pass as a new GameModelImmutable
-     * @param nickname is the nickname of the player that has left
+     * Notifies that a player has left the game.
+     *
+     * @param model    the game model to pass as a new GameModelImmutable
+     * @param nickname the nickname of the player who left
      */
     public synchronized void notify_PlayerLeft(Game model, String nickname) {
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -110,9 +118,11 @@ public class ListenersHandler {
 
 
     /**
-     * The notify_JoinUnableGameFull method notifies that a player cannot join the game because the game is full
-     * @param triedToJoin is the player that wanted to join the game <br>
-     * @param model is the GameModel to pass as a new GameModelImmutable
+     * Notifies that a player cannot join the game because the game is full.
+     *
+     * @param lis         the listener to notify
+     * @param triedToJoin the player who wanted to join the game
+     * @param model       the game model to pass as a new GameModelImmutable
      */
     public synchronized void notify_JoinUnableGameFull(GameListenerInterface lis, Player triedToJoin, Game model) {
         try {
@@ -124,8 +134,10 @@ public class ListenersHandler {
     }
 
     /**
-     * The notify_JoinUnableNicknameAlreadyIn method notifies that a player cannot join the game because the nickname is already in use
-
+     * Notifies that a player cannot join the game because the nickname is already in use.
+     *
+     * @param lis         the listener to notify
+     * @param triedToJoin the player who wanted to join the game
      */
     public synchronized void notify_JoinUnableNicknameAlreadyIn(GameListenerInterface lis, Player triedToJoin ) {
         try {
@@ -138,8 +150,9 @@ public class ListenersHandler {
 
 
     /**
-     * The notify_GameStarted method notifies that the game has started
-     * @param model is the Game to pass as a new GameModelImmutable
+     * Notifies that the game has started.
+     *
+     * @param model the game model to pass as a new GameModelImmutable
      */
     public synchronized void notify_GameStarted(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator(); //attraverso la lista e accedo agli elementi uno per volta
@@ -156,8 +169,9 @@ public class ListenersHandler {
     }
 
     /**
-     * The notify_GameEnded method notifies that the game has ended
-     * @param model is the Game to pass as a new GameModelImmutable
+     * Notifies that the game has ended.
+     *
+     * @param model the game model to pass as a new GameModelImmutable
      */
     public synchronized void notify_GameEnded(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -173,8 +187,9 @@ public class ListenersHandler {
     }
 
     /**
-     * The notify_nextTurn method notifies that the next turn has started
-     * @param model is the Game to pass as a new GameModelImmutable
+     * Notifies that the next turn has started.
+     *
+     * @param model the game model to pass as a new GameModelImmutable
      */
     public synchronized void notify_nextTurn(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -189,11 +204,11 @@ public class ListenersHandler {
         }
     }
 
-
     /**
-     * The notify_playerDisconnected method notifies that a player has disconnected
-     * @param gamemodel is the Game to pass as a new GameModelImmutable
-     * @param nick is the nickname of the player that has disconnected
+     * Notifies that a player has disconnected.
+     *
+     * @param gamemodel the game model to pass as a new GameModelImmutable
+     * @param nick      the nickname of the player who disconnected
      */
     public synchronized void notify_playerDisconnected(Game gamemodel, String nick) {
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -209,8 +224,9 @@ public class ListenersHandler {
     }
 
     /**
-     * The notify_lastCircle method notifies that the last circle has started
-     * @param model is the GameModel to pass as a new GameModelImmutable
+     * Notifies that the last circle has started.
+     *
+     * @param model the game model to pass as a new GameModelImmutable
      */
     public void notify_LastCircle(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -225,7 +241,12 @@ public class ListenersHandler {
         }
     }
 
-
+    /**
+     * Notifies that points have been added.
+     *
+     * @param currentPlayerLis the list of listeners for the current player
+     * @param model            the game model to pass as a new GameModelImmutable
+     */
     public synchronized void notify_PointsAdded(ArrayList<GameListenerInterface> currentPlayerLis, Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
@@ -243,8 +264,11 @@ public class ListenersHandler {
             }
         }
     }
-    /** The notify_CardPlaced method notifies that a card has been placed on the board
-     * @param model is the Game to pass as a new GameModelImmutable
+
+    /**
+     * Notifies that a card has been placed on the board.
+     *
+     * @param model the game model to pass as a new GameModelImmutable
      */
     public synchronized void notify_CardPlaced(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -259,6 +283,12 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * Notifies listeners of a new message sent in the game chat.
+     *
+     * @param gameModel the game model to pass as a new GameModelImmutable
+     * @param msg       the message that was sent
+     */
     public synchronized void notify_SentMessage(Game gameModel, Message msg) {
         System.out.println("Notifying listeners of new message: " + msg.getText());
         Iterator<GameListenerInterface> i = listeners.iterator();
