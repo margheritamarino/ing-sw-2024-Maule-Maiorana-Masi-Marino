@@ -169,8 +169,8 @@ public class GUI extends UI {
 
     @Override
     public void show_gameStarted(GameImmutable model) {
-           callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
-           callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
+        callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
     }
 
     @Override
@@ -198,7 +198,7 @@ public class GUI extends UI {
 
     @Override
     public void show_notValidMessage() {
-        //callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Selection not valid: NaN", false));
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Selection not valid!", false));
     }
 
     @Override
@@ -362,7 +362,7 @@ public class GUI extends UI {
 
     @Override
     public void show_sentMessage(GameImmutable model, String nickname) {
-       // callPlatformRunLater(() -> this.guiApplication.showMessages(model, this.nickname));
+        callPlatformRunLater(() -> this.guiApplication.showMessages(model, this.nickname));
     }
 
     @Override

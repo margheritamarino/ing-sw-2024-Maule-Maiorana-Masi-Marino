@@ -368,16 +368,23 @@ public class GUIApplication extends Application {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setNicknameAndID(model, nickname);
         controller.setBoard(model);
+        controller.setScoretrack(model);
         controller.setBook(model, nickname);
         controller.setPlayerDeck(model, nickname);
-        controller.setPersonalObjective(model, nickname);
+
+        List<Player> players = model.getPlayers();
+        List<String> playerNames = new ArrayList<>();
+        for (Player player : players) {
+            playerNames.add(player.getNickname());
+        }
+        // Popola la ComboBox dei giocatori con i nomi dei giocatori disponibili
+        controller.setPlayerComboBoxItems(playerNames);
     }
-    public void changeLabelMessage(String msg, Boolean success){
+
+    public void showMessageInGame(String msg, Boolean success) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setMsgToShow(msg, success);
-
     }
-
 
     public void showMessages(GameImmutable model, String myNickname) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
