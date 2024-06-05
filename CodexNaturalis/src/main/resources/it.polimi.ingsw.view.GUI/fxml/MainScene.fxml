@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.8" prefHeight="720.0" prefWidth="1276.0" style="-fx-background-color: #e4d5b7;" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.MainSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.8" prefHeight="720.0" prefWidth="1276.0" style="-fx-background-color: #e4d5b7;" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.MainSceneController">
    <children>
       <ImageView fitHeight="81.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -28,15 +36,6 @@
             <Font name="Arial Black" size="14.0" />
          </font>
       </Text>
-      <Pane layoutX="22.0" layoutY="89.0" prefHeight="447.0" prefWidth="235.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
-         <children>
-            <ImageView fitHeight="456.0" fitWidth="216.0" layoutX="9.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../img/Scoretrack.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
       <Pane layoutX="22.0" layoutY="563.0" prefHeight="136.0" prefWidth="235.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
          <children>
             <TextField fx:id="messageText" layoutX="69.0" layoutY="91.0" prefHeight="31.0" prefWidth="94.0" style="-fx-border-width: 2; -fx-border-color: black;" />
@@ -119,21 +118,6 @@
          </children>
       </AnchorPane>
       <ImageView fitHeight="104.0" fitWidth="156.0" layoutX="944.0" layoutY="588.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="personalObjective" layoutX="930.0" layoutY="565.0" text="PERSONAL OBJECTIVE " textFill="#9a8216">
-         <font>
-            <Font name="Arial Black" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="949.0" layoutY="506.0" text="YOUR POINTS:">
-         <font>
-            <Font name="Arial Black" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="youPoints" layoutX="1100.0" layoutY="509.0" prefHeight="17.0" prefWidth="41.0" text="0">
-         <font>
-            <Font name="Arial Bold" size="18.0" />
-         </font>
-      </Label>
       <ImageView fitHeight="129.0" fitWidth="222.0" layoutX="1053.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../img/2.png" />
@@ -152,5 +136,11 @@
       <Button fx:id="turnbtn0" layoutX="372.0" layoutY="693.0" mnemonicParsing="false" onAction="#turnCard" prefHeight="20.0" prefWidth="42.0" styleClass="round-red" stylesheets="@styleCodex.css" text="turn" />
       <Button fx:id="turnbtn1" layoutX="580.0" layoutY="693.0" mnemonicParsing="false" onAction="#turnCard" prefHeight="20.0" prefWidth="42.0" styleClass="round-red" stylesheets="@styleCodex.css" text="turn" />
       <Button fx:id="turnbtn2" layoutX="788.0" layoutY="693.0" mnemonicParsing="false" onAction="#turnCard" prefHeight="20.0" prefWidth="42.0" styleClass="round-red" stylesheets="@styleCodex.css" text="turn" />
+      <Text fill="#9a8216" layoutX="1034.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="shiny-orange" text="PERSONAL GOAL">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="personalObjective" fitHeight="150.0" fitWidth="261.0" layoutX="984.0" layoutY="552.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

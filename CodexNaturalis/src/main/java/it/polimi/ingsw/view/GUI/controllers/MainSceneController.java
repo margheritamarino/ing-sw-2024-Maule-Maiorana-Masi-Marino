@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.PlayerDeck;
 import javafx.event.ActionEvent;
@@ -40,6 +41,7 @@ public class MainSceneController extends ControllerGUI{
 
     //PLAYER DECK
     private PlayerDeck playerDeck;
+    private boolean[] showBack = new boolean[3];
     @FXML
     private ImageView deckImg0;
     @FXML
@@ -53,7 +55,7 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private Button turnbtn2;
     @FXML
-    private Label personalObjective;
+    private ImageView personalObjective;
 
     //BOARD
     private Board board;
@@ -114,11 +116,11 @@ public class MainSceneController extends ControllerGUI{
      *
      * @param ke the key event
      */
-    public void chatOnClick(KeyEvent ke) {
+   /* public void chatOnClick(KeyEvent ke) {
         if (ke.getCode().equals(KeyCode.ENTER)) {
             actionSendMessage(null);
         }
-    }
+    }*/
 
     /**
      * This method set the color of a message
@@ -164,7 +166,7 @@ public class MainSceneController extends ControllerGUI{
         this.playerDeck= model.getPlayerByNickname(nickname).getPlayerDeck();
         String imagePath;
 
-        imagePath=playerDeck.getMiniDeck().get(0).getImagePath();
+        imagePath=playerDeck.getMiniDeck().getFirst().getImagePath();
         Image image = new Image(imagePath);
         deckImg0.setImage(image);
         imagePath=playerDeck.getMiniDeck().get(2).getImagePath();
@@ -173,23 +175,31 @@ public class MainSceneController extends ControllerGUI{
         imagePath=playerDeck.getMiniDeck().get(4).getImagePath();
          image = new Image(imagePath);
         deckImg2.setImage(image);
+        // Initialize card state to false (showing initial images)
+        showBack[0] = false;
+        showBack[1] = false;
+        showBack[2] = false;
 
     }
-    public void turnCard(ActionEvent e){
+    public void turnCard(ActionEvent e) {
         if (e.getSource() == turnbtn0) {
-            String imagePath = playerDeck.getMiniDeck().get(1).getImagePath();
-            deckImg0.setImage(new Image(imagePath));
+            toggleCard(0, 0, 1, deckImg0);
         } else if (e.getSource() == turnbtn1) {
-
-            String imagePath = playerDeck.getMiniDeck().get(3).getImagePath();
-            deckImg1.setImage(new Image(imagePath));
+            toggleCard(1, 2, 3, deckImg1);
         } else if (e.getSource() == turnbtn2) {
-
-            String imagePath = playerDeck.getMiniDeck().get(5).getImagePath();
-            deckImg2.setImage(new Image(imagePath));
+            toggleCard(2, 4, 5, deckImg2);
         }
+    }
 
-
+    private void toggleCard(int cardIndex, int initialImageIndex, int alternateImageIndex, ImageView deckImg) {
+        String imagePath;
+        if (showBack[cardIndex]) {
+            imagePath = playerDeck.getMiniDeck().get(initialImageIndex).getImagePath();
+        } else {
+            imagePath = playerDeck.getMiniDeck().get(alternateImageIndex).getImagePath();
+        }
+        showBack[cardIndex] = !showBack[cardIndex];
+        deckImg.setImage(new Image(imagePath));
     }
 
     public void setBoard(GameImmutable model) {
@@ -222,7 +232,8 @@ public class MainSceneController extends ControllerGUI{
 
     }
 
-    public void setScoretrack(GameImmutable model) {
+    public void setPersonalObjective(GameImmutable model, String nickname) {
+        String imagePath=model.getPlayerByNickname(nickname).getGoal().getImagePath();
+        personalObjective.setImage(new Image(imagePath));
     }
-
 }
