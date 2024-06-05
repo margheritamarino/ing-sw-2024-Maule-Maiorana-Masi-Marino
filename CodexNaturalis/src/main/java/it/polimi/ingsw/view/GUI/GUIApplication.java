@@ -363,7 +363,7 @@ public class GUIApplication extends Application {
 
     //MAIN SCENE
 
-    /*
+
     public void showMainScene(GameImmutable model, String nickname){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setNicknameAndPoints(model, nickname);

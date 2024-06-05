@@ -10,16 +10,12 @@ public enum SceneType {
     LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"), //popup with nickname
     MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml"),
 
-     INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml");
-  /*
-    MAINSCENE("/it.polimi.ingsw.view.GUI/fxml/MainScene.fxml"),
-    OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),
+     INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml"),
+    MAINSCENE("/it.polimi.ingsw.view.GUI/fxml/MainScene.fxml");
+   /* OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),
     GAMEWAIT("/it.polimi.ingsw.view.GUI/fxml/GameWait.fxml"),
-    GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml"),
-    PLAYER_LOBBY0("/it.polimi.ingsw.view.GUI/fxml/PlayerLobby0.fxml.fxml"),
-    PLAYER_LOBBY1("/it.polimi.ingsw.view.GUI/fxml/PlayerLobby1.fxml.fxml"),
-    PLAYER_LOBBY2("/it.polimi.ingsw.view.GUI/fxml/PlayerLobby2.fxml.fxml"),
-    PLAYER_LOBBY3("/it.polimi.ingsw.view.GUI/fxml/PlayerLobby3.fxml.fxml");*/
+    GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml"),*/
+
 
    // GENERIC_ERROR("/it.polimi.ingsw.view.GUI/fxml/GenericErrorController.fxml");
     private final String path; //contiene il percorso dei file FXML associati alle scene

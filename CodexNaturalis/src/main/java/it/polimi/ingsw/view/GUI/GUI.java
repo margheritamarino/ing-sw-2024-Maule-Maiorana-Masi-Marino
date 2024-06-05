@@ -170,8 +170,8 @@ public class GUI extends UI {
 
     @Override
     public void show_gameStarted(GameImmutable model) {
-     //   callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
-        //   callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
+           callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
+           callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
     }
 
     @Override
