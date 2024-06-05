@@ -28,6 +28,7 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private Label labelMessage;
 
+
     //CHAT
     @FXML
     private TextField messageText;
