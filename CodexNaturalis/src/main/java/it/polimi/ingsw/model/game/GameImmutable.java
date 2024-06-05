@@ -122,10 +122,6 @@ public class GameImmutable implements Serializable {
         return currentPlayer;
     }
 
-    public PlayableCard[] getTemporaryInitialCardsDeck() {
-        return temporaryInitialCard;
-    }
-    public ArrayList<ObjectiveCard> getTemporaryObjectiveCardsDeck() {return temporaryObjectiveCards;}
 
     public Board getBoard(){
         return board;
@@ -228,8 +224,18 @@ public class GameImmutable implements Serializable {
     /**
      * @return current player's Goal
      */
-    public ObjectiveCard getCurrentPlayerGoal() {
-        return (ObjectiveCard) currentPlayer.getGoal();
+    public ObjectiveCard getPlayerGoal(Player p) {
+        int index=-1;
+        for (int i=0; i<players.size(); i++) {
+            if (players.get(i).equals(p)) { // Assumendo che il metodo equals sia implementato correttamente in Player
+                index=i;
+                break;
+            }
+        }
+        if (index!=-1)
+            return players.get(index).getGoal();
+        else
+            return null; // Oppure si potrebbe lanciare un'eccezione se il giocatore non viene trovato
     }
 
     public ObjectiveCard[] getCommonGoals() {

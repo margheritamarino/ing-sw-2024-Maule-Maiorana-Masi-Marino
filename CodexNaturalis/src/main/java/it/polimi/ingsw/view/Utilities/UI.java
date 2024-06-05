@@ -29,6 +29,9 @@ public abstract class UI {
     public abstract void show_askPlaceCardsMainMsg(GameImmutable model);
     public abstract void show_PickCardMsg(GameImmutable model);
     public abstract void show_askCardType(GameImmutable model, String nickname);
+
+    public abstract void show_OrderPlayers(GameImmutable model);
+
     public abstract void show_alwaysShow(GameImmutable model, String nickname);
     public abstract void show_alwaysShowForAll(GameImmutable model);
     public abstract void show_askWhichCellMsg(GameImmutable model);

@@ -368,15 +368,16 @@ public class GUIApplication extends Application {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setNicknameAndID(model, nickname);
         controller.setBoard(model);
-        controller.setScoretrack(model);
         controller.setBook(model, nickname);
         controller.setPlayerDeck(model, nickname);
+        controller.setPersonalObjective(model, nickname);
     }
-
-    public void showMessageInGame(String msg, Boolean success) {
+    public void changeLabelMessage(String msg, Boolean success){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setMsgToShow(msg, success);
+
     }
+
 
     public void showMessages(GameImmutable model, String myNickname) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();

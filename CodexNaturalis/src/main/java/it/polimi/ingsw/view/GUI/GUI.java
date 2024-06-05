@@ -4,10 +4,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.view.GUI.controllers.InitializeCardsController;
 import it.polimi.ingsw.view.GUI.controllers.LobbyController;
 import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
@@ -106,7 +103,8 @@ public class GUI extends UI {
 
     @Override
     public void show_CurrentTurnMsg() {
-        //TODO
+        callPlatformRunLater(() ->this.guiApplication.changeLabelMessage("It's your turn!", false));
+
     }
 
 
@@ -126,6 +124,7 @@ public class GUI extends UI {
     public void show_askCardType(GameImmutable model, String nickname) {
 
     }
+
 
     @Override
     public void show_alwaysShow(GameImmutable model, String nickname) {
@@ -172,6 +171,11 @@ public class GUI extends UI {
     public void show_gameStarted(GameImmutable model) {
            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
            callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
+    }
+
+    @Override
+    public void show_OrderPlayers(GameImmutable model) {
+
     }
 
     @Override
@@ -339,6 +343,7 @@ public class GUI extends UI {
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
+        callPlatformRunLater(() ->this.guiApplication.changeLabelMessage("WAIT! It's "+ model.getCurrentPlayer().getNickname()+" TURN", false));
 
     }
     @Override

@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -60,6 +59,7 @@ public class TUI extends UI {
         printAsync( model.toStringListPlayers());
 
     }
+    @Override
     public void show_OrderPlayers(GameImmutable model) {
         //toStringListPlayer restituisce la lista dei giocatori attuali
         printAsync("The ORDER of the players is: \n" + model.toStringListOrderArray());

@@ -5,6 +5,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +29,7 @@ public class MainSceneController extends ControllerGUI{
 
     //CHAT
     @FXML
-    private Label labelMessage;
+    private Text labelMessage;
     @FXML
     private TextField messageText;
     @FXML
@@ -130,11 +131,11 @@ public class MainSceneController extends ControllerGUI{
     public void setMsgToShow(String msg, Boolean success) {
         labelMessage.setText(msg);
         if (success == null) {
-            labelMessage.setTextFill(Color.WHITE);
+            labelMessage.setFill(Color.BLACK);
         } else if (success) {
-            labelMessage.setTextFill(Color.GREEN);
+            labelMessage.setFill(Color.GREEN);
         } else {
-            labelMessage.setTextFill(Color.RED);
+            labelMessage.setFill(Color.RED);
         }
     }
 
@@ -233,7 +234,15 @@ public class MainSceneController extends ControllerGUI{
     }
 
     public void setPersonalObjective(GameImmutable model, String nickname) {
-        String imagePath=model.getPlayerByNickname(nickname).getGoal().getImagePath();
-        personalObjective.setImage(new Image(imagePath));
+
+        Player p= model.getPlayerByNickname(nickname);
+        int index= model.getIndexPlayer(p);
+
+        try{
+            String imagePath=model.getPlayers().get(index).getGoal().getImagePath();
+            personalObjective.setImage(new Image(imagePath));
+        } catch(NullPointerException e){
+            System.err.println("playerGoal null");
+        }
     }
 }
