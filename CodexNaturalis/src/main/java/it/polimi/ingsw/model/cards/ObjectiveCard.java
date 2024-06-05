@@ -6,6 +6,7 @@ import org.fusesource.jansi.Ansi;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -27,14 +28,16 @@ public class ObjectiveCard implements Serializable {
      * @return the path for the specific istance of Objective Card (contained in the package resources-->img)
      */
     public String getImagePath(){
+        String path;
         int idTemp= this.getCardID();
 
         if(this.isFront()){
-            return("/it.polimi.ingsw.resources.img.Cards.ObjectiveCards."+ idTemp+ "_ObjectiveFront.png");
+            path="/img/Cards.ObjectiveCards/"+ idTemp+ "_ObjectiveFront.png";
 
         } else {
-            return("/it.polimi.ingsw.resources.img.Cards.ObjectiveCards.ObjectiveBack.png");
+            path="/img/Cards/ObjectiveCards/ObjectiveBack.png";
         }
+        return Objects.requireNonNull(getClass().getResource(path)).toExternalForm();
     }
 
     public int getCardID() {

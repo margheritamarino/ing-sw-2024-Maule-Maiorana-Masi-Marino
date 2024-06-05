@@ -12,11 +12,11 @@
             <Image url="@../../img/Background.png" />
          </image>
       </ImageView>
-      <Pane layoutX="140.0" layoutY="191.0" opacity="0.8" prefHeight="78.0" prefWidth="682.0" style="-fx-background-color: black;">
+      <Pane layoutX="72.0" layoutY="191.0" opacity="0.8" prefHeight="96.0" prefWidth="810.0" style="-fx-background-color: black;">
          <children>
-            <Text fx:id="titleField" fill="WHITE" layoutX="53.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="575.8000793457031">
+            <Text fx:id="titleField" fill="WHITE" layoutX="47.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="732.8000793457031">
                <font>
-                  <Font name="Arial Black" size="33.0" />
+                  <Font name="Arial Black" size="28.0" />
                </font>
             </Text>
          </children>
@@ -24,7 +24,7 @@
       <HBox layoutX="76.0" layoutY="311.0" opacity="0.81" prefHeight="329.0" prefWidth="810.0" spacing="10.0" style="-fx-background-color: black;">
          <children>
             <ImageView fx:id="imageView0" fitHeight="220.0" fitWidth="350.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imageView1" fitHeight="220.0" fitWidth="350.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageView1" fitHeight="220.0" fitWidth="350.0" onMouseClicked="#chooseCardClick" onMouseEntered="#highlightImage" onMouseExited="#unhighlightImage" pickOnBounds="true" preserveRatio="true" />
          </children>
          <padding>
             <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />

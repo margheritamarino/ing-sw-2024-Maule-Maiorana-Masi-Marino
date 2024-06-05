@@ -1,8 +1,11 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.awt.*;
@@ -51,5 +54,19 @@ public class InitializeCardsController extends ControllerGUI {
         // Imposta i listener per i clic sulle immagini
         imageView0.setOnMouseClicked(this::chooseCardClick);
         imageView1.setOnMouseClicked(this::chooseCardClick);
+    }
+    @FXML
+    public void highlightImage(MouseEvent event) {
+        ImageView imageView = (ImageView) event.getSource();
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.ALICEBLUE);
+        dropShadow.setRadius(20);
+        imageView.setEffect(dropShadow);
+    }
+
+    @FXML
+    public void unhighlightImage(MouseEvent event) {
+        ImageView imageView = (ImageView) event.getSource();
+        imageView.setEffect(null);
     }
 }
