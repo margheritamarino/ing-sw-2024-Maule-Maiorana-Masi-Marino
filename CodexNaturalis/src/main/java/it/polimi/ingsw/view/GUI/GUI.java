@@ -4,10 +4,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.view.GUI.controllers.InitializeCardsController;
 import it.polimi.ingsw.view.GUI.controllers.LobbyController;
 import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
@@ -170,8 +167,8 @@ public class GUI extends UI {
 
     @Override
     public void show_gameStarted(GameImmutable model) {
-           callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
-           callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
+        callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
     }
 
     @Override
@@ -194,7 +191,7 @@ public class GUI extends UI {
 
     @Override
     public void show_notValidMessage() {
-        //callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Selection not valid: NaN", false));
+        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Selection not valid!", false));
     }
 
     @Override
@@ -357,7 +354,7 @@ public class GUI extends UI {
 
     @Override
     public void show_sentMessage(GameImmutable model, String nickname) {
-       // callPlatformRunLater(() -> this.guiApplication.showMessages(model, this.nickname));
+        callPlatformRunLater(() -> this.guiApplication.showMessages(model, this.nickname));
     }
 
     @Override

@@ -371,6 +371,14 @@ public class GUIApplication extends Application {
         controller.setScoretrack(model);
         controller.setBook(model, nickname);
         controller.setPlayerDeck(model, nickname);
+
+        List<Player> players = model.getPlayers();
+        List<String> playerNames = new ArrayList<>();
+        for (Player player : players) {
+            playerNames.add(player.getNickname());
+        }
+        // Popola la ComboBox dei giocatori con i nomi dei giocatori disponibili
+        controller.setPlayerComboBoxItems(playerNames);
     }
 
     public void showMessageInGame(String msg, Boolean success) {

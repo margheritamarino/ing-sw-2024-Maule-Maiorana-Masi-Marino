@@ -33,7 +33,7 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private ListView chatList;
     @FXML
-    private ComboBox boxMessage;
+    private ComboBox<String> boxMessage;
     @FXML
     private ImageView actionSendMessage;
 
@@ -88,6 +88,21 @@ public class MainSceneController extends ControllerGUI{
         nicknameTextField.setText("Nickname: "+nickname );
     }
 
+    public void setPlayerComboBoxItems(List<String> playerNames) {
+        // Rimuovi eventuali elementi precedenti dalla ComboBox
+        boxMessage.getItems().clear();
+        // Aggiungi l'opzione per inviare un messaggio a tutti
+        boxMessage.getItems().add("All players");
+
+        // Aggiungi i nomi dei giocatori diversi dal tuo alla ComboBox
+        for (String playerName : playerNames) {
+            if (!playerName.equals(nicknameTextField)) {
+                boxMessage.getItems().add(playerName);
+            }
+        }
+        // Seleziona l'opzione "All players" come predefinita
+        boxMessage.getSelectionModel().selectFirst();
+    }
 
     /**
      * This method manage the sending of the message
@@ -95,17 +110,24 @@ public class MainSceneController extends ControllerGUI{
      * @param e the mouse event
      */
     public void actionSendMessage(MouseEvent e) {
-        if (!messageText.getText().isEmpty()) {
+        if (e == null || e.getSource() == actionSendMessage) {
+            if (!messageText.getText().isEmpty()) {
+                String recipient = boxMessage.getValue().toString();
 
-            if (boxMessage.getValue().toString().isEmpty()) {
-                getInputGUI().addTxt("/c " + messageText.getText());
-            } else {
-                //Player wants to send a private message
-                getInputGUI().addTxt("/cs " + boxMessage.getValue().toString() + " " + messageText.getText());
-                boxMessage.getSelectionModel().selectFirst();
+                if (recipient.equals("All players")) {
+                    getInputGUI().addTxt("/c " + messageText.getText()); // Invia a tutti
+                } else {
+                    getInputGUI().addTxt("/cs " + recipient + " " + messageText.getText()); // Invia al giocatore selezionato
+                }
+
+                messageText.setText("");
             }
-            messageText.setText("");
+        }
+    }
 
+    public void handleKeyPressed(KeyEvent e) {
+        if (e.getCode() == KeyCode.ENTER) {
+            actionSendMessage(null);
         }
     }
 
