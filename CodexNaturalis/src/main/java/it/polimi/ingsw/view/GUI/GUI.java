@@ -112,17 +112,17 @@ public class GUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model) {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("It's your turn to PLACE A CARD", null));
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("It's your turn to PLACE A CARD", null));
     }
 
     @Override
     public void show_PickCardMsg(GameImmutable model) {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("It's your turn to PICK A CARD", null));
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("It's your turn to PICK A CARD", null));
     }
 
     @Override
     public void show_askCardType(GameImmutable model, String nickname) {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Which card do you want to pick?", null));
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("Which card do you want to pick?", null));
 
     }
 
@@ -139,7 +139,7 @@ public class GUI extends UI {
 
     @Override
     public void show_askWhichCellMsg(GameImmutable model) {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Choose a Cell in the book to place the card:", null));
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("Choose a Cell in the book to place the card:", null));
     }
 
     @Override
@@ -199,7 +199,7 @@ public class GUI extends UI {
 
     @Override
     public void show_notValidMessage() {
-        callPlatformRunLater(() -> this.guiApplication.showMessageInGame("Selection not valid!", false));
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("Selection not valid!", false));
     }
 
     @Override
