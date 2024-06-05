@@ -25,10 +25,10 @@ public class MainSceneController extends ControllerGUI{
     private Text GameIDTextField;
     @FXML
     private Text nicknameTextField;
-
-    //CHAT
     @FXML
     private Label labelMessage;
+
+    //CHAT
     @FXML
     private TextField messageText;
     @FXML
