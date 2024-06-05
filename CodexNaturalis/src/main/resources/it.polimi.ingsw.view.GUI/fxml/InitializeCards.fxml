@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.InitializeCardsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.InitializeCardsController">
    <children>
-      <ImageView fitHeight="987.0" fitWidth="1329.0" layoutX="-17.0" layoutY="-51.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1013.0" fitWidth="1356.0" layoutX="-17.0" layoutY="-77.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../img/Background.png" />
          </image>
       </ImageView>
-      <Pane layoutX="72.0" layoutY="162.0" opacity="0.8" prefHeight="125.0" prefWidth="810.0" style="-fx-background-color: black;">
+      <Pane layoutX="253.0" layoutY="160.0" opacity="0.8" prefHeight="125.0" prefWidth="810.0" style="-fx-background-color: black;">
          <children>
             <Text fx:id="titleField" fill="WHITE" layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="788.8000793457031">
                <font>
@@ -21,7 +21,7 @@
             </Text>
          </children>
       </Pane>
-      <HBox layoutX="76.0" layoutY="311.0" opacity="0.81" prefHeight="329.0" prefWidth="810.0" spacing="10.0" style="-fx-background-color: black;">
+      <HBox layoutX="250.0" layoutY="310.0" opacity="0.81" prefHeight="330.0" prefWidth="810.0" spacing="10.0" style="-fx-background-color: black;">
          <children>
             <ImageView fx:id="imageView0" fitHeight="220.0" fitWidth="350.0" onMouseClicked="#chooseCardClick" onMouseEntered="#highlightImage" onMouseExited="#unhighlightImage" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageView1" fitHeight="220.0" fitWidth="350.0" onMouseClicked="#chooseCardClick" onMouseEntered="#highlightImage" onMouseExited="#unhighlightImage" pickOnBounds="true" preserveRatio="true" />
