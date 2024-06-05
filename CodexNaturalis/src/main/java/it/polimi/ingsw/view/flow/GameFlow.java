@@ -772,7 +772,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             if (index < 0 || index >= 2) {
                 index = null;
             }
-        } while (index == null);
+        } while (index == null || index < 0 || index >= 2);
         try {
             setGoalCard(index, nickname); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
             ui.show_personalObjective();
