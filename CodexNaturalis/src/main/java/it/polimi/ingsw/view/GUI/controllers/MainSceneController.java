@@ -2,9 +2,12 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.model.player.PlayerDeck;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -16,6 +19,7 @@ import java.util.List;
 
 public class MainSceneController extends ControllerGUI{
 
+    private PlayerDeck playerDeck;
     @FXML
     private Label labelMessage;
     @FXML
@@ -26,8 +30,21 @@ public class MainSceneController extends ControllerGUI{
     private ComboBox boxMessage;
     @FXML
     private Text GameIDTextField;
+    @FXML
+    private Text NicknameTextField;
+    @FXML
+    private ImageView deckImg0;
+    @FXML
+    private ImageView deckImg1;
+    @FXML
+    private ImageView deckImg2;
 
-
+    @FXML
+    private Button turnbtn0;
+    @FXML
+    private Button turnbtn1;
+    @FXML
+    private Button turnbtn2;
     @FXML
     private Label youPoints;
     @FXML
@@ -37,10 +54,11 @@ public class MainSceneController extends ControllerGUI{
 
     /**
      * Method to set game id lable
-     * @param id the id to show
+
      */
-    public void setGameid(int id) {
-        GameIDTextField.setText("GameID: "+id);
+    public void setNicknameAndID(GameImmutable model, String nickname) {
+        GameIDTextField.setText("GameID: "+model.getGameId());
+        NicknameTextField.setText("Nickname: "+nickname );
     }
 
 
@@ -110,4 +128,44 @@ public class MainSceneController extends ControllerGUI{
         }
     }
 
+    public void setBook(GameImmutable model, String nickname) {
+    }
+
+    public void setPlayerDeck(GameImmutable model, String nickname) {
+        this.playerDeck= model.getPlayerByNickname(nickname).getPlayerDeck();
+        String imagePath;
+
+        imagePath=playerDeck.getMiniDeck().get(0).getImagePath();
+        Image image = new Image(imagePath);
+        deckImg0.setImage(image);
+        imagePath=playerDeck.getMiniDeck().get(2).getImagePath();
+        image = new Image(imagePath);
+        deckImg1.setImage(image);
+        imagePath=playerDeck.getMiniDeck().get(4).getImagePath();
+         image = new Image(imagePath);
+        deckImg2.setImage(image);
+
+    }
+    public void turnCard(ActionEvent e){
+        if (e.getSource() == turnbtn0) {
+            String imagePath = playerDeck.getMiniDeck().get(1).getImagePath();
+            deckImg0.setImage(new Image(imagePath));
+        } else if (e.getSource() == turnbtn1) {
+
+            String imagePath = playerDeck.getMiniDeck().get(3).getImagePath();
+            deckImg1.setImage(new Image(imagePath));
+        } else if (e.getSource() == turnbtn2) {
+
+            String imagePath = playerDeck.getMiniDeck().get(5).getImagePath();
+            deckImg2.setImage(new Image(imagePath));
+        }
+
+
+    }
+
+    public void setScoretrack(GameImmutable model) {
+    }
+
+    public void setBoard(GameImmutable model) {
+    }
 }
