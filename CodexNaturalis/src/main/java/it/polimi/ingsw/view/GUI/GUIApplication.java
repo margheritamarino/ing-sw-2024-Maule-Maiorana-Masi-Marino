@@ -168,7 +168,7 @@ public class GUIApplication extends Application {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
-                case MENU -> {
+                case MENU, INITIALIZE_CARDS -> {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);
                 }
@@ -348,7 +348,7 @@ public class GUIApplication extends Application {
             controller.setTitleField("Choose your PERSONAL GOAL for the Game...");
             ArrayList<ObjectiveCard> temp = model.getObjectiveCard();
             String path1 = temp.get(0).getImagePath();
-            String path2 = temp.get(0).getImagePath();
+            String path2 = temp.get(1).getImagePath();
             controller.setCards(path1, path2);
         } else if (initial) {
             controller.setTitleField("Choose if you want to place the Front or the Back...");

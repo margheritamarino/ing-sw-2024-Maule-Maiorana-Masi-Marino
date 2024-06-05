@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -36,10 +37,14 @@
             </Text>
             <TextField fx:id="playersNumber" layoutX="395.0" layoutY="285.0" prefHeight="26.0" prefWidth="105.0" />
             <TextField fx:id="gameID" layoutX="272.0" layoutY="344.0" prefHeight="26.0" prefWidth="105.0" />
-            <Button fx:id="ContinueButton" defaultButton="true" layoutX="663.0" layoutY="441.0" mnemonicParsing="false" onAction="#actionContinue" styleClass="record-sales" stylesheets="@styleCodex.css" text="CONTINUE">
+            <Button fx:id="ContinueButton" defaultButton="true" layoutX="663.0" layoutY="441.0" mnemonicParsing="false" onAction="#actionContinue" stylesheets="@styleCodex.css" text="CONTINUE">
                <font>
                   <Font name="Arial" size="22.0" />
                </font>
+               <styleClass>
+                  <String fx:value="record-sales" />
+                  <String fx:value="glow-button" />
+               </styleClass>
             </Button>
          </children>
       </Pane>

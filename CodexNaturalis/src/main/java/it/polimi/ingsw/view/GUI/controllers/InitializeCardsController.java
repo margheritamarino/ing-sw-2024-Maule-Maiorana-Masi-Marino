@@ -59,7 +59,7 @@ public class InitializeCardsController extends ControllerGUI {
     public void highlightImage(MouseEvent event) {
         ImageView imageView = (ImageView) event.getSource();
         DropShadow dropShadow = new DropShadow();
-        dropShadow.setColor(Color.ALICEBLUE);
+        dropShadow.setColor(Color.LIGHTSKYBLUE);
         dropShadow.setRadius(20);
         imageView.setEffect(dropShadow);
     }

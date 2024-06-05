@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -28,10 +29,14 @@
                   <Font name="Arial" size="22.0" />
                </font>
             </TextField>
-            <Button fx:id="EnterButton" defaultButton="true" layoutX="185.0" layoutY="216.0" mnemonicParsing="false" onAction="#actionEnter" styleClass="record-sales" stylesheets="@styleCodex.css" text="ENTER">
+            <Button fx:id="EnterButton" defaultButton="true" layoutX="185.0" layoutY="216.0" mnemonicParsing="false" onAction="#actionEnter" stylesheets="@styleCodex.css" text="ENTER">
                <font>
                   <Font name="Arial" size="22.0" />
                </font>
+               <styleClass>
+                  <String fx:value="record-sales" />
+                  <String fx:value="glow-button" />
+               </styleClass>
             </Button>
          </children>
       </Pane>

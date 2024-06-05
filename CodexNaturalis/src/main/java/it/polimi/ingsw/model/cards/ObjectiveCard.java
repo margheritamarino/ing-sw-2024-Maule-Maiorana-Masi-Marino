@@ -32,7 +32,7 @@ public class ObjectiveCard implements Serializable {
         int idTemp= this.getCardID();
 
         if(this.isFront()){
-            path="/img/Cards.ObjectiveCards/"+ idTemp+ "_ObjectiveFront.png";
+            path="/img/Cards/ObjectiveCards/"+ idTemp+ "_ObjectiveFront.png";
 
         } else {
             path="/img/Cards/ObjectiveCards/ObjectiveBack.png";

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -40,10 +41,14 @@
                         <Font name="Arial Black" size="32.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnMenu" defaultButton="true" layoutX="785.0" layoutY="518.0" mnemonicParsing="false" onAction="#actionReturnMenu" prefHeight="55.0" prefWidth="171.0" styleClass="record-sales3" stylesheets="@styleCodex.css" text="Menu" textFill="YELLOW">
+                <Button fx:id="btnMenu" defaultButton="true" layoutX="785.0" layoutY="518.0" mnemonicParsing="false" onAction="#actionReturnMenu" prefHeight="55.0" prefWidth="171.0" stylesheets="@styleCodex.css" text="Menu" textFill="YELLOW">
                <font>
                   <Font name="Arial Bold" size="27.0" />
-               </font></Button>
+               </font>
+               <styleClass>
+                  <String fx:value="record-sales3" />
+                  <String fx:value="glow-button" />
+               </styleClass></Button>
             <Text fill="#e0cc2d" layoutX="356.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME ENDED">
                <font>
                   <Font name="Arial Black" size="36.0" />

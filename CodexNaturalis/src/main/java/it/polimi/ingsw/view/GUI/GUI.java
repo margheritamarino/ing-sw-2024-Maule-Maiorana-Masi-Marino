@@ -293,15 +293,19 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_temporaryInitialCards(GameImmutable model)  {
-        callPlatformRunLater(()-> this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS));
-        callPlatformRunLater(() ->  this.guiApplication.setInitializationScene(model, true));
+    public void show_temporaryInitialCards(GameImmutable model) {
+        callPlatformRunLater(() -> {
+            this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS);
+            this.guiApplication.setInitializationScene(model, true);
+        });
     }
 
     @Override
     public void show_ObjectiveCards(GameImmutable model) {
-        callPlatformRunLater(()-> this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS));
-        callPlatformRunLater(() -> this.guiApplication.setInitializationScene(model, false));
+        callPlatformRunLater(() -> {
+            this.guiApplication.setActiveScene(SceneType.INITIALIZE_CARDS);
+            this.guiApplication.setInitializationScene(model, false);
+        });
     }
 
     @Override
