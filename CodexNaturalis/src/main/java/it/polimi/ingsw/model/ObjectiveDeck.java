@@ -24,10 +24,13 @@ import java.util.Random;
 public class ObjectiveDeck implements Serializable {
     private int numCards;
     private final ArrayList<ObjectiveCard> frontCards;
+    private final ArrayList<ObjectiveCard> backCards;
+
 
 
     public ObjectiveDeck()  {
         this.frontCards = new ArrayList<>();
+        this.backCards = new ArrayList<>();
         this.numCards = DefaultValue.NumOfObjectiveCards;
         initializeDeck();
     }
@@ -35,6 +38,9 @@ public class ObjectiveDeck implements Serializable {
 
     public ArrayList<ObjectiveCard> getFrontCards() {
         return frontCards;
+    }
+    public ArrayList<ObjectiveCard> getBackCards(){
+        return backCards;
     }
 
 

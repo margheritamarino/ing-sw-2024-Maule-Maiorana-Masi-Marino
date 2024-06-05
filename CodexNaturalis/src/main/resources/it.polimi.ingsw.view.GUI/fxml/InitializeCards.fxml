@@ -23,8 +23,8 @@
       </Pane>
       <HBox layoutX="250.0" layoutY="310.0" opacity="0.81" prefHeight="330.0" prefWidth="810.0" spacing="10.0" style="-fx-background-color: black;">
          <children>
-            <ImageView fx:id="imageView0" fitHeight="220.0" fitWidth="350.0" onMouseClicked="#chooseCardClick" onMouseEntered="#highlightImage" onMouseExited="#unhighlightImage" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imageView1" fitHeight="220.0" fitWidth="350.0" onMouseClicked="#chooseCardClick" onMouseEntered="#highlightImage" onMouseExited="#unhighlightImage" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageView0" fitHeight="262.0" fitWidth="365.0" onMouseClicked="#chooseCardClick" onMouseEntered="#highlightImage" onMouseExited="#unhighlightImage" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageView1" fitHeight="262.0" fitWidth="365.0" onMouseClicked="#chooseCardClick" onMouseEntered="#highlightImage" onMouseExited="#unhighlightImage" pickOnBounds="true" preserveRatio="true" />
          </children>
          <padding>
             <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />

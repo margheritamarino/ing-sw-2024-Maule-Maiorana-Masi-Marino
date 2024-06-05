@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.PlayerDeck;
 import javafx.event.ActionEvent;
@@ -19,7 +20,12 @@ import java.util.List;
 
 public class MainSceneController extends ControllerGUI{
 
-    private PlayerDeck playerDeck;
+    @FXML
+    private Text GameIDTextField;
+    @FXML
+    private Text nicknameTextField;
+
+    //CHAT
     @FXML
     private Label labelMessage;
     @FXML
@@ -29,16 +35,17 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private ComboBox boxMessage;
     @FXML
-    private Text GameIDTextField;
-    @FXML
-    private Text NicknameTextField;
+    private ImageView actionSendMessage;
+
+
+    //PLAYER DECK
+    private PlayerDeck playerDeck;
     @FXML
     private ImageView deckImg0;
     @FXML
     private ImageView deckImg1;
     @FXML
     private ImageView deckImg2;
-
     @FXML
     private Button turnbtn0;
     @FXML
@@ -46,19 +53,41 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private Button turnbtn2;
     @FXML
-    private Label youPoints;
-    @FXML
     private Label personalObjective;
+
+    //BOARD
+    private Board board;
     @FXML
-    private ImageView actionSendMessage;
+    private ImageView imgDeckGold;
+    @FXML
+    private ImageView imgGold0;
+    @FXML
+    private ImageView imgGold1;
+    @FXML
+    private ImageView imgDeckResource;
+    @FXML
+    private ImageView imgResource0;
+    @FXML
+    private ImageView imgResource1;
+    @FXML
+    private ImageView imgDeckOnjective;
+    @FXML
+    private ImageView imgObjective0;
+    @FXML
+    private ImageView imgObjective1;
 
-    /**
-     * Method to set game id lable
+    //BOOK
 
-     */
+    //SCORETRACK
+    @FXML
+    private Label youPoints;
+
+
+
+
     public void setNicknameAndID(GameImmutable model, String nickname) {
         GameIDTextField.setText("GameID: "+model.getGameId());
-        NicknameTextField.setText("Nickname: "+nickname );
+        nicknameTextField.setText("Nickname: "+nickname );
     }
 
 
@@ -128,6 +157,8 @@ public class MainSceneController extends ControllerGUI{
         }
     }
 
+
+
     public void setBook(GameImmutable model, String nickname) {
     }
 
@@ -163,9 +194,39 @@ public class MainSceneController extends ControllerGUI{
 
     }
 
+    public void setBoard(GameImmutable model) {
+        this.board = model.getBoard();
+        String imagePath;
+
+        //GOLD CARD
+        imagePath = board.getGoldCardsDeck().getBackCards().get(0).getImagePath();
+        imgDeckGold.setImage(new Image(imagePath));
+        imagePath = board.getGoldCards().get(0)[0].getImagePath();
+        imgGold0.setImage(new Image(imagePath));
+        imagePath = board.getGoldCards().get(1)[0].getImagePath();
+        imgGold1.setImage(new Image(imagePath));
+
+        //RESOURCE CARD
+        imagePath = board.getResourcesCardsDeck().getBackCards().get(0).getImagePath();
+        imgDeckResource.setImage(new Image(imagePath));
+        imagePath = board.getResourceCards().get(0)[0].getImagePath();
+        imgResource0.setImage(new Image(imagePath));
+        imagePath = board.getResourceCards().get(1)[0].getImagePath();
+        imgResource1.setImage(new Image(imagePath));
+
+        /*
+        //OBJECTIVE CARD
+        imagePath = board.getObjectiveCardsDeck().getBackCards().get(0).getImagePath();
+        imgDeckOnjective.setImage(new Image(imagePath));
+        imagePath = board.getObjectiveCards()[0].getImagePath();
+        imgObjective0.setImage(new Image(imagePath));
+        imagePath = board.getObjectiveCards()[1].getImagePath();
+        imgObjective1.setImage(new Image(imagePath));
+
+         */
+    }
+
     public void setScoretrack(GameImmutable model) {
     }
 
-    public void setBoard(GameImmutable model) {
-    }
 }
