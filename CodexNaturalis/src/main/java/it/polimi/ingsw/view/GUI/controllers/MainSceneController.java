@@ -138,11 +138,11 @@ public class MainSceneController extends ControllerGUI{
      *
      * @param ke the key event
      */
-   /* public void chatOnClick(KeyEvent ke) {
+    public void chatOnClick(KeyEvent ke) {
         if (ke.getCode().equals(KeyCode.ENTER)) {
             actionSendMessage(null);
         }
-    }*/
+    }
 
     /**
      * This method set the color of a message
@@ -257,5 +257,9 @@ public class MainSceneController extends ControllerGUI{
     public void setPersonalObjective(GameImmutable model, String nickname) {
         String imagePath=model.getPlayerByNickname(nickname).getGoal().getImagePath();
         personalObjective.setImage(new Image(imagePath));
+    }
+
+    public void setScoretrack(GameImmutable model){
+
     }
 }
