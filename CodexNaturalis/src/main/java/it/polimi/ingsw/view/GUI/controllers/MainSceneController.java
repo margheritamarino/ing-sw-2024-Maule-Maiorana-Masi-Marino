@@ -2,6 +2,11 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.exceptions.CellNotAvailableException;
+import it.polimi.ingsw.exceptions.PlacementConditionViolated;
+import it.polimi.ingsw.model.Book;
+import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.PlayerDeck;
 import it.polimi.ingsw.view.GUI.GUI;
@@ -17,12 +22,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.List;
 
 public class MainSceneController extends ControllerGUI{
+
+
 
     @FXML
     private Text GameIDTextField;
@@ -179,16 +188,6 @@ public class MainSceneController extends ControllerGUI{
 
 
 
-    public void setBook(GameImmutable model, String nickname) {
-        try {
-            String imagePath= model.getPlayerByNickname(nickname).getPlayerBook().getInitialCard().getImagePath();
-            Image image = new Image(imagePath);
-            initialCardImg.setImage(image);
-        }catch (NullPointerException e){
-            System.err.println("InitialCard Null");
-        }
-    }
-
 
     //PLAYERDECK
     public void setPlayerDeck(GameImmutable model, String nickname) {
@@ -234,8 +233,8 @@ public class MainSceneController extends ControllerGUI{
     public void enlargeAndHighlightPlayerDeckPane() {
         placeCardTurn=true;
         // Ingrandire il pane
-        PlayerDeckPane.setScaleX(1.5);
-        PlayerDeckPane.setScaleY(1.5);
+        PlayerDeckPane.setScaleX(1.2);
+        PlayerDeckPane.setScaleY(1.2);
 
         // Applicare l'effetto di illuminazione
         DropShadow dropShadow = new DropShadow();
@@ -306,5 +305,56 @@ public class MainSceneController extends ControllerGUI{
         }
     }
 
+
+
+
+    //BOOK
+
+    @FXML
+    public ScrollPane gameBoardScrollPane;
+
+    @FXML
+    public AnchorPane gameBoardPane;
+    @FXML
+    public AnchorPane rootPane;
+
+    private int numCells = 70;
+    private ImageView[][] imageViews;
+    private int cellSize = 50; // Dimensione delle celle delle ImageView
+
+    public void setBook(GameImmutable model, String nickname) {
+        Cell[][] bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
+
+        // Inizializza la matrice di ImageView
+        imageViews = new ImageView[numCells][numCells];
+        for (int i = 0; i < numCells; i++) {
+            for (int j = 0; j < numCells; j++) {
+                ImageView imageView = new ImageView();
+                imageView.setFitWidth(cellSize); // Imposta la larghezza desiderata per le ImageView
+                imageView.setFitHeight(cellSize); // Imposta l'altezza desiderata per le ImageView
+                imageViews[i][j] = imageView;
+                gameBoardPane.getChildren().add(imageView); // Aggiungi ImageView al AnchorPane
+                imageView.setLayoutX(j * cellSize); // Imposta la posizione X in base alla colonna
+                imageView.setLayoutY(i * cellSize); // Imposta la posizione Y in base alla riga
+            }
+        }
+
+        // Carica l'immagine per le carte non nulle
+        // Supponiamo che tu abbia un'array di Image chiamato cardImages che contiene le immagini delle carte
+        // e che bookMatrix sia la tua matrice di carte
+        for (int i = 0; i < numCells; i++) {
+            for (int j = 0; j < numCells; j++) {
+                if (bookMatrix[i][j].getCard() != null) {
+                    PlayableCard card = bookMatrix[i][j].getCard();
+                    // Assicurati di avere un'immagine associata a ogni tipo di carta
+                    Image cardImage = new Image(card.getImagePath());
+                    imageViews[i][j].setImage(cardImage);
+                } else {
+                    // Carica l'immagine per le carte nulle (ImageView vuoto)
+                    imageViews[i][j].setImage(null);
+                }
+            }
+        }
+    }
 
 }

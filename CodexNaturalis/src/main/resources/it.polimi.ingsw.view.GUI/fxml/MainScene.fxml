@@ -13,7 +13,7 @@
             <Image url="@../../img/copertina.png" />
          </image>
       </ImageView>
-      <Pane layoutX="297.0" layoutY="14.0" prefHeight="87.0" prefWidth="632.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+      <Pane layoutX="297.0" layoutY="14.0" prefHeight="87.0" prefWidth="750.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
          <children>
             <Text fx:id="labelMessage" layoutX="7.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="619.0">
                <font>
@@ -31,7 +31,7 @@
          <children>
             <TextField fx:id="messageText" layoutX="69.0" layoutY="91.0" onKeyPressed="#handleKeyPressed" prefHeight="31.0" prefWidth="94.0" style="-fx-border-width: 2; -fx-border-color: black;" />
             <ListView fx:id="chatList" layoutX="18.0" layoutY="13.0" prefHeight="68.0" prefWidth="200.0" stylesheets="@styleCodex.css" />
-            <ImageView fx:id="actionSendMessage" fitHeight="26.0" fitWidth="25.0" layoutX="185.0" layoutY="94.0" onKeyPressed="#chatOnClick" onMouseClicked="#actionSendMessage" pickOnBounds="true" preserveRatio="true" styleClass="tileHover">
+            <ImageView fx:id="actionSendMessage" fitHeight="26.0" fitWidth="25.0" layoutX="185.0" layoutY="94.0" onKeyPressed="#chatOnClick" onMouseClicked="#actionSendMessage" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img/arrow.png" />
                </image>
@@ -91,5 +91,15 @@
          </font>
       </Button>
       <ListView fx:id="EventsList" layoutX="22.0" layoutY="376.0" prefHeight="150.0" prefWidth="235.0" style="-fx-border-color: black; -fx-border-width: 2;" />
+      <AnchorPane fx:id="rootPane" layoutX="297.0" layoutY="137.0" minHeight="0.0" minWidth="0.0" prefHeight="380.0" prefWidth="750.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <ScrollPane fx:id="gameBoardScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="380.0" prefWidth="750.0">
+               <content>
+                  <AnchorPane fx:id="gameBoardPane" prefHeight="380.0" prefWidth="750.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+
    </children>
 </AnchorPane>
