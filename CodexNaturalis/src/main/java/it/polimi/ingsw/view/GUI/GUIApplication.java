@@ -410,6 +410,10 @@ public class GUIApplication extends Application {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setImportantEvents(importantEvents);
     }
+    public void showPlayerDeck() {
+        MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
+        controller.enlargeAndHighlightPlayerDeckPane();
+    }
 
 
 }

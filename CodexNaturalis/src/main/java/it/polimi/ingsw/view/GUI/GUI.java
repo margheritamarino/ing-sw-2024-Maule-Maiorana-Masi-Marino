@@ -109,7 +109,15 @@ public class GUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model) {
-        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("It's your turn to PLACE A CARD", null));
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(event -> {
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PLACE", null));
+            callPlatformRunLater(() -> this.guiApplication.showPlayerDeck());
+
+        });
+        pause.play();
+
     }
 
     @Override
