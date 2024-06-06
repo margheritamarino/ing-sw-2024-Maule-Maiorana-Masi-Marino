@@ -395,6 +395,10 @@
 .glow-button {
     -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.8), 10, 0.5, 0, 0);
 }
+.glow-pane {
+    -fx-effect: dropshadow(gaussian, rgba(255,255,0,0.8), 10, 0.5, 0, 0);
+}
+
 
 .scale-button {
     -fx-scale-x: 1;

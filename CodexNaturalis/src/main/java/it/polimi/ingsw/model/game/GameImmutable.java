@@ -196,7 +196,9 @@ public class GameImmutable implements Serializable {
         }
         return ris.toString();
     }
-
+    public int[] getOrderArray(){
+        return orderArray;
+    }
 
     /**
      * @return the number of players
