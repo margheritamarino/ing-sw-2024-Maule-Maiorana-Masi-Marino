@@ -160,7 +160,7 @@ public class GUIApplication extends Application {
 
                 }
 
-                case NICKNAME_POPUP-> {
+                case NICKNAME_POPUP, ORDERPLAYERS_POPUP-> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
@@ -178,6 +178,7 @@ public class GUIApplication extends Application {
 
                     return;
                 }
+
 
                 case MENU, INITIALIZE_CARDS -> {
                     this.primaryStage.centerOnScreen();
@@ -376,7 +377,6 @@ public class GUIApplication extends Application {
     public void showMainScene(GameImmutable model, String nickname, GUI gui){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setGUI(gui, model);
-        controller.setPersonalObjective(model, nickname);
         controller.setPersonalObjective(model, nickname);
         controller.setNicknameAndID(model, nickname);
 

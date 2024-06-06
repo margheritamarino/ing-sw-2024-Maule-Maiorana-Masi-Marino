@@ -193,10 +193,10 @@ public class GameImmutable implements Serializable {
 
         for (int o : orderArray) {
             ris.append("[#").append(o).append("]: ").append(players.get(o).getNickname()).append("\n");
-
         }
         return ris.toString();
     }
+
 
     /**
      * @return the number of players

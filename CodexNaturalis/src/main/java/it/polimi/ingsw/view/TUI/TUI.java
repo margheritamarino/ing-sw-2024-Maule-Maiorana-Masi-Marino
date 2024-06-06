@@ -234,7 +234,7 @@ public class TUI extends UI {
 
     }
     @Override
-    public void show_CurrentTurnMsg(){
+    public void show_CurrentTurnMsg(GameImmutable model){
         printAsync("It's your TURN!\n");
     }
     @Override

@@ -53,7 +53,7 @@ public abstract class UI {
      */
     public abstract void show_chosenNickname(String nickname);
 
-    public abstract void show_CurrentTurnMsg();
+    public abstract void show_CurrentTurnMsg(GameImmutable model);
 
     /**
      * Shows game started message

@@ -5,10 +5,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.view.GUI.controllers.BoardPopUpController;
-import it.polimi.ingsw.view.GUI.controllers.LobbyController;
-import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
-import it.polimi.ingsw.view.GUI.controllers.ScoretrackPopupController;
+import it.polimi.ingsw.view.GUI.controllers.*;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.Utilities.UI;
@@ -25,7 +22,7 @@ import java.util.ArrayList;
 public class GUI extends UI {
 
     private GUIApplication guiApplication;
-    private InputGUI inputGUI;
+    private  InputGUI inputGUI;
 
     private String nickname;
     boolean showedPublisher = false;
@@ -104,12 +101,11 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_CurrentTurnMsg() {
-        //TODO
+    public void show_CurrentTurnMsg(GameImmutable model) {
+        callPlatformRunLater(() -> ((OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP)).setOrderListText(model));
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.ORDERPLAYERS_POPUP));
     }
 
-
-    //TODO
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model) {
@@ -172,6 +168,7 @@ public class GUI extends UI {
     public void show_gameStarted(GameImmutable model) {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
         callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
+
     }
 
     @Override
@@ -348,6 +345,8 @@ public class GUI extends UI {
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
+        callPlatformRunLater(() -> ((OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP)).setOrderListText(model));
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.ORDERPLAYERS_POPUP));
 
     }
     @Override
