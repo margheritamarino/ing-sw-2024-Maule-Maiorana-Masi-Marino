@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="401.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.ScoretrackPopupController">
+   <children>
+      <Pane layoutY="32.0" maxHeight="353.0" maxWidth="611.0" opacity="0.8" prefHeight="50.0" prefWidth="401.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+         <children>
+            <Text fill="WHITE" layoutX="108.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORETRACK">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <ImageView fitHeight="387.0" fitWidth="204.0" layoutX="103.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../img/Scoretrack.png" />
+         </image>
+      </ImageView>
+      <Pane layoutY="490.0" maxHeight="353.0" maxWidth="611.0" opacity="0.8" prefHeight="98.0" prefWidth="401.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+         <children>
+            <Text fx:id="nick0" fill="WHITE" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="136.03125">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="points0" fill="WHITE" layoutX="165.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick2" fill="WHITE" layoutX="14.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="136.03125">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="points2" fill="WHITE" layoutX="165.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="33.0">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick1" fill="WHITE" layoutX="208.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="136.03125">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="points1" fill="WHITE" layoutX="356.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick3" fill="WHITE" layoutX="208.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="136.03125">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="points3" fill="WHITE" layoutX="355.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="33.0">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Button fx:id="closeBtn" layoutX="366.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleCloseAction" prefHeight="23.0" prefWidth="33.0" stylesheets="@styleCodex.css" text="X">
+         <styleClass>
+            <String fx:value="close-button" />
+            <String fx:value="close-button hover" />
+         </styleClass>
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

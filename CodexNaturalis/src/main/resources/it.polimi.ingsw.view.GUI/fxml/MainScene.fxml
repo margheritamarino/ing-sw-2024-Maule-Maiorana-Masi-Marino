@@ -93,6 +93,11 @@
             <Font name="Arial Black" size="12.0" />
          </font>
       </Button>
+      <Button fx:id="showScoretrackBtn" layoutX="1100.0" layoutY="214.0" mnemonicParsing="false" onAction="#showScoretrackPopUp" styleClass="big-yellow" stylesheets="@styleCodex.css" text="SCORETRACK">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
       <ListView fx:id="EventsList" layoutX="22.0" layoutY="376.0" prefHeight="150.0" prefWidth="235.0" style="-fx-border-color: black; -fx-border-width: 2;" />
    </children>
 </AnchorPane>
