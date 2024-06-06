@@ -83,7 +83,8 @@ public interface GameControllerInterface extends Remote {
 
     void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick, Color color)throws RemoteException;
 
-   // boolean makeGameStart(GameListenerInterface lis, String nickname)throws RemoteException;
 
     void sentMessage(Message msg) throws RemoteException;
+
+    boolean makeGameStart(GameListenerInterface lis, String nick) throws RemoteException;
 }

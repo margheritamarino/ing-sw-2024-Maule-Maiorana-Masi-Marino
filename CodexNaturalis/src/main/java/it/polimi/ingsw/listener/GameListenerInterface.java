@@ -110,6 +110,7 @@ public interface GameListenerInterface extends Remote {
      * @throws RemoteException if the reference could not be accessed
      */
     void requireGoalsReady(GameImmutable model) throws RemoteException;
+    void cardsReady(GameImmutable model) throws RemoteException;
 
     /**
      * Notifies the client that a card has been placed on the board.

@@ -7,7 +7,12 @@ module PSP24 {
     requires java.desktop;
     exports it.polimi.ingsw.view.GUI.scenes;
     exports it.polimi.ingsw.view.GUI;
+    exports it.polimi.ingsw.model.player;
+    exports it.polimi.ingsw.model.cards;
+    exports it.polimi.ingsw.model;
     exports it.polimi.ingsw.view.GUI.controllers;
+    exports it.polimi.ingsw.Chat;
+    exports it.polimi.ingsw.exceptions;
     exports it.polimi.ingsw.view.Utilities;
     exports it.polimi.ingsw.network.rmi;
     exports it.polimi.ingsw.listener;

@@ -202,10 +202,10 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname, color);
     }
 
-  /*  @Override
+    @Override
     public boolean makeGameStart(GameListenerInterface lis, String nickname) throws RemoteException {
         return serverObject.gameController.makeGameStart(lis, nickname);
-    }*/
+    }
 
     @Override
     public void sentMessage(Message msg) throws RemoteException {

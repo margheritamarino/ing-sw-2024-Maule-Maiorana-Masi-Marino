@@ -163,6 +163,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_youAreReady(event.getModel());
                 ui.show_askForChat(event.getModel(), nickname);
             }
+            case CARDS_READY -> {
+                makeGameStart(nickname);
+            }
         }
     }
 
@@ -403,7 +406,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
+    @Override
+    public void makeGameStart(String nickname){
+        try {
+            clientActions.makeGameStart(nickname);
 
+        } catch (IOException e){
+            noConnectionError();
+        }
+    }
     //metodo per chiedere il numero della carta (scelta fronte o retro, o carta 1 o 2)
     private Integer askNum(String message, GameImmutable model){
         String temp;
@@ -779,6 +790,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    @Override
+    public void cardsReady(GameImmutable model) throws RemoteException{
+        events.add(model, EventType.CARDS_READY);
     }
 
     /**

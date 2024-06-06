@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -245,13 +246,13 @@ public class ClientSocket extends Thread implements ClientInterface {
         }
     }
 
- /*   @Override
+   @Override
     public void makeGameStart(String nick) throws IOException {
         this.nickname=nick;
         out.writeObject(new ClientMsgStartGame(nickname));
         finishSending();
     }
-*/
+
     /**
      * Makes sure the message has been sent
      * @throws IOException

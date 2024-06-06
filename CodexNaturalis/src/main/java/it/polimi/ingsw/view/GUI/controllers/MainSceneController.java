@@ -3,8 +3,6 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Book;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerDeck;
@@ -266,13 +264,8 @@ public class MainSceneController extends ControllerGUI{
 
     public void setPersonalObjective(GameImmutable model, String nickname) {
         try {
-            Player player = model.getPlayerByNickname(nickname);
-            System.out.println("Player obtained: " +player.getNickname());
-            if (player.getGoal() == null) {
-                System.err.println("Player goal is null for player: " + nickname);
-                return;
-            }
-            String imagePath = player.getGoal().getImagePath();
+
+            String imagePath = model.getPlayerGoalByNickname(nickname).getImagePath();
             Image image = new Image(imagePath);
             personalObjective.setImage(image);
         } catch (NullPointerException e) {

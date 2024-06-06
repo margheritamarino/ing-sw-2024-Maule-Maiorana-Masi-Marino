@@ -29,8 +29,8 @@ public class ServerMain {
                     """));
             input = new Scanner(System.in).next();
             System.out.println("Input ricevuto: " + input);
-        } while (!(input.equals("empty") || input.equals(""))&& !isValidIP(input));
-        if (input.equals("empty")|| input.equals(""))
+        } while (!(input.equals("empty") || input.isEmpty())&& !isValidIP(input));
+        if (input.equals("empty")|| input.isEmpty())
             System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
         else{
             DefaultValue.serverIp = input;

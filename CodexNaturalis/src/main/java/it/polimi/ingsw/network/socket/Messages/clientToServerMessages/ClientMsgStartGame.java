@@ -18,8 +18,7 @@ public class ClientMsgStartGame extends ClientGenericMessage {
 
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        System.out.println("messaggio inviato");
-      //  gameController.makeGameStart(lis, nickname);
+        gameController.makeGameStart(lis, nickname);
 
     }
 

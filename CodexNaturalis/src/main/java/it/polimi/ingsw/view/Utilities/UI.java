@@ -4,6 +4,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.FileNotFoundException;

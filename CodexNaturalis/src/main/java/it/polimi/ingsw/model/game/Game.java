@@ -288,15 +288,7 @@ public class Game {
 		listenersHandler.notify_PlayerLeft(this, nickname);
 	}
 
-	public int getNumReady() {
 
-		//If every player is ready, the game starts
-		int numReady = 0;
-		for (Player p : players)
-			if (p.getReadyToStart())
-				numReady++;
-		return numReady;
-	}
 
 	/**
 	 * @return true if there are enough players to start, and if every one of them is ready
@@ -336,7 +328,7 @@ public class Game {
 	 * If I want to set the gameStatus to "RUNNING", there needs to be at least
 	 * DefaultValue.minNumberOfPlayers -> (2) in lobby, the right number of Cards on the Board and a valid currentPlayer
 	 */
-	public void setInitialStatus() {
+	/*public void setInitialStatus() {
 		try {
 			if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
 					players.size() == playersNumber
@@ -348,8 +340,24 @@ public class Game {
 		}catch (BoardSetupException e){
 			System.err.println("Error during Board setup: " + e.getMessage());
 		}
-	}
+	}*/
+	public void setInitialStatus() {
+		try {
+			if (this.status == GameStatus.WAIT &&
+				players.size() == playersNumber &&
+				checkBoard() &&
+				currentPlayer != null) {
 
+				this.status = GameStatus.RUNNING;
+				listenersHandler.notify_GameStarted(this);
+			}
+		} catch (BoardSetupException e) {
+			System.err.println("Error during Board setup: " + e.getMessage());
+		}
+	}
+	public boolean allPlayersHaveChosenGoals() {
+		return players.stream().allMatch(player -> player.getGoal() != null);
+	}
 	/**
 	 * Sets the game status in case of ENDED or LAST_CIRCLE
 	 * @param status is the status of the game
@@ -456,11 +464,6 @@ public class Game {
 			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
 
 		}
-		//player.notify_cardsReady(this);
-	}
-
-	public PlayableCard[] getInitialCard(){
-		return temporaryInitialCard;
 	}
 
 	public ArrayList<ObjectiveCard> getObjectiveCard(){
@@ -490,7 +493,7 @@ public class Game {
 	 * @throws DeckEmptyException If the objective card deck is empty.
 	 */
 	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException, DeckEmptyException {
-		ArrayList<ObjectiveCard> drawnCards = new ArrayList<ObjectiveCard>();
+		ArrayList<ObjectiveCard> drawnCards = new ArrayList<>();
 
 		// Controlla che il gioco sia in uno stato valido per pescare carte obiettivo
 		if (status.equals(GameStatus.WAIT)) {
@@ -513,7 +516,7 @@ public class Game {
 	public void setPlayerGoal(Player player, int index) {
 		ObjectiveCard chosenObjectiveCard = temporaryObjectiveCards.get(index);
 		player.setGoal(chosenObjectiveCard);
-		System.out.println("Player goal set: " + chosenObjectiveCard.getImagePath());
+		player.notify_cardsReady(this);
 	}
 
 
@@ -524,23 +527,6 @@ public class Game {
 		Player winner = scoretrack.getWinner();
 		return winner;
 	}
-	/**
-	 * Retrieves the available cells for the current player.
-	 * @return an ArrayList of available cells for the current player.
-	 */
-	public ArrayList<Cell> getCurrentPlayerCells(){
-		return currentPlayer.getPlayerBook().showAvailableCells();
-	}
-	public Book getBook(){
-		return currentPlayer.getPlayerBook();
-	}
-	/**
-	 * @return the current player's player Deck
-	 */
-	public PlayerDeck getCurrentPlayerDeck(){
-		return currentPlayer.getPlayerDeck();
-	}
-
 
 	/**
 	 * Handles the player's turn to place a card on the board.
@@ -668,8 +654,9 @@ public class Game {
 				.filter(player -> player.getNickname().equals(playerNickname))
 				.findFirst();
 
-		// Restituisce il giocatore se trovato, altrimenti null
-		return optionalPlayer.orElse(null);
+		// Restituisce il giocatore se trovato, altrimenti lancia un'eccezione
+		return optionalPlayer.orElseThrow(() -> new NoSuchElementException("Player not found for nickname: " + playerNickname));
+
 	}
 
 	public void setPlayerDisconnected(Player p) {

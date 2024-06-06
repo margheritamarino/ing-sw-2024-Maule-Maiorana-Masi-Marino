@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.cards.InitialCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -170,10 +168,12 @@ public class GUIApplication extends Application {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);
                 }
-                /*case MAINSCENE -> {
-                    this.closePopUpStage();
-                    MainSceneController controller = (MainSceneController) s.getControllerGUI();
-                }*/
+                case MAINSCENE -> {
+                   /* this.closePopUpStage();
+                    MainSceneController controller = (MainSceneController) s.getControllerGUI();*/
+                    this.primaryStage.centerOnScreen();
+                    this.primaryStage.setAlwaysOnTop(false);
+                }
 
                 default -> {
                     this.primaryStage.setAlwaysOnTop(false);
@@ -340,13 +340,13 @@ public class GUIApplication extends Application {
     public void setInitializationScene(GameImmutable model, boolean initial){
         InitializeCardsController controller = (InitializeCardsController) scenes.get(getSceneIndex(SceneType.INITIALIZE_CARDS)).getControllerGUI();
 
-        if (!(initial)) {
+        if (!initial) {
             controller.setTitleField("Choose your PERSONAL GOAL for the Game...");
             ArrayList<ObjectiveCard> temp = model.getObjectiveCard();
             String path1 = temp.get(0).getImagePath();
             String path2 = temp.get(1).getImagePath();
             controller.setCards(path1, path2);
-        } else if (initial) {
+        } else{
             controller.setTitleField("Choose if you want to place the Front or the Back...");
             PlayableCard[] temp = model.getInitialCard();
             String path1 = temp[0].getImagePath();

@@ -145,9 +145,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 model.initializeCards( lis, p);
             }
 
-            model.chooseOrderPlayers();
-            model.initializeBoard();
-            model.setInitialStatus();
             return true;
 
         }else {
@@ -157,16 +154,11 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }
 
- /* public boolean makeGameStart(GameListenerInterface lis, String nickname) {
-        System.out.println(model.getNumReady());
-        if (model.arePlayersReadyToStartAndEnough()) {
+    public boolean makeGameStart( GameListenerInterface lis, String nickname) {
+
+        if (model.allPlayersHaveChosenGoals()) {
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
-            //System.out.println(model.getCurrentPlayer().getNickname());
-            int[] orderArray= model.getOrderArray();
-           // System.out.println(model.getPlayers().get(orderArray[0]));
-         //   ArrayList<Player> players= model.getPlayers();
-           //
-           // model.setCurrentPlayer(players.get(orderArray[0]));
+
             model.initializeBoard();
             model.setInitialStatus();
             return true;
@@ -175,7 +167,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             return false;
         }
 
-    }*/
+    }
 
     /**
      * Places a card in the book.

@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.player.Player;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 // TUTOR DICE: basta un GameImmutable (copia del Game) che viene inviato sulla rete,
 // poi si ricava tutto il resto da questo tramite i metodi GETTER
@@ -122,11 +123,6 @@ public class GameImmutable implements Serializable {
         return currentPlayer;
     }
 
-    public PlayableCard[] getTemporaryInitialCardsDeck() {
-        return temporaryInitialCard;
-    }
-    public ArrayList<ObjectiveCard> getTemporaryObjectiveCardsDeck() {return temporaryObjectiveCards;}
-
     public Board getBoard(){
         return board;
     }
@@ -142,6 +138,18 @@ public class GameImmutable implements Serializable {
      */
     public Player getPlayerByNickname(String playerNickname) {
         return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().getFirst();
+    }
+
+    /**
+     * @param playerNickname search for this player in the game
+     * @return the ObjectiveCard of the player with that nickname
+     */
+    public ObjectiveCard getPlayerGoalByNickname(String playerNickname) {
+        return players.stream()
+                .filter(x -> x.getNickname().equals(playerNickname))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Player not found"))
+                .getGoal();
     }
 
 
@@ -179,21 +187,7 @@ public class GameImmutable implements Serializable {
         }
         return ris.toString();
     }
-    /*public String toStringListPlayersReady() {
-        StringBuilder ris = new StringBuilder();
-        int i = 1;
-        for (Player p : players) {
-            ris.append("[#").append(i).append("]: ").append(p.getNickname());
-            if (p.getReadyToStart()) {
-                ris.append(" - Ready");
-            } else {
-                ris.append(" - NOT Ready");
-            }
-            ris.append("\n");
-            i++;
-        }
-        return ris.toString();
-    }*/
+
     public String toStringListOrderArray() {
         StringBuilder ris = new StringBuilder();
 
@@ -225,12 +219,6 @@ public class GameImmutable implements Serializable {
     }
 
 
-    /**
-     * @return current player's Goal
-     */
-    public ObjectiveCard getCurrentPlayerGoal() {
-        return (ObjectiveCard) currentPlayer.getGoal();
-    }
 
     public ObjectiveCard[] getCommonGoals() {
         return board.getObjectiveCards();

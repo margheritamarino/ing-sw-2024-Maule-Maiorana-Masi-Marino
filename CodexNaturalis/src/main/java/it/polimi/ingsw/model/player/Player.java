@@ -107,6 +107,7 @@ public class Player implements Serializable {
      */
     public void setGoal(ObjectiveCard chosenCard) {
         this.playerGoal = chosenCard;
+        System.out.println("Goal setted: " +chosenCard.getCardID());
     }
 
     public ObjectiveCard getGoal() {
@@ -243,6 +244,19 @@ public class Player implements Serializable {
             try {
                 // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
                 l.requireGoalsReady(new GameImmutable(model));
+            } catch (RemoteException | IllegalStateException e) {
+                printAsync("During notification of notify_requireGoals, a disconnection has been detected before ping");
+
+            }
+        }
+    }
+    public synchronized void notify_cardsReady( Game model){
+        System.out.println("Player: notify_requireGoals");
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.cardsReady(new GameImmutable(model));
             } catch (RemoteException | IllegalStateException e) {
                 printAsync("During notification of notify_requireGoals, a disconnection has been detected before ping");
 

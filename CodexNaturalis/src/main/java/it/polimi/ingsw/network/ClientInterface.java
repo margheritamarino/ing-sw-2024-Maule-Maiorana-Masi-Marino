@@ -64,6 +64,8 @@ public interface ClientInterface  {
     //void makeGameStart(String nick)throws IOException;
 
     void sendMessage(Message msg) throws RemoteException;
+
+    void makeGameStart(String nickname)throws IOException;
 }
 
 

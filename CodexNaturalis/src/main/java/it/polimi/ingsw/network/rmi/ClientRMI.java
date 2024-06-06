@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.model.DefaultValue;
 
 import it.polimi.ingsw.network.PingSender;
+import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.ClientMsgStartGame;
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -279,14 +280,11 @@ public void run() {
         }
     }
 
-   /* @Override
+    @Override
     public void makeGameStart(String nick) throws IOException {
-        try {
-            gameController.makeGameStart(modelInvokedEvents, nickname);
-        } catch (RemoteException e) {
-            throw new IOException(e);
-        }
-    }*/
+          gameController.makeGameStart(modelInvokedEvents, nickname);
+
+    }
 
     /**
      * Ask the Socket Server to leave a specific game
@@ -310,7 +308,6 @@ public void run() {
         System.out.println("ClientRMI sending message from player: " + msg.getSender().getNickname());
         gameController.sentMessage(msg);
     }
-
 
 
 }
