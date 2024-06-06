@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -31,6 +30,5 @@
             <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
          </padding>
       </HBox>
-      <TextField fx:id="inputField" layoutX="155.0" layoutY="91.0" />
    </children>
 </AnchorPane>
