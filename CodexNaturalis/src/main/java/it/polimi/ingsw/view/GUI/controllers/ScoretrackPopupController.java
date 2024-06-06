@@ -144,21 +144,24 @@ public class ScoretrackPopupController extends ControllerGUI {
             setPoints(scoretrack.getPlayerScore(player), i, model.getCurrentPlayer());
         }
         // Imposta l'effetto glow del colore del giocatore per il relativo bottone
-        switch (model.getCurrentPlayer().getPlayerColor()) {
-            case YELLOW:
-                btnPoints[scoretrack.getPlayerScore(model.getCurrentPlayer())].getStyleClass().add("button-glow-yellow");
-                break;
-            case RED:
-                btnPoints[scoretrack.getPlayerScore(model.getCurrentPlayer())].getStyleClass().add("button-glow-red");
-                break;
-            case BLUE:
-                btnPoints[scoretrack.getPlayerScore(model.getCurrentPlayer())].getStyleClass().add("button-glow-blue");
-                break;
-            case GREEN:
-                btnPoints[scoretrack.getPlayerScore(model.getCurrentPlayer())].getStyleClass().add("button-glow-green");
-                break;
-            default:
-                break;
+        for (int i = 0; i < playersWithPoints.size(); i++) {
+            Player player = playersWithPoints.get(i);
+            switch (player.getPlayerColor()) {
+                case YELLOW:
+                    btnPoints[scoretrack.getPlayerScore(player)].getStyleClass().add("button-glow-yellow");
+                    break;
+                case RED:
+                    btnPoints[scoretrack.getPlayerScore(player)].getStyleClass().add("button-glow-red");
+                    break;
+                case BLUE:
+                    btnPoints[scoretrack.getPlayerScore(player)].getStyleClass().add("button-glow-blue");
+                    break;
+                case GREEN:
+                    btnPoints[scoretrack.getPlayerScore(player)].getStyleClass().add("button-glow-green");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
