@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.GUI.controllers.BoardPopUpController;
 import it.polimi.ingsw.view.GUI.controllers.LobbyController;
 import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
+import it.polimi.ingsw.view.GUI.controllers.ScoretrackPopupController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.Utilities.UI;
@@ -328,6 +329,8 @@ public class GUI extends UI {
     }
     @Override
     public void show_scoretrack(GameImmutable model) {
+        callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.SCORETRACK_POPUP));
 
     }
     @Override

@@ -171,6 +171,14 @@ public class GUIApplication extends Application {
 
                     return;
                 }
+                case SCORETRACK_POPUP-> {
+                    openPopup(scenes.get(getSceneIndex(scene)).getScene());
+                    ScoretrackPopupController controller = (ScoretrackPopupController) s.getControllerGUI();
+                    controller.setGUIApplication(this);
+
+                    return;
+                }
+
                 case MENU, INITIALIZE_CARDS -> {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);

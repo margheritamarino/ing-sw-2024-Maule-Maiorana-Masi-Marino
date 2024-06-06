@@ -61,6 +61,8 @@ public class MainSceneController extends ControllerGUI{
     private ImageView personalObjective;
 
     @FXML
+    private Button showScoretrackBtn;
+    @FXML
     private Button showBoardBtn;
     private GUI gui;
     private GameImmutable model;
@@ -232,6 +234,12 @@ public class MainSceneController extends ControllerGUI{
         if (gui != null) {
             gui.show_board(this.model);
 
+        }
+    }
+
+    public void showScoretrackPopUp(ActionEvent e){
+        if (gui != null) {
+            gui.show_scoretrack(model);
         }
     }
 }
