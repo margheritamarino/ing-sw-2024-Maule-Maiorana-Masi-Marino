@@ -42,7 +42,6 @@ public abstract class UI {
     public abstract void show_scoretrack(GameImmutable model);
     public abstract void show_board(GameImmutable model);
 
-
     /**
      * Asks the player for his nickname
      */

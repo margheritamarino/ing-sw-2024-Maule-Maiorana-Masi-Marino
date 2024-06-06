@@ -269,8 +269,14 @@ public class GUI extends UI {
 
     @Override
     public void addImportantEvent(String input) {
-
+        //Want to show a numbeMaxEventToShow important event happened
+        if (eventsToShow.size() + 1 >= DefaultValue.MaxEventToShow) {
+            eventsToShow.removeFirst();
+        }
+        eventsToShow.add(input);
+        callPlatformRunLater(() -> this.guiApplication.showImportantEvents(this.eventsToShow));
     }
+
 
     @Override
     public void resetImportantEvents() {

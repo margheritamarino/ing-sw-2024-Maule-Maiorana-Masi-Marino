@@ -373,8 +373,6 @@ public class GUIApplication extends Application {
     }
 
     //MAIN SCENE
-
-
     public void showMainScene(GameImmutable model, String nickname, GUI gui){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setGUI(gui, model);
@@ -404,6 +402,14 @@ public class GUIApplication extends Application {
         controller.setMessage(model.getChat().getMsgs(), myNickname);
     }
 
+    /**
+     * This method is used to show all the important events.
+     * @param importantEvents the list of the important events
+     */
+    public void showImportantEvents(List<String> importantEvents) {
+        MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
+        controller.setImportantEvents(importantEvents);
+    }
 
 
 }

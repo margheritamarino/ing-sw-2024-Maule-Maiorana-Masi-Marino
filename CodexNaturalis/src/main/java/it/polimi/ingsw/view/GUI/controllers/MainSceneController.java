@@ -66,11 +66,19 @@ public class MainSceneController extends ControllerGUI{
     private Button showBoardBtn;
     private GUI gui;
     private GameImmutable model;
-    //BOOK
+
+    //EVENTS
+    @FXML
+    private ListView EventsList;
 
 
 
-
+    public void setImportantEvents(List<String> importantEvents){
+        for (String s : importantEvents) {
+            EventsList.getItems().add(s);
+        }
+        EventsList.scrollTo(EventsList.getItems().size());
+    }
     public void setNicknameAndID(GameImmutable model, String nickname) {
         GameIDTextField.setText("GameID: "+model.getGameId());
         nicknameTextField.setText("Nickname: "+nickname );
