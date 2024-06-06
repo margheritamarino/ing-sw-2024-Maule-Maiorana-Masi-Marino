@@ -22,11 +22,33 @@
     -fx-background-radius: 50%;
 }
 
-.button-glow {
+.button-glow-yellow {
     -fx-border-width: 4px;
     -fx-border-color: transparent, yellow; /* Primo colore trasparente per l'effetto di sfumatura */
     -fx-background-color: transparent;
     -fx-background-radius: 5px;
+}
+
+.button-glow-red {
+    -fx-border-width: 4px;
+    -fx-border-color: transparent, red; /* Primo colore trasparente per l'effetto di sfumatura */
+    -fx-background-color: transparent;
+    -fx-background-radius: 5px;
+}
+
+.button-glow-blue {
+    -fx-border-width: 4px;
+    -fx-border-color: transparent, blue; /* Primo colore trasparente per l'effetto di sfumatura */
+    -fx-background-color: transparent;
+    -fx-background-radius: 5px;
+}
+
+.button-glow-green {
+    -fx-border-width: 4px;
+    -fx-border-color: transparent, green; /* Primo colore trasparente per l'effetto di sfumatura */
+    -fx-background-color: transparent;
+    -fx-background-radius: 5px;
+
 }
 
 .green {

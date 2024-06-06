@@ -31,6 +31,7 @@ public class ScoretrackPopupController extends ControllerGUI {
     @FXML
     private Text points3;
 
+    private Button[] btnPoints = new Button[21];
     @FXML
     private Button btnPoints0;
     @FXML
@@ -122,6 +123,16 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
     }
 
+    @FXML
+    private void initialize() {
+        btnPoints = new Button[] {
+                btnPoints0, btnPoints1, btnPoints2, btnPoints3, btnPoints4,
+                btnPoints5, btnPoints6, btnPoints7, btnPoints8, btnPoints9,
+                btnPoints10, btnPoints11, btnPoints12, btnPoints13, btnPoints14,
+                btnPoints15, btnPoints16, btnPoints17, btnPoints18, btnPoints19,
+                btnPoints20
+        };
+    }
     public void setScoreTrack(GameImmutable model) {
 
         ScoreTrack scoretrack= model.getScoretrack();
@@ -132,7 +143,25 @@ public class ScoretrackPopupController extends ControllerGUI {
             setUsername(player.getNickname(), i);
             setPoints(scoretrack.getPlayerScore(player), i, model.getCurrentPlayer());
         }
+        // Imposta l'effetto glow del colore del giocatore per il relativo bottone
+        switch (model.getCurrentPlayer().getPlayerColor()) {
+            case YELLOW:
+                btnPoints[scoretrack.getPlayerScore(model.getCurrentPlayer())].getStyleClass().add("button-glow-yellow");
+                break;
+            case RED:
+                btnPoints[scoretrack.getPlayerScore(model.getCurrentPlayer())].getStyleClass().add("button-glow-red");
+                break;
+            case BLUE:
+                btnPoints[scoretrack.getPlayerScore(model.getCurrentPlayer())].getStyleClass().add("button-glow-blue");
+                break;
+            case GREEN:
+                btnPoints[scoretrack.getPlayerScore(model.getCurrentPlayer())].getStyleClass().add("button-glow-green");
+                break;
+            default:
+                break;
+        }
     }
+
     @FXML
     private void handleCloseAction(ActionEvent event) {
         this.guiApplication.closePopUpStage();
