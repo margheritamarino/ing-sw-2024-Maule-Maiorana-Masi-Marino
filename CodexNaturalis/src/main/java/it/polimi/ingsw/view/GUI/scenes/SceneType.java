@@ -11,7 +11,9 @@ public enum SceneType {
     MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml"),
 
      INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml"),
-    MAINSCENE("/it.polimi.ingsw.view.GUI/fxml/MainScene.fxml");
+    MAINSCENE("/it.polimi.ingsw.view.GUI/fxml/MainScene.fxml"),
+
+    BOARD_POPUP("/it.polimi.ingsw.view.GUI/fxml/BoardPopUp.fxml");
    /* OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),
     GAMEWAIT("/it.polimi.ingsw.view.GUI/fxml/GameWait.fxml"),
     GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml"),*/

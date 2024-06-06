@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.view.GUI.controllers.BoardPopUpController;
 import it.polimi.ingsw.view.GUI.controllers.LobbyController;
 import it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
@@ -169,7 +170,7 @@ public class GUI extends UI {
     @Override
     public void show_gameStarted(GameImmutable model) {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
-        callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname));
+        callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
     }
 
     @Override
@@ -331,7 +332,8 @@ public class GUI extends UI {
     }
     @Override
     public void show_board(GameImmutable model) {
-
+        callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
     }
 
 

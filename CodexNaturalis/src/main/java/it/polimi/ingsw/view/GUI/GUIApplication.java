@@ -160,8 +160,15 @@ public class GUIApplication extends Application {
 
                 }
 
-                case NICKNAME_POPUP -> {
+                case NICKNAME_POPUP-> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
+                    return;
+                }
+                case BOARD_POPUP-> {
+                    openPopup(scenes.get(getSceneIndex(scene)).getScene());
+                    BoardPopUpController controller = (BoardPopUpController) s.getControllerGUI();
+                    controller.setGUIApplication(this);
+
                     return;
                 }
                 case MENU, INITIALIZE_CARDS -> {
@@ -360,20 +367,16 @@ public class GUIApplication extends Application {
     //MAIN SCENE
 
 
-    public void showMainScene(GameImmutable model, String nickname){
+    public void showMainScene(GameImmutable model, String nickname, GUI gui){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
-
-         controller.setPersonalObjective(model, nickname);
-
-
-
+        controller.setGUI(gui, model);
+        controller.setPersonalObjective(model, nickname);
+        controller.setPersonalObjective(model, nickname);
         controller.setNicknameAndID(model, nickname);
-        controller.setBoard(model);
-        controller.setScoretrack(model);
 
         controller.setPlayerDeck(model, nickname);
 
-        //controller.setBook(model, nickname);
+        controller.setBook(model, nickname);
         List<Player> players = model.getPlayers();
         List<String> playerNames = new ArrayList<>();
         for (Player player : players) {
