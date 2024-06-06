@@ -5,10 +5,8 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.GUI.GUIApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 public class BoardPopUpController extends ControllerGUI{
 
@@ -40,7 +38,7 @@ public class BoardPopUpController extends ControllerGUI{
         String imagePath;
 
         //GOLD CARD
-        imagePath = board.getGoldCardsDeck().getBackCards().get(0).getImagePath();
+        imagePath = board.getGoldCardsDeck().getBackCards().getFirst().getImagePath();
         imgDeckGold.setImage(new Image(imagePath));
         imagePath = board.getGoldCards().get(0)[0].getImagePath();
         imgGold0.setImage(new Image(imagePath));

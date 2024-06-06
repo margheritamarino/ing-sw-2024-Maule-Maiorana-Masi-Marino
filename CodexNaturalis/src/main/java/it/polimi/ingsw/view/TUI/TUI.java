@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -338,7 +337,6 @@ public class TUI extends UI {
      */
 
     public void show_important_events() {
-
         StringBuilder ris = new StringBuilder();
         int longestImportantEvent = eventsToShow.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
         ris.append(ansi().fg(GREEN).bold().a("Latest Events:").fg(DEFAULT).boldOff());

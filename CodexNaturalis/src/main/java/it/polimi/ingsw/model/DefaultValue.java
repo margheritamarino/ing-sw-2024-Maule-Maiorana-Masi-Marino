@@ -29,7 +29,7 @@ public class DefaultValue implements Serializable {
 
     public final static int time_publisher_showing_seconds = 5;
 
-    public final static int MaxEventToShow = 6; //da definire
+    public final static int MaxEventToShow = 3; //da definire
     public final static String Default_servername_RMI = "CodexNaturalis";
 
     public final static int secondsToWaitReconnection = 30;
