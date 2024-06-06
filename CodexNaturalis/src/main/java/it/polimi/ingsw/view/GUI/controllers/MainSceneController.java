@@ -10,11 +10,13 @@ import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -43,6 +45,7 @@ public class MainSceneController extends ControllerGUI{
     private ImageView initialCardImg;
 
     //PLAYER DECK
+    @FXML
     private PlayerDeck playerDeck;
     private boolean[] showBack = new boolean[3];
     @FXML
@@ -70,7 +73,8 @@ public class MainSceneController extends ControllerGUI{
     //EVENTS
     @FXML
     private ListView EventsList;
-
+    @FXML
+    private AnchorPane PlayerDeckPane;
 
 
     public void setImportantEvents(List<String> importantEvents){
@@ -185,6 +189,8 @@ public class MainSceneController extends ControllerGUI{
         }
     }
 
+
+    //PLAYERDECK
     public void setPlayerDeck(GameImmutable model, String nickname) {
         this.playerDeck= model.getPlayerByNickname(nickname).getPlayerDeck();
         String imagePath;
@@ -224,9 +230,58 @@ public class MainSceneController extends ControllerGUI{
         showBack[cardIndex] = !showBack[cardIndex];
         deckImg.setImage(new Image(imagePath));
     }
+    private boolean placeCardTurn=false;
+    public void enlargeAndHighlightPlayerDeckPane() {
+        placeCardTurn=true;
+        // Ingrandire il pane
+        PlayerDeckPane.setScaleX(1.5);
+        PlayerDeckPane.setScaleY(1.5);
+
+        // Applicare l'effetto di illuminazione
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(20.0);
+        dropShadow.setOffsetX(0.0);
+        dropShadow.setOffsetY(0.0);
+        dropShadow.setColor(Color.RED);
+        PlayerDeckPane.setEffect(dropShadow);
+    }
+
+    public void resetPlayerDeckPane() {
+        // Resettare la scala
+        PlayerDeckPane.setScaleX(1.0);
+        PlayerDeckPane.setScaleY(1.0);
+        // Rimuovere l'effetto di illuminazione
+        PlayerDeckPane.setEffect(null);
+    }
+
+    public void chooseCardClick(MouseEvent mouseEvent) {
+        if (placeCardTurn) {
+            int selectedIndex = -1;
+            ImageView clickedImageView = null;
+
+            if (mouseEvent.getSource() == deckImg0) {
+                selectedIndex = showBack[0] ? 1 : 0;
+                clickedImageView = deckImg0;
+            } else if (mouseEvent.getSource() == deckImg1) {
+                selectedIndex = showBack[1] ? 3 : 2;
+                clickedImageView = deckImg1;
+            } else if (mouseEvent.getSource() == deckImg2) {
+                selectedIndex = showBack[2] ? 5 : 4;
+                clickedImageView = deckImg2;
+            }
+
+            if (selectedIndex != -1) {
+                getInputGUI().addTxt(String.valueOf(selectedIndex)); // Passa l'indice come stringa
+                if (clickedImageView != null) {
+                    clickedImageView.setImage(null); // Svuota l'immagine
+                }
+            }
+        }
+        placeCardTurn = false;
+    }
 
 
-
+//PLAYER GOAL
     public void setPersonalObjective(GameImmutable model, String nickname) {
         String imagePath = model.getPlayerGoalByNickname(nickname).getImagePath();
         Image image = new Image(imagePath);
@@ -250,4 +305,6 @@ public class MainSceneController extends ControllerGUI{
             gui.show_scoretrack(model);
         }
     }
+
+
 }
