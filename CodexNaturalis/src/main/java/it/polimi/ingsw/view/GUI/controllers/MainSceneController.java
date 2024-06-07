@@ -14,6 +14,9 @@ import it.polimi.ingsw.view.GUI.GUIApplication;
 import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -26,7 +29,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainSceneController extends ControllerGUI{
@@ -84,6 +90,8 @@ public class MainSceneController extends ControllerGUI{
     private ListView EventsList;
     @FXML
     private AnchorPane PlayerDeckPane;
+    @FXML
+    private Stage boardPopUpStage;
 
 
     public void setImportantEvents(List<String> importantEvents){
@@ -229,6 +237,43 @@ public class MainSceneController extends ControllerGUI{
         showBack[cardIndex] = !showBack[cardIndex];
         deckImg.setImage(new Image(imagePath));
     }
+
+    public void enlargeAndHighlightBoardPane() {
+        try {
+            // Carica il file FXML della board
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it.polimi.ingsw.view.GUI/fxml/BoardPopUp.fxml"));
+            Parent root = loader.load();
+
+            // Ottieni il controller della BoardPopUp e imposta il modello
+            BoardPopUpController controller = loader.getController();
+            controller.setBoard(model);
+
+            // Crea una nuova finestra per il pop-up
+            boardPopUpStage = new Stage();
+            boardPopUpStage.setScene(new Scene(root));
+            boardPopUpStage.initStyle(StageStyle.UNDECORATED); // Rimuovi i bordi della finestra
+            boardPopUpStage.show();
+
+            // Applica l'effetto di illuminazione
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(20.0);
+            dropShadow.setOffsetX(0.0);
+            dropShadow.setOffsetY(0.0);
+            dropShadow.setColor(Color.BLUE);
+            root.setEffect(dropShadow);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void closeBoardPopUp() {
+        if (boardPopUpStage != null) {
+            boardPopUpStage.close();
+            boardPopUpStage = null;
+        }
+    }
+
     private boolean placeCardTurn=false;
     public void enlargeAndHighlightPlayerDeckPane() {
         placeCardTurn=true;
@@ -252,6 +297,7 @@ public class MainSceneController extends ControllerGUI{
         // Rimuovere l'effetto di illuminazione
         PlayerDeckPane.setEffect(null);
     }
+
 
     public void chooseCardClick(MouseEvent mouseEvent) {
         if (placeCardTurn) {
