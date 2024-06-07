@@ -14,10 +14,11 @@ public enum SceneType {
     BOARD_POPUP("/it.polimi.ingsw.view.GUI/fxml/BoardPopUp.fxml"),
     SCORETRACK_POPUP("/it.polimi.ingsw.view.GUI/fxml/ScoretrackPopUp.fxml"),
     ORDERPLAYERS_POPUP("/it.polimi.ingsw.view.GUI/fxml/OrderPlayersPopUp.fxml"),
-    WAITING_POPUP("/it.polimi.ingsw.view.GUI/fxml/WaitingPopUp.fxml");
+    WAITING_POPUP("/it.polimi.ingsw.view.GUI/fxml/WaitingPopUp.fxml"),
+    GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml");
    /* OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),
     GAMEWAIT("/it.polimi.ingsw.view.GUI/fxml/GameWait.fxml"),
-    GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml"),*/
+    ,*/
 
 
    //GENERIC_ERROR("/it.polimi.ingsw.view.GUI/fxml/GenericErrorController.fxml");
