@@ -100,11 +100,13 @@ public class BoardPopUpController extends ControllerGUI{
         pickCardTurn = true;
     }
 
+    @FXML
     public void chooseCardClick(MouseEvent mouseEvent) {
         if (pickCardTurn) {
             ImageView clickedImageView = (ImageView) mouseEvent.getSource();
             int selectedIndex = -1;
 
+            // Trovo quale carta è stata cliccata
             if (clickedImageView == imgGold0) {
                 selectedIndex = 0; // First gold card
             } else if (clickedImageView == imgGold1) {
@@ -119,26 +121,34 @@ public class BoardPopUpController extends ControllerGUI{
                 selectedIndex = 5; // Deck resource card
             }
 
+            System.out.println("Selected Index: " + selectedIndex);
+
             if (selectedIndex != -1) {
                 getInputGUI().addTxt(String.valueOf(selectedIndex));
-                //rimuovo l'immagine della carta selezionata
+                //Prendo l'input e rimuovo l'immagine della carta selezionata
                 clearCardImage(selectedIndex);
 
+                System.out.println("Cleared card image for index: " + selectedIndex);
+
                 String newImagePath = null;
-                //rimuovo la carta dal modello e ottengo l'immagine relativa
+                //Se la carta scelta è il back di un deck, essa viene tolta e poi sostituita da una nuova carta
+                //se la carta scelta è una di quelle visibili, essa viene tolta, sostituita dalla carta presente in quel momento nel deck girata di fronte e anche il deck si aggiorna con una nuova carta
                 switch (selectedIndex) {
                     case 0:
                         newImagePath = imgDeckGold.getImage().getUrl();
+                        System.out.println("New image path for gold 0: " + newImagePath);
                         imgGold0.setImage(new Image(newImagePath));
                         imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
                         break;
                     case 1:
                         newImagePath = imgDeckGold.getImage().getUrl();
+                        System.out.println("New image path for gold 1: " + newImagePath);
                         imgGold1.setImage(new Image(newImagePath));
                         imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
                         break;
                     case 2:
                         newImagePath = model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath();
+                        System.out.println("New image path for deck gold: " + newImagePath);
                         imgDeckGold.setImage(new Image(newImagePath));
                         break;
                     case 3:
@@ -157,6 +167,9 @@ public class BoardPopUpController extends ControllerGUI{
                         break;
                 }
 
+                // Forza il ridisegno dell'immagine
+                clickedImageView.setVisible(false);
+                clickedImageView.setVisible(true);
                 pickCardTurn = false;
             }
         }
@@ -164,12 +177,30 @@ public class BoardPopUpController extends ControllerGUI{
 
     private void clearCardImage(int index) {
         switch (index) {
-            case 0 -> imgGold0.setImage(null);
-            case 1 -> imgGold1.setImage(null);
-            case 2 -> imgDeckGold.setImage(null);
-            case 3 -> imgResource0.setImage(null);
-            case 4 -> imgResource1.setImage(null);
-            case 5 -> imgDeckResource.setImage(null);
+            case 0:
+                imgGold0.setImage(null);
+                System.out.println("Cleared image for gold 0");
+                break;
+            case 1:
+                imgGold1.setImage(null);
+                System.out.println("Cleared image for gold 1");
+                break;
+            case 2:
+                imgDeckGold.setImage(null);
+                System.out.println("Cleared image for deck gold");
+                break;
+            case 3:
+                imgResource0.setImage(null);
+                System.out.println("Cleared image for resource 0");
+                break;
+            case 4:
+                imgResource1.setImage(null);
+                System.out.println("Cleared image for resource 1");
+                break;
+            case 5:
+                imgDeckResource.setImage(null);
+                System.out.println("Cleared image for deck resource");
+                break;
         }
     }
 
