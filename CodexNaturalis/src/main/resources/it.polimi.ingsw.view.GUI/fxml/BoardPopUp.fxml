@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="841.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.BoardPopUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="841.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.BoardPopUpController">
    <children>
       <Text fill="#9a8216" layoutX="343.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BOARD">
          <font>
@@ -18,21 +15,21 @@
       </Text>
       <AnchorPane layoutX="50.0" layoutY="80.0" prefHeight="520.0" prefWidth="740.0" style="-fx-background-color: #e4d5b7;">
          <children>
-            <HBox layoutX="14.0" layoutY="14.0" prefHeight="150.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="14.0">
+            <HBox fx:id="goldHbox" layoutX="14.0" layoutY="14.0" prefHeight="150.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="14.0">
                <children>
-                  <ImageView fx:id="imgDeckGold" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
-                  <ImageView fx:id="imgGold0" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
-                  <ImageView fx:id="imgGold1" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
+                  <ImageView fx:id="imgDeckGold" fitHeight="150.0" fitWidth="240.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgGold0" fitHeight="150.0" fitWidth="240.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgGold1" fitHeight="150.0" fitWidth="240.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox layoutX="3.0" layoutY="185.0" prefHeight="150.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.400000000000091">
+            <HBox fx:id="resourceHbox" layoutX="3.0" layoutY="185.0" prefHeight="150.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.400000000000091">
                <children>
-                  <ImageView fx:id="imgDeckResource" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
-                  <ImageView fx:id="imgResource0" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
-                  <ImageView fx:id="imgResource1" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
+                  <ImageView fx:id="imgDeckResource" fitHeight="150.0" fitWidth="240.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgResource0" fitHeight="150.0" fitWidth="240.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgResource1" fitHeight="150.0" fitWidth="240.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox layoutX="3.0" layoutY="355.0" prefHeight="150.0" prefWidth="731.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.400000000000091">
+            <HBox fx:id="objectiveHbox" layoutX="3.0" layoutY="355.0" prefHeight="150.0" prefWidth="731.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.400000000000091">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                      <image>

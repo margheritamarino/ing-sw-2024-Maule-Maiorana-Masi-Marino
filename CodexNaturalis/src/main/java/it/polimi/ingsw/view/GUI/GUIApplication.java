@@ -160,7 +160,7 @@ public class GUIApplication extends Application {
 
                 }
 
-                case NICKNAME_POPUP, ORDERPLAYERS_POPUP-> {
+                case NICKNAME_POPUP, ORDERPLAYERS_POPUP, WAITING_POPUP-> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
@@ -168,7 +168,6 @@ public class GUIApplication extends Application {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     BoardPopUpController controller = (BoardPopUpController) s.getControllerGUI();
                     controller.setGUIApplication(this);
-
                     return;
                 }
                 case SCORETRACK_POPUP-> {
@@ -422,8 +421,9 @@ public class GUIApplication extends Application {
         controller.enlargeAndHighlightPlayerDeckPane();
     }
 
-    public void showBoard(boolean enablePickCardTurn){
+    public void showBoard(GameImmutable model, boolean enablePickCardTurn){
         BoardPopUpController controller = (BoardPopUpController) scenes.get(getSceneIndex(SceneType.BOARD_POPUP)).getControllerGUI();
+        controller.setBoard(model);
         controller.enlargeAndHighlightBoardPane(enablePickCardTurn);
     }
 

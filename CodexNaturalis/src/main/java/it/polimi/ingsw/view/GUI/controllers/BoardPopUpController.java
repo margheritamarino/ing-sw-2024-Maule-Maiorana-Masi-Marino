@@ -13,6 +13,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -83,37 +84,17 @@ public class BoardPopUpController extends ControllerGUI{
 
 
     private boolean pickCardTurn=false;
-
+    @FXML
+    HBox resourceHbox;
+    @FXML
+    HBox objectiveHbox;
+    @FXML
+    HBox goldHbox;
     public void enlargeAndHighlightBoardPane(boolean enablePickCardTurn) {
-        try {
-            Parent root = imgDeckGold.getParent().getParent(); // Otteniamo il genitore del genitore di un qualsiasi nodo nell'interfaccia grafica
-
-            Stage boardPopUpStage = new Stage();
-            boardPopUpStage.setScene(new Scene(root));
-            boardPopUpStage.initStyle(StageStyle.UNDECORATED);
-            boardPopUpStage.show();
-
-            DropShadow dropShadow = new DropShadow();
-            dropShadow.setRadius(20.0);
-            dropShadow.setOffsetX(0.0);
-            dropShadow.setOffsetY(0.0);
-            dropShadow.setColor(Color.BLUE);
-            root.setEffect(dropShadow);
-
-            if (enablePickCardTurn) {
-                pickCardTurn = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        goldHbox.getStyleClass().add("gold-glow-hbox");
+        resourceHbox.getStyleClass().add("green-glow-hbox");
     }
 
-    public void closeBoardPopUp() {
-        if (boardPopUpStage != null) {
-            boardPopUpStage.close();
-            boardPopUpStage = null;
-        }
-    }
 
     public void enablePickCardTurn() {
         pickCardTurn = true;
@@ -177,7 +158,6 @@ public class BoardPopUpController extends ControllerGUI{
                 }
 
                 pickCardTurn = false;
-                this.guiApplication.closePopUpStage();
             }
         }
     }

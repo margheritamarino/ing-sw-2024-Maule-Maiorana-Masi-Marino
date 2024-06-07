@@ -127,13 +127,13 @@ public class GUI extends UI {
 
     @Override
     public void show_PickCardMsg(GameImmutable model) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(10));
+        PauseTransition pause = new PauseTransition(Duration.seconds(4));
         pause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
+            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
             BoardPopUpController boardController = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
-            boardController.setBoard(model);
             boardController.enablePickCardTurn();
-            callPlatformRunLater(() -> this.guiApplication.showBoard(true)); // Pass true per abilitare la possibilità di pescare una carta
+            callPlatformRunLater(() -> this.guiApplication.showBoard(model, true)); // Pass true per abilitare la possibilità di pescare una carta
         });
         pause.play();
     }
@@ -166,7 +166,7 @@ public class GUI extends UI {
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname) {
-
+        callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
     }
 
     @Override
@@ -178,7 +178,6 @@ public class GUI extends UI {
     public void show_pointsAddedMsg(GameImmutable model, String nickname) {
         if(model.getCurrentPlayer().getNickname().equals(nickname) ){
             show_playerBook(model); //((playerBook aggiornato))
-
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("You scored some points!", true));
         }else {
             String msg= model.getNicknameCurrentPlaying()+" scored some points!";
@@ -189,6 +188,11 @@ public class GUI extends UI {
             show_scoretrack(model);
         });
         pause.play();
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
+        pause2.setOnFinished(event -> {
+            this.guiApplication.closePopUpStage();
+        });
+        pause2.play();
 
     }
 
@@ -200,9 +204,14 @@ public class GUI extends UI {
 
     @Override
     public void show_gameStarted(GameImmutable model) {
-        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
-        callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
-
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        pause.setOnFinished(event -> {
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
+            callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
+            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("GAME STARTED!", true));
+        });
+        pause.play();
     }
 
     @Override
@@ -347,7 +356,9 @@ public class GUI extends UI {
 
     @Override
     public void show_personalObjective() {
-
+        callPlatformRunLater(() -> {
+            this.guiApplication.setActiveScene(SceneType.WAITING_POPUP);
+        });
     }
 
     @Override

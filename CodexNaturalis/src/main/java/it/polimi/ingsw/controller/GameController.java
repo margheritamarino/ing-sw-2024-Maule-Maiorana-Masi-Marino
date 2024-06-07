@@ -144,7 +144,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             for(Player p: players){
                 model.initializeCards( lis, p);
             }
-
             return true;
 
         }else {
@@ -317,7 +316,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public void setGoalCard(String playerName, int index) throws RemoteException {
-        System.out.println("input index:"+index);
         Player player = model.getPlayerByNickname(playerName);
         model.setPlayerGoal(player, index);
 

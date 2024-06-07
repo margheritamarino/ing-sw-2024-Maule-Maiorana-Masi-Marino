@@ -228,7 +228,6 @@ public class MainSceneController extends ControllerGUI{
 
     private boolean placeCardTurnCard =false;
 
-    private boolean placeCardTurn=false;
     public void enlargeAndHighlightPlayerDeckPane() {
         placeCardTurnCard =true;
         // Ingrandire il pane
