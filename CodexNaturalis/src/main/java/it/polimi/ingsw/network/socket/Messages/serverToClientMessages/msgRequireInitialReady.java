@@ -9,9 +9,11 @@ import java.rmi.RemoteException;
 
 public class msgRequireInitialReady extends ServerGenericMessage {
     private GameImmutable model;
+    private int index;
 
-    public msgRequireInitialReady(GameImmutable model) {
+    public msgRequireInitialReady(GameImmutable model, int index) {
         this.model = model;
+        this.index=index;
     }
 
     /**
@@ -21,6 +23,6 @@ public class msgRequireInitialReady extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws IOException, FileReadException {
-        lis.requireInitialReady(model);
+        lis.requireInitialReady(model, index);
     }
 }

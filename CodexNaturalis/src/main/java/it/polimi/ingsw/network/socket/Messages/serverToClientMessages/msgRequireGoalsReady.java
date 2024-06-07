@@ -7,9 +7,11 @@ import java.rmi.RemoteException;
 
 public class msgRequireGoalsReady extends ServerGenericMessage {
     private GameImmutable model;
+    private int index;
 
-    public msgRequireGoalsReady(GameImmutable model) {
+    public msgRequireGoalsReady(GameImmutable model, int index) {
         this.model = model;
+        this.index=index;
     }
 
     /**
@@ -19,6 +21,6 @@ public class msgRequireGoalsReady extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.requireGoalsReady(model);
+        lis.requireGoalsReady(model, index);
     }
 }

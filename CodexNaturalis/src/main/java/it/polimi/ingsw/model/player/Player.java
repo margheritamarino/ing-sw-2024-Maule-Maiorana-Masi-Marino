@@ -211,12 +211,12 @@ public class Player implements Serializable {
         }
     }
 
-    public synchronized void notify_requireInitial( Game model){
+    public synchronized void notify_requireInitial( Game model, int index){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.requireInitialReady(new GameImmutable(model));
+                l.requireInitialReady(new GameImmutable(model), index);
             } catch (FileReadException | IOException e) {
                 printAsync("During notification of notify_requireInitial, a disconnection has been detected before ping");
                 i.remove();
@@ -236,14 +236,14 @@ public class Player implements Serializable {
         }
     }
 
-    public synchronized void notify_requireGoals( Game model){
+    public synchronized void notify_requireGoals( Game model, int index){
         System.out.println("Player: notify_requireGoals");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
                 // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
-                l.requireGoalsReady(new GameImmutable(model));
+                l.requireGoalsReady(new GameImmutable(model), index);
             } catch (RemoteException | IllegalStateException e) {
                 printAsync("During notification of notify_requireGoals, a disconnection has been detected before ping");
 

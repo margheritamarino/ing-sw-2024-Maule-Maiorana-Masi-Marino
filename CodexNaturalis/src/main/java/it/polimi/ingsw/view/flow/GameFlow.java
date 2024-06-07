@@ -164,6 +164,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_askForChat(event.getModel(), nickname);
             }
             case CARDS_READY -> {
+                ui.closeWaitPopUp();
                 makeGameStart(nickname);
             }
         }
@@ -753,9 +754,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws FileReadException //GESTIRE
      */
     @Override
-    public void requireInitialReady(GameImmutable model) throws IOException, FileReadException {
+    public void requireInitialReady(GameImmutable model, int indexPlayer) throws IOException, FileReadException {
       //  ui.show_whichInitialCards();
-        ui.show_temporaryInitialCards(model);
+        ui.show_temporaryInitialCards(model, indexPlayer);
         Integer index;
         do {
             index = Objects.requireNonNullElse(askNum("\t> Insert number:", model), -1);
@@ -778,9 +779,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws RemoteException IF THERE IS A PROBLEM IN THE NETWORK
      */
     @Override
-    public void requireGoalsReady(GameImmutable model) throws RemoteException {
+    public void requireGoalsReady(GameImmutable model, int indexPlayer) throws RemoteException {
         //ui.show_whichObjectiveCards();
-        ui.show_ObjectiveCards(model);
+        ui.show_ObjectiveCards(model, indexPlayer);
         Integer index;
         do {
             index = Objects.requireNonNullElse(askNum("\t> Insert [0] for the first card or [1] for the second card:", model), -1);
@@ -788,7 +789,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             if (index < 0 || index >= 2) {
                 index = null;
             }
-        } while (index == null || index < 0 || index >= 2);
+        } while (index == null);
         try {
             setGoalCard(index, nickname); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
             ui.show_personalObjective();

@@ -350,18 +350,18 @@ public class GUIApplication extends Application {
         ((LobbyController) scenes.get(getSceneIndex(SceneType.LOBBY)).getControllerGUI()).setVisibleBtnReady(false);
     }
 
-    public void setInitializationScene(GameImmutable model, boolean initial){
+    public void setInitializationScene(GameImmutable model, boolean initial, int indexPlayer){
         InitializeCardsController controller = (InitializeCardsController) scenes.get(getSceneIndex(SceneType.INITIALIZE_CARDS)).getControllerGUI();
 
         if (!initial) {
             controller.setTitleField("Choose your PERSONAL GOAL for the Game...");
-            ArrayList<ObjectiveCard> temp = model.getObjectiveCard();
-            String path1 = temp.get(0).getImagePath();
-            String path2 = temp.get(1).getImagePath();
+            ObjectiveCard[] temp = model.getObjectiveCard().get(indexPlayer);
+            String path1 = temp[0].getImagePath();
+            String path2 = temp[1].getImagePath();
             controller.setCards(path1, path2);
         } else{
             controller.setTitleField("Choose if you want to place the Front or the Back...");
-            PlayableCard[] temp = model.getInitialCard();
+            PlayableCard[] temp = model.getInitialCard().get(indexPlayer);
             String path1 = temp[0].getImagePath();
             String path2 = temp[1].getImagePath();
             controller.setCards(path1, path2);

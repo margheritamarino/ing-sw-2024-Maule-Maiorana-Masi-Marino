@@ -42,8 +42,8 @@ public class Game {
 	protected boolean gameStarted = false;
 	private GameStatus status;
 	private int[] orderArray;
-	private PlayableCard[] temporaryInitialCard;
-	private ArrayList<ObjectiveCard> temporaryObjectiveCards;
+	private final ArrayList<PlayableCard[]> temporaryInitialCard;
+	private final ArrayList<ObjectiveCard[]> temporaryObjectiveCards;
 
 
 	private final transient ListenersHandler listenersHandler; //transient: non può essere serializzato
@@ -64,7 +64,8 @@ public class Game {
 		this.board = new Board();
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
-		this.temporaryInitialCard= new PlayableCard[2];
+		this.temporaryInitialCard=new ArrayList<>();
+		this.temporaryObjectiveCards= new ArrayList<>();
 		this.listenersHandler = new ListenersHandler();
 
 	}
@@ -78,9 +79,9 @@ public class Game {
 		this.orderArray = new int[playersNumber];
 		this.status = GameStatus.WAIT;
 		chat = new Chat();
-		this.temporaryInitialCard= new PlayableCard[2];
 		this.listenersHandler = new ListenersHandler();
-
+		this.temporaryInitialCard=new ArrayList<>();
+		this.temporaryObjectiveCards= new ArrayList<>();
 	}
 	/**
 	 * Singleton class
@@ -440,11 +441,12 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public void initializeCards(GameListenerInterface lis, Player player) {
+	public void initializeCards(GameListenerInterface lis, Player player, int index) {
 
 		try {
-			temporaryInitialCard = initialCardsDeck.returnCard();
-			player.notify_requireInitial(this);
+			PlayableCard[] initial = initialCardsDeck.returnCard();
+			this.temporaryInitialCard.add(initial);
+			player.notify_requireInitial(this, index);
 
 			//GOLD CARD E RESOURCE CARD
 			for (int i = 0; i < 2; i++) {
@@ -453,11 +455,11 @@ public class Game {
 			}
 			PlayableCard[] newCard= board.takeCardfromBoard(CardType.GoldCard, true, 0);
 			player.getPlayerDeck().addCard(newCard);
-			System.out.println("Initial Card aggiunta");
-			temporaryObjectiveCards = drawObjectiveCards();
-			// Inizializza gli obiettivi
-			System.out.println("Game: initializeCards, mando la notifica notify_requireGoals al player  ");
-			player.notify_requireGoals(this); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
+
+			//OBJECTIVE CARDS
+			ObjectiveCard[] objective= drawObjectiveCards();
+			this.temporaryObjectiveCards.add(objective);
+			player.notify_requireGoals(this, index); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
 
 
 		} catch (DeckEmptyException e) {
@@ -466,7 +468,7 @@ public class Game {
 		}
 	}
 
-	public ArrayList<ObjectiveCard> getObjectiveCard(){
+	public ArrayList<ObjectiveCard[]> getObjectiveCard(){
 		return temporaryObjectiveCards;
 	}
 
@@ -478,10 +480,17 @@ public class Game {
 	 *            This index is used to fetch the card from the `temporaryInitialCard` array.
 	 */
 	public void setInitialCard(Player player, int pos){
-		System.out.println("Sono in setInitialCard del Model");
-		PlayableCard chosenInitialCard = temporaryInitialCard[pos];
+		int indexPlayer=getIndexPlayer(player);
+		PlayableCard chosenInitialCard = temporaryInitialCard.get(indexPlayer)[pos];
 		Book playerBook= player.getPlayerBook();
 		playerBook.addInitial(chosenInitialCard);
+	}
+	public int getIndexPlayer(Player p){
+		for(int i=0; i< playersNumber; i++){
+			if(players.get(i).equals(p))
+				return i;
+		}
+		return -1;
 	}
 
 
@@ -492,15 +501,14 @@ public class Game {
 	 * @throws IllegalStateException If the game has already started and cards cannot be drawn.
 	 * @throws DeckEmptyException If the objective card deck is empty.
 	 */
-	public ArrayList<ObjectiveCard> drawObjectiveCards() throws IllegalStateException, DeckEmptyException {
-		ArrayList<ObjectiveCard> drawnCards = new ArrayList<>();
+	public ObjectiveCard[] drawObjectiveCards() throws IllegalStateException, DeckEmptyException {
+		ObjectiveCard[] drawnCards = new ObjectiveCard[2];
 
 		// Controlla che il gioco sia in uno stato valido per pescare carte obiettivo
 		if (status.equals(GameStatus.WAIT)) {
 			// Pesca due carte obiettivo
 			for (int i = 0; i < 2; i++) {
-				ObjectiveCard objectiveCard = board.takeObjectiveCard();
-				drawnCards.add(objectiveCard);
+				drawnCards[i]=board.takeObjectiveCard();;
 			}
 		}
 		else
@@ -514,7 +522,8 @@ public class Game {
 	 * @param index the idenx of the objective card to be assigned to the player.
 	 */
 	public void setPlayerGoal(Player player, int index) {
-		ObjectiveCard chosenObjectiveCard = temporaryObjectiveCards.get(index);
+		int indexPlayer=getIndexPlayer(player);
+		ObjectiveCard chosenObjectiveCard = temporaryObjectiveCards.get(indexPlayer)[index];
 		player.setGoal(chosenObjectiveCard);
 		player.notify_cardsReady(this);
 	}
@@ -524,13 +533,12 @@ public class Game {
 	 * @return The player WINNER
 	 */
 	public Player getWinner() throws NoPlayersException {
-		Player winner = scoretrack.getWinner();
-		return winner;
+		return scoretrack.getWinner();
+
 	}
 
 	/**
 	 * Handles the player's turn to place a card on the board.
-	 *
 	 * This method allows a player to place a specified card in a cell on his book.
 	 * If the card is successfully placed, it returns the number of points of the card.
 	 * or sends notifies to tje listeners to ask to choose another card/cell
@@ -562,11 +570,6 @@ public class Game {
 	}
 
 
-	public PlayerDeck getPlayerDeck(Player player){
-		return player.getPlayerDeck();
-	}
-
-
 	public void pickCardTurn(Player p, CardType cardType, boolean drawFromDeck, int pos)  {
 		try{
 			PlayableCard[] newCard = board.takeCardfromBoard(cardType, drawFromDeck, pos);
@@ -586,66 +589,16 @@ public class Game {
 	public Board getBoard(){
 		return this.board;
 	}
-	/**
-	 * Gets the list of gold cards on the board.
-	 * @return an ArrayList of PlayableCard arrays representing the gold cards on the board.
-	 */
-	public ArrayList<PlayableCard[]> getBoardGoldCards() {
-		return board.getGoldCards();
-	}
-	/**
-	 * Gets the list of resource cards on the board.
-	 *
-	 * @return an ArrayList of PlayableCard arrays representing the resource cards on the board.
-	 */
-	public ArrayList<PlayableCard[]> getBoardResourceCards() {
-		return board.getResourceCards();
-	}
-
-	/**
-	 * Gets the array of objective cards on the board.
-	 * @return an array of ObjectiveCard objects representing the common goals on the board.
-	 */
-	public ObjectiveCard[] getCommonGoals() {
-		return board.getObjectiveCards();
-	}
-
-	/**
-	 * Gets the gold cards deck on the board.
-	 * @return a Deck object representing the gold cards deck on the board.
-	 */
-	public Deck getGoldCardsDeck() {
-		return board.getGoldCardsDeck();
-	}
-
-	/**
-	 * Gets the resources cards deck on the board.
-	 *
-	 * @return a Deck object representing the resources cards deck on the board.
-	 */
-	public Deck getResourcesCardsDeck() {
-		return board.getResourcesCardsDeck();
-	}
-
-	/**
-	 * Gets the objective cards deck on the board.
-	 * @return an ObjectiveDeck object representing the objective cards deck on the board.
-	 */
-	public ObjectiveDeck getObjectiveCardsDeck() {
-		return board.getObjectiveCardsDeck();
-	}
 
 
-	public Deck getInitialCardsDeck() {
-		return initialCardsDeck;
-	}
-
-	public PlayableCard[] getTemporaryInitialCardsDeck() {
+	public ArrayList<PlayableCard[]> getTemporaryInitialCardsDeck() {
 		return temporaryInitialCard;
 	}
-	public ArrayList<ObjectiveCard> getTemporaryObjectiveCardsDeck() {return temporaryObjectiveCards;}
+	public ArrayList<ObjectiveCard[]> getTemporaryObjectiveCardsDeck() {return temporaryObjectiveCards;}
+
+
 	/**
-	 * @param playerNickname
+	 * @param playerNickname the nickname of the player to find in the list
 	 * @return player by nickname
 	 */
 	public Player getPlayerByNickname(String playerNickname) {

@@ -92,8 +92,8 @@ public abstract class UI {
     public abstract void show_askDrawFromDeck(GameImmutable model, String nickname);
     public abstract void show_playerHasToChooseAgain(GameImmutable model, String nickname);
     public abstract void show_wrongSelectionMsg();
-    public abstract void show_temporaryInitialCards(GameImmutable model) throws FileNotFoundException, FileReadException;
-    public abstract void show_ObjectiveCards(GameImmutable model);
+    public abstract void show_temporaryInitialCards(GameImmutable model, int indexPlayer) throws FileNotFoundException, FileReadException;
+    public abstract void show_ObjectiveCards(GameImmutable model, int indexPlayer);
     public abstract void show_personalObjective();
 
     public abstract void show_noConnectionError();
@@ -108,4 +108,6 @@ public abstract class UI {
     public abstract void show_askForChat(GameImmutable model, String nick);
     protected abstract int getLengthLongestMessage(GameImmutable model);
     public abstract void addMessage(Message msg, GameImmutable model);
+
+    public abstract void closeWaitPopUp();
 }

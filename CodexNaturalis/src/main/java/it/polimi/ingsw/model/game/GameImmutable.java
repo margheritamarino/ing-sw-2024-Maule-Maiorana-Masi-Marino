@@ -34,8 +34,8 @@ public class GameImmutable implements Serializable {
     private final Integer playersNumber;
     private final ScoreTrack scoreTrack;
     private final Player currentPlayer;
-    private final PlayableCard[] temporaryInitialCard;
-    private final ArrayList<ObjectiveCard> temporaryObjectiveCards;
+    private final ArrayList<PlayableCard[]> temporaryInitialCard;
+    private final ArrayList<ObjectiveCard[]> temporaryObjectiveCards;
     private final Board board;
     private final GameStatus status;
     private final int[] orderArray;
@@ -221,11 +221,11 @@ public class GameImmutable implements Serializable {
     }
 
 
-    public PlayableCard[] getInitialCard(){
+    public ArrayList<PlayableCard[]> getInitialCard(){
         return temporaryInitialCard;
     }
 
-    public ArrayList<ObjectiveCard> getObjectiveCard(){
+    public ArrayList<ObjectiveCard[]> getObjectiveCard(){
         return temporaryObjectiveCards;
     }
 

@@ -141,8 +141,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.playerIsReadyToStart(model.getPlayerByNickname(player));
         if (model.arePlayersReadyToStartAndEnough()){
             ArrayList<Player> players= model.getPlayers();
-            for(Player p: players){
-                model.initializeCards( lis, p);
+            for(int i=0; i<players.size(); i++){
+                model.initializeCards( lis, players.get(i), i);
             }
             return true;
 
@@ -275,6 +275,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public void setInitialCard(String playerName, int index) throws RemoteException {
         Player currentPlayer = model.getPlayerByNickname(playerName);
+
         model.setInitialCard(currentPlayer, index);
     }
 

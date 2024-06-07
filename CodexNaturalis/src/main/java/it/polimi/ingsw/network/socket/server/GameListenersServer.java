@@ -130,9 +130,9 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void requireInitialReady(GameImmutable model) throws RemoteException {
+    public void requireInitialReady(GameImmutable model, int index) throws RemoteException {
         try {
-            out.writeObject(new msgRequireInitialReady(model));
+            out.writeObject(new msgRequireInitialReady(model, index));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
@@ -141,9 +141,9 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void requireGoalsReady(GameImmutable model) throws RemoteException {
+    public void requireGoalsReady(GameImmutable model, int index) throws RemoteException {
         try {
-            out.writeObject(new msgRequireGoalsReady(model));
+            out.writeObject(new msgRequireGoalsReady(model, index));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());

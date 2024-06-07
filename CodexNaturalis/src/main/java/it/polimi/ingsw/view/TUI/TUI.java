@@ -369,10 +369,10 @@ public class TUI extends UI {
         printAsync("You are back in the menu!\n");
     }
     @Override
-    public void show_temporaryInitialCards(GameImmutable model) {
+    public void show_temporaryInitialCards(GameImmutable model, int indexPlayer) {
         printAsync("> Choose the front[0] or the back[1] of the following initial card to place it at the center of your book:");
        // printAsync("Initial Card...\n");
-        PlayableCard[] initialCards = model.getInitialCard();
+        PlayableCard[] initialCards = model.getInitialCard().get(indexPlayer);
 
         // Lista per accumulare le stringhe delle righe
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
@@ -406,12 +406,11 @@ public class TUI extends UI {
     }
 
 
-
     @Override
-    public void show_ObjectiveCards(GameImmutable model) {
+    public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
         printAsync("Set your GOAL for the Game:\n> Choose one between these objective cards:");
 
-        ArrayList<ObjectiveCard> objectiveCards = model.getObjectiveCard();
+        ObjectiveCard[] objectiveCards = model.getObjectiveCard().get(indexPlayer);
 
         // Lista per accumulare le stringhe delle righe
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
@@ -421,8 +420,8 @@ public class TUI extends UI {
             rowBuilders.add(new StringBuilder());
         }
 
-        for (int i = 0; i < objectiveCards.size(); i++) {
-            ObjectiveCard card = objectiveCards.get(i);
+        for (int i = 0; i < objectiveCards.length; i++) {
+            ObjectiveCard card = objectiveCards[i];
             String[] lines = card.toString().split("\n");
 
             // Aggiungi il numero identificativo alla prima riga della carta
@@ -505,6 +504,11 @@ public class TUI extends UI {
     @Override
     public void addMessage(Message msg, GameImmutable model) {
         show_messages(model);
+    }
+
+    @Override
+    public void closeWaitPopUp() {
+
     }
 
     //mostra i messaggi inviati da un utente specifico
