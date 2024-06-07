@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.GUI.GUIApplication;
 import javafx.event.ActionEvent;
@@ -38,6 +39,9 @@ public class BoardPopUpController extends ControllerGUI{
     @FXML
     private ImageView imgObjective1;
     private GUIApplication guiApplication;
+    @FXML
+    private Stage boardPopUpStage;
+    private GameImmutable model;
 
     public void setGUIApplication(GUIApplication guiApplication) {
         this.guiApplication = guiApplication;
@@ -69,11 +73,16 @@ public class BoardPopUpController extends ControllerGUI{
         imgObjective0.setImage(new Image(imagePath));
         imagePath = board.getObjectiveCards()[1].getImagePath();
         imgObjective1.setImage(new Image(imagePath));
+
+        this.model = model;
     }
     @FXML
     private void handleCloseAction(ActionEvent event) {
         this.guiApplication.closePopUpStage();
     }
+
+
+    private boolean pickCardTurn=false;
 
     public void enlargeAndHighlightBoardPane(boolean enablePickCardTurn) {
         try {
@@ -99,41 +108,74 @@ public class BoardPopUpController extends ControllerGUI{
         }
     }
 
-
     public void closeBoardPopUp() {
-        Stage boardPopUpStage = new Stage();
         if (boardPopUpStage != null) {
             boardPopUpStage.close();
             boardPopUpStage = null;
         }
     }
 
-    private boolean pickCardTurn=false;
     public void enablePickCardTurn() {
         pickCardTurn = true;
     }
 
     public void chooseCardClick(MouseEvent mouseEvent) {
         if (pickCardTurn) {
+            ImageView clickedImageView = (ImageView) mouseEvent.getSource();
             int selectedIndex = -1;
 
-            if (mouseEvent.getSource() == imgGold0) {
+            if (clickedImageView == imgGold0) {
                 selectedIndex = 0; // First gold card
-            } else if (mouseEvent.getSource() == imgGold1) {
+            } else if (clickedImageView == imgGold1) {
                 selectedIndex = 1; // Second gold card
-            } else if (mouseEvent.getSource() == imgDeckGold) {
+            } else if (clickedImageView == imgDeckGold) {
                 selectedIndex = 2; // Deck gold card
-            } else if (mouseEvent.getSource() == imgResource0) {
+            } else if (clickedImageView == imgResource0) {
                 selectedIndex = 3; // First resource card
-            } else if (mouseEvent.getSource() == imgResource1) {
+            } else if (clickedImageView == imgResource1) {
                 selectedIndex = 4; // Second resource card
-            } else if (mouseEvent.getSource() == imgDeckResource) {
+            } else if (clickedImageView == imgDeckResource) {
                 selectedIndex = 5; // Deck resource card
             }
 
             if (selectedIndex != -1) {
-                getInputGUI().addTxt(String.valueOf(selectedIndex)); // Pass the index as a string
-                clearCardImage(selectedIndex); // Clear the clicked card image
+                getInputGUI().addTxt(String.valueOf(selectedIndex));
+                //rimuovo l'immagine della carta selezionata
+                clearCardImage(selectedIndex);
+
+                String newImagePath = null;
+                //rimuovo la carta dal modello e ottengo l'immagine relativa
+                switch (selectedIndex) {
+                    case 0:
+                        newImagePath = imgDeckGold.getImage().getUrl();
+                        imgGold0.setImage(new Image(newImagePath));
+                        imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
+                        break;
+                    case 1:
+                        newImagePath = imgDeckGold.getImage().getUrl();
+                        imgGold1.setImage(new Image(newImagePath));
+                        imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
+                        break;
+                    case 2:
+                        newImagePath = model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath();
+                        imgDeckGold.setImage(new Image(newImagePath));
+                        break;
+                    case 3:
+                        newImagePath = imgDeckResource.getImage().getUrl();
+                        imgResource0.setImage(new Image(newImagePath));
+                        imgDeckResource.setImage(new Image(model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath()));
+                        break;
+                    case 4:
+                        newImagePath = imgDeckResource.getImage().getUrl();
+                        imgResource1.setImage(new Image(newImagePath));
+                        imgDeckResource.setImage(new Image(model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath()));
+                        break;
+                    case 5:
+                        newImagePath = model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath();
+                        imgDeckResource.setImage(new Image(newImagePath));
+                        break;
+                }
+
                 pickCardTurn = false;
                 this.guiApplication.closePopUpStage();
             }
@@ -150,4 +192,5 @@ public class BoardPopUpController extends ControllerGUI{
             case 5 -> imgDeckResource.setImage(null);
         }
     }
+
 }
