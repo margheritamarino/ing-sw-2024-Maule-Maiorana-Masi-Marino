@@ -234,42 +234,6 @@ public class MainSceneController extends ControllerGUI{
 
     private boolean placeCardTurnCard =false;
 
-    public void enlargeAndHighlightBoardPane() {
-        try {
-            // Carica il file FXML della board
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it.polimi.ingsw.view.GUI/fxml/BoardPopUp.fxml"));
-            Parent root = loader.load();
-
-            // Ottieni il controller della BoardPopUp e imposta il modello
-            BoardPopUpController controller = loader.getController();
-            controller.setBoard(model);
-
-            // Crea una nuova finestra per il pop-up
-            boardPopUpStage = new Stage();
-            boardPopUpStage.setScene(new Scene(root));
-            boardPopUpStage.initStyle(StageStyle.UNDECORATED); // Rimuovi i bordi della finestra
-            boardPopUpStage.show();
-
-            // Applica l'effetto di illuminazione
-            DropShadow dropShadow = new DropShadow();
-            dropShadow.setRadius(20.0);
-            dropShadow.setOffsetX(0.0);
-            dropShadow.setOffsetY(0.0);
-            dropShadow.setColor(Color.BLUE);
-            root.setEffect(dropShadow);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void closeBoardPopUp() {
-        if (boardPopUpStage != null) {
-            boardPopUpStage.close();
-            boardPopUpStage = null;
-        }
-    }
-
     private boolean placeCardTurn=false;
     public void enlargeAndHighlightPlayerDeckPane() {
         placeCardTurnCard =true;

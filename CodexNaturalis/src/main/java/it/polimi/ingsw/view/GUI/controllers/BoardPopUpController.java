@@ -99,6 +99,15 @@ public class BoardPopUpController extends ControllerGUI{
         }
     }
 
+
+    public void closeBoardPopUp() {
+        Stage boardPopUpStage = new Stage();
+        if (boardPopUpStage != null) {
+            boardPopUpStage.close();
+            boardPopUpStage = null;
+        }
+    }
+
     private boolean pickCardTurn=false;
     public void enablePickCardTurn() {
         pickCardTurn = true;
