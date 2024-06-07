@@ -9,10 +9,8 @@ public enum SceneType {
     NICKNAME_POPUP("/it.polimi.ingsw.view.GUI/fxml/NicknamePopUp.fxml"),
     LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"), //popup with nickname
     MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml"),
-
-     INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml"),
+    INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml"),
     MAINSCENE("/it.polimi.ingsw.view.GUI/fxml/MainScene.fxml"),
-
     BOARD_POPUP("/it.polimi.ingsw.view.GUI/fxml/BoardPopUp.fxml"),
     SCORETRACK_POPUP("/it.polimi.ingsw.view.GUI/fxml/ScoretrackPopUp.fxml"),
     ORDERPLAYERS_POPUP("/it.polimi.ingsw.view.GUI/fxml/OrderPlayersPopUp.fxml");
@@ -21,7 +19,7 @@ public enum SceneType {
     GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml"),*/
 
 
-   // GENERIC_ERROR("/it.polimi.ingsw.view.GUI/fxml/GenericErrorController.fxml");
+   //GENERIC_ERROR("/it.polimi.ingsw.view.GUI/fxml/GenericErrorController.fxml");
     private final String path; //contiene il percorso dei file FXML associati alle scene
 
     //costruttore

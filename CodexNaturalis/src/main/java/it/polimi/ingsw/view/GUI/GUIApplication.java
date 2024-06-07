@@ -422,9 +422,9 @@ public class GUIApplication extends Application {
         controller.enlargeAndHighlightPlayerDeckPane();
     }
 
-    public void showBoard(){
-        MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
-        controller.enlargeAndHighlightBoardPane();
+    public void showBoard(boolean enablePickCardTurn){
+        BoardPopUpController controller = (BoardPopUpController) scenes.get(getSceneIndex(SceneType.BOARD_POPUP)).getControllerGUI();
+        controller.enlargeAndHighlightBoardPane(enablePickCardTurn);
     }
 
 
