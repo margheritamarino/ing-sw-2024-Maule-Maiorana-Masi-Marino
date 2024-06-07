@@ -298,7 +298,6 @@ public class MainSceneController extends ControllerGUI{
         PlayerDeckPane.setEffect(null);
     }
 
-
     public void chooseCardClick(MouseEvent mouseEvent) {
         if (placeCardTurn) {
             int selectedIndex = -1;
