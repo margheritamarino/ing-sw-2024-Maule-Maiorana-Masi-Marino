@@ -440,7 +440,7 @@ public class Game {
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
-	public synchronized void initializeCards(GameListenerInterface lis, Player player) {
+	public void initializeCards(GameListenerInterface lis, Player player) {
 
 		try {
 			temporaryInitialCard = initialCardsDeck.returnCard();
