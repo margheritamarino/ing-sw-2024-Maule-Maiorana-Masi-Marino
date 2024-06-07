@@ -148,6 +148,7 @@ public class GUI extends UI {
     @Override
     public void show_askWhichCellMsg(GameImmutable model) {
         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("Choose a Cell in the book to place the card:", null));
+        callPlatformRunLater(()-> this.guiApplication.showBookChooseCell(model, nickname));
     }
 
     @Override
@@ -357,12 +358,12 @@ public class GUI extends UI {
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+       /* PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(event -> {
             callPlatformRunLater(() -> ((OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP)).setOrderListText(model));
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.ORDERPLAYERS_POPUP));
         });
-        pause.play();
+        pause.play();*/
     }
     @Override
     public void show_visibleCardsBoard(GameImmutable model, CardType cardType){

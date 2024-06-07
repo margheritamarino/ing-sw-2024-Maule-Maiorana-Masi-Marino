@@ -398,7 +398,21 @@
     -fx-text-fill: black;
     -fx-font-size: 14px;
 }
-
+.backgroundMainScene{
+    -fx-background-image: url("../../img/sfondo_parquet.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.BoardStyle{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+}
+.backgroundWall{
+    -fx-background-image: url("../../img/base_pagina2.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
 .backgroundPublisher{
     -fx-background-image: url("../../img/copertina.png");
     -fx-background-repeat: stretch;
