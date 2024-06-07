@@ -521,7 +521,8 @@ public class MainSceneController extends ControllerGUI{
                     cardImageView.setImage(null);
                 }
                 if( bookMatrix[i][j].isAvailable()){
-                    // Crea l'effetto DropShadow per evidenziare il contorno dell'ImageView
+                    cardPane.setStyle("-fx-border-color: green; -fx-border-width: 2;");
+                    /* Crea l'effetto DropShadow per evidenziare il contorno dell'ImageView
                     DropShadow dropShadow = new DropShadow();
                     dropShadow.setColor(Color.GREEN);
                     dropShadow.setRadius(10);
@@ -531,6 +532,7 @@ public class MainSceneController extends ControllerGUI{
 
                     // Applica l'effetto DropShadow all'ImageView
                     cardImageView.setEffect(dropShadow);
+                    cardPane.setEffect(dropShadow);*/
                 }
                 cardPane.getChildren().add(cardImageView);
                 bookPane.getChildren().add(cardPane);
