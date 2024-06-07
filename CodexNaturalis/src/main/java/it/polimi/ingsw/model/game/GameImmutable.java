@@ -221,11 +221,6 @@ public class GameImmutable implements Serializable {
     }
 
 
-
-    public ObjectiveCard[] getCommonGoals() {
-        return board.getObjectiveCards();
-    }
-
     public PlayableCard[] getInitialCard(){
         return temporaryInitialCard;
     }
