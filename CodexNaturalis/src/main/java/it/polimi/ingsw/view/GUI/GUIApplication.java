@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -178,9 +179,7 @@ public class GUIApplication extends Application {
 
                     return;
                 }
-
-
-                case MENU, INITIALIZE_CARDS -> {
+                case MENU, INITIALIZE_CARDS, GAMEENDED -> {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);
                 }
@@ -191,10 +190,9 @@ public class GUIApplication extends Application {
                     this.primaryStage.setAlwaysOnTop(false);
                 }
 
-                default -> {
+                default ->
                     this.primaryStage.setAlwaysOnTop(false);
 
-                }
 
             }
             this.primaryStage.setScene(s.getScene());
@@ -425,6 +423,16 @@ public class GUIApplication extends Application {
     public void showBoard(boolean enablePickCardTurn){
         BoardPopUpController controller = (BoardPopUpController) scenes.get(getSceneIndex(SceneType.BOARD_POPUP)).getControllerGUI();
         controller.enlargeAndHighlightBoardPane(enablePickCardTurn);
+    }
+
+    public void showFinalBoard(GameImmutable model) throws NoPlayersException {
+        GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneType.GAMEENDED)).getControllerGUI();
+        controller.showFinal(model);
+    }
+
+    public void showBtnReturnToMenu() {
+        GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneType.GAMEENDED)).getControllerGUI();
+        controller.showBtnReturnToMenu();
     }
 
 

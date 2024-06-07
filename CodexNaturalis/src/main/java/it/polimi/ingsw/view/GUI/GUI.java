@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
@@ -207,7 +208,14 @@ public class GUI extends UI {
 
     @Override
     public void show_gameEnded(GameImmutable model) {
-       // callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GAME_ENDED));
+       callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GAMEENDED));
+        callPlatformRunLater(() -> {
+            try {
+                this.guiApplication.showFinalBoard(model);
+            } catch (NoPlayersException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Override
@@ -278,7 +286,7 @@ public class GUI extends UI {
 
     @Override
     public void show_returnToMenuMsg() {
-
+        callPlatformRunLater(() -> this.guiApplication.showBtnReturnToMenu());
     }
 
 
