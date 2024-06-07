@@ -128,14 +128,16 @@ public class GUI extends UI {
         PauseTransition pause = new PauseTransition(Duration.seconds(10));
         pause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
-            callPlatformRunLater(() -> this.guiApplication.showBoard());
+            BoardPopUpController boardController = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
+            boardController.setBoard(model);
+            boardController.enablePickCardTurn();
+            callPlatformRunLater(() -> this.guiApplication.showBoard(true)); // Pass true per abilitare la possibilità di pescare una carta
         });
         pause.play();
     }
 
     @Override
     public void show_askCardType(GameImmutable model, String nickname) {
-        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("Which card do you want to pick?", null));
 
     }
 
@@ -356,6 +358,7 @@ public class GUI extends UI {
     @Override
     public void show_board(GameImmutable model) {
         callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
+        ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).enablePickCardTurn();
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
     }
 
