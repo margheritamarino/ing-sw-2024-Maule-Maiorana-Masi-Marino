@@ -9,9 +9,6 @@ import it.polimi.ingsw.model.player.PlayerDeck;
 import it.polimi.ingsw.view.GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -24,9 +21,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.io.IOException;
 import java.util.List;
 
 public class MainSceneController extends ControllerGUI{
@@ -241,13 +235,14 @@ public class MainSceneController extends ControllerGUI{
         PlayerDeckPane.setScaleX(1.2);
         PlayerDeckPane.setScaleY(1.2);
 
-        // Applicare l'effetto di illuminazione
+        /* Applicare l'effetto di illuminazione
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(20.0);
         dropShadow.setOffsetX(0.0);
         dropShadow.setOffsetY(0.0);
         dropShadow.setColor(Color.RED);
-        PlayerDeckPane.setEffect(dropShadow);
+        PlayerDeckPane.setEffect(dropShadow);*/
+        PlayerDeckPane.getStyleClass().add("glow-pane");
     }
 
     public void resetPlayerDeckPane() {
@@ -367,7 +362,7 @@ public class MainSceneController extends ControllerGUI{
                 cardImageView.setPreserveRatio(true);
                 // Imposta l'ID dell'ImageView con il numero di riga e colonna
                 cardImageView.setId(i + "-" + j);
-                cardImageView.setOnMouseClicked(event -> chooseCellClick(event));
+                cardImageView.setOnMouseClicked(this::chooseCellClick);
 
                 PlayableCard card = bookMatrix[i][j].getCard();
                 if (card != null) {
@@ -418,25 +413,40 @@ public class MainSceneController extends ControllerGUI{
     //ASK PLACE CARDS - CHOOSE CELL
     //ACTION CLICKED per scegliere la riga e la colonna
     public void chooseCellClick(MouseEvent mouseEvent) {
-        if(PlaceCardChooseCell){
-            // Ottieni l'ID dell'ImageView cliccato
-            String id = ((ImageView) mouseEvent.getSource()).getId();
-            // Dividi l'ID per ottenere la riga e la colonna dell'immagine cliccata
-            String[] partsID = id.split("-");
-            int rowIndex = Integer.parseInt(partsID[0]);
-            getInputGUI().addTxt(String.valueOf(rowIndex));
-            int colIndex = Integer.parseInt(partsID[1]);
-            getInputGUI().addTxt(String.valueOf(colIndex));
+        if (PlaceCardChooseCell) {
+            // Ottieni il source dell'evento, che è sempre un Pane
+            Pane clickedPane = (Pane) mouseEvent.getSource();
+
+            // Ottieni l'ID del Pane, che contiene la riga e la colonna
+            String id = clickedPane.getId();
+
+            if (id != null) {
+                // Dividi l'ID per ottenere riga e colonna
+                String[] partsID = id.split("-");
+                int rowIndex = Integer.parseInt(partsID[0]);
+                int colIndex = Integer.parseInt(partsID[1]);
+
+                // Aggiungi la riga e la colonna al testo di input
+                getInputGUI().addTxt(String.valueOf(rowIndex));
+                getInputGUI().addTxt(String.valueOf(colIndex));
+
+                // Stampa la riga e la colonna per debug
+                System.out.println("Row: " + rowIndex + ", Col: " + colIndex);
+            } else {
+                System.out.println("Pane clicked but no ID found.");
+            }
         }
-        PlaceCardChooseCell=false;
+        PlaceCardChooseCell = false;
     }
+
     private boolean PlaceCardChooseCell=false;
     public void highlightChooseCell(GameImmutable model, String nickname) {
         PlaceCardChooseCell=true;
+
         this.bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
         // Pulisce il contenuto precedente
         bookPane.getChildren().clear();
-
+        rootPane.getStyleClass().add("glow-pane");
         // Recupera i limiti della sotto-matrice che contiene le carte
         int[] limits = findSubMatrix();
         int minI = limits[0];
@@ -445,8 +455,8 @@ public class MainSceneController extends ControllerGUI{
         int maxJ = limits[3];
 
         // Dimensioni del singolo pannello per ogni carta
-        double paneWidth = 120;  // Imposta la larghezza desiderata per ogni carta
-        double paneHeight = 80; // Imposta l'altezza desiderata per ogni carta
+        double paneWidth = 150;  // Imposta la larghezza desiderata per ogni carta
+        double paneHeight = 110; // Imposta l'altezza desiderata per ogni carta
 
         // Calcola le dimensioni del gameBoardPane per contenere tutte le carte
         double boardWidth = (maxJ - minJ + 1) * paneWidth;
@@ -461,10 +471,11 @@ public class MainSceneController extends ControllerGUI{
             for (int j = minJ; j <= maxJ; j++) {
                 Pane cardPane = new Pane();
                 cardPane.setPrefSize(paneWidth, paneHeight);
-
-                // Posizionare i Pane all'interno di gameBoardPane
                 cardPane.setLayoutX((j - minJ) * paneWidth + offsetX);
                 cardPane.setLayoutY((i - minI) * paneHeight + offsetY);
+                cardPane.setOnMouseClicked(this::chooseCellClick);
+                cardPane.setId(i + "-" + j);
+
                 //cardPane.setStyle("-fx-border-color: yellow; -fx-border-width: 2;");
 
                 // Creare ImageView per la carta
@@ -474,7 +485,6 @@ public class MainSceneController extends ControllerGUI{
                 cardImageView.setPreserveRatio(true);
                 // Imposta l'ID dell'ImageView con il numero di riga e colonna
                 cardImageView.setId(i + "-" + j);
-                cardImageView.setOnMouseClicked(event -> chooseCellClick(event));
 
                 PlayableCard card = bookMatrix[i][j].getCard();
                 if (card != null) {
@@ -485,18 +495,7 @@ public class MainSceneController extends ControllerGUI{
                     cardImageView.setImage(null);
                 }
                 if( bookMatrix[i][j].isAvailable()){
-                    cardPane.setStyle("-fx-border-color: green; -fx-border-width: 2;");
-                    /* Crea l'effetto DropShadow per evidenziare il contorno dell'ImageView
-                    DropShadow dropShadow = new DropShadow();
-                    dropShadow.setColor(Color.GREEN);
-                    dropShadow.setRadius(10);
-                    dropShadow.setSpread(0.5);
-                    dropShadow.setOffsetX(0);
-                    dropShadow.setOffsetY(0);
-
-                    // Applica l'effetto DropShadow all'ImageView
-                    cardImageView.setEffect(dropShadow);
-                    cardPane.setEffect(dropShadow);*/
+                    cardPane.setStyle("-fx-border-color: green; -fx-border-width: 3;");
                 }
                 cardPane.getChildren().add(cardImageView);
                 bookPane.getChildren().add(cardPane);

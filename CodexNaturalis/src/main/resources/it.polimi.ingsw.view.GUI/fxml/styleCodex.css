@@ -448,6 +448,7 @@
 }
 .glow-pane {
     -fx-effect: dropshadow(gaussian, rgba(255,255,0,0.8), 10, 0.5, 0, 0);
+    -fx-background-color: lightblue;
 }
 
 
