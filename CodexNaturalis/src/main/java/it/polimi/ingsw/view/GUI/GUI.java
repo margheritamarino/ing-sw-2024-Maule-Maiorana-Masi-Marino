@@ -121,12 +121,16 @@ public class GUI extends UI {
 
         });
         pause.play();
-
     }
 
     @Override
     public void show_PickCardMsg(GameImmutable model) {
-        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("It's your turn to PICK A CARD", null));
+        PauseTransition pause = new PauseTransition(Duration.seconds(10));
+        pause.setOnFinished(event -> {
+            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
+            callPlatformRunLater(() -> this.guiApplication.showBoard());
+        });
+        pause.play();
     }
 
     @Override

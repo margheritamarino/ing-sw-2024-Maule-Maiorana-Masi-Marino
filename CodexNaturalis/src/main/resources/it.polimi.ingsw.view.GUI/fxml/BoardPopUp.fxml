@@ -20,16 +20,16 @@
          <children>
             <HBox layoutX="14.0" layoutY="14.0" prefHeight="150.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="14.0">
                <children>
-                  <ImageView fx:id="imgDeckGold" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgGold0" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgGold1" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgDeckGold" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
+                  <ImageView fx:id="imgGold0" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
+                  <ImageView fx:id="imgGold1" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
                </children>
             </HBox>
             <HBox layoutX="3.0" layoutY="185.0" prefHeight="150.0" prefWidth="240.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.400000000000091">
                <children>
-                  <ImageView fx:id="imgDeckResource" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgResource0" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="imgResource1" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgDeckResource" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
+                  <ImageView fx:id="imgResource0" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
+                  <ImageView fx:id="imgResource1" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#chooseCardClick" />
                </children>
             </HBox>
             <HBox layoutX="3.0" layoutY="355.0" prefHeight="150.0" prefWidth="731.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.400000000000091">

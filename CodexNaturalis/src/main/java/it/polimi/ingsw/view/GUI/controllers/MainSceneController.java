@@ -2,13 +2,21 @@ package it.polimi.ingsw.view.GUI.controllers;
 
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.exceptions.CellNotAvailableException;
+import it.polimi.ingsw.exceptions.PlacementConditionViolated;
+import it.polimi.ingsw.model.Book;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.PlayerDeck;
 import it.polimi.ingsw.view.GUI.GUI;
+import it.polimi.ingsw.view.GUI.GUIApplication;
+import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -17,10 +25,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainSceneController extends ControllerGUI{
@@ -78,6 +90,8 @@ public class MainSceneController extends ControllerGUI{
     private ListView EventsList;
     @FXML
     private AnchorPane PlayerDeckPane;
+    @FXML
+    private Stage boardPopUpStage;
 
 
     public void setImportantEvents(List<String> importantEvents){
@@ -223,9 +237,46 @@ public class MainSceneController extends ControllerGUI{
         showBack[cardIndex] = !showBack[cardIndex];
         deckImg.setImage(new Image(imagePath));
     }
-    private boolean placeCardTurnCard =false;
+
+    public void enlargeAndHighlightBoardPane() {
+        try {
+            // Carica il file FXML della board
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it.polimi.ingsw.view.GUI/fxml/BoardPopUp.fxml"));
+            Parent root = loader.load();
+
+            // Ottieni il controller della BoardPopUp e imposta il modello
+            BoardPopUpController controller = loader.getController();
+            controller.setBoard(model);
+
+            // Crea una nuova finestra per il pop-up
+            boardPopUpStage = new Stage();
+            boardPopUpStage.setScene(new Scene(root));
+            boardPopUpStage.initStyle(StageStyle.UNDECORATED); // Rimuovi i bordi della finestra
+            boardPopUpStage.show();
+
+            // Applica l'effetto di illuminazione
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(20.0);
+            dropShadow.setOffsetX(0.0);
+            dropShadow.setOffsetY(0.0);
+            dropShadow.setColor(Color.BLUE);
+            root.setEffect(dropShadow);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void closeBoardPopUp() {
+        if (boardPopUpStage != null) {
+            boardPopUpStage.close();
+            boardPopUpStage = null;
+        }
+    }
+
+    private boolean placeCardTurn=false;
     public void enlargeAndHighlightPlayerDeckPane() {
-        placeCardTurnCard =true;
+        placeCardTurn=true;
         // Ingrandire il pane
         PlayerDeckPane.setScaleX(1.2);
         PlayerDeckPane.setScaleY(1.2);
@@ -248,7 +299,7 @@ public class MainSceneController extends ControllerGUI{
     }
 
     public void chooseCardClick(MouseEvent mouseEvent) {
-        if (placeCardTurnCard) {
+        if (placeCardTurn) {
             int selectedIndex = -1;
             ImageView clickedImageView = null;
 
@@ -270,8 +321,7 @@ public class MainSceneController extends ControllerGUI{
                 }
             }
         }
-        placeCardTurnCard = false;
-        resetPlayerDeckPane();
+        placeCardTurn = false;
     }
 
 
@@ -306,191 +356,50 @@ public class MainSceneController extends ControllerGUI{
     //BOOK
 
     @FXML
-    public ScrollPane bookScrollPane;
+    public ScrollPane gameBoardScrollPane;
 
     @FXML
-    public AnchorPane bookPane;
+    public AnchorPane gameBoardPane;
     @FXML
     public AnchorPane rootPane;
 
-    private Cell[][] bookMatrix;
-    public void updateBookPane(GameImmutable model, String nickname) {
-        this.bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
-        // Pulisce il contenuto precedente
-        bookPane.getChildren().clear();
+    private int numCells = 70;
+    private ImageView[][] imageViews;
+    private int cellSize = 50; // Dimensione delle celle delle ImageView
 
-        // Recupera i limiti della sotto-matrice che contiene le carte
-        int[] limits = findSubMatrix();
-        int minI = limits[0];
-        int minJ = limits[1];
-        int maxI = limits[2];
-        int maxJ = limits[3];
+    public void setBook(GameImmutable model, String nickname) {
+        Cell[][] bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
 
-        // Dimensioni del singolo pannello per ogni carta
-        double paneWidth = 120;  // Imposta la larghezza desiderata per ogni carta
-        double paneHeight = 80; // Imposta l'altezza desiderata per ogni carta
-
-        // Calcola le dimensioni del gameBoardPane per contenere tutte le carte
-        double boardWidth = (maxJ - minJ + 1) * paneWidth;
-        double boardHeight = (maxI - minI + 1) * paneHeight;
-
-        // Posizionamento centrato all'interno di gameBoardPane
-        double offsetX = (bookPane.getWidth() - boardWidth) / 2;
-        double offsetY = (bookPane.getHeight() - boardHeight) / 2;
-
-        // Creare i Pane con ImageView per le carte non nulle
-        for (int i = minI; i <= maxI; i++) {
-            for (int j = minJ; j <= maxJ; j++) {
-                Pane cardPane = new Pane();
-                cardPane.setPrefSize(paneWidth, paneHeight);
-
-                // Posizionare i Pane all'interno di gameBoardPane
-                cardPane.setLayoutX((j - minJ) * paneWidth + offsetX);
-                cardPane.setLayoutY((i - minI) * paneHeight + offsetY);
-                //cardPane.setStyle("-fx-border-color: yellow; -fx-border-width: 2;");
-
-                // Creare ImageView per la carta
-                ImageView cardImageView = new ImageView();
-                cardImageView.setFitWidth(paneWidth);
-                cardImageView.setFitHeight(paneHeight);
-                cardImageView.setPreserveRatio(true);
-                // Imposta l'ID dell'ImageView con il numero di riga e colonna
-                cardImageView.setId(i + "-" + j);
-                cardImageView.setOnMouseClicked(event -> chooseCellClick(event));
-
-                PlayableCard card = bookMatrix[i][j].getCard();
-                if (card != null) {
-                    Image cardImage = new Image(card.getImagePath());
-                    cardImageView.setImage(cardImage);
-                } else {
-                    cardImageView.setImage(null);
-                }
-                cardPane.getChildren().add(cardImageView);
-                bookPane.getChildren().add(cardPane);
+        // Inizializza la matrice di ImageView
+        imageViews = new ImageView[numCells][numCells];
+        for (int i = 0; i < numCells; i++) {
+            for (int j = 0; j < numCells; j++) {
+                ImageView imageView = new ImageView();
+                imageView.setFitWidth(cellSize); // Imposta la larghezza desiderata per le ImageView
+                imageView.setFitHeight(cellSize); // Imposta l'altezza desiderata per le ImageView
+                imageViews[i][j] = imageView;
+                gameBoardPane.getChildren().add(imageView); // Aggiungi ImageView al AnchorPane
+                imageView.setLayoutX(j * cellSize); // Imposta la posizione X in base alla colonna
+                imageView.setLayoutY(i * cellSize); // Imposta la posizione Y in base alla riga
             }
         }
-        bookPane.layout();
-        bookScrollPane.layout();
-    }
 
-    public int[] findSubMatrix() {
-        int[] limits = new int[4];
-        int minI = bookMatrix.length;
-        int minJ = bookMatrix[0].length;
-        int maxI = -1;
-        int maxJ = -1;
-
-        for (int i = 0; i < bookMatrix.length; i++) {
-            for (int j = 0; j < bookMatrix[i].length; j++) {
+        // Carica l'immagine per le carte non nulle
+        // Supponiamo che tu abbia un'array di Image chiamato cardImages che contiene le immagini delle carte
+        // e che bookMatrix sia la tua matrice di carte
+        for (int i = 0; i < numCells; i++) {
+            for (int j = 0; j < numCells; j++) {
                 if (bookMatrix[i][j].getCard() != null) {
-                    if (i < minI) minI = i;
-                    if (j < minJ) minJ = j;
-                    if (i > maxI) maxI = i;
-                    if (j > maxJ) maxJ = j;
-                }
-            }
-        }
-
-        if (minI > 0) minI--;
-        if (minJ > 0) minJ--;
-        if (maxI < bookMatrix.length - 1) maxI++;
-        if (maxJ < bookMatrix[0].length - 1) maxJ++;
-
-        limits[0] = minI;
-        limits[1] = minJ;
-        limits[2] = maxI;
-        limits[3] = maxJ;
-
-        return limits;
-    }
-
-    //ASK PLACE CARDS - CHOOSE CELL
-    //ACTION CLICKED per scegliere la riga e la colonna
-    public void chooseCellClick(MouseEvent mouseEvent) {
-        if(PlaceCardChooseCell){
-            // Ottieni l'ID dell'ImageView cliccato
-            String id = ((ImageView) mouseEvent.getSource()).getId();
-            // Dividi l'ID per ottenere la riga e la colonna dell'immagine cliccata
-            String[] partsID = id.split("-");
-            int rowIndex = Integer.parseInt(partsID[0]);
-            getInputGUI().addTxt(String.valueOf(rowIndex));
-            int colIndex = Integer.parseInt(partsID[1]);
-            getInputGUI().addTxt(String.valueOf(colIndex));
-        }
-        PlaceCardChooseCell=false;
-    }
-    private boolean PlaceCardChooseCell=false;
-    public void highlightChooseCell(GameImmutable model, String nickname) {
-        PlaceCardChooseCell=true;
-        this.bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
-        // Pulisce il contenuto precedente
-        bookPane.getChildren().clear();
-
-        // Recupera i limiti della sotto-matrice che contiene le carte
-        int[] limits = findSubMatrix();
-        int minI = limits[0];
-        int minJ = limits[1];
-        int maxI = limits[2];
-        int maxJ = limits[3];
-
-        // Dimensioni del singolo pannello per ogni carta
-        double paneWidth = 120;  // Imposta la larghezza desiderata per ogni carta
-        double paneHeight = 80; // Imposta l'altezza desiderata per ogni carta
-
-        // Calcola le dimensioni del gameBoardPane per contenere tutte le carte
-        double boardWidth = (maxJ - minJ + 1) * paneWidth;
-        double boardHeight = (maxI - minI + 1) * paneHeight;
-
-        // Posizionamento centrato all'interno di gameBoardPane
-        double offsetX = (bookPane.getWidth() - boardWidth) / 2;
-        double offsetY = (bookPane.getHeight() - boardHeight) / 2;
-
-        // Creare i Pane con ImageView per le carte non nulle
-        for (int i = minI; i <= maxI; i++) {
-            for (int j = minJ; j <= maxJ; j++) {
-                Pane cardPane = new Pane();
-                cardPane.setPrefSize(paneWidth, paneHeight);
-
-                // Posizionare i Pane all'interno di gameBoardPane
-                cardPane.setLayoutX((j - minJ) * paneWidth + offsetX);
-                cardPane.setLayoutY((i - minI) * paneHeight + offsetY);
-                //cardPane.setStyle("-fx-border-color: yellow; -fx-border-width: 2;");
-
-                // Creare ImageView per la carta
-                ImageView cardImageView = new ImageView();
-                cardImageView.setFitWidth(paneWidth);
-                cardImageView.setFitHeight(paneHeight);
-                cardImageView.setPreserveRatio(true);
-                // Imposta l'ID dell'ImageView con il numero di riga e colonna
-                cardImageView.setId(i + "-" + j);
-                cardImageView.setOnMouseClicked(event -> chooseCellClick(event));
-
-                PlayableCard card = bookMatrix[i][j].getCard();
-                if (card != null) {
+                    PlayableCard card = bookMatrix[i][j].getCard();
+                    // Assicurati di avere un'immagine associata a ogni tipo di carta
                     Image cardImage = new Image(card.getImagePath());
-                    cardImageView.setImage(cardImage);
-
+                    imageViews[i][j].setImage(cardImage);
                 } else {
-                    cardImageView.setImage(null);
+                    // Carica l'immagine per le carte nulle (ImageView vuoto)
+                    imageViews[i][j].setImage(null);
                 }
-                if( bookMatrix[i][j].isAvailable()){
-                    // Crea l'effetto DropShadow per evidenziare il contorno dell'ImageView
-                    DropShadow dropShadow = new DropShadow();
-                    dropShadow.setColor(Color.GREEN);
-                    dropShadow.setRadius(10);
-                    dropShadow.setSpread(0.5);
-                    dropShadow.setOffsetX(0);
-                    dropShadow.setOffsetY(0);
-
-                    // Applica l'effetto DropShadow all'ImageView
-                    cardImageView.setEffect(dropShadow);
-                }
-                cardPane.getChildren().add(cardImageView);
-                bookPane.getChildren().add(cardPane);
             }
         }
-        bookPane.layout();
-        bookScrollPane.layout();
     }
 
 }
