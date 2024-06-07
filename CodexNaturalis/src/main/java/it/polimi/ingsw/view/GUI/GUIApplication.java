@@ -382,7 +382,7 @@ public class GUIApplication extends Application {
 
         controller.setPlayerDeck(model, nickname);
 
-        controller.updateBookPane(model, nickname);
+        showBook(model, nickname);
         List<Player> players = model.getPlayers();
         List<String> playerNames = new ArrayList<>();
         for (Player player : players) {
@@ -390,6 +390,10 @@ public class GUIApplication extends Application {
         }
         // Popola la ComboBox dei giocatori con i nomi dei giocatori disponibili
         controller.setPlayerComboBoxItems(playerNames);
+    }
+    public void showBook(GameImmutable model, String nickname){
+        MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
+        controller.updateBookPane(model, nickname);
     }
     public void showBookChooseCell(GameImmutable model, String nickname){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();

@@ -15,6 +15,8 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.network.PrintAsync.printAsync;
+
 /**
  * GUI class.
  * This class is the GUI implementation of the UI abstract class and it manages all the GUI-related operations.
@@ -172,6 +174,19 @@ public class GUI extends UI {
 
     @Override
     public void show_pointsAddedMsg(GameImmutable model, String nickname) {
+        if(model.getCurrentPlayer().getNickname().equals(nickname) ){
+            show_playerBook(model); //((playerBook aggiornato))
+
+            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("You scored some points!", true));
+        }else {
+            String msg= model.getNicknameCurrentPlaying()+"scored some points!";
+            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, false));
+        }
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(event -> {
+            show_scoretrack(model);
+        });
+        pause.play();
 
     }
 
@@ -345,7 +360,7 @@ public class GUI extends UI {
     }
     @Override
     public void show_playerBook(GameImmutable model) {
-
+        callPlatformRunLater(()-> this.guiApplication.showBook(model, nickname));
     }
     @Override
     public void show_scoretrack(GameImmutable model) {
