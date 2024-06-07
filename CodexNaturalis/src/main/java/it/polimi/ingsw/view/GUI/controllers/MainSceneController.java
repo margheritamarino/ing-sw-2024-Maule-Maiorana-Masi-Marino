@@ -413,26 +413,35 @@ public class MainSceneController extends ControllerGUI{
     //ACTION CLICKED per scegliere la riga e la colonna
     public void chooseCellClick(MouseEvent mouseEvent) {
         if (PlaceCardChooseCell) {
-            // Ottieni il source dell'evento, che è sempre un Pane
-            Pane clickedPane = (Pane) mouseEvent.getSource();
+            Object source = mouseEvent.getSource();
+            Pane clickedPane = null;
 
-            // Ottieni l'ID del Pane, che contiene la riga e la colonna
-            String id = clickedPane.getId();
+            if (source instanceof Pane) {
+                clickedPane = (Pane) source;
+            } else if (source instanceof ImageView) {
+                // If the source is an ImageView, get its parent, assuming it's the Pane
+                clickedPane = (Pane) ((ImageView) source).getParent();
+            }
 
-            if (id != null) {
-                // Dividi l'ID per ottenere riga e colonna
-                String[] partsID = id.split("-");
-                int rowIndex = Integer.parseInt(partsID[0]);
-                int colIndex = Integer.parseInt(partsID[1]);
+            if (clickedPane != null) {
+                // Ottieni l'ID del Pane, che contiene la riga e la colonna
+                String id = clickedPane.getId();
 
-                // Aggiungi la riga e la colonna al testo di input
-                getInputGUI().addTxt(String.valueOf(rowIndex));
-                getInputGUI().addTxt(String.valueOf(colIndex));
+                if (id != null) {
+                    // Dividi l'ID per ottenere riga e colonna
+                    String[] partsID = id.split("-");
+                    int rowIndex = Integer.parseInt(partsID[0]);
+                    int colIndex = Integer.parseInt(partsID[1]);
 
-                // Stampa la riga e la colonna per debug
-                System.out.println("Row: " + rowIndex + ", Col: " + colIndex);
-            } else {
-                System.out.println("Pane clicked but no ID found.");
+                    // Aggiungi la riga e la colonna al testo di input
+                    getInputGUI().addTxt(String.valueOf(rowIndex));
+                    getInputGUI().addTxt(String.valueOf(colIndex));
+
+                    // Stampa la riga e la colonna per debug
+                    System.out.println("Row: " + rowIndex + ", Col: " + colIndex);
+                } else {
+                    System.out.println("Pane clicked but no ID found.");
+                }
             }
         }
         PlaceCardChooseCell = false;

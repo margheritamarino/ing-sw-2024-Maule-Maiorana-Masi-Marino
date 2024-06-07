@@ -128,15 +128,20 @@ public class GUI extends UI {
 
     @Override
     public void show_PickCardMsg(GameImmutable model) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(4));
-        pause.setOnFinished(event -> {
+        PauseTransition initialPause = new PauseTransition(Duration.seconds(2));
+        initialPause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
-            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
-            BoardPopUpController boardController = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
-            boardController.enablePickCardTurn();
-            callPlatformRunLater(() -> this.guiApplication.showBoard(model, true)); // Pass true per abilitare la possibilità di pescare una carta
+
+            PauseTransition messagePause = new PauseTransition(Duration.seconds(5));
+            messagePause.setOnFinished(event2 -> {
+                callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
+                BoardPopUpController boardController = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
+                boardController.enablePickCardTurn();
+                callPlatformRunLater(() -> this.guiApplication.showBoard(model, true));
+            });
+            messagePause.play();
         });
-        pause.play();
+        initialPause.play();
     }
 
     @Override
@@ -187,13 +192,15 @@ public class GUI extends UI {
         PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> {
             show_scoretrack(model);
+            // Aggiungere una seconda transizione per chiudere il pop-up dopo un ulteriore secondo
+            PauseTransition closePause = new PauseTransition(Duration.seconds(3));
+            closePause.setOnFinished(closeEvent -> {
+                this.guiApplication.closePopUpStage();
+                show_PickCardMsg(model);
+            });
+            closePause.play();
         });
         pause.play();
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
-        pause2.setOnFinished(event -> {
-            this.guiApplication.closePopUpStage();
-        });
-        pause2.play();
 
     }
 
@@ -205,12 +212,14 @@ public class GUI extends UI {
 
     @Override
     public void show_gameStarted(GameImmutable model) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> {
-           callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
-            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
-            callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
-            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("GAME STARTED!", true));
+            callPlatformRunLater(() -> {
+                this.guiApplication.closePopUpStage();
+                this.guiApplication.setActiveScene(SceneType.MAINSCENE);
+                this.guiApplication.showMainScene(model, nickname, this);
+                this.guiApplication.changeLabelMessage("GAME STARTED!", true);
+            });
         });
         pause.play();
     }
