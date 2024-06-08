@@ -128,15 +128,25 @@ public class GUI extends UI {
 
     @Override
     public void show_PickCardMsg(GameImmutable model) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> {
+
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
+
+        });
+        pause.play();
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
+        pause.setOnFinished(event -> {
+
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
             BoardPopUpController boardController = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
             boardController.enablePickCardTurn();
             callPlatformRunLater(() -> this.guiApplication.showBoard(model, true)); // Pass true per abilitare la possibilità di pescare una carta
         });
-        pause.play();
+        pause2.play();
     }
 
     @Override
@@ -167,11 +177,25 @@ public class GUI extends UI {
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname) {
-        callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(event -> {
+                    callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
+        });
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
+        pause.setOnFinished(event -> {
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            show_playerDeck(model,nickname);
+        });
     }
 
     @Override
     public void show_nextTurnMsg(GameImmutable model) {
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        pause.setOnFinished(event -> {
+            callPlatformRunLater(()-> this.guiApplication.closePopUpStage());
+            callPlatformRunLater(() -> ((OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP)).setOrderListText(model));
+            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.ORDERPLAYERS_POPUP));
+        });
 
     }
 
@@ -207,7 +231,7 @@ public class GUI extends UI {
     public void show_gameStarted(GameImmutable model) {
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> {
-           callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+          // callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
             callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("GAME STARTED!", true));
@@ -369,9 +393,13 @@ public class GUI extends UI {
     }
     @Override
     public void closeWaitPopUp(){
-        callPlatformRunLater(() -> {
-            this.guiApplication.closePopUpStage();
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        pause.setOnFinished(event -> {
+            callPlatformRunLater(() -> {
+                this.guiApplication.closePopUpStage();
+            });
         });
+        pause.play();
     }
 
     @Override
@@ -382,7 +410,8 @@ public class GUI extends UI {
 
     @Override
     public void show_playerDeck(GameImmutable model, String nickname) {
-
+        callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setPlayerDeck(model,nickname));
+        //callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Connection to server lost!", true));
     }
     @Override
     public void show_playerBook(GameImmutable model) {

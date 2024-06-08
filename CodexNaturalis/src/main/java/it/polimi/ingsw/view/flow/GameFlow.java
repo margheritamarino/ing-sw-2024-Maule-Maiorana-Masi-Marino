@@ -527,7 +527,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
         if(!drawFromDeck){
             ui.show_visibleCardsBoard(model, cardType);
-            //Non dovrebbe chiedere se vuole la carta 0 o 1 dell'array?
             pos= Objects.requireNonNullElse(askNum("\t> Choose [0] for the first card or [1] for the second card:", model), -1);
         }
         PickCardFromBoard(cardType, drawFromDeck, pos);
@@ -551,7 +550,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
                 // Ottieni l'input dell'utente
                 try {
+                    System.out.println("waiting input askCardType");
                     temp = this.inputController.getUnprocessedData().popInputData();
+                    System.out.println("input received: "+ temp);
                     if (ended) return null; // Se il gioco è finito, ritorna null
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -590,7 +591,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
                 // Ottieni l'input dell'utente
                 try {
+                    System.out.println("waiting for input askDrawFromDeck ");
                     temp = this.inputController.getUnprocessedData().popInputData();
+                    System.out.println("input received: "+ temp);
                     if (ended) return false; // Se il gioco è finito, ritorna false
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -827,7 +830,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void nextTurn(GameImmutable model) throws RemoteException {
-
         events.add(model, EventType.NEXT_TURN);
         this.inputController.getUnprocessedData().popAllData();
     }

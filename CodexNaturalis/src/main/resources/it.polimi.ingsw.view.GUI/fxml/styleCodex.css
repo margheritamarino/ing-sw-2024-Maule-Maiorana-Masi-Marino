@@ -447,9 +447,10 @@
     -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.8), 10, 0.5, 0, 0);
 }
 .glow-pane {
-    -fx-effect: dropshadow(gaussian, rgba(240, 248, 255, 0.8), 10, 0.5, 0, 0);
-    -fx-background-color: rgba(240, 248, 255, 1.0); /* Imposta lo stesso colore di sfondo dell'effetto */
+    -fx-effect:  dropshadow(gaussian, rgba(255, 0, 0, 1), 10, 0.5, 0, 0);
+    -fx-background-color: rgba(255, 0, 0, 1.0);
 }
+
 
 .gold-glow-hbox {
     -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.8), 20, 0.5, 0, 0);
@@ -460,6 +461,9 @@
     -fx-background-color: transparent;
 }
 
+.image-view:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.8), 10, 0.5, 0, 0);
+}
 
 .scale-button {
     -fx-scale-x: 1;

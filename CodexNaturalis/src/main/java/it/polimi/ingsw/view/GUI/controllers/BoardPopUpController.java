@@ -102,7 +102,9 @@ public class BoardPopUpController extends ControllerGUI{
 
     public void chooseCardClick(MouseEvent mouseEvent) {
         if (pickCardTurn) {
+
             ImageView clickedImageView = (ImageView) mouseEvent.getSource();
+            clickedImageView  .getStyleClass().add("image-view:pressed");
             int selectedIndex = -1;
 
             if (clickedImageView == imgGold0) {
@@ -120,44 +122,28 @@ public class BoardPopUpController extends ControllerGUI{
             }
 
             if (selectedIndex != -1) {
-                getInputGUI().addTxt(String.valueOf(selectedIndex));
-                //rimuovo l'immagine della carta selezionata
-                clearCardImage(selectedIndex);
-
-                String newImagePath = null;
-                //rimuovo la carta dal modello e ottengo l'immagine relativa
-                switch (selectedIndex) {
-                    case 0:
-                        newImagePath = imgDeckGold.getImage().getUrl();
-                        imgGold0.setImage(new Image(newImagePath));
-                        imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
-                        break;
-                    case 1:
-                        newImagePath = imgDeckGold.getImage().getUrl();
-                        imgGold1.setImage(new Image(newImagePath));
-                        imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
-                        break;
-                    case 2:
-                        newImagePath = model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath();
-                        imgDeckGold.setImage(new Image(newImagePath));
-                        break;
-                    case 3:
-                        newImagePath = imgDeckResource.getImage().getUrl();
-                        imgResource0.setImage(new Image(newImagePath));
-                        imgDeckResource.setImage(new Image(model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath()));
-                        break;
-                    case 4:
-                        newImagePath = imgDeckResource.getImage().getUrl();
-                        imgResource1.setImage(new Image(newImagePath));
-                        imgDeckResource.setImage(new Image(model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath()));
-                        break;
-                    case 5:
-                        newImagePath = model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath();
-                        imgDeckResource.setImage(new Image(newImagePath));
-                        break;
+                //ASK CARD TYPE
+                if (selectedIndex >= 0 || selectedIndex <= 2)
+                    getInputGUI().addTxt("G"); // goldCards
+                else {
+                    getInputGUI().addTxt("R"); // resourceCards
                 }
 
-                pickCardTurn = false;
+                //ASK DRAW FROM DECK
+                if (selectedIndex == 2 || selectedIndex == 5)
+                    getInputGUI().addTxt("yes");
+                else { //!drawFromDeck
+                    getInputGUI().addTxt("no");
+                    int pos;
+                    if(selectedIndex==0 || selectedIndex==3)
+                         pos=0;
+                    else //1-4 (posizione second Card
+                        pos=1;
+                    getInputGUI().addTxt(String.valueOf(pos));
+                }
+                //rimuovo l'immagine della carta selezionata
+                clearCardImage(selectedIndex);
+                pickCardTurn=false;
             }
         }
     }
@@ -172,5 +158,45 @@ public class BoardPopUpController extends ControllerGUI{
             case 5 -> imgDeckResource.setImage(null);
         }
     }
+    /*
+    public void updateBoardPopUp(GameImmutable model){
+        String newImagePath = null;
+        //rimuovo la carta dal modello e ottengo l'immagine relativa
+        switch (selectedIndex) {
+            case 0:
+                        newImagePath = imgDeckGold.getImage().getUrl();
+                        imgGold0.setImage(new Image(newImagePath));
+                newImagePath = model.getBoard().getGoldCardsDeck().getFrontCards().getFirst().getImagePath();
+                imgGold0.setImage(new Image(newImagePath));
+                imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
+                break;
+            case 1:
+                newImagePath = imgDeckGold.getImage().getUrl();
+                imgGold1.setImage(new Image(newImagePath));
+                imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
+                break;
+            case 2:
+                newImagePath = model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath();
+                imgDeckGold.setImage(new Image(newImagePath));
+                break;
+            case 3:
+                newImagePath = imgDeckResource.getImage().getUrl();
+                imgResource0.setImage(new Image(newImagePath));
+                imgDeckResource.setImage(new Image(model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath()));
+                break;
+            case 4:
+                newImagePath = imgDeckResource.getImage().getUrl();
+                imgResource1.setImage(new Image(newImagePath));
+                imgDeckResource.setImage(new Image(model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath()));
+                break;
+            case 5:
+                newImagePath = model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath();
+                imgDeckResource.setImage(new Image(newImagePath));
+                break;
+        }
+
+        pickCardTurn = false;
+    }
+    }*/
 
 }
