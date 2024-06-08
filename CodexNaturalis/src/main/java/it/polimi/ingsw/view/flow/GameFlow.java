@@ -200,9 +200,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             case CARD_PLACED ->{
                 ui.show_pointsAddedMsg(event.getModel(), nickname);
+
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
                     askPickCard(event.getModel());
-                }
+                }else
+                    ui.closeWaitPopUp();;
 
             }
             case SENT_MESSAGE -> {
