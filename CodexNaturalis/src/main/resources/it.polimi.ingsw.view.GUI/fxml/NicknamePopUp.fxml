@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="401.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.8" prefHeight="471.0" prefWidth="409.0" style="-fx-background-color: #e4d5b7;" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.NicknamePopUpController">
    <children>
-      <Pane maxHeight="353.0" maxWidth="611.0" opacity="0.8" prefHeight="50.0" prefWidth="401.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;" AnchorPane.bottomAnchor="59.0">
+      <Pane maxHeight="353.0" maxWidth="611.0" opacity="0.8" prefHeight="50.0" prefWidth="401.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;" styleClass="glow-button" stylesheets="@styleCodex.css" AnchorPane.bottomAnchor="59.0">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
@@ -27,7 +27,7 @@
             <Font name="Arial Black" size="25.0" />
          </font>
       </Text>
-      <ImageView fx:id="playerImageView" fitHeight="188.0" fitWidth="206.0" layoutX="121.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="playerImageView" fitHeight="230.0" fitWidth="201.0" layoutX="103.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="glow-button">
          <image>
             <Image url="@../../img/wait.png" />
          </image></ImageView>

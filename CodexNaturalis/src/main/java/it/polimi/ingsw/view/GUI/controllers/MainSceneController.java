@@ -26,8 +26,8 @@ import java.util.List;
 
 public class MainSceneController extends ControllerGUI{
 
-
-
+    @FXML
+    public Pane actionPane;
     @FXML
     private Text GameIDTextField;
     @FXML
