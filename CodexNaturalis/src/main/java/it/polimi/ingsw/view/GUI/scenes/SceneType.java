@@ -15,13 +15,13 @@ public enum SceneType {
     SCORETRACK_POPUP("/it.polimi.ingsw.view.GUI/fxml/ScoretrackPopUp.fxml"),
     ORDERPLAYERS_POPUP("/it.polimi.ingsw.view.GUI/fxml/OrderPlayersPopUp.fxml"),
     WAITING_POPUP("/it.polimi.ingsw.view.GUI/fxml/WaitingPopUp.fxml"),
-    GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml");
-   /* OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),
+    GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml"),
+    GENERIC_ERROR("/it.polimi.ingsw.view.GUI/fxml/GenericError.fxml");
+
+    /* OTHERSBOOK("/it.polimi.ingsw.view.GUI/fxml/OthersBook.fxml"),
     GAMEWAIT("/it.polimi.ingsw.view.GUI/fxml/GameWait.fxml"),
     ,*/
 
-
-   //GENERIC_ERROR("/it.polimi.ingsw.view.GUI/fxml/GenericErrorController.fxml");
     private final String path; //contiene il percorso dei file FXML associati alle scene
 
     //costruttore

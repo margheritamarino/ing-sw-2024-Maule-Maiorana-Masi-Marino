@@ -155,6 +155,10 @@ public class GUIApplication extends Application {
         if (index != -1) {
             SceneInformation s = scenes.get(index);
             switch (scene) {
+                case GENERIC_ERROR -> {
+                    this.closePopUpStage();
+                }
+
                 case PUBLISHER -> {
                     this.primaryStage.setAlwaysOnTop(true);
                     this.primaryStage.centerOnScreen();
@@ -293,7 +297,6 @@ public class GUIApplication extends Application {
         });
     }
 
-    /*GENERIC ERROR
 
     public void showGenericError(String message){
         GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneType.GENERIC_ERROR)).getControllerGUI();
@@ -303,7 +306,7 @@ public class GUIApplication extends Application {
     public void showErrorGeneric(String msg, boolean needToExitApp) {
         GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneType.GENERIC_ERROR)).getControllerGUI();
         controller.setMsg(msg,needToExitApp);
-    }*/
+    }
 
 
 

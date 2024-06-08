@@ -323,12 +323,20 @@ public class GUI extends UI {
 
     @Override
     public void show_wrongCardSelMsg() {
-
+        String errorMessage = "Invalid selection. Please choose a number between 0 and 6.";
+        callPlatformRunLater(() -> {
+            this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
+            this.guiApplication.showGenericError(errorMessage);
+        });
     }
 
     @Override
     public void show_wrongCellSelMsg() {
-
+        String errorMessage = "Invalid cell selection. Please choose an empty cell with a valid coordinate!";
+        callPlatformRunLater(() -> {
+            this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
+            this.guiApplication.showGenericError(errorMessage);
+        });
     }
 
     @Override
@@ -359,7 +367,11 @@ public class GUI extends UI {
 
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname) {
-
+        String errorMessage = "ERROR: invalid selection. Choose again!";
+        callPlatformRunLater(() -> {
+            this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
+            this.guiApplication.showGenericError(errorMessage);
+        });
     }
 
     @Override
@@ -402,8 +414,8 @@ public class GUI extends UI {
 
     @Override
     public void show_noConnectionError() {
-        //callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
-        //callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Connection to server lost!", true));
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
+        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Connection to server lost!", true));
     }
 
     @Override
