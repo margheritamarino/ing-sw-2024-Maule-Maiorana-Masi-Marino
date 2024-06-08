@@ -104,7 +104,7 @@ public class GUI extends UI {
 
     @Override
     public void show_CurrentTurnMsg(GameImmutable model) {
-        PauseTransition closePopupPause = new PauseTransition(Duration.seconds(2));
+        PauseTransition closePopupPause = new PauseTransition(Duration.seconds(3));
         closePopupPause.setOnFinished(event2 -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("It's your turn!", true));
@@ -133,20 +133,20 @@ public class GUI extends UI {
         showMessagePause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
+            // Pausa di 5 secondi prima di attivare la scena del board
+            PauseTransition activateScenePause = new PauseTransition(Duration.seconds(3));
+            activateScenePause.setOnFinished(event2 -> {
+                callPlatformRunLater(() -> {
+                    this.guiApplication.setActiveScene(SceneType.BOARD_POPUP);
+                    BoardPopUpController boardController = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
+                    boardController.enablePickCardTurn();
+                    this.guiApplication.showBoard(model, true); // Pass true per abilitare la possibilità di pescare una carta
+                });
+            });
+            activateScenePause.play();
         });
         showMessagePause.play();
 
-        // Pausa di 5 secondi prima di attivare la scena del board
-        PauseTransition activateScenePause = new PauseTransition(Duration.seconds(5));
-        activateScenePause.setOnFinished(event -> {
-            callPlatformRunLater(() -> {
-                this.guiApplication.setActiveScene(SceneType.BOARD_POPUP);
-                BoardPopUpController boardController = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
-                boardController.enablePickCardTurn();
-                this.guiApplication.showBoard(model, true); // Pass true per abilitare la possibilità di pescare una carta
-            });
-        });
-        activateScenePause.play();
     }
 
     @Override
