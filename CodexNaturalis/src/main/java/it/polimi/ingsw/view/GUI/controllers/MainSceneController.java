@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -304,6 +305,62 @@ public class MainSceneController extends ControllerGUI{
             gui.show_scoretrack(model);
         }
     }
+
+    //ORDER PLAYERS
+    @FXML
+    public Text player0;
+    @FXML
+    public Text player1;
+    @FXML
+    public Text player2;
+    @FXML
+    public Text player3;
+    @FXML
+    public Pane orderPlayersPane;
+    private Text[] playerTexts;
+    @FXML
+    public void initialize() {
+        playerTexts = new Text[] { player0, player1, player2, player3 };
+    }
+    public void setOrderListText(GameImmutable model) {
+        int[] orderArray = model.getOrderArray();
+        String currentPlayerNickname = model.getNicknameCurrentPlaying();
+
+        for (int i = 0; i < orderArray.length; i++) {
+            String nickname = model.getPlayers().get(orderArray[i]).getNickname();
+            playerTexts[i].setText("["+(i + 1) + "]" + nickname);
+        }
+        highlightCurrentPlayer(model);
+    }
+    public void highlightCurrentPlayer(GameImmutable model){
+        String currentPlayerNickname = model.getNicknameCurrentPlaying();
+        for (int i = 0; i < model.getOrderArray().length; i++) {
+            String nickname = model.getPlayers().get(model.getOrderArray()[i]).getNickname();
+            // Reset the effects
+            playerTexts[i].setEffect(null);
+            // Highlight the current player
+            if (nickname.equals(currentPlayerNickname)) {
+                highlightText(playerTexts[i]);
+            }
+        }
+    }
+    private void highlightText(Text text) {
+        DropShadow dropShadow = new DropShadow();
+        // Crea un effetto Glow
+        Glow glow = new Glow();
+        glow.setLevel(0.8); // Imposta l'intensità del bagliore
+
+        // Applica il bagliore al testo
+        text.setEffect(glow);
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0.0);
+        dropShadow.setOffsetY(0.0);
+        dropShadow.setColor(Color.YELLOW);
+        dropShadow.setInput(glow);
+        text.setEffect(dropShadow);
+
+    }
+
 
 
 

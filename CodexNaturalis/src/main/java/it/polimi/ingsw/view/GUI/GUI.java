@@ -192,29 +192,10 @@ public class GUI extends UI {
     @Override
     public void show_nextTurnMsg(GameImmutable model) {
 
+        callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).highlightCurrentPlayer(model));
 
     }
 
-    public void show_orderPlayers(GameImmutable model) {
-        // Mostra il messaggio del turno successivo dopo 5 secondi
-        PauseTransition showMessagePause = new PauseTransition(Duration.seconds(1));
-        showMessagePause.setOnFinished(event -> {
-            callPlatformRunLater(() -> {
-                this.guiApplication.setActiveScene(SceneType.ORDERPLAYERS_POPUP);
-                OrderPlayersPopUp popupController = (OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP);
-                popupController.setOrderListText(model);
-            });
-        });
-        showMessagePause.play();
-
-        /*Chiude il popup dopo 10 secondi
-        PauseTransition closePopupPause = new PauseTransition(Duration.seconds(10));
-        closePopupPause.setOnFinished(event2 -> {
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
-        });
-        closePopupPause.play();*/
-
-    }
 
     @Override
     public void show_pointsAddedMsg(GameImmutable model, String nickname) {
@@ -241,7 +222,6 @@ public class GUI extends UI {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
         callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("GAME STARTED!", true));
-        show_orderPlayers(model);
 
     }
 
@@ -432,12 +412,9 @@ public class GUI extends UI {
     }
     @Override
     public void show_scoretrack(GameImmutable model) {
-        PauseTransition waitShow= new PauseTransition(Duration.seconds(2));
-        waitShow.setOnFinished(event -> {
             callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.SCORETRACK_POPUP));
-        });
-        waitShow.play();
+
     }
 
     @Override

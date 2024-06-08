@@ -165,7 +165,7 @@ public class GUIApplication extends Application {
 
                 }
 
-                case NICKNAME_POPUP, ORDERPLAYERS_POPUP, WAITING_POPUP-> {
+                case NICKNAME_POPUP, WAITING_POPUP-> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
@@ -381,7 +381,7 @@ public class GUIApplication extends Application {
         controller.setNicknameAndID(model, nickname);
 
         controller.setPlayerDeck(model, nickname);
-
+        controller.setOrderListText(model);
         showBook(model, nickname);
         List<Player> players = model.getPlayers();
         List<String> playerNames = new ArrayList<>();
