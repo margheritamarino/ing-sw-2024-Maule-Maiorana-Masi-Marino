@@ -485,7 +485,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
             rowCell = Integer.parseInt(temp); //traduco il numero in integer
             if (rowCell < DefaultValue.BookSizeMin || rowCell > DefaultValue.BookSizeMax) {
-                ui.show_wrongCardSelMsg();
+                ui.show_wrongCellSelMsg();
                 rowCell = -1;
             }
         }while (rowCell<0);
