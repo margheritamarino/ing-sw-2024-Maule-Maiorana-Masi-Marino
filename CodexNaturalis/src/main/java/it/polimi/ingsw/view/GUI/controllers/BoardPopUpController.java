@@ -1,24 +1,15 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
 import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.GUI.GUIApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.io.IOException;
 
 public class BoardPopUpController extends ControllerGUI{
 
@@ -40,9 +31,7 @@ public class BoardPopUpController extends ControllerGUI{
     @FXML
     private ImageView imgObjective1;
     private GUIApplication guiApplication;
-    @FXML
-    private Stage boardPopUpStage;
-    private GameImmutable model;
+
 
     public void setGUIApplication(GUIApplication guiApplication) {
         this.guiApplication = guiApplication;
@@ -75,7 +64,6 @@ public class BoardPopUpController extends ControllerGUI{
         imagePath = board.getObjectiveCards()[1].getImagePath();
         imgObjective1.setImage(new Image(imagePath));
 
-        this.model = model;
     }
     @FXML
     private void handleCloseAction(ActionEvent event) {
@@ -104,7 +92,7 @@ public class BoardPopUpController extends ControllerGUI{
         if (pickCardTurn) {
 
             ImageView clickedImageView = (ImageView) mouseEvent.getSource();
-            clickedImageView  .getStyleClass().add("image-view:pressed");
+            clickedImageView .getStyleClass().add("image-view:pressed");
             int selectedIndex = -1;
 
             if (clickedImageView == imgGold0) {
