@@ -164,7 +164,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_askForChat(event.getModel(), nickname);
             }
             case CARDS_READY -> {
-                ui.closeWaitPopUp();
                 makeGameStart(nickname);
             }
         }
@@ -175,6 +174,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void statusRunning(Event event) throws IOException, InterruptedException{
         switch (event.getType()) {
             case GAME_STARTED -> {
+                ui.closeWaitPopUp();
                 ui.show_gameStarted(event.getModel());
                 this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
                 this.inputController.setGameID(event.getModel().getGameId());
@@ -189,14 +189,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
             case NEXT_TURN -> {
                 ui.show_nextTurnMsg(event.getModel());
-                if (event.getModel().getNicknameCurrentPlaying().equals(nickname)) {
+                if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
+                    ui.show_CurrentTurnMsg(event.getModel());
                     askPlaceCards(event.getModel(), nickname);
+                }
+                else{
+                    ui.show_WaitTurnMsg(event.getModel(), nickname);
                 }
             }
 
             case CARD_PLACED ->{
+                ui.show_pointsAddedMsg(event.getModel(), nickname);
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
-                    ui.show_pointsAddedMsg(event.getModel(), nickname);
                     askPickCard(event.getModel());
                 }
 

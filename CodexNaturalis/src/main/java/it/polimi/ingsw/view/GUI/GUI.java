@@ -105,20 +105,15 @@ public class GUI extends UI {
 
     @Override
     public void show_CurrentTurnMsg(GameImmutable model) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(5));
-        pause.setOnFinished(event -> {
-            callPlatformRunLater(() -> ((OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP)).setOrderListText(model));
-            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.ORDERPLAYERS_POPUP));
-        });
-        pause.play();
+         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("It's your turn!", true));
     }
 
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(10));
+        PauseTransition pause = new PauseTransition(Duration.seconds(7));
         pause.setOnFinished(event -> {
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            //callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PLACE", null));
             callPlatformRunLater(() -> this.guiApplication.showPlayerDeck());
 
@@ -130,7 +125,6 @@ public class GUI extends UI {
     public void show_PickCardMsg(GameImmutable model) {
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> {
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
 
         });
@@ -173,12 +167,13 @@ public class GUI extends UI {
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> {
             callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
         });
         pause.play();
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
         pause2.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("This is your drawn card", true));
@@ -191,18 +186,16 @@ public class GUI extends UI {
     public void show_nextTurnMsg(GameImmutable model) {
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> {
-            callPlatformRunLater(()-> this.guiApplication.closePopUpStage());
-            callPlatformRunLater(() -> ((OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP)).setOrderListText(model));
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.ORDERPLAYERS_POPUP));
+            callPlatformRunLater(() -> ((OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP)).setOrderListText(model));
+
         });
         pause.play();
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
-        pause.setOnFinished(event -> {
-            callPlatformRunLater(()-> this.guiApplication.closePopUpStage());
-            String msg= "It's " +model.getCurrentPlayer().getNickname()+" turn!";
-            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, null));
+        PauseTransition pauseClose = new PauseTransition(Duration.seconds(10));
+        pauseClose.setOnFinished(event -> {
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
         });
-        pause2.play();
+        pauseClose.play();
 
     }
 
@@ -211,20 +204,17 @@ public class GUI extends UI {
         if(model.getCurrentPlayer().getNickname().equals(nickname) ){
             show_playerBook(model); //((playerBook aggiornato))
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("You scored some points!", true));
+
         }else {
             String msg= model.getNicknameCurrentPlaying()+" scored some points!";
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, false));
         }
-        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
             show_scoretrack(model);
         });
         pause.play();
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
-        pause2.setOnFinished(event -> {
-            this.guiApplication.closePopUpStage();
-        });
-        pause2.play();
+
 
     }
 
@@ -236,14 +226,15 @@ public class GUI extends UI {
 
     @Override
     public void show_gameStarted(GameImmutable model) {
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
+        callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("GAME STARTED!", true));
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> {
-           callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
-            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
-            callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
-            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("GAME STARTED!", true));
+           show_nextTurnMsg(model);
         });
         pause.play();
+
     }
 
     @Override
@@ -279,7 +270,7 @@ public class GUI extends UI {
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
         if (!alreadyShowedLobby) {
-            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(event -> {
                 callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
 
@@ -428,8 +419,13 @@ public class GUI extends UI {
     public void show_scoretrack(GameImmutable model) {
         callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.SCORETRACK_POPUP));
-
+        PauseTransition pauseClose = new PauseTransition(Duration.seconds(10));
+        pauseClose.setOnFinished(event -> {
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+        });
+        pauseClose.play();
     }
+
     @Override
     public void show_board(GameImmutable model) {
         callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
@@ -440,14 +436,8 @@ public class GUI extends UI {
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(5));
-        pause.setOnFinished(event -> {
-            callPlatformRunLater(() -> ((OrderPlayersPopUp) this.guiApplication.getController(SceneType.ORDERPLAYERS_POPUP)).setOrderListText(model));
-            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.ORDERPLAYERS_POPUP));
-        });
-        pause.play();
         PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
-        pause.setOnFinished(event -> {
+        pause2.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             String msg= "WAIT! It's "+ model.getCurrentPlayer().getNickname()+" Turn";
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, false));
