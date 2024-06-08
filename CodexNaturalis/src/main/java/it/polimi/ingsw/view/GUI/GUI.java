@@ -104,7 +104,6 @@ public class GUI extends UI {
 
     @Override
     public void show_CurrentTurnMsg(GameImmutable model) {
-        //Chiude il popup dopo 10 secondi
         PauseTransition closePopupPause = new PauseTransition(Duration.seconds(2));
         closePopupPause.setOnFinished(event2 -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
@@ -427,7 +426,7 @@ public class GUI extends UI {
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(10));
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(2));
         pause2.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             String msg= "WAIT! It's "+ model.getCurrentPlayer().getNickname()+" Turn";
