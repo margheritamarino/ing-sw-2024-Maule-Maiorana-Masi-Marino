@@ -314,6 +314,12 @@ public class GUI extends UI {
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
             this.guiApplication.showErrorGeneric(errorMessage, false);
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            pause.setOnFinished(event -> {
+                this.guiApplication.closePopUpStage();
+            });
+            pause.play();
         });
     }
 
@@ -323,6 +329,11 @@ public class GUI extends UI {
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
             this.guiApplication.showErrorGeneric(errorMessage, false);
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            pause.setOnFinished(event -> {
+                this.guiApplication.closePopUpStage();
+            });
+            pause.play();
         });
     }
 
@@ -358,6 +369,12 @@ public class GUI extends UI {
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
             this.guiApplication.showErrorGeneric(errorMessage, false);
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            pause.setOnFinished(event -> {
+                this.guiApplication.closePopUpStage();
+            });
+            pause.play();
+
         });
     }
 
