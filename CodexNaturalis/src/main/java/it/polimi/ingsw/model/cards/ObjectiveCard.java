@@ -10,6 +10,9 @@ import java.util.Objects;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * Objective card class
+ */
 public class ObjectiveCard implements Serializable {
     private String cssLabel;
     private int cardID;
@@ -123,6 +126,12 @@ public class ObjectiveCard implements Serializable {
         return copiedCard;
     }
 
+    /**
+     * Provides a string representation of the {@code ObjectiveCard} for display purposes.
+     * This includes details such as points and conditions.
+     *
+     * @return A formatted string representing the card.
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

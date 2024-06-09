@@ -12,6 +12,9 @@ import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * Gold card class
+ */
 public class GoldCard extends PlayableCard implements Serializable {
 
     private ResourceType mainResource;
@@ -67,7 +70,7 @@ public class GoldCard extends PlayableCard implements Serializable {
      * Retrieves the content of the initial corners of the card as a list of strings.
      * Each string represents the content of a corner in the following order:
      * top-left, top-right, bottom-right, bottom-left.
-     * @author Margherita Marino
+     *
      * @return A list containing the corner content strings.
      */
     @Override
@@ -150,6 +153,12 @@ public class GoldCard extends PlayableCard implements Serializable {
         this.symbolCondition = symbolCondition;
     }
 
+    /**
+     * Provides a string representation of the {@code GoldCard} for display purposes.
+     * This includes details such as card type, face direction, points, corners, and conditions.
+     *
+     * @return A formatted string representing the card.
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

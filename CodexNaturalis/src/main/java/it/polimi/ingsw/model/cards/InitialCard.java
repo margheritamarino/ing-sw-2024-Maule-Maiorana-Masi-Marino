@@ -12,6 +12,9 @@ import java.util.List;
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * Initial Card class
+ */
 public class InitialCard extends PlayableCard implements Serializable {
     List<ResourceType> centralResources;
     int numCentralResource;
@@ -57,7 +60,7 @@ public class InitialCard extends PlayableCard implements Serializable {
      * Retrieves the content of the initial corners of the card as a list of strings.
      * Each string represents the content of a corner in the following order:
      * top-left, top-right, bottom-right, bottom-left.
-     * @author Margherita Marino
+     *
      * @return A list containing the corner content strings.
      */
     @Override
@@ -145,6 +148,13 @@ public class InitialCard extends PlayableCard implements Serializable {
         this.resourceList = resourceList;
     }
 
+
+     /**
+      * Provides a string representation of the {@code InitialCard} for display purposes.
+      * This includes details such as card type, face direction, points, corners, and conditions.
+      *
+      * @return A formatted string representing the card.
+      */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
