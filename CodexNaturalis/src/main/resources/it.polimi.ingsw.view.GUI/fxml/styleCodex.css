@@ -61,10 +61,17 @@
     -fx-text-fill: #395306;
 }
 .round-red {
-    -fx-background-color: linear-gradient(#ff5400, #be1d00);
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e3a,
+            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
     -fx-background-radius: 30;
     -fx-background-insets: 0;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
+    -fx-font-size:12;
+    -fx-font-family: Arial Black;
+
 }
 .bevel-grey {
     -fx-background-color:
