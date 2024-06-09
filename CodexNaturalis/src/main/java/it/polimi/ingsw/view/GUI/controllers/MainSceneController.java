@@ -97,20 +97,19 @@ public class MainSceneController extends ControllerGUI{
         it.polimi.ingsw.model.Color playerColor= model.getPlayerColor(nickname);
         switch (playerColor) {
             case YELLOW:
-                nicknameTextField.setStyle("-fx-text-fill: yellow;");
-                break;
-            case GREEN:
-                nicknameTextField.setStyle("-fx-text-fill: green;");
-                break;
-            case BLUE:
-                nicknameTextField.setStyle("-fx-text-fill: blue;");
+                nicknameTextField.setStyle("-fx-fill: yellow;");
                 break;
             case RED:
-                nicknameTextField.setStyle("-fx-text-fill: red;");
+                nicknameTextField.setStyle("-fx-fill: red;");
+                break;
+            case BLUE:
+                nicknameTextField.setStyle("-fx-fill: blue;");
+                break;
+            case GREEN:
+                nicknameTextField.setStyle("-fx-fill: green;");
                 break;
             default:
-                // Se il colore non è tra quelli specificati, usa un colore di default
-                nicknameTextField.setStyle("-fx-text-fill: black;");
+                nicknameTextField.setStyle("-fx-fill: black;"); // Default to black if no color matches
                 break;
         }
 
