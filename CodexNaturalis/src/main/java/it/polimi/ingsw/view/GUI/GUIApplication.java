@@ -417,9 +417,9 @@ public class GUIApplication extends Application {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setImportantEvents(importantEvents);
     }
-    public void showPlayerDeck() {
+    public void showPlayerDeck(GameImmutable model, String nickname) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
-        controller.enlargeAndHighlightPlayerDeckPane();
+        controller.enlargeAndHighlightPlayerDeckPane(model, nickname);
     }
 
     public void showBoard(GameImmutable model, boolean enablePickCardTurn){

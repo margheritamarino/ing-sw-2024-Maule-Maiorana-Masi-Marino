@@ -96,7 +96,7 @@ public abstract class PlayableCard implements Serializable {
         int idTemp = this.getCardID();
         String typeTemp= this.getCardType().toString();
         String sideTemp;
-        String mainResource=null;
+        String mainResource;
 
         if(this.isFront()){
             sideTemp= "Front";
@@ -105,7 +105,7 @@ public abstract class PlayableCard implements Serializable {
 
         }
 
-        if(typeTemp=="InitialCard"){
+        if(typeTemp.equals("InitialCard")){
             path= "/img/Cards/initialCards/"+ idTemp+ "_Initial"+ sideTemp+ ".png";
         } else {
 
@@ -119,7 +119,7 @@ public abstract class PlayableCard implements Serializable {
                 default:
                     throw new IllegalArgumentException("Card type not recognized: " + typeTemp);
             }
-            if (sideTemp=="Front") {
+            if (sideTemp.equals("Front")) {
                 path="/img/Cards/"+ typeTemp+"Cards/"+ idTemp+ "_"+ typeTemp+ "Front.png";
 
             } else {

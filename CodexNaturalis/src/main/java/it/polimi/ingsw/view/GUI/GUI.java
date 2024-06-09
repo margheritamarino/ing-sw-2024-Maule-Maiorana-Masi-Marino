@@ -120,7 +120,7 @@ public class GUI extends UI {
         pause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PLACE", null));
-            callPlatformRunLater(() -> this.guiApplication.showPlayerDeck());
+            callPlatformRunLater(() -> this.guiApplication.showPlayerDeck(model, nickname));
 
         });
         pause.play();
@@ -189,7 +189,6 @@ public class GUI extends UI {
 
     @Override
     public void show_nextTurnMsg(GameImmutable model) {
-
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).highlightCurrentPlayer(model));
         //aggiorno i pop up
         callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
@@ -200,10 +199,11 @@ public class GUI extends UI {
 
     @Override
     public void show_pointsAddedMsg(GameImmutable model, String nickname) {
+        show_playerBook(model); //((playerBook aggiornato))
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
             if (model.getCurrentPlayer().getNickname().equals(nickname)) {
-                show_playerBook(model); //((playerBook aggiornato))
+
                 callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("You scored some points!", true));
 
             } else {
@@ -326,6 +326,7 @@ public class GUI extends UI {
             });
             pause.play();
         });
+       // callPlatformRunLater(()-> this.guiApplication.showPlayerDeck(GameImmutable model));
     }
 
     @Override
@@ -432,6 +433,7 @@ public class GUI extends UI {
     }
     @Override
     public void show_scoretrack(GameImmutable model) {
+
             callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.SCORETRACK_POPUP));
 

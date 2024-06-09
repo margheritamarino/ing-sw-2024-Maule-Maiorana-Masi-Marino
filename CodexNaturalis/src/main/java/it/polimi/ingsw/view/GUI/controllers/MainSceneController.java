@@ -53,7 +53,7 @@ public class MainSceneController extends ControllerGUI{
     //PLAYER DECK
     @FXML
     private PlayerDeck playerDeck;
-    private boolean[] showBack = new boolean[3];
+
     @FXML
     private ImageView deckImg0;
     @FXML
@@ -208,6 +208,7 @@ public class MainSceneController extends ControllerGUI{
 
 
     //PLAYERDECK
+    private boolean[] showBack = new boolean[3];
     public void setPlayerDeck(GameImmutable model, String nickname) {
         this.playerDeck= model.getPlayerByNickname(nickname).getPlayerDeck();
         String imagePath;
@@ -239,19 +240,23 @@ public class MainSceneController extends ControllerGUI{
 
     private void toggleCard(int cardIndex, ImageView deckImg) {
         String imagePath;
-        if (showBack[cardIndex]) {
+        //TODO
+        if (showBack[cardIndex]) { //showBack=true (sono sul back)
             //BACK
-            imagePath = playerDeck.getMiniDeck().get(cardIndex)[1].getImagePath();
-        } else {
-            //FRONT
             imagePath = playerDeck.getMiniDeck().get(cardIndex)[0].getImagePath();
+            showBack[cardIndex]=false; //sono sul front oraa
+        } else { //showBack=true
+            //FRONT
+            imagePath = playerDeck.getMiniDeck().get(cardIndex)[1].getImagePath();
+            showBack[cardIndex]=true; //setto il back
         }
-        showBack[cardIndex] = !showBack[cardIndex];
+      //  showBack[cardIndex] = !showBack[cardIndex];
         deckImg.setImage(new Image(imagePath));
     }
     private boolean placeCardTurnCard =false;
 
-    public void enlargeAndHighlightPlayerDeckPane() {
+    public void enlargeAndHighlightPlayerDeckPane(GameImmutable model, String nickname) {
+        setPlayerDeck(model, nickname);
         placeCardTurnCard =true;
         // Ingrandire il pane
         PlayerDeckPane.setScaleX(1.2);
@@ -505,9 +510,8 @@ public class MainSceneController extends ControllerGUI{
                     // Aggiungi la riga e la colonna al testo di input
                     getInputGUI().addTxt(String.valueOf(rowIndex));
                     getInputGUI().addTxt(String.valueOf(colIndex));
+                    clickedPane.getStyleClass().add("image-view:pressed");
 
-                    // Stampa la riga e la colonna per debug
-                    System.out.println("Row: " + rowIndex + ", Col: " + colIndex);
                 } else {
                     System.out.println("Pane clicked but no ID found.");
                 }
