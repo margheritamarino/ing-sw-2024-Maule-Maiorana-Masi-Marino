@@ -379,6 +379,7 @@ public class MainSceneController extends ControllerGUI{
         dropShadow.setColor(Color.YELLOW);
         dropShadow.setInput(glow);
         text.setEffect(dropShadow);
+        text.getStyleClass().add("glow-button");
 
     }
 

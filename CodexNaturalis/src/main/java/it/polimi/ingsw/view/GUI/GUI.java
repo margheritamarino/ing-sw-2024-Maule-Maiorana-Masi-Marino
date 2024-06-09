@@ -194,7 +194,7 @@ public class GUI extends UI {
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).highlightCurrentPlayer(model));
         //aggiorno i pop up
         callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
-        callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setScoreTrack(model));
+        callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
 
     }
 
