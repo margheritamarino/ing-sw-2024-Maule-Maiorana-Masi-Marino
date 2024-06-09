@@ -191,7 +191,8 @@ public class Player implements Serializable {
                 case 3 -> miniDeck.get(1)[1];
                 case 4 -> miniDeck.get(2)[0];
                 case 5 -> miniDeck.get(2)[1];
-                default -> chosenCard;
+
+                default -> throw new IllegalStateException("Unexpected value: " + posCard);
             };
 
             if (chosenCard != null){

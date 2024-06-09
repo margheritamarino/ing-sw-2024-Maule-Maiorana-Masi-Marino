@@ -239,7 +239,6 @@ public class MainSceneController extends ControllerGUI{
 
     private void toggleCard(int cardIndex, ImageView deckImg) {
         String imagePath;
-
         if (showBack[cardIndex]) {
             //BACK
             imagePath = playerDeck.getMiniDeck().get(cardIndex)[1].getImagePath();
@@ -248,7 +247,6 @@ public class MainSceneController extends ControllerGUI{
             imagePath = playerDeck.getMiniDeck().get(cardIndex)[0].getImagePath();
         }
         showBack[cardIndex] = !showBack[cardIndex];
-
         deckImg.setImage(new Image(imagePath));
     }
     private boolean placeCardTurnCard =false;
@@ -259,13 +257,6 @@ public class MainSceneController extends ControllerGUI{
         PlayerDeckPane.setScaleX(1.2);
         PlayerDeckPane.setScaleY(1.2);
 
-        /* Applicare l'effetto di illuminazione
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(20.0);
-        dropShadow.setOffsetX(0.0);
-        dropShadow.setOffsetY(0.0);
-        dropShadow.setColor(Color.RED);
-        PlayerDeckPane.setEffect(dropShadow);*/
         PlayerDeckPane.getStyleClass().add("red-glow-pane");
     }
 
@@ -292,7 +283,7 @@ public class MainSceneController extends ControllerGUI{
             }
             if (selectedIndex != -1) {
                 getInputGUI().addTxt(String.valueOf(selectedIndex)); // Passa l'indice come stringa
-
+                clickedImageView.getStyleClass().add("image-view:pressed");
             }
         }
     }

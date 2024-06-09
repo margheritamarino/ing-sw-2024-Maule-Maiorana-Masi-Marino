@@ -442,7 +442,6 @@ public class Game {
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
 	 */
 	public void initializeCards(GameListenerInterface lis, Player player, int index) {
-
 		try {
 			PlayableCard[] initial = initialCardsDeck.returnCard();
 			this.temporaryInitialCard.add(initial);

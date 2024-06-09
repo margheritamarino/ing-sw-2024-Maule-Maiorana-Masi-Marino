@@ -452,7 +452,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     public void askPlaceCards(GameImmutable model, String nickname){
-
         String temp;
         ui.show_askPlaceCardsMainMsg(model);
         ui.show_alwaysShow(model, nickname);

@@ -91,10 +91,7 @@ public class Board implements Serializable {
         return objectiveCardsDeck.returnCard();
     }
 
-    //CREA UNA COPIA DELLA CARTA OBIETTIVO, VA BENE LASCIARLO COSì?
-    public ObjectiveCardIC takeObjectiveCardIC() throws DeckEmptyException {
-        return ((ObjectiveCardIC)takeObjectiveCard().copy());
-    }
+
 
 
     /**
@@ -106,9 +103,7 @@ public class Board implements Serializable {
      * @return The card taken from the board, or null.
      */
     public PlayableCard[] takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException, IndexOutOfBoundsException  {
-        if (drawFromDeck) { //booleano per vedere se il giocatore vuole pescare dai mazzi o dagli array
-            // Verifico se il mazzo ha finito le carte prima di pescare
-
+        if (drawFromDeck) {
             if (cardType == CardType.GoldCard && goldCardsDeck.checkEndDeck()) {
                 throw new DeckEmptyException("Gold cards' deck is empty");
             } else if (cardType == CardType.ResourceCard && resourcesCardsDeck.checkEndDeck()) {
@@ -124,6 +119,7 @@ public class Board implements Serializable {
             }
         } else {
             ArrayList<PlayableCard[]> cardsOnBoard =null;
+            PlayableCard[] selectedCards = null;
             switch (cardType) {
                 case GoldCard:
                     cardsOnBoard = goldCards;
@@ -136,15 +132,14 @@ public class Board implements Serializable {
             if (pos < 0 || pos >= cardsOnBoard.size()) {
                 throw new IndexOutOfBoundsException("Position not valid on the board");
             }
-            // Prelevo front e back card dalla board e creo l'array risultante
-            PlayableCard[] selectedCards = new PlayableCard[2];
-            int startIndex = pos * 2; //indice di partenza deve essere quello del front delle carte
-            selectedCards[0] = cardsOnBoard.get(startIndex)[0];
-            selectedCards[1] = cardsOnBoard.get(startIndex + 1)[0];
+            switch (pos){
+                case 0-> selectedCards= cardsOnBoard.get(0);
+                case 1-> selectedCards= cardsOnBoard.get(1);
+            }
 
             // Rimuovi front e back card dall'array
-            cardsOnBoard.remove(startIndex);
-            cardsOnBoard.remove(startIndex); // Rimuovi anche il successivo perché abbiamo già scalato di 2
+            cardsOnBoard.remove(pos);
+            cardsOnBoard.remove(pos); // Rimuovi anche il successivo perché abbiamo già scalato di 2
 
             // Aggiorno l'array e restituisco la carta selezionata
             updateArray(cardsOnBoard, cardType);
@@ -171,9 +166,7 @@ public class Board implements Serializable {
             default:
                 return;
         }
-        // Prendo una nuova carta dal deck corrispondente tramite il returnCard
         PlayableCard[] newCard = deck.returnCard();
-        // Aggiungo la nuova carta all'array
         cards.add(newCard);
     }
 

@@ -42,7 +42,7 @@ public class BoardPopUpController extends ControllerGUI{
         String imagePath;
 
         //GOLD CARD
-        imagePath = board.getGoldCardsDeck().getBackCards().getFirst().getImagePath();
+        imagePath = board.getGoldCardsDeck().getBackCards().getLast().getImagePath();
         imgDeckGold.setImage(new Image(imagePath));
         imagePath = board.getGoldCards().get(0)[0].getImagePath();
         imgGold0.setImage(new Image(imagePath));
@@ -50,7 +50,7 @@ public class BoardPopUpController extends ControllerGUI{
         imgGold1.setImage(new Image(imagePath));
 
         //RESOURCE CARD
-        imagePath = board.getResourcesCardsDeck().getBackCards().getFirst().getImagePath();
+        imagePath = board.getResourcesCardsDeck().getBackCards().getLast().getImagePath();
         imgDeckResource.setImage(new Image(imagePath));
         imagePath = board.getResourceCards().get(0)[0].getImagePath();
         imgResource0.setImage(new Image(imagePath));
@@ -90,9 +90,8 @@ public class BoardPopUpController extends ControllerGUI{
 
     public void chooseCardClick(MouseEvent mouseEvent) {
         if (pickCardTurn) {
-
             ImageView clickedImageView = (ImageView) mouseEvent.getSource();
-            clickedImageView .getStyleClass().add("image-view:pressed");
+            clickedImageView.getStyleClass().add("image-view:pressed");
             int selectedIndex = -1;
 
             if (clickedImageView == imgGold0) {
@@ -111,22 +110,26 @@ public class BoardPopUpController extends ControllerGUI{
 
             if (selectedIndex != -1) {
                 //ASK CARD TYPE
-                if (selectedIndex >= 0 || selectedIndex <= 2)
+                if (selectedIndex == 0 || selectedIndex == 1 ||selectedIndex == 2)
                     getInputGUI().addTxt("G"); // goldCards
                 else {
                     getInputGUI().addTxt("R"); // resourceCards
                 }
 
                 //ASK DRAW FROM DECK
-                if (selectedIndex == 2 || selectedIndex == 5)
+                if (selectedIndex == 2 || selectedIndex == 5){
                     getInputGUI().addTxt("yes");
+                }
                 else { //!drawFromDeck
                     getInputGUI().addTxt("no");
-                    int pos;
-                    if(selectedIndex==0 || selectedIndex==3)
-                         pos=0;
-                    else //1-4 (posizione second Card
+                    int pos = 0;
+                    if(selectedIndex==0 || selectedIndex==3) {
+                        pos=0;
+                    }
+                    else {
+                        //1-4 (posizione second Card)
                         pos=1;
+                    }
                     getInputGUI().addTxt(String.valueOf(pos));
                 }
                 //rimuovo l'immagine della carta selezionata
