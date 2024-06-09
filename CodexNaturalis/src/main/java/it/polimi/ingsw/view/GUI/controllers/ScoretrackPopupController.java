@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI.controllers;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.ScoreTrack;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.GUI.GUIApplication;
@@ -175,6 +176,7 @@ public class ScoretrackPopupController extends ControllerGUI {
         for (int i = 0; i < playersWithPoints.size(); i++) {
             Player player = playersWithPoints.get(i);
             setUsername(player, i);
+            updatePlayerScore(player, scoretrack.getPlayerScore(player), model);
             setPoints(scoretrack.getPlayerScore(player), i, model.getCurrentPlayer());
         }
         // Imposta l'effetto glow del colore del giocatore per il relativo bottone
@@ -199,6 +201,8 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
     }
 
+
+
     @FXML
     private void handleCloseAction(ActionEvent event) {
         this.guiApplication.closePopUpStage();
@@ -212,6 +216,18 @@ public class ScoretrackPopupController extends ControllerGUI {
         button.getStyleClass().remove("button-glow");
     }
 
+    public void updatePlayerScore(Player player, int newScore, GameImmutable model) {
+        ScoreTrack scoretrack = model.getScoretrack();
+         // Rimuovi il punteggio del giocatore dalla lista dei punteggi
+        int oldScore = scoretrack.getPlayerScore(player);
+        int index = playersWithPoints.indexOf(player);
+        if (index != -1) {
+            setPoints(newScore, index, model.getCurrentPlayer()); // Aggiorna il punteggio nel controller
+            resetButtonStyle(btnPoints[oldScore]); // Rimuovi lo stile glow dal vecchio punteggio
+            highlightButton(btnPoints[newScore]); // Evidenzia il nuovo punteggio
+        }
+        scoretrack.addPoints(player, newScore);
+    }
 }
 
 
