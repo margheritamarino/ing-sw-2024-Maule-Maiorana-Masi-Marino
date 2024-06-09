@@ -10,6 +10,9 @@ import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * Abstract class that represents a card that can be played in the game.
+ */
 public abstract class PlayableCard implements Serializable {
     private String cssLabel;
     private final int cardID;
@@ -23,40 +26,69 @@ public abstract class PlayableCard implements Serializable {
     private String[][] cardMatrix = new String[2][3];
 
 
+    /**
+     * Retrieves the unique identifier for the card.
+     * @return The card's ID.
+     */
     public int getCardID() {
         return cardID;
     }
 
+    /**
+     * Retrieves the number of corners on the card.
+     *
+     * @return The number of corners.
+     */
     public int getNumCorners() {
         return numCorners;
     }
 
+    /**
+     * Checks if the card is front-facing.
+     *
+     * @return {@code true} if the card is front-facing, {@code false} otherwise.
+     */
     public boolean isFront() {
         return isFront;
     }
 
+    /**
+     * @return the card's type
+     */
     public CardType getCardType() {
         return cardType;
     }
 
+    /**
+     * @return The label for the top-left corner.
+     */
     public CornerLabel getTLCorner() {
         return TLCorner;
     }
 
+    /**
+     * @return The label for the top-right corner.
+     */
     public CornerLabel getTRCorner() {
         return TRCorner;
     }
 
+    /**
+     * @return The label for the bottom-right corner.
+     */
     public CornerLabel getBRCorner() {
         return BRCorner;
     }
 
+    /**
+     * @return the label for the bottom-left corner.
+     */
     public CornerLabel getBLCorner() {
         return BLCorner;
     }
 
     /**
-     * this method is used for the GUI
+     * This method is used for the GUI
      * @return the path for the specific istance of Card (contained in the package resources-->img)
      */
     public String getImagePath(){
@@ -102,7 +134,6 @@ public abstract class PlayableCard implements Serializable {
     /**
      * Retrieves the content of the specified corner of a PlayableCard.
      *
-     * @author Margherita Marino
      * @param corner       position of the corner: 0 TLCorner, 1 TRCorner, 2 BRCorner, 3 BLCorner
      * @return The content of the specified corner as a string.
      */
@@ -121,7 +152,6 @@ public abstract class PlayableCard implements Serializable {
      * Retrieves the content of the corners of the card as a list of strings.
      * This method is intended to be overridden in subclasses such as GoldCard to provide specific behavior.
      *
-     * @author Margherita Marino
      * @return A list containing the gold corner content strings.
      */
     public abstract List<String> getCornerContent();

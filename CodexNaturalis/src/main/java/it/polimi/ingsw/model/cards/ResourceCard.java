@@ -9,6 +9,9 @@ import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * ResourceCard class
+ */
 public class ResourceCard extends PlayableCard implements Serializable {
    private ResourceType mainResource;
    private int victoryPoints;
@@ -46,7 +49,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
     * Retrieves the content of the initial corners of the card as a list of strings.
     * Each string represents the content of a corner in the following order:
     * top-left, top-right, bottom-right, bottom-left.
-    * @author Margherita Marino
+    *
     * @return A list containing the corner content strings.
     */
    @Override
@@ -144,6 +147,13 @@ public class ResourceCard extends PlayableCard implements Serializable {
    }
 
 
+
+   /**
+    * Provides a string representation of the {@code InitialCard} for display purposes.
+    * This includes details such as card type, face direction, points, corners, and conditions.
+    *
+    * @return A formatted string representing the card.
+    */
    @Override
    public String toString() {
       StringBuilder result = new StringBuilder();
