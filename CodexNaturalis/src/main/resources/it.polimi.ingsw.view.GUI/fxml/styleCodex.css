@@ -450,6 +450,15 @@
     -fx-background-size: cover;
 
 }
+
+
+.popupPane {
+    -fx-border-color: green;
+    -fx-border-width: 5;
+    -fx-background-color: rgba(255, 255, 0, 0.3);
+    -fx-effect: dropshadow(three-pass-box, greenyellow, 10, 0, 0, 0);
+}
+
 .glow-button {
     -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.8), 10, 0.5, 0, 0);
 }
