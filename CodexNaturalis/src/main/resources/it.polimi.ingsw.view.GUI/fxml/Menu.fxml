@@ -15,24 +15,24 @@
       </ImageView>
       <Pane layoutX="242.0" layoutY="104.0" opacity="0.8" prefHeight="512.0" prefWidth="823.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;">
          <children>
-            <Text fill="#fcfcfc" layoutX="324.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MENU" wrappingWidth="175.9609375">
+            <Text fill="#ff7802" layoutX="324.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MENU" wrappingWidth="175.9609375">
                <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="50.0" />
+                  <Font name="Arial Black" size="50.0" />
                </font>
             </Text>
             <Text fill="WHITE" layoutX="54.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a game...">
                <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="36.0" />
+                  <Font name="Arial Black" size="33.0" />
                </font>
             </Text>
             <Text fill="#fffefe" layoutX="54.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert number of players:">
                <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="30.0" />
+                  <Font name="Arial" size="30.0" />
                </font>
             </Text>
             <Text fill="WHITE" layoutX="54.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert gameID:">
                <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="30.0" />
+                  <Font name="Arial" size="30.0" />
                </font>
             </Text>
             <TextField fx:id="playersNumber" layoutX="395.0" layoutY="285.0" prefHeight="26.0" prefWidth="105.0" />
