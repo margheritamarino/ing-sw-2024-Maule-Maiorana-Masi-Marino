@@ -153,11 +153,6 @@ public class Board implements Serializable {
         }
     }
 
-    /*
-    public PlayableCardIC[] takeCardfromBoardIC(CardType cardType, boolean drawFromDeck, int pos) throws IndexOutOfBoundsException, DeckEmptyException {
-            return takeCardfromBoard( cardType,  drawFromDeck,  pos);
-        }
-    */
 
         /**
          * Update array.

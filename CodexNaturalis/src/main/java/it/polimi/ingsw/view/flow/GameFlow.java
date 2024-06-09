@@ -199,6 +199,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
 
             case CARD_PLACED ->{
+                ui.show_cardPlacedMsg(event.getModel());
                 ui.show_pointsAddedMsg(event.getModel(), nickname);
 
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
@@ -459,9 +460,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         do {
             try {
                 ui.show_askNum("Choose which CARD you want to place:", model, nickname);
-                System.out.println("Waiting for input CARD TO PLACE...");
                 temp = this.inputController.getUnprocessedData().popInputData();
-                System.out.println("Input received "+ temp);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -477,9 +476,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_askNum("Choose the ROW of the cell:", model, nickname);
         do {
             try {
-                System.out.println("Waiting for input ROW CELL...");
                 temp = this.inputController.getUnprocessedData().popInputData();
-                System.out.println("Input received "+ temp);
+
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -494,9 +492,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_askNum("Choose the COLUMN of the cell:", model, nickname);
         do {
             try {
-                System.out.println("Waiting for input COL CELL...");
                 temp = this.inputController.getUnprocessedData().popInputData();
-                System.out.println("Input received "+ temp);
+
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

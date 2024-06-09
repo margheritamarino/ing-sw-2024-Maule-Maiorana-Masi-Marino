@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerDeck;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -295,8 +296,8 @@ public class TUI extends UI {
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname){
-            int lastPos= model.getCurrentPlayer().getPlayerDeck().getNumCards()-1;
-            printAsync( "This is your drawn card:\n " + model.getCurrentPlayer().getPlayerDeck().getMiniDeck().get(lastPos).toString());
+           ArrayList<PlayableCard[]> minideck= model.getCurrentPlayer().getPlayerDeck().getMiniDeck();
+            printAsync( "This is your drawn card:\n" + minideck.get(2)[0].toString() + minideck.get(2)[1].toString());
 
     }
 

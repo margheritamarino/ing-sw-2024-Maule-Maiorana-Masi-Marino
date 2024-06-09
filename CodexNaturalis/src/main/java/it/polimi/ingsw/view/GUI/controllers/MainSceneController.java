@@ -212,13 +212,13 @@ public class MainSceneController extends ControllerGUI{
         this.playerDeck= model.getPlayerByNickname(nickname).getPlayerDeck();
         String imagePath;
 
-        imagePath=playerDeck.getMiniDeck().getFirst().getImagePath();
+        imagePath=playerDeck.getMiniDeck().getFirst()[0].getImagePath();
         Image image = new Image(imagePath);
         deckImg0.setImage(image);
-        imagePath=playerDeck.getMiniDeck().get(2).getImagePath();
+        imagePath=playerDeck.getMiniDeck().get(1)[0].getImagePath();
         image = new Image(imagePath);
         deckImg1.setImage(image);
-        imagePath=playerDeck.getMiniDeck().get(4).getImagePath();
+        imagePath=playerDeck.getMiniDeck().get(2)[0].getImagePath();
          image = new Image(imagePath);
         deckImg2.setImage(image);
         // Initialize card state to false (showing initial images)
@@ -229,25 +229,28 @@ public class MainSceneController extends ControllerGUI{
     }
     public void turnCard(ActionEvent e) {
         if (e.getSource() == turnbtn0) {
-            toggleCard(0, 0, 1, deckImg0);
+            toggleCard(0, deckImg0);
         } else if (e.getSource() == turnbtn1) {
-            toggleCard(1, 2, 3, deckImg1);
+            toggleCard(1, deckImg1);
         } else if (e.getSource() == turnbtn2) {
-            toggleCard(2, 4, 5, deckImg2);
+            toggleCard(2, deckImg2);
         }
     }
 
-    private void toggleCard(int cardIndex, int initialImageIndex, int alternateImageIndex, ImageView deckImg) {
+    private void toggleCard(int cardIndex, ImageView deckImg) {
         String imagePath;
+
         if (showBack[cardIndex]) {
-            imagePath = playerDeck.getMiniDeck().get(initialImageIndex).getImagePath();
+            //BACK
+            imagePath = playerDeck.getMiniDeck().get(cardIndex)[1].getImagePath();
         } else {
-            imagePath = playerDeck.getMiniDeck().get(alternateImageIndex).getImagePath();
+            //FRONT
+            imagePath = playerDeck.getMiniDeck().get(cardIndex)[0].getImagePath();
         }
         showBack[cardIndex] = !showBack[cardIndex];
+
         deckImg.setImage(new Image(imagePath));
     }
-
     private boolean placeCardTurnCard =false;
 
     public void enlargeAndHighlightPlayerDeckPane() {
@@ -263,7 +266,7 @@ public class MainSceneController extends ControllerGUI{
         dropShadow.setOffsetY(0.0);
         dropShadow.setColor(Color.RED);
         PlayerDeckPane.setEffect(dropShadow);*/
-        PlayerDeckPane.getStyleClass().add("glow-pane");
+        PlayerDeckPane.getStyleClass().add("red-glow-pane");
     }
 
     public void resetPlayerDeckPane() {
@@ -273,12 +276,10 @@ public class MainSceneController extends ControllerGUI{
         // Rimuovere l'effetto di illuminazione
         PlayerDeckPane.setEffect(null);
     }
-
+    private  ImageView clickedImageView = null;
     public void chooseCardClick(MouseEvent mouseEvent) {
         if (placeCardTurnCard) {
             int selectedIndex = -1;
-            ImageView clickedImageView = null;
-
             if (mouseEvent.getSource() == deckImg0) {
                 selectedIndex = showBack[0] ? 1 : 0;
                 clickedImageView = deckImg0;
@@ -289,13 +290,15 @@ public class MainSceneController extends ControllerGUI{
                 selectedIndex = showBack[2] ? 5 : 4;
                 clickedImageView = deckImg2;
             }
-
             if (selectedIndex != -1) {
                 getInputGUI().addTxt(String.valueOf(selectedIndex)); // Passa l'indice come stringa
-                if (clickedImageView != null) {
-                    clickedImageView.setImage(null); // Svuota l'immagine
-                }
+
             }
+        }
+    }
+    public void cardPlacedCorrect(GameImmutable model){
+        if (clickedImageView != null) {
+            clickedImageView.setImage(null); // Svuota l'immagine
         }
         placeCardTurnCard = false;
         resetPlayerDeckPane();
@@ -345,7 +348,6 @@ public class MainSceneController extends ControllerGUI{
     }
     public void setOrderListText(GameImmutable model) {
         int[] orderArray = model.getOrderArray();
-        String currentPlayerNickname = model.getNicknameCurrentPlaying();
 
         for (int i = 0; i < orderArray.length; i++) {
             String nickname = model.getPlayers().get(orderArray[i]).getNickname();
@@ -379,8 +381,6 @@ public class MainSceneController extends ControllerGUI{
         dropShadow.setColor(Color.YELLOW);
         dropShadow.setInput(glow);
         text.setEffect(dropShadow);
-        text.getStyleClass().add("glow-button");
-
     }
 
 
@@ -388,7 +388,6 @@ public class MainSceneController extends ControllerGUI{
 
 
     //BOOK
-
     @FXML
     public ScrollPane bookScrollPane;
 

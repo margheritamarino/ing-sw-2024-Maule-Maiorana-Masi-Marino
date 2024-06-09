@@ -118,7 +118,7 @@ public class GUI extends UI {
     public void show_askPlaceCardsMainMsg(GameImmutable model) {
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> {
-            //callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PLACE", null));
             callPlatformRunLater(() -> this.guiApplication.showPlayerDeck());
 
@@ -172,12 +172,11 @@ public class GUI extends UI {
 
     @Override
     public void show_cardPlacedMsg(GameImmutable model) {
-
+        callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).cardPlacedCorrect(model));
     }
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname) {
-
         callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
         PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
         pause2.setOnFinished(event2 -> {

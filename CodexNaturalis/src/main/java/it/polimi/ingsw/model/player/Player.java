@@ -181,17 +181,26 @@ public class Player implements Serializable {
         if (!found)
             throw new IndexOutOfBoundsException("Invalid Cell position");
 
-        int points;
+        int points =-1;
         try {
+            ArrayList<PlayableCard[]> miniDeck = this.playerDeck.getMiniDeck();
+            chosenCard = switch (posCard) {
+                case 0 -> miniDeck.getFirst()[0];
+                case 1 -> miniDeck.get(0)[1];
+                case 2 -> miniDeck.get(1)[0];
+                case 3 -> miniDeck.get(1)[1];
+                case 4 -> miniDeck.get(2)[0];
+                case 5 -> miniDeck.get(2)[1];
+                default -> chosenCard;
+            };
 
-            // Retrieve the card at the specified position from the player's deck
-            chosenCard = this.playerDeck.getMiniDeck().get(posCard);
-            points= playerBook.addCard(chosenCard, chosenCell);
-
+            if (chosenCard != null){
+                points = playerBook.addCard(chosenCard, chosenCell);
+                playerDeck.removeCard(posCard);
+            }
         }catch (PlacementConditionViolated e){
             throw new PlacementConditionViolated("you don't have enough resources on the book!");
         }
-        playerDeck.removeCard(posCard);
         return points;
     }
     /**
