@@ -139,7 +139,6 @@ public class Board implements Serializable {
 
             // Rimuovi front e back card dall'array
             cardsOnBoard.remove(pos);
-            cardsOnBoard.remove(pos); // Rimuovi anche il successivo perché abbiamo già scalato di 2
 
             // Aggiorno l'array e restituisco la carta selezionata
             updateArray(cardsOnBoard, cardType);
