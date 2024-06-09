@@ -24,6 +24,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.List;
 
+
+
 public class MainSceneController extends ControllerGUI{
 
     @FXML
@@ -92,6 +94,26 @@ public class MainSceneController extends ControllerGUI{
     public void setNicknameAndID(GameImmutable model, String nickname) {
         GameIDTextField.setText("GameID: "+model.getGameId());
         nicknameTextField.setText("Nickname: "+nickname );
+        it.polimi.ingsw.model.Color playerColor= model.getPlayerColor(nickname);
+        switch (playerColor) {
+            case YELLOW:
+                nicknameTextField.setStyle("-fx-text-fill: yellow;");
+                break;
+            case GREEN:
+                nicknameTextField.setStyle("-fx-text-fill: green;");
+                break;
+            case BLUE:
+                nicknameTextField.setStyle("-fx-text-fill: blue;");
+                break;
+            case RED:
+                nicknameTextField.setStyle("-fx-text-fill: red;");
+                break;
+            default:
+                // Se il colore non è tra quelli specificati, usa un colore di default
+                nicknameTextField.setStyle("-fx-text-fill: black;");
+                break;
+        }
+
     }
 
     public void setPlayerComboBoxItems(List<String> playerNames) {

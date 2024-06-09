@@ -155,9 +155,9 @@ public class GUIApplication extends Application {
         if (index != -1) {
             SceneInformation s = scenes.get(index);
             switch (scene) {
-                case GENERIC_ERROR -> {
+                /*case GENERIC_ERROR -> {
                     this.closePopUpStage();
-                }
+                }*/
 
                 case PUBLISHER -> {
                     this.primaryStage.setAlwaysOnTop(true);
@@ -165,7 +165,7 @@ public class GUIApplication extends Application {
 
                 }
 
-                case NICKNAME_POPUP, WAITING_POPUP-> {
+                case NICKNAME_POPUP, WAITING_POPUP, GENERIC_ERROR-> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }

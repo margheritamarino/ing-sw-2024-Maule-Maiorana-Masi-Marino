@@ -192,22 +192,28 @@ public class GUI extends UI {
     public void show_nextTurnMsg(GameImmutable model) {
 
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).highlightCurrentPlayer(model));
+        //aggiorno i pop up
+        callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
+        callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setScoreTrack(model));
 
     }
 
 
     @Override
     public void show_pointsAddedMsg(GameImmutable model, String nickname) {
-        if(model.getCurrentPlayer().getNickname().equals(nickname) ){
-            show_playerBook(model); //((playerBook aggiornato))
-            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("You scored some points!", true));
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            if (model.getCurrentPlayer().getNickname().equals(nickname)) {
+                show_playerBook(model); //((playerBook aggiornato))
+                callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("You scored some points!", true));
 
-        }else {
-            String msg= model.getNicknameCurrentPlaying()+" scored some points!";
-            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, false));
-        }
-        show_scoretrack(model);
-
+            } else {
+                String msg = model.getNicknameCurrentPlaying() + " scored some points!";
+                callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, false));
+            }
+            show_scoretrack(model);
+        });
+        pause.play();
     }
 
     @Override
@@ -420,7 +426,6 @@ public class GUI extends UI {
     @Override
     public void show_playerDeck(GameImmutable model, String nickname) {
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setPlayerDeck(model,nickname));
-        //callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Connection to server lost!", true));
     }
     @Override
     public void show_playerBook(GameImmutable model) {
@@ -443,7 +448,7 @@ public class GUI extends UI {
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(2));
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
         pause2.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             String msg= "WAIT! It's "+ model.getCurrentPlayer().getNickname()+" Turn";

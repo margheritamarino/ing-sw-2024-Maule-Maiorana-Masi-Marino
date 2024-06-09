@@ -502,7 +502,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
             colCell = Integer.parseInt(temp); //traduco il numero in integer
             if (colCell < DefaultValue.BookSizeMin || colCell > DefaultValue.BookSizeMax) {
-                ui.show_wrongCardSelMsg();
+                ui.show_wrongCellSelMsg();
                 colCell = -1;
             }
         }while (colCell<0);

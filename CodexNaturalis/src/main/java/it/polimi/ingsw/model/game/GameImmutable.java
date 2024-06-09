@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.Chat.Chat;
 import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.ScoreTrack;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -138,6 +139,9 @@ public class GameImmutable implements Serializable {
      */
     public Player getPlayerByNickname(String playerNickname) {
         return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().getFirst();
+    }
+    public Color getPlayerColor(String playerNickname){
+        return getPlayerByNickname(playerNickname).getPlayerColor();
     }
 
     /**
