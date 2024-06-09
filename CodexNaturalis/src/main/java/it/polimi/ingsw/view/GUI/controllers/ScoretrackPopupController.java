@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.ScoreTrack;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
@@ -84,12 +85,45 @@ public class ScoretrackPopupController extends ControllerGUI {
     }
 
 
-    public void setUsername(String nickname, int indexPlayer) {
+    private void setTextColor(Text text, Color color) {
+        switch (color) {
+            case YELLOW:
+                text.setStyle("-fx-fill: yellow;");
+                break;
+            case RED:
+                text.setStyle("-fx-fill: red;");
+                break;
+            case BLUE:
+                text.setStyle("-fx-fill: blue;");
+                break;
+            case GREEN:
+                text.setStyle("-fx-fill: green;");
+                break;
+            default:
+                text.setStyle("-fx-fill: black;"); // Default to black if no color matches
+                break;
+        }
+    }
+    public void setUsername(Player player, int indexPlayer) {
+        String nickname = player.getNickname();
+        Color color = player.getPlayerColor();
         switch (indexPlayer) {
-            case 0 -> nick0.setText(nickname);
-            case 1 -> nick1.setText(nickname);
-            case 2 -> nick2.setText(nickname);
-            case 3 -> nick3.setText(nickname);
+            case 0 -> {
+                nick0.setText(nickname);
+                setTextColor(nick0, color);
+            }
+            case 1 -> {
+                nick1.setText(nickname);
+                setTextColor(nick1, color);
+            }
+            case 2 -> {
+                nick2.setText(nickname);
+                setTextColor(nick2, color);
+            }
+            case 3 -> {
+                nick3.setText(nickname);
+                setTextColor(nick3, color);
+            }
             default -> System.out.println("Invalid player index: " + indexPlayer);
         }
     }
@@ -140,7 +174,7 @@ public class ScoretrackPopupController extends ControllerGUI {
 
         for (int i = 0; i < playersWithPoints.size(); i++) {
             Player player = playersWithPoints.get(i);
-            setUsername(player.getNickname(), i);
+            setUsername(player, i);
             setPoints(scoretrack.getPlayerScore(player), i, model.getCurrentPlayer());
         }
         // Imposta l'effetto glow del colore del giocatore per il relativo bottone
