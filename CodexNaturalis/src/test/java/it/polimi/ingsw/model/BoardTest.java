@@ -2,9 +2,13 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,12 +46,13 @@ public class BoardTest {
 
     @Test
     public void testTakeCardFromBoard() throws DeckEmptyException {
-        // pesca dal mazzo
+        // pesca dal mazzo del giocatore
         PlayableCard[] drawnGoldCard = null;
         PlayableCard[] drawnResourceCard = null;
         try {
             drawnGoldCard = board.takeCardfromBoard(CardType.GoldCard, true, 0);
             drawnResourceCard = board.takeCardfromBoard(CardType.ResourceCard, true, 0);
+
         } catch (Exception e) {
             fail("Exception should not be thrown: " + e.getMessage());
         }
@@ -64,9 +69,12 @@ public class BoardTest {
             fail("Exception should not be thrown: " + e.getMessage());
         }
         assertNotNull(goldCards, "The drawn gold card from the board should not be null");
+        assertNotNull(resourceCards, "The drawn resource card from the deck should not be null");
         assertEquals(2, goldCards.length, "The length of the drawn gold cards should be 2");
+        assertEquals(2, resourceCards.length, "The length of the drawn gold cards should be 2");
         assertEquals(CardType.GoldCard, goldCards[0].getCardType(), "The type of the first drawn gold card should be GoldCard");
         assertEquals(CardType.GoldCard, goldCards[1].getCardType(), "The type of the second drawn gold card should be GoldCard");
+
 
         // posizione non valida nell'array
         try {
@@ -87,52 +95,65 @@ public class BoardTest {
         } catch (Exception e) {
             fail("Unexpected exception thrown: " + e.getMessage());
         }
-
-/*
+    }
+//Tutti i metodi 'verify---DeckSize li verifichi nel metodo di Game 'checkBoard' (serve avere tutto il gioco inizializzato per poter verificare i Deck)
+@Test
+public void testVerifyGoldCardsNumber() {
+    assertTrue(board.verifyGoldCardsNumber(), "Number of gold cards on the board should be 2");
+}
 
     @Test
-    public void testTakeCardFromBoard() throws DeckEmptyException {
-        //pesca dal mazzo
-        assertNotNull(board.takeCardfromBoard(CardType.GoldCard, true, 0));
-        assertNotNull(board.takeCardfromBoard(CardType.ResourceCard, true, 0));
-
-        //pesca dall'array
-        PlayableCard[] cards = board.takeCardfromBoard(CardType.GoldCard, false, 0);
-        assertNotNull(cards);
-        assertEquals(2, cards.length);
-        assertEquals(CardType.GoldCard, cards[0].getCardType());
-        assertEquals(CardType.GoldCard, cards[1].getCardType());
-
-
-        //posizione non valida nell'array
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            board.takeCardfromBoard(CardType.GoldCard, false, 5); // posizione non valida
-        });
-
-        //cardtype non valido
-        assertThrows(IllegalArgumentException.class, () -> {
-            board.takeCardfromBoard(CardType.InitialCard, true, 0); // Tipo di carta non valido
-        });
-
+    public void testVerifyResourceCardsNumber() {
+        assertTrue(board.verifyResourceCardsNumber(), "Number of resource cards on the board should be 2");
     }
 
     @Test
-    public void testVerifyCardsNumber() {
-        assertTrue(board.verifyGoldCardsNumber());
-        assertTrue(board.verifyObjectiveCardsNumber());
-        assertTrue(board.verifyResourceCardsNumber());
+    public void testVerifyObjectiveCardsNumber() {
+        assertTrue(board.verifyObjectiveCardsNumber(), "Number of objective cards on the board should be 2");
     }
 
     @Test
-    public void testVerifyDeckSize() {
-        // Assumendo un certo numero di giocatori, verifico le dimensioni dei mazzi di carte
-        int playersNumber = 3;
-        // assertTrue(board.verifyGoldDeckSize(playersNumber));
-        assertTrue(board.verifyResourceDeckSize(playersNumber));
-      //  assertTrue(board.verifyObjectiveDeckSize(playersNumber));
+    public void testToString() {
+        String boardString = board.toString();
+        assertNotNull(boardString, "toString method should not return null");
+        assertFalse(boardString.isEmpty(), "toString method should not return an empty string");
     }
-*/
+
+    @Test
+    public void testCardsObjectiveToString() {
+        String objectiveCardsString = board.cardsObjectiveToString();
+        assertNotNull(objectiveCardsString, "cardsObjectiveToString method should not return null");
+        assertFalse(objectiveCardsString.isEmpty(), "cardsObjectiveToString method should not return an empty string");
+    }
+
+    @Test
+    public void testCardsGoldToString() {
+        String goldCardsString = board.cardsGoldToString();
+        assertNotNull(goldCardsString, "cardsGoldToString method should not return null");
+        assertFalse(goldCardsString.isEmpty(), "cardsGoldToString method should not return an empty string");
+    }
+
+    @Test
+    public void testCardsResourceToString() {
+        String resourceCardsString = board.cardsResourceToString();
+        assertNotNull(resourceCardsString, "cardsResourceToString method should not return null");
+        assertFalse(resourceCardsString.isEmpty(), "cardsResourceToString method should not return an empty string");
+    }
+
+    @Test
+    public void testCardsVisibleGoldToString() {
+        String visibleGoldCardsString = board.cardsVisibleGoldToString();
+        assertNotNull(visibleGoldCardsString, "cardsVisibleGoldToString method should not return null");
+        assertFalse(visibleGoldCardsString.isEmpty(), "cardsVisibleGoldToString method should not return an empty string");
+    }
+
+    @Test
+    public void testCardsVisibleResourceToString() {
+        String visibleResourceCardsString = board.cardsVisibleResourceToString();
+        assertNotNull(visibleResourceCardsString, "cardsVisibleResourceToString method should not return null");
+        assertFalse(visibleResourceCardsString.isEmpty(), "cardsVisibleResourceToString method should not return an empty string");
+    }
 
 
-    }
+
 }

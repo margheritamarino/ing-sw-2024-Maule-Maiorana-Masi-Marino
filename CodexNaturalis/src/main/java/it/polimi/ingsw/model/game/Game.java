@@ -440,6 +440,9 @@ public class Game {
 	 * Initializes the cards for the game.
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
+	 * @param lis listener who has to be notified about model update
+	 * @param player that is involved in model update
+	 * @param index indexPlayer
 	 */
 	public void initializeCards(GameListenerInterface lis, Player player, int index) {
 		try {
