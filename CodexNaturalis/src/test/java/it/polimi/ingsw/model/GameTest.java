@@ -70,7 +70,8 @@ public class GameTest {
 
     @Test
     public void testPlayerIsReadyToStart() {
-        Player player1 = new Player("player1");
+        // Creiamo un giocatore con un nome e un colore
+        Player player1 = new Player("player1", Color.RED);
         game.playerIsReadyToStart(player1);
 
         // Verifica che il giocatore sia impostato come pronto per l'avvio

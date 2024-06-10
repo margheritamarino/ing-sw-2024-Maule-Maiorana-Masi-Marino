@@ -14,6 +14,7 @@ public class Book implements Serializable {
     private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
     private Map<SymbolType, Integer> symbolMap; //n° di simboli per tipo
     private String[][] matrix;
+    private int placementOrderBook;
 
 
     /**
@@ -36,6 +37,7 @@ public class Book implements Serializable {
             }
         }
         initializePrintMatrix();
+        placementOrderBook = -1;
     }
 
     public void initializePrintMatrix(){
@@ -101,6 +103,8 @@ public class Book implements Serializable {
         UpdateMapInitial(initialCard); //aggiorno la mappa delle risorse presenti sul book in base alle risorse presenti sugli angoli e o nel centro della initialCard
         updateBook(initialCard, initialCell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata in base alla presenza o meno degli angoli
 
+        placementOrderBook = 0;
+        initialCell.setPlacementOrder(placementOrderBook);
 
     }
 
@@ -146,8 +150,11 @@ public class Book implements Serializable {
         updateMaps(resourceCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
         updateBook(resourceCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
         numPoints = resourceCard.getVictoryPoints();
+        placementOrderBook++;
+        cell.setPlacementOrder(placementOrderBook);
 
         return numPoints;
+
     }
 
     /**
@@ -179,6 +186,9 @@ public class Book implements Serializable {
         } else {
             numPoints = checkGoldPoints(goldCard, cell);
         }
+
+        placementOrderBook++;
+        cell.setPlacementOrder(placementOrderBook);
 
         return numPoints;
     }

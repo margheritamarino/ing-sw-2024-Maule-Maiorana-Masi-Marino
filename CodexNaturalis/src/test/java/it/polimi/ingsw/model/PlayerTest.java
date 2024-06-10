@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.CornerType;
 import it.polimi.ingsw.model.cards.GoalType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerState;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +18,12 @@ public class PlayerTest {
 
     private Player player;
     private Board board;
+    private Game game;
 
     @BeforeEach
     void setUp() throws FileNotFoundException, FileReadException, DeckEmptyException {
-        player = new Player("TestPlayer");
+        game = new Game();  // Assumiamo che tu abbia una classe Game con un costruttore senza argomenti
+        player = new Player("TestPlayer", Color.RED);  // Assumiamo che Color.RED sia un valore valido
         board = new Board();
 
     }
@@ -37,17 +40,15 @@ public class PlayerTest {
 
     @Test
     void testSetGoal() {
-        // Creating a sample ObjectiveCard
+        // Creiamo una ObjectiveCard di esempio
         ObjectiveCard objectiveCard = new ObjectiveCard(
                 1, true, GoalType.ResourceCondition, 10, ResourceType.Fungi, CornerType.BRCorner,
-                3, 3, new ArrayList<>(),
-                ResourceType.Animal);
-        // numResources, numSymbols, symbols, secondResource);
-        //
-        // Setting the goal for the player
+                3, 3, new ArrayList<>(), ResourceType.Animal);
+
+        // Impostiamo l'obiettivo per il giocatore
         player.setGoal(objectiveCard);
 
-        // Retrieving the goal and checking if it matches the one set
+        // Recuperiamo l'obiettivo e verifichiamo se corrisponde a quello impostato
         assertEquals(objectiveCard, player.getGoal());
     }
 

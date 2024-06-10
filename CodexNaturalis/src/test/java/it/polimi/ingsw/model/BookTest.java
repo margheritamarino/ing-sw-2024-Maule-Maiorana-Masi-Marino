@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.CellNotAvailableException;
 import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 import it.polimi.ingsw.model.cards.*;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,14 @@ import it.polimi.ingsw.model.cards.GoalType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Map;
+
 public class BookTest {
+
+    private Book book;
+    private Map<SymbolType, Integer> symbolMap;
+    private Map<ResourceType, Integer> resourceMap;
+
 
     @Test
     public void testBookConstructor() {
@@ -43,18 +51,31 @@ public class BookTest {
         }
     }
 
+
+    @BeforeEach
+    void setUp() {
+        // Creiamo un oggetto Book 10x10
+        book = new Book(10, 10);
+
+        // Inizializziamo la mappa dei simboli
+        symbolMap = book.getSymbolMap();
+        symbolMap.put(SymbolType.Quill, 3);
+        symbolMap.put(SymbolType.Ink, 2);
+        symbolMap.put(SymbolType.Manuscript, 1);
+
+        // Inizializziamo la mappa delle risorse
+        resourceMap = book.getResourceMap();
+        resourceMap.put(ResourceType.Fungi, 4);
+        resourceMap.put(ResourceType.Animal, 3);
+        resourceMap.put(ResourceType.Plant, 2);
+        resourceMap.put(ResourceType.Insect, 1);
+    }
+
     @Test
     public void testDecreaseSymbol() {
-        // Creiamo un oggetto Book
-        Book book = new Book(4, 4);
-
-        // Aggiungiamo alcuni simboli alla mappa dei simboli
-        book.getSymbolMap().put(SymbolType.Quill, 3);
-        book.getSymbolMap().put(SymbolType.Ink, 2);
-        book.getSymbolMap().put(SymbolType.Manuscript, 1);
-
-        // Chiamiamo il metodo decreaseSymbol per diminuire il numero di SYMBOL_A
+        // Chiamiamo il metodo decreaseSymbol per diminuire il numero di simboli
         book.decreaseSymbol(SymbolType.Quill);
+        book.decreaseSymbol(SymbolType.Manuscript);
         book.decreaseSymbol(SymbolType.Manuscript);
         book.decreaseSymbol(SymbolType.Manuscript);
 
@@ -64,54 +85,44 @@ public class BookTest {
         // Verifichiamo che il numero di INK sia rimasto invariato
         Assertions.assertEquals(2, book.getSymbolMap().get(SymbolType.Ink).intValue());
 
-        // Verifichiamo che il numero di MANUSCRIPT non sia sceso sotto allo 0
+
         Assertions.assertEquals(0, book.getSymbolMap().get(SymbolType.Manuscript).intValue());
     }
 
     @Test
     public void testDecreaseResource() {
-        // Creiamo un oggetto Book
-        Book book = new Book(4, 4);
-
-        // Aggiungiamo alcune risorse alla mappa delle risorse
-        book.getResourceMap().put(ResourceType.Plant, 3);
-        book.getResourceMap().put(ResourceType.Animal, 2);
-        book.getResourceMap().put(ResourceType.Fungi, 1);
-        book.getResourceMap().put(ResourceType.Insect, 20);
-
-
         // Chiamiamo il metodo decreaseResource per diminuire il numero di risorse
+        book.decreaseResource(ResourceType.Fungi);
         book.decreaseResource(ResourceType.Animal);
-        book.decreaseResource(ResourceType.Fungi);
-        book.decreaseResource(ResourceType.Fungi);
+        book.decreaseResource(ResourceType.Insect);
+        book.decreaseResource(ResourceType.Insect);
 
+        // Verifichiamo che il numero di Plant sia rimasto invariato
+        Assertions.assertEquals(2, book.getResourceMap().get(ResourceType.Plant).intValue());
 
-        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Plant).intValue());
-        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
-        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Fungi).intValue());
-        Assertions.assertEquals(20, book.getResourceMap().get(ResourceType.Insect).intValue());
+        // Verifichiamo che il numero di Fungi sia diminuito di uno
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Fungi).intValue());
+
+        // Verifichiamo che il numero di Insect non sia sceso sotto allo 0
+        Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
+
     }
 
     @Test
     public void testIncreaseResource() {
-        // Creiamo un oggetto Book
-        Book book = new Book(4, 4);
-
-        // Aggiungiamo alcuni tipi di risorse alla mappa delle risorse
-        book.getResourceMap().put(ResourceType.Fungi, 3);
-        book.getResourceMap().put(ResourceType.Animal, 2);
-
-        // Chiamiamo il metodo increaseResource per incrementare il numero di Fungi
+        // Chiamiamo il metodo increaseResource per incrementare il numero di Risorse
         book.increaseResource(ResourceType.Fungi);
         book.increaseResource(ResourceType.Fungi);
         book.increaseResource(ResourceType.Plant);
 
-        // Verifichiamo che il numero di Fungi sia aumentato di uno
-        Assertions.assertEquals(5, book.getResourceMap().get(ResourceType.Fungi).intValue());
+        // Verifichiamo che il numero di Fungi sia aumentato di due
+        Assertions.assertEquals(6, book.getResourceMap().get(ResourceType.Fungi).intValue());
 
         // Verifichiamo che il numero di Animal sia rimasto invariato
-        Assertions.assertEquals(2, book.getResourceMap().get(ResourceType.Animal).intValue());
-        Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Plant).intValue());
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Animal).intValue());
+
+        // Verifichiamo che il numero di Plant sia aumentato di uno
+        Assertions.assertEquals(3, book.getResourceMap().get(ResourceType.Plant).intValue());
     }
 
     @Test
@@ -476,6 +487,7 @@ public class BookTest {
         resourceList1.add(ResourceType.Animal);
         ResourceCard resourceCard1 = new ResourceCard(5,3,true,CardType.ResourceCard,CornerLabel.WithSymbol,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.NoCorner,ResourceType.Fungi,0,2,resourceList1,true,SymbolType.Ink);
 
+
         //resourceCard2
         List<ResourceType> resourceList2 = new ArrayList<>();
         resourceList2.add(ResourceType.Animal);
@@ -489,6 +501,8 @@ public class BookTest {
 
         book.getBookMatrix()[3][3].setAvailable(true);
         points = book.addResourceCard(resourceCard1, book.getBookMatrix()[3][3]);
+
+        assertEquals(0,book.getBookMatrix()[3][3].getPlacementOrder());
 
         assertFalse(book.getBookMatrix()[2][3].isAvailable());
         assertFalse(book.getBookMatrix()[3][4].isAvailable());
@@ -512,6 +526,8 @@ public class BookTest {
 
 
         points = book.addResourceCard(resourceCard3, book.getBookMatrix()[2][4]);
+
+        assertEquals(1,book.getBookMatrix()[2][4].getPlacementOrder());
         assertFalse(book.getBookMatrix()[2][4].isAvailable());
         assertFalse(book.getBookMatrix()[2][3].isAvailable());
         assertFalse(book.getBookMatrix()[1][4].isAvailable());
@@ -531,6 +547,7 @@ public class BookTest {
         Assertions.assertEquals(0, points);
 
         points = book.addResourceCard(resourceCard2, book.getBookMatrix()[4][4]);
+        assertEquals(2,book.getBookMatrix()[4][4].getPlacementOrder());
         Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Fungi).intValue());
         Assertions.assertEquals(1, book.getResourceMap().get(ResourceType.Animal).intValue());
         Assertions.assertEquals(0, book.getResourceMap().get(ResourceType.Insect).intValue());
@@ -621,6 +638,7 @@ public class BookTest {
         assertTrue(book.getBookMatrix()[34][36].isAvailable());
         assertTrue(book.getBookMatrix()[36][34].isAvailable());
         assertTrue(book.getBookMatrix()[36][36].isAvailable());
+        assertEquals(0,book.getBookMatrix()[35][35].getPlacementOrder());
 
     }
 
@@ -694,6 +712,8 @@ public class BookTest {
         book.addResourceCard(resourceCard1, book.getBookMatrix()[3][3]);
         book.addResourceCard(resourceCard3,book.getBookMatrix()[2][4]);
         book.addResourceCard(resourceCard2,book.getBookMatrix()[4][4]);
+
+
 
         book.getResourceMap().put(ResourceType.Insect,1);
         book.getResourceMap().put(ResourceType.Animal, 3);

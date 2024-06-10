@@ -18,8 +18,8 @@ public class ScoretrackTest {
     @BeforeEach
     public void setUp() {
         scoreTrack = new ScoreTrack();
-        player1 = new Player("Player 1");
-        player2 = new Player("Player 2");
+        player1 = new Player("Player 1",Color.RED);
+        player2 = new Player("Player 2",Color.YELLOW);
     }
 
     @Test

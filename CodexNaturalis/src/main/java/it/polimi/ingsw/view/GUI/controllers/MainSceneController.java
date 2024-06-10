@@ -22,6 +22,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -407,46 +410,70 @@ public class MainSceneController extends ControllerGUI{
 
         // Dimensioni del singolo pannello per ogni carta
         double paneWidth = 120;  // Imposta la larghezza desiderata per ogni carta
-        double paneHeight = 80; // Imposta l'altezza desiderata per ogni carta
+        double paneHeight = 80;  // Imposta l'altezza desiderata per ogni carta
 
-        // Calcola le dimensioni del gameBoardPane per contenere tutte le carte
+        // Calcola le dimensioni del bookPane per contenere tutte le carte
         double boardWidth = (maxJ - minJ + 1) * paneWidth;
         double boardHeight = (maxI - minI + 1) * paneHeight;
 
-        // Posizionamento centrato all'interno di gameBoardPane
+        // Posizionamento centrato all'interno di bookPane
         double offsetX = (bookPane.getWidth() - boardWidth) / 2;
         double offsetY = (bookPane.getHeight() - boardHeight) / 2;
 
-        // Creare i Pane con ImageView per le carte non nulle
+        // Sovrapposizione
+        double overlapX = 30;  // Numero di pixel di sovrapposizione orizzontale
+        double overlapY = 30;  // Numero di pixel di sovrapposizione verticale
+
+        // List to store cells with their positions and placement order
+        List<Cell> cellList = new ArrayList<>();
+
+        // Collect all cells with their positions and placement order
         for (int i = minI; i <= maxI; i++) {
             for (int j = minJ; j <= maxJ; j++) {
-                Pane cardPane = new Pane();
-                cardPane.setPrefSize(paneWidth, paneHeight);
-
-                // Posizionare i Pane all'interno di gameBoardPane
-                cardPane.setLayoutX((j - minJ) * paneWidth + offsetX);
-                cardPane.setLayoutY((i - minI) * paneHeight + offsetY);
-                //cardPane.setStyle("-fx-border-color: yellow; -fx-border-width: 2;");
-
-                // Creare ImageView per la carta
-                ImageView cardImageView = new ImageView();
-                cardImageView.setFitWidth(paneWidth);
-                cardImageView.setFitHeight(paneHeight);
-                cardImageView.setPreserveRatio(true);
-                // Imposta l'ID dell'ImageView con il numero di riga e colonna
-                cardImageView.setId(i + "-" + j);
-                cardImageView.setOnMouseClicked(this::chooseCellClick);
-
-                PlayableCard card = bookMatrix[i][j].getCard();
-                if (card != null) {
-                    Image cardImage = new Image(card.getImagePath());
-                    cardImageView.setImage(cardImage);
-                } else {
-                    cardImageView.setImage(null);
+                Cell cell = bookMatrix[i][j];
+                if (cell.getPlacementOrder() != -1) {
+                    cellList.add(cell);
                 }
-                cardPane.getChildren().add(cardImageView);
-                bookPane.getChildren().add(cardPane);
             }
+        }
+
+        // Sort the cells based on placementOrder
+        cellList.sort(Comparator.comparingInt(Cell::getPlacementOrder));
+
+        // Create the Pane with ImageView for each cell in the sorted order
+        for (Cell cell : cellList) {
+            int i = cell.getRow();
+            int j = cell.getColumn();
+            PlayableCard card = cell.getCardPointer();
+            int placementOrder = cell.getPlacementOrder();
+
+            Pane cardPane = new Pane();
+            cardPane.setPrefSize(paneWidth, paneHeight);
+
+            // Posizionare i Pane all'interno di bookPane
+            cardPane.setLayoutX((j - minJ) * (paneWidth - overlapX) + offsetX);
+            cardPane.setLayoutY((i - minI) * (paneHeight - overlapY) + offsetY);
+
+            ImageView cardImageView = new ImageView();
+            cardImageView.setFitWidth(paneWidth);
+            cardImageView.setFitHeight(paneHeight);
+            cardImageView.setPreserveRatio(true);
+
+            // Imposta l'ID dell'ImageView con il numero di riga e colonna
+            cardImageView.setId(i + "-" + j);
+            cardImageView.setOnMouseClicked(this::chooseCellClick);
+
+            if (card != null) {
+                Image cardImage = new Image(card.getImagePath());
+                cardImageView.setImage(cardImage);
+
+                // Imposta la profondità dello z-index in base all'ordine di piazzamento
+                cardPane.setTranslateZ(placementOrder);
+            } else {
+                cardImageView.setImage(null);
+            }
+            cardPane.getChildren().add(cardImageView);
+            bookPane.getChildren().add(cardPane);
         }
         bookPane.layout();
         bookScrollPane.layout();

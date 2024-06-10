@@ -9,8 +9,11 @@ public class Cell implements Serializable {
     private int column; // indice della matrice
     private boolean wall;
     private boolean available;
+
     //dice se la cella è disponibile per il piazzamento della carta.
     // inizialmente setto tutto a false -> diventa true se c’è angolo nella carta piazzata
+
+    private int placementOrder;
     private PlayableCard cardPointer;
     //puntatore alla carta posizionata sulla cella
     // ->  mi serve perchè da questa guardo gli angoli che ha la carta
@@ -23,6 +26,7 @@ public class Cell implements Serializable {
         this.available = false; // Inizialmente la cella non è disponibile
         this.wall = false; //inizialmente non c'è alcun wall
         this.cardPointer = null; // Inizialmente non c'è nessuna carta posizionata sulla cella
+        this.placementOrder = -1;
     }
 
     public void updateCell(PlayableCard newCard){
@@ -30,6 +34,13 @@ public class Cell implements Serializable {
         this.cardPointer = newCard;
     }
 
+    public void setPlacementOrder(int placementOrder) {
+        this.placementOrder = placementOrder;
+    }
+
+    public int getPlacementOrder() {
+        return placementOrder;
+    }
 
     // Metodi getter e setter
     public int getRow() {
