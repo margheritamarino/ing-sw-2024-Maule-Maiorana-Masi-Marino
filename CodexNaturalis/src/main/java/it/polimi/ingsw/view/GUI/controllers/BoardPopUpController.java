@@ -40,9 +40,10 @@ public class BoardPopUpController extends ControllerGUI{
         //BOARD
         Board board = model.getBoard();
         String imagePath;
-
+        int goldRandIndex= board.getGoldCardsDeck().getRandomIndex();
+        int resourceRandIndex=board.getResourcesCardsDeck().getRandomIndex();
         //GOLD CARD
-        imagePath = board.getGoldCardsDeck().getBackCards().getLast().getImagePath();
+        imagePath = board.getGoldCardsDeck().getBackCards().get(goldRandIndex).getImagePath();
         imgDeckGold.setImage(new Image(imagePath));
         imagePath = board.getGoldCards().get(0)[0].getImagePath();
         imgGold0.setImage(new Image(imagePath));
@@ -50,7 +51,7 @@ public class BoardPopUpController extends ControllerGUI{
         imgGold1.setImage(new Image(imagePath));
 
         //RESOURCE CARD
-        imagePath = board.getResourcesCardsDeck().getBackCards().getLast().getImagePath();
+        imagePath = board.getResourcesCardsDeck().getBackCards().get(resourceRandIndex).getImagePath();
         imgDeckResource.setImage(new Image(imagePath));
         imagePath = board.getResourceCards().get(0)[0].getImagePath();
         imgResource0.setImage(new Image(imagePath));

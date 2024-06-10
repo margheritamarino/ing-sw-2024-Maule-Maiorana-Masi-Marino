@@ -25,6 +25,7 @@ public class Deck implements Serializable {
     private final CardType cardType;
     private final ArrayList<PlayableCard> frontCards;
     private final ArrayList<PlayableCard> backCards;
+    private int randomIndex; //serve per la Board nella GUI così appare nel deck il back della prossima immagine che viene restituita
 
     public Deck(CardType cardType) {
         this.cardType = cardType;
@@ -46,9 +47,13 @@ public class Deck implements Serializable {
             // Gestisci l'eccezione FileReadException
             System.err.println("Error during JSON file reading - " + e.getMessage());
         }
+        //inizializza il primo numero random (primo numero che viene restituito
+        generateRandomIndex();
 
     }
-
+    public int getRandomIndex(){
+        return this.randomIndex;
+    }
     public int getNumCards() {
         return numCards;
     }
@@ -161,6 +166,10 @@ public class Deck implements Serializable {
     public boolean checkEndDeck() {
         return numCards <= 0;
     }
+    public void generateRandomIndex(){
+        Random rand = new Random();
+        this.randomIndex = rand.nextInt(frontCards.size()); // Generates a random index within the range of the deck size
+    }
 
     /**
      * @author Sofia Maule
@@ -174,8 +183,7 @@ public class Deck implements Serializable {
         if (numCards == 0) {
             throw new DeckEmptyException("The deck is empty. No more cards to draw.");
         }
-        Random rand = new Random();
-        int randomIndex = rand.nextInt(frontCards.size()); // Generates a random index within the range of the deck size
+
         // randomIndex = randomPosition = randomCardID -> same ID for front and back
         // Retrieve the cards at the random index from both frontCards and backCards arrays
         PlayableCard frontCard = frontCards.get(randomIndex);
@@ -188,7 +196,10 @@ public class Deck implements Serializable {
         frontCards.remove(randomIndex);
         backCards.remove(randomIndex);
 
-        // Return the retrieved cards as an array
+
+        generateRandomIndex(); //aggiorna il numero random per la prossima volta che viene chiamato il metodo
+        //il primo numero è generato nel costruttore poi viene aggiornato ogni volta
+
         return new PlayableCard[]{frontCard, backCard};
     }
 }
