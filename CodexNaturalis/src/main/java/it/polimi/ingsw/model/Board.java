@@ -102,8 +102,11 @@ public class Board implements Serializable {
      * @param pos          The position of the card to take if drawing from the board.
      * @return The card taken from the board, or null.
      */
-    public PlayableCard[] takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) throws DeckEmptyException, IndexOutOfBoundsException  {
+    public PlayableCard[] takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, DeckEmptyException, IndexOutOfBoundsException  {
         if (drawFromDeck) {
+            if(cardType== CardType.InitialCard){
+                throw new IllegalArgumentException();
+            }
             if (cardType == CardType.GoldCard && goldCardsDeck.checkEndDeck()) {
                 throw new DeckEmptyException("Gold cards' deck is empty");
             } else if (cardType == CardType.ResourceCard && resourcesCardsDeck.checkEndDeck()) {
@@ -183,7 +186,7 @@ public class Board implements Serializable {
      * @return TRUE if there's a correct number of Resource Cards on the Board
      */
     public boolean verifyResourceCardsNumber() {
-        return resourceCards.size() == 4;
+        return resourceCards.size() == 2;
     }
 
     /**
@@ -191,7 +194,7 @@ public class Board implements Serializable {
      * @return TRUE if there's a correct number of Objective Cards on the Board
      */
     public boolean verifyObjectiveCardsNumber() {
-        return objectiveCards.length == 4;
+        return objectiveCards.length == 2;
     }
 
     /**

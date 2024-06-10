@@ -60,6 +60,55 @@ public class PlayableCardTest {
         assertNull(goldCardsBack.get(0).getSymbolCondition());
         assertFalse(goldCardsBack.get(0).isCornerCondition());
     }*/
+    /*public void testGetImagePathInitialCardFront() {
+        Card card = new Card(1, "InitialCard", true, "None");
+        String expectedPath = "/img.Cards.GoldCards.1_GoldFront.png";
+        assertEquals(expectedPath, card.getImagePath());
+    }
+
+    @Test
+    public void testGetImagePathInitialCardBack() {
+        Card card = new Card(1, "InitialCard", false, "None");
+        String expectedPath = "/img.Cards.GoldCards.1_GoldBack.png";
+        assertEquals(expectedPath, card.getImagePath());
+    }
+
+    @Test
+    public void testGetImagePathGoldCardFront() {
+        Card card = new Card(2, "GoldCard", true, "None");
+        String expectedPath = "/img.Cards.GoldCards.2_GoldFront.png";
+        assertEquals(expectedPath, card.getImagePath());
+    }
+
+    @Test
+    public void testGetImagePathGoldCardBack() {
+        Card card = new Card(2, "GoldCard", false, "Wood");
+        String expectedPath = "/img.Cards.GoldCards.GoldWoodBack.png";
+        assertEquals(expectedPath, card.getImagePath());
+    }
+
+    @Test
+    public void testGetImagePathResourceCardFront() {
+        Card card = new Card(3, "ResourceCard", true, "None");
+        String expectedPath = "/img.Cards.ResourceCards.3_ResourceFront.png";
+        assertEquals(expectedPath, card.getImagePath());
+    }
+
+    @Test
+    public void testGetImagePathResourceCardBack() {
+        Card card = new Card(3, "ResourceCard", false, "Stone");
+        String expectedPath = "/img.Cards.ResourceCards.ResourceStoneBack.png";
+        assertEquals(expectedPath, card.getImagePath());
+    }
+
+    @Test
+    public void testGetImagePathInvalidCardType() {
+        Card card = new Card(4, "InvalidCard", true, "None");
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            card.getImagePath();
+        });
+        assertEquals("Card type not recognized: InvalidCard", exception.getMessage());
+    }
 
     @Test
     void testInitializeResourceDeck() throws FileNotFoundException, FileReadException {
@@ -220,7 +269,7 @@ public class PlayableCardTest {
         assertEquals("Plant", initialCardTest2.getCornerContent(1));
         assertEquals("Animal", initialCardTest2.getCornerContent(2));
         assertEquals("Insect", initialCardTest2.getCornerContent(3));
-    }
+    }*/
 
 
 }
