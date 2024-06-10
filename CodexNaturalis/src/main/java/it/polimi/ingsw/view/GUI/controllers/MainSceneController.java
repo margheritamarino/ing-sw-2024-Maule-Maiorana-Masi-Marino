@@ -602,7 +602,7 @@ public class MainSceneController extends ControllerGUI{
                 } else {
                     cardImageView.setImage(null);
                 }
-                if( bookMatrix[i][j].isAvailable()){
+                if( bookMatrix[i][j].isAvailable() && !bookMatrix[i][j].isWall()){
                     cardPane.setStyle("-fx-border-color: green; -fx-border-width: 3;");
                 }
                 cardPane.getChildren().add(cardImageView);

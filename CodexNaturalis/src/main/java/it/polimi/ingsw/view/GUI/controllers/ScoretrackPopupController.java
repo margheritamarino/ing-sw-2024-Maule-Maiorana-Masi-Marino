@@ -1,9 +1,7 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.ScoreTrack;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.GUI.GUIApplication;
@@ -13,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScoretrackPopupController extends ControllerGUI {
 
@@ -33,7 +32,7 @@ public class ScoretrackPopupController extends ControllerGUI {
     @FXML
     private Text points3;
 
-    private Button[] btnPoints = new Button[21];
+    private Button[] btnPoints;
     @FXML
     private Button btnPoints0;
     @FXML
@@ -77,7 +76,7 @@ public class ScoretrackPopupController extends ControllerGUI {
     @FXML
     private Button btnPoints20;
 
-    private ArrayList<Player> playersWithPoints;
+    private List<Player> playersWithPoints;
 
     private GUIApplication guiApplication;
 
@@ -85,26 +84,16 @@ public class ScoretrackPopupController extends ControllerGUI {
         this.guiApplication = guiApplication;
     }
 
-
     private void setTextColor(Text text, Color color) {
         switch (color) {
-            case YELLOW:
-                text.setStyle("-fx-fill: yellow;");
-                break;
-            case RED:
-                text.setStyle("-fx-fill: red;");
-                break;
-            case BLUE:
-                text.setStyle("-fx-fill: blue;");
-                break;
-            case GREEN:
-                text.setStyle("-fx-fill: green;");
-                break;
-            default:
-                text.setStyle("-fx-fill: black;"); // Default to black if no color matches
-                break;
+            case YELLOW -> text.setStyle("-fx-fill: yellow;");
+            case RED -> text.setStyle("-fx-fill: red;");
+            case BLUE -> text.setStyle("-fx-fill: blue;");
+            case GREEN -> text.setStyle("-fx-fill: green;");
+            default -> text.setStyle("-fx-fill: black;"); // Default to black if no color matches
         }
     }
+
     public void setUsername(Player player, int indexPlayer) {
         String nickname = player.getNickname();
         Color color = player.getPlayerColor();
@@ -129,32 +118,13 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
     }
 
-    public void setPoints(int points, int indexPlayer, Player currentPlayer) {
+    public void setPoints(int points, int indexPlayer) {
         switch (indexPlayer) {
             case 0 -> points0.setText(String.valueOf(points));
             case 1 -> points1.setText(String.valueOf(points));
             case 2 -> points2.setText(String.valueOf(points));
             case 3 -> points3.setText(String.valueOf(points));
             default -> System.out.println("Invalid player index: " + indexPlayer);
-        }
-        // Verifica se l'indice del giocatore corrente corrisponde all'indice del giocatore nel ciclo
-        if (indexPlayer == playersWithPoints.indexOf(currentPlayer)) {
-            // Resetta tutti i bottoni prima di evidenziare quello corretto
-            Button[] buttons = {
-                    btnPoints0, btnPoints1, btnPoints2, btnPoints3, btnPoints4,
-                    btnPoints5, btnPoints6, btnPoints7, btnPoints8, btnPoints9,
-                    btnPoints10, btnPoints11, btnPoints12, btnPoints13, btnPoints14,
-                    btnPoints15, btnPoints16, btnPoints17, btnPoints18, btnPoints19,
-                    btnPoints20
-            };
-            for (Button button : buttons) {
-                resetButtonStyle(button);
-            }
-
-            // Evidenzia il bottone corrispondente ai punti
-            if (points >= 0 && points <= 20) {
-                highlightButton(buttons[points]);
-            }
         }
     }
 
@@ -168,40 +138,38 @@ public class ScoretrackPopupController extends ControllerGUI {
                 btnPoints20
         };
     }
-    public void setScoreTrack(GameImmutable model) {
 
-        ScoreTrack scoretrack= model.getScoretrack();
+    public void setScoreTrack(GameImmutable model) {
+        ScoreTrack scoretrack = model.getScoretrack();
         playersWithPoints = scoretrack.getPlayersByScore();
 
         for (int i = 0; i < playersWithPoints.size(); i++) {
             Player player = playersWithPoints.get(i);
             setUsername(player, i);
-            updatePlayerScore(player, scoretrack.getPlayerScore(player), model);
-            setPoints(scoretrack.getPlayerScore(player), i, model.getCurrentPlayer());
+            setPoints(scoretrack.getPlayerScore(player), i);
         }
+
+        updateButtonGlow(scoretrack);
+    }
+
+    private void updateButtonGlow(ScoreTrack scoretrack) {
+        // Resetta lo stile di tutti i bottoni
+        for (Button button : btnPoints) {
+            resetButtonStyle(button);
+        }
+
         // Imposta l'effetto glow del colore del giocatore per il relativo bottone
-        for (int i = 0; i < playersWithPoints.size(); i++) {
-            Player player = playersWithPoints.get(i);
+        for (Player player : playersWithPoints) {
+            int playerScore = scoretrack.getPlayerScore(player);
             switch (player.getPlayerColor()) {
-                case YELLOW:
-                    btnPoints[scoretrack.getPlayerScore(player)].getStyleClass().add("button-glow-yellow");
-                    break;
-                case RED:
-                    btnPoints[scoretrack.getPlayerScore(player)].getStyleClass().add("button-glow-red");
-                    break;
-                case BLUE:
-                    btnPoints[scoretrack.getPlayerScore(player)].getStyleClass().add("button-glow-blue");
-                    break;
-                case GREEN:
-                    btnPoints[scoretrack.getPlayerScore(player)].getStyleClass().add("button-glow-green");
-                    break;
-                default:
-                    break;
+                case YELLOW -> btnPoints[playerScore].getStyleClass().add("button-glow-yellow");
+                case RED -> btnPoints[playerScore].getStyleClass().add("button-glow-red");
+                case BLUE -> btnPoints[playerScore].getStyleClass().add("button-glow-blue");
+                case GREEN -> btnPoints[playerScore].getStyleClass().add("button-glow-green");
+                default -> {}
             }
         }
     }
-
-
 
     @FXML
     private void handleCloseAction(ActionEvent event) {
@@ -213,21 +181,35 @@ public class ScoretrackPopupController extends ControllerGUI {
     }
 
     private void resetButtonStyle(Button button) {
-        button.getStyleClass().remove("button-glow");
+        button.getStyleClass().remove("button-glow-yellow");
+        button.getStyleClass().remove("button-glow-red");
+        button.getStyleClass().remove("button-glow-blue");
+        button.getStyleClass().remove("button-glow-green");
     }
 
     public void updatePlayerScore(Player player, int newScore, GameImmutable model) {
         ScoreTrack scoretrack = model.getScoretrack();
-         // Rimuovi il punteggio del giocatore dalla lista dei punteggi
         int oldScore = scoretrack.getPlayerScore(player);
         int index = playersWithPoints.indexOf(player);
         if (index != -1) {
-            setPoints(newScore, index, model.getCurrentPlayer()); // Aggiorna il punteggio nel controller
-            resetButtonStyle(btnPoints[oldScore]); // Rimuovi lo stile glow dal vecchio punteggio
-            highlightButton(btnPoints[newScore]); // Evidenzia il nuovo punteggio
+            // Aggiorna il punteggio nel modello
+            scoretrack.setPlayerScore(player, newScore);
+
+            // Aggiorna il punteggio nel controller
+            setPoints(newScore, index);
+
+            // Resetta lo stile del vecchio bottone
+            if (oldScore >= 0 && oldScore < btnPoints.length) {
+                resetButtonStyle(btnPoints[oldScore]);
+            }
+
+            // Applica lo stile al nuovo bottone
+            if (newScore >= 0 && newScore < btnPoints.length) {
+                highlightButton(btnPoints[newScore]);
+            }
+
+            // Aggiorna il glow dei bottoni
+            updateButtonGlow(scoretrack);
         }
-        scoretrack.addPoints(player, newScore);
     }
 }
-
-
