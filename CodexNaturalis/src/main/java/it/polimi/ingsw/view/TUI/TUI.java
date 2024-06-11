@@ -20,6 +20,10 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoCursorReset;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import java.awt.Font;
 
 
 
@@ -52,15 +56,15 @@ public class TUI extends UI {
 
     //messaggio di benvenuto per ogni giocatore in grassetto
     public void show_welcome(String nick) {
-
         // Pausa di 1 sec
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("*** WELCOME " + nick+"!***");
+        printAsync("*** WELCOME " + nick + "!***");
     }
+
 
     public void show_allPlayers(GameImmutable model) {
         // Pausa di 0.5 secondo
@@ -107,14 +111,17 @@ public class TUI extends UI {
     public void show_publisher(){
         clearScreen();
 
-        // Pausa di 0.5 secondi
+        // Pausa di 1 secondo
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        printAsync("CRANIO CREATIONS");
+        //printAsync("CRANIO CREATIONS");
+        printAsync("  +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n" +
+                " |C|R|A|N|I|O| |C|R|E|A|T|I|O|N|S|\n" +
+                " +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n");
 
         try {
             Thread.sleep(DefaultValue.time_publisher_showing_seconds);
@@ -128,15 +135,24 @@ public class TUI extends UI {
      * Prints title of the game
      */
     public void show_titleCodexNaturalis(){
+        //printAsync("CODEX NATURALIS");
 
-        // Pausa di 0.5 secondi
-        try {
-            Thread.sleep(500);
+        // Pausa di 1.5 secondi
+         try {
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("CODEX NATURALIS");
-    }
+        printAsync(" ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
+                "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +
+                "██║     ██║   ██║██║  ██║█████╗   ╚███╔╝     ██╔██╗ ██║███████║   ██║   ██║   ██║██████╔╝███████║██║     ██║███████╗\n" +
+                "██║     ██║   ██║██║  ██║██╔══╝   ██╔██╗     ██║╚██╗██║██╔══██║   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║╚════██║\n" +
+                "╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗    ██║ ╚████║██║  ██║   ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║███████║\n" +
+                " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n" +
+                "                                                                                                                    ");
+
+         }
+
 
 
     @Override
@@ -706,7 +722,7 @@ public class TUI extends UI {
 
 
     @Override
-    public void show_noConnectionError(){
+    public void show_noConnectionError() {
         printAsync("CONNECTION TO SERVER LOST!\n");
         try {
             Thread.sleep(3000);
