@@ -87,6 +87,14 @@ public class TUI extends UI {
     @Override
     public void show_publisher(){
         clearScreen();
+
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         printAsync("CRANIO CREATIONS");
 
         try {
@@ -101,6 +109,13 @@ public class TUI extends UI {
      * Prints title of the game
      */
     public void show_titleCodexNaturalis(){
+
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("CODEX NATURALIS");
     }
 
@@ -138,11 +153,23 @@ public class TUI extends UI {
 
     @Override
     public void show_askNumPlayersMessage(){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Insert the number of the players in the Game: ");
     }
 
     @Override
     public void show_askGameIDMessage(){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Insert the GameID: ");
     }
     @Override
@@ -176,6 +203,18 @@ public class TUI extends UI {
 
     @Override
     public void show_readyToStart(GameImmutable gameModel, String nickname) {
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Press y if you are ready to start the game");
     }
 
@@ -190,25 +229,47 @@ public class TUI extends UI {
 
     @Override
     public void show_wrongSelectionMsg() {
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Invalid selection. Please choose 0 or 1.");
     }
 
     @Override
     public void show_wrongCardSelMsg() {
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Invalid selection. Please choose a number between 0 and 6.");
     }
 
     @Override
     public void show_wrongCellSelMsg() {
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Invalid selection. Please choose a number between: "+ DefaultValue.BookSizeMin+ " and " + DefaultValue.BookSizeMax);
     }
 
 
     @Override
     public void show_personalObjective(){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("This is your personal objective card! \n");
-
-
 
     }
 
@@ -217,11 +278,14 @@ public class TUI extends UI {
      */
     public void clearScreen(){
         try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            //if not on a Windows machine
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
         } catch (IOException | InterruptedException e) {
-            //for mac
-            printAsyncNoCursorReset("\033\143");
+            e.printStackTrace();
         }
     }
 
@@ -242,6 +306,12 @@ public class TUI extends UI {
     public synchronized void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_publisher();
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync(ansi().fg(DEFAULT).a("***GAME STARTED!***"));
         show_OrderPlayers(model);
         show_board(model);
@@ -275,11 +345,23 @@ public class TUI extends UI {
 
     @Override
     public void show_askWhichCellMsg(GameImmutable model){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Choose a Cell in the book to place the card:" );
     }
 
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname){
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("ERROR: invalid selection. Choose again!" );
 
     }
@@ -291,6 +373,12 @@ public class TUI extends UI {
 
     @Override
     public void show_nextTurnMsg(GameImmutable model){
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Next turn: " + model.getCurrentPlayer().getNickname());
     }
 
@@ -313,6 +401,12 @@ public class TUI extends UI {
 
     @Override
     public void show_joiningToGameMsg(String nickname, Color color){
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Trying to join a game...\n");
     }
 
@@ -340,6 +434,12 @@ public class TUI extends UI {
     public void show_important_events() {
         StringBuilder ris = new StringBuilder();
         int longestImportantEvent = eventsToShow.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ris.append(ansi().fg(GREEN).bold().a("Latest Events:").fg(DEFAULT).boldOff());
         for (String s : eventsToShow) {
             ris.append(ansi().fg(Ansi.Color.WHITE).a(s).a(" ".repeat(longestImportantEvent - s.length())).fg(DEFAULT));
@@ -349,6 +449,13 @@ public class TUI extends UI {
 
     @Override
     public void show_insertNicknameMessage(){
+
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Insert your nickname: \n");
     }
 
@@ -471,6 +578,12 @@ public class TUI extends UI {
     //*****CHAT******
 
     public void show_askForChat(GameImmutable model, String nick){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("\nIf during the game you want to send a public message, a private message or you want to exit from the game, you can write one of this following commands:\n ");
         printAsyncNoCursorReset(ansi().a("""
                 > Commands:
@@ -480,6 +593,7 @@ public class TUI extends UI {
                 \t
                 \n
                 """).fg(DEFAULT));
+
     }
 
     //mostra i messaggi presenti nel modello di gioco nella chat

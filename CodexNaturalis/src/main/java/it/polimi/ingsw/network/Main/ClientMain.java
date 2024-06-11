@@ -26,33 +26,36 @@ public class ClientMain {
 
 
             do { //chiedo all'utente di inserire l'indirizzo IP del server remoto (se vuole connettersi a un server diverso dal LocalHost)
+                clearCMD();
                 printAsync(ansi().a("""
                         Insert remote IP (leave empty for localhost)
                         """));
-                input = new Scanner(System.in).nextLine();
-                if(!input.equals("empty") && !isValidIP(input)){
+                input = new Scanner(System.in).nextLine().trim();
+                if (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input)) {
                     clearCMD();
                     printAsync("Not valid");
                 }
-            } while (!input.equals("empty") && !isValidIP(input)); //ripeto fino a quando non viene inserito un IP valido
-            if (!input.equals("empty"))
-                DefaultValue.serverIp = input;
+            } while (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input)); // ripeto fino a quando non viene inserito un IP valido
 
+            if (!input.isEmpty() && !input.equals("empty")) {
+                DefaultValue.serverIp = input;
+            }
             clearCMD();
 
             do {
                 printAsync(ansi().a("""
                         Insert your IP (leave empty for localhost)
                         """));
-                input = new Scanner(System.in).nextLine();
-                if(!input.equals("empty") && !isValidIP(input)){
+                input = new Scanner(System.in).nextLine().trim();
+                if (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input)) {
                     clearCMD();
                     printAsync("Not valid");
                 }
-            } while (!input.equals("empty") && !isValidIP(input));
-            if (!input.equals("empty"))
-                System.setProperty("java.rmi.server.hostname", input);
+            } while (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input));
 
+            if (!input.isEmpty() && !input.equals("empty")) {
+                System.setProperty("java.rmi.server.hostname", input);
+            }
 
             clearCMD();
             do {
@@ -104,9 +107,14 @@ public class ClientMain {
 
     private static void clearCMD() {
         try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
         } catch (IOException | InterruptedException e) {
-            printAsync("\033\143");   //for Mac
+            e.printStackTrace();
         }
     }
 
@@ -115,14 +123,16 @@ public class ClientMain {
      * @return true if the input value is a valid IP (X.X.X.X with 0<=X<=255 )
      */
     private static boolean isValidIP(String input) {
-        List<String> parsed;
-        parsed = Arrays.stream(input.split("\\.")).toList();
+        List<String> parsed = Arrays.stream(input.split("\\.")).toList();
         if (parsed.size() != 4) {
             return false;
         }
         for (String part : parsed) {
             try {
-                Integer.parseInt(part);
+                int segment = Integer.parseInt(part);
+                if (segment < 0 || segment > 255) {
+                    return false;
+                }
             } catch (NumberFormatException e) {
                 return false;
             }

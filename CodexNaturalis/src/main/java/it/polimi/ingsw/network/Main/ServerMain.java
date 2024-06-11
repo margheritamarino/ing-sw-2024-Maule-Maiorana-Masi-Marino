@@ -22,7 +22,7 @@ public class ServerMain {
 
         String input;
 
-        do {
+        /*do {
             clearCMD();
             printAsync(ansi().a("""
                     Insert remote IP(leave empty for localhost)
@@ -35,9 +35,34 @@ public class ServerMain {
         else{
             DefaultValue.serverIp = input;
             System.setProperty("java.rmi.server.hostname", input);
+        }*/
+        do {
+            clearCMD();
+            printAsync(ansi().a("""
+                    Insert remote IP (leave empty for localhost):
+                    """));
+            input = new Scanner(System.in).nextLine().trim();  // Usa nextLine() e trim() per catturare l'input vuoto
+            if(input.isEmpty()||input.equals("empty")){
+                System.out.println("Input ricevuto: localhost ");
+            } else {
+                System.out.println("Input ricevuto: " + input);
+            }
+        } while (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input));  // Solo controllo per input vuoto e IP valido
+
+        if (input.isEmpty()) {
+            System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
+        } else {
+            DefaultValue.serverIp = input;
+            System.setProperty("java.rmi.server.hostname", input);
         }
 
-        System.out.println("Sto per eseguire il BIND (da ServerMain chiamo ServerRMI.bind()): " + input);
+        //System.out.println("Sto per eseguire il BIND (da ServerMain chiamo ServerRMI.bind()): " + input);
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         try {
             ServerRMI.bind();
@@ -45,6 +70,12 @@ public class ServerMain {
             e.printStackTrace();
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
             System.exit(1); // Termina il programma in caso di errore
+        }
+        // Pausa di 1 second0
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         ServerTCP serverSOCKET = new ServerTCP();
@@ -74,9 +105,14 @@ public class ServerMain {
 
     private static void clearCMD() {
         try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
         } catch (IOException | InterruptedException e) {
-            printAsync("\033\143");   //for Mac
+            e.printStackTrace();
         }
     }
 
