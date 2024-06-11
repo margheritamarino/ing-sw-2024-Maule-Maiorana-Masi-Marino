@@ -406,7 +406,7 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_personalObjective() {
+    public void show_personalObjective(GameImmutable model, int indexPlayer) {
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.WAITING_POPUP);
         });

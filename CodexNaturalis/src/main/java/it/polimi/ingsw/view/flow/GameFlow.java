@@ -760,7 +760,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void requireInitialReady(GameImmutable model, int indexPlayer) throws IOException, FileReadException {
-      //  ui.show_whichInitialCards();
+
         ui.show_temporaryInitialCards(model, indexPlayer);
         Integer index;
         do {
@@ -797,7 +797,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         } while (index == null);
         try {
             setGoalCard(index, nickname); //manda l'indice selezionato per far risalire al Controller la ObjectiveCard selezionata
-            ui.show_personalObjective();
+            ui.show_personalObjective(model, indexPlayer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

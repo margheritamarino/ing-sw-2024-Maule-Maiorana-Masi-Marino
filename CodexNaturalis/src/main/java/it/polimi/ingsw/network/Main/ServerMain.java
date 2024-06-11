@@ -80,7 +80,13 @@ public class ServerMain {
 
         ServerTCP serverSOCKET = new ServerTCP();
         serverSOCKET.start(DefaultValue.Default_port_Socket);
-        System.out.println("Server Started");
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Server started!");
     }
 
     private static boolean isValidIP(String input) {

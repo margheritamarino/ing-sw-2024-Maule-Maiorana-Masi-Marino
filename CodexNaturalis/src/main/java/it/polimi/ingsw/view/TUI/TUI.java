@@ -52,16 +52,35 @@ public class TUI extends UI {
 
     //messaggio di benvenuto per ogni giocatore in grassetto
     public void show_welcome(String nick) {
+
+        // Pausa di 1 sec
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("*** WELCOME " + nick+"!***");
     }
 
     public void show_allPlayers(GameImmutable model) {
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //toStringListPlayer restituisce la lista dei giocatori attuali
         printAsync( model.toStringListPlayers());
 
     }
     public void show_OrderPlayers(GameImmutable model) {
         //toStringListPlayer restituisce la lista dei giocatori attuali
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("The ORDER of the players is: \n" + model.toStringListOrderArray());
 
     }
@@ -122,22 +141,47 @@ public class TUI extends UI {
 
     @Override
     public void show_scoretrack(GameImmutable model) {
+
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync(model.getScoretrack().toString());
     }
 
     @Override
     public void show_board(GameImmutable model) {
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync(model.getBoard().toString());
     }
 
 
     @Override
     public void show_playerBook(GameImmutable model){
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync(model.getCurrentPlayer().getPlayerBook().toString());
     }
 
     @Override
     public void show_playerDeck(GameImmutable model, String nick) {
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("*** YOUR DECK ***");
         Player p = model.getPlayerByNickname(nick);
       /*  for (int i = 0; i < p.getPlayerDeck().miniDeck.size(); i++) {
@@ -148,6 +192,13 @@ public class TUI extends UI {
 
     @Override
     public void show_askNum(String msg, GameImmutable model, String nickname) {
+
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync(msg);
     }
 
@@ -174,11 +225,23 @@ public class TUI extends UI {
     }
     @Override
     public void show_notValidMessage(){
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Not valid input. Please try again. ");
     }
 
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (!alreadyShowedLobby) {
             clearScreen();
             show_welcome(nick);
@@ -223,7 +286,6 @@ public class TUI extends UI {
         printAsync("You are ready to start the game!\n PLAYERS READY in the LOBBY:");
         printAsync( model.toStringListPlayersReady());
 
-
     }
 
 
@@ -262,14 +324,16 @@ public class TUI extends UI {
 
 
     @Override
-    public void show_personalObjective(){
+    public void show_personalObjective(GameImmutable model, int indexPlayer){
         // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("This is your personal objective card! \n");
+//        String nickname= model.getPlayers().get(indexPlayer).getNickname();
+//        ObjectiveCard objectiveCard = model.getPlayerGoalByNickname(nickname);
+//        printAsync("This is your personal objective card! \n"+ objectiveCard.toString());
 
     }
 
@@ -290,16 +354,34 @@ public class TUI extends UI {
     }
 
     public void show_gameId(GameImmutable gameModel) {
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync(ansi().fg(DEFAULT).a("Game with id: [" + gameModel.getGameId() + "]"));
     }
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("WAIT! It's "+ model.getCurrentPlayer().getNickname()+" TURN\n");
 
     }
     @Override
     public void show_CurrentTurnMsg(GameImmutable model){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("It's your TURN!\n");
     }
     @Override
@@ -324,22 +406,46 @@ public class TUI extends UI {
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("It's your turn to PLACE A CARD" );
     }
 
     @Override
     public void show_PickCardMsg(GameImmutable model){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("It's your turn to PICK A CARD " );
         show_board(model);
     }
 
     @Override
     public void show_askCardType(GameImmutable model, String nickname){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Which card do you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card:" );
     }
 
     @Override
     public void show_askDrawFromDeck(GameImmutable model, String nickname){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Press Y if you want to draw from deck or N if you want a visible card:" );
     }
 
@@ -368,6 +474,12 @@ public class TUI extends UI {
 
     @Override
     public void show_cardPlacedMsg(GameImmutable model){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync( model.getCurrentPlayer().getNickname() + " has placed a card!\n" );
     }
 
@@ -384,6 +496,12 @@ public class TUI extends UI {
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
            ArrayList<PlayableCard[]> minideck= model.getCurrentPlayer().getPlayerDeck().getMiniDeck();
             printAsync( "This is your drawn card:\n" + minideck.get(2)[0].toString() + minideck.get(2)[1].toString());
 
@@ -391,6 +509,12 @@ public class TUI extends UI {
 
     @Override
     public void show_pointsAddedMsg(GameImmutable model, String nickname){
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if(model.getCurrentPlayer().equals(nickname) )
             printAsync("You scored " + model.getCurrentCardPoints()+ "points!");
         else
@@ -461,11 +585,23 @@ public class TUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname) {
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Your nickname is " + nickname );
     }
 
     @Override
     public void show_gameEnded(GameImmutable model) {
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         clearScreen();
         show_titleCodexNaturalis();
         printAsync("***GAME ENDED***\n");
@@ -474,10 +610,22 @@ public class TUI extends UI {
 
     @Override
     public void show_returnToMenuMsg() {
+        // Pausa di 0.5 secondi
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("You are back in the menu!\n");
     }
     @Override
     public void show_temporaryInitialCards(GameImmutable model, int indexPlayer) {
+        // Pausa di 1.5 secondo
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("> Choose the front[0] or the back[1] of the following initial card to place it at the center of your book:");
        // printAsync("Initial Card...\n");
         PlayableCard[] initialCards = model.getInitialCard().get(indexPlayer);
@@ -516,6 +664,12 @@ public class TUI extends UI {
 
     @Override
     public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         printAsync("Set your GOAL for the Game:\n> Choose one between these objective cards:");
 
         ObjectiveCard[] objectiveCards = model.getObjectiveCard().get(indexPlayer);
@@ -564,6 +718,12 @@ public class TUI extends UI {
 
     @Override
     public void show_visibleCardsBoard(GameImmutable model, CardType cardType){
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if(cardType.equals(CardType.ResourceCard)){
             printAsync(model.getBoard().cardsVisibleResourceToString());
         }else if(cardType.equals(CardType.GoldCard))
