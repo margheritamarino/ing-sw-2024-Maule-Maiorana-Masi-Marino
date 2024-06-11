@@ -314,20 +314,24 @@ public class MainSceneController extends ControllerGUI{
     // Metodo per impostare l'istanza di GUIApplication
     public void setGUI(GUI gui, GameImmutable model) {
         this.gui = gui;
-        this.model =model;
+        this.model = model;
     }
     public void showBoardPopUp(ActionEvent e){
-        if (gui != null) {
-            gui.show_board(this.model);
-
+        if(e.getSource() == showBoardBtn){
+            if (gui != null) {
+                gui.show_board(this.model);
+            }
         }
     }
 
     public void showScoretrackPopUp(ActionEvent e){
-        if (gui != null) {
-            gui.show_scoretrack(model);
+        if(e.getSource() == showScoretrackBtn){
+            if (gui != null) {
+                gui.show_scoretrack(model);
+            }
         }
     }
+
 
     //ORDER PLAYERS
     @FXML
@@ -344,6 +348,15 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     public void initialize() {
         playerTexts = new Text[] { player0, player1, player2, player3 };
+        /*
+        // Listener per aggiornare rootPane quando bookPane cambia dimensioni
+        bookPane.layoutBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
+            rootPane.setPrefSize(newBounds.getWidth(), newBounds.getHeight());
+            rootPane.setMinSize(newBounds.getWidth(), newBounds.getHeight());
+            rootPane.setMaxSize(newBounds.getWidth(), newBounds.getHeight());
+        });
+
+         */
     }
     public void setOrderListText(GameImmutable model) {
         int[] orderArray = model.getOrderArray();
@@ -395,39 +408,39 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     public AnchorPane rootPane;
 
+
     private Cell[][] bookMatrix;
+
     public void updateBookPane(GameImmutable model, String nickname) {
         this.bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
-        // Pulisce il contenuto precedente
+
+        bookScrollPane.setVisible(true);
+        bookScrollPane.setManaged(true);
+        bookPane.setVisible(true);
+        bookPane.setManaged(true);
+
         bookPane.getChildren().clear();
 
-        // Recupera i limiti della sotto-matrice che contiene le carte
         int[] limits = findSubMatrix();
         int minI = limits[0];
         int minJ = limits[1];
         int maxI = limits[2];
         int maxJ = limits[3];
 
-        // Dimensioni del singolo pannello per ogni carta
-        double paneWidth = 120;  // Imposta la larghezza desiderata per ogni carta
-        double paneHeight = 80;  // Imposta l'altezza desiderata per ogni carta
+        double paneWidth = 120;
+        double paneHeight = 80;
 
-        // Calcola le dimensioni del bookPane per contenere tutte le carte
         double boardWidth = (maxJ - minJ + 1) * paneWidth;
         double boardHeight = (maxI - minI + 1) * paneHeight;
 
-        // Posizionamento centrato all'interno di bookPane
         double offsetX = (bookPane.getWidth() - boardWidth) / 2;
         double offsetY = (bookPane.getHeight() - boardHeight) / 2;
 
-        // Sovrapposizione
-        double overlapX = 30;  // Numero di pixel di sovrapposizione orizzontale
-        double overlapY = 30;  // Numero di pixel di sovrapposizione verticale
+        double overlapX = 30;
+        double overlapY = 30;
 
-        // List to store cells with their positions and placement order
         List<Cell> cellList = new ArrayList<>();
 
-        // Collect all cells with their positions and placement order
         for (int i = minI; i <= maxI; i++) {
             for (int j = minJ; j <= maxJ; j++) {
                 Cell cell = bookMatrix[i][j];
@@ -437,10 +450,8 @@ public class MainSceneController extends ControllerGUI{
             }
         }
 
-        // Sort the cells based on placementOrder
         cellList.sort(Comparator.comparingInt(Cell::getPlacementOrder));
 
-        // Create the Pane with ImageView for each cell in the sorted order
         for (Cell cell : cellList) {
             int i = cell.getRow();
             int j = cell.getColumn();
@@ -450,7 +461,6 @@ public class MainSceneController extends ControllerGUI{
             Pane cardPane = new Pane();
             cardPane.setPrefSize(paneWidth, paneHeight);
 
-            // Posizionare i Pane all'interno di bookPane
             cardPane.setLayoutX((j - minJ) * (paneWidth - overlapX) + offsetX);
             cardPane.setLayoutY((i - minI) * (paneHeight - overlapY) + offsetY);
 
@@ -459,15 +469,12 @@ public class MainSceneController extends ControllerGUI{
             cardImageView.setFitHeight(paneHeight);
             cardImageView.setPreserveRatio(true);
 
-            // Imposta l'ID dell'ImageView con il numero di riga e colonna
             cardImageView.setId(i + "-" + j);
             cardImageView.setOnMouseClicked(this::chooseCellClick);
 
             if (card != null) {
                 Image cardImage = new Image(card.getImagePath());
                 cardImageView.setImage(cardImage);
-
-                // Imposta la profondità dello z-index in base all'ordine di piazzamento
                 cardPane.setTranslateZ(placementOrder);
             } else {
                 cardImageView.setImage(null);
@@ -475,9 +482,21 @@ public class MainSceneController extends ControllerGUI{
             cardPane.getChildren().add(cardImageView);
             bookPane.getChildren().add(cardPane);
         }
+
+        // Imposta le dimensioni preferite di bookPane in base al contenuto
+        bookPane.setPrefSize(boardWidth, boardHeight);
+        bookPane.setMinSize(boardWidth, boardHeight);
+
+        // Mantenere le dimensioni di rootPane e bookScrollPane fisse
+        rootPane.setPrefSize(750, 380); // Dimensioni prefissate
+        bookScrollPane.setPrefSize(750, 380); // Dimensioni prefissate
+
         bookPane.layout();
         bookScrollPane.layout();
     }
+
+
+
 
     public int[] findSubMatrix() {
         int[] limits = new int[4];

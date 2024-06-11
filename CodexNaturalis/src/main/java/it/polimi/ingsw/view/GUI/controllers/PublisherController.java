@@ -17,15 +17,11 @@ public class PublisherController extends ControllerGUI{
     @FXML
     private ImageView backgroundImageView; // Aggiungi un fx:id nel file FXML se desideri fare riferimento all'ImageView
 
-    @FXML
-    private Label titleLabel; // Aggiungi un fx:id nel file FXML se desideri fare riferimento alla Label
 
     @FXML
     private void initialize() {
         // Questo metodo viene chiamato automaticamente dopo che gli elementi FXML sono stati iniettati
 
-        // Esempio di inizializzazione dei componenti se necessario
-        titleLabel.setText("CODEX NATURALIS");
     }
 }
 

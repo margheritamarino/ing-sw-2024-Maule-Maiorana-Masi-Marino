@@ -150,6 +150,7 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
 
         updateButtonGlow(scoretrack);
+        updateAllPlayerScores(model);
     }
 
     private void updateButtonGlow(ScoreTrack scoretrack) {
@@ -187,6 +188,8 @@ public class ScoretrackPopupController extends ControllerGUI {
         button.getStyleClass().remove("button-glow-green");
     }
 
+    /*
+
     public void updatePlayerScore(Player player, int newScore, GameImmutable model) {
         ScoreTrack scoretrack = model.getScoretrack();
         int oldScore = scoretrack.getPlayerScore(player);
@@ -211,5 +214,36 @@ public class ScoretrackPopupController extends ControllerGUI {
             // Aggiorna il glow dei bottoni
             updateButtonGlow(scoretrack);
         }
+    }
+
+     */
+
+
+
+    public void updateAllPlayerScores(GameImmutable model) {
+        ScoreTrack scoretrack = model.getScoretrack();
+        playersWithPoints = scoretrack.getPlayersByScore();
+
+        // Resetta lo stile di tutti i bottoni
+        for (Button button : btnPoints) {
+            resetButtonStyle(button);
+        }
+
+        // Itera su tutti i giocatori e aggiorna i punteggi
+        for (int i = 0; i < playersWithPoints.size(); i++) {
+            Player player = playersWithPoints.get(i);
+            int newScore = scoretrack.getPlayerScore(player);
+
+            // Aggiorna il punteggio nel controller
+            setPoints(newScore, i);
+
+            // Applica lo stile al nuovo bottone
+            if (newScore >= 0 && newScore < btnPoints.length) {
+                highlightButton(btnPoints[newScore]);
+            }
+        }
+
+        // Aggiorna il glow dei bottoni
+        updateButtonGlow(scoretrack);
     }
 }

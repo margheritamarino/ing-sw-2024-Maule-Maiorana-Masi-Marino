@@ -23,6 +23,13 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 
 
+
+
+
+
+
+
+
 //la classe TUI deve funzionare come una vista che consenta al gioco di interagire con l'utente per fargli visualizzare lo stato del gioco e fargli delle richieste
 //deve avere gli show del gioco (showTitle, showScoretrack, showBoard, showPlayerDeck)
 //e dei metodi per interagire con l'utente per fargli operare delle scelte (fare una mossa, scegliere la carta obbiettivo iniziale, scegliere fronte\retro delle carte?)
@@ -59,7 +66,9 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("*** WELCOME " + nick+"!***");
+
+        printAsync("*** WELCOME " + nick + "!***");
+
     }
 
     public void show_allPlayers(GameImmutable model) {
