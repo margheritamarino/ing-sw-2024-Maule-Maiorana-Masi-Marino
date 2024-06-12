@@ -402,6 +402,7 @@ public class GUIApplication extends Application {
     public void changeLabelMessage(String msg, Boolean success) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setMsgToShow(msg, success);
+
     }
 
     public void showMessages(GameImmutable model, String myNickname) {

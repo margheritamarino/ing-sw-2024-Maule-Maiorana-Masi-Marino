@@ -372,6 +372,7 @@ public class GUI extends UI {
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname) {
         String errorMessage = "ERROR: invalid selection. Choose again!";
+        /*
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
             this.guiApplication.showErrorGeneric(errorMessage, false);
@@ -382,6 +383,10 @@ public class GUI extends UI {
             pause.play();
 
         });
+         */
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(errorMessage, false));
+
     }
 
     @Override
