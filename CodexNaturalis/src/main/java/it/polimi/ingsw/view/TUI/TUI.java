@@ -24,12 +24,6 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 
 
-
-
-
-
-
-
 //la classe TUI deve funzionare come una vista che consenta al gioco di interagire con l'utente per fargli visualizzare lo stato del gioco e fargli delle richieste
 //deve avere gli show del gioco (showTitle, showScoretrack, showBoard, showPlayerDeck)
 //e dei metodi per interagire con l'utente per fargli operare delle scelte (fare una mossa, scegliere la carta obbiettivo iniziale, scegliere fronte\retro delle carte?)
@@ -59,17 +53,15 @@ public class TUI extends UI {
 
     //messaggio di benvenuto per ogni giocatore in grassetto
     public void show_welcome(String nick) {
-
         // Pausa di 1 sec
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         printAsync("*** WELCOME " + nick + "!***");
-
     }
+
 
     public void show_allPlayers(GameImmutable model) {
         // Pausa di 0.5 secondo
@@ -116,14 +108,17 @@ public class TUI extends UI {
     public void show_publisher(){
         clearScreen();
 
-        // Pausa di 0.5 secondi
+        // Pausa di 1 secondo
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        printAsync("CRANIO CREATIONS");
+        //printAsync("CRANIO CREATIONS");
+        printAsync("  +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n" +
+                " |C|R|A|N|I|O| |C|R|E|A|T|I|O|N|S|\n" +
+                " +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n");
 
         try {
             Thread.sleep(DefaultValue.time_publisher_showing_seconds);
@@ -137,15 +132,24 @@ public class TUI extends UI {
      * Prints title of the game
      */
     public void show_titleCodexNaturalis(){
+        //printAsync("CODEX NATURALIS");
 
-        // Pausa di 0.5 secondi
-        try {
-            Thread.sleep(500);
+        // Pausa di 1.5 secondi
+         try {
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("CODEX NATURALIS");
-    }
+        printAsync(" ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
+                "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +
+                "██║     ██║   ██║██║  ██║█████╗   ╚███╔╝     ██╔██╗ ██║███████║   ██║   ██║   ██║██████╔╝███████║██║     ██║███████╗\n" +
+                "██║     ██║   ██║██║  ██║██╔══╝   ██╔██╗     ██║╚██╗██║██╔══██║   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║╚════██║\n" +
+                "╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗    ██║ ╚████║██║  ██║   ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║███████║\n" +
+                " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n" +
+                "                                                                                                                    ");
+
+         }
+
 
 
     @Override
@@ -715,7 +719,7 @@ public class TUI extends UI {
 
 
     @Override
-    public void show_noConnectionError(){
+    public void show_noConnectionError() {
         printAsync("CONNECTION TO SERVER LOST!\n");
         try {
             Thread.sleep(3000);
