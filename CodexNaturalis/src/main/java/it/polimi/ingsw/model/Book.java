@@ -832,6 +832,9 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
+        final String GREEN = "\033[0;32m";
+        final String RESET = "\033[m";
+
         StringBuilder result = new StringBuilder();
         int[] limits = findSubMatrix();
 
@@ -869,9 +872,13 @@ public class Book implements Serializable {
                     lines = nullCardPrint().split("\n");
                 }
 
+                // Se la cella è disponibile, colorala di verde
+                boolean isAvailable = bookMatrix[i][j].isAvailable();
+                String colorCode = isAvailable ? GREEN : RESET;
+
                 for (int k = 0; k < lines.length; k++) {
                     int spacesToAdd = Math.max(0, maxWidth - lines[k].length());
-                    rowBuilders.get(k).append(lines[k]).append(" ".repeat(spacesToAdd));
+                    rowBuilders.get(k).append(colorCode).append(lines[k]).append(" ".repeat(spacesToAdd)).append(RESET);
                 }
             }
 
@@ -896,6 +903,7 @@ public class Book implements Serializable {
 
         return result.toString();
     }
+
 
 
     public String nullCardPrint() {

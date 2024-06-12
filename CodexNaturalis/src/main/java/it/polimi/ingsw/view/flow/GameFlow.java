@@ -399,6 +399,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_notValidMessage();
             }
         } while (!Objects.equals(answer, "y"));
+        System.out.println("GameFlow: askReadyToStart");
         setAsReady(nick);
     }
 
@@ -593,7 +594,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
                 // Ottieni l'input dell'utente
                 try {
-                    System.out.println("waiting for input askDrawFromDeck ");
+                    //System.out.println("waiting for input askDrawFromDeck ");
                     temp = this.inputController.getUnprocessedData().popInputData();
                     System.out.println("input received: "+ temp);
                     if (ended) return false; // Se il gioco è finito, ritorna false

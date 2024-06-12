@@ -104,7 +104,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     /**
      * Constructor that creates a RMI Server
      */
-    public ServerRMI() throws RemoteException {
+    private ServerRMI() throws RemoteException {
         super();
         gameController= GameController.getInstance();
     }
@@ -135,88 +135,94 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
 
     @Override
     public void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException {
-        serverObject.gameController.joinGame(lis, nick, color); //TRY
+        //gameController.joinGame(lis, nick, color);
+         serverObject.gameController.joinGame(lis, nick, color); //TRY
 
         printAsync("[RMI] " + nick + " joined to game");
     }
 
-  /*  @Override
-    public boolean playerIsReadyToStart(String p) throws RemoteException {
-        //return serverObject.gameController.playerIsReadyToStart(p);
-    }*/
+
     @Override
-    public boolean playerIsReadyToStart(GameListenerInterface lis, String p) throws RemoteException {
-         serverObject.gameController.playerIsReadyToStart(lis, p);
-        return false;
+    public boolean  playerIsReadyToStart(GameListenerInterface lis, String p) throws RemoteException { //siamo sicuri serva Server RMI? FORSE DEVI PASSARE DIRETTA AL GameController
+        System.out.println("in ServerRMI- playerIsReadyToStart");
+        //return gameController.playerIsReadyToStart(lis, p);
+         return serverObject.gameController.playerIsReadyToStart(lis, p);
+        //return false;
     }
 
     @Override
     public boolean isThisMyTurn(String nick) throws RemoteException {
+        //return gameController.isThisMyTurn(nick);
         return serverObject.gameController.isThisMyTurn(nick);
     }
 
     @Override
     public void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException {
-        serverObject.gameController.disconnectPlayer(nick, listener);
+        //gameController.disconnectPlayer(nick, listener);
+       serverObject.gameController.disconnectPlayer(nick, listener);
     }
 
     @Override
     public int getGameId() throws RemoteException {
+        //return gameController.getGameId();
         return serverObject.gameController.getGameId();
     }
 
     @Override
     public void ping(String nickname, GameListenerInterface me) throws RemoteException {
+        //gameController.ping(nickname, me);
         serverObject.gameController.ping(nickname, me);
     }
 
     @Override
     public void leave(GameListenerInterface lis, String nick) throws RemoteException {
+        //gameController.leave(lis, nick);
         serverObject.gameController.leave(lis, nick);
     }
 
     @Override
     public void setInitialCard(String nickname, int index) throws RemoteException {
+        //gameController.setInitialCard(nickname,index);
         serverObject.gameController.setInitialCard(nickname,index);
     }
 
     @Override
     public void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException {
+        //gameController.setGoalCard(nickname,index);
         serverObject.gameController.setGoalCard(nickname,index);
     }
 
     @Override
     public void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) throws RemoteException {
+        //gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell);
         serverObject.gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell);
     }
 
 
-
     @Override
     public void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException {
+        //gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
         serverObject.gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
 
     @Override
     public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname, Color color) throws RemoteException {
+        //gameController.settingGame(lis, numPlayers, gameID, nickname, color);
         serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname, color);
     }
 
     @Override
     public boolean makeGameStart(GameListenerInterface lis, String nickname) throws RemoteException {
-        return serverObject.gameController.makeGameStart(lis, nickname);
+        //return gameController.makeGameStart(lis, nickname);
+       return serverObject.gameController.makeGameStart(lis, nickname);
     }
 
     @Override
-    public void sentMessage(Message msg) throws RemoteException {
+    public void sentMessage(Message msg) throws RemoteException { //messaggi da sincronizzare (?) Se più giocatori insieme accedono alla risorsa
+        //gameController.sentMessage(msg);
         serverObject.gameController.sentMessage(msg);
     }
 
 
-
-    /*@Override
-    public void createGame(GameListenerInterface lis, int numPlayers, int GameID, String nick) throws RemoteException{
-        serverObject.gameController.createGame(lis, numPlayers,GameID, nick);
-    }*/
 }
 

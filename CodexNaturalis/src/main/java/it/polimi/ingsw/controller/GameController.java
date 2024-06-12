@@ -137,7 +137,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @return true if the game starts, false otherwise
      */
     @Override
-    public synchronized boolean playerIsReadyToStart(GameListenerInterface lis, String player) {
+    public boolean playerIsReadyToStart(GameListenerInterface lis, String player) { //tolto synchronized
+        System.out.println("in GameController- playerIsReadyToStart");
         model.playerIsReadyToStart(model.getPlayerByNickname(player));
         if (model.arePlayersReadyToStartAndEnough()){
             ArrayList<Player> players= model.getPlayers();

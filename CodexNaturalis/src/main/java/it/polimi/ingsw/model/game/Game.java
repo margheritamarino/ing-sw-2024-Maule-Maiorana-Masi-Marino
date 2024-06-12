@@ -190,7 +190,9 @@ public class Game {
 	 * @param player is set as ready, then everyone is notified
 	 */
 	public void playerIsReadyToStart(Player player) {
+		System.out.println("in Game- playerIsReadyToStart");
 		player.setReadyToStart();
+		//listenersHandler.notify_PlayerIsReadyToStart(this, p.getNickname());
 		player.notify_playerReady(this);
 	}
 

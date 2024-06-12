@@ -76,9 +76,11 @@ public class ClientRMI implements ClientInterface {
     public ClientRMI(Flow flow) {
         super();
         gameListenersHandler = new GameListenersClient(flow);
-        this.flow = flow;
-        pingSender = new PingSender(this.flow, this);
         connect();
+        this.flow = flow;
+        pingSender = new PingSender(flow, this);
+        //pingSender.start(); //aggiunta ??
+
     }
 
     /**
@@ -255,22 +257,19 @@ public void run() {
     }
 
 
-
-
-
     /**
      * Ask the Socket Server to set the player as ready
      * @throws IOException
      */
-
+    @Override
     public void setAsReady(String nickname) throws IOException {
+        System.out.println("in ClientRMI - setAsReady");
         try {
             gameController.playerIsReadyToStart(modelInvokedEvents, nickname);
         } catch (RemoteException e) {
             throw new IOException(e);
         }
     }
-
 
 
     @Override
