@@ -62,6 +62,7 @@ public class Book implements Serializable {
         symbolMap.put(SymbolType.Quill,0);
         symbolMap.put(SymbolType.Manuscript,0);
     }
+    /*
     public Cell getCellinMatrix(Cell findCell) {
         for (int row = 0; row < bookMatrix.length; row++) {
             for (int col = 0; col < bookMatrix[row].length; col++) {
@@ -75,6 +76,7 @@ public class Book implements Serializable {
         // Cella non trovata, restituisci null
         return null;
     }
+     */
 
     /**
      * Adds the initial card to the center of the player's book matrix.
