@@ -8,10 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayableCardTest {
     //TODO
-    /*@Test
+    @Test
     void testInitializeGoldDeck() throws FileNotFoundException, FileReadException {
         Deck goldCardsDeck;
         ArrayList<PlayableCard> goldCardsFront;
@@ -59,55 +60,67 @@ public class PlayableCardTest {
         assertFalse(goldCardsBack.get(0).isPointsCondition());
         assertNull(goldCardsBack.get(0).getSymbolCondition());
         assertFalse(goldCardsBack.get(0).isCornerCondition());
-    }*/
-    /*public void testGetImagePathInitialCardFront() {
-        Card card = new Card(1, "InitialCard", true, "None");
-        String expectedPath = "/img.Cards.GoldCards.1_GoldFront.png";
-        assertEquals(expectedPath, card.getImagePath());
+    }
+   @Test
+    public void testGetImagePathInitialCardFront() {
+        List<ResourceType> centralResources = new ArrayList<>();
+        centralResources.add(ResourceType.Fungi);
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Animal);
+        resourceList.add(ResourceType.Fungi);
+        PlayableCard card = new InitialCard(1,4,true,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.Empty,CornerLabel.WithResource,CornerLabel.Empty,centralResources,1,2,resourceList);
+        String expectedPath = "/img/Cards/initialCards/1_InitialFront.png";
+        assertEquals(Objects.requireNonNull(getClass().getResource(expectedPath)).toExternalForm(), card.getImagePath());
     }
 
     @Test
     public void testGetImagePathInitialCardBack() {
-        Card card = new Card(1, "InitialCard", false, "None");
-        String expectedPath = "/img.Cards.GoldCards.1_GoldBack.png";
-        assertEquals(expectedPath, card.getImagePath());
+        List<ResourceType> centralResources = new ArrayList<>();
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Plant);
+        resourceList.add(ResourceType.Animal);
+        resourceList.add(ResourceType.Insect);
+        resourceList.add(ResourceType.Fungi);
+        PlayableCard card = new InitialCard(1, 4,false,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,centralResources,0,4,resourceList);
+        String expectedPath = "/img/Cards/initialCards/1_InitialBack.png";
+        assertEquals(Objects.requireNonNull(getClass().getResource(expectedPath)).toExternalForm(), card.getImagePath());
     }
 
     @Test
     public void testGetImagePathGoldCardFront() {
-        Card card = new Card(2, "GoldCard", true, "None");
-        String expectedPath = "/img.Cards.GoldCards.2_GoldFront.png";
-        assertEquals(expectedPath, card.getImagePath());
+        List<ResourceType> placementCondition = new ArrayList<>();
+        placementCondition.add(ResourceType.Fungi);
+        placementCondition.add(ResourceType.Fungi);
+        placementCondition.add(ResourceType.Insect);
+        PlayableCard card = new GoldCard(2,3,true,CardType.GoldCard,CornerLabel.WithSymbol,CornerLabel.Empty,CornerLabel.NoCorner,CornerLabel.Empty,ResourceType.Fungi,true,SymbolType.Manuscript,1,placementCondition,true,false,SymbolType.Manuscript);
+        String expectedPath = "/img/Cards/GoldCards/2_GoldFront.png";
+        assertEquals(Objects.requireNonNull(getClass().getResource(expectedPath)).toExternalForm(), card.getImagePath());
     }
 
     @Test
     public void testGetImagePathGoldCardBack() {
-        Card card = new Card(2, "GoldCard", false, "Wood");
-        String expectedPath = "/img.Cards.GoldCards.GoldWoodBack.png";
-        assertEquals(expectedPath, card.getImagePath());
+        List<ResourceType> placementCondition = new ArrayList<>();
+        PlayableCard card = new GoldCard(2, 4,false,CardType.GoldCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,ResourceType.Fungi,false,null,0,placementCondition,false,false,null);
+        String expectedPath = "/img/Cards/GoldCards/2_GoldBack.png";
+        assertEquals(Objects.requireNonNull(getClass().getResource(expectedPath)).toExternalForm(), card.getImagePath());
     }
 
     @Test
     public void testGetImagePathResourceCardFront() {
-        Card card = new Card(3, "ResourceCard", true, "None");
-        String expectedPath = "/img.Cards.ResourceCards.3_ResourceFront.png";
-        assertEquals(expectedPath, card.getImagePath());
+        List<ResourceType> resourceList = new ArrayList<>();
+        resourceList.add(ResourceType.Fungi);
+        resourceList.add(ResourceType.Fungi);
+        PlayableCard card = new ResourceCard(3, 3,true,CardType.ResourceCard,CornerLabel.NoCorner,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.Empty,ResourceType.Fungi,0,2,resourceList,false,null);
+        String expectedPath = "/img/Card/ResourceCards/3_ResourceFront.png";
+        assertEquals(Objects.requireNonNull(getClass().getResource(expectedPath)).toExternalForm(), card.getImagePath());
     }
 
     @Test
     public void testGetImagePathResourceCardBack() {
-        Card card = new Card(3, "ResourceCard", false, "Stone");
-        String expectedPath = "/img.Cards.ResourceCards.ResourceStoneBack.png";
-        assertEquals(expectedPath, card.getImagePath());
-    }
-
-    @Test
-    public void testGetImagePathInvalidCardType() {
-        Card card = new Card(4, "InvalidCard", true, "None");
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            card.getImagePath();
-        });
-        assertEquals("Card type not recognized: InvalidCard", exception.getMessage());
+        List<ResourceType> resourceList = new ArrayList<>();
+        PlayableCard card = new ResourceCard(3, 4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,ResourceType.Fungi,0,0,resourceList,false, null);
+        String expectedPath = "/img/Cards/ResourceCards/3_ResourceBack.png";
+        assertEquals(Objects.requireNonNull(getClass().getResource(expectedPath)).toExternalForm(), card.getImagePath());
     }
 
     @Test
@@ -176,9 +189,9 @@ public class PlayableCardTest {
         assertSame(initialCardsFront.get(0).getCardType(), CardType.InitialCard);
         assertEquals(4, initialCardsFront.get(0).getNumCorners());
         assertSame(initialCardsFront.get(0).getTLCorner(), CornerLabel.Empty);
-        assertSame(initialCardsFront.get(0).getTRCorner(), CornerLabel.WithSymbol);
+        assertSame(initialCardsFront.get(0).getTRCorner(), CornerLabel.WithResource);
         assertSame(initialCardsFront.get(0).getBRCorner(), CornerLabel.Empty);
-        assertSame(initialCardsFront.get(0).getBLCorner(), CornerLabel.WithSymbol);
+        assertSame(initialCardsFront.get(0).getBLCorner(), CornerLabel.WithResource);
         assertSame(initialCardsFront.get(0).getResourceList().get(0), ResourceType.Plant);
         assertSame(initialCardsFront.get(0).getResourceList().get(1), ResourceType.Insect);
         assertEquals(1, initialCardsFront.get(0).getNumCentralResources());
@@ -269,7 +282,7 @@ public class PlayableCardTest {
         assertEquals("Plant", initialCardTest2.getCornerContent(1));
         assertEquals("Animal", initialCardTest2.getCornerContent(2));
         assertEquals("Insect", initialCardTest2.getCornerContent(3));
-    }*/
+    }
 
 
 }
