@@ -38,6 +38,7 @@ public class ServerMain {
         }*/
         do {
             clearCMD();
+
             printAsync(ansi().a("""
                     Insert remote IP (leave empty for localhost):
                     """));

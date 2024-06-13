@@ -2,12 +2,12 @@ package it.polimi.ingsw.view.TUI;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.ColorConsole;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.PlayerDeck;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -15,6 +15,7 @@ import it.polimi.ingsw.view.Utilities.UI;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.PrintStream;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoCursorReset;
@@ -115,10 +116,13 @@ public class TUI extends UI {
             e.printStackTrace();
         }
 
-        //printAsync("CRANIO CREATIONS");
-        printAsync("  +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n" +
+
+        //out.print(ColorEnum.YELLOW);
+        printAsync (ColorConsole.YELLOW.getCode() +
+                "  +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n" +
                 " |C|R|A|N|I|O| |C|R|E|A|T|I|O|N|S|\n" +
-                " +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n");
+                " +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n"
+                + ColorConsole.RESET.getCode());
 
         try {
             Thread.sleep(DefaultValue.time_publisher_showing_seconds);
@@ -140,15 +144,20 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync(" ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
+        //out.print(ColorEnum.GREEN_BRIGHT);
+        printAsync(ColorConsole.GREEN_BRIGHT.getCode()+
+
+                " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
                 "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +
                 "██║     ██║   ██║██║  ██║█████╗   ╚███╔╝     ██╔██╗ ██║███████║   ██║   ██║   ██║██████╔╝███████║██║     ██║███████╗\n" +
                 "██║     ██║   ██║██║  ██║██╔══╝   ██╔██╗     ██║╚██╗██║██╔══██║   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║╚════██║\n" +
                 "╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗    ██║ ╚████║██║  ██║   ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║███████║\n" +
                 " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n" +
-                "                                                                                                                    ");
+                "                                                                                                                    \n"
+      + ColorConsole.RESET.getCode());
 
-         }
+    }
+
 
 
 
