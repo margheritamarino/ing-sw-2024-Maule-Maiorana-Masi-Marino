@@ -2,13 +2,11 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.model.interfaces.ObjectiveCardIC;
 
 import java.io.Serializable;
 import java.util.*;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
-
 
 /**
  * Board model class
@@ -238,10 +236,14 @@ public class Board implements Serializable {
         }
 
         // GOLDCARDS
+        System.out.print(ColorConsole.YELLOW_BACKGROUND.getCode());
+        System.out.print(ColorConsole.BLACK.getCode());
         result.append("***GOLDCARDS***: \n");
         result.append("\n");
         result.append(cardsGoldToString());
         result.append("\n");
+        System.out.print(ColorConsole.RESET.getCode());
+
         // RESOURCECARDS
         result.append("***RESOURCECARDS***: \n");
         result.append("\n");
