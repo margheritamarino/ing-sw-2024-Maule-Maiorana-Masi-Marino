@@ -83,7 +83,7 @@ public class ListenersHandler {
      * @param nickname    the nickname of the player who joined
      * @param playerColor the color of the player who joined
      */
-    public void notify_PlayerJoined(Game model, String nickname, Color playerColor) {
+    public synchronized void notify_PlayerJoined(Game model, String nickname, Color playerColor) {
         System.out.println("ListenersHandler: notify_PlayerJoined");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {

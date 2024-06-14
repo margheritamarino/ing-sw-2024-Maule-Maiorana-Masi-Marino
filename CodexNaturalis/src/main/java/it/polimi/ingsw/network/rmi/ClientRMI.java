@@ -11,7 +11,6 @@ import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.model.DefaultValue;
 
 import it.polimi.ingsw.network.PingSender;
-import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.ClientMsgStartGame;
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -79,7 +78,7 @@ public class ClientRMI implements ClientInterface {
         connect();
         this.flow = flow;
         pingSender = new PingSender(flow, this);
-        //pingSender.start(); //aggiunta ??
+        pingSender.start(); //aggiunta ??
 
     }
 
@@ -194,9 +193,9 @@ public void run() {
     }
 
     @Override
-    public void settingGame(int numPlayers, int GameID, String nick, Color color) throws IOException {
+    public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
         try {
-            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick, color);
+            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick);
         } catch (RemoteException e) {
             throw new IOException(e);
         }
@@ -219,7 +218,7 @@ public void run() {
      * @throws IOException
      */
     @Override
-    public void joinGame(String nick, Color color) throws IOException, NotBoundException {
+    public void joinGame(String nick )throws IOException, NotBoundException {
 
         try {
             // Ottieni il registro all'indirizzo IP e porta specificati
@@ -233,11 +232,10 @@ public void run() {
             System.out.println("Remote object found.");
 
             this.nickname = nick;
-            this.playerColor= color;
 
             // Unisciti al gioco
             System.out.println("Joining the game...");
-            gameController.joinGame(modelInvokedEvents, nickname, playerColor);
+            gameController.joinGame(modelInvokedEvents, nickname);
             System.out.println("Joined the game successfully.");
 
 

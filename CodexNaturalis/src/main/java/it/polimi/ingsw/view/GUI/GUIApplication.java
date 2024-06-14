@@ -194,7 +194,7 @@ public class GUIApplication extends Application {
                 }
 
                 default ->
-                    this.primaryStage.setAlwaysOnTop(false);
+                        this.primaryStage.setAlwaysOnTop(false);
 
 
             }

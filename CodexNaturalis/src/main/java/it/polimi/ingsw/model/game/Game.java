@@ -304,10 +304,7 @@ public class Game {
 				 numReady++;
 			 }
 		 }
-		 if(numReady== playersNumber)
-			 return true;
-		 else
-			 return false;
+        return numReady == playersNumber;
 	}
 	/**
 	 * @return the game status

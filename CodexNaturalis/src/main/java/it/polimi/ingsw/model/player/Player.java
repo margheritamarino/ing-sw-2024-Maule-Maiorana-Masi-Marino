@@ -138,9 +138,9 @@ public class Player implements Serializable {
      * @return a BookIC of the player, an interface
      * that we send to the clients to make the model immutable
      */
-     // public BookIC getPlayerBookIC() {
-      //  return (BookIC) playerBook;
-     // }
+    // public BookIC getPlayerBookIC() {
+    //  return (BookIC) playerBook;
+    // }
 
     /**
      * @return the list of PlayableCardIC of the player deck, an interface
@@ -156,7 +156,7 @@ public class Player implements Serializable {
     /**
 
 
-    /**
+     /**
      * Places a card at the specified position in the player's book.
      * taking the reference to the cell and card of the playerDeck chosen
 
@@ -233,7 +233,7 @@ public class Player implements Serializable {
             }
         }
     }
-  public synchronized void notify_playerReady( Game model){
+    public synchronized void notify_playerReady( Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();

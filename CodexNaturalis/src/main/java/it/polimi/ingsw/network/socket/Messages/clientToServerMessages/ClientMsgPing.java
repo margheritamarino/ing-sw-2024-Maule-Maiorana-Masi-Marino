@@ -14,13 +14,13 @@ public class ClientMsgPing extends ClientGenericMessage{
 
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-
+        return ;
     }
 
 
 
     @Override
     public void execute(GameControllerInterface gameController) throws RemoteException {
-
+        return;
     }
 }
