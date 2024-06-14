@@ -167,11 +167,11 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //return gameController.getGameId();
         return serverObject.gameController.getGameId();
     }
-
+//TODO CONTROLLARE SE VA BENE
     @Override
     public void ping(String nickname, GameListenerInterface me) throws RemoteException {
         //gameController.ping(nickname, me);
-        serverObject.gameController.ping(nickname, me);
+      //  serverObject.gameController.ping(nickname, me);
     }
 
     @Override
