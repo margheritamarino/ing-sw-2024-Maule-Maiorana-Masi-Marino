@@ -97,7 +97,7 @@ public class Game {
 			System.err.println("Error: " + e.getMessage());
 			return null;
 		}
-    }
+	}
 
 
 	/**
@@ -298,11 +298,11 @@ public class Game {
 	public boolean arePlayersReadyToStartAndEnough() {
 		//If every player is ready, the game starts
 		int numReady=0;
-		 for(Player p: players) {
-			 if (p.getReadyToStart()) {
-				 numReady++;
-			 }
-		 }
+		for(Player p: players) {
+			if (p.getReadyToStart()) {
+				numReady++;
+			}
+		}
 		return numReady == playersNumber;
 	}
 	/**
@@ -343,9 +343,9 @@ public class Game {
 	public void setInitialStatus() {
 		try {
 			if (this.status == GameStatus.WAIT &&
-				players.size() == playersNumber &&
-				checkBoard() &&
-				currentPlayer != null) {
+					players.size() == playersNumber &&
+					checkBoard() &&
+					currentPlayer != null) {
 
 				this.status = GameStatus.RUNNING;
 				listenersHandler.notify_GameStarted(this);
@@ -365,45 +365,45 @@ public class Game {
 		this.status = status;
 
 		if (status == GameStatus.ENDED) {
-				listenersHandler.notify_GameEnded(this);
+			listenersHandler.notify_GameEnded(this);
 
 		} else if (status == GameStatus.LAST_CIRCLE) {
-				listenersHandler.notify_LastCircle(this);
+			listenersHandler.notify_LastCircle(this);
 		}
 	}
-		/**
-		 * Check the board for correct setup
-		 * @throws BoardSetupException if any of the board setups is incorrect
-		 */
-		public boolean checkBoard() throws BoardSetupException {
-			// Verifying all conditions together
-			System.out.println("numero Gold="+ board.getGoldCards().size());
-			System.out.println("numero Resource="+ board.getResourceCards().size());
-			System.out.println("numero Objective="+ board.getObjectiveCards().length);
-			if (!(board.verifyGoldCardsNumber() &&
-					board.verifyResourceCardsNumber() &&
-					board.verifyObjectiveCardsNumber()) &&
-					board.verifyGoldDeckSize(playersNumber) &&
-					board.verifyResourceDeckSize(playersNumber) &&
-					board.verifyObjectiveDeckSize(playersNumber)) {
-				throw new BoardSetupException("Board setup is incorrect");
-			}
-			// All verifications passed, return true
-			return true;
+	/**
+	 * Check the board for correct setup
+	 * @throws BoardSetupException if any of the board setups is incorrect
+	 */
+	public boolean checkBoard() throws BoardSetupException {
+		// Verifying all conditions together
+		System.out.println("numero Gold="+ board.getGoldCards().size());
+		System.out.println("numero Resource="+ board.getResourceCards().size());
+		System.out.println("numero Objective="+ board.getObjectiveCards().length);
+		if (!(board.verifyGoldCardsNumber() &&
+				board.verifyResourceCardsNumber() &&
+				board.verifyObjectiveCardsNumber()) &&
+				board.verifyGoldDeckSize(playersNumber) &&
+				board.verifyResourceDeckSize(playersNumber) &&
+				board.verifyObjectiveDeckSize(playersNumber)) {
+			throw new BoardSetupException("Board setup is incorrect");
 		}
+		// All verifications passed, return true
+		return true;
+	}
 
 
 	public void nextTurn(int currentIndex) throws GameEndedException {
-			if(currentIndex == playersNumber- 1 && status.equals(GameStatus.LAST_CIRCLE) ){
-				throw new GameEndedException();
-			}
-			else {
-				// Calcola l'indice del giocatore successivo
-				int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
-				// Imposta il nuovo currentPlayer
-				currentPlayer = players.get(orderArray[nextIndex]);
-				listenersHandler.notify_nextTurn(this);
-			}
+		if(currentIndex == playersNumber- 1 && status.equals(GameStatus.LAST_CIRCLE) ){
+			throw new GameEndedException();
+		}
+		else {
+			// Calcola l'indice del giocatore successivo
+			int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
+			// Imposta il nuovo currentPlayer
+			currentPlayer = players.get(orderArray[nextIndex]);
+			listenersHandler.notify_nextTurn(this);
+		}
 	}
 
 	/**
@@ -642,6 +642,6 @@ public class Game {
 		}
 	}
 
-
-
 }
+
+
