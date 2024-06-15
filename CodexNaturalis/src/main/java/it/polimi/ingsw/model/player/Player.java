@@ -168,7 +168,7 @@ public class Player implements Serializable {
     public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, IndexOutOfBoundsException, CellNotAvailableException {
         ArrayList<Cell> availableCells = this.playerBook.showAvailableCells();
         Cell chosenCell = null;
-        PlayableCard chosenCard= null;
+        PlayableCard chosenCard;
         boolean found = false;
 
 
@@ -179,7 +179,7 @@ public class Player implements Serializable {
             }
         }
         if (!found)
-            throw new IndexOutOfBoundsException("Invalid Cell position");
+            throw new IndexOutOfBoundsException("Invalid Cell Position! Choose an Available CELL");
 
         int points =-1;
         try {
@@ -200,7 +200,7 @@ public class Player implements Serializable {
                 playerDeck.removeCard(posCard);
             }
         }catch (PlacementConditionViolated e){
-            throw new PlacementConditionViolated("you don't have enough resources on the book!");
+            throw new PlacementConditionViolated("You don't have enough resources on the book! Choose another CARD"");
         }
         return points;
     }
@@ -278,14 +278,14 @@ public class Player implements Serializable {
      * The notify_NotCorrectChosenCard method notifies that a player chose a card that cannot place in his Book
      * @param model is the Game to pass as a new GameModelImmutable
      */
-    public void notify_NotCorrectChosenCard(Game model){
+    public void notify_NotCorrectChosenCard(Game model, String msg){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.wrongChooseCard( new GameImmutable(model));
+                l.wrongChooseCard( new GameImmutable(model), msg);
             } catch (RemoteException e) {
-                printAsync("During notification of notify_NotCorrectChoosenCard, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_NotCorrectChosenCard, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -300,7 +300,7 @@ public class Player implements Serializable {
                 l.sentMessage(new GameImmutable(gameModel), msg);
                 System.out.println("Listener notified: " + l.toString());
             } catch (RemoteException e) {
-                printAsync("During notification of notify_SentMessage, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_SentMessage, a disconnection has been detected before PING");
                 i.remove();
             }
         }

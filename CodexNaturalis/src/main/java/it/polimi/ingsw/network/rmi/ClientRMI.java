@@ -234,10 +234,10 @@ public void run() {
      * @throws IOException
      */
     @Override
-    public void settingGame(int numPlayers, int GameID, String nick, Color color) throws IOException {
+    public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
         System.out.println("ClientRMI- settingGame");
         if (gameController != null) {
-            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick, color);
+            gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick);
         }
     }
 
@@ -265,7 +265,7 @@ public void run() {
      * @throws IOException
      */
     @Override
-    public void joinGame(String nick, Color color) throws IOException, NotBoundException { //QUESTO DA CAMBIARE(?)
+    public void joinGame(String nick) throws IOException, NotBoundException { //QUESTO DA CAMBIARE(?)
 
         try {
             // Ottieni il registro all'indirizzo IP e porta specificati
@@ -276,11 +276,10 @@ public void run() {
             System.out.println("Looking up the remote object...");
             gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);System.out.println("Remote object found.");
             this.nickname = nick;
-            this.playerColor= color;
 
             // Unisciti al gioco
             System.out.println("Joining the game...");
-            gameController.joinGame(modelInvokedEvents, nickname, playerColor);
+            gameController.joinGame(modelInvokedEvents, nickname);
             System.out.println("Joined the game successfully.");
 
 

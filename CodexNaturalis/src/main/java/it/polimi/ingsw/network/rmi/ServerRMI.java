@@ -4,8 +4,6 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Color;
-//import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 
@@ -16,8 +14,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
-import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
-import static java.rmi.registry.LocateRegistry.getRegistry;
 
 /**
  * RMIServer Class
@@ -140,9 +136,9 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         printAsync("[RMI] " + nick + " joined to game");
     }*/
    @Override
-   public void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException {
+   public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
 
-           serverObject.gameController.joinGame(lis, nick, color);
+           serverObject.gameController.joinGame(lis, nick);
            /*try {
                UnicastRemoteObject.exportObject(serverObject.gameController,0);
            } catch (RemoteException e) {
@@ -183,7 +179,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //return gameController.getGameId();
         return serverObject.gameController.getGameId();
     }
-
+    //TODO DA CONTROLLARE PING:
     @Override
     public void ping(String nickname, GameListenerInterface me) throws RemoteException {
         //gameController.ping(nickname, me);
@@ -218,9 +214,9 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
     @Override
-    public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname, Color color) throws RemoteException {
+    public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname) throws RemoteException {
         //gameController.settingGame(lis, numPlayers, gameID, nickname, color);
-        serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname, color);
+        serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname);
     }
 
     @Override

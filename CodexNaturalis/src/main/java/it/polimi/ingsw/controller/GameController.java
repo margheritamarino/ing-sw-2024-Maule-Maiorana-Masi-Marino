@@ -332,7 +332,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException if a remote communication error occurs
      */
     @Override
-    public synchronized void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException {
+    public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
         if(!isGameCreated()){
             model.createGame(lis, nick);
 
@@ -362,10 +362,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @param numPlayers the number of players in the game
      * @param GameID the ID of the game
      * @param nick the nickname of the player
-     * @param color the color chosen by the player
      * @throws RemoteException if a remote communication error occurs
      */
-    public void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick, Color color) throws RemoteException{
+    public void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick) throws RemoteException{
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
         setGameCreated(true);
