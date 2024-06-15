@@ -47,8 +47,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public GameController()  {
         model = new Game();
-       receivedPings = new HashMap<>();
-       this.gameCreated= false;
+        receivedPings = new HashMap<>();
+        this.gameCreated= false;
 
         new Thread(this).start();
     }
@@ -338,8 +338,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
         }else{
             //synchronized (Color.class) {
-                Color randColor = Color.getRandomColor();
-                model.addPlayer(lis, nick, randColor);
+            Color randColor = Color.getRandomColor();
+            model.addPlayer(lis, nick, randColor);
             //}
             model.getPlayerByNickname(nick).setConnected(true);
         }
@@ -368,8 +368,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.setPlayersNumber(numPlayers);
         setGameCreated(true);
         //synchronized (Color.class) {
-            Color randColor = Color.getRandomColor();
-            model.addPlayer(lis, nick, randColor);
+        Color randColor = Color.getRandomColor();
+        model.addPlayer(lis, nick, randColor);
         //}
 
         model.getPlayerByNickname(nick).setConnected(true);

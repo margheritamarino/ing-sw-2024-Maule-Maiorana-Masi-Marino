@@ -90,9 +90,9 @@ public class ClientRMI implements ClientInterface {
         connect();
         this.flow = flow;
         pingSender = new PingSender(flow, this);
-        //if(!pingSender.isAlive()) {
-        //    pingSender.start();
-        //}
+        if(!pingSender.isAlive()) {
+           pingSender.start();
+        }
     }
 
     /**

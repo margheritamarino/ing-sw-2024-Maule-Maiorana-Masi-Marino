@@ -491,6 +491,7 @@ public class MainSceneController extends ControllerGUI{
 
         bookPane.layout();
         bookScrollPane.layout();
+        bookScrollPane.setContent(bookPane);
     }
 
 
@@ -565,7 +566,7 @@ public class MainSceneController extends ControllerGUI{
     }
 
     private boolean PlaceCardChooseCell=false;
-    public void highlightChooseCell(GameImmutable model, String nickname) {
+   /* public void highlightChooseCell(GameImmutable model, String nickname) {
         PlaceCardChooseCell=true;
 
         this.bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
@@ -628,6 +629,76 @@ public class MainSceneController extends ControllerGUI{
         }
         bookPane.layout();
         bookScrollPane.layout();
+    }*/
+
+    public void highlightChooseCell(GameImmutable model, String nickname) {
+        PlaceCardChooseCell = true;
+
+        this.bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
+        // Pulisce il contenuto precedente
+        bookPane.getChildren().clear();
+        rootPane.getStyleClass().add("glow-pane");
+
+        // Recupera i limiti della sotto-matrice che contiene le carte
+        int[] limits = findSubMatrix();
+        int minI = limits[0];
+        int minJ = limits[1];
+        int maxI = limits[2];
+        int maxJ = limits[3];
+
+        // Dimensioni del singolo pannello per ogni carta
+        double paneWidth = 150;  // Imposta la larghezza desiderata per ogni carta
+        double paneHeight = 110; // Imposta l'altezza desiderata per ogni carta
+
+        // Calcola le dimensioni del gameBoardPane per contenere tutte le carte
+        double boardWidth = (maxJ - minJ + 1) * paneWidth;
+        double boardHeight = (maxI - minI + 1) * paneHeight;
+
+        // Imposta le dimensioni preferite del bookPane
+        bookPane.setPrefSize(boardWidth, boardHeight);
+
+        // Posizionamento centrato all'interno di gameBoardPane
+        double offsetX = (bookPane.getWidth() - boardWidth) / 2;
+        double offsetY = (bookPane.getHeight() - boardHeight) / 2;
+
+        // Creare i Pane con ImageView per le carte non nulle
+        for (int i = minI; i <= maxI; i++) {
+            for (int j = minJ; j <= maxJ; j++) {
+                Pane cardPane = new Pane();
+                cardPane.setPrefSize(paneWidth, paneHeight);
+                cardPane.setLayoutX((j - minJ) * paneWidth + offsetX);
+                cardPane.setLayoutY((i - minI) * paneHeight + offsetY);
+                cardPane.setOnMouseClicked(this::chooseCellClick);
+                cardPane.setId(i + "-" + j);
+
+                // Creare ImageView per la carta
+                ImageView cardImageView = new ImageView();
+                cardImageView.setFitWidth(paneWidth);
+                cardImageView.setFitHeight(paneHeight);
+                cardImageView.setPreserveRatio(true);
+                // Imposta l'ID dell'ImageView con il numero di riga e colonna
+                cardImageView.setId(i + "-" + j);
+
+                PlayableCard card = bookMatrix[i][j].getCard();
+                if (card != null) {
+                    Image cardImage = new Image(card.getImagePath());
+                    cardImageView.setImage(cardImage);
+                } else {
+                    cardImageView.setImage(null);
+                }
+                if (bookMatrix[i][j].isAvailable() && !bookMatrix[i][j].isWall()) {
+                    cardPane.setStyle("-fx-border-color: green; -fx-border-width: 3;");
+                }
+                cardPane.getChildren().add(cardImageView);
+                bookPane.getChildren().add(cardPane);
+            }
+        }
+
+        // Aggiorna il layout del bookPane e dello scrollPane
+        bookPane.layout();
+        bookScrollPane.layout();
+        bookScrollPane.setContent(bookPane);
     }
+
 
 }
