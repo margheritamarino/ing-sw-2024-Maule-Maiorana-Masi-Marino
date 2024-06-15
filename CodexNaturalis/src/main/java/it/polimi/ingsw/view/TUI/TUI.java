@@ -407,7 +407,7 @@ public class TUI extends UI {
         printAsync("It's your TURN!\n");
     }
     @Override
-    public synchronized void show_gameStarted(GameImmutable model) {
+    public void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_publisher();
         // Pausa di 1 secondo

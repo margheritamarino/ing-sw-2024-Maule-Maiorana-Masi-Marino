@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 
@@ -9,9 +10,7 @@ import it.polimi.ingsw.model.cards.CardType;
 
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.model.DefaultValue;
-
 import it.polimi.ingsw.network.PingSender;
-import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.ClientMsgStartGame;
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -20,15 +19,15 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-
-
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
+
 
 
 /**
  * RMIClient Class <br>
  * Handle all the network communications between RMIClient and RMIServer <br>
+ * From the first connection, to the creation, joining, leaving, grabbing and positioning messages through the network<br>
  * by the RMI Network Protocol
  */
 
@@ -37,25 +36,34 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 public class ClientRMI implements ClientInterface {
 
     /**
+     * The remote object returned by the registry that represents the main controller
+     */
+    //private static MainControllerInterface requests; //aggiunto
+
+    /**
      * The remote object returned by the registry that represents the game controller
      */
-    private static GameControllerInterface gameController;
+    private static GameControllerInterface gameController; //INIZIALIZZALO + AGGIUNGI AI METODI DI MAINOìCONTROLLER CHE RITORNINO UN GAMECONTROLLER
+
 
     /**
      * The remote object on which the server will invoke remote methods
      */
     private static GameListenerInterface modelInvokedEvents;
 
-
     /**
      * The nickname associated to the client (!=null only when connected in a game)
      */
     private String nickname;
+
     private Color playerColor;
+
     /**
      * Client listeners of the game
+     * The remote object on which the server will invoke remote methods
      */
     private final GameListenersClient gameListenersHandler;
+
     /**
      * Registry of the RMI
      */
@@ -66,6 +74,9 @@ public class ClientRMI implements ClientInterface {
      */
     private Flow flow;
 
+    /**
+     * to send Ping
+     */
     private final PingSender pingSender;
 
 
@@ -79,8 +90,9 @@ public class ClientRMI implements ClientInterface {
         connect();
         this.flow = flow;
         pingSender = new PingSender(flow, this);
-        //pingSender.start(); //aggiunta ??
-
+        //if(!pingSender.isAlive()) {
+        //    pingSender.start();
+        //}
     }
 
     /**
@@ -93,7 +105,7 @@ public class ClientRMI implements ClientInterface {
         do{
             try {
                 registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-                gameController= (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI); //ClientRMI si connette al server RMI e riceve il riferimento al GameController
+                gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI); //ClientRMI si connette al server RMI e riceve il riferimento al GameController
                 modelInvokedEvents = (GameListenerInterface) UnicastRemoteObject.exportObject(gameListenersHandler, 0); //ClientRMI registra un listener per ricevere aggiornamenti dal ServerRMI: è usato dal Server al Client per notificare gli aggiornamenti del gioco
                                                                                                                              //Il ClientRMI invia comandi al GameController tramite il ServerRMI per eseguire azioni nel gioco.
                 printAsync("Client RMI ready");
@@ -117,7 +129,7 @@ public class ClientRMI implements ClientInterface {
                 }
                 printAsyncNoLine("\n");
 
-                if (attempt >= DefaultValue.maxAttemptsBeforeGiveUp) { //se supera il numero massimo di tentativi di connessione al server senza riuscire
+                if (attempt >= DefaultValue.maxAttemptsBeforeGiveUp) {
                     printAsyncNoLine("Give up!");
                     try {
                         System.in.read();
@@ -166,6 +178,12 @@ public void run() {
 
 */
 
+    /**
+     * Comunicate to server the chosen initial card
+     * @param index
+     * @param nickname
+     * @throws IOException
+     */
     @Override
     public void setInitialCard(int index, String nickname) throws IOException {
         try {
@@ -175,6 +193,13 @@ public void run() {
         }
     }
 
+    /**
+     * Comunicate to server the chosen objective card
+     * @param index
+     * @param nickname
+     * @throws IOException
+     * @throws NotPlayerTurnException
+     */
     @Override
     public void setGoalCard(int index, String nickname) throws IOException, NotPlayerTurnException {
         try {
@@ -184,6 +209,13 @@ public void run() {
         }
     }
 
+    /**
+     * Ask the server to place a card in client's book
+     * @param chosenCard
+     * @param rowCell
+     * @param columnCell
+     * @throws IOException
+     */
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
         try {
@@ -193,15 +225,29 @@ public void run() {
         }
     }
 
+    /**
+     * Ask the server to set the game
+     * @param numPlayers
+     * @param GameID
+     * @param nick
+     * @param color
+     * @throws IOException
+     */
     @Override
     public void settingGame(int numPlayers, int GameID, String nick, Color color) throws IOException {
-        try {
+        System.out.println("ClientRMI- settingGame");
+        if (gameController != null) {
             gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick, color);
-        } catch (RemoteException e) {
-            throw new IOException(e);
         }
     }
 
+    /**
+     * Ask the server to pick a card from board
+     * @param cardType
+     * @param drawFromDeck
+     * @param pos
+     * @throws IOException
+     */
     @Override
     public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
         try {
@@ -219,7 +265,7 @@ public void run() {
      * @throws IOException
      */
     @Override
-    public void joinGame(String nick, Color color) throws IOException, NotBoundException {
+    public void joinGame(String nick, Color color) throws IOException, NotBoundException { //QUESTO DA CAMBIARE(?)
 
         try {
             // Ottieni il registro all'indirizzo IP e porta specificati
@@ -227,11 +273,8 @@ public void run() {
             registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
             System.out.println("Registry obtained.");
 
-            // Esegui il lookup dell'oggetto remoto nel registro
             System.out.println("Looking up the remote object...");
-            gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
-            System.out.println("Remote object found.");
-
+            gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);System.out.println("Remote object found.");
             this.nickname = nick;
             this.playerColor= color;
 
@@ -258,7 +301,7 @@ public void run() {
 
 
     /**
-     * Ask the Socket Server to set the player as ready
+     * Client asks the Server to set the player as ready
      * @throws IOException
      */
     @Override
@@ -272,6 +315,10 @@ public void run() {
     }
 
 
+    /**
+     * Send a ping to the server
+     * @throws RemoteException
+     */
     @Override
     public void ping() throws RemoteException {
         if (gameController != null) {
@@ -279,14 +326,18 @@ public void run() {
         }
     }
 
+    /**
+     * Let the game begin
+     * @param nick of the player
+     * @throws IOException
+     */
     @Override
     public void makeGameStart(String nick) throws IOException {
           gameController.makeGameStart(modelInvokedEvents, nickname);
-
     }
 
     /**
-     * Ask the Socket Server to leave a specific game
+     * Ask the  Server to leave the game
      * @param nick of the player
      * @throws IOException
      */
@@ -301,6 +352,11 @@ public void run() {
        nickname = null;
     }
 
+    /**
+     * The Client wants to send a message to the Server
+     * @param msg message to send
+     * @throws RemoteException
+     */
     @Override
     public void sendMessage(Message msg) throws RemoteException {
 

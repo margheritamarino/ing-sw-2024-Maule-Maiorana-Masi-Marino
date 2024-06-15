@@ -22,20 +22,6 @@ public class ServerMain {
 
         String input;
 
-        /*do {
-            clearCMD();
-            printAsync(ansi().a("""
-                    Insert remote IP(leave empty for localhost)
-                    """));
-            input = new Scanner(System.in).next();
-            System.out.println("Input ricevuto: " + input);
-        } while (!(input.equals("empty") || input.isEmpty())&& !isValidIP(input));
-        if (input.equals("empty")|| input.isEmpty())
-            System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
-        else{
-            DefaultValue.serverIp = input;
-            System.setProperty("java.rmi.server.hostname", input);
-        }*/
         do {
             clearCMD();
 
@@ -57,7 +43,6 @@ public class ServerMain {
             System.setProperty("java.rmi.server.hostname", input);
         }
 
-        //System.out.println("Sto per eseguire il BIND (da ServerMain chiamo ServerRMI.bind()): " + input);
         // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
@@ -66,7 +51,7 @@ public class ServerMain {
         }
 
         try {
-            ServerRMI.bind();
+            ServerRMI.bind(); //chiama BIND() su ServerRMI
         } catch (RemoteException e) {
             e.printStackTrace();
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);

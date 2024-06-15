@@ -36,7 +36,7 @@ public class ListenersHandler {
      *
      * @param listener the listener to add
      */
-    public void addListener(GameListenerInterface listener){
+    public void addListener(GameListenerInterface listener){ //tolgo SYNCHRONIZED
         listeners.add(listener);
         System.out.println("Client correttamente aggiunto come LISTENER del Server");
     }
@@ -48,7 +48,7 @@ public class ListenersHandler {
      * @param listener the listener to notify
      * @param model    the game model
      */
-    public synchronized void notify_requireNumPlayersGameID(GameListenerInterface listener,Game model ){
+    public void notify_requireNumPlayersGameID(GameListenerInterface listener,Game model ){ //tolgo SYNCHRONIZED
         System.out.println("ListenersHandler: notify_requireNumPlayersGameID");
         try {
             listener.requireNumPlayersGameID(new GameImmutable(model));
@@ -62,7 +62,7 @@ public class ListenersHandler {
      *
      * @param listener the listener to remove
      */
-    public void removeListener(GameListenerInterface listener){
+    public synchronized void removeListener(GameListenerInterface listener){
         listeners.remove(listener);
     }
 
@@ -72,7 +72,7 @@ public class ListenersHandler {
      *
      * @return the list of GameListeners
      */
-    public List<GameListenerInterface> getListeners() {
+    public synchronized List<GameListenerInterface> getListeners() {
         return listeners;
     }
 
@@ -83,7 +83,7 @@ public class ListenersHandler {
      * @param nickname    the nickname of the player who joined
      * @param playerColor the color of the player who joined
      */
-    public void notify_PlayerJoined(Game model, String nickname, Color playerColor) {
+    public void notify_PlayerJoined(Game model, String nickname, Color playerColor) { //tolgo synchronized
         System.out.println("ListenersHandler: notify_PlayerJoined");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
@@ -103,7 +103,7 @@ public class ListenersHandler {
      * @param model    the game model to pass as a new GameModelImmutable
      * @param nickname the nickname of the player who left
      */
-    public synchronized void notify_PlayerLeft(Game model, String nickname) {
+    public void notify_PlayerLeft(Game model, String nickname) { //tolgo SYNCHRONIZED
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -124,7 +124,7 @@ public class ListenersHandler {
      * @param triedToJoin the player who wanted to join the game
      * @param model       the game model to pass as a new GameModelImmutable
      */
-    public synchronized void notify_JoinUnableGameFull(GameListenerInterface lis, Player triedToJoin, Game model) {
+    public void notify_JoinUnableGameFull(GameListenerInterface lis, Player triedToJoin, Game model) { //tolgo SYNCHRONIZED
         try {
             lis.joinUnableGameFull(triedToJoin, new GameImmutable(model));
         } catch (RemoteException e) {
@@ -139,7 +139,7 @@ public class ListenersHandler {
      * @param lis         the listener to notify
      * @param triedToJoin the player who wanted to join the game
      */
-    public synchronized void notify_JoinUnableNicknameAlreadyIn(GameListenerInterface lis, Player triedToJoin ) {
+    public void notify_JoinUnableNicknameAlreadyIn(GameListenerInterface lis, Player triedToJoin ) { //tolgo SYNCHRONIZED
         try {
             lis.joinUnableNicknameAlreadyIn(triedToJoin);
         } catch (RemoteException e) {
@@ -154,7 +154,7 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public synchronized void notify_GameStarted(Game model) {
+    public void notify_GameStarted(Game model) { //tolgo SYNCHRONIZED
         Iterator<GameListenerInterface> i = listeners.iterator(); //attraverso la lista e accedo agli elementi uno per volta
 
         while (i.hasNext()) {
@@ -173,7 +173,7 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public synchronized void notify_GameEnded(Game model) {
+    public void notify_GameEnded(Game model) { //tolgo SYNCHRONIZED
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -191,7 +191,7 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public synchronized void notify_nextTurn(Game model) {
+    public void notify_nextTurn(Game model) { //tolgo SYNCHRONIZED
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -210,7 +210,7 @@ public class ListenersHandler {
      * @param gamemodel the game model to pass as a new GameModelImmutable
      * @param nick      the nickname of the player who disconnected
      */
-    public synchronized void notify_playerDisconnected(Game gamemodel, String nick) {
+    public void notify_playerDisconnected(Game gamemodel, String nick) { //tolgo SYNCHRONIZED
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -228,7 +228,7 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public void notify_LastCircle(Game model) {
+    public void notify_LastCircle(Game model) { //tolgo SYNCHRONIZED
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -247,7 +247,7 @@ public class ListenersHandler {
      * @param currentPlayerLis the list of listeners for the current player
      * @param model            the game model to pass as a new GameModelImmutable
      */
-    public synchronized void notify_PointsAdded(ArrayList<GameListenerInterface> currentPlayerLis, Game model) {
+    public void notify_PointsAdded(ArrayList<GameListenerInterface> currentPlayerLis, Game model) { //tolgo SYNCHRONIZED
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -270,7 +270,7 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public synchronized void notify_CardPlaced(Game model) {
+    public void notify_CardPlaced(Game model) { //tolgo SYNCHRONIZED
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();

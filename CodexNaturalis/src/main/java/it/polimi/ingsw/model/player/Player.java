@@ -208,7 +208,7 @@ public class Player implements Serializable {
      * The notify_CardDrawn method notifies that a card has been drawn
      * @param model is the Game to pass as a new GameModelImmutable
      */
-    public synchronized void notify_CardDrawn(Game model) {
+    public void notify_CardDrawn(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -221,7 +221,7 @@ public class Player implements Serializable {
         }
     }
 
-    public synchronized void notify_requireInitial( Game model, int index){
+    public void notify_requireInitial( Game model, int index){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -233,7 +233,7 @@ public class Player implements Serializable {
             }
         }
     }
-  public synchronized void notify_playerReady( Game model){
+  public void notify_playerReady( Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -246,7 +246,7 @@ public class Player implements Serializable {
         }
     }
 
-    public synchronized void notify_requireGoals( Game model, int index){
+    public void notify_requireGoals( Game model, int index){
         System.out.println("Player: notify_requireGoals");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
@@ -260,7 +260,7 @@ public class Player implements Serializable {
             }
         }
     }
-    public synchronized void notify_cardsReady( Game model){
+    public void notify_cardsReady( Game model){
         System.out.println("Player: notify_requireGoals");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
@@ -278,7 +278,7 @@ public class Player implements Serializable {
      * The notify_NotCorrectChosenCard method notifies that a player chose a card that cannot place in his Book
      * @param model is the Game to pass as a new GameModelImmutable
      */
-    public synchronized void notify_NotCorrectChosenCard(Game model){
+    public void notify_NotCorrectChosenCard(Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -291,7 +291,7 @@ public class Player implements Serializable {
         }
     }
 
-    public synchronized void notify_SentMessage(Game gameModel, Message msg) {
+    public void notify_SentMessage(Game gameModel, Message msg) {
         System.out.println("Notifying listeners of new message: " + msg.getText());
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {

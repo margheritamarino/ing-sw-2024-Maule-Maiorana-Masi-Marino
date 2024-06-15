@@ -375,6 +375,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     public void setNickname(String nick){
         this.nickname=nick;
+        System.out.println("GameFlow: nickname setted");
     }
     public void setColor(Color color){
         this.color=color;
@@ -520,7 +521,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
 
-    public synchronized void askPickCard (GameImmutable model) {
+    public void askPickCard (GameImmutable model) {
         int pos=0;
         ui.show_PickCardMsg(model); //messaggio "è il tuo turno di pescare una carta"
 
@@ -621,7 +622,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void settingGame(int numPlayers, int GameID, String nick, Color color){
-        //System.out.println("GameFlow: settingGame");
+        System.out.println("GameFlow: settingGame");
         try {
             clientActions.settingGame(numPlayers, GameID, nick, color);
         } catch (IOException e) {
@@ -742,6 +743,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     }
     @Override
     public void requireNumPlayersGameID(GameImmutable model)throws RemoteException {
+        System.out.println("GameFlow- requireNumPlayersGameID ");
         int numPlayers=askNumPlayers();
         int GameID= askGameID();
         settingGame(numPlayers, GameID, nickname, color);

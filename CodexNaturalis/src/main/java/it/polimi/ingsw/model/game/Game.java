@@ -88,7 +88,7 @@ public class Game {
 	 * @param playersNumber The number of players in the game
 	 * @return the game instance.
 	 */
-	public static synchronized Game getInstance(int playersNumber) {
+	public static Game getInstance(int playersNumber) {
 		try {
 			if (instance == null ) {
 				instance = new Game(playersNumber);
@@ -606,6 +606,9 @@ public class Game {
 	 * @return player by nickname
 	 */
 	public Player getPlayerByNickname(String playerNickname) {
+		if (playerNickname == null) {
+			throw new IllegalArgumentException("Nickname cannot be null");
+		}
 		// Utilizza lo stream per cercare un giocatore con il nickname specificato
 		Optional<Player> optionalPlayer = players.stream()
 				.filter(player -> player.getNickname().equals(playerNickname))
@@ -613,8 +616,8 @@ public class Game {
 
 		// Restituisce il giocatore se trovato, altrimenti lancia un'eccezione
 		return optionalPlayer.orElseThrow(() -> new NoSuchElementException("Player not found for nickname: " + playerNickname));
-
 	}
+
 
 	public void setPlayerDisconnected(Player p) {
 		p.setConnected(false);

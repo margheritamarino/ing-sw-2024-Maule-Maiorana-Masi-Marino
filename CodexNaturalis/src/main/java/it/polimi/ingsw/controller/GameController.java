@@ -137,7 +137,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @return true if the game starts, false otherwise
      */
     @Override
-    public boolean playerIsReadyToStart(GameListenerInterface lis, String player) { //tolto synchronized
+    public synchronized boolean playerIsReadyToStart(GameListenerInterface lis, String player) { //tolto synchronized
         System.out.println("in GameController- playerIsReadyToStart");
         model.playerIsReadyToStart(model.getPlayerByNickname(player));
         if (model.arePlayersReadyToStartAndEnough()){
@@ -154,7 +154,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }
 
-    public boolean makeGameStart( GameListenerInterface lis, String nickname) {
+    public synchronized boolean makeGameStart( GameListenerInterface lis, String nickname) {
 
         if (model.allPlayersHaveChosenGoals()) {
             model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
@@ -251,7 +251,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException if there is a connection error (RMI)
      */
     @Override
-    public void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException {
+    public synchronized void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException {
         Player p = model.getPlayerByNickname(nick);
         if(p!=null) {
             model.removeListener(listener);
@@ -338,10 +338,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
         }else{
-            synchronized (Color.class) {
+            //synchronized (Color.class) {
                 Color randColor = Color.getRandomColor();
                 model.addPlayer(lis, nick, randColor);
-            }
+            //}
             model.getPlayerByNickname(nick).setConnected(true);
         }
     }
@@ -369,10 +369,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.setGameId(GameID);
         model.setPlayersNumber(numPlayers);
         setGameCreated(true);
-        synchronized (Color.class) {
+        //synchronized (Color.class) {
             Color randColor = Color.getRandomColor();
             model.addPlayer(lis, nick, randColor);
-        }
+        //}
 
         model.getPlayerByNickname(nick).setConnected(true);
     }
