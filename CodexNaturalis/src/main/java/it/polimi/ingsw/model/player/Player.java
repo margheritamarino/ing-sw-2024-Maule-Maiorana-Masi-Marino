@@ -200,7 +200,7 @@ public class Player implements Serializable {
                 playerDeck.removeCard(posCard);
             }
         }catch (PlacementConditionViolated e){
-            throw new PlacementConditionViolated("You don't have enough resources on the book! Choose another CARD"");
+            throw new PlacementConditionViolated("You don't have enough resources on the book! Choose another CARD");
         }
         return points;
     }

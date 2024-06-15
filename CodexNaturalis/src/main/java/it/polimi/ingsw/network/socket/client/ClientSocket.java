@@ -141,7 +141,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 }
                 attempt++;
             }
-        } while  (!connectionEstablished && attempt <= DefaultValue.maxAttemptsBeforeGiveUp);
+        } while  (!connectionEstablished);
 
     }
 
@@ -160,8 +160,8 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void settingGame(int numPlayers, int GameID, String nick, Color color) throws IOException {
-        out.writeObject(new ClientMsgCreateGame( numPlayers, GameID, nickname, color));
+    public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
+        out.writeObject(new ClientMsgCreateGame( numPlayers, GameID, nickname));
         finishSending();
     }
 
@@ -197,9 +197,9 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @throws IOException
      */
     @Override
-    public void joinGame(String nick, Color color) throws IOException {
+    public void joinGame(String nick) throws IOException {
         nickname = nick;
-        out.writeObject(new ClientMsgJoinGame(nick, color));
+        out.writeObject(new ClientMsgJoinGame(nick));
         finishSending();
        if(!pingSender.isAlive()) {
             pingSender.start();

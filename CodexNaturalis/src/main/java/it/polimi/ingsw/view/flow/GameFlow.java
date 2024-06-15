@@ -44,6 +44,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     protected List<String> importantEvents;
     private boolean ended = false;
 
+    private String msgNotCorrect;
+
 
     /**
      * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI,
@@ -212,8 +214,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_sentMessage(event.getModel(), nickname);
             }
 
-            case CARD_PLACED_NOT_CORRECT -> {//ask the Player to choose again
-                ui.show_playerHasToChooseAgain(event.getModel(), nickname);
+            case CARD_PLACED_NOT_CORRECT -> {
+                ui.show_playerHasToChooseAgain(event.getModel(), nickname, this.msgNotCorrect);
                 askPlaceCards(event.getModel(), nickname);
             }
             case CARD_DRAWN -> {
@@ -662,7 +664,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
 
     @Override
-    public void wrongChooseCard(GameImmutable model){
+    public void wrongChooseCard(GameImmutable model,String msg){
+        this.msgNotCorrect=msg;
         events.add(model, EventType.CARD_PLACED_NOT_CORRECT);
 
     }

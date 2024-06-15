@@ -50,8 +50,6 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private ImageView actionSendMessage;
 
-    @FXML
-    private ImageView initialCardImg;
 
     //PLAYER DECK
     @FXML

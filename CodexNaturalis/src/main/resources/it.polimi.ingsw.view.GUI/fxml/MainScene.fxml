@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.95" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundMainScene" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.MainSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.95" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundWall" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.MainSceneController">
    <children>
       <Pane fx:id="actionPane" layoutX="297.0" layoutY="14.0" prefHeight="87.0" prefWidth="750.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css">
          <children>
             <Text fx:id="labelMessage" layoutX="26.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="698.2000732421875">
                <font>
-                  <Font name="Arial Black" size="30.0" />
+                  <Font name="Arial Black" size="26.0" />
                </font>
                <styleClass>
                   <String fx:value="BoardStyle" />
@@ -35,9 +26,9 @@
             <String fx:value="backgroundMainScene" />
          </styleClass>
       </Pane>
-      <Text fx:id="GameIDTextField" layoutX="33.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+      <Text fx:id="GameIDTextField" fill="WHITE" layoutX="33.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
          <font>
-            <Font name="Arial Black" size="18.0" />
+            <Font name="Arial Black" size="24.0" />
          </font>
       </Text>
       <Pane layoutX="22.0" layoutY="563.0" opacity="0.8" prefHeight="136.0" prefWidth="235.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" styleClass="backgroundLobby">
@@ -77,9 +68,9 @@
             <Image url="@../../img/speech_balloon.png" />
          </image>
       </ImageView>
-      <Text fx:id="nicknameTextField" layoutX="33.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="glow-button" text="Text">
+      <Text fx:id="nicknameTextField" layoutX="33.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="glow-button" text="Text">
          <font>
-            <Font name="Arial Black" size="18.0" />
+            <Font name="Arial Black" size="24.0" />
          </font>
       </Text>
       <Button fx:id="turnbtn0" layoutX="372.0" layoutY="693.0" mnemonicParsing="false" onAction="#turnCard" prefHeight="20.0" prefWidth="42.0" stylesheets="@styleCodex.css" text="turn">
@@ -143,22 +134,22 @@
                   <Font name="Arial Black" size="14.0" />
                </font>
             </Text>
-            <Text fx:id="player0" layoutX="83.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="player0" layoutX="83.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                <font>
                   <Font name="Arial Black" size="16.0" />
                </font>
             </Text>
-            <Text fx:id="player1" layoutX="87.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="player1" layoutX="87.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                <font>
                   <Font name="Arial Black" size="16.0" />
                </font>
             </Text>
-            <Text fx:id="player2" layoutX="83.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="player2" layoutX="83.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                <font>
                   <Font name="Arial Black" size="16.0" />
                </font>
             </Text>
-            <Text fx:id="player3" layoutX="82.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="player3" layoutX="82.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                <font>
                   <Font name="Arial Black" size="16.0" />
                </font>
@@ -169,9 +160,9 @@
             <String fx:value="backgroundGame" />
          </styleClass>
       </Pane>
-      <ImageView fitHeight="109.0" fitWidth="121.0" layoutX="193.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="123.0" fitWidth="209.0" layoutX="17.0" layoutY="14.0" opacity="0.95" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../img/codex.jpg" />
+            <Image url="@../../img/copertina.png" />
          </image>
          <styleClass>
             <String fx:value="BoardStyle" />

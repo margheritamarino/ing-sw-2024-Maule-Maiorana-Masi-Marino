@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.PlayerDeck;
 import it.polimi.ingsw.Chat.Chat;
 import it.polimi.ingsw.Chat.Message;
 
@@ -555,8 +554,9 @@ public class Game {
 			currentCardPoints=  p.placeCard(chosenCard, rowCell, colCell);
 			//p.notify_CardPlaced(this);
 			return currentCardPoints;
-		}catch(PlacementConditionViolated | IndexOutOfBoundsException | CellNotAvailableException e){
-			p.notify_NotCorrectChosenCard(this);
+		}catch(PlacementConditionViolated | IndexOutOfBoundsException| CellNotAvailableException e   ){
+			String msg = e.getMessage();
+			p.notify_NotCorrectChosenCard(this, msg);
 			return -1;
 		}
 

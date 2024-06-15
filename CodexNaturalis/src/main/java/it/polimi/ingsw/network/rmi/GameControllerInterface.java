@@ -77,11 +77,11 @@ public interface GameControllerInterface extends Remote {
      void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException ;
 
      void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell)throws RemoteException;
-     void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException;
+     void joinGame(GameListenerInterface lis, String nick) throws RemoteException;
 
     void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos)throws RemoteException;
 
-    void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick, Color color)throws RemoteException;
+    void settingGame(GameListenerInterface lis,int numPlayers, int GameID, String nick)throws RemoteException;
 
 
     void sentMessage(Message msg) throws RemoteException;

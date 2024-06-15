@@ -142,7 +142,7 @@ public class Book implements Serializable {
         int numPoints = 0;
 
         if(!cell.isAvailable()){
-            throw new CellNotAvailableException("This Cell is not Available");
+            throw new CellNotAvailableException("This Cell is not Available to Place the Card! Choose another CELL");
         }
         cell.setCardPointer(resourceCard); //setto il puntatore della cella alla carta che ho appena piazzato
         cell.setAvailable(false);

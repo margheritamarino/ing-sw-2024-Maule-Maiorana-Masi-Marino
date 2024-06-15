@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="401.0" style="-fx-background-color: #263340;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.ScoretrackPopupController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="401.0" style="-fx-background-color: #263340;" styleClass="backgroundMainScene" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.ScoretrackPopupController">
    <children>
       <Pane layoutY="32.0" maxHeight="353.0" maxWidth="611.0" opacity="0.8" prefHeight="50.0" prefWidth="401.0" style="-fx-background-color: black; -fx-border-radius: 10 10 0 0; -fx-border-width: 5;">
          <cursor>

@@ -7,17 +7,19 @@ import java.io.IOException;
 
 public class msgWrongChooseCard extends ServerGenericMessage{
     private GameImmutable model;
+    private String msg;
 
     /**
      * Constructor of the class.
      * @param model the immutable game model
      */
-    public msgWrongChooseCard(GameImmutable model) {
+    public msgWrongChooseCard(GameImmutable model, String msg) {
         this.model = model;
+        this.msg= msg;
     }
 
     @Override
     public void execute(GameListenerInterface lis) throws IOException, InterruptedException {
-        lis.wrongChooseCard(model);
+        lis.wrongChooseCard(model, msg);
     }
 }

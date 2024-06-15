@@ -13,6 +13,7 @@ import it.polimi.ingsw.view.Utilities.UI;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
+import it.polimi.ingsw.exceptions.PlacementConditionViolated;
 
 import java.util.ArrayList;
 
@@ -183,6 +184,7 @@ public class GUI extends UI {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("This is your drawn card", true));
             show_playerDeck(model,nickname);
+            callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setGUI(this, model));
         });
         pause2.play();
     }
@@ -190,9 +192,6 @@ public class GUI extends UI {
     @Override
     public void show_nextTurnMsg(GameImmutable model) {
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).highlightCurrentPlayer(model));
-        //aggiorno i pop up
-        callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
-        callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
 
     }
 
@@ -370,20 +369,8 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_playerHasToChooseAgain(GameImmutable model, String nickname) {
-        String errorMessage = "ERROR: invalid selection. Choose again!";
-        /*
-        callPlatformRunLater(() -> {
-            this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
-            this.guiApplication.showErrorGeneric(errorMessage, false);
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.setOnFinished(event -> {
-                this.guiApplication.closePopUpStage();
-            });
-            pause.play();
-
-        });
-         */
+    public void show_playerHasToChooseAgain(GameImmutable model, String nickname, String msg) {
+        String errorMessage = "ERROR: " + msg;
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(errorMessage, false));
 

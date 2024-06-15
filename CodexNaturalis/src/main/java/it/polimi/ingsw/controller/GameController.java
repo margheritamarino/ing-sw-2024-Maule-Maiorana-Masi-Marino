@@ -328,7 +328,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      *
      * @param lis GameListener of the player who is creating the game
      * @param nick Nickname of the player who is creating the game
-     * @param color the color chosen by the player
      * @throws RemoteException if a remote communication error occurs
      */
     @Override

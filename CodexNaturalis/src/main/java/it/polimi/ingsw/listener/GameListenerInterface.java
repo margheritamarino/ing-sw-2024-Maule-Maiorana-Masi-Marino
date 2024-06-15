@@ -39,7 +39,7 @@ public interface GameListenerInterface extends Remote {
      * @param model is the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void wrongChooseCard(GameImmutable model) throws RemoteException;
+    void wrongChooseCard(GameImmutable model, String msg) throws RemoteException;
 
     /**
      * Notifies the client that points have been added.

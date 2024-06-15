@@ -230,14 +230,15 @@ public void run() {
      * @param numPlayers
      * @param GameID
      * @param nick
-     * @param color
      * @throws IOException
      */
     @Override
     public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
         System.out.println("ClientRMI- settingGame");
-        if (gameController != null) {
+        try {
             gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick);
+        } catch (RemoteException e) {
+            throw new IOException(e);
         }
     }
 
@@ -265,7 +266,7 @@ public void run() {
      * @throws IOException
      */
     @Override
-    public void joinGame(String nick) throws IOException, NotBoundException { //QUESTO DA CAMBIARE(?)
+    public void joinGame(String nick) throws IOException, NotBoundException {
 
         try {
             // Ottieni il registro all'indirizzo IP e porta specificati

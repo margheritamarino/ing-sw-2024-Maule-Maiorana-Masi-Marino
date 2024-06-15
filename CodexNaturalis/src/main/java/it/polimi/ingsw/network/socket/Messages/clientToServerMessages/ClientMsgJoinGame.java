@@ -17,16 +17,15 @@ public class ClientMsgJoinGame extends ClientGenericMessage {
      * Constructor of the class.
      * @param nickname the player's nickname
      */
-    private Color color;
-    public ClientMsgJoinGame(String nickname, Color color) {
+
+    public ClientMsgJoinGame(String nickname) {
         this.nickname = nickname;
         this.isJoinGame= true;
-        this.color= color;
     }
 
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        gameController.joinGame(lis, this.nickname, this.color);
+        gameController.joinGame(lis, this.nickname);
     }
 
     /**

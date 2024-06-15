@@ -10,22 +10,21 @@ import java.rmi.RemoteException;
 public class ClientMsgCreateGame extends ClientGenericMessage {
     int numPlayers;
     int GameID;
-    Color color;
+
     /**
      * Constructor of the class.
      * @param nickname the player's nickname
      */
-    public ClientMsgCreateGame(int numPlayers, int GameID, String nickname, Color color) {
+    public ClientMsgCreateGame(int numPlayers, int GameID, String nickname) {
         this.numPlayers= numPlayers;
         this.GameID=GameID;
         this.nickname = nickname;
-        this.color=color;
         this.isJoinGame= true;
     }
 
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
-        gameController.settingGame(lis,numPlayers, GameID, this.nickname, this.color);
+        gameController.settingGame(lis,numPlayers, GameID, this.nickname);
     }
 
 
