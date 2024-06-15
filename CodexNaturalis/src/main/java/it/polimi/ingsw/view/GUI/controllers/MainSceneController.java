@@ -50,8 +50,6 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private ImageView actionSendMessage;
 
-    @FXML
-    private ImageView initialCardImg;
 
     //PLAYER DECK
     @FXML
@@ -243,7 +241,6 @@ public class MainSceneController extends ControllerGUI{
 
     private void toggleCard(int cardIndex, ImageView deckImg) {
         String imagePath;
-        //TODO
         if (showBack[cardIndex]) { //showBack=true (sono sul back)
             //BACK
             imagePath = playerDeck.getMiniDeck().get(cardIndex)[0].getImagePath();
@@ -331,7 +328,6 @@ public class MainSceneController extends ControllerGUI{
             }
         }
     }
-
 
     //ORDER PLAYERS
     @FXML
@@ -567,7 +563,7 @@ public class MainSceneController extends ControllerGUI{
     }
 
     private boolean PlaceCardChooseCell=false;
-    public void highlightChooseCell(GameImmutable model, String nickname) {
+  public void highlightChooseCell(GameImmutable model, String nickname) {
         PlaceCardChooseCell=true;
 
         this.bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();

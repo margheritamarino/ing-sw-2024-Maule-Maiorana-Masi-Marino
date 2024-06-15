@@ -33,8 +33,8 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
             flow.requireNumPlayersGameID(model);
     }
     @Override
-    public void wrongChooseCard(GameImmutable model) throws RemoteException{
-        flow.wrongChooseCard(model);
+    public void wrongChooseCard(GameImmutable model, String msg) throws RemoteException{
+        flow.wrongChooseCard(model, msg);
     }
 
 

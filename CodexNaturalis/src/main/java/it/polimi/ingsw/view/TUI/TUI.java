@@ -483,14 +483,14 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_playerHasToChooseAgain(GameImmutable model, String nickname){
+    public void show_playerHasToChooseAgain(GameImmutable model, String nickname, String msg){
         // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("ERROR: invalid selection. Choose again!" );
+        printAsync("ERROR: " + msg );
 
     }
 

@@ -5,9 +5,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
-//import it.polimi.ingsw.network.HeartbeatSender;
 import it.polimi.ingsw.model.DefaultValue;
 
 import java.rmi.NotBoundException;
@@ -17,8 +15,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
-import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
-import static java.rmi.registry.LocateRegistry.getRegistry;
 
 /**
  * RMIServer Class
