@@ -33,7 +33,10 @@ public class PlayerDeck implements Serializable{
       *
       * @param newCard The new card to be added to the mini deck.
       */
-     public void addCard(PlayableCard[] newCard)  {
+     public void addCard(PlayableCard[] newCard) throws DeckFullException {
+         if (getNumCards() >= 6) {
+             throw new DeckFullException("PlayerDeck is full. Cannot add more cards.");
+         }
           // Aggiungi la prima PlayableCard (fronte) al mini deck
           miniDeck.add(newCard);
           // Incrementa il numero effettivo di carte
@@ -48,6 +51,7 @@ public class PlayerDeck implements Serializable{
       * @param pos The position of the card to be removed.
       * @throws IndexOutOfBoundsException If the position is out of range (pos < 0 || pos >= miniDeck.size()).
       */
+     /*
      public void removeCard(int pos) throws IndexOutOfBoundsException {
 
           switch (pos){
@@ -59,6 +63,34 @@ public class PlayerDeck implements Serializable{
           }
           actualNumCards -= 2; // Decrements the effective number of cards (two cards removed)
      }
+
+      */
+    public void removeCard(int pos) throws IndexOutOfBoundsException {
+        int indexToRemove;
+
+        switch (pos) {
+            case 0, 1:
+                indexToRemove = 0;
+                break;
+            case 2, 3:
+                indexToRemove = 1;
+                break;
+            case 4, 5:
+                indexToRemove = 2;
+                break;
+            default:
+                throw new IndexOutOfBoundsException("Position is out of range");
+        }
+
+        if (miniDeck.size() <= indexToRemove ) {
+            throw new IndexOutOfBoundsException("Not enough cards to remove at this position");
+        }
+
+        miniDeck.remove(indexToRemove); // Rimuove la carta frontale
+
+        actualNumCards -= 2; // Decrementa il numero effettivo di carte (due carte rimosse)
+    }
+
 
   /*   public String toString(){
           StringBuilder result = new StringBuilder();

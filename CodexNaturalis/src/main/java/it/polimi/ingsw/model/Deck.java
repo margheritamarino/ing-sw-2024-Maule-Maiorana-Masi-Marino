@@ -166,10 +166,14 @@ public class Deck implements Serializable {
     public boolean checkEndDeck() {
         return numCards <= 0;
     }
-    public void generateRandomIndex(){
-        Random rand = new Random();
-        this.randomIndex = rand.nextInt(frontCards.size()); // Generates a random index within the range of the deck size
+    private void generateRandomIndex() {
+        if (numCards > 0) {
+            randomIndex = new Random().nextInt(numCards);
+        } else {
+            randomIndex = -1; // O un altro valore per indicare che non c'è più alcuna carta
+        }
     }
+
 
     /**
      * @author Sofia Maule
@@ -184,24 +188,28 @@ public class Deck implements Serializable {
             throw new DeckEmptyException("The deck is empty. No more cards to draw.");
         }
 
-        // randomIndex = randomPosition = randomCardID -> same ID for front and back
-        // Retrieve the cards at the random index from both frontCards and backCards arrays
+        System.out.println("Numero di carte prima della rimozione: " + numCards);
+        System.out.println("Indice casuale: " + randomIndex);
+
         PlayableCard frontCard = frontCards.get(randomIndex);
         PlayableCard backCard = backCards.get(randomIndex);
 
-        // Decrease the numCards attribute of the deck
         numCards--;
 
-        // Remove the retrieved cards from the deck
         frontCards.remove(randomIndex);
         backCards.remove(randomIndex);
 
+        if (numCards > 0) {
+            generateRandomIndex();
+        } else {
+            randomIndex = -1; // O un altro valore per indicare che non c'è più alcuna carta
+        }
 
-        generateRandomIndex(); //aggiorna il numero random per la prossima volta che viene chiamato il metodo
-        //il primo numero è generato nel costruttore poi viene aggiornato ogni volta
+        System.out.println("Numero di carte dopo la rimozione: " + numCards);
 
         return new PlayableCard[]{frontCard, backCard};
     }
+
 }
 
 

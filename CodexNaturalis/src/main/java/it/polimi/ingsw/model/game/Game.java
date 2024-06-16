@@ -465,8 +465,10 @@ public class Game {
 		} catch (DeckEmptyException e) {
 			System.err.println("Error: deck empty during cards initialization - " + e.getMessage());
 
-		}
-	}
+		} catch (DeckFullException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	public ArrayList<ObjectiveCard[]> getObjectiveCard(){
 		return temporaryObjectiveCards;
@@ -581,9 +583,11 @@ public class Game {
 
 		}catch (DeckEmptyException e){
 			listenersHandler.notify_GameEnded(this);
-		}
+		} catch (DeckFullException e) {
+            throw new RuntimeException(e);
+        }
 
-	}
+    }
 
 
 
