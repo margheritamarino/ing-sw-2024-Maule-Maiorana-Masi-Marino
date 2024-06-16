@@ -640,7 +640,7 @@ public class TUI extends UI {
         }
         printAsync("You are back in the menu!\n");
     }
-    @Override
+   /* @Override
     public void show_temporaryInitialCards(GameImmutable model, int indexPlayer) {
         // Pausa di 1.5 secondo
         try {
@@ -680,6 +680,64 @@ public class TUI extends UI {
             result.append(sb.toString().stripTrailing()).append("\n");
         }
 
+        printAsync(result.toString());
+    }*/
+
+    // Metodo per stampare le carte affiancate con indici in alto a sinistra
+    @Override
+    public void show_temporaryInitialCards(GameImmutable model, int indexPlayer) {
+        // Pausa di 1.5 secondi
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        printAsync("> Choose the front[0] or the back[1] of the following initial card to place it at the center of your book:");
+        PlayableCard[] initialCards = model.getInitialCard().get(indexPlayer);
+
+        if (initialCards.length != 2) {
+            printAsync("Error: Expected exactly 2 initial cards.");
+            return;
+        }
+
+        // Recupera le stringhe di rappresentazione delle carte
+        String card0 = initialCards[0].toString();
+        String card1 = initialCards[1].toString();
+
+        // Divide le stringhe delle carte in righe
+        String[] lines0 = card0.split("\n");
+        String[] lines1 = card1.split("\n");
+
+        // Costruisce la stringa finale riga per riga
+        StringBuilder result = new StringBuilder();
+        int height = Math.max(lines0.length, lines1.length); // Assumiamo che entrambe le carte abbiano la stessa altezza
+
+        // Aggiunge l'indice alle righe
+        for (int i = 0; i < height; i++) {
+            if (i == 0) {
+                result.append("[0] ").append(lines0[i])
+                        .append("   ")
+                        .append("[1] ").append(lines1[i])
+                        .append("\n");
+            } else {
+                // Aggiusta l'allineamento aggiungendo spazi se necessario
+                String line0 = lines0[i];
+                String line1 = lines1[i];
+
+                // Calcola la lunghezza delle linee per mantenere l'allineamento
+                int maxLength = Math.max(line0.length(), line1.length());
+                line0 = line0 + " ".repeat(maxLength - line0.length());
+                line1 = line1 + " ".repeat(maxLength - line1.length());
+
+                result.append("    ").append(line0)
+                        .append("   ")
+                        .append("    ").append(line1)
+                        .append("\n");
+            }
+        }
+
+        // Stampa il risultato
         printAsync(result.toString());
     }
 
