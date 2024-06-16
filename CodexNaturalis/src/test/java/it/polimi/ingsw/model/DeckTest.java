@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
 
@@ -29,15 +30,15 @@ class DeckTest {
     @Test
     void testInitializeDeck() throws FileNotFoundException, FileReadException {
         // Verifica che il mazzo sia inizializzato correttamente
-//        Assertions.assertEquals(40, deckGold.getNumCards());
-//        Assertions.assertEquals(40, deckResource.getNumCards());
-//        Assertions.assertEquals(6, deckInitial.getNumCards());
-//        Assertions.assertNotNull(deckGold.getFrontCards());
-//        Assertions.assertNotNull(deckGold.getBackCards());
-//        Assertions.assertNotNull(deckResource.getFrontCards());
-//        Assertions.assertNotNull(deckResource.getBackCards());
-//        Assertions.assertNotNull(deckInitial.getFrontCards());
-//        Assertions.assertNotNull(deckInitial.getBackCards());
+        Assertions.assertEquals(40, deckGold.getNumCards());
+        Assertions.assertEquals(40, deckResource.getNumCards());
+        Assertions.assertEquals(6, deckInitial.getNumCards());
+        Assertions.assertNotNull(deckGold.getFrontCards());
+        Assertions.assertNotNull(deckGold.getBackCards());
+        Assertions.assertNotNull(deckResource.getFrontCards());
+        Assertions.assertNotNull(deckResource.getBackCards());
+        Assertions.assertNotNull(deckInitial.getFrontCards());
+        Assertions.assertNotNull(deckInitial.getBackCards());
         // Creazione di un oggetto Deck
         Deck deck = new Deck(CardType.InitialCard);
 
@@ -78,7 +79,7 @@ class DeckTest {
             try {
                 deckGold.returnCard();
             } catch (DeckEmptyException e) {
-                Assertions.fail("DeckEmptyException should not be thrown before the deck is empty.");
+                fail("DeckEmptyException should not be thrown before the deck is empty.");
             }
         }
 
@@ -87,19 +88,20 @@ class DeckTest {
 
     @Test
     void testCheckEndDeck() {
-        // Verifica che il mazzo finisca correttamente
-        Assertions.assertFalse(deckGold.checkEndDeck());
-        Assertions.assertFalse(deckResource.checkEndDeck());
-        Assertions.assertFalse(deckInitial.checkEndDeck());
+        System.out.println("Inizio del test: numCards = " + deckGold.getNumCards());
+        assertFalse(deckGold.checkEndDeck(), "Il mazzo dovrebbe avere ancora carte disponibili");
 
-        // Estrai tutte le carte dal mazzo Gold
-        while (!deckGold.checkEndDeck()) {
-            try {
+        try {
+            while (deckGold.getNumCards() > 0) {
                 deckGold.returnCard();
-            } catch (DeckEmptyException e) {
-                Assertions.fail("DeckEmptyException should not be thrown before the deck is empty.");
+                System.out.println("Carte rimaste nel mazzo: " + deckGold.getNumCards());
             }
+        } catch (DeckEmptyException e) {
+            fail("Non dovrebbe lanciare eccezioni durante l'esaurimento del mazzo");
         }
-        Assertions.assertTrue(deckGold.checkEndDeck());
+
+        assertTrue(deckGold.checkEndDeck(), "Il mazzo non dovrebbe avere più carte disponibili");
+        System.out.println("Fine del test: numCards = " + deckGold.getNumCards());
     }
+
 }
