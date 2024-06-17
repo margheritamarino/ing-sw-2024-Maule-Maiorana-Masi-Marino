@@ -116,5 +116,6 @@ public abstract class UI {
      * @param model    model where events happen
      */
     public abstract void show_PlayerReconnectedMsg(GameImmutable model, String nick);
+    public abstract void show_failedReconnectionMsg(GameImmutable model, String nick);
 
 }

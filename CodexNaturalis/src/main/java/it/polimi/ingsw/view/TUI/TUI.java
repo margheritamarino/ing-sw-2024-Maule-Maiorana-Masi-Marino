@@ -947,4 +947,15 @@ public class TUI extends UI {
     public void show_sentMessage(GameImmutable model, String nickname) {
         this.show_alwaysShow(model, nickname);
     }
+
+    @Override
+    public void show_failedReconnectionMsg(GameImmutable model, String nick){
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        printAsync("Failed to recconnect " + nick + " to the game! \n");
+    }
 }
