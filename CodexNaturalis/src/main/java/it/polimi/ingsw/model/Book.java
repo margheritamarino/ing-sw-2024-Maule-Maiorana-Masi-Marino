@@ -10,6 +10,8 @@ import java.util.*;
 
 // BOOK: disposizione delle carte di ogni player
 public class Book implements Serializable {
+    private static final long serialVersionUID = 2959887351940112342L;
+
     private final Cell[][] bookMatrix; //matrice di celle
     private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
     private Map<SymbolType, Integer> symbolMap; //n° di simboli per tipo
