@@ -684,6 +684,13 @@ public class Book implements Serializable {
          * @author Martina Maiorana
          */
         public int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
+            int[][] indexes = new int[70][70];
+            //inizializza matrice indici
+            for (int i = 0; i < indexes.length; i++) {
+                for (int j = 0; j < indexes[i].length; j++) {
+                    indexes[i][j] = 0;
+                }
+            }
             int count = 0;
             ResourceType mainResource = objectiveCard.getMainResource();
             CornerType direction = objectiveCard.getDirection();
@@ -696,13 +703,16 @@ public class Book implements Serializable {
                 for (int i = 0; i < rows - 2; i++) {
                     for (int j = 0; j < columns - 2; j++) {
                         // Controllo se le tre celle consecutive sono diagonalmente disposte
-                        if (bookMatrix[i][j].getCard() != null &&
+                        if (!skipIndexes(indexes,i,j) && bookMatrix[i][j].getCard() != null &&
                                 bookMatrix[i + 1][j + 1].getCard() != null &&
                                 bookMatrix[i + 2][j + 2].getCard() != null &&
                                 bookMatrix[i][j].getCard().getMainResource() == mainResource &&
                                 bookMatrix[i + 1][j + 1].getCard().getMainResource() == mainResource &&
                                 bookMatrix[i + 2][j + 2].getCard().getMainResource() == mainResource) {
                             count++;
+                            indexes[i][j] = 1;
+                            indexes[i+1][j+1] = 1;
+                            indexes[i+2][j+2] = 1;
                         }
                     }
                 }
@@ -711,13 +721,16 @@ public class Book implements Serializable {
                 for (int i = 0; i < rows - 2; i++) {
                     for (int j = 2; j < columns; j++) {
                         // Controllo se le tre celle consecutive sono diagonalmente disposte
-                        if (bookMatrix[i][j].getCard() != null &&
+                        if (!skipIndexes(indexes,i,j) && bookMatrix[i][j].getCard() != null &&
                                 bookMatrix[i + 1][j - 1].getCard() != null &&
                                 bookMatrix[i + 2][j - 2].getCard() != null &&
                                 bookMatrix[i][j].getCard().getMainResource() == mainResource &&
                                 bookMatrix[i + 1][j - 1].getCard().getMainResource() == mainResource &&
                                 bookMatrix[i + 2][j - 2].getCard().getMainResource() == mainResource) {
                             count++;
+                            indexes[i][j] = 1;
+                            indexes[i+1][j-1] = 1;
+                            indexes[i+2][j-2] = 1;
                         }
                     }
                 }
@@ -726,9 +739,18 @@ public class Book implements Serializable {
             // Ritorna il numero di gruppi trovati moltiplicato per 2 (punti vittoria guadagnati per ogni tripletta in diagonale che doddisfa i requisiti
             return count * 2;
         }
-        /*ALTRO METODO con cui potresti implementare checkDiagonalPlacement è scansionare bookMatrix per righe e
-         fermarti su ogni cella che contiene una PlayableCard che abbia la mainResource uguale a quella della ObjectiveCard,
-         se è così allora controllo le due celle consecutive in diagonale: se contengono carte del regno richiesto, incremento il count*/
+
+        public boolean skipIndexes(int[][] indexes,int i, int j){
+            boolean skip;
+            if(indexes[i][j] == 1){
+                skip = true;
+            }else{
+                skip=false;
+            }
+            return skip;
+        }
+
+
 
 
 
