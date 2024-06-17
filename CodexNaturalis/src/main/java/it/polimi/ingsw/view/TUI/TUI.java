@@ -136,7 +136,6 @@ public class TUI extends UI {
      * Prints title of the game
      */
     public void show_titleCodexNaturalis(){
-        //printAsync("CODEX NATURALIS");
 
         // Pausa di 1.5 secondi
          try {
@@ -181,7 +180,28 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync(model.getBoard().toString());
+        //printAsync(model.getBoard().toString());
+        System.out.print("***********BOARD***********\n");
+        System.out.print("\n");
+
+        // GOLDCARDS
+        System.out.print(ColorConsole.YELLOW_BACKGROUND.getCode()+ColorConsole.BLACK.getCode()+"***GOLDCARDS***: \n"+ColorConsole.RESET.getCode());
+        System.out.print("\n");
+        System.out.print(model.getBoard().cardsGoldToString());
+        System.out.print("\n");
+
+
+        // RESOURCECARDS
+        System.out.print(ColorConsole.GREEN.getCode()+"***RESOURCECARDS***: \n"+ ColorConsole.RESET.getCode());
+        System.out.print("\n");
+        System.out.print(model.getBoard().cardsResourceToString());
+        System.out.print("\n");
+
+        // OBJECTIVE
+        System.out.print(ColorConsole.RED_BRIGHT.getCode()+"*******COMMON GOALS*******: \n"+ ColorConsole.RESET.getCode());
+        System.out.print("\n");
+        System.out.print(model.getBoard().cardsObjectiveToString());
+        System.out.print("\n");
     }
 
 
@@ -739,6 +759,25 @@ public class TUI extends UI {
 
         // Stampa il risultato
         printAsync(result.toString());
+    }
+
+    private String getColorCode(CardType cardType){
+        switch(cardType) {
+            case GoldCard: {
+                return ColorConsole.YELLOW_BACKGROUND_BRIGHT.getCode();
+            }
+            case ResourceCard: {
+                return ColorConsole.GREEN_BACKGROUND_BRIGHT.getCode();
+            }
+            case InitialCard: {
+                return ColorConsole.WHITE_BACKGROUND_BRIGHT.getCode();
+            }
+            //case ObjectiveCard: { --> AGGIUNGI ObjectiveCard IN CardType
+            //    return ColorConsole.RED_BACKGROUND_BRIGHT.getCode();
+            //}
+
+        }
+        return ColorConsole.RESET.getCode();
     }
 
 
