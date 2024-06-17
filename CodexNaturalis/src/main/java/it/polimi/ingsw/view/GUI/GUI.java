@@ -486,8 +486,14 @@ public class GUI extends UI {
     }
 
 
-        @Override
+    @Override
     public void addMessage(Message msg, GameImmutable model) {
         show_sentMessage(model, model.getChat().getLastMessage().getSender().getNickname());
+    }
+
+    @Override
+    public void show_failedReconnectionMsg(GameImmutable model, String nick){
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
+        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Failed to recconnect to the game!", true));
     }
 }
