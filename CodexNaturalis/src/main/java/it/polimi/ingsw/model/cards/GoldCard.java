@@ -363,9 +363,10 @@ public class GoldCard extends PlayableCard implements Serializable {
     // Metodo per contornare le emoji o i simboli
     private String padAndBorderEmoji(String content) {
         int emojiWidth = calculateEmojiWidth(content);
-        int padding = 2 - emojiWidth;
+        int padding = Math.max(0, 2 - emojiWidth);
         return "[" + content + " ".repeat(padding) + "]";
     }
+
 
 }
 

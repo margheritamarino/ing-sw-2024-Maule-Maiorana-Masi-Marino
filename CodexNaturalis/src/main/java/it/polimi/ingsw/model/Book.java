@@ -875,7 +875,7 @@ public class Book implements Serializable {
     }
 
 
-    @Override
+  /*  @Override
     public String toString() {
         final String GREEN = "\033[0;32m";
         final String RESET = "\033[m";
@@ -947,11 +947,103 @@ public class Book implements Serializable {
         result.append("\n");
 
         return result.toString();
+    }*/
+  @Override
+  public String toString() {
+      final String GREEN = "\033[0;32m";
+      final String RESET = "\033[m";
+
+      StringBuilder result = new StringBuilder();
+      int[] limits = findSubMatrix();
+
+      int minI = limits[0];
+      int minJ = limits[1];
+      int maxI = limits[2];
+      int maxJ = limits[3];
+
+      result.append("********************BOOK********************\n");
+
+      // Calcolare la larghezza massima delle colonne
+      int maxWidth = DefaultValue.printLenght + 2; // aggiungiamo 2 per lo spazio tra le colonne e i bordi
+
+      // Aggiungere gli indici delle colonne
+      result.append("     "); // spazio per l'indice delle righe
+      for (int j = minJ; j <= maxJ; j++) {
+          result.append(String.format("%-" + maxWidth + "d", 0 + j));
+      }
+      result.append("\n");
+
+      // Lista per accumulare le stringhe delle righe
+      ArrayList<ArrayList<String>> rows = new ArrayList<>();
+
+      for (int i = minI; i <= maxI; i++) { // righe
+          ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+          for (int k = 0; k < DefaultValue.printHeight + 1; k++) { // +1 per il bordo inferiore
+              rowBuilders.add(new StringBuilder());
+          }
+
+          for (int j = minJ; j <= maxJ; j++) { // colonne
+              String[] lines;
+              if (bookMatrix[i][j].getCard() != null) {
+                  lines = bookMatrix[i][j].getCard().toString().split("\n");
+              } else {
+                  lines = nullCardPrint().split("\n");
+              }
+
+              // Se la cella è disponibile, colorala di verde
+              boolean isAvailable = bookMatrix[i][j].isAvailable();
+              String colorCode = isAvailable ? GREEN : RESET;
+
+              for (int k = 0; k < lines.length; k++) {
+                  if (k < rowBuilders.size()) {
+                      int spacesToAdd = Math.max(0, maxWidth - lines[k].length());
+                      rowBuilders.get(k).append(colorCode).append(lines[k]).append(" ".repeat(spacesToAdd)).append(RESET);
+                  }
+              }
+          }
+
+          ArrayList<String> rowStrings = new ArrayList<>();
+          for (StringBuilder sb : rowBuilders) {
+              rowStrings.add(sb.toString());
+          }
+          rows.add(rowStrings);
+      }
+
+      // Stampa degli indici delle righe e dei contenuti
+      for (int i = 0; i < rows.size(); i++) {
+          // Aggiungere l'indice della riga
+          result.append(String.format("%-4d", minI + i));
+          for (String line : rows.get(i)) {
+              result.append(line).append("\n");
+          }
+      }
+
+      result.append("\n");
+      result.append(showMaps());
+      result.append("\n");
+
+      return result.toString();
+  }
+    public String nullCardPrint() {
+        StringBuilder result = new StringBuilder();
+        int maxWidth = DefaultValue.printLenght;
+
+        String borderLine = "+" + "-".repeat(maxWidth) + "+";
+        result.append(borderLine).append("\n");
+
+        for (int i = 0; i < DefaultValue.printHeight; i++) {
+            result.append("| ");
+            result.append(" ".repeat(maxWidth - 2)); // -2 per i bordi laterali "| |"
+            result.append(" |\n");
+        }
+
+        result.append(borderLine).append("\n");
+
+        return result.toString();
     }
 
 
-
-    public String nullCardPrint() {
+   /* public String nullCardPrint() {
         StringBuilder result = new StringBuilder();
 
         int maxWidth = DefaultValue.printLenght;
@@ -973,7 +1065,7 @@ public class Book implements Serializable {
 
         return result.toString();
     }
-
+*/
 
 
     public int[] findSubMatrix() {

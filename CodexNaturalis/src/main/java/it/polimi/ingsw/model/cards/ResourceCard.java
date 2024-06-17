@@ -260,9 +260,9 @@ public class ResourceCard extends PlayableCard implements Serializable {
       int paddingVictoryPoints = Math.max(0, (width - victoryPoints.length() - 8) / 2);
       result.append("|")
               .append(topLeft)
-              .append(" ".repeat(paddingVictoryPoints))
+              .append(" ".repeat(Math.max(0, paddingVictoryPoints)))
               .append(victoryPoints)
-              .append(" ".repeat(width - paddingVictoryPoints - victoryPoints.length() - 8))
+              .append(" ".repeat(Math.max(0, width - paddingVictoryPoints - victoryPoints.length() - 8)))
               .append(topRight)
               .append("|\n");
 
@@ -270,7 +270,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
       String cardTypeLine = cardTypeName;
       int paddingType = Math.max(0, (width - cardTypeLine.length()) / 2);
       result.append("|")
-              .append(" ".repeat(paddingType))
+              .append(" ".repeat(Math.max(0, paddingType)))
               .append(cardTypeLine)
               .append(" ".repeat(Math.max(0, width - paddingType - cardTypeLine.length())))
               .append("|\n");
@@ -279,7 +279,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
       String faceLine = "(" + FoB + ")";
       int paddingFace = Math.max(0, (width - faceLine.length()) / 2);
       result.append("|")
-              .append(" ".repeat(paddingFace))
+              .append(" ".repeat(Math.max(0, paddingFace)))
               .append(faceLine)
               .append(" ".repeat(Math.max(0, width - paddingFace - faceLine.length())))
               .append("|\n");
@@ -288,7 +288,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
       String mainResource = convertToEmoji(getMainResource().toString());
       int paddingMainResource = Math.max(0, (width - calculateEmojiWidth(mainResource)) / 2);
       result.append("|")
-              .append(" ".repeat(paddingMainResource))
+              .append(" ".repeat(Math.max(0, paddingMainResource)))
               .append(mainResource)
               .append(" ".repeat(Math.max(0, width - paddingMainResource - calculateEmojiWidth(mainResource))))
               .append("|\n");
@@ -296,13 +296,13 @@ public class ResourceCard extends PlayableCard implements Serializable {
       // Aggiungi righe vuote fino a raggiungere l'altezza desiderata della carta
       int remainingHeight = height - (contentRows + 2); // 2 righe per i bordi superiori e inferiori
       for (int i = 0; i < remainingHeight; i++) {
-         result.append("|").append(" ".repeat(width)).append("|\n");
+         result.append("|").append(" ".repeat(Math.max(0, width))).append("|\n");
       }
 
       // Riga inferiore con angoli
       result.append("|")
               .append(bottomLeft)
-              .append(" ".repeat(width - 8)) // -8 per i bordi e gli spazi
+              .append(" ".repeat(Math.max(0, width - 8))) // -8 per i bordi e gli spazi
               .append(bottomRight)
               .append("|\n");
 
@@ -311,6 +311,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
 
       return result.toString();
    }
+
 
    // Metodo per calcolare la larghezza delle emoji
    private int calculateEmojiWidth(String input) {
@@ -332,7 +333,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
    // Metodo per contornare le emoji o i simboli
    private String padAndBorderEmoji(String content) {
       int emojiWidth = calculateEmojiWidth(content);
-      int padding = 2 - emojiWidth;
+      int padding = Math.max(0, 2 - emojiWidth);
       return "[" + content + " ".repeat(padding) + "]";
    }
 

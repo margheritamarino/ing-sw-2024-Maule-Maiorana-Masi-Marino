@@ -205,7 +205,8 @@ public class ObjectiveCard implements Serializable {
         String condition = " ";
         List<String> emojiSymbol = new ArrayList<>();
 
-        switch(goalType) {
+        // Impostazione dei colori e condizione basata sul tipo di obiettivo
+        switch (goalType) {
             case ResourceCondition:
                 changeColor();
                 condition = convertToEmoji(mainResource.toString());
@@ -217,7 +218,8 @@ public class ObjectiveCard implements Serializable {
                     emojiSymbol.add(convertToEmoji(s.toString()));
                 }
                 break;
-            case DiagonalPlacement, LPlacement:
+            case DiagonalPlacement:
+            case LPlacement:
                 changeColor();
                 condition = direction.toString();
                 break;
@@ -225,12 +227,12 @@ public class ObjectiveCard implements Serializable {
                 bgColor = Ansi.Color.DEFAULT;
         }
 
-
-        String cardTypeName = "Objective";
+        // Preparazione delle righe del contenuto
+        String cardTypeName = "ObjectiveCard";
         String pointsLine = "Points: [" + victoryPoints + "]";
         String goalLine = "Goal: " + goalType.toString();
 
-        // Costruzione delle righe del contenuto
+        // Creazione della lista delle righe di contenuto
         List<String> contentLines = new ArrayList<>();
         contentLines.add(cardTypeName);
         contentLines.add(pointsLine);
@@ -242,21 +244,21 @@ public class ObjectiveCard implements Serializable {
         }
         contentLines.add(conditionLine.toString());
 
-        // Calcola la larghezza massima
-        int maxWidth = DefaultValue.printLenght;
+        // Calcola la larghezza massima per allineare correttamente il contenuto
+        int maxWidth = 25;
         for (String line : contentLines) {
             maxWidth = Math.max(maxWidth, line.length());
         }
-        maxWidth += 4; // Aggiungiamo spazio per i bordi "|  |"
+        maxWidth += 4; // Aggiunge spazio per i bordi "|  |"
 
-        // Calcola l'altezza massima
+        // Calcola l'altezza massima della carta
         int cardHeight = DefaultValue.printHeight;
 
-        // Costruzione del bordo superiore
+        // Costruisce il bordo superiore
         String borderLine = "+" + "-".repeat(maxWidth - 2) + "+";
         result.append(borderLine).append("\n");
 
-        // Aggiungi righe di contenuto
+        // Aggiunge righe di contenuto con padding centrato
         for (String line : contentLines) {
             int padding = Math.max(0, (maxWidth - line.length() - 4) / 2); // -4 per "|  |"
             result.append("| ")
@@ -266,15 +268,15 @@ public class ObjectiveCard implements Serializable {
                     .append(" |\n");
         }
 
-        // Aggiungi righe vuote fino a raggiungere l'altezza desiderata della carta
-        for (int i = contentLines.size(); i < cardHeight - 1; i++) {
-            result.append("|").append(" ".repeat(maxWidth)).append("|\n");
+        // Aggiunge righe vuote per raggiungere l'altezza desiderata della carta
+        for (int i = contentLines.size(); i < cardHeight - 2; i++) {
+            result.append("| ").append(" ".repeat(maxWidth - 4)).append(" |\n");
         }
 
-        // Costruzione del bordo inferiore
+        // Costruisce il bordo inferiore
         result.append(borderLine).append("\n");
 
-        // Applicazione del colore
+        // Applica i colori
         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
 
         return finalResult;
