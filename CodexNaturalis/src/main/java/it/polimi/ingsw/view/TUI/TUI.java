@@ -926,6 +926,22 @@ public class TUI extends UI {
 
     }
 
+    /**
+     * Shows a message for the next turn or when a player reconnects
+     * @param model model where events happen
+     * @param nick of the reconnected player
+     */
+    @Override
+    public void show_PlayerReconnectedMsg(GameImmutable model, String nick) {
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        printAsync("Player" + nick + "is back in the game! \n");
+    }
+
     //mostra i messaggi inviati da un utente specifico
     @Override
     public void show_sentMessage(GameImmutable model, String nickname) {

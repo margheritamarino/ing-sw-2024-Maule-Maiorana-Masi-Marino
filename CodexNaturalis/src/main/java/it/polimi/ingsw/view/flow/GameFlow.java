@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
+import it.polimi.ingsw.model.game.GameStatus;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.ConnectionType;
@@ -29,6 +30,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
+import static it.polimi.ingsw.view.events.EventType.PLAYER_RECONNECTED;
+
 
 //Capire come parte il pescaggio delle carte nel 1°Truno di gioco
 
@@ -46,11 +49,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     private String msgNotCorrect;
 
+    /**
+     * The last player that reconnected
+     */
+    private String lastPlayerReconnected;
+
 
     /**
      * Constructor of the class, based on the connection type it creates the clientActions and initializes the UI,
      * the FileDisconnection, the InputReader and the InputController
-     *
      * @param connectionType the connection type
      */
     public GameFlow(ConnectionType connectionType) {
@@ -192,6 +199,19 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case NEXT_TURN -> {
                 ui.show_nextTurnMsg(event.getModel());
                 if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
+                    ui.show_CurrentTurnMsg(event.getModel());
+                    askPlaceCards(event.getModel(), nickname);
+                }
+                else{
+                    ui.show_WaitTurnMsg(event.getModel(), nickname);
+                }
+            }
+
+            case PLAYER_RECONNECTED -> {
+                ui.show_PlayerReconnectedMsg(event.getModel(), nickname);
+                ui.show_nextTurnMsg(event.getModel());
+
+                if (lastPlayerReconnected.equals(nickname)) {
                     ui.show_CurrentTurnMsg(event.getModel());
                     askPlaceCards(event.getModel(), nickname);
                 }
@@ -869,10 +889,38 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
+    /**
+     * A player has been disconnected
+     * @param model the game model
+     * @param nick  the nickname of the player who disconnected
+     * @throws RemoteException
+     */
     @Override
     public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
         //TODO
+        ui.addImportantEvent("Player " + nick + " has just disconnected");
+
+        //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
+        if (model.getStatus().equals(GameStatus.WAIT)) {
+            Color colorP = model.getPlayerByNickname(nick).getPlayerColor();
+            ui.show_playerJoined(model, nickname, colorP );
+        }
     }
+
+    /**
+     * A player reconnected to the game
+     * @param model is the game model {@link GameImmutable}
+     * @param nickPlayerReconnected is the nickname of the player that has reconnected
+     * @throws RemoteException
+     */
+    @Override
+    public void playerReconnected(GameImmutable model,  String nickPlayerReconnected) throws RemoteException{
+        lastPlayerReconnected = nickPlayerReconnected;
+        events.add(model, PLAYER_RECONNECTED);
+        ui.addImportantEvent("[EVENT]: Player reconnected!");
+    }
+
+
 
     /**
      * Throws a message if there is an error within connection

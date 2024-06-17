@@ -58,6 +58,15 @@ public interface GameListenerInterface extends Remote {
      */
     void playerLeft(GameImmutable model, String nickname) throws RemoteException;
 
+
+    /**
+     * This method is used to notify the client that a player has reconnected to the game
+     * @param model is the game model {@link GameImmutable}
+     * @param nickPlayerReconnected is the nickname of the player that has reconnected
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void playerReconnected(GameImmutable model,  String nickPlayerReconnected) throws RemoteException;
+
     /**
      * This method is used to notify the client that a player has tried to join the game but the game is full
      *

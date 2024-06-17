@@ -32,6 +32,6 @@ public class msgPlayerReconnected extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws IOException, InterruptedException {
-   //     lis.playerReconnected(model, nickPlayerReconnected);
+        lis.playerReconnected(model, nickPlayerReconnected);
     }
 }

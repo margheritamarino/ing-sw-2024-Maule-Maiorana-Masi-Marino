@@ -297,6 +297,23 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         out.reset();
     }
 
+    /**
+     * This method is used to write on the ObjectOutputStream the message that a player has reconnected to the game
+     * @param gamemodel is the game model {@link GameImmutable}
+     * @param nickPlayerReconnected is the nickname of the player
+     * @throws RemoteException if the connection fails
+     */
+    @Override
+    public void playerReconnected(GameImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
+        //System.out.println(nickNewPlayer +" by socket");
+        try {
+            out.writeObject(new msgPlayerReconnected(gamemodel, nickPlayerReconnected));
+            finishSending();
+        } catch (IOException e) {
+
+        }
+    }
+
 
     @Override
     public void sentMessage(GameImmutable model, Message msg) throws RemoteException {

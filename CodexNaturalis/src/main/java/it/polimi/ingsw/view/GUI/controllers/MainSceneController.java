@@ -377,6 +377,10 @@ public class MainSceneController extends ControllerGUI{
             }
         }
     }
+
+    public void playerReconnectedInGame(GameImmutable model) {
+    //TODO
+    }
     private void highlightText(Text text) {
         DropShadow dropShadow = new DropShadow();
         // Crea un effetto Glow

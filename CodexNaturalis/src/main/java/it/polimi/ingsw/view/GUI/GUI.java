@@ -475,7 +475,18 @@ public class GUI extends UI {
     }
 
 
+    /**
+     * Shows a message for the next turn or when a player reconnects
+     * @param model model where events happen
+     * @param nick of the reconnected player
+     */
     @Override
+    public void show_PlayerReconnectedMsg(GameImmutable model, String nick) {
+        callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).playerReconnectedInGame(model));
+    }
+
+
+        @Override
     public void addMessage(Message msg, GameImmutable model) {
         show_sentMessage(model, model.getChat().getLastMessage().getSender().getNickname());
     }

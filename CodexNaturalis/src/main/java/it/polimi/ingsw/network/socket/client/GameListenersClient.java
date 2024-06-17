@@ -115,6 +115,12 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
     @Override
+    public void playerReconnected(GameImmutable model,  String nickPlayerReconnected) throws RemoteException{
+        flow.playerReconnected(model, nickPlayerReconnected);
+    }
+
+
+    @Override
     public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
         flow.sentMessage(model, msg);
     }

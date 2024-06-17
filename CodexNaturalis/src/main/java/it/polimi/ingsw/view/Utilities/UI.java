@@ -110,4 +110,11 @@ public abstract class UI {
     public abstract void addMessage(Message msg, GameImmutable model);
 
     public abstract void closeWaitPopUp();
+
+    /**
+     * Show the message for next turn or reconnected player
+     * @param model    model where events happen
+     */
+    public abstract void show_PlayerReconnectedMsg(GameImmutable model, String nick);
+
 }

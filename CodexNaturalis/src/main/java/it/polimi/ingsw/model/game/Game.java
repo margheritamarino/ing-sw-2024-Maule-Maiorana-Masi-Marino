@@ -127,7 +127,12 @@ public class Game {
 		return this.playersNumber;
 	}
 
-
+	/**
+	 * @return the number of player's connected
+	 */
+	public int getNumOfOnlinePlayers() {
+		return players.stream().filter(Player::isConnected).toList().size();
+	}
 
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -327,19 +332,6 @@ public class Game {
 	 * If I want to set the gameStatus to "RUNNING", there needs to be at least
 	 * DefaultValue.minNumberOfPlayers -> (2) in lobby, the right number of Cards on the Board and a valid currentPlayer
 	 */
-	/*public void setInitialStatus() {
-		try {
-			if (this.status == GameStatus.WAIT && //devo essere PRIMA che inizi il gioco (altrimenti il checkBoard() NON ha senso!!
-					players.size() == playersNumber
-					&& checkBoard()
-					&& currentPlayer != null) {
-				this.status = GameStatus.RUNNING;
-				listenersHandler.notify_GameStarted(this);
-			}
-		}catch (BoardSetupException e){
-			System.err.println("Error during Board setup: " + e.getMessage());
-		}
-	}*/
 	public void setInitialStatus() {
 		try {
 			if (this.status == GameStatus.WAIT &&
@@ -622,6 +614,36 @@ public class Game {
 
 	public void setPlayerDisconnected(Player p) {
 		p.setConnected(false);
+	}
+
+	/**
+	 * @param p player is reconnected
+	 * @throws PlayerAlreadyInException player is already in
+	 * @throws MaxPlayersInException    there's already 4 players in game
+	 * @throws GameEndedException       the game has ended
+	 */
+	public boolean reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
+		Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
+
+		if (!pIn.isConnected()) {
+			pIn.setConnected(true);
+			listenersHandler.notify_playerReconnected(this, p.getNickname());
+
+			if (!isTheCurrentPlayerOnline()) {
+				nextTurn();
+			}
+			return true;
+
+		} else {
+			printAsync("ERROR: Trying to reconnect a player not offline!");
+			return false;
+		}
+
+	}/**
+	 * @return true if the player in turn is online
+	 */
+	private boolean isTheCurrentPlayerOnline() {
+		return this.getCurrentPlayer().isConnected();
 	}
 
 	public Chat getChat(){

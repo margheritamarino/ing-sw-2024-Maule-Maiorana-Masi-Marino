@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
+import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -30,6 +31,10 @@ public interface ClientInterface  {
      *
      */
     void leave(String nick) throws IOException, NotBoundException;
+
+
+    void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException;
+
 
     /**
      * Sets the invoker as ready

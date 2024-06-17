@@ -42,6 +42,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     private boolean gameCreated;
     private final transient Map<GameListenerInterface, Ping> receivedPings;
 
+    /**
+     * Timer started when only one player is playing (usefull during a Disconnection of a player)
+     * it ends the game if no one reconnects within {@link DefaultValue#secondsToWaitReconnection} seconds
+     */
+    private Thread reconnectionTh;
+
+
     /**GameController Constructor
      * Initializes a GameModel
      */
@@ -110,6 +117,14 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                                 this.disconnectPlayer(el.getValue().getNick(), el.getKey());
                                 printAsync("Disconnection detected by Ping of player: "+el.getValue().getNick());
 
+                                if (model.getNumOfOnlinePlayers() == 0) {
+                                    stopReconnectionTimer();
+                                    if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
+                                        model.setStatus(GameStatus.ENDED);
+                                    }
+                                    //GameController.getInstance().deleteGame();--> NON serve avendo quell'unico Game
+                                    return;
+                                }
                             } catch (RemoteException e) {
                                 throw new RuntimeException(e);
                             }
@@ -255,15 +270,102 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         Player p = model.getPlayerByNickname(nick);
         if(p!=null) {
             model.removeListener(listener);
-            model.setPlayerDisconnected(p);
-            model.removePlayer(nick); //remove Player from the Game
-            //if a player is disconnectes the Game finishes
-            if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
-                model.setStatus(GameStatus.ENDED);
+            if (model.getStatus().equals(GameStatus.WAIT)) {
+                //The game is in Wait (game not started yet), the player disconnected, so I remove him from the game)
+                model.removePlayer(nick); //remove Player from the Game
+            } else {
+                //Tha game is running, so I set him as disconnected (He can reconnect soon)
+                model.setPlayerDisconnected(p);
+            }
+            //if a player is disconnected the Game finishes
+            // if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
+            //    model.setStatus(GameStatus.ENDED);
+            //}
+            //Check if there is only one player playing
+            if ((model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)) && model.getNumOfOnlinePlayers() == 1) {
+                //Starting a th for waiting until reconnection at least of 1 client to keep playing
+                if (reconnectionTh == null) {
+                    startReconnectionTimer();
+                    printAsync("Starting timer for reconnection waiting: " + DefaultValue.secondsToWaitReconnection + " seconds");
+                }
             }
         }
 
     }
+
+    /**
+     * Starts a timer for detecting the reconnection of a player, if no one reconnects in time, the game is over
+     */
+    @SuppressWarnings("BusyWait")
+    private void startReconnectionTimer() {
+        reconnectionTh = new Thread(
+                () -> {
+                    long startingtimer = System.currentTimeMillis();
+
+                    while (reconnectionTh != null && !reconnectionTh.isInterrupted() && System.currentTimeMillis() - startingtimer < DefaultValue.secondsToWaitReconnection * 1000) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            //Someone called interrupt on this th (no need to keep waiting)
+                        }
+                    }
+                    printAsync("Timer for reconnection ended");
+
+                    if (model.getNumOfOnlinePlayers() == 0) {
+                        //No players online: I set GameStatus ENDED
+                        if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
+                            model.setStatus(GameStatus.ENDED);
+                        }
+                        //GameController.getInstance().deleteGame();
+                    } else if (model.getNumOfOnlinePlayers() == 1) {
+                        printAsync("\tNo player reconnected on time, set game to ended!");
+                        model.setStatus(GameStatus.ENDED);
+                    } else {
+                        printAsync("\tA player reconnected on time");
+                        this.reconnectionTh = null;
+                    }
+                }
+
+        );
+        reconnectionTh.start();
+    }
+
+    /**
+     * It stops the timer (if started) that checks for reconnections of players
+     */
+    private void stopReconnectionTimer() {
+        if (reconnectionTh != null) {
+            reconnectionTh.interrupt();
+            reconnectionTh = null;
+        }
+        //else It means that a player reconnected but the timer was not started (ex 3 players and 1 disconnects)
+    }
+
+    /**
+     * Reconnect the player with the nickname @param to the game
+     *
+     * @param p Player that want to reconnect
+     * @throws PlayerAlreadyInException if a player tries to rejoin the same game
+     * @throws MaxPlayersInException    if there are already 4 players in game
+     * @throws GameEndedException       the game is ended
+     */
+    public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
+        boolean outputres = model.reconnectPlayer(p);
+
+        if (outputres && getNumOfOnlinePlayers() > 1) {
+            stopReconnectionTimer();
+        }
+        //else nobody was connected and now one player has reconnected before the timer expires
+    }
+
+    /**
+     * @return the number of online players that are in the game
+     */
+    public int getNumOfOnlinePlayers() {
+        return model.getNumOfOnlinePlayers();
+    }
+
+
 
 
     /**
