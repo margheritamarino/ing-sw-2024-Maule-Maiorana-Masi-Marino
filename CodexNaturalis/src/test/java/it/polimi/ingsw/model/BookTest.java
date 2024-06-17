@@ -1163,8 +1163,141 @@ public class BookTest {
 
 
     @Test
-    void testCheckLPlacement() {
-        Book book = new Book(5, 5);
+    void testCheckLPlacementTLCorner() throws PlacementConditionViolated, CellNotAvailableException {
+        Book book = new Book(70, 70);
+        //creo carta objectiveCard
+        List<SymbolType> objectiveList = new ArrayList<>();
+        ObjectiveCard objectiveCard = new ObjectiveCard(4,true,GoalType.LPlacement,3,ResourceType.Fungi,CornerType.TLCorner,0,0,objectiveList,ResourceType.Plant);
+
+        //Creo istanza InitialCard0 fittizia e la aggiungo al Book
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Fungi);
+        resourceList2.add(ResourceType.Plant);
+        resourceList2.add(ResourceType.Animal);
+        resourceList2.add(ResourceType.Insect);
+        List<ResourceType> centralResources2 = new ArrayList<>();
+        InitialCard initialCard = new InitialCard(0,4,false,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,centralResources2,0,4,resourceList2);
+        book.addInitial(initialCard);
+        Assertions.assertEquals(initialCard, book.getBookMatrix()[35][35].getCard());
+
+
+        //Creo carta FUNGI e la aggiungo al Book
+        List<ResourceType> resourceList = new ArrayList<>();
+        ResourceCard resourceCard2 = new ResourceCard(2,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList,false, null);
+        book.addCard(resourceCard2, book.getBookMatrix()[34][36]); //aggiungo al book la resoureCard
+
+        //creo carta FUNGI e la aggiungo al book
+        ResourceCard resourceCard3 = new ResourceCard(1,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList,false, null);
+        book.addCard(resourceCard3, book.getBookMatrix()[36][36]); //aggiungo al book la resoureCard
+
+        //creo carta PLANT e la aggiungo al book
+        ResourceCard resourceCard4 = new ResourceCard(10,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Plant,0,0,resourceList,false, null);
+        book.addCard(resourceCard4, book.getBookMatrix()[37][37]); //aggiungo al book la resoureCard
+
+        assertEquals(3, book.checkLPlacement(objectiveCard));
+    }
+
+    @Test
+    void testCheckLPlacementTRCorner() throws PlacementConditionViolated, CellNotAvailableException {
+        Book book = new Book(70, 70);
+        //creo carta objectiveCard
+        List<SymbolType> objectiveList = new ArrayList<>();
+        ObjectiveCard objectiveCard = new ObjectiveCard(5,true,GoalType.LPlacement,3,ResourceType.Plant,CornerType.TRCorner,0,0,objectiveList,ResourceType.Insect);
+
+        //Creo istanza InitialCard0 fittizia e la aggiungo al Book
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Fungi);
+        resourceList2.add(ResourceType.Plant);
+        resourceList2.add(ResourceType.Animal);
+        resourceList2.add(ResourceType.Insect);
+        List<ResourceType> centralResources2 = new ArrayList<>();
+        InitialCard initialCard = new InitialCard(0,4,false,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,centralResources2,0,4,resourceList2);
+        book.addInitial(initialCard);
+        Assertions.assertEquals(initialCard, book.getBookMatrix()[35][35].getCard());
+
+        //creo carta PLANT e la aggiungo al book
+        List<ResourceType> resourceList = new ArrayList<>();
+        ResourceCard resourceCard4 = new ResourceCard(10,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Plant,0,0,resourceList,false, null);
+        book.addCard(resourceCard4, book.getBookMatrix()[36][34]); //aggiungo al book la resoureCard
+
+        //creo carta PLANT e la aggiungo al book
+        ResourceCard resourceCard5 = new ResourceCard(11,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Plant,0,0,resourceList,false, null);
+        book.addCard(resourceCard5, book.getBookMatrix()[34][34]); //aggiungo al book la resoureCard
+
+        //creo carta INSECT e la aggiungo al book
+        ResourceCard resourceCard6 = new ResourceCard(30,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Insect,0,0,resourceList,false, null);
+        book.addCard(resourceCard6, book.getBookMatrix()[37][33]); //aggiungo al book la resoureCard
+
+        assertEquals(3, book.checkLPlacement(objectiveCard));
+    }
+
+    @Test
+    void testCheckLPlacementBLCorner() throws PlacementConditionViolated, CellNotAvailableException {
+        Book book = new Book(70, 70);
+        //creo carta objectiveCard
+        List<SymbolType> objectiveList = new ArrayList<>();
+        ObjectiveCard objectiveCard = new ObjectiveCard(6,true,GoalType.LPlacement,3,ResourceType.Animal,CornerType.BLCorner,0,0,objectiveList,ResourceType.Fungi);
+
+        //Creo istanza InitialCard0 fittizia e la aggiungo al Book
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Fungi);
+        resourceList2.add(ResourceType.Plant);
+        resourceList2.add(ResourceType.Animal);
+        resourceList2.add(ResourceType.Insect);
+        List<ResourceType> centralResources2 = new ArrayList<>();
+        InitialCard initialCard = new InitialCard(0,4,false,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,centralResources2,0,4,resourceList2);
+        book.addInitial(initialCard);
+        Assertions.assertEquals(initialCard, book.getBookMatrix()[35][35].getCard());
+
+        //creo carta ANIMAL e la aggiungo al book
+        List<ResourceType> resourceList = new ArrayList<>();
+        ResourceCard resourceCard4 = new ResourceCard(20,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Animal,0,0,resourceList,false, null);
+        book.addCard(resourceCard4, book.getBookMatrix()[36][36]); //aggiungo al book la resoureCard
+
+        //creo carta ANIMAL e la aggiungo al book
+        ResourceCard resourceCard5 = new ResourceCard(20,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Animal,0,0,resourceList,false, null);
+        book.addCard(resourceCard5, book.getBookMatrix()[34][36]); //aggiungo al book la resoureCard
+
+        //creo carta FUNGI e la aggiungo al book
+        ResourceCard resourceCard3 = new ResourceCard(1,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Fungi,0,0,resourceList,false, null);
+        book.addCard(resourceCard3, book.getBookMatrix()[33][37]); //aggiungo al book la resoureCard
+
+        assertEquals(3, book.checkLPlacement(objectiveCard));
+
+    }
+
+    @Test
+    void testCheckLPlacementBRCorner() throws PlacementConditionViolated, CellNotAvailableException {
+        Book book = new Book(70, 70);
+        //creo carta objectiveCard
+        List<SymbolType> objectiveList = new ArrayList<>();
+        ObjectiveCard objectiveCard = new ObjectiveCard(7,true,GoalType.LPlacement,3,ResourceType.Insect,CornerType.BRCorner,0,0,objectiveList,ResourceType.Animal);
+
+        //Creo istanza InitialCard0 fittizia e la aggiungo al Book
+        List<ResourceType> resourceList2 = new ArrayList<>();
+        resourceList2.add(ResourceType.Fungi);
+        resourceList2.add(ResourceType.Plant);
+        resourceList2.add(ResourceType.Animal);
+        resourceList2.add(ResourceType.Insect);
+        List<ResourceType> centralResources2 = new ArrayList<>();
+        InitialCard initialCard = new InitialCard(0,4,false,CardType.InitialCard,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,CornerLabel.WithResource,centralResources2,0,4,resourceList2);
+        book.addInitial(initialCard);
+        Assertions.assertEquals(initialCard, book.getBookMatrix()[35][35].getCard());
+
+        //creo carta INSECT e la aggiungo al book
+        List<ResourceType> resourceList = new ArrayList<>();
+        ResourceCard resourceCard6 = new ResourceCard(30,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Insect,0,0,resourceList,false, null);
+        book.addCard(resourceCard6, book.getBookMatrix()[36][36]); //aggiungo al book la resoureCard
+
+        //creo carta INSECT e la aggiungo al book
+        ResourceCard resourceCard5 = new ResourceCard(30,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Insect,0,0,resourceList,false, null);
+        book.addCard(resourceCard5, book.getBookMatrix()[34][36]); //aggiungo al book la resoureCard
+
+        //creo carta ANIMAL e la aggiungo al book
+        ResourceCard resourceCard4 = new ResourceCard(20,4,false,CardType.ResourceCard,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty,CornerLabel.Empty ,ResourceType.Animal,0,0,resourceList,false, null);
+        book.addCard(resourceCard4, book.getBookMatrix()[33][35]); //aggiungo al book la resoureCard
+
+        assertEquals(3, book.checkLPlacement(objectiveCard));
 
     }
 

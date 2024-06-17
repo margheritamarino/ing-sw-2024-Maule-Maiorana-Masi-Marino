@@ -314,4 +314,5 @@ public class ObjectiveCard implements Serializable {
         }else output = input;
         return output;
     }
+
 }
