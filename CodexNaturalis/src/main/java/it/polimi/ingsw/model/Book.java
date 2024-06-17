@@ -762,69 +762,90 @@ public class Book implements Serializable {
          * @author Martina Maiorana
          */
         public int checkLPlacement(ObjectiveCard objectiveCard) {
-                int count = 0;
-                ResourceType mainResource = objectiveCard.getMainResource();
-                ResourceType secondResource = objectiveCard.getSecondResource();
-
-                switch (objectiveCard.getDirection()) { //i 4 possibili valori che può assumere 'direction' danno luogo alle 4 casistiche:
-                    case TLCorner:
-                        for (int i = 2; i < bookMatrix.length; i++) {
-                            for (int j = 1; j < bookMatrix[i].length - 1; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
-                                    if (bookMatrix[i - 1][j - 1].getCard() != null && bookMatrix[i - 2][j - 1].getCard() != null &&
-                                            bookMatrix[i - 1][j - 1].getCard().getMainResource() == secondResource &&
-                                            bookMatrix[i - 2][j - 1].getCard().getMainResource() == secondResource) {
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        break; //capisci se togliere il break
-                    case TRCorner:
-                        for (int i = 2; i < bookMatrix.length; i++) {
-                            for (int j = 0; j < bookMatrix[i].length - 2; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
-                                    if (bookMatrix[i - 1][j + 1].getCard() != null && bookMatrix[i - 2][j + 1].getCard() != null &&
-                                            bookMatrix[i - 1][j + 1].getCard().getMainResource() == secondResource &&
-                                            bookMatrix[i - 2][j + 1].getCard().getMainResource() == secondResource) {
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case BLCorner:
-                        for (int i = 0; i < bookMatrix.length - 2; i++) {
-                            for (int j = 1; j < bookMatrix[i].length - 1; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
-                                    if (bookMatrix[i + 1][j - 1].getCard() != null && bookMatrix[i + 2][j - 1].getCard() != null &&
-                                            bookMatrix[i + 1][j - 1].getCard().getMainResource() == secondResource &&
-                                            bookMatrix[i + 2][j - 1].getCard().getMainResource() == secondResource) {
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case BRCorner:
-                        for (int i = 0; i < bookMatrix.length - 2; i++) {
-                            for (int j = 0; j < bookMatrix[i].length - 2; j++) {
-                                if (bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == mainResource) {
-                                    if (bookMatrix[i + 1][j + 1].getCard() != null && bookMatrix[i + 2][j + 1].getCard() != null &&
-                                            bookMatrix[i + 1][j + 1].getCard().getMainResource() == secondResource &&
-                                            bookMatrix[i + 2][j + 1].getCard().getMainResource() == secondResource) {
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Invalid direction");
+            int[][] indexes = new int[70][70];
+            //inizializza matrice indici
+            for (int i = 0; i < indexes.length; i++) {
+                for (int j = 0; j < indexes[i].length; j++) {
+                    indexes[i][j] = 0;
                 }
-
-                return count*3;
             }
+            int count = 0;
+            ResourceType mainResource = objectiveCard.getMainResource();
+            ResourceType secondResource = objectiveCard.getSecondResource();
+
+            switch (objectiveCard.getDirection()) { //i 4 possibili valori che può assumere 'direction' danno luogo alle 4 casistiche:
+                case TLCorner:
+                    for (int i = 2; i < bookMatrix.length; i++) {
+                        for (int j = 1; j < bookMatrix[i].length - 1; j++) {
+                            if (!skipIndexes(indexes, i, j) && bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == secondResource) {
+                                System.out.println("entrato fase 0 TLCorner");
+                                if (bookMatrix[i - 1][j - 1].getCard() != null && bookMatrix[i - 3][j - 1].getCard() != null &&
+                                        bookMatrix[i - 1][j - 1].getCard().getMainResource() == mainResource &&
+                                        bookMatrix[i - 3][j - 1].getCard().getMainResource() == mainResource) {
+                                    count++;
+                                    indexes[i][j] = 1;
+                                    indexes[i-1][j-1] = 1;
+                                    indexes[i-3][j-1] = 1;
+                                    System.out.println("entratoTLCorner");
+                                }
+                            }
+                        }
+                    }
+                    break; //capisci se togliere il break
+                case TRCorner:
+                    for (int i = 3; i < bookMatrix.length; i++) {
+                        for (int j = 0; j < bookMatrix[i].length - 2; j++) {
+                            if (!skipIndexes(indexes, i, j) && bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == secondResource) {
+                                if (bookMatrix[i - 1][j + 1].getCard() != null && bookMatrix[i - 3][j + 1].getCard() != null &&
+                                        bookMatrix[i - 1][j + 1].getCard().getMainResource() == mainResource &&
+                                        bookMatrix[i - 3][j + 1].getCard().getMainResource() == mainResource) {
+                                    count++;
+                                    indexes[i][j] = 1;
+                                    indexes[i-1][j+1] = 1;
+                                    indexes[i-3][j+1] = 1;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case BLCorner:
+                    for (int i = 0; i < bookMatrix.length - 2; i++) {
+                        for (int j = 1; j < bookMatrix[i].length - 1; j++) {
+                            if (!skipIndexes(indexes, i, j) && bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == secondResource) {
+                                if (bookMatrix[i + 1][j - 1].getCard() != null && bookMatrix[i + 3][j - 1].getCard() != null &&
+                                        bookMatrix[i + 1][j - 1].getCard().getMainResource() == mainResource &&
+                                        bookMatrix[i + 3][j - 1].getCard().getMainResource() == mainResource) {
+                                    count++;
+                                    indexes[i][j] = 1;
+                                    indexes[i+1][j-1] = 1;
+                                    indexes[i+3][j-1] = 1;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case BRCorner:
+                    for (int i = 0; i < bookMatrix.length - 2; i++) {
+                        for (int j = 0; j < bookMatrix[i].length - 2; j++) {
+                            if (!skipIndexes(indexes, i, j) && bookMatrix[i][j].getCard() != null && bookMatrix[i][j].getCard().getMainResource() == secondResource) {
+                                if (bookMatrix[i + 1][j + 1].getCard() != null && bookMatrix[i + 3][j + 1].getCard() != null &&
+                                        bookMatrix[i + 1][j + 1].getCard().getMainResource() == mainResource &&
+                                        bookMatrix[i + 3][j + 1].getCard().getMainResource() == mainResource) {
+                                    count++;
+                                    indexes[i][j] = 1;
+                                    indexes[i+1][j+1] = 1;
+                                    indexes[i+3][j+1] = 1;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid direction");
+            }
+
+            return count*3;
+        }
 
 
     public Cell[][] getBookMatrix() {
