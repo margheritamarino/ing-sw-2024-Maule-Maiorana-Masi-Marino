@@ -122,7 +122,7 @@ public class ObjectiveCard implements Serializable {
      *
      * @return A formatted string representing the card.
      */
-    @Override
+   /* @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         Ansi.Color bgColor = Ansi.Color.DEFAULT;
@@ -190,6 +190,89 @@ public class ObjectiveCard implements Serializable {
 
         // Costruzione del bordo inferiore
         result.append(borderLine);
+
+        // Applicazione del colore
+        String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
+
+        return finalResult;
+    }
+*/
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        Ansi.Color bgColor = Ansi.Color.DEFAULT;
+        Ansi.Color textColor = Ansi.Color.WHITE;
+        String condition = " ";
+        List<String> emojiSymbol = new ArrayList<>();
+
+        switch(goalType) {
+            case ResourceCondition:
+                changeColor();
+                condition = convertToEmoji(mainResource.toString());
+                break;
+            case SymbolCondition:
+                bgColor = Ansi.Color.YELLOW;
+                List<SymbolType> symbols = getSymbols();
+                for (SymbolType s : symbols) {
+                    emojiSymbol.add(convertToEmoji(s.toString()));
+                }
+                break;
+            case DiagonalPlacement, LPlacement:
+                changeColor();
+                condition = direction.toString();
+                break;
+            default:
+                bgColor = Ansi.Color.DEFAULT;
+        }
+
+
+        String cardTypeName = "Objective";
+        String pointsLine = "Points: [" + victoryPoints + "]";
+        String goalLine = "Goal: " + goalType.toString();
+
+        // Costruzione delle righe del contenuto
+        List<String> contentLines = new ArrayList<>();
+        contentLines.add(cardTypeName);
+        contentLines.add(pointsLine);
+        contentLines.add(goalLine);
+
+        StringBuilder conditionLine = new StringBuilder(condition);
+        for (String symbol : emojiSymbol) {
+            conditionLine.append(" ").append(symbol);
+        }
+        contentLines.add(conditionLine.toString());
+
+        // Calcola la larghezza massima
+        int maxWidth = DefaultValue.printLenght;
+        for (String line : contentLines) {
+            maxWidth = Math.max(maxWidth, line.length());
+        }
+        maxWidth += 4; // Aggiungiamo spazio per i bordi "|  |"
+
+        // Calcola l'altezza massima
+        int cardHeight = DefaultValue.printHeight;
+
+        // Costruzione del bordo superiore
+        String borderLine = "+" + "-".repeat(maxWidth - 2) + "+";
+        result.append(borderLine).append("\n");
+
+        // Aggiungi righe di contenuto
+        for (String line : contentLines) {
+            int padding = Math.max(0, (maxWidth - line.length() - 4) / 2); // -4 per "|  |"
+            result.append("| ")
+                    .append(" ".repeat(padding))
+                    .append(line)
+                    .append(" ".repeat(maxWidth - padding - line.length() - 4))
+                    .append(" |\n");
+        }
+
+        // Aggiungi righe vuote fino a raggiungere l'altezza desiderata della carta
+        for (int i = contentLines.size(); i < cardHeight - 1; i++) {
+            result.append("|").append(" ".repeat(maxWidth)).append("|\n");
+        }
+
+        // Costruzione del bordo inferiore
+        result.append(borderLine).append("\n");
 
         // Applicazione del colore
         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();

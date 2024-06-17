@@ -358,7 +358,7 @@ public class Board implements Serializable {
 
 
 
-    public String cardsVisibleGoldToString() {
+    /*public String cardsVisibleGoldToString() {
         // Lista per accumulare le stringhe delle righe
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
 
@@ -389,39 +389,119 @@ public class Board implements Serializable {
             result.append(sb.toString().stripTrailing()).append("\n");
         }
         return result.toString();
-    }
+    }*/
+    public String cardsVisibleGoldToString() {
+        // Inizializziamo le righe con StringBuilder per costruire ogni riga della rappresentazione finale
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
 
+        // Calcoliamo il numero di righe necessario, assumendo che la rappresentazione di una carta non superi il valore di DefaultValue.printHeight + 2
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
 
-public String cardsVisibleResourceToString() {
-    // Lista per accumulare le stringhe delle righe
-    ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+        // Iteriamo attraverso le due carte per crearne la rappresentazione
+        for (int i = 0; i < 2; i++) {
+            PlayableCard card = goldCards.get(i)[0]; // Assumiamo che goldCards contenga le carte da visualizzare
+            String[] lines = card.toString().split("\n"); // Otteniamo le linee della rappresentazione della carta
 
-    // Inizializziamo le righe con StringBuilder
-    for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
-        rowBuilders.add(new StringBuilder());
-    }
+            // Assicuriamo che il numero di righe corrisponda al numero di righe di una carta
+            int maxHeight = Math.min(lines.length, DefaultValue.printHeight + 2);
 
-    for (int i = 0; i < 2; i++) {
-        PlayableCard card = resourceCards.get(i)[0];
-        String[] lines = card.toString().split("\n");
-
-        for (int k = 0; k < lines.length; k++) {
-            if (k == 0) {
+            for (int k = 0; k < maxHeight; k++) {
                 // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
-                rowBuilders.get(k).append(i).append(" ").append(lines[k]).append(" ");
-            } else {
-                rowBuilders.get(k).append("  ").append(lines[k]).append(" ");
+                if (k == 0) {
+                    rowBuilders.get(k).append(" ").append(i + 1).append(" ").append(lines[k]).append(" ");
+                } else {
+                    rowBuilders.get(k).append("    ").append(lines[k]).append(" ");
+                }
+            }
+
+            // Completiamo le righe restanti nel caso in cui la rappresentazione della carta sia più corta
+            for (int k = maxHeight; k < DefaultValue.printHeight + 2; k++) {
+                rowBuilders.get(k).append(" ".repeat(lines[0].length() + 4)); // +4 per lo spazio di separazione
             }
         }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+
+        return result.toString();
     }
 
-    // Costruiamo l'output finale unendo tutte le righe
-    StringBuilder result = new StringBuilder();
-    for (StringBuilder sb : rowBuilders) {
-        result.append(sb.toString().stripTrailing()).append("\n");
+    /*public String cardsVisibleResourceToString() {
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+
+        // Inizializziamo le righe con StringBuilder
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
+
+        for (int i = 0; i < 2; i++) {
+            PlayableCard card = resourceCards.get(i)[0];
+            String[] lines = card.toString().split("\n");
+
+            for (int k = 0; k < lines.length; k++) {
+                if (k == 0) {
+                    // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
+                    rowBuilders.get(k).append(i).append(" ").append(lines[k]).append(" ");
+                } else {
+                    rowBuilders.get(k).append("  ").append(lines[k]).append(" ");
+                }
+            }
+        }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+
+        return result.toString();
+    }*/
+    public String cardsVisibleResourceToString() {
+        // Lista per accumulare le stringhe delle righe
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+
+        // Calcoliamo il numero di righe necessario, assumendo che la rappresentazione di una carta non superi il valore di DefaultValue.printHeight + 2
+        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
+
+        // Iteriamo attraverso le due carte per crearne la rappresentazione
+        for (int i = 0; i < 2; i++) {
+            PlayableCard card = resourceCards.get(i)[0]; // Assumiamo che resourceCards contenga le carte da visualizzare
+            String[] lines = card.toString().split("\n"); // Otteniamo le linee della rappresentazione della carta
+
+            // Assicuriamo che il numero di righe corrisponda al numero di righe di una carta
+            int maxHeight = Math.min(lines.length, DefaultValue.printHeight + 2);
+
+            for (int k = 0; k < maxHeight; k++) {
+                // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
+                if (k == 0) {
+                    rowBuilders.get(k).append(" ").append(i + 1).append(" ").append(lines[k]).append(" ");
+                } else {
+                    rowBuilders.get(k).append("    ").append(lines[k]).append(" ");
+                }
+            }
+
+            // Completiamo le righe restanti nel caso in cui la rappresentazione della carta sia più corta
+            for (int k = maxHeight; k < DefaultValue.printHeight + 2; k++) {
+                rowBuilders.get(k).append(" ".repeat(lines[0].length() + 4)); // +4 per lo spazio di separazione
+            }
+        }
+
+        // Costruiamo l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+
+        return result.toString();
     }
 
-    return result.toString();
-    }
 }
 

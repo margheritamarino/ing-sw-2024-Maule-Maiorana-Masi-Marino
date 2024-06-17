@@ -224,15 +224,15 @@ public class InitialCard extends PlayableCard implements Serializable {
          StringBuilder result = new StringBuilder();
          Ansi.Color bgColor = Ansi.Color.YELLOW;
          Ansi.Color textColor = Ansi.Color.WHITE;
-         String cardTypeName = "Initial Card";
+         String cardTypeName = "InitialCard";
          String FoB = isFront() ? "Front" : "Back";
 
          // Lettura delle risorse dagli angoli
          List<String> corners = getCornerContent(); // Ordine: TL, TR, BR, BL
-         String topLeft = convertToEmoji(corners.get(0));
-         String topRight = convertToEmoji(corners.get(1));
-         String bottomRight = convertToEmoji(corners.get(2));
-         String bottomLeft = convertToEmoji(corners.get(3));
+         String topLeft = padAndBorderEmoji(convertToEmoji(corners.get(0)));
+         String topRight = padAndBorderEmoji(convertToEmoji(corners.get(1)));
+         String bottomRight = padAndBorderEmoji(convertToEmoji(corners.get(2)));
+         String bottomLeft = padAndBorderEmoji(convertToEmoji(corners.get(3)));
 
          // Lettura delle risorse centrali
          StringBuilder centralResourcesBuilder = new StringBuilder();
@@ -254,36 +254,54 @@ public class InitialCard extends PlayableCard implements Serializable {
          result.append(border).append("\n");
 
          // Riga superiore con angoli
-         result.append("|").append(padEmoji(topLeft, 2))
-                 .append(" ".repeat(width - calculateEmojiWidth(topLeft) - calculateEmojiWidth(topRight) - 2))
-                 .append(padEmoji(topRight, 2)).append("|\n");
+         int paddingTopLeft = Math.max(0, (width - calculateEmojiWidth(topLeft) - calculateEmojiWidth(topRight)) / 2);
+         result.append("|")
+                 .append(topLeft)
+                 .append(" ".repeat(paddingTopLeft))
+                 .append(" ".repeat(Math.max(0, width - paddingTopLeft - calculateEmojiWidth(topLeft) - calculateEmojiWidth(topRight))))
+                 .append(topRight)
+                 .append("|\n");
 
          // Riga con il tipo di carta centrato
          String cardTypeLine = cardTypeName;
-         int paddingType = (width - cardTypeLine.length()) / 2;
-         result.append("|").append(" ".repeat(paddingType)).append(cardTypeLine)
-                 .append(" ".repeat(width - paddingType - cardTypeLine.length())).append("|\n");
+         int paddingType = Math.max(0, (width - cardTypeLine.length()) / 2);
+         result.append("|")
+                 .append(" ".repeat(paddingType))
+                 .append(cardTypeLine)
+                 .append(" ".repeat(Math.max(0, width - paddingType - cardTypeLine.length())))
+                 .append("|\n");
 
          // Riga con il lato della carta centrato
-         String faceLine = "Face: " + FoB;
-         int paddingFace = (width - faceLine.length()) / 2;
-         result.append("|").append(" ".repeat(paddingFace)).append(faceLine)
-                 .append(" ".repeat(width - paddingFace - faceLine.length())).append("|\n");
+         String faceLine = "(" + FoB + ")";
+         int paddingFace = Math.max(0, (width - faceLine.length()) / 2);
+         result.append("|")
+                 .append(" ".repeat(paddingFace))
+                 .append(faceLine)
+                 .append(" ".repeat(Math.max(0, width - paddingFace - faceLine.length())))
+                 .append("|\n");
 
          // Riga con il contenuto centrale (centrato)
-         int paddingCentral = (width - calculateEmojiWidth(centralResources)) / 2;
-         result.append("|").append(" ".repeat(paddingCentral)).append(centralResources)
-                 .append(" ".repeat(width - paddingCentral - calculateEmojiWidth(centralResources))).append("|\n");
+         int paddingCentral = Math.max(0, (width - calculateEmojiWidth(centralResources)) / 2);
+         result.append("|")
+                 .append(" ".repeat(paddingCentral))
+                 .append(centralResources)
+                 .append(" ".repeat(Math.max(0, width - paddingCentral - calculateEmojiWidth(centralResources))))
+                 .append("|\n");
 
          // Aggiungi righe vuote fino a raggiungere l'altezza desiderata della carta
-         int remainingHeight = height - (contentRows-1 + 2); // 2 righe per i bordi superiori e inferiori
+         int remainingHeight = height - (contentRows + 2); // 2 righe per i bordi superiori e inferiori
          for (int i = 0; i < remainingHeight; i++) {
              result.append("|").append(" ".repeat(width)).append("|\n");
          }
+
          // Riga inferiore con angoli
-         result.append("|").append(padEmoji(bottomLeft, 2))
-                 .append(" ".repeat(width - calculateEmojiWidth(bottomLeft) - calculateEmojiWidth(bottomRight) - 2))
-                 .append(padEmoji(bottomRight, 2)).append("|\n");
+         int paddingBottomLeft = Math.max(0, (width - calculateEmojiWidth(bottomLeft) - calculateEmojiWidth(bottomRight)) / 2);
+         result.append("|")
+                 .append(bottomLeft)
+                 .append(" ".repeat(paddingBottomLeft))
+                 .append(" ".repeat(Math.max(0, width - paddingBottomLeft - calculateEmojiWidth(bottomLeft) - calculateEmojiWidth(bottomRight))))
+                 .append(bottomRight)
+                 .append("|\n");
 
          // Bordo inferiore
          result.append(border).append("\n");
@@ -293,16 +311,12 @@ public class InitialCard extends PlayableCard implements Serializable {
          return finalResult;
      }
 
-    /**
-     * Calcola la larghezza effettiva delle emoji o dei caratteri di risorse
-     * @param input La stringa di input
-     * @return La larghezza effettiva
-     */
+    // Metodo per calcolare la larghezza delle emoji
     private int calculateEmojiWidth(String input) {
         int width = 0;
         for (int i = 0; i < input.length(); ) {
             int codePoint = input.codePointAt(i);
-            if (Character.charCount(codePoint) > 1 || input.codePointAt(i) > 0xFFFF) {
+            if (Character.charCount(codePoint) > 1 || codePoint > 0xFFFF) {
                 // Considera le emoji e caratteri speciali come doppia larghezza
                 width += 2;
             } else {
@@ -314,19 +328,12 @@ public class InitialCard extends PlayableCard implements Serializable {
         return width;
     }
 
-    /**
-     * Padding per le emoji e le risorse per garantire che occupino lo spazio corretto.
-     * @param content La stringa da pad.
-     * @param totalLength La lunghezza totale desiderata.
-     * @return La stringa con padding aggiunto per raggiungere la lunghezza totale desiderata.
-     */
-    private String padEmoji(String content, int totalLength) {
+    // Metodo per contornare le emoji o i simboli
+    private String padAndBorderEmoji(String content) {
         int emojiWidth = calculateEmojiWidth(content);
-        int padding = totalLength - emojiWidth;
-        return content + " ".repeat(padding);
+        int padding = Math.max(0, 2 - emojiWidth);
+        return "[" + content + " ".repeat(padding) + "]";
     }
-
-
 
 
    /* @Override

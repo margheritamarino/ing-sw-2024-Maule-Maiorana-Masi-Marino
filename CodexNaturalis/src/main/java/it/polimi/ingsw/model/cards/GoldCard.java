@@ -159,7 +159,7 @@ public class GoldCard extends PlayableCard implements Serializable {
      *
      * @return A formatted string representing the card.
      */
-    @Override
+   /* @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         Ansi.Color bgColor;
@@ -247,8 +247,125 @@ public class GoldCard extends PlayableCard implements Serializable {
         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
 
         return finalResult;
+    }*/
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        String cardTypeName = "GoldCard";
+        String FoB = isFront() ? "Front" : "Back";
+
+        // Costruzione della stringa dei punti vittoria con condizioni
+        String victoryPoints = "Points: " + getVictoryPoints();
+        if (isPointsCondition() && !isCornerCondition()) {
+            victoryPoints += " | " + convertToEmoji(getSymbolCondition().toString());
+        } else if (isPointsCondition() && isCornerCondition()) {
+            victoryPoints += " | CoveredCorner";
+        }
+
+        // Lettura delle risorse dagli angoli
+        List<String> corners = getCornerContent();
+        String topLeft = padAndBorderEmoji(convertToEmoji(corners.get(0)));
+        String topRight = padAndBorderEmoji(convertToEmoji(corners.get(1)));
+        String bottomRight = padAndBorderEmoji(convertToEmoji(corners.get(2)));
+        String bottomLeft = padAndBorderEmoji(convertToEmoji(corners.get(3)));
+
+        // Costruzione della carta
+        int width = DefaultValue.printLenght;
+        int height = DefaultValue.printHeight;
+        String border = "+" + "-".repeat(width) + "+";
+
+        // Calcolo delle righe di contenuto effettive
+        int contentRows = 4;
+
+        // Bordo superiore
+        result.append(border).append("\n");
+
+        // Riga con i punti vittoria centrati tra le emoji degli angoli superiori
+        int paddingVictoryPoints = Math.max(0, (width - victoryPoints.length() - 8) / 2);
+        result.append("|")
+                .append(topLeft)
+                .append(" ".repeat(paddingVictoryPoints))
+                .append(victoryPoints)
+                .append(" ".repeat(Math.max(0, width - paddingVictoryPoints - victoryPoints.length() - 8)))
+                .append(topRight)
+                .append("|\n");
+
+        // Riga con il tipo di carta centrato
+        String cardTypeLine = cardTypeName;
+        int paddingType = Math.max(0, (width - cardTypeLine.length()) / 2);
+        result.append("|")
+                .append(" ".repeat(paddingType))
+                .append(cardTypeLine)
+                .append(" ".repeat(Math.max(0, width - paddingType - cardTypeLine.length())))
+                .append("|\n");
+
+        // Riga con il lato della carta centrato
+        String faceLine = "(" + FoB + ")";
+        int paddingFace = Math.max(0, (width - faceLine.length()) / 2);
+        result.append("|")
+                .append(" ".repeat(paddingFace))
+                .append(faceLine)
+                .append(" ".repeat(Math.max(0, width - paddingFace - faceLine.length())))
+                .append("|\n");
+
+        // Riga con il contenuto centrale (centrato)
+        String mainResource = convertToEmoji(getMainResource().toString());
+        int paddingMainResource = Math.max(0, (width - calculateEmojiWidth(mainResource)) / 2);
+        result.append("|")
+                .append(" ".repeat(paddingMainResource))
+                .append(mainResource)
+                .append(" ".repeat(Math.max(0, width - paddingMainResource - calculateEmojiWidth(mainResource))))
+                .append("|\n");
+
+        // Aggiungi righe vuote fino a raggiungere l'altezza desiderata della carta
+        int remainingHeight = height - (contentRows + 2);
+        for (int i = 0; i < remainingHeight; i++) {
+            result.append("|").append(" ".repeat(width)).append("|\n");
+        }
+
+        // Riga inferiore con angoli e condizioni di posizionamento
+        List<ResourceType> placementCondition = getPlacementCondition();
+        List<String> placementConditionEmojis = new ArrayList<>();
+        for (ResourceType condition : placementCondition) {
+            placementConditionEmojis.add(convertToEmoji(condition.toString()));
+        }
+        String placementConditionString = String.join(" ", placementConditionEmojis);
+        int paddingPlacement = Math.max(0, (width - placementConditionString.length() - 8) / 2);
+        result.append("|")
+                .append(bottomLeft)
+                .append(" ".repeat(paddingPlacement))
+                .append(placementConditionString)
+                .append(" ".repeat(Math.max(0, width - paddingPlacement - placementConditionString.length() - 8)))
+                .append(bottomRight)
+                .append("|\n");
+
+        // Bordo inferiore
+        result.append(border).append("\n");
+
+        return result.toString();
     }
 
+    // Metodo per calcolare la larghezza delle emoji
+    private int calculateEmojiWidth(String input) {
+        int width = 0;
+        for (int i = 0; i < input.length(); ) {
+            int codePoint = input.codePointAt(i);
+            if (Character.charCount(codePoint) > 1 || input.codePointAt(i) > 0xFFFF) {
+                width += 2;
+            } else {
+                width += 1;
+            }
+            i += Character.charCount(codePoint);
+        }
+        return width;
+    }
+
+    // Metodo per contornare le emoji o i simboli
+    private String padAndBorderEmoji(String content) {
+        int emojiWidth = calculateEmojiWidth(content);
+        int padding = 2 - emojiWidth;
+        return "[" + content + " ".repeat(padding) + "]";
+    }
 
 }
 
