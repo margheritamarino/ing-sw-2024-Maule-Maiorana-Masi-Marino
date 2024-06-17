@@ -45,6 +45,15 @@ public interface GameControllerInterface extends Remote {
     void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException;
 
 
+    /**
+     * This method reconnects a player to a specific game
+     * @param lis the GameListener of the player {@link GameListenerInterface}
+     * @param nick the nickname of the player
+     * @return the GameControllerInterface of the game {@link GameControllerInterface}
+     * @throws RemoteException if the connection fails
+     */
+    void reconnect(GameListenerInterface lis, String nick) throws RemoteException;
+
 
     /**
      * This method return the id of the game

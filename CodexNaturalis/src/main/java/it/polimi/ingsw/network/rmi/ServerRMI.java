@@ -153,7 +153,10 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         serverObject.gameController.leave(lis, nick);
     }
 
-   //DA QUI PROVA A ELIMINARE TUTTO
+    @Override
+    public void reconnect(GameListenerInterface lis, String nick) throws RemoteException{
+        serverObject.gameController.reconnect(lis,nick);
+    }
 
     public boolean  playerIsReadyToStart(GameListenerInterface lis, String p) throws RemoteException { //siamo sicuri serva Server RMI? FORSE DEVI PASSARE DIRETTA AL GameController
         System.out.println("in ServerRMI- playerIsReadyToStart");

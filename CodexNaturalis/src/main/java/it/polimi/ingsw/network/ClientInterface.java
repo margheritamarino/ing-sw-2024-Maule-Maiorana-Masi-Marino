@@ -32,10 +32,6 @@ public interface ClientInterface  {
      */
     void leave(String nick) throws IOException, NotBoundException;
 
-
-    void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException;
-
-
     /**
      * Sets the invoker as ready
      *
@@ -71,6 +67,18 @@ public interface ClientInterface  {
     void sendMessage(Message msg) throws RemoteException;
 
     void makeGameStart(String nickname)throws IOException;
+
+
+    /**
+     * Reconnect the player to the game
+     *
+     * @param nick
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws NotBoundException
+     */
+    void reconnect(String nick) throws IOException, InterruptedException, NotBoundException;
+
 }
 
 

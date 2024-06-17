@@ -157,6 +157,8 @@ public interface GameListenerInterface extends Remote {
      */
     void playerDisconnected(GameImmutable model, String nick) throws RemoteException;
 
+
+
     /**
      * Notifies the client that the last circle has started.
      *

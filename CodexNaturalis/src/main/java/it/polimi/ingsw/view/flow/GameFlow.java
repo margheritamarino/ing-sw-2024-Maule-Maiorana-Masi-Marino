@@ -921,6 +921,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.addImportantEvent("[EVENT]: Player reconnected!");
     }
 
+
+
     /**
      * The client asks the server to reconnect to a specific game
      *
@@ -936,6 +938,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 noConnectionError();
             }
             ui.show_failedReconnectionMsg(nick);
+            try {
+                this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             events.add(null,BACK_TO_MENU);
     }
 

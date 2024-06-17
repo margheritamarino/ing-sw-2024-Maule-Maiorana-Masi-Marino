@@ -215,10 +215,10 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void reconnect(String nick) throws IOException {
         nickname = nick;
-        out.writeObject(new SocketClientMessageReconnect(nick, idGame));
+        out.writeObject(new ClientMsgReconnect(nick));
         finishSending();
-        if(!socketHeartbeat.isAlive()) {
-            socketHeartbeat.start();
+        if(pingSender.isAlive()) {
+            pingSender.interrupt();
         }
 
     }

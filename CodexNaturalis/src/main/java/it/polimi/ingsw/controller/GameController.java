@@ -275,7 +275,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 model.removePlayer(nick); //remove Player from the Game
             } else {
                 //Tha game is running, so I set him as disconnected (He can reconnect soon)
-                model.setPlayerDisconnected(p);
+                model.setAsDisconnected(p.getNickname());
             }
             //if a player is disconnected the Game finishes
             // if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
@@ -294,8 +294,42 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     }
 
     /**
-     * Starts a timer for detecting the reconnection of a player, if no one reconnects in time, the game is over
+     * Reconnect a player to the game
+     * @param lis the GameListener of the player {@link GameListenerInterface}
+     * @param nick the nickname of the player
+     * @throws RemoteException
      */
+    @Override
+    public synchronized void reconnect(GameListenerInterface lis, String nick) throws RemoteException {
+         List<Player> players = new ArrayList<>();
+             try {
+                 players = model.getPlayers()
+                                .stream()
+                                .filter(x -> x.getNickname().equals(nick))
+                                .toList();
+                        //The game exists, check if nickname exists
+                 if (players.size() == 1) {
+                            model.addListener(lis);
+                            this.reconnectPlayer(players.get(0));
+                 } else {
+                            //Game exists but the nick no
+                            printAsync("The nickname used was not connected in a running game");
+                 }
+
+             } catch (MaxPlayersInException e) {
+                 model.removeListener(lis);
+                 printAsync("Reconnection FAILED");
+                } catch (GameEndedException e) {
+                    throw new RuntimeException(e);
+                } catch (PlayerAlreadyInException e) {
+                 throw new RuntimeException(e);
+             }
+
+    }
+
+        /**
+         * Starts a timer for detecting the reconnection of a player, if no one reconnects in time, the game is over
+         */
     @SuppressWarnings("BusyWait")
     private void startReconnectionTimer() {
         reconnectionTh = new Thread(

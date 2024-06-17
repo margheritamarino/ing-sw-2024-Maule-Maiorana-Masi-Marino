@@ -119,4 +119,10 @@ public abstract class UI {
 
     public abstract void show_failedReconnectionMsg( String nick);
 
+    /**
+     * Shows error message when there are no games available for joining
+     *
+     * @param msgToVisualize message that needs visualisation
+     */
+    public abstract void show_noAvailableGamesToJoin(String msgToVisualize);
 }

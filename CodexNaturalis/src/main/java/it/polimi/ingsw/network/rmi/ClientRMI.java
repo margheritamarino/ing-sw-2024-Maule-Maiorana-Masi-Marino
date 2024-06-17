@@ -305,10 +305,10 @@ public void run() {
      * @param nick   nickname of the player
      */
     @Override
-    public void reconnect(String nick) throws IOException {
+    public void reconnect(String nick) throws IOException, NotBoundException {
         registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
         gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI); //ClientRMI si connette al server RMI e riceve il riferimento al GameController
-        gameController.reconnect();
+        gameController.reconnect(modelInvokedEvents, nick);
 
         nickname = nick;
     }
