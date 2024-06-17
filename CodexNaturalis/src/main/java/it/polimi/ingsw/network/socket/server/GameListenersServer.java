@@ -314,8 +314,24 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-
+    /**
+     * This method is used to write on the ObjectOutputStream that only one player is connected
+     * @param gameModel is the game model {@link GameImmutable}
+     * @param secondsToWaitUntilGameEnded is the number of seconds to wait until the game ends
+     * @throws RemoteException if the connection fails
+     */
     @Override
+    public void onlyOnePlayerConnected(GameImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+        try {
+            out.writeObject(new msgOnlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded));
+            finishSending();
+        } catch (IOException e) {
+
+        }
+    }
+
+
+        @Override
     public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
         try {
             out.writeObject(new msgSentMessage(model, msg));

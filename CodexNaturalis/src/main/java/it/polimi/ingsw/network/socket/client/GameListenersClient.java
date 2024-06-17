@@ -119,8 +119,13 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
         flow.playerReconnected(model, nickPlayerReconnected);
     }
 
-
     @Override
+    public void onlyOnePlayerConnected(GameImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException {
+        flow.onlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded);
+    }
+
+
+        @Override
     public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
         flow.sentMessage(model, msg);
     }

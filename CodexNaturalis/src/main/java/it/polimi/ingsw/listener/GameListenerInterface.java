@@ -175,6 +175,16 @@ public interface GameListenerInterface extends Remote {
     void playerReady(GameImmutable gameImmutable, String nickname)throws RemoteException;
 
     /**
+     * This method is used to notify that only one player is connected
+     * @param gameModel is the game model {@link GameImmutable}
+     * @param secondsToWaitUntilGameEnded is the number of seconds to wait until the game ends
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void onlyOnePlayerConnected(GameImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException;
+
+
+
+    /**
      * Sends a message to the client.
      *
      * @param model the game model

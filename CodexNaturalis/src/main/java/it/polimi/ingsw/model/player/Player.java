@@ -70,6 +70,13 @@ public class Player implements Serializable {
     }
 
     /**
+     * Sets the player as not ready to play
+     */
+    public void setNotReadyToStart() {
+        readyToStart = false;
+    }
+
+    /**
      * @param connected sets the player's connection
      */
     public void setConnected(boolean connected) {
