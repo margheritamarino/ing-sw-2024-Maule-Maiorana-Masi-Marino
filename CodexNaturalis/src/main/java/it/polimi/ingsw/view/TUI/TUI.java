@@ -544,8 +544,8 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-           ArrayList<PlayableCard[]> minideck= model.getCurrentPlayer().getPlayerDeck().getMiniDeck();
-            printAsync( "This is your drawn card:\n" + minideck.get(2)[0].toString() + minideck.get(2)[1].toString());
+       ArrayList<PlayableCard[]> minideck= model.getCurrentPlayer().getPlayerDeck().getMiniDeck();
+        printAsync( "This is your drawn card:\n" + minideck.get(2)[0].toString() + minideck.get(2)[1].toString());
 
     }
 

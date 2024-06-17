@@ -969,7 +969,7 @@ public class Book implements Serializable {
       // Aggiungere gli indici delle colonne
       result.append("     "); // spazio per l'indice delle righe
       for (int j = minJ; j <= maxJ; j++) {
-          result.append(String.format("%-" + maxWidth + "d", 0 + j));
+          result.append(String.format("%-" + maxWidth + "d", j));
       }
       result.append("\n");
 
@@ -978,7 +978,7 @@ public class Book implements Serializable {
 
       for (int i = minI; i <= maxI; i++) { // righe
           ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
-          for (int k = 0; k < DefaultValue.printHeight + 1; k++) { // +1 per il bordo inferiore
+          for (int k = 0; k < DefaultValue.printHeight + 2; k++) { // +2 per il bordo inferiore e la riga extra
               rowBuilders.add(new StringBuilder());
           }
 
@@ -986,8 +986,11 @@ public class Book implements Serializable {
               String[] lines;
               if (bookMatrix[i][j].getCard() != null) {
                   lines = bookMatrix[i][j].getCard().toString().split("\n");
-              } else {
+              } else if (bookMatrix[i][j].isAvailable()) {
                   lines = nullCardPrint().split("\n");
+              } else {
+                  lines = new String[DefaultValue.printHeight + 2]; // +2 per il bordo inferiore e la riga extra
+                  Arrays.fill(lines, " ".repeat(maxWidth));
               }
 
               // Se la cella è disponibile, colorala di verde
@@ -1011,10 +1014,14 @@ public class Book implements Serializable {
 
       // Stampa degli indici delle righe e dei contenuti
       for (int i = 0; i < rows.size(); i++) {
-          // Aggiungere l'indice della riga
-          result.append(String.format("%-4d", minI + i));
-          for (String line : rows.get(i)) {
-              result.append(line).append("\n");
+          for (int k = 0; k < rows.get(i).size(); k++) {
+              if (k == 0) {
+                  // Aggiungere l'indice della riga solo una volta per cella
+                  result.append(String.format("%-4d", minI + i)).append(rows.get(i).get(k)).append("\n");
+              } else {
+                  // Stampare solo le righe successive
+                  result.append("    ").append(rows.get(i).get(k)).append("\n");
+              }
           }
       }
 
@@ -1024,6 +1031,7 @@ public class Book implements Serializable {
 
       return result.toString();
   }
+
     public String nullCardPrint() {
         StringBuilder result = new StringBuilder();
         int maxWidth = DefaultValue.printLenght;
@@ -1041,6 +1049,8 @@ public class Book implements Serializable {
 
         return result.toString();
     }
+
+
 
 
    /* public String nullCardPrint() {
