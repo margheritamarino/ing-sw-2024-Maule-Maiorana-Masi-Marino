@@ -299,6 +299,20 @@ public void run() {
         }
     }
 
+    /**
+     * The client asks the server to reconnect to a specific game
+     *
+     * @param nick   nickname of the player
+     */
+    @Override
+    public void reconnect(String nick) throws IOException {
+        registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
+        gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI); //ClientRMI si connette al server RMI e riceve il riferimento al GameController
+        gameController.reconnect();
+
+        nickname = nick;
+    }
+
 
     /**
      * Client asks the Server to set the player as ready

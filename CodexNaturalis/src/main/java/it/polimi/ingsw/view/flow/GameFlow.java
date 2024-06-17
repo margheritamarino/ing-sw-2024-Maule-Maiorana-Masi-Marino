@@ -927,7 +927,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @param nick   nickname of the player
      */
     @Override
-    public void reconnect(String nick) {
+    public void reconnect(String nick) throws IOException, InterruptedException, NotBoundException {
         //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
             ui.show_joiningToGameMsg(nick, color);
             try {
@@ -935,14 +935,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             } catch (IOException | InterruptedException | NotBoundException e) {
                 noConnectionError();
             }
-            ui.show_failedReconnection("No disconnection previously detected");
-            try {
-                this.inputParser.getDataToProcess().popData();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            ui.show_failedReconnectionMsg(nick);
             events.add(null,BACK_TO_MENU);
-        }
     }
 
 

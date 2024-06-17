@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
@@ -206,11 +207,27 @@ public class ClientSocket extends Thread implements ClientInterface {
        }
     }
 
-
     /**
-     * Ask the Socket Server to set the player as ready
-     * @throws IOException
+     * The client asks the server to reconnect to a specific game
+     *
+     * @param nick   nickname of the player
      */
+    @Override
+    public void reconnect(String nick) throws IOException {
+        nickname = nick;
+        out.writeObject(new SocketClientMessageReconnect(nick, idGame));
+        finishSending();
+        if(!socketHeartbeat.isAlive()) {
+            socketHeartbeat.start();
+        }
+
+    }
+
+
+        /**
+         * Ask the Socket Server to set the player as ready
+         * @throws IOException
+         */
     @Override
     public void setAsReady(String nickname) throws IOException {
         out.writeObject(new ClientMsgSetReady(nickname));

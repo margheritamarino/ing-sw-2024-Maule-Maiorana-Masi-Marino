@@ -306,7 +306,7 @@ public class ListenersHandler {
 
     /**
      * The notify_playerReconnected method notifies the view that a player has reconnected to the game <br>
-     * @param model is the GameModel {@link Game} to pass as a new GameModelImmutable {@link GameModelImmutable} <br>
+     * @param model is the GameModel {@link Game} to pass as a new GameModelImmutable {@link GameImmutable} <br>
      * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
      */
     public synchronized void notify_playerReconnected(Game model, String nickPlayerReconnected) {
@@ -332,7 +332,7 @@ public class ListenersHandler {
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.notify_onlyOnePlayerConnected(new GameImmutable(model), nickPlayerReconnected);
+                l.onlyOnePlayerConnected(new GameImmutable(model), secondsToWaitUntillGameEnded);
             } catch (RemoteException e) {
                 printAsync("During notification of notify_onlyOnePlayerConnected, a disconnection has been detected before heartbeat");
                 i.remove();

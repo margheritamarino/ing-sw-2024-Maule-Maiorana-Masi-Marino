@@ -492,7 +492,7 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_failedReconnectionMsg(GameImmutable model, String nick){
+    public void show_failedReconnectionMsg(String nick){
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
         callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Failed to recconnect to the game!", true));
     }

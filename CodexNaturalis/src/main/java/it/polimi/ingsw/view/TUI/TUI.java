@@ -949,7 +949,7 @@ public class TUI extends UI {
     }
 
     @Override
-    public void show_failedReconnectionMsg(GameImmutable model, String nick){
+    public void show_failedReconnectionMsg( String nick){
         // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
