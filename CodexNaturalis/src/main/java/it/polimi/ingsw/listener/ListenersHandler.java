@@ -322,6 +322,24 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * The notify_onlyOnePlayerConnected method notifies that only one player is connected <br>
+     * @param model is the GameModel {@link Game} to pass as a new GameModelImmutable {@link GameImmutable} <br>
+     * @param secondsToWaitUntillGameEnded is the number of seconds to wait untill the game ends
+     */
+    public synchronized void notify_onlyOnePlayerConnected(Game model, int secondsToWaitUntillGameEnded) {
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.notify_onlyOnePlayerConnected(new GameImmutable(model), nickPlayerReconnected);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_onlyOnePlayerConnected, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
+
 
 
 

@@ -30,6 +30,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
+import static it.polimi.ingsw.view.events.EventType.BACK_TO_MENU;
 import static it.polimi.ingsw.view.events.EventType.PLAYER_RECONNECTED;
 
 
@@ -920,6 +921,30 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.addImportantEvent("[EVENT]: Player reconnected!");
     }
 
+    /**
+     * The client asks the server to reconnect to a specific game
+     *
+     * @param nick   nickname of the player
+     */
+    @Override
+    public void reconnect(String nick) {
+        //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
+            ui.show_joiningToGameMsg(nick, color);
+            try {
+                clientActions.reconnect(nickname);
+            } catch (IOException | InterruptedException | NotBoundException e) {
+                noConnectionError();
+            }
+            ui.show_failedReconnection("No disconnection previously detected");
+            try {
+                this.inputParser.getDataToProcess().popData();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            events.add(null,BACK_TO_MENU);
+        }
+    }
+
 
 
     /**
@@ -945,6 +970,17 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             events.add(model, EventType.SENT_MESSAGE);
             msg.setText("[PRIVATE]: " + msg.getText());
         }
+    }
+
+    /**
+     * This method is used to notify that only one player is connected
+     * @param gameModel is the game model {@link GameImmutable}
+     * @param secondsToWaitUntilGameEnded is the number of seconds to wait until the game ends
+     * @throws RemoteException if the reference could not be accessed
+     */
+    @Override
+    public void onlyOnePlayerConnected(GameImmutable gameModel, int secondsToWaitUntilGameEnded) {
+        ui.addImportantEvent("Only one player is connected, waiting " + secondsToWaitUntilGameEnded + " seconds before calling Game Ended!");
     }
 
 

@@ -630,16 +630,56 @@ public class Game {
 			listenersHandler.notify_playerReconnected(this, p.getNickname());
 
 			if (!isTheCurrentPlayerOnline()) {
-				nextTurn();
+				int currentIndex = -1;
+				for (int i = 0; i < this.getOrderArray().length; i++) {
+					if (this.getPlayers().get(this.getOrderArray()[i]).equals(this.getCurrentPlayer())) {
+						currentIndex = i;
+						break;
+					}
+				}
+				nextTurn(currentIndex);
 			}
 			return true;
 
 		} else {
-			printAsync("ERROR: Trying to reconnect a player not offline!");
+			System.out.println("ERROR: Trying to reconnect a player not offline!");
 			return false;
 		}
 
-	}/**
+	}
+
+	/**
+	 * @param nick player to set as disconnected
+	 */
+	public void setAsDisconnected(String nick) {
+		getPlayerByNickname(nick).setConnected(false);
+		getPlayerByNickname(nick).setNotReadyToStart();
+		if (getNumOfOnlinePlayers() != 0) {
+			listenersHandler.notify_playerDisconnected(this, nick);
+
+
+			if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
+				try {
+					int currentIndex = -1;
+					for (int i = 0; i < this.getOrderArray().length; i++) {
+						if (this.getPlayers().get(this.getOrderArray()[i]).equals(this.getCurrentPlayer())) {
+							currentIndex = i;
+							break;
+						}
+					}
+					nextTurn(currentIndex);
+				} catch (GameEndedException e) {
+
+				}
+			}
+			if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
+				listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
+			}
+		}//else the game is empty
+	}
+
+
+	/**
 	 * @return true if the player in turn is online
 	 */
 	private boolean isTheCurrentPlayerOnline() {
