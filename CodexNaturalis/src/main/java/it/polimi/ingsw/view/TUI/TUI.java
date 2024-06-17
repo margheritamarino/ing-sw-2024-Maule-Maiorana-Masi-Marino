@@ -660,48 +660,6 @@ public class TUI extends UI {
         }
         printAsync("You are back in the menu!\n");
     }
-   /* @Override
-    public void show_temporaryInitialCards(GameImmutable model, int indexPlayer) {
-        // Pausa di 1.5 secondo
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        printAsync("> Choose the front[0] or the back[1] of the following initial card to place it at the center of your book:");
-       // printAsync("Initial Card...\n");
-        PlayableCard[] initialCards = model.getInitialCard().get(indexPlayer);
-
-        // Lista per accumulare le stringhe delle righe
-        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
-
-        // Inizializziamo le righe con StringBuilder
-        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
-            rowBuilders.add(new StringBuilder());
-        }
-
-        for (int i = 0; i < initialCards.length; i++) {
-            PlayableCard card = initialCards[i];
-            String[] lines = card.toString().split("\n");
-
-            // Aggiungi il numero identificativo alla prima riga della carta
-            rowBuilders.get(0).append("[").append(i).append("] "); // Formattato per aggiungere indice
-            for (int k = 0; k < lines.length; k++) {
-                if (k > 0) {
-                    rowBuilders.get(k).append("   "); // Spazi per allineare con il numero identificativo
-                }
-                rowBuilders.get(k).append(lines[k]).append(" ");
-            }
-        }
-
-        // Costruiamo l'output finale unendo tutte le righe
-        StringBuilder result = new StringBuilder();
-        for (StringBuilder sb : rowBuilders) {
-            result.append(sb.toString().stripTrailing()).append("\n");
-        }
-
-        printAsync(result.toString());
-    }*/
 
     // Metodo per stampare le carte affiancate con indici in alto a sinistra
     @Override
@@ -761,25 +719,6 @@ public class TUI extends UI {
         printAsync(result.toString());
     }
 
-    private String getColorCode(CardType cardType){
-        switch(cardType) {
-            case GoldCard: {
-                return ColorConsole.YELLOW_BACKGROUND_BRIGHT.getCode();
-            }
-            case ResourceCard: {
-                return ColorConsole.GREEN_BACKGROUND_BRIGHT.getCode();
-            }
-            case InitialCard: {
-                return ColorConsole.WHITE_BACKGROUND_BRIGHT.getCode();
-            }
-            //case ObjectiveCard: { --> AGGIUNGI ObjectiveCard IN CardType
-            //    return ColorConsole.RED_BACKGROUND_BRIGHT.getCode();
-            //}
-
-        }
-        return ColorConsole.RESET.getCode();
-    }
-
 
     @Override
     public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
@@ -821,6 +760,88 @@ public class TUI extends UI {
         }
 
         printAsync(result.toString());
+    }
+    /* VERSIONE DA PROVARE:
+
+    public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
+    // Pausa di 0.5 secondi
+    try {
+        Thread.sleep(500);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    printAsync("Set your GOAL for the Game:\n> Choose one between these objective cards:");
+
+    ObjectiveCard[] objectiveCards = model.getObjectiveCard().get(indexPlayer);
+
+    if (objectiveCards.length == 0) {
+        printAsync("Error: No objective cards found.");
+        return;
+    }
+
+    if (objectiveCards.length > 2) {
+        printAsync("Error: Expected at most 2 objective cards.");
+        return;
+    }
+
+    // Recupera le stringhe di rappresentazione delle carte obiettivo
+    String card0 = objectiveCards[0].toString();
+    String card1 = objectiveCards.length > 1 ? objectiveCards[1].toString() : "";
+
+    String[] lines0 = card0.split("\n");
+    String[] lines1 = card1.split("\n");
+
+    // Costruisce la stringa finale riga per riga
+    StringBuilder result = new StringBuilder();
+    int height = Math.max(lines0.length, lines1.length); // Altezza massima tra le due carte (assume che ci sia almeno una carta)
+
+    for (int i = 0; i < height; i++) {
+        if (i == 0) {
+            result.append("[0] ").append(lines0[i]);
+            if (lines1.length > 0) {
+                result.append("   [1] ").append(lines1[i]);
+            }
+            result.append("\n");
+        } else {
+            String line0 = lines0.length > i ? lines0[i] : "";
+            String line1 = lines1.length > i ? lines1[i] : "";
+
+            int maxLength = Math.max(line0.length(), line1.length());
+            line0 = line0 + " ".repeat(maxLength - line0.length());
+            line1 = line1 + " ".repeat(maxLength - line1.length());
+
+            result.append("    ").append(line0);
+            if (!line1.isEmpty()) {
+                result.append("   ").append(line1);
+            }
+            result.append("\n");
+        }
+    }
+
+    // Stampa il risultato
+    printAsync(result.toString());
+}
+
+     */
+
+
+    private String getColorCode(CardType cardType){
+        switch(cardType) {
+            case GoldCard: {
+                return ColorConsole.YELLOW_BACKGROUND_BRIGHT.getCode();
+            }
+            case ResourceCard: {
+                return ColorConsole.GREEN_BACKGROUND_BRIGHT.getCode();
+            }
+            case InitialCard: {
+                return ColorConsole.WHITE_BACKGROUND_BRIGHT.getCode();
+            }
+            //case ObjectiveCard: { --> AGGIUNGI ObjectiveCard IN CardType
+            //    return ColorConsole.RED_BACKGROUND_BRIGHT.getCode();
+            //}
+
+        }
+        return ColorConsole.RESET.getCode();
     }
 
 

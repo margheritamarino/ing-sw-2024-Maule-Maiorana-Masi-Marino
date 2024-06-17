@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="clientMain.jar">
-    <output-path>$PROJECT_DIR$/CodexNaturalis/deliverables/JAR</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/clientMain_jar</output-path>
     <root id="archive" name="PSP24.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/CodexNaturalis/deliverables/META-INF/MANIFEST.MF" />
