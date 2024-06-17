@@ -718,9 +718,65 @@ public class TUI extends UI {
         // Stampa il risultato
         printAsync(result.toString());
     }
-
-
     @Override
+    public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
+        // Pausa di 0.5 secondo
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        printAsync("Set your GOAL for the Game:\n> Choose one between these objective cards:");
+
+        ObjectiveCard[] objectiveCards = model.getObjectiveCard().get(indexPlayer);
+
+        if (objectiveCards.length != 2) {
+            printAsync("Error: Expected exactly 2 objective cards.");
+            return;
+        }
+
+        // Raccogliamo le stringhe di rappresentazione delle carte
+        String card0 = objectiveCards[0].toString();
+        String card1 = objectiveCards[1].toString();
+
+        // Divide le stringhe delle carte in righe
+        String[] lines0 = card0.split("\n");
+        String[] lines1 = card1.split("\n");
+
+        // Inizializziamo l'ArrayList per contenere le righe combinate
+        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
+        int height = Math.max(lines0.length, lines1.length); // Assume che entrambe le carte abbiano la stessa altezza
+
+        // Inizializziamo le righe con StringBuilder
+        for (int k = 0; k < height + 1; k++) {
+            rowBuilders.add(new StringBuilder());
+        }
+
+        // Aggiungi l'indice e le righe della carta riga per riga
+        for (int k = 0; k < height; k++) {
+            if (k < lines0.length) {
+                if (k == 0) {
+                    rowBuilders.get(k).append("[0] ").append(lines0[k]).append("   ").append("[1] ").append(lines1[k]);
+                } else {
+                    rowBuilders.get(k).append("    ").append(lines0[k]).append("   ").append("    ").append(lines1[k]);
+                }
+            } else {
+                rowBuilders.get(k).append("    ").append(" ".repeat(lines0[0].length())).append("   ").append("    ").append(lines1[k]);
+            }
+        }
+
+        // Costruisci l'output finale unendo tutte le righe
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder sb : rowBuilders) {
+            result.append(sb.toString().stripTrailing()).append("\n");
+        }
+
+        // Stampa il risultato
+        printAsync(result.toString());
+    }
+
+
+   /* @Override
     public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
         // Pausa di 0.5 secondo
         try {
@@ -760,7 +816,7 @@ public class TUI extends UI {
         }
 
         printAsync(result.toString());
-    }
+    }*/
     /* VERSIONE DA PROVARE:
 
     public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
