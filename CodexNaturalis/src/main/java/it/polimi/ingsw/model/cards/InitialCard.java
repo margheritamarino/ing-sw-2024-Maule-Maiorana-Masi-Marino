@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
 
 /**
@@ -20,7 +19,6 @@ public class InitialCard extends PlayableCard implements Serializable {
     int numCentralResource;
     int numResources;
     List<ResourceType> resourceList;
-    private String[][] initialCardPrint;
 
     public List<ResourceType> getCentralResources() {
         return centralResources;
@@ -80,14 +78,14 @@ public class InitialCard extends PlayableCard implements Serializable {
 
         if (getTRCorner() == CornerLabel.WithResource) {
             i++;
-        };
+        }
 
         // Angolo in basso a DX
         cornerContent.add(getCornerContentString(getBRCorner(), i));
 
         if (getBRCorner() == CornerLabel.WithResource) {
             i++;
-        };
+        }
         // Angolo in basso a SX
         cornerContent.add(getCornerContentString(getBLCorner(), i));
 
@@ -132,13 +130,7 @@ public class InitialCard extends PlayableCard implements Serializable {
         return null;
     }
 
-    /*public InitialCard() {
-        super();
-        this.resourceList = new ArrayList<ResourceType>();
-        this.numCentralResource = 0;
-        this.numResources = 0;
-        this.centralResources = new ArrayList<>();
-    }*/
+
 
     public InitialCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, List<ResourceType> centralResources, int numCentralResource, int numResources, List<ResourceType> resourceList) {
         super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
@@ -155,7 +147,180 @@ public class InitialCard extends PlayableCard implements Serializable {
       *
       * @return A formatted string representing the card.
       */
-    @Override
+     /*@Override
+     public String toString() {
+         StringBuilder result = new StringBuilder();
+         Ansi.Color bgColor = Ansi.Color.YELLOW;
+         Ansi.Color textColor = Ansi.Color.WHITE;
+         String cardTypeName = "Initial";
+         String FoB = isFront() ? "Front" : "Back";
+
+         // Lettura delle risorse dagli angoli
+         List<String> corners = getCornerContent(); // Ordine: TL, TR, BR, BL
+         String topLeft = convertToEmoji(corners.get(0));
+         String topRight = convertToEmoji(corners.get(1));
+         String bottomRight = convertToEmoji(corners.get(2));
+         String bottomLeft = convertToEmoji(corners.get(3));
+
+         // Lettura delle risorse centrali
+         StringBuilder centralResourcesBuilder = new StringBuilder();
+         List<String> emojiCentral = new ArrayList<>();
+         List<ResourceType> centralR = getCentralResources();
+         for (ResourceType central : centralR) {
+             emojiCentral.add(convertToEmoji(central.toString()));
+             centralResourcesBuilder.append(convertToEmoji(central.toString())).append(" ");
+         }
+         String centralResources = centralResourcesBuilder.toString().trim();
+
+         // Costruzione della carta
+         int width = DefaultValue.printLenght; // Larghezza della carta
+         int height = DefaultValue.printHeight; // Altezza della carta
+         String border = "+" + "-".repeat(width) + "+\n";
+
+         // Bordo superiore
+         result.append(border);
+
+         // Riga superiore con angoli
+         result.append("|").append(topLeft)
+                 .append(" ".repeat(width - 2)).append(topRight).append("|\n");
+
+         // Riga vuota tra i bordi e il contenuto
+         result.append("|").append(" ".repeat(width)).append("|\n");
+
+         // Riga con il tipo di carta centrato
+         String cardTypeLine = "CardType: " + cardTypeName;
+         int paddingType = (width - cardTypeLine.length()) / 2;
+         result.append("|").append(" ".repeat(paddingType)).append(cardTypeLine)
+                 .append(" ".repeat(width - paddingType - cardTypeLine.length())).append("|\n");
+
+         // Riga con il lato della carta centrato
+         String faceLine = "Face: " + FoB;
+         int paddingFace = (width - faceLine.length()) / 2;
+         result.append("|").append(" ".repeat(paddingFace)).append(faceLine)
+                 .append(" ".repeat(width - paddingFace - faceLine.length())).append("|\n");
+
+         // Riga con il contenuto centrale (centrato)
+         int paddingCentral = (width - centralResources.length()) / 2;
+         result.append("|").append(" ".repeat(paddingCentral)).append(centralResources)
+                 .append(" ".repeat(width - paddingCentral - centralResources.length())).append("|\n");
+
+         // Riga vuota tra il contenuto e il bordo inferiore
+         result.append("|").append(" ".repeat(width)).append("|\n");
+
+         // Riga inferiore con angoli
+         result.append("|").append(bottomLeft)
+                 .append(" ".repeat(width - 2)).append(bottomRight).append("|\n");
+
+         // Bordo inferiore
+         result.append(border);
+
+         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
+
+         return finalResult;
+     }*/
+     @Override
+     public String toString() {
+         StringBuilder result = new StringBuilder();
+         String cardTypeName = "Initial";
+         String FoB = isFront() ? "Front" : "Back";
+
+         // Lettura delle risorse dagli angoli
+         List<String> corners = getCornerContent(); // Ordine: TL, TR, BR, BL
+         String topLeft = convertToEmoji(corners.get(0));
+         String topRight = convertToEmoji(corners.get(1));
+         String bottomRight = convertToEmoji(corners.get(2));
+         String bottomLeft = convertToEmoji(corners.get(3));
+
+         // Lettura delle risorse centrali
+         StringBuilder centralResourcesBuilder = new StringBuilder();
+         List<ResourceType> centralR = getCentralResources();
+         for (ResourceType central : centralR) {
+             centralResourcesBuilder.append(convertToEmoji(central.toString())).append(" ");
+         }
+         String centralResources = centralResourcesBuilder.toString().trim();
+
+         // Costruzione della carta
+         int width = DefaultValue.printLenght; // Larghezza della carta
+         String border = "+" + "-".repeat(width) + "+";
+
+         // Bordo superiore
+         result.append(border).append("\n");
+
+         // Riga superiore con angoli
+         result.append("|").append(padEmoji(topLeft, 2))
+                 .append(" ".repeat(width - calculateEmojiWidth(topLeft) - calculateEmojiWidth(topRight) - 2))
+                 .append(padEmoji(topRight, 2)).append("|\n");
+
+         // Riga vuota tra i bordi e il contenuto
+         result.append("|").append(" ".repeat(width)).append("|\n");
+
+         // Riga con il tipo di carta centrato
+         String cardTypeLine = "CardType: " + cardTypeName;
+         int paddingType = (width - cardTypeLine.length()) / 2;
+         result.append("|").append(" ".repeat(paddingType)).append(cardTypeLine)
+                 .append(" ".repeat(width - paddingType - cardTypeLine.length())).append("|\n");
+
+         // Riga con il lato della carta centrato
+         String faceLine = "Face: " + FoB;
+         int paddingFace = (width - faceLine.length()) / 2;
+         result.append("|").append(" ".repeat(paddingFace)).append(faceLine)
+                 .append(" ".repeat(width - paddingFace - faceLine.length())).append("|\n");
+
+         // Riga con il contenuto centrale (centrato)
+         int paddingCentral = (width - calculateEmojiWidth(centralResources)) / 2;
+         result.append("|").append(" ".repeat(paddingCentral)).append(centralResources)
+                 .append(" ".repeat(width - paddingCentral - calculateEmojiWidth(centralResources))).append("|\n");
+
+         // Riga vuota tra il contenuto e il bordo inferiore
+         result.append("|").append(" ".repeat(width)).append("|\n");
+
+         // Riga inferiore con angoli
+         result.append("|").append(padEmoji(bottomLeft, 2))
+                 .append(" ".repeat(width - calculateEmojiWidth(bottomLeft) - calculateEmojiWidth(bottomRight) - 2))
+                 .append(padEmoji(bottomRight, 2)).append("|\n");
+
+         // Bordo inferiore
+         result.append(border).append("\n");
+
+         return result.toString();
+     }
+
+    /**
+     * Calcola la larghezza effettiva delle emoji o dei caratteri di risorse
+     * @param input La stringa di input
+     * @return La larghezza effettiva
+     */
+    private int calculateEmojiWidth(String input) {
+        int width = 0;
+        for (int i = 0; i < input.length(); ) {
+            int codePoint = input.codePointAt(i);
+            if (Character.charCount(codePoint) > 1 || input.codePointAt(i) > 0xFFFF) {
+                // Considera le emoji e caratteri speciali come doppia larghezza
+                width += 2;
+            } else {
+                // I caratteri normali contano come una larghezza
+                width += 1;
+            }
+            i += Character.charCount(codePoint);
+        }
+        return width;
+    }
+    /**
+     * Padding per le emoji e le risorse per garantire che occupino lo spazio corretto.
+     * @param content La stringa da pad.
+     * @param totalLength La lunghezza totale desiderata.
+     * @return La stringa con padding aggiunto per raggiungere la lunghezza totale desiderata.
+     */
+    private String padEmoji(String content, int totalLength) {
+        int emojiWidth = calculateEmojiWidth(content);
+        int padding = totalLength - emojiWidth;
+        return content + " ".repeat(padding);
+    }
+
+
+
+
+   /* @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         Ansi.Color bgColor = Ansi.Color.YELLOW;
@@ -184,12 +349,7 @@ public class InitialCard extends PlayableCard implements Serializable {
 
         // Trova la lunghezza massima delle linee di contenuto
         int maxWidth = DefaultValue.printLenght;
-        /*
-        for (String line : contentLines) {
-            maxWidth = Math.max(maxWidth, line.length());
-        }
 
-         */
 
         // Costruzione del bordo superiore
         String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
@@ -219,7 +379,7 @@ public class InitialCard extends PlayableCard implements Serializable {
         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
 
         return finalResult;
-    }
+    }*/
 
 
 
