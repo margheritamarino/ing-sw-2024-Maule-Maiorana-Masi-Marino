@@ -126,15 +126,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
       return null;
    }
 
-  /* public ResourceCard() {
-      super();
-      this.victoryPoints = 0; //
-      this.mainResource = null;
-      this.numResources = 0;
-      this.resourceList = new ArrayList<>();
-      this.hasSymbol = false;
-      this.symbol = null;
-   }*/
+
 
    public ResourceCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, int victoryPoints, int numResources, List<ResourceType> resourceList, boolean hasSymbol, SymbolType symbol) {
       super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
@@ -154,7 +146,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
     *
     * @return A formatted string representing the card.
     */
-   @Override
+  @Override
    public String toString() {
       StringBuilder result = new StringBuilder();
       Ansi.Color bgColor;
@@ -202,12 +194,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
       // Trova la lunghezza massima delle linee di contenuto
       // Trova la lunghezza massima delle linee di contenuto
       int maxWidth = DefaultValue.printLenght;
-        /*
-        for (String line : contentLines) {
-            maxWidth = Math.max(maxWidth, line.length());
-        }
 
-         */
 
       // Costruzione del bordo superiore
       String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
@@ -236,5 +223,108 @@ public class ResourceCard extends PlayableCard implements Serializable {
 
       return result.toString();
    }
+//TODO: Metodo come le Initial card
+   //TODO: modificare e fare i victoryPoints in alto nella riga delle emoji angoli TL e TR
+   //TODO: dopo aver fatto le carte modificare come viene mostrata la board nella TUI perchè dà errore -> vedi show_InitialCard
+   //TODO per le GOLD: se si riesce a mettere i punti in alto aggiungere anche la condizione di punti se c'è
+   //TODO GOLD:         invece in basso aggiungere la condizione di piazzamento
+   //TODO alla fine: modificare i default Values printHEight e printLenght in DefaultValue per diminuire la grandezza
+   //
+   /*
+   @Override
+   public String toString() {
+      StringBuilder result = new StringBuilder();
+      String cardTypeName = "Resource";
+      String FoB = isFront() ? "Front" : "Back";
+      String victoryPoints= String.valueOf(getVictoryPoints());
 
+
+      // Lettura delle risorse dagli angoli
+      List<String> corners = getCornerContent(); // Ordine: TL, TR, BR, BL
+      String topLeft = convertToEmoji(corners.get(0));
+      String topRight = convertToEmoji(corners.get(1));
+      String bottomRight = convertToEmoji(corners.get(2));
+      String bottomLeft = convertToEmoji(corners.get(3));
+
+
+
+      // Costruzione della carta
+      int width = DefaultValue.printLenght; // Larghezza della carta
+      int height = DefaultValue.printHeight; // Altezza della carta
+      String border = "+" + "-".repeat(width) + "+";
+
+      // Calcolo delle righe di contenuto effettive
+      int contentRows = 4; // Numero effettivo di righe per il contenuto (tipo carta, lato, risorse centrali, angoli)
+
+      // Bordo superiore
+      result.append(border).append("\n");
+
+      // Riga superiore con angoli
+      result.append("|").append(padEmoji(topLeft, 2))
+              .append(" ".repeat(width - calculateEmojiWidth(topLeft) - calculateEmojiWidth(topRight) - 2))
+              .append(padEmoji(topRight, 2)).append("|\n");
+
+      // Riga con il tipo di carta centrato
+      String cardTypeLine = "CardType: " + cardTypeName;
+      int paddingType = (width - cardTypeLine.length()) / 2;
+      result.append("|").append(" ".repeat(paddingType)).append(cardTypeLine)
+              .append(" ".repeat(width - paddingType - cardTypeLine.length())).append("|\n");
+
+      // Riga con il lato della carta centrato
+      String faceLine = "Face: " + FoB;
+      int paddingFace = (width - faceLine.length()) / 2;
+      result.append("|").append(" ".repeat(paddingFace)).append(faceLine)
+              .append(" ".repeat(width - paddingFace - faceLine.length())).append("|\n");
+      // Riga con il lato della carta centrato
+      String pointsLine = "Points: " + victoryPoints;
+      int paddingPoints = (width - pointsLine.length()) / 2;
+      result.append("|").append(" ".repeat(paddingPoints)).append(pointsLine)
+              .append(" ".repeat(width - paddingPoints - pointsLine.length())).append("|\n");
+
+      // Riga con il contenuto centrale (centrato)
+      String mainResouce= convertToEmoji( getMainResource().toString());
+
+      int paddingMainResource = (width - calculateEmojiWidth(mainResouce)) / 2;
+      result.append("|").append(" ".repeat(paddingMainResource)).append(mainResouce)
+              .append(" ".repeat(width - paddingMainResource - calculateEmojiWidth(mainResouce))).append("|\n");
+
+      // Aggiungi righe vuote fino a raggiungere l'altezza desiderata della carta
+      int remainingHeight = height - (contentRows-1 + 2); // 2 righe per i bordi superiori e inferiori
+      for (int i = 0; i < remainingHeight; i++) {
+         result.append("|").append(" ".repeat(width)).append("|\n");
+      }
+      // Riga inferiore con angoli
+      result.append("|").append(padEmoji(bottomLeft, 2))
+              .append(" ".repeat(width - calculateEmojiWidth(bottomLeft) - calculateEmojiWidth(bottomRight) - 2))
+              .append(padEmoji(bottomRight, 2)).append("|\n");
+
+      // Bordo inferiore
+      result.append(border).append("\n");
+
+      return result.toString();
+   }
+
+   private int calculateEmojiWidth(String input) {
+      int width = 0;
+      for (int i = 0; i < input.length(); ) {
+         int codePoint = input.codePointAt(i);
+         if (Character.charCount(codePoint) > 1 || input.codePointAt(i) > 0xFFFF) {
+            // Considera le emoji e caratteri speciali come doppia larghezza
+            width += 2;
+         } else {
+            // I caratteri normali contano come una larghezza
+            width += 1;
+         }
+         i += Character.charCount(codePoint);
+      }
+      return width;
+   }
+
+
+   private String padEmoji(String content, int totalLength) {
+      int emojiWidth = calculateEmojiWidth(content);
+      int padding = totalLength - emojiWidth;
+      return content + " ".repeat(padding);
+   }
+*/
 }

@@ -218,10 +218,13 @@ public class InitialCard extends PlayableCard implements Serializable {
 
          return finalResult;
      }*/
+     //TODO NE SERVONO 4 PER LE INITIAL
      @Override
      public String toString() {
          StringBuilder result = new StringBuilder();
-         String cardTypeName = "Initial";
+         Ansi.Color bgColor = Ansi.Color.YELLOW;
+         Ansi.Color textColor = Ansi.Color.WHITE;
+         String cardTypeName = "Initial Card";
          String FoB = isFront() ? "Front" : "Back";
 
          // Lettura delle risorse dagli angoli
@@ -241,7 +244,11 @@ public class InitialCard extends PlayableCard implements Serializable {
 
          // Costruzione della carta
          int width = DefaultValue.printLenght; // Larghezza della carta
+         int height = DefaultValue.printHeight; // Altezza della carta
          String border = "+" + "-".repeat(width) + "+";
+
+         // Calcolo delle righe di contenuto effettive
+         int contentRows = 4; // Numero effettivo di righe per il contenuto (tipo carta, lato, risorse centrali, angoli)
 
          // Bordo superiore
          result.append(border).append("\n");
@@ -251,11 +258,8 @@ public class InitialCard extends PlayableCard implements Serializable {
                  .append(" ".repeat(width - calculateEmojiWidth(topLeft) - calculateEmojiWidth(topRight) - 2))
                  .append(padEmoji(topRight, 2)).append("|\n");
 
-         // Riga vuota tra i bordi e il contenuto
-         result.append("|").append(" ".repeat(width)).append("|\n");
-
          // Riga con il tipo di carta centrato
-         String cardTypeLine = "CardType: " + cardTypeName;
+         String cardTypeLine = cardTypeName;
          int paddingType = (width - cardTypeLine.length()) / 2;
          result.append("|").append(" ".repeat(paddingType)).append(cardTypeLine)
                  .append(" ".repeat(width - paddingType - cardTypeLine.length())).append("|\n");
@@ -271,9 +275,11 @@ public class InitialCard extends PlayableCard implements Serializable {
          result.append("|").append(" ".repeat(paddingCentral)).append(centralResources)
                  .append(" ".repeat(width - paddingCentral - calculateEmojiWidth(centralResources))).append("|\n");
 
-         // Riga vuota tra il contenuto e il bordo inferiore
-         result.append("|").append(" ".repeat(width)).append("|\n");
-
+         // Aggiungi righe vuote fino a raggiungere l'altezza desiderata della carta
+         int remainingHeight = height - (contentRows-1 + 2); // 2 righe per i bordi superiori e inferiori
+         for (int i = 0; i < remainingHeight; i++) {
+             result.append("|").append(" ".repeat(width)).append("|\n");
+         }
          // Riga inferiore con angoli
          result.append("|").append(padEmoji(bottomLeft, 2))
                  .append(" ".repeat(width - calculateEmojiWidth(bottomLeft) - calculateEmojiWidth(bottomRight) - 2))
@@ -282,7 +288,9 @@ public class InitialCard extends PlayableCard implements Serializable {
          // Bordo inferiore
          result.append(border).append("\n");
 
-         return result.toString();
+         // Conversione del risultato in stringa ANSI colorata
+         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
+         return finalResult;
      }
 
     /**
@@ -305,6 +313,7 @@ public class InitialCard extends PlayableCard implements Serializable {
         }
         return width;
     }
+
     /**
      * Padding per le emoji e le risorse per garantire che occupino lo spazio corretto.
      * @param content La stringa da pad.
