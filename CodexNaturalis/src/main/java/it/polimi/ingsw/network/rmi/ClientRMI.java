@@ -300,12 +300,12 @@ public void run() {
     }
 
     /**
-     * The client asks the server to reconnect to a specific game
+     * The client asks the server to reconnect the player @param nick to the current game
      *
      * @param nick   nickname of the player
      */
     @Override
-    public void reconnect(String nick) throws IOException, NotBoundException {
+    public void reconnect(String nick, int idGame) throws IOException, NotBoundException {
         registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
         gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI); //ClientRMI si connette al server RMI e riceve il riferimento al GameController
         gameController.reconnect(modelInvokedEvents, nick);

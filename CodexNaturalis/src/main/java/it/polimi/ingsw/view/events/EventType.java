@@ -7,6 +7,7 @@ public enum EventType {
     GAME_FULL,
     NICKNAME_ALREADY_IN,
     GENERIC_ERROR,
+    ERROR_RECONNECTING,
     PLAYER_LEFT,
     GAME_STARTED,
     GAME_ENDED,

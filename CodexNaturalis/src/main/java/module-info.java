@@ -5,6 +5,7 @@ module PSP24 {
     requires java.rmi;
     requires org.fusesource.jansi;
     requires java.desktop;
+    requires json.simple;
     exports it.polimi.ingsw.view.GUI.scenes;
     exports it.polimi.ingsw.view.GUI;
     exports it.polimi.ingsw.model.player;

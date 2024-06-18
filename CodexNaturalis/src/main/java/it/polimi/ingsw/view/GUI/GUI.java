@@ -485,15 +485,24 @@ public class GUI extends UI {
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).playerReconnectedInGame(model));
     }
 
+    @Override
+    public void show_failedReconnectionMsg(String nick){
+        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
+        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Failed to recconnect to the game!", true));
+    }
+
+    /**
+     * Asks if the player is trying to reconnect
+     */
+    @Override
+    public void show_askForReconnection(){ // mostrato al solo giocatore che sta provando a riconnettersi
+        //ASK_RECONNECTION_POP_UP --> chiede al giocatore (che ha inserito un nickname già presente) se sta provando a riconnettersi
+    }
+
 
     @Override
     public void addMessage(Message msg, GameImmutable model) {
         show_sentMessage(model, model.getChat().getLastMessage().getSender().getNickname());
     }
 
-    @Override
-    public void show_failedReconnectionMsg(String nick){
-        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
-        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Failed to recconnect to the game!", true));
-    }
 }

@@ -157,6 +157,12 @@ public interface GameListenerInterface extends Remote {
      */
     void playerDisconnected(GameImmutable model, String nick) throws RemoteException;
 
+    /**
+     * This is a generic error that can happen when a player is entering the game
+     * @param why is the reason why the error happened
+     * @throws RemoteException if the reference could not be accessed
+     */
+    void errorReconnecting(String why) throws RemoteException;
 
 
     /**

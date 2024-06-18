@@ -119,5 +119,9 @@ public abstract class UI {
 
     public abstract void show_failedReconnectionMsg( String nick);
 
+    /**
+     * Show the message if a client is trying a reconnection
+     */
+    public abstract void show_askForReconnection();
 
 }

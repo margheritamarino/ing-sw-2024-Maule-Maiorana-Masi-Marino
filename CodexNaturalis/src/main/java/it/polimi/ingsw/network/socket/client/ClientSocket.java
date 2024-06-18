@@ -213,7 +213,7 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @param nick   nickname of the player
      */
     @Override
-    public void reconnect(String nick) throws IOException {
+    public void reconnect(String nick, int idGame) throws IOException {
         nickname = nick;
         out.writeObject(new ClientMsgReconnect(nick));
         finishSending();

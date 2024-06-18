@@ -30,8 +30,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
-import static it.polimi.ingsw.view.events.EventType.BACK_TO_MENU;
-import static it.polimi.ingsw.view.events.EventType.PLAYER_RECONNECTED;
+import static it.polimi.ingsw.view.events.EventType.*;
 
 
 //Capire come parte il pescaggio delle carte nel 1°Truno di gioco
@@ -39,6 +38,7 @@ import static it.polimi.ingsw.view.events.EventType.PLAYER_RECONNECTED;
 //Gestisce il flusso di gioco e l'interazione tra client e server
 public class GameFlow extends Flow implements Runnable, ClientInterface {
     private String nickname;
+
     public Color color;
     private final EventList events = new EventList();
     private ClientInterface clientActions;
@@ -54,6 +54,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * The last player that reconnected
      */
     private String lastPlayerReconnected;
+
+    /**
+     * FileDisconnection {@link FileDisconnection} to handle the disconnection
+     */
+    private final FileDisconnection fileDisconnection;
 
 
     /**
@@ -75,6 +80,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
         this.inputReader = new InputTUI();
         this.inputController = new InputController(this.inputReader.getBuffer(), this);
+        fileDisconnection = new FileDisconnection();
 
         new Thread(this).start();
 
@@ -91,7 +97,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         nickname = "";
 
         this.inputController = new InputController(this.inputReader.getBuffer(), this);
-
+        fileDisconnection = new FileDisconnection();
         new Thread(this).start();
 
     }
@@ -166,6 +172,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     //Se l'evento è di tipo player joined significa che un giocatore si è unito alla lobby
                     //verifico che il giocatore in lobby è l'ultimo giocatore ad aver eseguito l'azione
 
+                    saveGameId(fileDisconnection, nickname, event.getModel().getGameId()); //salva il GameID del gioco a cui partecipa il giocatore connesso
                     askReadyToStart(event.getModel(), nickname);
                 }
             }
@@ -255,8 +262,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             //caso: game non valido -> back to menu
             case BACK_TO_MENU -> {
-                if(ended)
+                if(ended) //AGGIUNGI QUA CASO DISCONNESSIONE
                     ui.show_returnToMenuMsg();
+
                 else{
                     askNickname();
                     joinGame(nickname);
@@ -264,13 +272,17 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 //ciclo per chiedere al giocatore di selezionare una partita valida
             }
 
-            case NICKNAME_ALREADY_IN -> {
-                nickname = null;
-                Color.addColor(this.color);
-                this.color= null;
+            case NICKNAME_ALREADY_IN -> { //+ CASO RICONNESSIONE
+                if (askingForReconnection()){ //Se il giocatore sta chiedendo una riconnessione
+                    reconnect(nickname, fileDisconnection.getGameId(nickname)); //chiama la riconnessione
+                } else {
+                    nickname = null;
+                    Color.addColor(this.color);
+                    this.color = null;
 
-                events.add(null, EventType.BACK_TO_MENU); //aggiunge evento nullo per tornare al menu principale
-                ui.addImportantEvent("ERROR: Nickname already used!");
+                    events.add(null, EventType.BACK_TO_MENU); //aggiunge evento nullo per tornare al menu principale
+                    ui.addImportantEvent("ERROR: Nickname already used!");
+                }
             }
 
             case GAME_FULL -> {
@@ -279,7 +291,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.addImportantEvent("ERROR: Game is Full, you can't play!");
             }
 
-            case GENERIC_ERROR -> {
+            case GENERIC_ERROR, ERROR_RECONNECTING -> {
                 nickname = null;
                 ui.show_returnToMenuMsg(); //mostra un messaggio di ritorno al menu sull'interfaccia utente
                 try {
@@ -290,8 +302,30 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 events.add(null, EventType.BACK_TO_MENU);
             }
         }
+
     }
 
+    /**
+     * If a Client connected and inserted a name that is already in the game, we ask if it's a Reconnection
+     * @return true if he's trying to reconnect
+     * @throws NotBoundException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public boolean askingForReconnection() throws NotBoundException, IOException, InterruptedException {
+        String isReconnection; //salvo l'input del Client (se sta tentando una riconnessione oppure no)
+        ui.show_askForReconnection();
+        this.inputController.getUnprocessedData().popAllData();
+        try {
+            isReconnection= this.inputController.getUnprocessedData().popInputData();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if(isReconnection=="YES"|| isReconnection=="yes"){
+            return true;
+        }
+        return false;
+    }
 
     public void statusEnded(Event event) throws NotBoundException, IOException {
         switch (event.getType()) {
@@ -762,8 +796,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void gameEnded(GameImmutable gameImmutable) throws RemoteException {
         events.add(gameImmutable, EventType.GAME_ENDED);
         ended = true;
-
-        //TODO quando aggiungiamo la disconnessione fai metodo RESET gioco
+        ui.show_gameEnded(gameImmutable);
+        resetGameId(fileDisconnection, gameImmutable);
     }
     @Override
     public void requireNumPlayersGameID(GameImmutable model)throws RemoteException {
@@ -927,13 +961,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * The client asks the server to reconnect to a specific game
      *
      * @param nick   nickname of the player
+     * @param idGame id of the game to reconnect
      */
     @Override
-    public void reconnect(String nick) throws IOException, InterruptedException, NotBoundException {
+    public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
         //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
             ui.show_joiningToGameMsg(nick, color);
             try {
-                clientActions.reconnect(nickname);
+                clientActions.reconnect(nickname, idGame);
             } catch (IOException | InterruptedException | NotBoundException e) {
                 noConnectionError();
             }
@@ -945,6 +980,30 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
             events.add(null,BACK_TO_MENU);
     }
+
+    /**
+     * This is a generic error that can happen when a player is entering the game
+     * @param why is the reason why the error happened
+     * @throws RemoteException if the reference could not be accessed
+     */
+    @Override
+    public void errorReconnecting(String why) throws RemoteException{
+        ui.show_failedReconnectionMsg(why);
+        events.add(null, ERROR_RECONNECTING);
+    }
+
+    /**
+     * Saves latest game id
+     * @param fileDisconnection file to write
+     * @param nick
+     * @param gameId
+     */
+    protected void saveGameId(FileDisconnection fileDisconnection, String nick, int gameId) {
+        fileDisconnection.setLastGameId(nick, gameId);
+    }
+
+
+
 
 
 

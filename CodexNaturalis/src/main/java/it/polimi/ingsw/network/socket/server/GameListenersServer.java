@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.socket.server;
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.*;
@@ -15,7 +14,6 @@ import java.io.Serializable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 public class GameListenersServer implements GameListenerInterface, Serializable {
     private final ObjectOutputStream out; //per l'invio dei dati al Client
@@ -308,6 +306,21 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         //System.out.println(nickNewPlayer +" by socket");
         try {
             out.writeObject(new msgPlayerReconnected(gamemodel, nickPlayerReconnected));
+            finishSending();
+        } catch (IOException e) {
+
+        }
+    }
+
+    /**
+     * This is a generic error that can happen when a player is entering the game
+     * @param why is the reason why the error happened
+     * @throws RemoteException if the reference could not be accessed
+     */
+    @Override
+    public void errorReconnecting(String why) throws RemoteException{
+        try {
+            out.writeObject(new msgGenericErrorWhenEnteringGame(why));
             finishSending();
         } catch (IOException e) {
 
