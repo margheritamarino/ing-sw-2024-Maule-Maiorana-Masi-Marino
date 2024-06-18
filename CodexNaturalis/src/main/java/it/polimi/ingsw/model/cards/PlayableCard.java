@@ -167,18 +167,6 @@ public abstract class PlayableCard implements Serializable {
     public abstract boolean isCornerCondition();
     public abstract SymbolType getSymbolCondition();
 
-    //Inizializza a NULL i CORNER
-    /*public PlayableCard() {
-        this.cardID = 0;
-        this.isFront = true;
-        this.cardType = null;
-        this.numCorners = 0;
-        this.TLCorner = null;
-        this.TRCorner = null;
-        this.BRCorner = null;
-        this.BLCorner = null;
-    }*/
-
     public PlayableCard( int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner) {
         this.cardID = cardID;
         this.numCorners = numCorners;
@@ -212,6 +200,8 @@ public abstract class PlayableCard implements Serializable {
             output= "\uD83D\uDCDC";
         }else if(input.equals("Quill")){
             output = "\uD83E\uDEB6";
+        }else if(input.equals("CoveredCorner")){
+            output = "\u2B1B";
         }else output = "E";
         return output;
     }

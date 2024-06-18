@@ -255,11 +255,11 @@ public class GoldCard extends PlayableCard implements Serializable {
         String FoB = isFront() ? "Front" : "Back";
 
         // Costruzione della stringa dei punti vittoria con condizioni
-        String victoryPoints = "Points: " + getVictoryPoints();
+        String victoryPoints = "P:" + getVictoryPoints();
         if (isPointsCondition() && !isCornerCondition()) {
-            victoryPoints += " | " + convertToEmoji(getSymbolCondition().toString());
+            victoryPoints += "|" + convertToEmoji(getSymbolCondition().toString());
         } else if (isPointsCondition() && isCornerCondition()) {
-            victoryPoints += " | CoveredCorner";
+            victoryPoints += "|["+ convertToEmoji("CoveredCorner")+ "]";
         }
 
         // Lettura delle risorse dagli angoli
