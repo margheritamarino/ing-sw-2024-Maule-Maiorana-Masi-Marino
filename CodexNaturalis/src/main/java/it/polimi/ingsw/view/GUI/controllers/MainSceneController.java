@@ -22,7 +22,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -188,12 +191,8 @@ public class MainSceneController extends ControllerGUI{
         }
     }
 
-    /**
-     * This method set the message in the correct format
-     * @param msgs the list of messages
-     * @param myNickname the nickname of the player
-     */
-    public void setMessage(List<Message> msgs, String myNickname) {
+
+   /* public void setMessage(List<Message> msgs, String myNickname) {
         chatList.getItems().clear();
         for (Message m : msgs) {
             String r = "[" + m.getTime().getHour() + ":" + m.getTime().getMinute() + ":" + m.getTime().getSecond() + "] " + m.getSender().getNickname() + ": " + m.getText();
@@ -205,10 +204,55 @@ public class MainSceneController extends ControllerGUI{
                 chatList.getItems().add("[Private] " + r);
             }
         }
+    }*/
+    /**
+     * This method set the message in the correct format
+     * @param msgs the list of messages
+     * @param myNickname the nickname of the player
+     */
+    public void setMessage(List<Message> msgs, String myNickname) {
+        chatList.getItems().clear();
+        for (Message m : msgs) {
+            String time = "[" + m.getTime().getHour() + ":" + m.getTime().getMinute() + ":" + m.getTime().getSecond() + "] ";
+            String sender = m.getSender().getNickname() + ": ";
+            String text = m.getText();
+            String receiver = m.whoIsReceiver();
+
+            Text timeText = new Text(time);
+            timeText.setFont(Font.font("System", FontWeight.BOLD, 12));
+
+            Text senderText = new Text(sender);
+            senderText.setFont(Font.font("System", FontWeight.BOLD, 12));
+
+            Text messageText = new Text(text);
+            // messageText.setFont(Font.font("System", FontWeight.NORMAL, 12));
+
+            TextFlow textFlow = new TextFlow();
+
+            if (receiver.equals("*")  ) {
+                // Public message
+                timeText.setFill(Color.BLACK);
+                senderText.setFill(Color.RED);
+                messageText.setFill(Color.BLACK);
+
+                textFlow.getChildren().addAll(timeText, senderText, messageText);
+            } else if (receiver.toUpperCase().equals(myNickname.toUpperCase()) || m.getSender().getNickname().toUpperCase().equals(myNickname.toUpperCase())) {
+                // Private message
+                Text privateText = new Text("[Private] ");
+                privateText.setFill(Color.BLUE);
+                privateText.setFont(Font.font("System", FontWeight.BOLD, 12));
+
+                timeText.setFill(Color.BLACK);
+                senderText.setFill(Color.BLUE);
+                messageText.setFill(Color.BLACK);
+
+                textFlow.getChildren().addAll(privateText, timeText, senderText, messageText);
+            }
+
+            chatList.getItems().add(textFlow);
+        }
+
     }
-
-
-
 
     //PLAYERDECK
     private boolean[] showBack = new boolean[3];
@@ -243,12 +287,11 @@ public class MainSceneController extends ControllerGUI{
 
     private void toggleCard(int cardIndex, ImageView deckImg) {
         String imagePath;
-        //TODO
         if (showBack[cardIndex]) { //showBack=true (sono sul back)
             //BACK
             imagePath = playerDeck.getMiniDeck().get(cardIndex)[0].getImagePath();
             showBack[cardIndex]=false; //sono sul front oraa
-        } else { //showBack=true
+        } else {
             //FRONT
             imagePath = playerDeck.getMiniDeck().get(cardIndex)[1].getImagePath();
             showBack[cardIndex]=true; //setto il back
@@ -576,9 +619,88 @@ public class MainSceneController extends ControllerGUI{
         PlaceCardChooseCell = false;
     }
 
+    private boolean PlaceCardChooseCell = false;
+
+    public void highlightChooseCell(GameImmutable model, String nickname) {
+        PlaceCardChooseCell = true;
+
+        bookScrollPane.setVisible(true);
+        bookScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        bookScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+        bookPane.getChildren().clear();
+
+        this.bookMatrix = model.getPlayerByNickname(nickname).getPlayerBook().getBookMatrix();
+        bookPane.getChildren().clear();
+
+        int[] limits = findSubMatrix();
+        int minI = limits[0];
+        int minJ = limits[1];
+        int maxI = limits[2];
+        int maxJ = limits[3];
+
+        double paneWidth = 150;
+        double paneHeight = 110;
+        double overlapX = 30;
+        double overlapY = 30;
+
+        double boardWidth = (maxJ - minJ + 1) * (paneWidth - overlapX) + overlapX;
+        double boardHeight = (maxI - minI + 1) * (paneHeight - overlapY) + overlapY;
+
+        double fixedWidth = 750;
+        double fixedHeight = 380;
+
+        bookPane.setPrefSize(Math.max(fixedWidth, boardWidth), Math.max(fixedHeight, boardHeight));
+        bookScrollPane.setPrefSize(fixedWidth, fixedHeight);
+
+        double offsetX = (fixedWidth - boardWidth) / 2;
+        double offsetY = (fixedHeight - boardHeight) / 2;
+
+        for (int i = minI; i <= maxI; i++) {
+            for (int j = minJ; j <= maxJ; j++) {
+                Pane cardPane = new Pane();
+                cardPane.setPrefSize(paneWidth, paneHeight);
+                cardPane.setLayoutX((j - minJ) * (paneWidth - overlapX) + offsetX);
+                cardPane.setLayoutY((i - minI) * (paneHeight - overlapY) + offsetY);
+                cardPane.setOnMouseClicked(this::chooseCellClick);
+                cardPane.setId(i + "-" + j);
+
+                ImageView cardImageView = new ImageView();
+                cardImageView.setFitWidth(paneWidth);
+                cardImageView.setFitHeight(paneHeight);
+                cardImageView.setPreserveRatio(true);
+                cardImageView.setId(i + "-" + j);
+
+                PlayableCard card = bookMatrix[i][j].getCard();
+                if (card != null) {
+                    Image cardImage = new Image(card.getImagePath());
+                    cardImageView.setImage(cardImage);
+                } else {
+                    cardImageView.setImage(null);
+                }
+                if (bookMatrix[i][j].isAvailable()) { //TODO se va bene togliere !bookMatrix[i][j].isWall()
+                    cardPane.setStyle("-fx-border-color: green; -fx-border-width: 3;");
+                }
+                cardPane.getChildren().add(cardImageView);
+                bookPane.getChildren().add(cardPane);
+            }
+        }
+
+        rootPane.setPrefSize(fixedWidth, fixedHeight); // Dimensioni prefissate
+        bookPane.setPrefSize(fixedWidth, fixedHeight); // Dimensioni prefissate
+        bookScrollPane.setPrefSize(fixedWidth, fixedHeight); // Dimensioni prefissate
+
+        bookPane.layout();
+        bookScrollPane.layout();
+        bookScrollPane.setContent(bookPane);
+        bookScrollPane.setVisible(true);
+        bookScrollPane.setManaged(true);
+        bookScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        bookScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    }
 
 
-    private boolean PlaceCardChooseCell=false;
+   /* private boolean PlaceCardChooseCell=false;
     public void highlightChooseCell(GameImmutable model, String nickname) {
         PlaceCardChooseCell = true;
 
@@ -632,7 +754,7 @@ public class MainSceneController extends ControllerGUI{
                 } else {
                     cardImageView.setImage(null);
                 }
-                if (bookMatrix[i][j].isAvailable() && !bookMatrix[i][j].isWall()) {
+                if (bookMatrix[i][j].isAvailable() ) { //
                     cardPane.setStyle("-fx-border-color: green; -fx-border-width: 3;");
                 }
                 cardPane.getChildren().add(cardImageView);
@@ -655,7 +777,6 @@ public class MainSceneController extends ControllerGUI{
             bookScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         }
 
-    }
-
+    }*/
 
 }
