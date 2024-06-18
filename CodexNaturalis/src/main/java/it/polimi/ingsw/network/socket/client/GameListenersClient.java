@@ -50,8 +50,8 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
 
 
     @Override
-    public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
-        flow.joinUnableNicknameAlreadyIn(triedToJoin);
+    public void joinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable model) throws RemoteException {
+        flow.joinUnableNicknameAlreadyIn(triedToJoin, model);
     }
 
 
@@ -124,6 +124,10 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
         flow.onlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded);
     }
 
+    @Override
+    public void errorReconnecting(String why) throws RemoteException {
+        flow.errorReconnecting(why);
+    }
 
         @Override
     public void sentMessage(GameImmutable model, Message msg) throws RemoteException {

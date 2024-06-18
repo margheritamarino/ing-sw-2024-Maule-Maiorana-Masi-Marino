@@ -139,9 +139,9 @@ public class ListenersHandler {
      * @param lis         the listener to notify
      * @param triedToJoin the player who wanted to join the game
      */
-    public void notify_JoinUnableNicknameAlreadyIn(GameListenerInterface lis, Player triedToJoin ) { //tolgo SYNCHRONIZED
+    public void notify_JoinUnableNicknameAlreadyIn(GameListenerInterface lis, Player triedToJoin, Game model ) { //tolgo SYNCHRONIZED
         try {
-            lis.joinUnableNicknameAlreadyIn(triedToJoin);
+            lis.joinUnableNicknameAlreadyIn(triedToJoin,new GameImmutable(model));
         } catch (RemoteException e) {
             printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before ping");
         }

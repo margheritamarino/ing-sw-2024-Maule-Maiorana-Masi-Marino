@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.Messages.serverToClientMessages;
 
 import it.polimi.ingsw.listener.GameListenerInterface;
+import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 
 import java.rmi.RemoteException;
@@ -12,13 +13,15 @@ import java.rmi.RemoteException;
  */
 public class msgJoinUnableNicknameAlreadyIn extends ServerGenericMessage {
     private Player triedToJoin;
+    private GameImmutable model;
 
     /**
      * Constructor of the class.
      * @param triedToJoin the player who wanted to join the game
      */
-    public msgJoinUnableNicknameAlreadyIn(Player triedToJoin) {
+    public msgJoinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable model) {
         this.triedToJoin = triedToJoin;
+        this.model=model;
     }
 
     /**
@@ -28,6 +31,6 @@ public class msgJoinUnableNicknameAlreadyIn extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        lis.joinUnableNicknameAlreadyIn(triedToJoin);
+        lis.joinUnableNicknameAlreadyIn(triedToJoin, model);
     }
 }

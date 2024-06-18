@@ -1014,4 +1014,19 @@ public class TUI extends UI {
         }
         printAsync("Failed to recconnect " + nick + " to the game! \n");
     }
+
+    /**
+     * Asks if the player is trying to reconnect
+     */
+    @Override
+    public void show_askForReconnection(){ //Show mostrata al solo giocatore che sta provando a riconnettersi
+        // Pausa di 1 secondo
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        printAsync("Press YES if you are trying to RECONNECT to the game \n");
+
+    }
 }

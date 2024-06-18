@@ -77,7 +77,7 @@ public interface ClientInterface  {
      * @throws InterruptedException
      * @throws NotBoundException
      */
-    void reconnect(String nick) throws IOException, InterruptedException, NotBoundException;
+    void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException;
 
 }
 
