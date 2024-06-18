@@ -239,7 +239,7 @@ public class Game {
 		// Check if the nickname is already taken
 		if (checkNickname(nickname)) {
 			// Nickname is already taken
-			listenersHandler.notify_JoinUnableNicknameAlreadyIn(lis, getPlayerByNickname(nickname));
+			listenersHandler.notify_JoinUnableNicknameAlreadyIn(lis, getPlayerByNickname(nickname), this);
 		}
 		else{
 			// Create a new player with the given nickname

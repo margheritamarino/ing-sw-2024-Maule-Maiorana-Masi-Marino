@@ -80,10 +80,11 @@ public interface GameListenerInterface extends Remote {
     /**
      * This method is used to notify the client that a player has tried to join the game but the nickname is already in use
      *
+     * @param gameModel is the game model
      * @param triedToJoin the player who tried to join
      * @throws RemoteException if the reference could not be accessed
      */
-    void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException;
+    void joinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable gameModel) throws RemoteException;
 
 
     /**

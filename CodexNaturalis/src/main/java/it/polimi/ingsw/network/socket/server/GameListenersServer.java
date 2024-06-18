@@ -93,9 +93,9 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
+    public void joinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable model) throws RemoteException {
         try {
-            out.writeObject(new msgJoinUnableNicknameAlreadyIn(triedToJoin));
+            out.writeObject(new msgJoinUnableNicknameAlreadyIn(triedToJoin, model));
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());

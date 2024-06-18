@@ -6,6 +6,7 @@ public enum EventType {
     PLAYER_READY,
     GAME_FULL,
     NICKNAME_ALREADY_IN,
+    NICKNAME_TO_RECONNECT, //Disconnection
     GENERIC_ERROR,
     ERROR_RECONNECTING,
     PLAYER_LEFT,

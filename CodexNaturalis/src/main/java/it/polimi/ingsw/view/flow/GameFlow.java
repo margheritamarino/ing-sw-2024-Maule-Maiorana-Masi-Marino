@@ -272,7 +272,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 //ciclo per chiedere al giocatore di selezionare una partita valida
             }
 
-            case NICKNAME_ALREADY_IN -> { //+ CASO RICONNESSIONE
+            case NICKNAME_ALREADY_IN -> {
+                    nickname = null;
+                    Color.addColor(this.color);
+                    this.color = null;
+
+                    events.add(null, EventType.BACK_TO_MENU); //aggiunge evento nullo per tornare al menu principale
+                    ui.addImportantEvent("ERROR: Nickname already used!");
+            }
+
+            case NICKNAME_TO_RECONNECT -> { // CASO RICONNESSIONE
                 if (askingForReconnection()){ //Se il giocatore sta chiedendo una riconnessione
                     reconnect(nickname, fileDisconnection.getGameId(nickname)); //chiama la riconnessione
                 } else {
@@ -280,8 +289,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     Color.addColor(this.color);
                     this.color = null;
 
-                    events.add(null, EventType.BACK_TO_MENU); //aggiunge evento nullo per tornare al menu principale
-                    ui.addImportantEvent("ERROR: Nickname already used!");
+                    events.add(null, EventType.BACK_TO_MENU);
                 }
             }
 
@@ -430,7 +438,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_chosenNickname(this.nickname);
     }
 
-    public void setNickname(String nick){
+    public void setNickname(String nick){ //nickname non deve essere settato prima di aver chiesto se si sta riconnettendo!! Altrimenti sarà sempre4 GIA presente!!
         this.nickname=nick;
         System.out.println("GameFlow: nickname setted");
     }
@@ -771,8 +779,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws RemoteException if the reference could not be accessed
      */
     @Override
-    public void joinUnableNicknameAlreadyIn(Player triedToJoin) throws RemoteException {
-        events.add(null, EventType.NICKNAME_ALREADY_IN);
+    public void joinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable gameModel) throws RemoteException {
+        if(!gameModel.getPlayers().get(gameModel.getIndexPlayer(triedToJoin)).isConnected()){ //se il nickname è già presente nel gioco e il player è DISCONNESSO
+            events.add(null, EventType.NICKNAME_TO_RECONNECT);
+        } else {
+            events.add(null, EventType.NICKNAME_ALREADY_IN);
+        }
     }
 
    @Override
@@ -932,8 +944,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
-        //TODO
         ui.addImportantEvent("Player " + nick + " has just disconnected");
+
+        //model.getPlayerByNickname(nick).setConnected(false); //setta il giocatore come disconnesso --> viene settato nel Model
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         if (model.getStatus().equals(GameStatus.WAIT)) {
