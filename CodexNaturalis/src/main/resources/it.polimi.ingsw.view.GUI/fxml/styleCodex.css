@@ -420,6 +420,11 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+.backgroundForest{
+    -fx-background-image: url("../../img/sfondoForesta.jpg");
+
+    -fx-background-size: cover;
+}
 .backgroundPublisher{
     -fx-background-image: url("../../img/copertina.png");
     -fx-background-repeat: stretch;

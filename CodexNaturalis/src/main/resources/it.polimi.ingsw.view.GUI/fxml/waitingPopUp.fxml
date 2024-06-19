@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.9" prefHeight="304.0" prefWidth="363.0" style="-fx-background-color: black;" styleClass="glow-button" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.9" prefHeight="304.0" prefWidth="363.0" style="-fx-background-color: black;" styleClass="glow-button" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane layoutX="52.0" layoutY="22.0" opacity="0.9" prefHeight="259.0" prefWidth="260.0" style="-fx-background-color: black;">
          <children>
-            <Text fill="RED" layoutX="71.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAITING">
+            <Text layoutX="71.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="glow-button" text="WAITING">
                <font>
                   <Font name="Arial Black" size="24.0" />
                </font>
             </Text>
-            <Text fill="RED" layoutX="44.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="for initialization...">
+            <Text layoutX="44.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="glow-button" text="for initialization...">
                <font>
                   <Font name="Arial Black" size="18.0" />
                </font>
@@ -26,7 +29,7 @@
             </ImageView>
          </children>
          <styleClass>
-            <String fx:value="backgroundGame" />
+            <String fx:value="backgroundForest" />
             <String fx:value="glow-button" />
          </styleClass>
       </Pane>
