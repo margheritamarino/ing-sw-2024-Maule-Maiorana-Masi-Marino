@@ -286,10 +286,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 System.out.println("GameFlow- in case NICKNAME_TO_RECONNECT \n ");
                 if (askingForReconnection()){ //Se il giocatore sta chiedendo una riconnessione
                     reconnect(nickname, fileDisconnection.getGameId(nickname)); //chiama la riconnessione
-                } else {
+                } else {//NON HA SCHIACCIATO YES  in askingForReconnection
                     nickname = null;
                     Color.addColor(this.color);
                     this.color = null;
+                    events.add(null, ERROR_RECONNECTING);
                     //joinGame(nickname);
 
                     //events.add(null, EventType.BACK_TO_MENU);
@@ -980,6 +981,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
         System.out.println("in GameFlow --> RECONNECT()");
+
             ui.show_joiningToGameMsg(nick, color);
             try {
                 clientActions.reconnect(nickname, idGame);

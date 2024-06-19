@@ -214,8 +214,12 @@ public class GUI extends UI {
         pause.play();
     }
 
+    private boolean openReconnectPopUp=false;
     @Override
     public void show_joiningToGameMsg(String nick, Color color) {
+        if(openReconnectPopUp){
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+        }
         show_popupInfoAndNickname(nickname, "Trying to join a Game...");
     }
 
@@ -482,7 +486,8 @@ public class GUI extends UI {
      */
     @Override
     public void show_PlayerReconnectedMsg(GameImmutable model, String nick) {
-        callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).playerReconnectedInGame(model));
+        String msg= "Player" + nick + "is back in the game!";
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
     }
 
     @Override
@@ -496,7 +501,10 @@ public class GUI extends UI {
      */
     @Override
     public void show_askForReconnection(){ // mostrato al solo giocatore che sta provando a riconnettersi
-        //ASK_RECONNECTION_POP_UP --> chiede al giocatore (che ha inserito un nickname già presente) se sta provando a riconnettersi
+        callPlatformRunLater(() -> {
+            this.guiApplication.setActiveScene(SceneType.RECONNECT_POPUP);
+            openReconnectPopUp=true;
+        });
     }
 
 

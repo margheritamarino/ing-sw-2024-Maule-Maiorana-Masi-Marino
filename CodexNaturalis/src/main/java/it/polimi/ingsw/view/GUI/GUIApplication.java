@@ -165,7 +165,7 @@ public class GUIApplication extends Application {
 
                 }
 
-                case NICKNAME_POPUP, WAITING_POPUP, GENERIC_ERROR-> {
+                case NICKNAME_POPUP, WAITING_POPUP, GENERIC_ERROR, RECONNECT_POPUP-> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }

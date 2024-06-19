@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.95" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundWall" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.MainSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.95" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundWall" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.MainSceneController">
    <children>
       <Pane fx:id="actionPane" layoutX="297.0" layoutY="14.0" prefHeight="87.0" prefWidth="750.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css">
          <children>
@@ -122,10 +113,11 @@
             <String fx:value="record-sales" />
          </styleClass>
       </Button>
-      <ListView fx:id="EventsList" layoutX="22.0" layoutY="300.0" opacity="0.75" prefHeight="236.0" prefWidth="235.0" style="-fx-border-color: black; -fx-border-width: 2;">
+      <ListView fx:id="EventsList" layoutX="22.0" layoutY="300.0" opacity="0.75" prefHeight="236.0" prefWidth="235.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css">
          <styleClass>
             <String fx:value="backgroundGame" />
             <String fx:value="BoardStyle" />
+            <String fx:value="list-view" />
          </styleClass></ListView>
       <AnchorPane fx:id="rootPane" layoutX="297.0" layoutY="137.0" minHeight="0.0" minWidth="0.0" prefHeight="380.0" prefWidth="750.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css">
          <children>

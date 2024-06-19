@@ -87,8 +87,6 @@ public class MainSceneController extends ControllerGUI{
     private ListView EventsList;
     @FXML
     private AnchorPane PlayerDeckPane;
-    @FXML
-    private Stage boardPopUpStage;
 
 
     public void setImportantEvents(List<String> importantEvents){

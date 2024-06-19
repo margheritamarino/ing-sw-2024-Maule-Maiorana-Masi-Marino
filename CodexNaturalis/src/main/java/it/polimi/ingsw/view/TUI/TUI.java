@@ -1012,7 +1012,7 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("Failed to recconnect " + nick + " to the game! \n");
+        printAsync("Failed to reconnect " + nick + " to the game! \n");
     }
 
     /**
