@@ -229,6 +229,7 @@ public class Game {
 	 * @param nickname the nickname of the player to be added.
 	 */
 	public void addPlayer(GameListenerInterface lis, String nickname, Color playerColor) {
+		System.out.println("Game - addPlayer");
 		// Check if the game is not full and the nickname is not taken
 		// Check if the game is not full
 		if (isFull()) {
@@ -238,10 +239,15 @@ public class Game {
 
 		// Check if the nickname is already taken
 		if (checkNickname(nickname)) {
-			// Nickname is already taken
-			listenersHandler.notify_JoinUnableNicknameAlreadyIn(lis, getPlayerByNickname(nickname), this);
-		}
-		else{
+			if(!getPlayerByNickname(nickname).isConnected()){
+				System.out.println("Game - addPlayer: sending notify_AskForReconnection ");
+				listenersHandler.notify_AskForReconnection(lis, getPlayerByNickname(nickname), this); //chiede se sta provando a riconnettersi
+			} else {
+				System.out.println("Game - addPlayer: sending notify_JoinUnableNicknameAlreadyIn ");
+				listenersHandler.notify_JoinUnableNicknameAlreadyIn(lis, getPlayerByNickname(nickname), this);
+			}
+
+		} else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname, playerColor);
 			System.out.println("player added: "+nickname+playerColor);
@@ -293,6 +299,11 @@ public class Game {
 	public void removePlayer (String nickname) {
 		players.remove(players.stream().filter(x -> x.getNickname().equals(nickname)).toList().getFirst());
 		listenersHandler.notify_PlayerLeft(this, nickname);
+
+		if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::isConnected).toList().size() <= 1) {
+			//Not enough players to keep playing
+			this.setStatus(GameStatus.ENDED);
+		}
 	}
 
 
@@ -617,6 +628,7 @@ public class Game {
 	 * @param nick player to set as disconnected
 	 */
 	public void setAsDisconnected(String nick) {
+		System.out.println("in Game- setAsDisconnected ");
 		getPlayerByNickname(nick).setConnected(false);
 		getPlayerByNickname(nick).setNotReadyToStart();
 		if (getNumOfOnlinePlayers() != 0) {

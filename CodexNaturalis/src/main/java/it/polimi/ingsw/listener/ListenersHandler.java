@@ -309,7 +309,7 @@ public class ListenersHandler {
      * @param model is the GameModel {@link Game} to pass as a new GameModelImmutable {@link GameImmutable} <br>
      * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
      */
-    public synchronized void notify_playerReconnected(Game model, String nickPlayerReconnected) {
+    public void notify_playerReconnected(Game model, String nickPlayerReconnected) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -319,6 +319,14 @@ public class ListenersHandler {
                 printAsync("During notification of notify_playerReconnected, a disconnection has been detected before heartbeat");
                 i.remove();
             }
+        }
+    }
+
+    public void notify_AskForReconnection(GameListenerInterface lis, Player triedToJoin, Game model ){
+        try {
+            lis.AskForReconnection(triedToJoin,new GameImmutable(model));
+        } catch (RemoteException e) {
+            printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before ping");
         }
     }
 

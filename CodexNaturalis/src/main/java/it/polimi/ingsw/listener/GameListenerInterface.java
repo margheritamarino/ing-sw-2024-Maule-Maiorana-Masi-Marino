@@ -86,6 +86,8 @@ public interface GameListenerInterface extends Remote {
      */
     void joinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable gameModel) throws RemoteException;
 
+    void AskForReconnection (Player triedToJoin, GameImmutable gameModel) throws RemoteException; //if the client is trying to reconnect
+
 
     /**
      * This method is used to notify the client that the game has started

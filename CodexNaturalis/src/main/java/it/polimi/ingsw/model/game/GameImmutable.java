@@ -156,6 +156,19 @@ public class GameImmutable implements Serializable {
                 .getGoal();
     }
 
+    /**
+    * @param nickname nickname to check
+	 * @return true if already exist
+	 */
+    public boolean checkNickname(String nickname)  {
+        for(Player p : this.players) {
+            if(nickname.equals(p.getNickname())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * @return the list of players in string format

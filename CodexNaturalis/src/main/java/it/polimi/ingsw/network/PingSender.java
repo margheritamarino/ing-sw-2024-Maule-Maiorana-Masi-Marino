@@ -29,7 +29,7 @@ public class PingSender extends Thread{
         while (!Thread.interrupted()) {
             Timer timer = new Timer();
             TimerTask task = new TaskOnNetworkDisconnection(flow);
-            timer.schedule(task, DefaultValue.timeoutConnection_millis);
+            timer.schedule(task, DefaultValue.timeoutConnection_millis); //cambiato da 20 a 3 sec
             //send ping every 3s so the server knows I am still online
             try {
                 clientSender.ping();

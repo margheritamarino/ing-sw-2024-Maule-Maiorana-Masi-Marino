@@ -266,7 +266,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws RemoteException if there is a connection error (RMI)
      */
     @Override
-    public synchronized void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException {
+    public void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException { //TOLTO SYNCHRONIZED
         Player p = model.getPlayerByNickname(nick);
         if(p!=null) {
             model.removeListener(listener);
@@ -276,6 +276,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             } else {
                 //Tha game is running, so I set him as disconnected (He can reconnect soon)
                 model.setAsDisconnected(p.getNickname());
+                System.out.println("GameController- player"+ nick + "setted DISCONNECTED");
             }
             //if a player is disconnected the Game finishes
             // if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
@@ -469,15 +470,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
         if(!isGameCreated()){
+            System.out.println("GameController - JoinGame: creating a new Game");
             model.createGame(lis, nick);
 
 
         }else{
+            System.out.println("GameController - JoinGame: Game already existing");
             //synchronized (Color.class) {
             Color randColor = Color.getRandomColor();
             model.addPlayer(lis, nick, randColor);
             //}
-            model.getPlayerByNickname(nick).setConnected(true);
+            model.getPlayerByNickname(nick).setConnected(true); //meglio metterlo in game ADD_PLAYER?
+            System.out.println("GameController - JoinGame: Player setted CONNECTED");
         }
     }
 

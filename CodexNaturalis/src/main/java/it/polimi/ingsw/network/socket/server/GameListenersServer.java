@@ -104,6 +104,18 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
     }
 
 
+    @Override
+    public void AskForReconnection (Player triedToJoin, GameImmutable model) throws RemoteException {
+        try {
+            out.writeObject(new msgAskForReconnection(triedToJoin, model));
+            finishSending();
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send gameStarted message", e);
+        }
+    }
+
+
     /**
      * This method is used to write on the ObjectOutputStream the game started
      * @param model is the game model {@link GameImmutable}

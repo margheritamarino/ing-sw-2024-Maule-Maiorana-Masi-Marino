@@ -262,17 +262,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             //caso: game non valido -> back to menu
             case BACK_TO_MENU -> {
-                if(ended) //AGGIUNGI QUA CASO DISCONNESSIONE
+                if(ended)
                     ui.show_returnToMenuMsg();
 
                 else{
-                    askNickname();
-                    joinGame(nickname);
+                        askNickname();
+                        joinGame(nickname);
                 }
                 //ciclo per chiedere al giocatore di selezionare una partita valida
             }
 
             case NICKNAME_ALREADY_IN -> {
+                System.out.println("in case NICKNAME_ALREADY_IN \n ");
                     nickname = null;
                     Color.addColor(this.color);
                     this.color = null;
@@ -282,14 +283,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
 
             case NICKNAME_TO_RECONNECT -> { // CASO RICONNESSIONE
+                System.out.println("GameFlow- in case NICKNAME_TO_RECONNECT \n ");
                 if (askingForReconnection()){ //Se il giocatore sta chiedendo una riconnessione
                     reconnect(nickname, fileDisconnection.getGameId(nickname)); //chiama la riconnessione
                 } else {
                     nickname = null;
                     Color.addColor(this.color);
                     this.color = null;
+                    //joinGame(nickname);
 
-                    events.add(null, EventType.BACK_TO_MENU);
+                    //events.add(null, EventType.BACK_TO_MENU);
                 }
             }
 
@@ -321,18 +324,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws InterruptedException
      */
     public boolean askingForReconnection() throws NotBoundException, IOException, InterruptedException {
-        String isReconnection; //salvo l'input del Client (se sta tentando una riconnessione oppure no)
+        String isReconnection; // salvo l'input del Client (se sta tentando una riconnessione oppure no)
         ui.show_askForReconnection();
         this.inputController.getUnprocessedData().popAllData();
         try {
-            isReconnection= this.inputController.getUnprocessedData().popInputData();
+            isReconnection = this.inputController.getUnprocessedData().popInputData();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if(isReconnection=="YES"|| isReconnection=="yes"){
-            return true;
-        }
-        return false;
+        return isReconnection.equalsIgnoreCase("YES"); //true se è proprio YES
     }
 
     public void statusEnded(Event event) throws NotBoundException, IOException {
@@ -425,22 +425,23 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         } while (GameID < 0 );
         return GameID;
     }
+
+
     public void askNickname() {
         ui.show_insertNicknameMessage();
         try {
             String nick = this.inputController.getUnprocessedData().popInputData();
             setNickname(nick);
-
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
+        } //else this.joinUnableNicknameAlreadyIn(model.getPlayerByNickname(nick), model);
 
         ui.show_chosenNickname(this.nickname);
     }
 
     public void setNickname(String nick){ //nickname non deve essere settato prima di aver chiesto se si sta riconnettendo!! Altrimenti sarà sempre4 GIA presente!!
         this.nickname=nick;
-        System.out.println("GameFlow: nickname setted");
+        System.out.println("GameFlow- setNickname: nickname setted");
     }
     public void setColor(Color color){
         this.color=color;
@@ -694,14 +695,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             noConnectionError();
         }
     }
-  /*  @Override
-    public void makeGameStart(String nick){
-        try {
-            clientActions.makeGameStart(nick);
-        } catch (IOException e) {
-            noConnectionError();
-        }
-    }*/
+
 
     @Override
     public void setInitialCard(int index, String nickname) {
@@ -741,6 +735,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void playerJoined(GameImmutable gameModel, String nickname, Color playerColor) {
+        System.out.println("GameFlow- in playerJoined--> EventType.PLAYER_JOINED");
         setColor(playerColor);
         events.add(gameModel, EventType.PLAYER_JOINED);
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
@@ -759,7 +754,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void playerLeft(GameImmutable gameImmutable, String nickname) throws RemoteException {
+        System.out.println("In GameFlow - Player Left \n ");
          ui.addImportantEvent("[EVENT]: Player " + nickname + " decided to leave the game!");
+         gameImmutable.getPlayerByNickname(nickname).setConnected(false); //aggiunto
 
     }
 
@@ -778,13 +775,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * A player wanted to join a game but the nickname is already in
      * @throws RemoteException if the reference could not be accessed
      */
+    
+
     @Override
     public void joinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable gameModel) throws RemoteException {
-        if(!gameModel.getPlayers().get(gameModel.getIndexPlayer(triedToJoin)).isConnected()){ //se il nickname è già presente nel gioco e il player è DISCONNESSO
-            events.add(null, EventType.NICKNAME_TO_RECONNECT);
-        } else {
             events.add(null, EventType.NICKNAME_ALREADY_IN);
-        }
+            System.out.println("in joinUnableNicknameAlreadyIn - CONNESSO --> nickname già presente \n");
+    }
+
+    @Override
+    public void AskForReconnection (Player triedToJoin, GameImmutable gameModel) throws RemoteException{
+        System.out.println("in joinUnableNicknameAlreadyIn - NON CONNESSO --> chiama askReconnection \n");
+        events.add(null, EventType.NICKNAME_TO_RECONNECT);
     }
 
    @Override
@@ -945,8 +947,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
         ui.addImportantEvent("Player " + nick + " has just disconnected");
-
-        //model.getPlayerByNickname(nick).setConnected(false); //setta il giocatore come disconnesso --> viene settato nel Model
+        model.getPlayerByNickname(nick).setConnected(false);//setta il giocatore come disconnesso --> viene settato nel Model
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         if (model.getStatus().equals(GameStatus.WAIT)) {
@@ -978,7 +979,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
-        //System.out.println("> You have selected to join to Game with id: '" + idGame + "', trying to reconnect");
+        System.out.println("in GameFlow --> RECONNECT()");
             ui.show_joiningToGameMsg(nick, color);
             try {
                 clientActions.reconnect(nickname, idGame);
@@ -1068,6 +1069,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             System.err.println("Failed to send message: " + e.getMessage());
         }
     }
+
 
 
 
