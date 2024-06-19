@@ -238,7 +238,7 @@
     "TLCorner": "Empty",
     "TRCorner": "NoCorner",
     "BRCorner": "Empty",
-    "BLCorner": "Ink",
+    "BLCorner": "WithSymbol",
     "placementCondition": ["Plant","Plant","Animal"],
     "pointsCondition":true,
     "symbolCondition":"Ink",

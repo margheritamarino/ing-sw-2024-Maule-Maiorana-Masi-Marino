@@ -418,7 +418,7 @@
     "victoryPoints": 0,
     "mainResource": "Animal",
     "numResources": 2,
-    "resourceList": ["Animal", "Animal"],
+    "resourceList": ["Insect", "Animal"],
     "hasSymbol": true,
     "symbol": "Ink"
   }
@@ -680,7 +680,4 @@
     "hasSymbol": false,
     "symbol": null
   }
-
-
-
 ]

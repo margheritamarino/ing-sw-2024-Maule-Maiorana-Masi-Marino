@@ -42,7 +42,7 @@
     "resourceList": [],
     "numCentralResource": 2,
     "numResources": 0,
-    "centralResources": ["Animal","Fungi"]
+    "centralResources": ["Plant","Fungi"]
   },
 
   {

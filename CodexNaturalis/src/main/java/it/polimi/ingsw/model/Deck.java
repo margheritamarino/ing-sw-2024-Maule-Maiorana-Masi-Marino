@@ -188,9 +188,6 @@ public class Deck implements Serializable {
             throw new DeckEmptyException("The deck is empty. No more cards to draw.");
         }
 
-        System.out.println("Numero di carte prima della rimozione: " + numCards);
-        System.out.println("Indice casuale: " + randomIndex);
-
         PlayableCard frontCard = frontCards.get(randomIndex);
         PlayableCard backCard = backCards.get(randomIndex);
 
@@ -205,7 +202,6 @@ public class Deck implements Serializable {
             randomIndex = -1; // O un altro valore per indicare che non c'è più alcuna carta
         }
 
-        System.out.println("Numero di carte dopo la rimozione: " + numCards);
 
         return new PlayableCard[]{frontCard, backCard};
     }
