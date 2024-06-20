@@ -11,19 +11,20 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
 /**
  * Board model class
  * This class represents the game board that contains decks of cards and cards placed on the board.
- * @author Irene Pia Masi
  */
 public class Board implements Serializable {
     private final ArrayList<PlayableCard[]> goldCards;
     private final ArrayList<PlayableCard[]> resourceCards;
-    private final ObjectiveCard[] objectiveCards; //commonGoals
+    private final ObjectiveCard[] objectiveCards;
     private final Deck goldCardsDeck;
     private final Deck resourcesCardsDeck;
     private final ObjectiveDeck objectiveCardsDeck;
 
 
     /**
-     * Constructor
+     * Constructor for the Board class.
+     * Initializes the board with empty lists for gold cards, resource cards, and objective cards.
+     * Also initializes the respective decks for gold cards, resource cards, and objective cards.
      */
     public Board()  {
         this.goldCards = new ArrayList<>();
@@ -41,8 +42,6 @@ public class Board implements Serializable {
      * Sets the common Goals
      */
     public void initializeBoard()  {
-        //posiziono due carte oro e due carte risorsa sul tavolo
-        //perchè la board ha 2 coppie di carte per ciascuna tipologia di carta
         try {
 
             int MAX_SIZE = 2;
@@ -52,7 +51,6 @@ public class Board implements Serializable {
                 this.goldCards.add(goldCards);
                 this.resourceCards.add(resourceCards);
             }
-            //posiziono le carte obbiettivo comune
             for (int i = 0; i < MAX_SIZE; i++) {
                 ObjectiveCard objectiveCard = objectiveCardsDeck.returnCard();
                 this.objectiveCards[i] = objectiveCard;
@@ -61,44 +59,67 @@ public class Board implements Serializable {
             System.err.println("Error during board initialization");
         }
     }
-    public ObjectiveDeck getObjectiveCardsDeck(){
-        return this.objectiveCardsDeck;
-    }
+    /**
+     * Retrieves the array of objective cards currently placed on the board.
+     * @return An array of ObjectiveCard objects representing the objective cards on the board.
+     */
     public ObjectiveCard[] getObjectiveCards() {
         return this.objectiveCards;
-    } //OBBIETTIVI COMUNI
+    }
+
+    /**
+     * Retrieves the list of arrays of gold cards currently placed on the board.
+     * Each array contains front and back cards of gold type.
+     * @return An ArrayList of PlayableCard arrays representing the gold cards on the board.
+     */
     public ArrayList<PlayableCard[]> getGoldCards() {
         return goldCards;
     }
+
+    /**
+     * Retrieves the list of arrays of resource cards currently placed on the board.
+     * Each array contains front and back cards of resource type.
+     * @return An ArrayList of PlayableCard arrays representing the resource cards on the board.
+     */
     public ArrayList<PlayableCard[]> getResourceCards() {
         return resourceCards;
     }
+
+    /**
+     * Retrieves the deck of gold cards used on the board.
+     * @return The Deck object representing the deck of gold cards.
+     */
     public Deck getGoldCardsDeck() {
         return goldCardsDeck;
     }
+
+    /**
+     * Retrieves the deck of resource cards used on the board.
+     * @return The Deck object representing the deck of resource cards.
+     */
     public Deck getResourcesCardsDeck() {
         return resourcesCardsDeck;
     }
 
-
     /**
-     * RETRIEVES A CARD FROM THE OBJECTIVECARDS DECK
-     * @return an ObjectiveCard picked from Objective Cards' deck
+     * Retrieves an objective card from the objective cards deck.
+     * @return An ObjectiveCard object picked from the objective cards deck.
+     * @throws DeckEmptyException If the objective cards deck is empty when trying to draw a card.
      */
     public ObjectiveCard takeObjectiveCard() throws DeckEmptyException {
         return objectiveCardsDeck.returnCard();
     }
 
-
-
-
     /**
      * Takes a card from the board.
-     *
-     * @param cardType     The type of card to take
-     * @param drawFromDeck True if the card should be drawn from the deck, false if it should be taken from the board.
-     * @param pos          The position of the card to take if drawing from the board.
-     * @return The card taken from the board, or null.
+     * Depending on parameters, either draws a card from the respective deck or takes a card from the board.
+     * @param cardType The type of card to take (GoldCard or ResourceCard).
+     * @param drawFromDeck True if the card should be drawn from the deck, false if taken from the board.
+     * @param pos The position of the card to take if drawing from the board.
+     * @return The PlayableCard array representing the front and back cards taken from the board or deck.
+     * @throws IllegalArgumentException If trying to draw an InitialCard, which is not allowed.
+     * @throws DeckEmptyException If the respective deck is empty when trying to draw a card.
+     * @throws IndexOutOfBoundsException If the position on the board is not valid.
      */
     public PlayableCard[] takeCardfromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IllegalArgumentException, DeckEmptyException, IndexOutOfBoundsException  {
         if (drawFromDeck) {
@@ -129,7 +150,6 @@ public class Board implements Serializable {
                     cardsOnBoard = resourceCards;
                     break;
             }
-            // Controllo che la posizione sia valida
             if (pos < 0 || pos >= cardsOnBoard.size()) {
                 throw new IndexOutOfBoundsException("Position not valid on the board");
             }
@@ -137,11 +157,7 @@ public class Board implements Serializable {
                 case 0-> selectedCards= cardsOnBoard.get(0);
                 case 1-> selectedCards= cardsOnBoard.get(1);
             }
-
-            // Rimuovi front e back card dall'array
             cardsOnBoard.remove(pos);
-
-            // Aggiorno l'array e restituisco la carta selezionata
             updateArray(cardsOnBoard, cardType);
 
             return selectedCards;
@@ -149,11 +165,12 @@ public class Board implements Serializable {
     }
 
 
-        /**
-         * Update array.
-         * @param cards The array of cards to update.
-         * @param cardType The type of card for which to update the array.
-         */
+    /**
+     * Updates the array of cards on the board by drawing a new card from the respective deck.
+     * @param cards The ArrayList of PlayableCard arrays representing the cards on the board to update.
+     * @param cardType The type of card (GoldCard or ResourceCard) for which to update the array.
+     * @throws DeckEmptyException If the respective deck is empty when trying to draw a card.
+     */
     public void updateArray(ArrayList<PlayableCard[]> cards, CardType cardType) throws DeckEmptyException {
         Deck deck ;
         switch (cardType) {
@@ -223,19 +240,22 @@ public class Board implements Serializable {
         return objectiveCardsDeck.getNumCards() == DefaultValue.NumOfObjectiveCards - 2 - playersNumber;
     }
 
+    /**
+     * Generates a string representation of the board, including the current state of gold cards, resource cards,
+     * and objective cards on the board.
+     * @return A string representation of the board.
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("***********BOARD***********\n");
         result.append("\n");
 
-        // Inizializziamo le righe con StringBuilder
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
         for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
             rowBuilders.add(new StringBuilder());
         }
 
-        // GOLDCARDS
         System.out.print(ColorConsole.YELLOW_BACKGROUND.getCode());
         System.out.print(ColorConsole.BLACK.getCode());
         result.append("***GOLDCARDS***: \n");
@@ -244,12 +264,11 @@ public class Board implements Serializable {
         result.append("\n");
         System.out.print(ColorConsole.RESET.getCode());
 
-        // RESOURCECARDS
         result.append("***RESOURCECARDS***: \n");
         result.append("\n");
         result.append(cardsResourceToString());
         result.append("\n");
-        // OBJECTIVE
+
         result.append("*******COMMON GOALS*******: \n");
         result.append("\n");
         result.append(cardsObjectiveToString());
@@ -257,13 +276,14 @@ public class Board implements Serializable {
         return result.toString();
     }
 
+    /**
+     * Generates a string representation of the objective cards currently on the board.
+     * @return A string representation of the objective cards on the board.
+     */
     public String cardsObjectiveToString() {
         ObjectiveCard[] objectiveCards = getObjectiveCards();
-
-        // Lista per accumulare le stringhe delle righe
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
 
-        // Inizializziamo le righe con StringBuilder
         for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
             rowBuilders.add(new StringBuilder());
         }
@@ -276,8 +296,6 @@ public class Board implements Serializable {
                 rowBuilders.get(k).append(lines[k]).append(" ");
             }
         }
-
-        // Costruiamo l'output finale unendo tutte le righe
         StringBuilder result = new StringBuilder();
         for (StringBuilder sb : rowBuilders) {
             result.append(sb.toString().stripTrailing()).append("\n");
@@ -285,11 +303,12 @@ public class Board implements Serializable {
         return result.toString();
     }
 
+    /**
+     * Generates a string representation of the gold cards currently on the board.
+     * @return A string representation of the gold cards on the board.
+     */
     public String cardsGoldToString() {
-        // Lista per accumulare le stringhe delle righe
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
-
-        // Inizializziamo le righe con StringBuilder
         for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
             rowBuilders.add(new StringBuilder());
         }
@@ -301,7 +320,6 @@ public class Board implements Serializable {
             rowBuilders.get(k).append(lines[k]).append(" ");
         }
 
-        // Iteriamo attraverso le carte
         for (int i = 0; i < 2; i++) {
             card = goldCards.get(i)[0];
             lines = card.toString().split("\n");
@@ -311,7 +329,6 @@ public class Board implements Serializable {
             }
         }
 
-        // Costruiamo l'output finale unendo tutte le righe
         StringBuilder result = new StringBuilder();
         for (StringBuilder sb : rowBuilders) {
             result.append(sb.toString().stripTrailing()).append("\n");
@@ -320,12 +337,13 @@ public class Board implements Serializable {
         return result.toString();
     }
 
-
+    /**
+     * Generates a string representation of the resource cards currently on the board.
+     * @return A string representation of the resource cards on the board.
+     */
     public String cardsResourceToString() {
-        // Lista per accumulare le stringhe delle righe
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
 
-        // Inizializziamo le righe con StringBuilder
         for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
             rowBuilders.add(new StringBuilder());
         }
@@ -337,7 +355,6 @@ public class Board implements Serializable {
             rowBuilders.get(k).append(lines[k]).append(" ");
         }
 
-        // Iteriamo attraverso le carte
         for (int i = 0; i < 2; i++) {
             card = resourceCards.get(i)[0];
             lines = card.toString().split("\n");
@@ -347,7 +364,6 @@ public class Board implements Serializable {
             }
         }
 
-        // Costruiamo l'output finale unendo tutte le righe
         StringBuilder result = new StringBuilder();
         for (StringBuilder sb : rowBuilders) {
             result.append(sb.toString().stripTrailing()).append("\n");
@@ -356,59 +372,25 @@ public class Board implements Serializable {
         return result.toString();
     }
 
-
-
-    /*public String cardsVisibleGoldToString() {
-        // Lista per accumulare le stringhe delle righe
-        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
-
-        // Inizializziamo le righe con StringBuilder
-        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
-            rowBuilders.add(new StringBuilder());
-        }
-
-
-        // Iteriamo attraverso le carte
-        for (int i = 0; i < 2; i++) {
-            PlayableCard card = goldCards.get(i)[0];
-            String[] lines = card.toString().split("\n");
-
-            for (int k = 0; k < lines.length; k++) {
-                if (k == 0) {
-                    // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
-                    rowBuilders.get(k).append(i).append(" ").append(lines[k]).append(" ");
-                } else {
-                    rowBuilders.get(k).append("  ").append(lines[k]).append(" ");
-                }
-            }
-        }
-
-        // Costruiamo l'output finale unendo tutte le righe
-        StringBuilder result = new StringBuilder();
-        for (StringBuilder sb : rowBuilders) {
-            result.append(sb.toString().stripTrailing()).append("\n");
-        }
-        return result.toString();
-    }*/
+    /**
+     * Generates a formatted string representation of the visible Gold cards on the board.
+     *
+     * @return String representation of the visible Gold cards.
+     */
     public String cardsVisibleGoldToString() {
-        // Inizializziamo le righe con StringBuilder per costruire ogni riga della rappresentazione finale
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
 
-        // Calcoliamo il numero di righe necessario, assumendo che la rappresentazione di una carta non superi il valore di DefaultValue.printHeight + 2
         for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
             rowBuilders.add(new StringBuilder());
         }
 
-        // Iteriamo attraverso le due carte per crearne la rappresentazione
         for (int i = 0; i < 2; i++) {
             PlayableCard card = goldCards.get(i)[0]; // Assumiamo che goldCards contenga le carte da visualizzare
             String[] lines = card.toString().split("\n"); // Otteniamo le linee della rappresentazione della carta
 
-            // Assicuriamo che il numero di righe corrisponda al numero di righe di una carta
             int maxHeight = Math.min(lines.length, DefaultValue.printHeight + 2);
 
             for (int k = 0; k < maxHeight; k++) {
-                // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
                 if (k == 0) {
                     rowBuilders.get(k).append(" ").append(i + 1).append(" ").append(lines[k]).append(" ");
                 } else {
@@ -416,13 +398,11 @@ public class Board implements Serializable {
                 }
             }
 
-            // Completiamo le righe restanti nel caso in cui la rappresentazione della carta sia più corta
             for (int k = maxHeight; k < DefaultValue.printHeight + 2; k++) {
                 rowBuilders.get(k).append(" ".repeat(lines[0].length() + 4)); // +4 per lo spazio di separazione
             }
         }
 
-        // Costruiamo l'output finale unendo tutte le righe
         StringBuilder result = new StringBuilder();
         for (StringBuilder sb : rowBuilders) {
             result.append(sb.toString().stripTrailing()).append("\n");
@@ -431,56 +411,26 @@ public class Board implements Serializable {
         return result.toString();
     }
 
-    /*public String cardsVisibleResourceToString() {
-        // Lista per accumulare le stringhe delle righe
-        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
 
-        // Inizializziamo le righe con StringBuilder
-        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
-            rowBuilders.add(new StringBuilder());
-        }
-
-        for (int i = 0; i < 2; i++) {
-            PlayableCard card = resourceCards.get(i)[0];
-            String[] lines = card.toString().split("\n");
-
-            for (int k = 0; k < lines.length; k++) {
-                if (k == 0) {
-                    // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
-                    rowBuilders.get(k).append(i).append(" ").append(lines[k]).append(" ");
-                } else {
-                    rowBuilders.get(k).append("  ").append(lines[k]).append(" ");
-                }
-            }
-        }
-
-        // Costruiamo l'output finale unendo tutte le righe
-        StringBuilder result = new StringBuilder();
-        for (StringBuilder sb : rowBuilders) {
-            result.append(sb.toString().stripTrailing()).append("\n");
-        }
-
-        return result.toString();
-    }*/
+    /**
+     * Generates a formatted string representation of the visible Resource cards on the board.
+     *
+     * @return String representation of the visible Resource cards.
+     */
     public String cardsVisibleResourceToString() {
-        // Lista per accumulare le stringhe delle righe
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
 
-        // Calcoliamo il numero di righe necessario, assumendo che la rappresentazione di una carta non superi il valore di DefaultValue.printHeight + 2
         for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
             rowBuilders.add(new StringBuilder());
         }
 
-        // Iteriamo attraverso le due carte per crearne la rappresentazione
-        for (int i = 0; i < 2; i++) {
+       for (int i = 0; i < 2; i++) {
             PlayableCard card = resourceCards.get(i)[0]; // Assumiamo che resourceCards contenga le carte da visualizzare
             String[] lines = card.toString().split("\n"); // Otteniamo le linee della rappresentazione della carta
 
-            // Assicuriamo che il numero di righe corrisponda al numero di righe di una carta
             int maxHeight = Math.min(lines.length, DefaultValue.printHeight + 2);
 
             for (int k = 0; k < maxHeight; k++) {
-                // Aggiungiamo l'indicatore solo alla prima riga di ogni carta
                 if (k == 0) {
                     rowBuilders.get(k).append(" ").append(i + 1).append(" ").append(lines[k]).append(" ");
                 } else {
@@ -488,13 +438,10 @@ public class Board implements Serializable {
                 }
             }
 
-            // Completiamo le righe restanti nel caso in cui la rappresentazione della carta sia più corta
             for (int k = maxHeight; k < DefaultValue.printHeight + 2; k++) {
                 rowBuilders.get(k).append(" ".repeat(lines[0].length() + 4)); // +4 per lo spazio di separazione
             }
         }
-
-        // Costruiamo l'output finale unendo tutte le righe
         StringBuilder result = new StringBuilder();
         for (StringBuilder sb : rowBuilders) {
             result.append(sb.toString().stripTrailing()).append("\n");
