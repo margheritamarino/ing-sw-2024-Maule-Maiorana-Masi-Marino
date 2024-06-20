@@ -948,7 +948,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
         ui.addImportantEvent("Player " + nick + " has just disconnected");
-        model.getPlayerByNickname(nick).setConnected(false);//setta il giocatore come disconnesso --> viene settato nel Model
+        //model.getPlayerByNickname(nick).setConnected(false);//setta il giocatore come disconnesso --> viene settato nel Model
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         if (model.getStatus().equals(GameStatus.WAIT)) {
@@ -984,17 +984,17 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
             ui.show_joiningToGameMsg(nick, color);
             try {
-                clientActions.reconnect(nickname, idGame);
+                clientActions.reconnect(nick, idGame);
             } catch (IOException | InterruptedException | NotBoundException e) {
                 noConnectionError();
             }
-            ui.show_failedReconnectionMsg(nick);
-            try {
-                this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            events.add(null,BACK_TO_MENU);
+//            ui.show_failedReconnectionMsg(nick);
+//            try {
+//                this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//            events.add(null,BACK_TO_MENU);
     }
 
     /**

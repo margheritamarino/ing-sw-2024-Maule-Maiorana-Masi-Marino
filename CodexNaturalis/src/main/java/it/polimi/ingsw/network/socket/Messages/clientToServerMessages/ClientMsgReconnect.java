@@ -19,7 +19,7 @@ public class ClientMsgReconnect extends ClientGenericMessage {
      * @param nick the player's nickname
      */
     public ClientMsgReconnect(String nick) {
-        this.nickname = nickname;
+        this.nickname = nick;
         this.isJoinGame= true; //?? giusto??
     }
 
@@ -32,6 +32,7 @@ public class ClientMsgReconnect extends ClientGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
+        System.out.println("MSG: ClientMsgReconnect - execute()\n ");
         gameController.reconnect(lis, this.nickname);
     }
 

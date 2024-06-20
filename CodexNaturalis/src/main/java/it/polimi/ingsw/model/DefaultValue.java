@@ -32,18 +32,18 @@ public class DefaultValue implements Serializable {
     public final static int MaxEventToShow = 3; //da definire
     public final static String Default_servername_RMI = "CodexNaturalis";
 
-    public final static int secondsToWaitReconnection = 30; //Disconnection
+    public final static int secondsToWaitReconnection = 60; //Disconnection
     public final static String gameIdTime = "Created"; //Disconnection
     public final static String gameIdData = "GameId"; //Disconnection
     public final static int twelveHS = 43200; //Disconnection
 
-    public final static int timeoutConnection_millis =20000; //20s
+    public final static int timeoutConnection_millis =3000; //20s -->3 sec
     public final static int secondToWaitToSend_heartbeat =500;
     public final static Long timeout_for_detecting_disconnection = 4000L;
 
     public final static int maxAttemptsBeforeGiveUp= 5;
     public final static int secondsToReconnection = 5;
-    public static final int secondToWaitToSend_ping = 500;
+    public static final int secondToWaitToSend_ping = 500; //modifico a 3
 
 
     //aggiungiamo tutti i valori ROW/COL che specificano in quale parte
