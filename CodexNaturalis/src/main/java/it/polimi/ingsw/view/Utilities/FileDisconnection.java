@@ -27,8 +27,8 @@ public class FileDisconnection {
 
     /**
      * Returns the game id from the file
-     * @param nickname
-     * @return
+     * @param nickname The player's nickname.
+     * @return game ID stored in the file, or -1 if no valid game ID is found or if the file couldn't be read.
      */
     public int getGameId(String nickname) {
         //game data related to the player is stored in a json file named after the nickname the player had in that game
@@ -53,9 +53,10 @@ public class FileDisconnection {
     }
 
     /**
-     * Creates the file and writes the game id in it
-     * @param nickname
-     * @param gameId
+     * Creates or updates the file with the latest game ID associated with the player's nickname.
+     *
+     * @param nickname The player's nickname.
+     * @param gameId   The latest game ID to be stored in the file.
      */
     @SuppressWarnings("unchecked")
     public void setLastGameId(String nickname, int gameId) {

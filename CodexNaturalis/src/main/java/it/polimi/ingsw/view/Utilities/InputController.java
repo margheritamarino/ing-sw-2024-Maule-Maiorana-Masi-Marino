@@ -2,28 +2,27 @@ package it.polimi.ingsw.view.Utilities;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.Chat.MessagePrivate;
-import it.polimi.ingsw.model.interfaces.PlayerIC;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.view.Utilities.Buffer;
 import it.polimi.ingsw.view.flow.GameFlow;
 
 
-//classe che serve per gestire l'input dell'utente e per coordinare l'inivio di messaggi all'interno del gioco
-
+/**
+ * Manages user input and coordinates message sending within the game.
+ * This class extends Thread and continuously processes user input from an input buffer
+ */
 public class InputController extends Thread{
 
-    private final Buffer inputBuffer; //buffer da cui la classe estrae i dati in entrata degli utenti da elaborare
-    private final Buffer unprocessedDataBuffer; //conserva temporaneamente i dati che devono essere processati dal GameFlow perché non presenti nell' inputController
-
+    private final Buffer inputBuffer;
+    private final Buffer unprocessedDataBuffer;
     private final GameFlow gameFlow;
-
     private Player player;
     private Integer gameID;
 
     /**
-     * Constructor
-     * @param inputBuffer
-     * @param gameFlow
+     * Constructs an InputController with the specified input buffer and GameFlow instance.
+     *
+     * @param inputBuffer The buffer containing incoming user input data.
+     * @param gameFlow The GameFlow instance responsible for handling game-related operations.
      */
     public InputController(Buffer inputBuffer, GameFlow gameFlow) {
         this.inputBuffer = inputBuffer;
@@ -34,17 +33,19 @@ public class InputController extends Thread{
         this.start();
     }
 
+    /**
+     * Continuously processes user input from the input buffer.
+     * This method listens for user commands and messages, directing them to the appropriate processing methods in GameFlow.
+     */
     public void run() {
         String inputData;
-        while (!this.isInterrupted()) { //thread rimane in attesa finché non viene interrotto
+        while (!this.isInterrupted()) {
             try {
-                // Estrai dati dall'inputBuffer
                 inputData = inputBuffer.popInputData();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-            //I popped an input from the buffer
             if (player != null && inputData.startsWith("/cs")) {
                 inputData = inputData.charAt(3) == ' ' ? inputData.substring(4) : inputData.substring(3);
                 if(inputData.contains(" ")){
@@ -53,7 +54,6 @@ public class InputController extends Thread{
                     gameFlow.sendMessage(new MessagePrivate(msg, player, receiver));
                 }
             } else if (player != null && inputData.startsWith("/c")) {
-                //I send a message
                 inputData = inputData.charAt(2) == ' ' ? inputData.substring(3) : inputData.substring(2);
                 gameFlow.sendMessage(new Message(inputData, player));
 
@@ -64,21 +64,34 @@ public class InputController extends Thread{
                 gameFlow.playerLeftForGameEnded();
 
             } else {
-                //I add the data to the buffer processed via GameFlow
                  unprocessedDataBuffer.addInputData(inputData);
             }
         }
     }
 
+    /**
+     * Sets the current player associated with this InputController.
+     *
+     * @param player The player to set.
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
+    /**
+     * Sets the current game ID associated with this InputController.
+     *
+     * @param gameID The game ID to set.
+     */
     public void setGameID(Integer gameID) {
         this.gameID = gameID;
     }
 
-    //metodo per ritornare dati non elaborati del buffer unprocessed
+    /**
+     * Retrieves the buffer containing unprocessed data for further handling by GameFlow.
+     *
+     * @return The Buffer instance containing unprocessed data.
+     */
     public Buffer getUnprocessedData() {
         return unprocessedDataBuffer;
     }
