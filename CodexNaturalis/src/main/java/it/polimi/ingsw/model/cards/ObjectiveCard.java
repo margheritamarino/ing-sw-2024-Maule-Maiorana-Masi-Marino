@@ -42,47 +42,111 @@ public class ObjectiveCard implements Serializable {
         return Objects.requireNonNull(getClass().getResource(path)).toExternalForm();
     }
 
+    /**
+     * Retrieves the unique identifier for the objective card.
+     *
+     * @return The card's ID.
+     */
     public int getCardID() {
         return cardID;
     }
 
+    /**
+     * Checks if the objective card is front-facing.
+     *
+     * @return {@code true} if the card is front-facing, {@code false} otherwise.
+     */
     public boolean isFront() {
         return isFront;
     }
 
+    /**
+     * Retrieves the goal type associated with this objective card.
+     *
+     * @return The goal type.
+     */
     public GoalType getGoalType() {
         return goalType;
     }
 
+    /**
+     * Retrieves the victory points awarded by this objective card.
+     *
+     * @return The victory points.
+     */
     public int getVictoryPoints() {
         return victoryPoints;
     }
 
+    /**
+     * Retrieves the number of symbols required by this objective card.
+     *
+     * @return The number of symbols.
+     */
     public int getNumSymbols() {
         return numSymbols;
     }
 
+    /**
+     * Retrieves the list of symbols associated with this objective card.
+     *
+     * @return The list of symbols.
+     */
     public List<SymbolType> getSymbols() {
         return symbols;
     }
 
+
+    /**
+     * Retrieves the number of resources required by this objective card.
+     *
+     * @return The number of resources.
+     */
     public int getNumResources() {
         return numResources;
     }
 
+    /**
+     * Retrieves the main resource type associated with this objective card.
+     *
+     * @return The main resource type.
+     */
     public ResourceType getMainResource() {
         return mainResource;
     }
 
+    /**
+     * Retrieves the placement direction associated with this objective card.
+     *
+     * @return The placement direction.
+     */
     public CornerType getDirection() {
         return direction;
     }
 
+    /**
+     * Retrieves the secondary resource type associated with this objective card.
+     *
+     * @return The secondary resource type.
+     */
     public ResourceType getSecondResource() {
         return secondResource;
     }
 
-
+    /**
+     * Constructs an ObjectiveCard with the specified attributes.
+     *
+     * @param cardID The unique identifier of the objective card.
+     * @param isFront Indicates whether the objective card is front-facing.
+     * @param goalType The type of goal associated with the objective card.
+     * @param victoryPoints The number of victory points awarded by this objective card.
+     * @param mainResource The main resource type required or associated with this objective card.
+     * @param direction The placement direction or corner type associated with this objective card.
+     * @param numResources The number of resources required by this objective card.
+     * @param numSymbols The number of symbols required by this objective card.
+     * @param symbols The list of symbol types associated with this objective card.
+     * @param secondResource The secondary resource type associated with this objective card.
+     */
     public ObjectiveCard(int cardID, boolean isFront, GoalType goalType, int victoryPoints, ResourceType mainResource, CornerType direction, int numResources, int numSymbols, List<SymbolType> symbols, ResourceType secondResource) {
         this.cardID = cardID;
         this.isFront = isFront;
@@ -100,7 +164,6 @@ public class ObjectiveCard implements Serializable {
      * @return a copy of the current objective Card
      */
     public ObjectiveCard copy(){
-        // Creo una nuova istanza di ObjectiveCard con gli stessi valori dei campi
         ObjectiveCard copiedCard = new ObjectiveCard(
                 this.cardID,
                 this.isFront,
@@ -110,7 +173,7 @@ public class ObjectiveCard implements Serializable {
                 this.direction,
                 this.numResources,
                 this.numSymbols,
-                new ArrayList<>(this.symbols), // Creo una copia della lista di simboli
+                new ArrayList<>(this.symbols),
                 this.secondResource
         );
         return copiedCard;
@@ -122,81 +185,6 @@ public class ObjectiveCard implements Serializable {
      *
      * @return A formatted string representing the card.
      */
-   /* @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        Ansi.Color bgColor = Ansi.Color.DEFAULT;
-        Ansi.Color textColor = Ansi.Color.WHITE;
-        String condition = " ";
-        List<String> emojiSymbol = new ArrayList<>();
-
-        switch(goalType) {
-            case ResourceCondition:
-                changeColor();
-                condition = convertToEmoji(mainResource.toString());
-                break;
-            case SymbolCondition:
-                bgColor = Ansi.Color.YELLOW;
-                List<SymbolType> symbols = getSymbols();
-                for (SymbolType s : symbols) {
-                    emojiSymbol.add(convertToEmoji(s.toString()));
-                }
-                break;
-            case DiagonalPlacement, LPlacement:
-                changeColor();
-                condition = direction.toString();
-                break;
-            default:
-                bgColor = Ansi.Color.DEFAULT;
-        }
-
-        String cardTypeName = "Objective";
-        int points = victoryPoints;
-
-        // Costruzione delle righe del contenuto
-        List<String> contentLines = new ArrayList<>();
-        contentLines.add("CardType: " + cardTypeName);
-        contentLines.add("Points: " + points);
-        contentLines.add("CondType: " + goalType.toString());
-
-        StringBuilder conditionLine = new StringBuilder("Cond: " + condition);
-        for (int i = 0; i < emojiSymbol.size(); i++) {
-            conditionLine.append(emojiSymbol.get(i));
-            if (i < emojiSymbol.size() - 1) {
-                conditionLine.append(" ");
-            }
-        }
-        contentLines.add(conditionLine.toString());
-
-
-        int maxWidth = DefaultValue.printLenght;
-
-        // Costruzione del bordo superiore
-        String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
-        result.append(borderLine).append("\n");
-
-        for (String line : contentLines) {
-            result.append("| ").append(line);
-            // Aggiungi spazi per allineare al massimo
-            result.append(" ".repeat(maxWidth - line.length()));
-            result.append(" |\n");
-        }
-        for(int i=contentLines.size(); i< DefaultValue.printHeight; i++){
-            result.append("| ");
-            // Aggiungi spazi per allineare al massimo
-            result.append(" ".repeat(maxWidth));
-            result.append(" |\n");
-        }
-
-        // Costruzione del bordo inferiore
-        result.append(borderLine);
-
-        // Applicazione del colore
-        String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
-
-        return finalResult;
-    }
-*/
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -205,7 +193,6 @@ public class ObjectiveCard implements Serializable {
         String condition = " ";
         List<String> emojiSymbol = new ArrayList<>();
 
-        // Impostazione dei colori e condizione basata sul tipo di obiettivo
         switch (goalType) {
             case ResourceCondition:
                 changeColor();
@@ -227,12 +214,10 @@ public class ObjectiveCard implements Serializable {
                 bgColor = Ansi.Color.DEFAULT;
         }
 
-        // Preparazione delle righe del contenuto
         String cardTypeName = "ObjectiveCard";
         String pointsLine = "Points: [" + victoryPoints + "]";
         String goalLine = "Goal: " + goalType.toString();
 
-        // Creazione della lista delle righe di contenuto
         List<String> contentLines = new ArrayList<>();
         contentLines.add(cardTypeName);
         contentLines.add(pointsLine);
@@ -244,23 +229,19 @@ public class ObjectiveCard implements Serializable {
         }
         contentLines.add(conditionLine.toString());
 
-        // Calcola la larghezza massima per allineare correttamente il contenuto
         int maxWidth = 25;
         for (String line : contentLines) {
             maxWidth = Math.max(maxWidth, line.length());
         }
-        maxWidth += 4; // Aggiunge spazio per i bordi "|  |"
+        maxWidth += 4;
 
-        // Calcola l'altezza massima della carta
         int cardHeight = DefaultValue.printHeight;
 
-        // Costruisce il bordo superiore
         String borderLine = "+" + "-".repeat(maxWidth - 2) + "+";
         result.append(borderLine).append("\n");
 
-        // Aggiunge righe di contenuto con padding centrato
         for (String line : contentLines) {
-            int padding = Math.max(0, (maxWidth - line.length() - 4) / 2); // -4 per "|  |"
+            int padding = Math.max(0, (maxWidth - line.length() - 4) / 2);
             result.append("| ")
                     .append(" ".repeat(padding))
                     .append(line)
@@ -268,22 +249,23 @@ public class ObjectiveCard implements Serializable {
                     .append(" |\n");
         }
 
-        // Aggiunge righe vuote per raggiungere l'altezza desiderata della carta
         for (int i = contentLines.size(); i < cardHeight - 2; i++) {
             result.append("| ").append(" ".repeat(maxWidth - 4)).append(" |\n");
         }
 
-        // Costruisce il bordo inferiore
         result.append(borderLine).append("\n");
 
-        // Applica i colori
         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
 
         return finalResult;
     }
 
 
-
+    /**
+     * Changes the background color of the card based on the main resource type.
+     * Uses ANSI colors for visual representation.
+     * If the main resource does not match any supported type, the default color is used.
+     */
     public void changeColor(){
         Ansi.Color bgColor = switch (mainResource) {
             case Fungi -> Ansi.Color.RED;
@@ -295,6 +277,13 @@ public class ObjectiveCard implements Serializable {
         //cambia il colore della carta in base alla mainResource
     }
 
+    /**
+     * Converts a string representation of a resource type into its corresponding emoji.
+     * This method supports converting specific resource types used in the game into emoji symbols.
+     *
+     * @param input The string representation of the resource type to convert.
+     * @return The corresponding emoji symbol as a string, or "E" if no matching emoji is found.
+     */
     public String convertToEmoji(String input){
         String output;
         if(input.equals("Fungi")){
