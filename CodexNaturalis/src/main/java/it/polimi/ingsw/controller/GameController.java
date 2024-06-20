@@ -107,9 +107,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             //checks all the ping messages to detect disconnections
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
-                    // cerca nella mappa
                     Iterator<Map.Entry<GameListenerInterface, Ping>> pingIter = receivedPings.entrySet().iterator();
-                    // Itera attraverso tutte le coppie chiave-valore nella mappa
                     while (pingIter.hasNext()) {
                         Map.Entry<GameListenerInterface, Ping> el =  pingIter.next();
                         if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
@@ -122,7 +120,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                                     if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
                                         model.setStatus(GameStatus.ENDED);
                                     }
-                                    //GameController.getInstance().deleteGame();--> NON serve avendo quell'unico Game
                                     return;
                                 }
                             } catch (RemoteException e) {
@@ -169,10 +166,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }
 
+    /**
+     * Attempts to start the game if all players have chosen their goals.
+     * This method is synchronized to ensure thread safety.
+     *
+     * @param lis the GameListenerInterface that will be notified of game events
+     * @param nickname the nickname of the player attempting to start the game
+     * @return {@code true} if the game is successfully started, {@code false} otherwise
+     */
     public synchronized boolean makeGameStart( GameListenerInterface lis, String nickname) {
 
         if (model.allPlayersHaveChosenGoals()) {
-            model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
+            model.chooseOrderPlayers();
 
             model.initializeBoard();
             model.setInitialStatus();
@@ -220,7 +225,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
 
         if (model.getStatus().equals(GameStatus.RUNNING) ||model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
-            // Trova l'indice dell'attuale currentPlayer in orderArray
             int currentIndex = -1;
             for (int i = 0; i < model.getOrderArray().length; i++) {
                 if (model.getPlayers().get(model.getOrderArray()[i]).equals(model.getCurrentPlayer())) {
@@ -228,13 +232,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                     break;
                 }
             }
-            if (currentIndex == model.getNumPlayers() - 1) { //se sono nell'ultimo giocatore del giro
+            if (currentIndex == model.getNumPlayers() - 1) {
                 if (!(model.getStatus().equals(GameStatus.LAST_CIRCLE))) {
-                    if (model.getScoretrack().checkTo20()) { //= true -> e un giocatore è arrivato alla fine (chiamo ultimo turno)
+                    if (model.getScoretrack().checkTo20()) {
                         model.setStatus(GameStatus.LAST_CIRCLE);
                     }
-                } else { //se sono nell'ultimo giocatore nell'ultimo ciclo
-                    model.lastTurnGoalCheck(); //controllo gli obbiettivo
+                } else {
+                    model.lastTurnGoalCheck();
                 }
             }
             try{
@@ -339,9 +343,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }
 
-        /**
-         * Starts a timer for detecting the reconnection of a player, if no one reconnects in time, the game is over
-         */
+    /**
+     * Starts a timer for detecting the reconnection of a player, if no one reconnects in time, the game is over
+     * This method suppresses the "BusyWait" warning as the while loop is intentionally used to wait for reconnection.
+     */
     @SuppressWarnings("BusyWait")
     private void startReconnectionTimer() {
         reconnectionTh = new Thread(
@@ -412,9 +417,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         return model.getNumOfOnlinePlayers();
     }
 
-
-
-
     /**
      * Sets the initial card for the specified player.
      *
@@ -428,7 +430,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
         model.setInitialCard(currentPlayer, index);
     }
-
 
     /**
      * Gets th Game ID of the current Game.

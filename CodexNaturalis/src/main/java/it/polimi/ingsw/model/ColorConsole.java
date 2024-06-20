@@ -4,9 +4,7 @@ package it.polimi.ingsw.model;
  * The ConsoleColors enum provides ANSI escape codes for coloring console output.
  * Those codes are used to color the output in the TUI
  */
-
 public enum ColorConsole {
-    //Color end string, color reset
     RESET("\033[0m"),
 
     // Regular Colors. Normal color, no bold, background color etc.
@@ -81,6 +79,11 @@ public enum ColorConsole {
 
     private final String code;
 
+    /**
+     * Constructs a {@code ColorConsole} instance with the specified ANSI escape code.
+     *
+     * @param code The ANSI escape code associated with the color.
+     */
     ColorConsole(String code) {
         this.code = code;
     }

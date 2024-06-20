@@ -11,6 +11,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * ResourceCard class
+ * ResourceCard is a type of PlayableCard with additional properties
  */
 public class ResourceCard extends PlayableCard implements Serializable {
    private ResourceType mainResource;
@@ -20,27 +21,60 @@ public class ResourceCard extends PlayableCard implements Serializable {
    private boolean hasSymbol;
    private SymbolType symbol;
 
+   /**
+    * Gets the main resource type of the card.
+    *
+    * @return the main resource type
+    */
    @Override
    public ResourceType getMainResource() {
       return mainResource;
    }
+
+
+   /**
+    * Gets the number of victory points the card provides.
+    *
+    * @return the number of victory points
+    */
    @Override
    public int getVictoryPoints() {
       return victoryPoints;
    }
 
+   /**
+    * Returns the number of resources associated with a card
+    *
+    * @return the number of resources
+    */
    @Override
    public int getNumResources() {
       return numResources;
    }
+
+   /**
+    * Gets the list of all resources associated with the card.
+    *
+    * @return the list of resources
+    */
    public List<ResourceType> getResourceList() {
       return resourceList;
    }
 
+   /**
+    * Checks if the card has a symbol.
+    *
+    * @return true if the card has a symbol, false otherwise
+    */
    public boolean hasSymbol() {
       return hasSymbol;
    }
 
+   /**
+    * Gets the symbol type of the card.
+    *
+    * @return the symbol type
+    */
    public SymbolType getSymbol() {
       return symbol;
    }
@@ -57,28 +91,21 @@ public class ResourceCard extends PlayableCard implements Serializable {
       List<String> cornerContent = new ArrayList<>();
       int i = 0;
 
-      // Angolo in alto a SX
       cornerContent.add(getCornerContentString(getTLCorner(), i));
-
       if (getTLCorner() == CornerLabel.WithResource) {
          i++;
       } else i = 0;
 
-      // Angolo in alto a DX
       cornerContent.add(getCornerContentString(getTRCorner(), i));
-
       if (getTRCorner() == CornerLabel.WithResource) {
          i++;
       } else i = 0;
 
-      // Angolo in basso a DX
       cornerContent.add(getCornerContentString(getBRCorner(), i));
-
       if (getBRCorner() == CornerLabel.WithResource) {
          i++;
       } else i = 0;
 
-      // Angolo in basso a SX
       cornerContent.add(getCornerContentString(getBLCorner(), i));
 
       return cornerContent;
@@ -92,42 +119,90 @@ public class ResourceCard extends PlayableCard implements Serializable {
     * @return The string representing the corner content.
     * @throws IllegalArgumentException If an invalid corner label is provided.
     */
-   // Metodo per ottenere la stringa rappresentante il contenuto di un angolo
    public String getCornerContentString(CornerLabel cornerLabel, int i) {
        return switch (cornerLabel) {
            case Empty -> "Empty";
            case WithResource ->
-               // Se l'angolo contiene una risorsa, restituisci la risorsa effettiva
                    resourceList.get(i).toString();
            case WithSymbol ->
-               // Se l'angolo contiene un simbolo, restituisci il simbolo effettivo
                    symbol.toString();
            case NoCorner -> "NoCorner";
            default -> throw new IllegalArgumentException();
        };
    }
 
+   /**
+    * Retrieves the list of central resources associated with a card
+    *
+    * @return a list of ResourceType representing the central resources.
+    */
    public List<ResourceType> getCentralResources() {
       return null;
    }
+
+   /**
+    * Retrieves the number of central resources associated with a card
+    *
+    * @return the number of central resources.
+    */
    public int getNumCentralResources() {
       return 0;
    }
+
+   /**
+    * Gets the list of resource types required for placement.
+    *
+    * @return the list of resource types for placement condition
+    */
    public List<ResourceType> getPlacementCondition() {
       return null;
    }
+
+   /**
+    * Checks if there is a points condition.
+    *
+    * @return true if there is a points condition, false otherwise
+    */
    public boolean isPointsCondition() {
       return false;
    }
+
+   /**
+    * Checks if there is a corner condition.
+    *
+    * @return true if there is a corner condition, false otherwise
+    */
    public boolean isCornerCondition() {
       return false;
    }
+
+   /**
+    * Gets the symbol type required for the condition.
+    *
+    * @return the symbol type for the condition
+    */
    public SymbolType getSymbolCondition() {
       return null;
    }
 
-
-
+   /**
+    * Constructs a ResourceCard with the specified attributes.
+    *
+    * @param cardID       the unique identifier for the card.
+    * @param numCorners   the number of corners on the card.
+    * @param isFront      the side of the card (true if front, false if back).
+    * @param cardType     the type of the card.
+    * @param TLCorner     the label for the top-left corner.
+    * @param TRCorner     the label for the top-right corner.
+    * @param BRCorner     the label for the bottom-right corner.
+    * @param BLCorner     the label for the bottom-left corner.
+    * @param mainResource the main resource associated with the card.
+    * @param victoryPoints the number of victory points the card provides.
+    * @param numResources the total number of resources on the card.
+    * @param resourceList the list of resources on the card.
+    * @param hasSymbol    indicates if the card has a symbol.
+    * @param symbol       the symbol type of the card, if any.
+    */
    public ResourceCard(int cardID, int numCorners, boolean isFront, CardType cardType, CornerLabel TLCorner, CornerLabel TRCorner, CornerLabel BRCorner, CornerLabel BLCorner, ResourceType mainResource, int victoryPoints, int numResources, List<ResourceType> resourceList, boolean hasSymbol, SymbolType symbol) {
       super(cardID, numCorners, isFront, cardType, TLCorner, TRCorner, BRCorner, BLCorner);
       this.mainResource = mainResource;
@@ -138,91 +213,13 @@ public class ResourceCard extends PlayableCard implements Serializable {
       this.symbol = symbol;
    }
 
-
-
    /**
     * Provides a string representation of the {@code InitialCard} for display purposes.
     * This includes details such as card type, face direction, points, corners, and conditions.
     *
     * @return A formatted string representing the card.
     */
- /* @Override
-   public String toString() {
-      StringBuilder result = new StringBuilder();
-      Ansi.Color bgColor;
-      Ansi.Color textColor = Ansi.Color.WHITE;
-      String FoB;
-      if (isFront()) {
-         FoB = "Front";
-      } else {
-         FoB = "Back";
-      }
 
-      // Cambia il colore della carta in base alla mainResource
-      switch (mainResource) {
-         case Fungi:
-            bgColor = Ansi.Color.RED;
-            break;
-         case Insect:
-            bgColor = Ansi.Color.MAGENTA;
-            break;
-         case Plant:
-            bgColor = Ansi.Color.GREEN;
-            break;
-         case Animal:
-            bgColor = Ansi.Color.BLUE;
-            break;
-         default:
-            bgColor = Ansi.Color.DEFAULT;
-      }
-
-      String cardTypeName = "Resource";
-      int points = victoryPoints;
-      List<String> corners = getCornerContent();
-      List<String> emojiCorners = new ArrayList<>();
-      for (String corner : corners) {
-         emojiCorners.add(convertToEmoji(corner));
-      }
-
-      // Costruzione delle righe del contenuto
-      List<String> contentLines = new ArrayList<>();
-      contentLines.add("CardType: " + cardTypeName);
-      contentLines.add("Face: " + FoB);
-      contentLines.add("Points: " + points);
-      contentLines.add("Corners: " + String.join(" ", emojiCorners));
-
-      // Trova la lunghezza massima delle linee di contenuto
-      // Trova la lunghezza massima delle linee di contenuto
-      int maxWidth = DefaultValue.printLenght;
-
-
-      // Costruzione del bordo superiore
-      String borderLine = "+" + "-".repeat(maxWidth + 2) + "+";
-      result.append(borderLine).append("\n");
-
-      // Costruzione delle linee di contenuto con bordi laterali
-
-
-      for (String line : contentLines) {
-         result.append("| ").append(line);
-         // Aggiungi spazi per allineare al massimo
-         result.append(" ".repeat(maxWidth - line.length()));
-         result.append(" |\n");
-      }
-      for(int i=contentLines.size(); i< DefaultValue.printHeight; i++){
-
-         result.append("| ");
-         // Aggiungi spazi per allineare al massimo
-         result.append(" ".repeat(maxWidth));
-         result.append(" |\n");
-      }
-
-      // Costruzione del bordo inferiore
-      result.append(borderLine);
-
-
-      return result.toString();
-   }*/
 //TODO: Metodo come le Initial card
    //TODO: modificare e fare i victoryPoints in alto nella riga delle emoji angoli TL e TR
    //TODO: dopo aver fatto le carte modificare come viene mostrata la board nella TUI perchè dà errore -> vedi show_InitialCard
@@ -238,25 +235,20 @@ public class ResourceCard extends PlayableCard implements Serializable {
       String FoB = isFront() ? "Front" : "Back";
       String victoryPoints = "Points: " + getVictoryPoints();
 
-      // Lettura delle risorse dagli angoli
-      List<String> corners = getCornerContent(); // Ordine: TL, TR, BR, BL
+      List<String> corners = getCornerContent();
       String topLeft = padAndBorderEmoji(convertToEmoji(corners.get(0)));
       String topRight = padAndBorderEmoji(convertToEmoji(corners.get(1)));
       String bottomRight = padAndBorderEmoji(convertToEmoji(corners.get(2)));
       String bottomLeft = padAndBorderEmoji(convertToEmoji(corners.get(3)));
 
-      // Costruzione della carta
-      int width = DefaultValue.printLenght; // Larghezza della carta
-      int height = DefaultValue.printHeight; // Altezza della carta
+      int width = DefaultValue.printLenght;
+      int height = DefaultValue.printHeight;
       String border = "+" + "-".repeat(width) + "+";
 
-      // Calcolo delle righe di contenuto effettive
-      int contentRows = 4; // Numero effettivo di righe per il contenuto (tipo carta, lato, risorse centrali, angoli)
+      int contentRows = 4;
 
-      // Bordo superiore
       result.append(border).append("\n");
 
-      // Riga con i punti vittoria centrati tra le emoji degli angoli superiori
       int paddingVictoryPoints = Math.max(0, (width - victoryPoints.length() - 8) / 2);
       result.append("|")
               .append(topLeft)
@@ -266,7 +258,6 @@ public class ResourceCard extends PlayableCard implements Serializable {
               .append(topRight)
               .append("|\n");
 
-      // Riga con il tipo di carta centrato
       String cardTypeLine = cardTypeName;
       int paddingType = Math.max(0, (width - cardTypeLine.length()) / 2);
       result.append("|")
@@ -275,7 +266,6 @@ public class ResourceCard extends PlayableCard implements Serializable {
               .append(" ".repeat(Math.max(0, width - paddingType - cardTypeLine.length())))
               .append("|\n");
 
-      // Riga con il lato della carta centrato
       String faceLine = "(" + FoB + ")";
       int paddingFace = Math.max(0, (width - faceLine.length()) / 2);
       result.append("|")
@@ -284,7 +274,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
               .append(" ".repeat(Math.max(0, width - paddingFace - faceLine.length())))
               .append("|\n");
 
-      // Riga con il contenuto centrale (centrato)
+
       String mainResource = convertToEmoji(getMainResource().toString());
       int paddingMainResource = Math.max(0, (width - calculateEmojiWidth(mainResource)) / 2);
       result.append("|")
@@ -293,36 +283,37 @@ public class ResourceCard extends PlayableCard implements Serializable {
               .append(" ".repeat(Math.max(0, width - paddingMainResource - calculateEmojiWidth(mainResource))))
               .append("|\n");
 
-      // Aggiungi righe vuote fino a raggiungere l'altezza desiderata della carta
-      int remainingHeight = height - (contentRows + 2); // 2 righe per i bordi superiori e inferiori
+      int remainingHeight = height - (contentRows + 2);
       for (int i = 0; i < remainingHeight; i++) {
          result.append("|").append(" ".repeat(Math.max(0, width))).append("|\n");
       }
 
-      // Riga inferiore con angoli
       result.append("|")
               .append(bottomLeft)
-              .append(" ".repeat(Math.max(0, width - 8))) // -8 per i bordi e gli spazi
+              .append(" ".repeat(Math.max(0, width - 8)))
               .append(bottomRight)
               .append("|\n");
 
-      // Bordo inferiore
       result.append(border).append("\n");
 
       return result.toString();
    }
 
 
-   // Metodo per calcolare la larghezza delle emoji
+   /**
+    * Calculates the width of a given string containing emojis.
+    * This method takes into account the variable width of emojis and characters.
+    *
+    * @param input the string containing emojis to measure
+    * @return the calculated width of the string
+    */
    private int calculateEmojiWidth(String input) {
       int width = 0;
       for (int i = 0; i < input.length(); ) {
          int codePoint = input.codePointAt(i);
          if (Character.charCount(codePoint) > 1 || input.codePointAt(i) > 0xFFFF) {
-            // Considera le emoji e caratteri speciali come doppia larghezza
             width += 2;
          } else {
-            // I caratteri normali contano come una larghezza
             width += 1;
          }
          i += Character.charCount(codePoint);
@@ -330,7 +321,13 @@ public class ResourceCard extends PlayableCard implements Serializable {
       return width;
    }
 
-   // Metodo per contornare le emoji o i simboli
+   /**
+    * Adds a border to the provided emoji or symbol string.
+    * Ensures the emoji or symbol fits within a defined width by adding necessary padding.
+    *
+    * @param content the emoji or symbol string to pad and border
+    * @return the padded and bordered string
+    */
    private String padAndBorderEmoji(String content) {
       int emojiWidth = calculateEmojiWidth(content);
       int padding = Math.max(0, 2 - emojiWidth);

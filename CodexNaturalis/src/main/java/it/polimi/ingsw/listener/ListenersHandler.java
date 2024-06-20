@@ -41,7 +41,6 @@ public class ListenersHandler {
         System.out.println("Client correttamente aggiunto come LISTENER del Server");
     }
 
-
     /**
      * Notifies the listener to require the number of players and game ID.
      *
@@ -57,6 +56,7 @@ public class ListenersHandler {
         }
 
     }
+
     /**
      * Removes a new GameListener from the list.
      *
@@ -65,7 +65,6 @@ public class ListenersHandler {
     public synchronized void removeListener(GameListenerInterface listener){
         listeners.remove(listener);
     }
-
 
     /**
      * Gets the list of GameListeners.
@@ -116,7 +115,6 @@ public class ListenersHandler {
         }
     }
 
-
     /**
      * Notifies that a player cannot join the game because the game is full.
      *
@@ -146,8 +144,6 @@ public class ListenersHandler {
             printAsync("During notification of notify_JoinUnableGameFull, a disconnection has been detected before ping");
         }
     }
-
-
 
     /**
      * Notifies that the game has started.
@@ -307,8 +303,9 @@ public class ListenersHandler {
     }
 
     /**
-     * The notify_playerReconnected method notifies the view that a player has reconnected to the game <br>
-     * @param model is the GameModel {@link Game} to pass as a new GameModelImmutable {@link GameImmutable} <br>
+     * The notify_playerReconnected method notifies the view that a player has reconnected to the game
+     *
+     * @param model is the GameModel {@link Game} to pass as a new GameModelImmutable {@link GameImmutable}
      * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
      */
     public void notify_playerReconnected(Game model, String nickPlayerReconnected) {
@@ -325,6 +322,13 @@ public class ListenersHandler {
         }
     }
 
+    /**
+     * Notifies the view to ask for reconnection if a player is trying to reconnect.
+     *
+     * @param lis the GameListenerInterface to notify
+     * @param triedToJoin the player who is trying to reconnect
+     * @param model the current game model to pass as a new GameModelImmutable {@link GameImmutable}
+     */
     public void notify_AskForReconnection(GameListenerInterface lis, Player triedToJoin, Game model ){
         System.out.println("ListenersHandler - notify_AskForReconnection() \n");
         try {

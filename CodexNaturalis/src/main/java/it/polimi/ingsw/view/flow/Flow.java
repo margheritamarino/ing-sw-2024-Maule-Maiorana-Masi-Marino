@@ -1,13 +1,13 @@
 package it.polimi.ingsw.view.flow;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
-import it.polimi.ingsw.model.interfaces.PlayerIC;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.Utilities.FileDisconnection;
 
-import java.rmi.RemoteException;
 
-
+/**
+ * Abstract class that defines common flow operations for managing game flow and interactions.
+ */
 public abstract class Flow implements GameListenerInterface {
 
 

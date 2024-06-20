@@ -11,7 +11,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * Contains methods to NOTIFY the CLIENT about different game events
+ * This interface is used to notify the client about the changes in the game
  */
 public interface GameListenerInterface extends Remote {
 
@@ -58,7 +58,6 @@ public interface GameListenerInterface extends Remote {
      */
     void playerLeft(GameImmutable model, String nickname) throws RemoteException;
 
-
     /**
      * This method is used to notify the client that a player has reconnected to the game
      * @param model is the game model {@link GameImmutable}
@@ -76,7 +75,6 @@ public interface GameListenerInterface extends Remote {
      */
     void joinUnableGameFull(Player triedToJoin, GameImmutable model) throws RemoteException;
 
-
     /**
      * This method is used to notify the client that a player has tried to join the game but the nickname is already in use
      *
@@ -86,8 +84,14 @@ public interface GameListenerInterface extends Remote {
      */
     void joinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable gameModel) throws RemoteException;
 
+    /**
+     * This method is used to notify the client to ask for reconnection if the player is trying to reconnect.
+     *
+     * @param triedToJoin the player who is trying to reconnect
+     * @param gameModel the current state of the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     void AskForReconnection (Player triedToJoin, GameImmutable gameModel) throws RemoteException; //if the client is trying to reconnect
-
 
     /**
      * This method is used to notify the client that the game has started
@@ -122,6 +126,13 @@ public interface GameListenerInterface extends Remote {
      * @throws RemoteException if the reference could not be accessed
      */
     void requireGoalsReady(GameImmutable model, int index) throws RemoteException;
+
+    /**
+     * Notifies the listeners that objective cards are chosen.
+     *
+     * @param model the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     void cardsReady(GameImmutable model) throws RemoteException;
 
     /**
@@ -132,8 +143,6 @@ public interface GameListenerInterface extends Remote {
      */
     void cardPlaced(GameImmutable model) throws RemoteException;
 
-
-
     /**
      * Notifies the client that a card has been drawn.
      *
@@ -141,7 +150,6 @@ public interface GameListenerInterface extends Remote {
      * @throws RemoteException if the reference could not be accessed
      */
     void cardDrawn(GameImmutable model) throws RemoteException;
-
 
     /**
      * Notifies the client that the next turn has been triggered.
@@ -167,7 +175,6 @@ public interface GameListenerInterface extends Remote {
      */
     void errorReconnecting(String why) throws RemoteException;
 
-
     /**
      * Notifies the client that the last circle has started.
      *
@@ -187,13 +194,12 @@ public interface GameListenerInterface extends Remote {
 
     /**
      * This method is used to notify that only one player is connected
+     *
      * @param gameModel is the game model {@link GameImmutable}
      * @param secondsToWaitUntilGameEnded is the number of seconds to wait until the game ends
      * @throws RemoteException if the reference could not be accessed
      */
     void onlyOnePlayerConnected(GameImmutable gameModel, int secondsToWaitUntilGameEnded) throws RemoteException;
-
-
 
     /**
      * Sends a message to the client.
