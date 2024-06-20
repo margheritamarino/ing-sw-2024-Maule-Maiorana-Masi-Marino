@@ -419,7 +419,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.setInitialCard(currentPlayer, index);
     }
 
-
     /**
      * Gets th Game ID of the current Game.
      *
