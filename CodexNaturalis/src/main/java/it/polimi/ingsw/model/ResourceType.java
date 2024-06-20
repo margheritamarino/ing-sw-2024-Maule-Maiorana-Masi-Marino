@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
-import java.util.*;
 
+/**
+ * Enum representing different types of resources that can be found on game cards.
+ */
 public enum ResourceType {
     Plant,
     Animal,

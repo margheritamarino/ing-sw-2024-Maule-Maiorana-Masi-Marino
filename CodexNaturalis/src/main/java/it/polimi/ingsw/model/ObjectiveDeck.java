@@ -25,32 +25,35 @@ public class ObjectiveDeck implements Serializable {
     private int numCards;
     private final ArrayList<ObjectiveCard> frontCards;
 
-
-
+    /**
+     * Constructs an ObjectiveDeck initializing it with the default number of objective cards.
+     * It also initializes the deck by reading JSON files containing card data.
+     */
     public ObjectiveDeck()  {
         this.frontCards = new ArrayList<>();
         this.numCards = DefaultValue.NumOfObjectiveCards;
         initializeDeck();
     }
 
-
+    /**
+     * Retrieves the list of objective cards currently in the front of the deck.
+     * @return ArrayList of ObjectiveCard objects representing the front cards.
+     */
     public ArrayList<ObjectiveCard> getFrontCards() {
         return frontCards;
     }
 
 
     /**
-    Initializes the deck of objectiveCard.
-     * Reads the JSON files containing the front and back cards,
-     * and populates the frontCards and backCards lists with the read cards.
-     * @author Irene Pia Masi
+     * Initializes the deck of objective cards by reading from JSON files.
+     * Reads the front cards from a JSON file and populates the frontCards list.
+     * Handles various exceptions that may occur during file reading or JSON parsing.
      */
     public void initializeDeck() {
         Reader frontReader = null;
         Gson gson = new Gson();
 
         try {
-            // Leggi dal file JSON frontCards
             ArrayList<ObjectiveCard> frontCardList = null;
 
                     frontReader = new InputStreamReader(Objects.requireNonNull(ObjectiveDeck.class.getResourceAsStream("/json/ObjectiveCardsFront.json")), StandardCharsets.UTF_8);
@@ -61,26 +64,20 @@ public class ObjectiveDeck implements Serializable {
                     frontReader.close();
 
         } catch (FileNotFoundException e) {
-            // Eccezione lanciata se il file non viene trovato
             System.err.println("File not found exception");
 
         } catch (IOException e) {
-            // Eccezione lanciata in caso di problemi durante la lettura del file
             System.err.println("error during reading file");
 
         } catch (JsonSyntaxException | JsonIOException e) {
-            // Eccezione lanciata se ci sono problemi di parsing JSON
             System.err.println("JSON file parsing error");
 
         } catch (ClassCastException e) {
-            // Eccezione lanciata se ci sono problemi di casting durante l'accesso ai dati JSON
             System.err.println("CASTING error accessing JSON file data: ");
 
         } catch (NullPointerException e) {
-            // Eccezione lanciata se ci sono valori nulli non gestiti correttamente
             System.err.println("Error null values not handled correctly ");
         } catch (Exception e) {
-            // Eccezione generica per gestire altri tipi di eccezioni
             System.err.println("Generic error exception during JSON file reading ");
         }
     }
@@ -99,6 +96,7 @@ public class ObjectiveDeck implements Serializable {
      * Returns a random objective card from the deck.
      * The method selects a random card from the  deck, decreases the
      * number of cards in the deck, and removes the selected card from the deck.
+     *
      * @return the randomly selected objective card.
      */
     public ObjectiveCard returnCard() throws DeckEmptyException {
@@ -109,14 +107,16 @@ public class ObjectiveDeck implements Serializable {
         int randomIndex = rand.nextInt(frontCards.size());
 
         ObjectiveCard frontCard = frontCards.get(randomIndex);
-        // Decrease the numCards attribute of the deck
         numCards--;
 
-        // Remove the retrieved cards from the deck
         frontCards.remove(randomIndex);
         return frontCard;
     }
 
+    /**
+     * Retrieves the number of objective cards remaining in the deck.
+     * @return the number of cards remaining in the objective card deck.
+     */
     public int getNumCards() {
         return numCards;
     }
