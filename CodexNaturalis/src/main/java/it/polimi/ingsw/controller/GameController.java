@@ -311,13 +311,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
          System.out.println("GameController - reconnect() \n");
         List<Player> players = new ArrayList<>();
              try { //TODO Verifica che il Player quando si disconnette non venga nè RIMOSSO nè SETTATO A NULL!! Altrimenti capisci come lasciare il nome e ri-settare il player
-                 //if(model.getPlayerByNickname(nick)==null){
-                 //    model.addPlayer(lis, nick, Color.getRandomColor());
-                 //} else {
-                 //    model.addListener(lis);
-                 //   this.reconnectPlayer(model.getPlayerByNickname(nick));
-
-                     //}
                  players = model.getPlayers()
                                 .stream()
                                 .filter(x -> x.getNickname().equals(nick))

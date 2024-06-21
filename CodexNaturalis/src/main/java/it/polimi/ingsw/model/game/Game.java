@@ -662,14 +662,14 @@ public class Game {
 	 * @throws MaxPlayersInException    there's already 4 players in game
 	 * @throws GameEndedException       the game has ended
 	 */
-	public boolean reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
+	public boolean reconnectPlayer(Player p) throws GameEndedException {
 		System.out.println("Game - reconnectPlayer() \n");
 		Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
 		if (!pIn.isConnected()) { //tolto il not
 			pIn.setConnected(true);
 		}
-			listenersHandler.notify_playerReconnected(this, p.getNickname());
+		 listenersHandler.notify_playerReconnected(this, p.getNickname());
 
 			//if(this.getCurrentPlayer().equals(p)){ //se il giocatore che si sta riconnettendo è proprio il currentPlayer, chiamo il nextTurn (gli faccio saltare il turno)
 
@@ -683,14 +683,11 @@ public class Game {
 //						break;
 //					}
 				//}
+				System.out.println("Sto per chiamare il nextTurn() \n");
 				nextTurn(currentIndex);
 			}
 			return true;
 
-		//} else {
-		//	System.out.println("ERROR: Trying to reconnect a player not offline!");
-		//	return false;
-		//}
 
 	}
 
