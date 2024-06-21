@@ -397,7 +397,6 @@ public class Game {
 
 
 	public void nextTurn(int currentIndex) throws GameEndedException {
-		System.out.println("Game - NextTurn() \n");
 		if(currentIndex == playersNumber- 1 && status.equals(GameStatus.LAST_CIRCLE) ){
 			throw new GameEndedException();
 		}
@@ -629,7 +628,7 @@ public class Game {
 	 * @param nick player to set as disconnected
 	 */
 	public void setAsDisconnected(String nick) {
-		System.out.println("in Game- setAsDisconnected() \n ");
+		System.out.println("in Game- setAsDisconnected ");
 		getPlayerByNickname(nick).setConnected(false);
 		getPlayerByNickname(nick).setNotReadyToStart();
 		if (getNumOfOnlinePlayers() != 0) {
@@ -658,36 +657,31 @@ public class Game {
 
 	/**
 	 * @param p player is reconnected
-	 * @throws PlayerAlreadyInException player is already in
-	 * @throws MaxPlayersInException    there's already 4 players in game
 	 * @throws GameEndedException       the game has ended
 	 */
 	public boolean reconnectPlayer(Player p) throws GameEndedException {
-		System.out.println("Game - reconnectPlayer() \n");
 		Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
-		if (!pIn.isConnected()) { //tolto il not
+		if (!pIn.isConnected()) {
 			pIn.setConnected(true);
-		}
-		 listenersHandler.notify_playerReconnected(this, p.getNickname());
+			listenersHandler.notify_playerReconnected(this, p.getNickname());
 
-			//if(this.getCurrentPlayer().equals(p)){ //se il giocatore che si sta riconnettendo è proprio il currentPlayer, chiamo il nextTurn (gli faccio saltare il turno)
-
-			//}
 			if (!isTheCurrentPlayerOnline()) {
-			int currentIndex = this.getIndexPlayer(getCurrentPlayer());
-//				int currentIndex = -1;
-//				for (int i = 0; i < this.getOrderArray().length; i++) {
-//					if (this.getPlayers().get(this.getOrderArray()[i]).equals(this.getCurrentPlayer())) {
-//						currentIndex = i;
-//						break;
-//					}
-				//}
-				System.out.println("Sto per chiamare il nextTurn() \n");
+				int currentIndex = -1;
+				for (int i = 0; i < this.getOrderArray().length; i++) {
+					if (this.getPlayers().get(this.getOrderArray()[i]).equals(this.getCurrentPlayer())) {
+						currentIndex = i;
+						break;
+					}
+				}
 				nextTurn(currentIndex);
 			}
 			return true;
 
+		} else {
+			System.out.println("ERROR: Trying to reconnect a player not offline!");
+			return false;
+		}
 
 	}
 
