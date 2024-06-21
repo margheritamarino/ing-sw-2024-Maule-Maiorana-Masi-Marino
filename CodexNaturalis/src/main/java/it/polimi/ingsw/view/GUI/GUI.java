@@ -13,11 +13,8 @@ import it.polimi.ingsw.view.Utilities.UI;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import it.polimi.ingsw.exceptions.PlacementConditionViolated;
-
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 /**
  * GUI class.
@@ -54,27 +51,32 @@ public class GUI extends UI {
         eventsToShow = new ArrayList<>();
     }
 
+    /**
+     * Executes a Runnable on the JavaFX Application Thread using Platform.runLater().
+     *
+     * @param r The Runnable to execute.
+     */
     public void callPlatformRunLater(Runnable r) {
-        //Need to use this method to call any methods inside the GuiApplication
-        //Doing so, the method requested will be executed on the JavaFX Thread (else exception)
         Platform.runLater(r);
     }
 
+    /**
+     * Shows the Publisher scene and then displays the insertNicknameMessage after a delay.
+     */
     @Override
     public void show_publisher()  {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.PUBLISHER));
 
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(DefaultValue.time_publisher_showing_seconds));
         pauseTransition.setOnFinished(event -> {
-            showedPublisher = true; // Serve un booleano per evitare che venga mostrato nuovamente in futuro
+            showedPublisher = true;
             this.show_insertNicknameMessage();
         });
-        pauseTransition.play(); // Non dimenticare di far partire la transizione
+        pauseTransition.play();
     }
 
-
     /**
-     * The show method is used to show the GUI, and set the active scene to the publisher.
+     * Shows the insertNicknameMessage scene if the Publisher scene has been shown.
      */
     @Override
     public void show_insertNicknameMessage() {
@@ -87,10 +89,10 @@ public class GUI extends UI {
     }
 
     /**
-     * This method show the info about the chosen nickname.
+     * Shows a popup with nickname information.
      *
-     * @param nick the nickname
-     * @param text the info
+     * @param nick The nickname to display.
+     * @param text The information text to display.
      */
     public void show_popupInfoAndNickname(String nick, String text) {
         callPlatformRunLater(() -> ((NicknamePopUpController) this.guiApplication.getController(SceneType.NICKNAME_POPUP)).showNicknameAndText(nick, text));
@@ -98,11 +100,21 @@ public class GUI extends UI {
         this.nickname = nick;
     }
 
+    /**
+     * Shows a popup indicating the chosen nickname and attempts to join a game.
+     *
+     * @param nickname The chosen nickname.
+     */
     @Override
     public void show_chosenNickname(String nickname) {
         show_popupInfoAndNickname(nickname, "Trying to join a Game...");
     }
 
+    /**
+     * Shows a message indicating the current turn.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_CurrentTurnMsg(GameImmutable model) {
         PauseTransition closePopupPause = new PauseTransition(Duration.seconds(3));
@@ -114,7 +126,11 @@ public class GUI extends UI {
 
     }
 
-
+    /**
+     * Shows a message asking the player to place cards on the main board.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model) {
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
@@ -127,21 +143,24 @@ public class GUI extends UI {
         pause.play();
     }
 
+    /**
+     * Shows a message indicating the player should pick a card.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_PickCardMsg(GameImmutable model) {
-        // Pausa di 5 secondi prima di mostrare il messaggio
         PauseTransition showMessagePause = new PauseTransition(Duration.seconds(5));
         showMessagePause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
-            // Pausa di 5 secondi prima di attivare la scena del board
             PauseTransition activateScenePause = new PauseTransition(Duration.seconds(3));
             activateScenePause.setOnFinished(event2 -> {
                 callPlatformRunLater(() -> {
                     this.guiApplication.setActiveScene(SceneType.BOARD_POPUP);
                     BoardPopUpController boardController = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
                     boardController.enablePickCardTurn();
-                    this.guiApplication.showBoard(model, true); // Pass true per abilitare la possibilità di pescare una carta
+                    this.guiApplication.showBoard(model, true);
                 });
             });
             activateScenePause.play();
@@ -150,27 +169,55 @@ public class GUI extends UI {
 
     }
 
+    /**
+     * Requests the player to choose a card type
+     *
+     * @param model The game model.
+     * @param nickname The nickname of the player
+     */
     @Override
     public void show_askCardType(GameImmutable model, String nickname) {
 
     }
 
+    /**
+     * Displays persistent information of the game
+     *
+     * @param model The game model.
+     * @param nickname The nickname of the player
+     */
     @Override
     public void show_alwaysShow(GameImmutable model, String nickname) {
 
     }
 
+    /**
+     * Shows a message asking which cell on the book to place a card.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_askWhichCellMsg(GameImmutable model) {
         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("Choose a Cell in the book to place the card:", null));
         callPlatformRunLater(()-> this.guiApplication.showBookChooseCell(model, nickname));
     }
 
+    /**
+     * Shows a message indicating that a card has been successfully placed.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_cardPlacedMsg(GameImmutable model) {
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).cardPlacedCorrect(model));
     }
 
+    /**
+     * Shows a message indicating that a card has been drawn.
+     *
+     * @param model The game model.
+     * @param nickname The player's nickname.
+     */
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname) {
         callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
@@ -184,16 +231,26 @@ public class GUI extends UI {
         pause2.play();
     }
 
+    /**
+     * Shows a message indicating the next player's turn.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_nextTurnMsg(GameImmutable model) {
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).highlightCurrentPlayer(model));
 
     }
 
-
+    /**
+     * Shows a message indicating points have been added.
+     *
+     * @param model The game model.
+     * @param nickname The player's nickname.
+     */
     @Override
     public void show_pointsAddedMsg(GameImmutable model, String nickname) {
-        show_playerBook(model); //((playerBook aggiornato))
+        show_playerBook(model);
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
             if (model.getCurrentPlayer().getNickname().equals(nickname)) {
@@ -210,6 +267,13 @@ public class GUI extends UI {
     }
 
     private boolean openReconnectPopUp=false;
+
+    /**
+     * Shows a message indicating joining to a game with the chosen nickname.
+     *
+     * @param nick The chosen nickname.
+     * @param color The color associated with the player.
+     */
     @Override
     public void show_joiningToGameMsg(String nick, Color color) {
         if(openReconnectPopUp){
@@ -218,7 +282,11 @@ public class GUI extends UI {
         show_popupInfoAndNickname(nickname, "Trying to join a Game...");
     }
 
-
+    /**
+     * Shows the MainScene and initializes it with the game model and player information.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_gameStarted(GameImmutable model) {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
@@ -227,6 +295,11 @@ public class GUI extends UI {
 
     }
 
+    /**
+     * Shows the game ended scene and displays the final board.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_gameEnded(GameImmutable model) {
        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GAMEENDED));
@@ -239,6 +312,9 @@ public class GUI extends UI {
         });
     }
 
+    /**
+     * Shows a message asking the number of players before starting the game.
+     */
     @Override
     public void show_askNumPlayersMessage() {
         Platform.runLater(() -> this.guiApplication.setInputReaderGUItoAllControllers(this.inputGUI));
@@ -247,16 +323,29 @@ public class GUI extends UI {
 
     }
 
+    /**
+     * Shows a message asking for the game ID.
+     */
     @Override
     public void show_askGameIDMessage() {
 
     }
 
+    /**
+     * Shows a message indicating an invalid selection.
+     */
     @Override
     public void show_notValidMessage() {
         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("Selection not valid!", false));
     }
 
+    /**
+     * Shows a message indicating that a player has joined the game.
+     *
+     * @param gameModel The game model.
+     * @param nick The nickname of the player who joined.
+     * @param color The color associated with the player.
+     */
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
         if (!alreadyShowedLobby) {
@@ -280,37 +369,52 @@ public class GUI extends UI {
             });
             pause.play();
         } else {
-            // The player is in lobby and another player has joined
             callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
         }
     }
 
-
+    /**
+     * Shows information representing all players in the game.
+     *
+     * @param model The game model
+     */
     @Override
     public void show_allPlayers(GameImmutable model) {
 
     }
 
-
-
+    /**
+     * Shows a message indicating that the player is ready to start the game.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_youAreReady(GameImmutable model) {
         callPlatformRunLater(() -> this.guiApplication.disableBtnReadyToStart());
         callPlatformRunLater(() -> this.guiApplication.setPaneReady(model.getIndexPlayer(model.getPlayerByNickname(nickname)),model.getPlayerByNickname(nickname).getReadyToStart()));
     }
 
-
+    /**
+     * Shows a message indicating that the game is ready to start.
+     *
+     * @param gameModel The game model.
+     * @param nickname The player's nickname.
+     */
     @Override
     public void show_readyToStart(GameImmutable gameModel, String nickname) {
     }
 
+    /**
+     * Shows a message indicating to return to the main menu.
+     */
     @Override
     public void show_returnToMenuMsg() {
         callPlatformRunLater(() -> this.guiApplication.showBtnReturnToMenu());
     }
 
-
-
+    /**
+     * Shows a message indicating an invalid card selection.
+     */
     @Override
     public void show_wrongCardSelMsg() {
         String errorMessage = "Invalid selection. Please choose a number between 0 and 6.";
@@ -324,9 +428,11 @@ public class GUI extends UI {
             });
             pause.play();
         });
-       // callPlatformRunLater(()-> this.guiApplication.showPlayerDeck(GameImmutable model));
     }
 
+    /**
+     * Shows a message indicating an invalid cell selection.
+     */
     @Override
     public void show_wrongCellSelMsg() {
         String errorMessage = "Invalid cell selection. Please choose an empty cell with a valid coordinate!";
@@ -341,14 +447,25 @@ public class GUI extends UI {
         });
     }
 
+    /**
+     * Shows a message asking for a numerical input.
+     *
+     * @param msg The message prompting for numerical input.
+     * @param gameModel The game model.
+     * @param nickname The player's nickname.
+     */
     @Override
     public void show_askNum(String msg, GameImmutable gameModel, String nickname) {
 
     }
 
+    /**
+     * Adds an important event to be shown in the GUI.
+     *
+     * @param input The important event to add.
+     */
     @Override
     public void addImportantEvent(String input) {
-        //Want to show a numbeMaxEventToShow important event happened
         if (eventsToShow.size() + 1 >= DefaultValue.MaxEventToShow) {
             eventsToShow.removeFirst();
         }
@@ -356,17 +473,32 @@ public class GUI extends UI {
         callPlatformRunLater(() -> this.guiApplication.showImportantEvents(this.eventsToShow));
     }
 
-
+    /**
+     * Resets the list of important events shown in the GUI.
+     */
     @Override
     public void resetImportantEvents() {
 
     }
 
+    /**
+     * Shows a message asking the player to draw from the deck.
+     *
+     * @param model The game model.
+     * @param nickname The player's nickname.
+     */
     @Override
     public void show_askDrawFromDeck(GameImmutable model, String nickname) {
 
     }
 
+    /**
+     * Shows a message indicating the player has to choose again due to an error.
+     *
+     * @param model The game model.
+     * @param nickname The player's nickname.
+     * @param msg The error message.
+     */
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname, String msg) {
         String errorMessage = "ERROR: " + msg;
@@ -375,11 +507,20 @@ public class GUI extends UI {
 
     }
 
+    /**
+     * Shows a message indicating a wrong selection.
+     */
     @Override
     public void show_wrongSelectionMsg() {
 
     }
 
+    /**
+     * Shows the temporary initial cards scene for a player.
+     *
+     * @param model The game model.
+     * @param indexPlayer The index of the player.
+     */
     @Override
     public void show_temporaryInitialCards(GameImmutable model, int indexPlayer) {
         callPlatformRunLater(() -> {
@@ -388,6 +529,12 @@ public class GUI extends UI {
         });
     }
 
+    /**
+     * Shows the objective cards scene for a player.
+     *
+     * @param model The game model.
+     * @param indexPlayer The index of the player.
+     */
     @Override
     public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
         callPlatformRunLater(() -> {
@@ -396,32 +543,63 @@ public class GUI extends UI {
         });
     }
 
+    /**
+     * Shows a scene indicating the personal objective for a player.
+     *
+     * @param model The game model.
+     * @param indexPlayer The index of the player.
+     */
     @Override
     public void show_personalObjective(GameImmutable model, int indexPlayer) {
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.WAITING_POPUP);
         });
     }
+
+    /**
+     * Closes the waiting popup stage.
+     */
     @Override
     public void closeWaitPopUp(){
        callPlatformRunLater(()-> this.guiApplication.closePopUpStage());
 
     }
 
+    /**
+     * Shows a message indicating a no connection error.
+     */
     @Override
     public void show_noConnectionError() {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
         callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Connection to server lost!", true));
     }
 
+    /**
+     * Shows the player's deck in the main scene.
+     *
+     * @param model The game model.
+     * @param nickname The player's nickname.
+     */
     @Override
     public void show_playerDeck(GameImmutable model, String nickname) {
-        callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setPlayerDeck(model,nickname));
+        callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setPlayerDeck(model, nickname));
     }
+
+    /**
+     * Shows the player's book in the main scene.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_playerBook(GameImmutable model) {
         callPlatformRunLater(()-> this.guiApplication.showBook(model, nickname));
     }
+
+    /**
+     * Shows the score track popup with the current game model.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_scoretrack(GameImmutable model) {
 
@@ -430,6 +608,11 @@ public class GUI extends UI {
 
     }
 
+    /**
+     * Shows the board popup with the current game model.
+     *
+     * @param model The game model.
+     */
     @Override
     public void show_board(GameImmutable model) {
         callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
@@ -437,7 +620,12 @@ public class GUI extends UI {
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
     }
 
-
+    /**
+     * Shows a message indicating to wait for the player's turn.
+     *
+     * @param model The game model.
+     * @param nickname The player's nickname.
+     */
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
         PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
@@ -449,20 +637,34 @@ public class GUI extends UI {
         pause2.play();
 
     }
+
+    /**
+     * Shows the visible cards on the board.
+     *
+     * @param model The game model.
+     * @param cardType The type of card to show.
+     */
     @Override
     public void show_visibleCardsBoard(GameImmutable model, CardType cardType){
-
     }
 
-
-
-    //TODO
-
+    /**
+     * Shows sent messages in the GUI.
+     *
+     * @param model The game model.
+     * @param nickname The player's nickname.
+     */
     @Override
     public void show_sentMessage(GameImmutable model, String nickname) {
         callPlatformRunLater(() -> this.guiApplication.showMessages(model, this.nickname));
     }
 
+    /**
+     * Asks for chat interaction in the GUI.
+     *
+     * @param model The game model.
+     * @param nick The nickname associated with the chat interaction.
+     */
     @Override
     public void show_askForChat(GameImmutable model, String nick) {
 
@@ -479,6 +681,11 @@ public class GUI extends UI {
         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
     }
 
+    /**
+     * Shows a message indicating a failed reconnection attempt.
+     *
+     * @param nick The nickname of the player who failed to reconnect.
+     */
     @Override
     public void show_failedReconnectionMsg(String nick){
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
@@ -489,14 +696,19 @@ public class GUI extends UI {
      * Asks if the player is trying to reconnect
      */
     @Override
-    public void show_askForReconnection(){ // mostrato al solo giocatore che sta provando a riconnettersi
+    public void show_askForReconnection(){
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.RECONNECT_POPUP);
             openReconnectPopUp=true;
         });
     }
 
-
+    /**
+     * Adds a message to the chat and updates the GUI accordingly.
+     *
+     * @param msg The message to add.
+     * @param model The game model.
+     */
     @Override
     public void addMessage(Message msg, GameImmutable model) {
         show_sentMessage(model, model.getChat().getLastMessage().getSender().getNickname());
