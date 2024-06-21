@@ -65,8 +65,8 @@ public class Player implements Serializable {
     /**
      * @return the player's connection status
      */
-    public boolean isConnected() {
-        return connected;
+    public boolean getConnected() {
+        return this.connected;
     }
 
     /**

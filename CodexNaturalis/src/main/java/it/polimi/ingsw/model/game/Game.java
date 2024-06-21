@@ -133,7 +133,7 @@ public class Game {
 	 * @return the number of player's connected
 	 */
 	public int getNumOfOnlinePlayers() {
-		return players.stream().filter(Player::isConnected).toList().size();
+		return players.stream().filter(Player::getConnected).toList().size();
 	}
 
 	public ArrayList<Player> getPlayers() {
@@ -230,26 +230,27 @@ public class Game {
 	 * after checking if there is space in the match and if the nickname is available
 	 * @param nickname the nickname of the player to be added.
 	 */
-	public void addPlayer(GameListenerInterface lis, String nickname, Color playerColor) {
+	public boolean addPlayer(GameListenerInterface lis, String nickname, Color playerColor) {
 		System.out.println("Game - addPlayer");
 		// Check if the game is not full and the nickname is not taken
 		// Check if the game is not full
 		if (isFull()) {
 			// Game is full
 			listenersHandler.notify_JoinUnableGameFull(lis, getPlayerByNickname(nickname), this);
+			return false;
 		}
 
 		// Check if the nickname is already taken
 		if (checkNickname(nickname)) {
-			if(!getPlayerByNickname(nickname).isConnected()){
+			if(!getPlayerByNickname(nickname).getConnected()){
 				System.out.println("Game - addPlayer: sending notify_AskForReconnection ");
 				listenersHandler.notify_AskForReconnection(lis, getPlayerByNickname(nickname), this); //chiede se sta provando a riconnettersi
 			} else {
 				System.out.println("Game - addPlayer: sending notify_JoinUnableNicknameAlreadyIn ");
 				listenersHandler.notify_JoinUnableNicknameAlreadyIn(lis, getPlayerByNickname(nickname), this);
 			}
-
-		} else{
+			return false;
+		}else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname, playerColor);
 			System.out.println("player added: "+nickname+playerColor);
@@ -269,6 +270,7 @@ public class Game {
 			listenersHandler.notify_PlayerJoined(this, nickname, playerColor);
 			System.out.println("Game: sent notify_PlayerJoined");
 		}
+		return true;
 
 	}
 
@@ -298,11 +300,11 @@ public class Game {
 	 * The function removes the player with username "username" from the game.
 	 * @param nickname is the nickname of the Player that you want to remove from the game.
 	 */
-	public void removePlayer (String nickname) {
+	public void removePlayer(String nickname) {
 		players.remove(players.stream().filter(x -> x.getNickname().equals(nickname)).toList().getFirst());
 		listenersHandler.notify_PlayerLeft(this, nickname);
 
-		if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::isConnected).toList().size() <= 1) {
+		if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::getConnected).toList().size() <= 1) {
 			//Not enough players to keep playing
 			this.setStatus(GameStatus.ENDED);
 		}
@@ -662,12 +664,11 @@ public class Game {
 
 	 */
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
-		Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
+		//Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
-
-		if(!pIn.isConnected()) {
+		if(!p.getConnected()){
 			System.out.println("RECONNECTED PLAYER");
-			pIn.setConnected(true);
+			p.setConnected(true);
 			listenersHandler.notify_playerReconnected(this, p.getNickname());
 
 			if (!isTheCurrentPlayerOnline()) {
@@ -688,7 +689,7 @@ public class Game {
 				}
 			}
 			return true;
-		} else {
+		}else {
 			removeListener(lis);
 			p.removeListener(lis);
 			//listenersHandler.notify_ReconnectionFailed("ERROR: Trying to reconnect a player not offline!");*/
@@ -702,7 +703,7 @@ public class Game {
 	 * @return true if the player in turn is online
 	 */
 	private boolean isTheCurrentPlayerOnline() {
-		return this.getCurrentPlayer().isConnected();
+		return this.getCurrentPlayer().getConnected();
 	}
 
 	public Chat getChat(){

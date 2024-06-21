@@ -464,8 +464,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             Color randColor = Color.getRandomColor();
             model.addPlayer(lis, nick, randColor);
             //}
-            model.getPlayerByNickname(nick).setConnected(true); //meglio metterlo in game ADD_PLAYER?
-            System.out.println("GameController - JoinGame: Player setted CONNECTED");
+            //model.getPlayerByNickname(nick).setConnected(true); //meglio metterlo in game ADD_PLAYER?
+           // System.out.println("GameController - JoinGame: Player setted CONNECTED");
         }
     }
 

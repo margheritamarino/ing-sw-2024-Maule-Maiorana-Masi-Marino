@@ -230,7 +230,7 @@ public class GameImmutable implements Serializable {
     public int getNumPlayersOnline() {
         int numplayers = 0;
         for (Player player : players) {
-            if (player.isConnected()) {
+            if (player.getConnected()) {
                 numplayers++;
             }
         }
