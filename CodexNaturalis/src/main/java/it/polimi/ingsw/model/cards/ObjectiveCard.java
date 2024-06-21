@@ -1,14 +1,11 @@
 package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.*;
-import org.fusesource.jansi.Ansi;
-
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * Objective card class

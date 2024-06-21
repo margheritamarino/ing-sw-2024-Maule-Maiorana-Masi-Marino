@@ -10,10 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * Gold card class
@@ -124,7 +120,7 @@ public class GoldCard extends PlayableCard implements Serializable {
      * @return A list containing the corner content strings.
      */
     @Override
-    public List<String> getCornerContent() { // Metodo per ottenere una lista di stringhe rappresentanti il contenuto degli angoli
+    public List<String> getCornerContent() {
         List<String> cornerContent = new ArrayList<>();
 
         cornerContent.add(getCornerContentString(getTLCorner()));

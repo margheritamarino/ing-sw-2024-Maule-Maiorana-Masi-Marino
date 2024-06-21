@@ -3,12 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.InvalidPointsException;
 import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.exceptions.PlayerNotFoundException;
-//import it.polimi.ingsw.model.interfaces.ScoreTrackIC;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

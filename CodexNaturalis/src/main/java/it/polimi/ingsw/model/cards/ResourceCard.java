@@ -2,12 +2,9 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
-import org.fusesource.jansi.Ansi;
 
 import java.io.Serializable;
 import java.util.*;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * ResourceCard class
