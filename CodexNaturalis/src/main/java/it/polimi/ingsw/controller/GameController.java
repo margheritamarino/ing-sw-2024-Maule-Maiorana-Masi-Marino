@@ -496,7 +496,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.addPlayer(lis, nick, randColor);
         //}
 
-        model.getPlayerByNickname(nick).setConnected(true);
+        //model.getPlayerByNickname(nick).setConnected(true);
     }
 
     /**

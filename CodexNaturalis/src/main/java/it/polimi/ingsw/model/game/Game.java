@@ -256,6 +256,8 @@ public class Game {
 			System.out.println("player added: "+nickname+playerColor);
 			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
+			newPlayer.setConnected(true);
+
 
 			System.out.println("Player " + nickname + " added to the game.");
 			System.out.println("Current players: " + players.stream().map(Player::getNickname).collect(Collectors.joining(", ")));
@@ -638,7 +640,6 @@ public class Game {
 		if (getNumOfOnlinePlayers() != 0) {
 			listenersHandler.notify_playerDisconnected(this, nick);
 
-
 			if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
 				try {
 					int currentIndex = -1;
@@ -649,8 +650,9 @@ public class Game {
 						}
 					}
 					nextTurn(currentIndex);
-				} catch (GameEndedException e) {
-
+				}catch (GameEndedException e) {
+					System.err.println("setAsDisconnected Game - GameEndedException");
+					setStatus(GameStatus.ENDED); //TODO: CONTROLLARE!!!
 				}
 			}
 			if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
@@ -685,6 +687,7 @@ public class Game {
 					removeListener(lis);
 					p.removeListener(lis);
 					printAsync("Reconnection FAILED because GAME ENDED");
+					setStatus(GameStatus.ENDED); //TODO: CONTROLLARE!!!
 					//listenersHandler.notify_ReconnectionFailed("ERROR: Trying to reconnect but GAME ENDED!");
 				}
 			}
