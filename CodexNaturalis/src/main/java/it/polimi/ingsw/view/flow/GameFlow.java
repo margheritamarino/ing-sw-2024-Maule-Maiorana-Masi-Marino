@@ -229,13 +229,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_PlayerReconnectedMsg(event.getModel(), nickname, lastPlayerReconnected);
                 ui.show_nextTurnMsg(event.getModel());
 
-                if (lastPlayerReconnected.equals(nickname)) {
+                /*if (lastPlayerReconnected.equals(nickname)) {
                     ui.show_CurrentTurnMsg(event.getModel());
                     askPlaceCards(event.getModel(), nickname);
                 }
                 else{
                     ui.show_WaitTurnMsg(event.getModel(), nickname);
-                }
+                }*/
             }
 
             case CARD_PLACED ->{
@@ -1133,8 +1133,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
         ui.addImportantEvent("Player " + nick + " has just disconnected");
-        model.getPlayerByNickname(nick).setConnected(false);//setta il giocatore come disconnesso --> viene settato nel Model
-
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         if (model.getStatus().equals(GameStatus.WAIT)) {
             Color colorP = model.getPlayerByNickname(nick).getPlayerColor();
