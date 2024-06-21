@@ -1,11 +1,9 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.Chat.Message;
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
 
 import it.polimi.ingsw.network.ClientInterface;
@@ -30,7 +28,6 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
  * From the first connection, to the creation, joining, leaving, grabbing and positioning messages through the network<br>
  * by the RMI Network Protocol
  */
-//Il Client invoca metodi sul Server tramite l'interfaccia remota GameController
 public class ClientRMI implements ClientInterface {
 
     /**
@@ -41,7 +38,7 @@ public class ClientRMI implements ClientInterface {
     /**
      * The remote object returned by the registry that represents the game controller
      */
-    private static GameControllerInterface gameController; //INIZIALIZZALO + AGGIUNGI AI METODI DI MAINOìCONTROLLER CHE RITORNINO UN GAMECONTROLLER
+    private static GameControllerInterface gameController;
 
 
     /**
@@ -53,8 +50,6 @@ public class ClientRMI implements ClientInterface {
      * The nickname associated to the client (!=null only when connected in a game)
      */
     private String nickname;
-
-    private Color playerColor;
 
     /**
      * Client listeners of the game
@@ -103,9 +98,9 @@ public class ClientRMI implements ClientInterface {
         do{
             try {
                 registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-                gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI); //ClientRMI si connette al server RMI e riceve il riferimento al GameController
-                modelInvokedEvents = (GameListenerInterface) UnicastRemoteObject.exportObject(gameListenersHandler, 0); //ClientRMI registra un listener per ricevere aggiornamenti dal ServerRMI: è usato dal Server al Client per notificare gli aggiornamenti del gioco
-                                                                                                                             //Il ClientRMI invia comandi al GameController tramite il ServerRMI per eseguire azioni nel gioco.
+                gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
+                modelInvokedEvents = (GameListenerInterface) UnicastRemoteObject.exportObject(gameListenersHandler, 0);
+
                 printAsync("Client RMI ready");
                 retry = false;
 
@@ -267,7 +262,6 @@ public void run() {
     public void joinGame(String nick) throws IOException, NotBoundException {
 
         try {
-            // Ottieni il registro all'indirizzo IP e porta specificati
             System.out.println("Attempting to get the registry...");
             registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
             System.out.println("Registry obtained.");
@@ -276,7 +270,6 @@ public void run() {
             gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);System.out.println("Remote object found.");
             this.nickname = nick;
 
-            // Unisciti al gioco
             System.out.println("Joining the game...");
             gameController.joinGame(modelInvokedEvents, nickname);
             System.out.println("Joined the game successfully.");
@@ -305,7 +298,7 @@ public void run() {
     @Override
     public void reconnect(String nick, int idGame) throws IOException, NotBoundException {
         registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
-        gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI); //ClientRMI si connette al server RMI e riceve il riferimento al GameController
+        gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
         gameController.reconnect(modelInvokedEvents, nick);
 
         nickname = nick;

@@ -40,13 +40,13 @@ public class ServerMain {
             printAsync(ansi().a("""
                     Insert remote IP (leave empty for localhost):
                     """));
-            input = new Scanner(System.in).nextLine().trim();  // Usa nextLine() e trim() per catturare l'input vuoto
+            input = new Scanner(System.in).nextLine().trim();
             if(input.isEmpty()||input.equals("empty")){
                 System.out.println("Input ricevuto: localhost ");
             } else {
                 System.out.println("Input ricevuto: " + input);
             }
-        } while (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input));  // Solo controllo per input vuoto e IP valido
+        } while (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input));
 
         if (input.isEmpty()) {
             System.setProperty("java.rmi.server.hostname", DefaultValue.Remote_ip);
@@ -55,7 +55,6 @@ public class ServerMain {
             System.setProperty("java.rmi.server.hostname", input);
         }
 
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -63,13 +62,12 @@ public class ServerMain {
         }
 
         try {
-            ServerRMI.bind(); //chiama BIND() su ServerRMI
+            ServerRMI.bind();
         } catch (RemoteException e) {
             e.printStackTrace();
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
-            System.exit(1); // Termina il programma in caso di errore
+            System.exit(1);
         }
-        // Pausa di 1 second0
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -78,7 +76,6 @@ public class ServerMain {
 
         ServerTCP serverSOCKET = new ServerTCP();
         serverSOCKET.start(DefaultValue.Default_port_Socket);
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

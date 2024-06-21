@@ -29,14 +29,14 @@ public class ClientMain {
      * @param args the command-line arguments (not used)
      */
     public static void main(String[] args) {
-        clearCMD(); //ripulisco il terminale
+        clearCMD();
         int selection;
 
         if (!DefaultValue.DEBUG) {
             String input;
 
 
-            do { //chiedo all'utente di inserire l'indirizzo IP del server remoto (se vuole connettersi a un server diverso dal LocalHost)
+            do {
                 clearCMD();
                 printAsync(ansi().a("""
                         Insert remote IP (leave empty for localhost)
@@ -46,7 +46,7 @@ public class ClientMain {
                     clearCMD();
                     printAsync("Not valid");
                 }
-            } while (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input)); // ripeto fino a quando non viene inserito un IP valido
+            } while (!input.isEmpty() && !(input.equals("empty")) && !isValidIP(input));
 
             if (!input.isEmpty() && !input.equals("empty")) {
                 DefaultValue.serverIp = input;
@@ -88,11 +88,9 @@ public class ClientMain {
                 }
             } while (selection != 1 && selection != 2 && selection != 3 && selection != 4);
         } else {
-            selection = 2; //Default run configuration
+            selection = 2;
         }
 
-
-        //Get the Communication Protocol wanted
         ConnectionType conSel;
         if (selection == 1 || selection == 3) {
             conSel = ConnectionType.SOCKET;
@@ -102,15 +100,9 @@ public class ClientMain {
 
         printAsync("Starting the game!");
 
-        //Starts the UI wanted
-        //Starts the UI wanted
         if (selection == 1 || selection == 2) {
-            //Starts the game with TUI
-            //I can start directly here the GameFlow
             new GameFlow(conSel);
         } else {
-            //Starts the game with GUI
-            //For doing so, I need to start the Main of GUI (GameFlow needs to be started inside the thread of GUI)
             Application.launch(GUIApplication.class, String.valueOf(conSel));
         }
 

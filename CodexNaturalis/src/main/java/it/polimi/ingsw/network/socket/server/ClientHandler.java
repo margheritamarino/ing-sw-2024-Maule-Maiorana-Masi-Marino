@@ -21,10 +21,10 @@ import it.polimi.ingsw.controller.GameController;
  */
 public class ClientHandler extends Thread{
 
-    private final Socket clientSocket; //socket associato a un Client
+    private final Socket clientSocket;
 
-    private final ObjectInputStream in; //per la lettura degli oggetti in INGRESSO dal CLient
-    private final ObjectOutputStream out; //per l'INVIO di oggetti al Client
+    private final ObjectInputStream in;
+    private final ObjectOutputStream out;
 
     //private GameControllerInterface gameController; //controller associato alla partita
 
@@ -33,7 +33,7 @@ public class ClientHandler extends Thread{
      * The GameListener of the ClientSocket for notifications
      */
 
-    private String nickname = null; //soprannome (nickname) del SocketClient
+    private String nickname = null;
 
     private final BlockingQueue<ClientGenericMessage> processingQueue = new LinkedBlockingQueue<>(); //coda bloccante per elaborare i messaggi in arrivo dal client.
 
