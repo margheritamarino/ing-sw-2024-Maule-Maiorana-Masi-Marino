@@ -161,11 +161,6 @@ public class GUI extends UI {
     }
 
     @Override
-    public void show_alwaysShowForAll(GameImmutable model) {
-
-    }
-
-    @Override
     public void show_askWhichCellMsg(GameImmutable model) {
         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("Choose a Cell in the book to place the card:", null));
         callPlatformRunLater(()-> this.guiApplication.showBookChooseCell(model, nickname));
@@ -472,12 +467,6 @@ public class GUI extends UI {
     public void show_askForChat(GameImmutable model, String nick) {
 
     }
-
-    @Override
-    protected int getLengthLongestMessage(GameImmutable model) {
-        return 0;
-    }
-
 
     /**
      * Shows a message for the next turn or when a player reconnects
