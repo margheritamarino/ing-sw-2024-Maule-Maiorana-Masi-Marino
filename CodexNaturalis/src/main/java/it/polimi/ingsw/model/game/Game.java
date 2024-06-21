@@ -19,6 +19,8 @@ import java.lang.IllegalStateException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.view.PrintAsync.printAsync;
+
 /**
  * Game model
  *  GameModel is the class that represents the game, it contains all the information about the game, and it's based on a MVC pattern
@@ -657,12 +659,14 @@ public class Game {
 
 	/**
 	 * @param p player is reconnected
-	 * @throws GameEndedException       the game has ended
+
 	 */
-	public boolean reconnectPlayer(Player p) throws GameEndedException {
+	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
 		Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
-		if (!pIn.isConnected()) {
+
+		if(!pIn.isConnected()) {
+			System.out.println("RECONNECTED PLAYER");
 			pIn.setConnected(true);
 			listenersHandler.notify_playerReconnected(this, p.getNickname());
 
@@ -674,15 +678,23 @@ public class Game {
 						break;
 					}
 				}
-				nextTurn(currentIndex);
+				try {
+					nextTurn(currentIndex);
+				} catch (GameEndedException e) {
+					removeListener(lis);
+					p.removeListener(lis);
+					printAsync("Reconnection FAILED because GAME ENDED");
+					//listenersHandler.notify_ReconnectionFailed("ERROR: Trying to reconnect but GAME ENDED!");
+				}
 			}
 			return true;
-
 		} else {
+			removeListener(lis);
+			p.removeListener(lis);
+			//listenersHandler.notify_ReconnectionFailed("ERROR: Trying to reconnect a player not offline!");*/
 			System.out.println("ERROR: Trying to reconnect a player not offline!");
 			return false;
 		}
-
 	}
 
 

@@ -91,7 +91,7 @@ public interface GameListenerInterface extends Remote {
      * @param gameModel the current state of the game model
      * @throws RemoteException if the reference could not be accessed
      */
-    void AskForReconnection (Player triedToJoin, GameImmutable gameModel) throws RemoteException; //if the client is trying to reconnect
+    void AskForReconnection(Player triedToJoin, GameImmutable gameModel) throws RemoteException; //if the client is trying to reconnect
 
     /**
      * This method is used to notify the client that the game has started

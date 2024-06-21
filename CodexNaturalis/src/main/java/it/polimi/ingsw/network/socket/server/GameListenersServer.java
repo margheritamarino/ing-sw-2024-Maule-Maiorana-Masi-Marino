@@ -320,7 +320,8 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgPlayerReconnected(gamemodel, nickPlayerReconnected));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send playerReconnected message", e);
         }
     }
 
@@ -335,7 +336,8 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgGenericErrorWhenEnteringGame(why));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send errorReconnecting message", e);
         }
     }
 
@@ -351,7 +353,8 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             out.writeObject(new msgOnlyOnePlayerConnected(gameModel,secondsToWaitUntilGameEnded));
             finishSending();
         } catch (IOException e) {
-
+            System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
+            throw new RemoteException("Failed to send onlyOnePlayerConnected message", e);
         }
     }
 

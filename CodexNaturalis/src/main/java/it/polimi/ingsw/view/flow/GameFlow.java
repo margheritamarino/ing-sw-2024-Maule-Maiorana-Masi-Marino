@@ -912,8 +912,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws RemoteException If there is an issue with remote communication.
      */
     @Override
-    public void AskForReconnection (Player triedToJoin, GameImmutable gameModel) throws RemoteException{
+    public void AskForReconnection(Player triedToJoin, GameImmutable gameModel) throws RemoteException{
         System.out.println("in joinUnableNicknameAlreadyIn - NON CONNESSO --> chiama askReconnection \n");
+        this.nickname=triedToJoin.getNickname();
         events.add(null, EventType.NICKNAME_TO_RECONNECT);
     }
 
@@ -1169,19 +1170,21 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
         System.out.println("in GameFlow --> RECONNECT()");
 
-            ui.show_joiningToGameMsg(nick, color);
-            try {
-                clientActions.reconnect(nickname, idGame);
-            } catch (IOException | InterruptedException | NotBoundException e) {
-                noConnectionError();
-            }
-            ui.show_failedReconnectionMsg(nick);
-            try {
-                this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            events.add(null,BACK_TO_MENU);
+        ui.show_joiningToGameMsg(nick, color);
+        try {
+            clientActions.reconnect(nickname, idGame);
+        } catch (IOException | InterruptedException | NotBoundException e) {
+            noConnectionError();
+        }
+        /*
+        ui.show_failedReconnectionMsg(nick);
+        try {
+            this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        events.add(null,BACK_TO_MENU);
+         */
     }
 
     /**
@@ -1193,7 +1196,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void errorReconnecting(String why) throws RemoteException{
         ui.show_failedReconnectionMsg(why);
+        try {
+            this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         events.add(null, ERROR_RECONNECTING);
+
     }
 
     /**

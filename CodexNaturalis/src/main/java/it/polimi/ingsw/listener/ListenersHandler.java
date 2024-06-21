@@ -300,7 +300,18 @@ public class ListenersHandler {
             }
         }
     }
-
+    public void notify_ReconnectionFailed(String msg) {
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.errorReconnecting(msg);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_ReconnectionFailed, a disconnection has been detected before heartbeat");
+                i.remove();
+            }
+        }
+    }
     /**
      * Notifies the view to ask for reconnection if a player is trying to reconnect.
      *

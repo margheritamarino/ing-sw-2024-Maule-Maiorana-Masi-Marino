@@ -19,7 +19,7 @@ public class ClientMsgReconnect extends ClientGenericMessage {
      * @param nick the player's nickname
      */
     public ClientMsgReconnect(String nick) {
-        this.nickname = nickname;
+        this.nickname = nick;
         this.isJoinGame= true; //?? giusto??
     }
 
