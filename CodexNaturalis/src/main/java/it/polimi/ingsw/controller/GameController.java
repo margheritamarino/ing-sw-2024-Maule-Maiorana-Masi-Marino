@@ -104,7 +104,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public void run() {
         while (!Thread.interrupted()) {
-            //checks all the ping messages to detect disconnections
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
                     Iterator<Map.Entry<GameListenerInterface, Ping>> pingIter = receivedPings.entrySet().iterator();
@@ -149,8 +148,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @return true if the game starts, false otherwise
      */
     @Override
-    public synchronized boolean playerIsReadyToStart(GameListenerInterface lis, String player) { //tolto synchronized
-        System.out.println("in GameController- playerIsReadyToStart");
+    public synchronized boolean playerIsReadyToStart(GameListenerInterface lis, String player) {
         model.playerIsReadyToStart(model.getPlayerByNickname(player));
         if (model.arePlayersReadyToStartAndEnough()){
             ArrayList<Player> players= model.getPlayers();
@@ -471,18 +469,15 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
         if(!isGameCreated()){
-            System.out.println("GameController - JoinGame: creating a new Game");
             model.createGame(lis, nick);
 
 
         }else{
-            System.out.println("GameController - JoinGame: Game already existing");
             //synchronized (Color.class) {
             Color randColor = Color.getRandomColor();
             model.addPlayer(lis, nick, randColor);
             //}
-            model.getPlayerByNickname(nick).setConnected(true); //meglio metterlo in game ADD_PLAYER?
-            System.out.println("GameController - JoinGame: Player setted CONNECTED");
+            model.getPlayerByNickname(nick).setConnected(true);
         }
     }
 
@@ -524,7 +519,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void sentMessage(Message msg) throws RemoteException{
-        System.out.println("GameController forwarding message: " + msg.getText());
         model.sentMessage(msg);
     }
 

@@ -219,15 +219,6 @@ public class ResourceCard extends PlayableCard implements Serializable {
     *
     * @return A formatted string representing the card.
     */
-
-//TODO: Metodo come le Initial card
-   //TODO: modificare e fare i victoryPoints in alto nella riga delle emoji angoli TL e TR
-   //TODO: dopo aver fatto le carte modificare come viene mostrata la board nella TUI perchè dà errore -> vedi show_InitialCard
-   //TODO per le GOLD: se si riesce a mettere i punti in alto aggiungere anche la condizione di punti se c'è
-   //TODO GOLD:         invece in basso aggiungere la condizione di piazzamento
-   //TODO alla fine: modificare i default Values printHEight e printLenght in DefaultValue per diminuire la grandezza
-   //
-
    @Override
    public String toString() {
       StringBuilder result = new StringBuilder();
