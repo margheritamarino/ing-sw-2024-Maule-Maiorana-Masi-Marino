@@ -50,10 +50,20 @@ public abstract class ClientGenericMessage implements Serializable{
     }
 
 
+    /**
+     * Getter method to check if the client has successfully joined a game.
+     *
+     * @return {@code true} if the client has successfully joined a game, {@code false} otherwise.
+     */
     public boolean isJoinGame() {
         return isJoinGame;
     }
 
+    /**
+     * Setter method to set the status of whether the client has joined a game or not.
+     *
+     * @param joinGame {@code true} to indicate that the client has successfully joined a game, {@code false} otherwise.
+     */
     public void setJoinGame(boolean joinGame) {
         isJoinGame = joinGame;
     }

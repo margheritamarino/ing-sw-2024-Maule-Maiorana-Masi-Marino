@@ -2,13 +2,9 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
-import it.polimi.ingsw.model.interfaces.PlayableCardIC;
-import org.fusesource.jansi.Ansi;
 
 import java.io.Serializable;
 import java.util.*;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * Abstract class that represents a card that can be played in the game.

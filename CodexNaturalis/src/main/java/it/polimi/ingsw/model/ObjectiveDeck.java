@@ -5,9 +5,6 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 import it.polimi.ingsw.exceptions.DeckEmptyException;
-import it.polimi.ingsw.exceptions.FileCastException;
-import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.exceptions.JSONParsingException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 
 import java.io.*;

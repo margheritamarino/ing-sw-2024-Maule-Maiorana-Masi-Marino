@@ -339,11 +339,11 @@
     resize: vertical; /* Permette il ridimensionamento solo verticale */
 }
 .list-view {
-    -fx-font-size: 18px; /* Dimensione del testo degli elementi */
+    -fx-font-size: 12px; /* Dimensione del testo degli elementi */
     -fx-font-weight: bold; /* Testo grassetto */
     -fx-border-color: #cccccc; /* Colore del bordo degli elementi */
     -fx-border-width: 1px; /* Spessore del bordo degli elementi */
-    -fx-padding: 10px; /* Spaziatura interna degli elementi */
+    -fx-padding: 5px; /* Spaziatura interna degli elementi */
 }
 .popupPane {
     -fx-border-color: green;

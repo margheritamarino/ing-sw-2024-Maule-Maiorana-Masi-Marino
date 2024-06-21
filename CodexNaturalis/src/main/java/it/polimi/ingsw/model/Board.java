@@ -6,8 +6,6 @@ import it.polimi.ingsw.model.cards.*;
 import java.io.Serializable;
 import java.util.*;
 
-import static it.polimi.ingsw.network.PrintAsync.printAsync;
-
 /**
  * Board model class
  * This class represents the game board that contains decks of cards and cards placed on the board.

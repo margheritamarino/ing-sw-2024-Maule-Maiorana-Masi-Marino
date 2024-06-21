@@ -267,6 +267,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         Player p = model.getPlayerByNickname(nick);
         if(p!=null) {
             model.removeListener(listener);
+            p.removeListener(listener);
             if (model.getStatus().equals(GameStatus.WAIT)) {
                 //The game is in Wait (game not started yet), the player disconnected, so I remove him from the game)
                 model.removePlayer(nick); //remove Player from the Game
@@ -300,24 +301,18 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public synchronized void reconnect(GameListenerInterface lis, String nick) throws RemoteException {
          Player disconnectedPlayer;
-             try {
-                 disconnectedPlayer = model.getPlayerByNickname(nick);
-                        //The game exists, check if nickname exists
-                 if(disconnectedPlayer!=null) {
-                     disconnectedPlayer.addListener(lis);
-                     model.addListener(lis);
-                     this.reconnectPlayer(disconnectedPlayer);
-                 }
-                 else{
-                   //Game exists but the nick no
-                     printAsync("The nickname used was not connected in a running game");
-                 }
-             }catch (GameEndedException e){
-                 model.removeListener(lis);
-                 printAsync("Reconnection FAILED");
-                 //notifyReconnectionFailed
-             }
 
+         disconnectedPlayer = model.getPlayerByNickname(nick);
+                //The game exists, check if nickname exists
+         if(disconnectedPlayer!=null) {
+             disconnectedPlayer.addListener(lis);
+             model.addListener(lis);
+             this.reconnectPlayer(lis,disconnectedPlayer);
+         }
+         else{
+           //Game exists but the nick no
+             printAsync("The nickname used was not connected in a running game");
+         }
     }
 
         /**
@@ -372,12 +367,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * Reconnect the player with the nickname @param to the game
      *
      * @param p Player that want to reconnect
-     * @throws PlayerAlreadyInException if a player tries to rejoin the same game
-     * @throws MaxPlayersInException    if there are already 4 players in game
-     * @throws GameEndedException       the game is ended
      */
-    public void reconnectPlayer(Player p) throws GameEndedException {
-        boolean outputres = model.reconnectPlayer(p);
+    public void reconnectPlayer(GameListenerInterface lis, Player p) {
+        boolean outputres = model.reconnectPlayer(lis, p);
 
         if (outputres && getNumOfOnlinePlayers() > 1) {
             stopReconnectionTimer();
@@ -472,8 +464,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             Color randColor = Color.getRandomColor();
             model.addPlayer(lis, nick, randColor);
             //}
-            model.getPlayerByNickname(nick).setConnected(true); //meglio metterlo in game ADD_PLAYER?
-            System.out.println("GameController - JoinGame: Player setted CONNECTED");
+            //model.getPlayerByNickname(nick).setConnected(true); //meglio metterlo in game ADD_PLAYER?
+           // System.out.println("GameController - JoinGame: Player setted CONNECTED");
         }
     }
 
@@ -504,7 +496,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.addPlayer(lis, nick, randColor);
         //}
 
-        model.getPlayerByNickname(nick).setConnected(true);
+        //model.getPlayerByNickname(nick).setConnected(true);
     }
 
     /**

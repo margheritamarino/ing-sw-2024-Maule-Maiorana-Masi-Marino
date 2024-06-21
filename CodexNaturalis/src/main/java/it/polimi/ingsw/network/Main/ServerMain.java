@@ -17,8 +17,19 @@ import java.rmi.RemoteException;
 
 
 
-
+/**
+ * The main class for the server application. Handles the initialization
+ * and startup of the RMI and TCP servers.
+ */
 public class ServerMain {
+    /**
+     * The main method that serves as the entry point for the server application.
+     * It prompts the user to input the server IP address, configures the RMI server,
+     * and starts the TCP server.
+     *
+     * @param args the command-line arguments (not used)
+     * @throws IOException if an I/O error occurs
+     */
     public static void main(String[] args) throws IOException {
 
         String input;
@@ -76,6 +87,12 @@ public class ServerMain {
         System.out.println("Server started!");
     }
 
+    /**
+     * Validates the given IP address.
+     *
+     * @param input the IP address to validate
+     * @return true if the input value is a valid IP address (X.X.X.X with 0 <= X <= 255), false otherwise
+     */
     private static boolean isValidIP(String input) {
         List<String> parsed;
         parsed = Arrays.stream(input.split("\\.")).toList();
@@ -96,6 +113,9 @@ public class ServerMain {
     }
 
 
+    /**
+     * Clears the terminal screen. Works for both Windows and Unix-based systems.
+     */
     private static void clearCMD() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {

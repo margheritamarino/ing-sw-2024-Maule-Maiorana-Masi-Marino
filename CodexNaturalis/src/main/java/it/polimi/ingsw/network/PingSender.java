@@ -14,16 +14,27 @@ import static it.polimi.ingsw.model.DefaultValue.secondToWaitToSend_ping;
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 
+/**
+ * Thread responsible for sending periodic "ping" messages to the server to indicate that the client is still active.
+ */
 public class PingSender extends Thread{
     private final Flow flow;
     private final ClientInterface clientSender;
 
+    /**
+     * Constructs a PingSender instance with the specified Flow and ClientInterface.
+     *
+     * @param flow         The flow instance for handling network errors.
+     * @param clientSender The client interface used to send ping messages.
+     */
     public PingSender(Flow flow, ClientInterface clientSender) {
         this.flow=flow;
         this.clientSender=clientSender;
     }
 
-
+    /**
+     * Executes the thread's task of sending periodic "ping" messages to the server.
+     */
     @Override
     public void run() {
         while (!Thread.interrupted()) {

@@ -229,10 +229,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_PlayerReconnectedMsg(event.getModel(), nickname);
                 ui.show_nextTurnMsg(event.getModel());
 
-                if (event.getModel().getCurrentPlayer().getNickname().equals(nickname) && nickname.equals(lastPlayerReconnected)) { //se il giocatore riconnesso è quello corrente
+                if (lastPlayerReconnected.equals(nickname)) {
                     ui.show_CurrentTurnMsg(event.getModel());
                     askPlaceCards(event.getModel(), nickname);
-                } else{
+                }
+                else{
                     ui.show_WaitTurnMsg(event.getModel(), nickname);
                 }
             }
@@ -911,8 +912,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws RemoteException If there is an issue with remote communication.
      */
     @Override
-    public void AskForReconnection (Player triedToJoin, GameImmutable gameModel) throws RemoteException{
+    public void AskForReconnection(Player triedToJoin, GameImmutable gameModel) throws RemoteException{
         System.out.println("in joinUnableNicknameAlreadyIn - NON CONNESSO --> chiama askReconnection \n");
+        this.nickname=triedToJoin.getNickname();
         events.add(null, EventType.NICKNAME_TO_RECONNECT);
     }
 
@@ -1131,7 +1133,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
         ui.addImportantEvent("Player " + nick + " has just disconnected");
-        //model.getPlayerByNickname(nick).setConnected(false);//setta il giocatore come disconnesso --> viene settato nel Model
+        model.getPlayerByNickname(nick).setConnected(false);//setta il giocatore come disconnesso --> viene settato nel Model
 
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         if (model.getStatus().equals(GameStatus.WAIT)) {
@@ -1168,19 +1170,21 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
         System.out.println("in GameFlow --> RECONNECT()");
 
-            ui.show_joiningToGameMsg(nick, color);
-            try {
-                clientActions.reconnect(nick, idGame);
-            } catch (IOException | InterruptedException | NotBoundException e) {
-                noConnectionError();
-            }
-//            ui.show_failedReconnectionMsg(nick);
-//            try {
-//                this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            events.add(null,BACK_TO_MENU);
+        ui.show_joiningToGameMsg(nick, color);
+        try {
+            clientActions.reconnect(nickname, idGame);
+        } catch (IOException | InterruptedException | NotBoundException e) {
+            noConnectionError();
+        }
+        /*
+        ui.show_failedReconnectionMsg(nick);
+        try {
+            this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        events.add(null,BACK_TO_MENU);
+         */
     }
 
     /**
@@ -1192,7 +1196,13 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void errorReconnecting(String why) throws RemoteException{
         ui.show_failedReconnectionMsg(why);
+        try {
+            this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         events.add(null, ERROR_RECONNECTING);
+
     }
 
     /**

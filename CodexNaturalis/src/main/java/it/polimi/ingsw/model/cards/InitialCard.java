@@ -3,13 +3,10 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
-import org.fusesource.jansi.Ansi;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * Initial Card class
@@ -223,8 +220,8 @@ public class InitialCard extends PlayableCard implements Serializable {
      @Override
      public String toString() {
          StringBuilder result = new StringBuilder();
-         Ansi.Color bgColor = Ansi.Color.YELLOW;
-         Ansi.Color textColor = Ansi.Color.WHITE;
+         //Ansi.Color bgColor = Ansi.Color.YELLOW;
+         //Ansi.Color textColor = Ansi.Color.WHITE;
          String cardTypeName = "InitialCard";
          String FoB = isFront() ? "Front" : "Back";
 
@@ -295,8 +292,8 @@ public class InitialCard extends PlayableCard implements Serializable {
 
          result.append(border).append("\n");
 
-         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
-         return finalResult;
+         //String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
+         return result.toString();
      }
 
     /**
@@ -333,7 +330,9 @@ public class InitialCard extends PlayableCard implements Serializable {
         return "[" + content + " ".repeat(padding) + "]";
     }
 
+
 }
+
 
 
 

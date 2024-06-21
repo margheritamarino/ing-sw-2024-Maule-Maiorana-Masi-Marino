@@ -14,7 +14,30 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * This class implements the {@link GameListenerInterface} and serves as a client-side listener
+ * for game events received from the server. It forwards these events to the provided {@link Flow}
+ * instance for handling.
+ *
+ * <p>Instances of this class are used to receive various game-related events, such as player actions,
+ * game state changes, and messages, and then delegate these events to the corresponding methods
+ * in the {@link Flow} object, which typically represents the user interface or application flow
+ * control logic.
+ *
+ * <p>Methods in this class are designed to handle remote method calls from the server side of the
+ * application. Each method corresponds to a specific event or action in the game that triggers a
+ * response from the client interface.
+ *
+ * <p>Examples of events handled include player joining and leaving the game, game starting and ending,
+ * card actions (placement and drawing), player readiness status, reconnection requests, and error notifications.
+ * For each event, the corresponding method in the {@link Flow} object is invoked to update the client
+ * interface or application state accordingly.
+ *
+ * <p>Instances of this class are typically created and maintained by the client-side application to manage
+ * real-time updates and interactions with the game server.
+ */
 public class GameListenersClient implements GameListenerInterface, Serializable {
+
 
     private Flow flow;
 
@@ -134,7 +157,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
         flow.errorReconnecting(why);
     }
 
-        @Override
+    @Override
     public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
         flow.sentMessage(model, msg);
     }
