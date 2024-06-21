@@ -188,18 +188,14 @@ public class ObjectiveCard implements Serializable {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        Ansi.Color bgColor = Ansi.Color.DEFAULT;
-        Ansi.Color textColor = Ansi.Color.WHITE;
         String condition = " ";
         List<String> emojiSymbol = new ArrayList<>();
 
         switch (goalType) {
             case ResourceCondition:
-                changeColor();
                 condition = convertToEmoji(mainResource.toString());
                 break;
             case SymbolCondition:
-                bgColor = Ansi.Color.YELLOW;
                 List<SymbolType> symbols = getSymbols();
                 for (SymbolType s : symbols) {
                     emojiSymbol.add(convertToEmoji(s.toString()));
@@ -207,11 +203,9 @@ public class ObjectiveCard implements Serializable {
                 break;
             case DiagonalPlacement:
             case LPlacement:
-                changeColor();
                 condition = direction.toString();
                 break;
             default:
-                bgColor = Ansi.Color.DEFAULT;
         }
 
         String cardTypeName = "ObjectiveCard";
@@ -255,26 +249,8 @@ public class ObjectiveCard implements Serializable {
 
         result.append(borderLine).append("\n");
 
-        String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
 
-        return finalResult;
-    }
-
-
-    /**
-     * Changes the background color of the card based on the main resource type.
-     * Uses ANSI colors for visual representation.
-     * If the main resource does not match any supported type, the default color is used.
-     */
-    public void changeColor(){
-        Ansi.Color bgColor = switch (mainResource) {
-            case Fungi -> Ansi.Color.RED;
-            case Insect -> Ansi.Color.MAGENTA;
-            case Plant -> Ansi.Color.GREEN;
-            case Animal -> Ansi.Color.BLUE;
-            default -> Ansi.Color.DEFAULT;
-        };
-        //cambia il colore della carta in base alla mainResource
+        return result.toString();
     }
 
     /**

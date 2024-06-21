@@ -223,8 +223,8 @@ public class InitialCard extends PlayableCard implements Serializable {
      @Override
      public String toString() {
          StringBuilder result = new StringBuilder();
-         Ansi.Color bgColor = Ansi.Color.YELLOW;
-         Ansi.Color textColor = Ansi.Color.WHITE;
+         //Ansi.Color bgColor = Ansi.Color.YELLOW;
+         //Ansi.Color textColor = Ansi.Color.WHITE;
          String cardTypeName = "InitialCard";
          String FoB = isFront() ? "Front" : "Back";
 
@@ -295,8 +295,8 @@ public class InitialCard extends PlayableCard implements Serializable {
 
          result.append(border).append("\n");
 
-         String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
-         return finalResult;
+         //String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
+         return result.toString();
      }
 
     /**
@@ -333,7 +333,9 @@ public class InitialCard extends PlayableCard implements Serializable {
         return "[" + content + " ".repeat(padding) + "]";
     }
 
+
 }
+
 
 
 

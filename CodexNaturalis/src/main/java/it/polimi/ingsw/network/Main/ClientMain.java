@@ -15,8 +15,19 @@ import java.util.Scanner;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * The main class for the client application. Handles user input to configure
+ * and start the game with the desired settings.
+ */
 public class ClientMain {
 
+    /**
+     * The main method that serves as the entry point for the client application.
+     * It handles the user input for configuring the server IP, client IP, and
+     * selecting the UI and communication protocol to be used.
+     *
+     * @param args the command-line arguments (not used)
+     */
     public static void main(String[] args) {
         clearCMD(); //ripulisco il terminale
         int selection;
@@ -105,6 +116,9 @@ public class ClientMain {
 
     }
 
+    /**
+     * Clears the terminal screen. Works for both Windows and Unix-based systems.
+     */
     private static void clearCMD() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {

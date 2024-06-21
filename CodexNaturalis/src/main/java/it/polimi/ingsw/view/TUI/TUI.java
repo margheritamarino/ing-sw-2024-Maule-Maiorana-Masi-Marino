@@ -180,25 +180,30 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // Codici ANSI per il grassetto
+        String boldStart = "\u001B[1m";
+        String boldEnd = "\u001B[0m";
+
         //printAsync(model.getBoard().toString());
         System.out.print("***********BOARD***********\n");
         System.out.print("\n");
 
         // GOLDCARDS
-        System.out.print(ColorConsole.YELLOW_BACKGROUND.getCode()+ColorConsole.BLACK.getCode()+"***GOLDCARDS***: \n"+ColorConsole.RESET.getCode());
+        System.out.print(boldStart +"***GOLDCARDS***: \n" + boldEnd);
         System.out.print("\n");
         System.out.print(model.getBoard().cardsGoldToString());
         System.out.print("\n");
 
 
         // RESOURCECARDS
-        System.out.print(ColorConsole.GREEN.getCode()+"***RESOURCECARDS***: \n"+ ColorConsole.RESET.getCode());
+        System.out.print(boldStart + "***RESOURCECARDS***: \n" + boldEnd);
         System.out.print("\n");
         System.out.print(model.getBoard().cardsResourceToString());
         System.out.print("\n");
 
         // OBJECTIVE
-        System.out.print(ColorConsole.RED_BRIGHT.getCode()+"*******COMMON GOALS*******: \n"+ ColorConsole.RESET.getCode());
+        System.out.print(boldStart + "*******COMMON GOALS*******: \n" + boldEnd);
         System.out.print("\n");
         System.out.print(model.getBoard().cardsObjectiveToString());
         System.out.print("\n");
@@ -224,7 +229,14 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("*** YOUR DECK ***");
+
+        // Codici ANSI per il grassetto
+        String boldStart = "\u001B[1m";
+        String boldEnd = "\u001B[0m";
+
+        // Stampa del messaggio in grassetto
+        printAsync(boldStart + "*** YOUR DECK ***" + boldEnd);
+
         Player p = model.getPlayerByNickname(nick);
       /*  for (int i = 0; i < p.getPlayerDeck().miniDeck.size(); i++) {
             printAsync("[" + i + "]: \n" + p.getPlayerDeck().miniDeck.get(i).toString());
@@ -880,7 +892,7 @@ public class TUI extends UI {
 
      */
 
-
+/*
     private String getColorCode(CardType cardType){
         switch(cardType) {
             case GoldCard: {
@@ -899,6 +911,8 @@ public class TUI extends UI {
         }
         return ColorConsole.RESET.getCode();
     }
+
+ */
 
 
     @Override
