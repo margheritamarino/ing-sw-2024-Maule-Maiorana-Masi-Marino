@@ -255,7 +255,7 @@ public class ListenersHandler {
 
                 }
             } catch (RemoteException e) {
-                printAsync("During notification of notify_LastCircle, a disconnection has been detected before ping");
+                printAsync("During notification of notify_PointsAdded, a disconnection has been detected before ping");
                 i.remove();
             }
         }
