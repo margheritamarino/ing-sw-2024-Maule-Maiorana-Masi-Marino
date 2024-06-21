@@ -266,8 +266,6 @@ public class GUI extends UI {
         pause.play();
     }
 
-    private boolean openReconnectPopUp=false;
-
     /**
      * Shows a message indicating joining to a game with the chosen nickname.
      *
@@ -276,9 +274,6 @@ public class GUI extends UI {
      */
     @Override
     public void show_joiningToGameMsg(String nick, Color color) {
-        if(openReconnectPopUp){
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
-        }
         show_popupInfoAndNickname(nickname, "Trying to join a Game...");
     }
 
@@ -679,10 +674,10 @@ public class GUI extends UI {
     @Override
     public void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected) {
         if(nick.equals(lastPlayerReconnected)){
-
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
             callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+
             callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
             callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
             show_playerBook(model);
@@ -715,7 +710,8 @@ public class GUI extends UI {
     public void show_askForReconnection(){
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.RECONNECT_POPUP);
-            openReconnectPopUp=true;
+
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
         });
     }
 

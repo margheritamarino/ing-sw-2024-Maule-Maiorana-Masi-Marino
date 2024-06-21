@@ -1164,7 +1164,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
         System.out.println("in GameFlow --> RECONNECT()");
 
-        ui.show_joiningToGameMsg(nick, color);
+        //ui.show_joiningToGameMsg(nick, color);
         try {
             clientActions.reconnect(nickname, idGame);
         } catch (IOException | InterruptedException | NotBoundException e) {

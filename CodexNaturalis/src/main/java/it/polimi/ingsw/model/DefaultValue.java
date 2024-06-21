@@ -34,7 +34,7 @@ public class DefaultValue implements Serializable {
     public final static int MaxEventToShow = 3;
     public final static String Default_servername_RMI = "CodexNaturalis";
 
-    public final static int secondsToWaitReconnection = 30;
+    public final static int secondsToWaitReconnection = 60;
     public final static String gameIdTime = "Created";
     public final static String gameIdData = "GameId";
     public final static int twelveHS = 43200;
