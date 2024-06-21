@@ -30,4 +30,13 @@ public enum SceneType {
         this.path = path;
     }
 
+    /**
+     * Get the file path of the FXML file associated with the SceneType.
+     *
+     * @return The file path as a String.
+     */
+    public String path() {
+        return path;
+    }
+
 }

@@ -30,13 +30,12 @@ import javafx.stage.StageStyle;
 /**
  * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
  * methods to change the scene and to get the controller of a specific scene.
- *
  */
 public class GUIApplication extends Application {
 
     private GameFlow gameFlow;
     private Stage primaryStage, popUpStage;
-    private StackPane root; //radice dell'interfaccia utente
+    private StackPane root;
     private ArrayList<SceneInformation> scenes;
     private boolean resizing=true;
     private double widthOld, heightOld;
@@ -55,21 +54,20 @@ public class GUIApplication extends Application {
 
         if (unnamedParams == null || unnamedParams.isEmpty()) {
             System.err.println("No parameteres for ConnectionType. Used SOCKET.");
-            connectionType = ConnectionType.SOCKET; // Valore predefinito
+            connectionType = ConnectionType.SOCKET;
         } else {
             String firstParam = unnamedParams.getFirst();
             try {
                 connectionType = ConnectionType.valueOf(firstParam);
             } catch (IllegalArgumentException e) {
                 System.err.println("Parameter not valid for ConnectionType: " + firstParam + ". Used SOCKET.");
-                connectionType = ConnectionType.SOCKET; // Valore predefinito in caso di errore
+                connectionType = ConnectionType.SOCKET;
             }
         }
 
-        // Crea GameFlow con il ConnectionType
         gameFlow = new GameFlow(this, connectionType);
 
-        loadScenes(); //carica le scene
+        loadScenes();
 
         this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
@@ -86,20 +84,19 @@ public class GUIApplication extends Application {
      */
     private void loadScenes() {
         scenes = new ArrayList<>();
-        FXMLLoader loader; //formato per definire l'interfaccia utente dell'applicazione JavaFX in modo dichiarativo e che associa un controller ad ogni vista caricata
+        FXMLLoader loader;
         Parent root;
         ControllerGUI controller;
 
         for (SceneType sceneType : SceneType.values()) {
             String path = sceneType.path();
-            System.out.println("Loading FXML file: " + path); // Messaggio di debug
+            System.out.println("Loading FXML file: " + path);
             loader = new FXMLLoader(getClass().getResource(path));
             try {
                 root = loader.load();
                 controller = loader.getController();
                 Scene scene = new Scene(root);
 
-                // Imposta il controller come UserData della scena
                 scene.setUserData(controller);
 
                 scenes.add(new SceneInformation(scene, sceneType, controller));
@@ -135,7 +132,6 @@ public class GUIApplication extends Application {
         return null;
     }
 
-    //ritorna l'indice di quella scena nell'elenco delle scene
     private int getSceneIndex(SceneType scene) {
         for (int i = 0; i < scenes.size(); i++) {
             if (scenes.get(i).getSceneType().equals(scene))
@@ -149,9 +145,9 @@ public class GUIApplication extends Application {
      * @param scene the scene {@link SceneType}
      */
     public void setActiveScene(SceneType scene) {
-        this.primaryStage.setTitle("Codex Naturalis - " + scene.name()); //imposta il titolo della finestra principale aggiungendo il nome della scena attiva
-        resizing = false; //disabilità la possibilità di ridimensionare la finestra durante il cambio di scena
-        int index = getSceneIndex(scene); //indice della scena
+        this.primaryStage.setTitle("Codex Naturalis - " + scene.name());
+        resizing = false;
+        int index = getSceneIndex(scene);
         if (index != -1) {
             SceneInformation s = scenes.get(index);
             switch (scene) {
