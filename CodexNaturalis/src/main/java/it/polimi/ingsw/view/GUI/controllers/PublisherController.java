@@ -8,20 +8,13 @@ import javafx.scene.layout.Pane;
 /**
  * PublisherController class.
  */
-
 public class PublisherController extends ControllerGUI{
 
     @FXML
-    private Pane CodexNaturalis; // Assicurati che l'ID corrisponda a quello del file FXML
-
-    @FXML
-    private ImageView backgroundImageView; // Aggiungi un fx:id nel file FXML se desideri fare riferimento all'ImageView
-
+    private Pane CodexNaturalis;
 
     @FXML
     private void initialize() {
-        // Questo metodo viene chiamato automaticamente dopo che gli elementi FXML sono stati iniettati
-
     }
 }
 

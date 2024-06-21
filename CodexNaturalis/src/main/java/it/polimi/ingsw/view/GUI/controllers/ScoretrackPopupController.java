@@ -10,9 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class for managing the scoretrack popup
+ */
 public class ScoretrackPopupController extends ControllerGUI {
 
     @FXML
@@ -75,25 +77,41 @@ public class ScoretrackPopupController extends ControllerGUI {
     private Button btnPoints19;
     @FXML
     private Button btnPoints20;
-
     private List<Player> playersWithPoints;
-
     private GUIApplication guiApplication;
 
+
+    /**
+     * Sets the GUIApplication instance for handling popup stage operations.
+     *
+     * @param guiApplication the GUIApplication instance
+     */
     public void setGUIApplication(GUIApplication guiApplication) {
         this.guiApplication = guiApplication;
     }
 
+    /**
+     * Sets the text color for a Text object based on a Color enumeration.
+     *
+     * @param text the Text object to set the color for
+     * @param color the Color enumeration representing the desired color
+     */
     private void setTextColor(Text text, Color color) {
         switch (color) {
             case YELLOW -> text.setStyle("-fx-fill: yellow;");
             case RED -> text.setStyle("-fx-fill: red;");
             case BLUE -> text.setStyle("-fx-fill: blue;");
             case GREEN -> text.setStyle("-fx-fill: green;");
-            default -> text.setStyle("-fx-fill: black;"); // Default to black if no color matches
+            default -> text.setStyle("-fx-fill: black;");
         }
     }
 
+    /**
+     * Sets the username and text color for the player at the specified index.
+     *
+     * @param player the Player object containing nickname and color information
+     * @param indexPlayer the index of the player (0 to 3)
+     */
     public void setUsername(Player player, int indexPlayer) {
         String nickname = player.getNickname();
         Color color = player.getPlayerColor();
@@ -118,6 +136,13 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
     }
 
+
+    /**
+     * Sets the points for the player at the specified index.
+     *
+     * @param points the points to set
+     * @param indexPlayer the index of the player (0 to 3)
+     */
     public void setPoints(int points, int indexPlayer) {
         switch (indexPlayer) {
             case 0 -> points0.setText(String.valueOf(points));
@@ -128,6 +153,9 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
     }
 
+    /**
+     * Initializes the button array for score points.
+     */
     @FXML
     private void initialize() {
         btnPoints = new Button[] {
@@ -139,6 +167,12 @@ public class ScoretrackPopupController extends ControllerGUI {
         };
     }
 
+    /**
+     * Sets the score track for the popup, updating player names, scores,
+     * and button glows based on current score track information.
+     *
+     * @param model the GameImmutable model containing score track information
+     */
     public void setScoreTrack(GameImmutable model) {
         ScoreTrack scoretrack = model.getScoretrack();
         playersWithPoints = scoretrack.getPlayersByScore();
@@ -153,13 +187,15 @@ public class ScoretrackPopupController extends ControllerGUI {
         updateAllPlayerScores(model);
     }
 
+    /**
+     * Updates the button glow based on the current score track.
+     *
+     * @param scoretrack the ScoreTrack object containing score information
+     */
     private void updateButtonGlow(ScoreTrack scoretrack) {
-        // Resetta lo stile di tutti i bottoni
         for (Button button : btnPoints) {
             resetButtonStyle(button);
         }
-
-        // Imposta l'effetto glow del colore del giocatore per il relativo bottone
         for (Player player : playersWithPoints) {
             int playerScore = scoretrack.getPlayerScore(player);
             switch (player.getPlayerColor()) {
@@ -172,15 +208,30 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
     }
 
+    /**
+     * Handles the action when the popup is closed.
+     *
+     * @param event the action event triggering the method call
+     */
     @FXML
     private void handleCloseAction(ActionEvent event) {
         this.guiApplication.closePopUpStage();
     }
 
+    /**
+     * Highlights a specific button with a glow effect.
+     *
+     * @param button the Button object to highlight
+     */
     private void highlightButton(Button button) {
         button.getStyleClass().add("button-glow");
     }
 
+    /**
+     * Resets the style of a button, removing any glow effects.
+     *
+     * @param button the Button object to reset
+     */
     private void resetButtonStyle(Button button) {
         button.getStyleClass().remove("button-glow-yellow");
         button.getStyleClass().remove("button-glow-red");
@@ -188,62 +239,30 @@ public class ScoretrackPopupController extends ControllerGUI {
         button.getStyleClass().remove("button-glow-green");
     }
 
-    /*
-
-    public void updatePlayerScore(Player player, int newScore, GameImmutable model) {
-        ScoreTrack scoretrack = model.getScoretrack();
-        int oldScore = scoretrack.getPlayerScore(player);
-        int index = playersWithPoints.indexOf(player);
-        if (index != -1) {
-            // Aggiorna il punteggio nel modello
-            scoretrack.setPlayerScore(player, newScore);
-
-            // Aggiorna il punteggio nel controller
-            setPoints(newScore, index);
-
-            // Resetta lo stile del vecchio bottone
-            if (oldScore >= 0 && oldScore < btnPoints.length) {
-                resetButtonStyle(btnPoints[oldScore]);
-            }
-
-            // Applica lo stile al nuovo bottone
-            if (newScore >= 0 && newScore < btnPoints.length) {
-                highlightButton(btnPoints[newScore]);
-            }
-
-            // Aggiorna il glow dei bottoni
-            updateButtonGlow(scoretrack);
-        }
-    }
-
+    /**
+     * Updates scores for all players based on the current score track.
+     *
+     * @param model the GameImmutable model containing score track information
      */
-
-
-
     public void updateAllPlayerScores(GameImmutable model) {
         ScoreTrack scoretrack = model.getScoretrack();
         playersWithPoints = scoretrack.getPlayersByScore();
 
-        // Resetta lo stile di tutti i bottoni
         for (Button button : btnPoints) {
             resetButtonStyle(button);
         }
 
-        // Itera su tutti i giocatori e aggiorna i punteggi
         for (int i = 0; i < playersWithPoints.size(); i++) {
             Player player = playersWithPoints.get(i);
             int newScore = scoretrack.getPlayerScore(player);
 
-            // Aggiorna il punteggio nel controller
             setPoints(newScore, i);
 
-            // Applica lo stile al nuovo bottone
             if (newScore >= 0 && newScore < btnPoints.length) {
                 highlightButton(btnPoints[newScore]);
             }
         }
 
-        // Aggiorna il glow dei bottoni
         updateButtonGlow(scoretrack);
     }
 }

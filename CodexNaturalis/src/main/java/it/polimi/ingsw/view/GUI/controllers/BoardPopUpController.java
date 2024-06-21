@@ -11,6 +11,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 
+/**
+ * Controller class for the board pop-up view in the GUI.
+ */
 public class BoardPopUpController extends ControllerGUI{
 
 
@@ -33,15 +36,26 @@ public class BoardPopUpController extends ControllerGUI{
     private GUIApplication guiApplication;
 
 
+    /**
+     * Sets the GUI application instance for this controller.
+     *
+     * @param guiApplication the GUI application instance
+     */
     public void setGUIApplication(GUIApplication guiApplication) {
         this.guiApplication = guiApplication;
     }
+
+    /**
+     * Sets the board state in the view based on the game model.
+     *
+     * @param model the immutable game model containing the current state of the game
+     */
     public void setBoard(GameImmutable model) {
-        //BOARD
         Board board = model.getBoard();
         String imagePath;
         int goldRandIndex= board.getGoldCardsDeck().getRandomIndex();
         int resourceRandIndex=board.getResourcesCardsDeck().getRandomIndex();
+
         //GOLD CARD
         imagePath = board.getGoldCardsDeck().getBackCards().get(goldRandIndex).getImagePath();
         imgDeckGold.setImage(new Image(imagePath));
@@ -66,11 +80,16 @@ public class BoardPopUpController extends ControllerGUI{
         imgObjective1.setImage(new Image(imagePath));
 
     }
+
+    /**
+     * Handles the action to close the board pop-up.
+     *
+     * @param event the action event triggered by closing the pop-up
+     */
     @FXML
     private void handleCloseAction(ActionEvent event) {
         this.guiApplication.closePopUpStage();
     }
-
 
     private boolean pickCardTurn=false;
     @FXML
@@ -79,16 +98,29 @@ public class BoardPopUpController extends ControllerGUI{
     HBox objectiveHbox;
     @FXML
     HBox goldHbox;
+
+    /**
+     * Enlarges and highlights the board pane, enabling card selection.
+     *
+     * @param enablePickCardTurn whether card picking is enabled
+     */
     public void enlargeAndHighlightBoardPane(boolean enablePickCardTurn) {
         goldHbox.getStyleClass().add("gold-glow-hbox");
         resourceHbox.getStyleClass().add("green-glow-hbox");
     }
 
-
+    /**
+     * Enables the card picking turn.
+     */
     public void enablePickCardTurn() {
         pickCardTurn = true;
     }
 
+    /**
+     * Handles the click event on a card image, allowing the player to choose a card.
+     *
+     * @param mouseEvent the mouse event triggered by clicking a card
+     */
     public void chooseCardClick(MouseEvent mouseEvent) {
         if (pickCardTurn) {
             ImageView clickedImageView = (ImageView) mouseEvent.getSource();
@@ -110,36 +142,37 @@ public class BoardPopUpController extends ControllerGUI{
             }
 
             if (selectedIndex != -1) {
-                //ASK CARD TYPE
                 if (selectedIndex == 0 || selectedIndex == 1 ||selectedIndex == 2)
-                    getInputGUI().addTxt("G"); // goldCards
+                    getInputGUI().addTxt("G");
                 else {
-                    getInputGUI().addTxt("R"); // resourceCards
+                    getInputGUI().addTxt("R");
                 }
 
-                //ASK DRAW FROM DECK
                 if (selectedIndex == 2 || selectedIndex == 5){
                     getInputGUI().addTxt("yes");
                 }
-                else { //!drawFromDeck
+                else {
                     getInputGUI().addTxt("no");
                     int pos = 0;
                     if(selectedIndex==0 || selectedIndex==3) {
                         pos=0;
                     }
                     else {
-                        //1-4 (posizione second Card)
                         pos=1;
                     }
                     getInputGUI().addTxt(String.valueOf(pos));
                 }
-                //rimuovo l'immagine della carta selezionata
                 clearCardImage(selectedIndex);
                 pickCardTurn=false;
             }
         }
     }
 
+    /**
+     * Clears the image of the selected card.
+     *
+     * @param index the index of the selected card
+     */
     private void clearCardImage(int index) {
         switch (index) {
             case 0 -> imgGold0.setImage(null);
@@ -150,45 +183,5 @@ public class BoardPopUpController extends ControllerGUI{
             case 5 -> imgDeckResource.setImage(null);
         }
     }
-    /*
-    public void updateBoardPopUp(GameImmutable model){
-        String newImagePath = null;
-        //rimuovo la carta dal modello e ottengo l'immagine relativa
-        switch (selectedIndex) {
-            case 0:
-                        newImagePath = imgDeckGold.getImage().getUrl();
-                        imgGold0.setImage(new Image(newImagePath));
-                newImagePath = model.getBoard().getGoldCardsDeck().getFrontCards().getFirst().getImagePath();
-                imgGold0.setImage(new Image(newImagePath));
-                imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
-                break;
-            case 1:
-                newImagePath = imgDeckGold.getImage().getUrl();
-                imgGold1.setImage(new Image(newImagePath));
-                imgDeckGold.setImage(new Image(model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath()));
-                break;
-            case 2:
-                newImagePath = model.getBoard().getGoldCardsDeck().getBackCards().getFirst().getImagePath();
-                imgDeckGold.setImage(new Image(newImagePath));
-                break;
-            case 3:
-                newImagePath = imgDeckResource.getImage().getUrl();
-                imgResource0.setImage(new Image(newImagePath));
-                imgDeckResource.setImage(new Image(model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath()));
-                break;
-            case 4:
-                newImagePath = imgDeckResource.getImage().getUrl();
-                imgResource1.setImage(new Image(newImagePath));
-                imgDeckResource.setImage(new Image(model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath()));
-                break;
-            case 5:
-                newImagePath = model.getBoard().getResourcesCardsDeck().getBackCards().getFirst().getImagePath();
-                imgDeckResource.setImage(new Image(newImagePath));
-                break;
-        }
-
-        pickCardTurn = false;
-    }
-    }*/
 
 }
