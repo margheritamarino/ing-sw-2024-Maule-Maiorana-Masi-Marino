@@ -657,11 +657,9 @@ public class Game {
 
 	/**
 	 * @param p player is reconnected
-	 * @throws PlayerAlreadyInException player is already in
-	 * @throws MaxPlayersInException    there's already 4 players in game
 	 * @throws GameEndedException       the game has ended
 	 */
-	public boolean reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
+	public boolean reconnectPlayer(Player p) throws GameEndedException {
 		Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 
 		if (!pIn.isConnected()) {
