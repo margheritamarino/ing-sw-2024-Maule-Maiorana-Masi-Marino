@@ -15,7 +15,6 @@ import it.polimi.ingsw.view.Utilities.UI;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.io.PrintStream;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoCursorReset;
@@ -24,15 +23,9 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 
 
-
-//la classe TUI deve funzionare come una vista che consenta al gioco di interagire con l'utente per fargli visualizzare lo stato del gioco e fargli delle richieste
-//deve avere gli show del gioco (showTitle, showScoretrack, showBoard, showPlayerDeck)
-//e dei metodi per interagire con l'utente per fargli operare delle scelte (fare una mossa, scegliere la carta obbiettivo iniziale, scegliere fronte\retro delle carte?)
-
-//il codice ANSI viene usato per controllare gli aspetti visivi della console (colore del testo, sfondo, etc)
 public class TUI extends UI {
 
-    private String nickname; //scopo: personalizzare l'interazione con l'utente
+    private String nickname;
     private boolean alreadyShowedLobby;
 
 
@@ -44,7 +37,7 @@ public class TUI extends UI {
     }
 
 
-    //inizializzo la console ANSI e una lista vuota per memorizzare gli eventi da mostrare
+
     @Override
     public void init() {
         AnsiConsole.systemInstall();
@@ -52,7 +45,7 @@ public class TUI extends UI {
     }
 
 
-    //messaggio di benvenuto per ogni giocatore in grassetto
+
     public void show_welcome(String nick) {
         // Pausa di 1 sec
         try {
@@ -71,13 +64,10 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //toStringListPlayer restituisce la lista dei giocatori attuali
         printAsync( model.toStringListPlayers());
 
     }
     public void show_OrderPlayers(GameImmutable model) {
-        //toStringListPlayer restituisce la lista dei giocatori attuali
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -87,22 +77,9 @@ public class TUI extends UI {
 
     }
 
-    //show di ciò che deve sempre essere mostrato ad ogni giocatore
     public void show_alwaysShow(GameImmutable model, String nick) {
         show_playerDeck(model, nick);
         show_playerBook(model);
-    }
-
-    public void show_alwaysShowForAll(GameImmutable model) {
-        this.clearScreen();
-        show_publisher();
-        show_titleCodexNaturalis();
-        show_gameId(model);
-        show_board(model);
-        show_scoretrack(model);
-        show_important_events();
-        //mostro tutti i messaggi della chat
-        show_messages(model);
     }
 
     @Override
@@ -116,8 +93,6 @@ public class TUI extends UI {
             e.printStackTrace();
         }
 
-
-        //out.print(ColorEnum.YELLOW);
         printAsync (ColorConsole.YELLOW.getCode() +
                 "  +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+\n" +
                 " |C|R|A|N|I|O| |C|R|E|A|T|I|O|N|S|\n" +
@@ -136,14 +111,11 @@ public class TUI extends UI {
      * Prints title of the game
      */
     public void show_titleCodexNaturalis(){
-
-        // Pausa di 1.5 secondi
          try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //out.print(ColorEnum.GREEN_BRIGHT);
         printAsync(ColorConsole.GREEN_BRIGHT.getCode()+
 
                 " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
@@ -162,8 +134,6 @@ public class TUI extends UI {
 
     @Override
     public void show_scoretrack(GameImmutable model) {
-
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -174,18 +144,15 @@ public class TUI extends UI {
 
     @Override
     public void show_board(GameImmutable model) {
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // Codici ANSI per il grassetto
         String boldStart = "\u001B[1m";
         String boldEnd = "\u001B[0m";
 
-        //printAsync(model.getBoard().toString());
         System.out.print("***********BOARD***********\n");
         System.out.print("\n");
 
@@ -212,7 +179,6 @@ public class TUI extends UI {
 
     @Override
     public void show_playerBook(GameImmutable model){
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -223,31 +189,23 @@ public class TUI extends UI {
 
     @Override
     public void show_playerDeck(GameImmutable model, String nick) {
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // Codici ANSI per il grassetto
         String boldStart = "\u001B[1m";
         String boldEnd = "\u001B[0m";
 
-        // Stampa del messaggio in grassetto
         printAsync(boldStart + "*** YOUR DECK ***" + boldEnd);
 
         Player p = model.getPlayerByNickname(nick);
-      /*  for (int i = 0; i < p.getPlayerDeck().miniDeck.size(); i++) {
-            printAsync("[" + i + "]: \n" + p.getPlayerDeck().miniDeck.get(i).toString());
-        }*/
         printAsync(p.getPlayerDeck().toString());
     }
 
     @Override
     public void show_askNum(String msg, GameImmutable model, String nickname) {
-
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -258,7 +216,6 @@ public class TUI extends UI {
 
     @Override
     public void show_askNumPlayersMessage(){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -269,7 +226,6 @@ public class TUI extends UI {
 
     @Override
     public void show_askGameIDMessage(){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -279,7 +235,6 @@ public class TUI extends UI {
     }
     @Override
     public void show_notValidMessage(){
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -290,7 +245,6 @@ public class TUI extends UI {
 
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -308,9 +262,10 @@ public class TUI extends UI {
 
 
 
-        System.out.flush(); //Svuota il buffer di output per garantire che tutti i dati scritti siano visibili immediatamente
+        System.out.flush();
     }
-    // Metodo per aggiungere solo il nuovo giocatore
+
+
     private void add_newPlayer(GameImmutable gameModel) {
         Player newPlayer = gameModel.getLastPlayer();
         if (newPlayer != null) {
@@ -320,13 +275,11 @@ public class TUI extends UI {
 
     @Override
     public void show_readyToStart(GameImmutable gameModel, String nickname) {
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -345,7 +298,6 @@ public class TUI extends UI {
 
     @Override
     public void show_wrongSelectionMsg() {
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -356,7 +308,6 @@ public class TUI extends UI {
 
     @Override
     public void show_wrongCardSelMsg() {
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -367,7 +318,6 @@ public class TUI extends UI {
 
     @Override
     public void show_wrongCellSelMsg() {
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -379,16 +329,11 @@ public class TUI extends UI {
 
     @Override
     public void show_personalObjective(GameImmutable model, int indexPlayer){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        String nickname= model.getPlayers().get(indexPlayer).getNickname();
-//        ObjectiveCard objectiveCard = model.getPlayerGoalByNickname(nickname);
-//        printAsync("This is your personal objective card! \n"+ objectiveCard.toString());
-
     }
 
     /**
@@ -408,7 +353,6 @@ public class TUI extends UI {
     }
 
     public void show_gameId(GameImmutable gameModel) {
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -419,7 +363,6 @@ public class TUI extends UI {
 
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -430,7 +373,6 @@ public class TUI extends UI {
     }
     @Override
     public void show_CurrentTurnMsg(GameImmutable model){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -442,7 +384,6 @@ public class TUI extends UI {
     public void show_gameStarted(GameImmutable model) {
         this.clearScreen();
         this.show_publisher();
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -452,15 +393,10 @@ public class TUI extends UI {
         show_OrderPlayers(model);
         show_board(model);
         show_scoretrack(model);
-
-      //  this.show_titleCodexNaturalis();
-       // this.show_allPlayers(model); //mostra la lista dei giocatori
-      //  this.show_alwaysShowForAll(model);
     }
 
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -471,7 +407,6 @@ public class TUI extends UI {
 
     @Override
     public void show_PickCardMsg(GameImmutable model){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -483,7 +418,6 @@ public class TUI extends UI {
 
     @Override
     public void show_askCardType(GameImmutable model, String nickname){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -494,7 +428,6 @@ public class TUI extends UI {
 
     @Override
     public void show_askDrawFromDeck(GameImmutable model, String nickname){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -505,7 +438,6 @@ public class TUI extends UI {
 
     @Override
     public void show_askWhichCellMsg(GameImmutable model){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -516,7 +448,6 @@ public class TUI extends UI {
 
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname, String msg){
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -528,7 +459,6 @@ public class TUI extends UI {
 
     @Override
     public void show_cardPlacedMsg(GameImmutable model){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -539,7 +469,6 @@ public class TUI extends UI {
 
     @Override
     public void show_nextTurnMsg(GameImmutable model){
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -550,7 +479,6 @@ public class TUI extends UI {
 
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -563,7 +491,6 @@ public class TUI extends UI {
 
     @Override
     public void show_pointsAddedMsg(GameImmutable model, String nickname){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -579,7 +506,6 @@ public class TUI extends UI {
 
     @Override
     public void show_joiningToGameMsg(String nickname, Color color){
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -591,7 +517,6 @@ public class TUI extends UI {
 
     @Override
     public void addImportantEvent(String input) {
-        //Want to show a numbeMaxEventToShow important event happened
         if (eventsToShow.size() + 1 >= DefaultValue.MaxEventToShow) {
             eventsToShow.removeFirst();
         }
@@ -612,7 +537,6 @@ public class TUI extends UI {
     public void show_important_events() {
         StringBuilder ris = new StringBuilder();
         int longestImportantEvent = eventsToShow.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -627,8 +551,6 @@ public class TUI extends UI {
 
     @Override
     public void show_insertNicknameMessage(){
-
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -639,7 +561,6 @@ public class TUI extends UI {
 
     @Override
     public void show_chosenNickname(String nickname) {
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -650,7 +571,6 @@ public class TUI extends UI {
 
     @Override
     public void show_gameEnded(GameImmutable model) {
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -664,7 +584,6 @@ public class TUI extends UI {
 
     @Override
     public void show_returnToMenuMsg() {
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -673,10 +592,9 @@ public class TUI extends UI {
         printAsync("You are back in the menu!\n");
     }
 
-    // Metodo per stampare le carte affiancate con indici in alto a sinistra
+
     @Override
     public void show_temporaryInitialCards(GameImmutable model, int indexPlayer) {
-        // Pausa di 1.5 secondi
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
@@ -691,19 +609,16 @@ public class TUI extends UI {
             return;
         }
 
-        // Recupera le stringhe di rappresentazione delle carte
         String card0 = initialCards[0].toString();
         String card1 = initialCards[1].toString();
 
-        // Divide le stringhe delle carte in righe
         String[] lines0 = card0.split("\n");
         String[] lines1 = card1.split("\n");
 
-        // Costruisce la stringa finale riga per riga
-        StringBuilder result = new StringBuilder();
-        int height = Math.max(lines0.length, lines1.length); // Assumiamo che entrambe le carte abbiano la stessa altezza
 
-        // Aggiunge l'indice alle righe
+        StringBuilder result = new StringBuilder();
+        int height = Math.max(lines0.length, lines1.length);
+
         for (int i = 0; i < height; i++) {
             if (i == 0) {
                 result.append("[0] ").append(lines0[i])
@@ -711,11 +626,9 @@ public class TUI extends UI {
                         .append("[1] ").append(lines1[i])
                         .append("\n");
             } else {
-                // Aggiusta l'allineamento aggiungendo spazi se necessario
                 String line0 = lines0[i];
                 String line1 = lines1[i];
 
-                // Calcola la lunghezza delle linee per mantenere l'allineamento
                 int maxLength = Math.max(line0.length(), line1.length());
                 line0 = line0 + " ".repeat(maxLength - line0.length());
                 line1 = line1 + " ".repeat(maxLength - line1.length());
@@ -727,12 +640,10 @@ public class TUI extends UI {
             }
         }
 
-        // Stampa il risultato
         printAsync(result.toString());
     }
     @Override
     public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -747,24 +658,19 @@ public class TUI extends UI {
             return;
         }
 
-        // Raccogliamo le stringhe di rappresentazione delle carte
         String card0 = objectiveCards[0].toString();
         String card1 = objectiveCards[1].toString();
 
-        // Divide le stringhe delle carte in righe
         String[] lines0 = card0.split("\n");
         String[] lines1 = card1.split("\n");
 
-        // Inizializziamo l'ArrayList per contenere le righe combinate
         ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
-        int height = Math.max(lines0.length, lines1.length); // Assume che entrambe le carte abbiano la stessa altezza
+        int height = Math.max(lines0.length, lines1.length);
 
-        // Inizializziamo le righe con StringBuilder
         for (int k = 0; k < height + 1; k++) {
             rowBuilders.add(new StringBuilder());
         }
 
-        // Aggiungi l'indice e le righe della carta riga per riga
         for (int k = 0; k < height; k++) {
             if (k < lines0.length) {
                 if (k == 0) {
@@ -777,58 +683,15 @@ public class TUI extends UI {
             }
         }
 
-        // Costruisci l'output finale unendo tutte le righe
         StringBuilder result = new StringBuilder();
         for (StringBuilder sb : rowBuilders) {
             result.append(sb.toString().stripTrailing()).append("\n");
         }
 
-        // Stampa il risultato
         printAsync(result.toString());
     }
 
 
-   /* @Override
-    public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
-        // Pausa di 0.5 secondo
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        printAsync("Set your GOAL for the Game:\n> Choose one between these objective cards:");
-
-        ObjectiveCard[] objectiveCards = model.getObjectiveCard().get(indexPlayer);
-
-        // Lista per accumulare le stringhe delle righe
-        ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
-
-        // Inizializziamo le righe con StringBuilder
-        for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
-            rowBuilders.add(new StringBuilder());
-        }
-
-        for (int i = 0; i < objectiveCards.length; i++) {
-            ObjectiveCard card = objectiveCards[i];
-            String[] lines = card.toString().split("\n");
-
-            // Aggiungi il numero identificativo alla prima riga della carta
-            for (int k = 0; k < lines.length; k++) {
-                if (k > 0) {
-                    rowBuilders.get(k).append("   "); // Spazi per allineare con il numero identificativo
-                }
-                rowBuilders.get(k).append(lines[k]).append(" ");
-            }
-        }
-
-        // Costruiamo l'output finale unendo tutte le righe
-        StringBuilder result = new StringBuilder();
-        for (StringBuilder sb : rowBuilders) {
-            result.append(sb.toString().stripTrailing()).append("\n");
-        }
-
-        printAsync(result.toString());
-    }*/
     /* VERSIONE DA PROVARE:
 
     public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
@@ -928,7 +791,6 @@ public class TUI extends UI {
 
     @Override
     public void show_visibleCardsBoard(GameImmutable model, CardType cardType){
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -948,7 +810,6 @@ public class TUI extends UI {
     //*****CHAT******
 
     public void show_askForChat(GameImmutable model, String nick){
-        // Pausa di 0.5 secondi
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -966,26 +827,11 @@ public class TUI extends UI {
 
     }
 
-    //mostra i messaggi presenti nel modello di gioco nella chat
     public void show_messages(GameImmutable model){
         String ris = "Latest Messages:\n" + model.getChat().toString(this.nickname);
         printAsync(ris);
     }
 
-    /**
-     * Search for the longest message
-     * @param model
-     * @return
-     */
-    @Override
-    public int getLengthLongestMessage(GameImmutable model) {
-        return model.getChat().getMsgs().stream()
-                .map(Message::getText)
-                .reduce((a, b) -> a.length() > b.length() ? a : b)
-                .toString().length();
-    }
-
-    //mostra i messaggi già presenti per aggiungerne altri
     @Override
     public void addMessage(Message msg, GameImmutable model) {
         show_messages(model);
