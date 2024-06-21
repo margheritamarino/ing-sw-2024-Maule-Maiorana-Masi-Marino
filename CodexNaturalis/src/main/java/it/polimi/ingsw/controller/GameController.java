@@ -312,13 +312,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                    //Game exists but the nick no
                      printAsync("The nickname used was not connected in a running game");
                  }
-             } catch (MaxPlayersInException e) {
+             }catch (GameEndedException e){
                  model.removeListener(lis);
                  printAsync("Reconnection FAILED");
-                } catch (GameEndedException e) {
-                    throw new RuntimeException(e);
-                } catch (PlayerAlreadyInException e) {
-                 throw new RuntimeException(e);
+                 //notifyReconnectionFailed
              }
 
     }
@@ -379,7 +376,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws MaxPlayersInException    if there are already 4 players in game
      * @throws GameEndedException       the game is ended
      */
-    public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
+    public void reconnectPlayer(Player p) throws GameEndedException {
         boolean outputres = model.reconnectPlayer(p);
 
         if (outputres && getNumOfOnlinePlayers() > 1) {
