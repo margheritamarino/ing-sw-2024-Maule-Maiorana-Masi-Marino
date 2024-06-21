@@ -214,7 +214,15 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     ui.show_WaitTurnMsg(event.getModel(), nickname);
                 }
             }
-            case NEXT_TURN -> {
+            case NEXT_TURN, PLAYER_RECONNECTED -> {
+
+                if (event.getType().equals(PLAYER_RECONNECTED)){
+                    ui.show_PlayerReconnectedMsg(event.getModel(), nickname, lastPlayerReconnected);
+                    if(lastPlayerReconnected.equals(nickname)) {
+                        this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
+                        this.inputController.setGameID(event.getModel().getGameId());
+                    }
+                }
                 ui.show_nextTurnMsg(event.getModel());
                 if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
                     ui.show_CurrentTurnMsg(event.getModel());
@@ -225,18 +233,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 }
             }
 
-            case PLAYER_RECONNECTED -> {
-                ui.show_PlayerReconnectedMsg(event.getModel(), nickname, lastPlayerReconnected);
-                ui.show_nextTurnMsg(event.getModel());
-
-                /*if (lastPlayerReconnected.equals(nickname)) {
-                    ui.show_CurrentTurnMsg(event.getModel());
-                    askPlaceCards(event.getModel(), nickname);
-                }
-                else{
-                    ui.show_WaitTurnMsg(event.getModel(), nickname);
-                }*/
-            }
 
             case CARD_PLACED ->{
                 ui.show_cardPlacedMsg(event.getModel());
@@ -1148,7 +1144,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws RemoteException If there is a network issue.
      */
     @Override
-    public void playerReconnected(GameImmutable model,  String nickPlayerReconnected) throws RemoteException{
+    public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException{
         lastPlayerReconnected = nickPlayerReconnected;
         events.add(model, PLAYER_RECONNECTED);
         ui.addImportantEvent("[EVENT]: Player reconnected!");

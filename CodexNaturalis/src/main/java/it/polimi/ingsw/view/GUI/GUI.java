@@ -679,9 +679,10 @@ public class GUI extends UI {
     @Override
     public void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected) {
         if(nick.equals(lastPlayerReconnected)){
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
             callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
             callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
             show_playerBook(model);
