@@ -107,7 +107,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             //checks all the ping messages to detect disconnections
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
+                    // cerca nella mappa
                     Iterator<Map.Entry<GameListenerInterface, Ping>> pingIter = receivedPings.entrySet().iterator();
+                    // Itera attraverso tutte le coppie chiave-valore nella mappa
                     while (pingIter.hasNext()) {
                         Map.Entry<GameListenerInterface, Ping> el =  pingIter.next();
                         if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
@@ -120,6 +122,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                                     if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
                                         model.setStatus(GameStatus.ENDED);
                                     }
+                                    //GameController.getInstance().deleteGame();--> NON serve avendo quell'unico Game
                                     return;
                                 }
                             } catch (RemoteException e) {
@@ -166,18 +169,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }
 
-    /**
-     * Attempts to start the game if all players have chosen their goals.
-     * This method is synchronized to ensure thread safety.
-     *
-     * @param lis the GameListenerInterface that will be notified of game events
-     * @param nickname the nickname of the player attempting to start the game
-     * @return {@code true} if the game is successfully started, {@code false} otherwise
-     */
     public synchronized boolean makeGameStart( GameListenerInterface lis, String nickname) {
 
         if (model.allPlayersHaveChosenGoals()) {
-            model.chooseOrderPlayers();
+            model.chooseOrderPlayers(); //assegna l'ordine ai giocatori nbell'orderArray
 
             model.initializeBoard();
             model.setInitialStatus();
@@ -217,14 +212,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos){
-
         Player p = model.getPlayerByNickname(nickname);
         if(p.equals(model.getCurrentPlayer())){
             model.pickCardTurn(p, cardType, drawFromDeck, pos);
         }
-
-
         if (model.getStatus().equals(GameStatus.RUNNING) ||model.getStatus().equals(GameStatus.LAST_CIRCLE)) {
+            // Trova l'indice dell'attuale currentPlayer in orderArray
             int currentIndex = -1;
             for (int i = 0; i < model.getOrderArray().length; i++) {
                 if (model.getPlayers().get(model.getOrderArray()[i]).equals(model.getCurrentPlayer())) {
@@ -232,13 +225,13 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                     break;
                 }
             }
-            if (currentIndex == model.getNumPlayers() - 1) {
+            if (currentIndex == model.getNumPlayers() - 1) { //se sono nell'ultimo giocatore del giro
                 if (!(model.getStatus().equals(GameStatus.LAST_CIRCLE))) {
-                    if (model.getScoretrack().checkTo20()) {
+                    if (model.getScoretrack().checkTo20()) { //= true -> e un giocatore è arrivato alla fine (chiamo ultimo turno)
                         model.setStatus(GameStatus.LAST_CIRCLE);
                     }
-                } else {
-                    model.lastTurnGoalCheck();
+                } else { //se sono nell'ultimo giocatore nell'ultimo ciclo
+                    model.lastTurnGoalCheck(); //controllo gli obbiettivo
                 }
             }
             try{
@@ -275,14 +268,12 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         if(p!=null) {
             model.removeListener(listener);
             if (model.getStatus().equals(GameStatus.WAIT)) {
-                System.out.println("GameController- disconnectPlayer() -->  going to REMOVE the Player from Game \n");
                 //The game is in Wait (game not started yet), the player disconnected, so I remove him from the game)
                 model.removePlayer(nick); //remove Player from the Game
             } else {
-                System.out.println("GameController- disconnectPlayer() -->  going to set player "+ nick + " DISCONNECTED \n");
                 //Tha game is running, so I set him as disconnected (He can reconnect soon)
                 model.setAsDisconnected(p.getNickname());
-
+                System.out.println("GameController- player"+ nick + "setted DISCONNECTED");
             }
             //if a player is disconnected the Game finishes
             // if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
@@ -293,7 +284,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                 //Starting a th for waiting until reconnection at least of 1 client to keep playing
                 if (reconnectionTh == null) {
                     startReconnectionTimer();
-                    printAsync("Starting timer for reconnection waiting: " + DefaultValue.secondsToWaitReconnection + " seconds \n");
+                    printAsync("Starting timer for reconnection waiting: " + DefaultValue.secondsToWaitReconnection + " seconds");
                 }
             }
         }
@@ -308,23 +299,19 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void reconnect(GameListenerInterface lis, String nick) throws RemoteException {
-         System.out.println("GameController - reconnect() \n");
-        List<Player> players = new ArrayList<>();
-             try { //TODO Verifica che il Player quando si disconnette non venga nè RIMOSSO nè SETTATO A NULL!! Altrimenti capisci come lasciare il nome e ri-settare il player
-                 players = model.getPlayers()
-                                .stream()
-                                .filter(x -> x.getNickname().equals(nick))
-                                .toList();
-                 //Check if nickname exists
-                 if (players.size() == 1) {
-                            model.addListener(lis);
-                            System.out.println("In GameController - reconnect()--> the Player that is trying to reconnect is: " + players.get(0).getNickname()+ "  \n ");
-                            this.reconnectPlayer(players.get(0));
-                 } else {
-                            //Game exists but the nick no
-                            printAsync("The nickname used was not connected in the game");
+         Player disconnectedPlayer;
+             try {
+                 disconnectedPlayer = model.getPlayerByNickname(nick);
+                        //The game exists, check if nickname exists
+                 if(disconnectedPlayer!=null) {
+                     disconnectedPlayer.addListener(lis);
+                     model.addListener(lis);
+                     this.reconnectPlayer(disconnectedPlayer);
                  }
-
+                 else{
+                   //Game exists but the nick no
+                     printAsync("The nickname used was not connected in a running game");
+                 }
              } catch (MaxPlayersInException e) {
                  model.removeListener(lis);
                  printAsync("Reconnection FAILED");
@@ -336,10 +323,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
     }
 
-    /**
-     * Starts a timer for detecting the reconnection of a player, if no one reconnects in time, the game is over
-     * This method suppresses the "BusyWait" warning as the while loop is intentionally used to wait for reconnection.
-     */
+        /**
+         * Starts a timer for detecting the reconnection of a player, if no one reconnects in time, the game is over
+         */
     @SuppressWarnings("BusyWait")
     private void startReconnectionTimer() {
         reconnectionTh = new Thread(
@@ -394,10 +380,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @throws GameEndedException       the game is ended
      */
     public void reconnectPlayer(Player p) throws PlayerAlreadyInException, MaxPlayersInException, GameEndedException {
-        System.out.println(" GameController - reconnectPlayer() \n ");
-        boolean playerReconnected = model.reconnectPlayer(p); //true if the reconnection went well
+        boolean outputres = model.reconnectPlayer(p);
 
-        if (playerReconnected && getNumOfOnlinePlayers() > 1) {
+        if (outputres && getNumOfOnlinePlayers() > 1) {
             stopReconnectionTimer();
         }
         //else nobody was connected and now one player has reconnected before the timer expires
@@ -409,6 +394,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     public int getNumOfOnlinePlayers() {
         return model.getNumOfOnlinePlayers();
     }
+
+
+
 
     /**
      * Sets the initial card for the specified player.
@@ -423,6 +411,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
 
         model.setInitialCard(currentPlayer, index);
     }
+
 
     /**
      * Gets th Game ID of the current Game.
@@ -475,7 +464,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
-        System.out.println("GameController - JoinGame");
         if(!isGameCreated()){
             System.out.println("GameController - JoinGame: creating a new Game");
             model.createGame(lis, nick);

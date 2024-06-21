@@ -257,25 +257,7 @@ public class ListenersHandler {
 
                 }
             } catch (RemoteException e) {
-                printAsync("During notification of notify_LastCircle, a disconnection has been detected before ping");
-                i.remove();
-            }
-        }
-    }
-
-    /**
-     * Notifies that a card has been placed on the board.
-     *
-     * @param model the game model to pass as a new GameModelImmutable
-     */
-    public void notify_CardPlaced(Game model) { //tolgo SYNCHRONIZED
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.cardPlaced(new GameImmutable(model));
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_CardPlaced, a disconnection has been detected before ping");
+                printAsync("During notification of notify_PointsAdded, a disconnection has been detected before ping");
                 i.remove();
             }
         }
