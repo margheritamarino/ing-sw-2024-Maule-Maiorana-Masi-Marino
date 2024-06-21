@@ -226,7 +226,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             }
 
             case PLAYER_RECONNECTED -> {
-                ui.show_PlayerReconnectedMsg(event.getModel(), nickname);
+                ui.show_PlayerReconnectedMsg(event.getModel(), nickname, lastPlayerReconnected);
                 ui.show_nextTurnMsg(event.getModel());
 
                 if (lastPlayerReconnected.equals(nickname)) {

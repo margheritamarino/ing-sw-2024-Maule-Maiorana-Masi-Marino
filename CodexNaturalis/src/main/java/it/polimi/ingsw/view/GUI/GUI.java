@@ -602,7 +602,6 @@ public class GUI extends UI {
      */
     @Override
     public void show_scoretrack(GameImmutable model) {
-
             callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.SCORETRACK_POPUP));
 
@@ -671,14 +670,30 @@ public class GUI extends UI {
     }
 
     /**
-     * Shows a message for the next turn or when a player reconnects
+     * Shows a message for when a player reconnects.
+     * The message is different for the reconnected player and the other players
      * @param model model where events happen
-     * @param nick of the reconnected player
+     * @param nick of the player
+     * @param lastPlayerReconnected  nickname of the reconnected player
      */
     @Override
-    public void show_PlayerReconnectedMsg(GameImmutable model, String nick) {
-        String msg= "Player" + nick + "is back in the game!";
-        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
+    public void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected) {
+        if(nick.equals(lastPlayerReconnected)){
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
+            callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
+            callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
+            callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
+            show_playerBook(model);
+
+            String msg= "YOU are back in the game!";
+            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
+
+        }else{
+            String msg= "Player" + nick + "is back in the game!";
+            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
+        }
+
     }
 
     /**

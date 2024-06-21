@@ -1076,14 +1076,18 @@ public class TUI extends UI {
      * @param nick of the reconnected player
      */
     @Override
-    public void show_PlayerReconnectedMsg(GameImmutable model, String nick) {
+    public void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected) {
         // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("Player" + nick + "is back in the game! \n");
+        if(nick.equals(lastPlayerReconnected)){
+            printAsync("You are back in the game! \n");
+        }
+        else
+            printAsync("Player" + nick + "is back in the game! \n");
     }
 
     /**

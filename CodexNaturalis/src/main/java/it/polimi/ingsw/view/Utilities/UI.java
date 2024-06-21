@@ -353,7 +353,7 @@ public abstract class UI {
      * @param model model where events happen
      * @param nick the player's nickname
      */
-    public abstract void show_PlayerReconnectedMsg(GameImmutable model, String nick);
+    public abstract void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected);
 
     /**
      * Shows a message indicating a failed reconnection attempt.
