@@ -407,8 +407,20 @@ public class Game {
 			throw new GameEndedException();
 		}
 		else {
-			// Calcola l'indice del giocatore successivo
-			int nextIndex = (currentIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
+			int nextIndex = currentIndex;
+			if (getNumOfOnlinePlayers() >1) {
+				//I skip the disconnected players and I let play only the connected ones
+
+				do {
+					// Calcola l'indice del giocatore successivo
+					 nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
+				} while (!players.get(nextIndex).getConnected());
+			} else {
+				//Only one player connected, I set the nextTurn to the next player of the one online
+				//when someone will reconnect, the nextTurn will be corrected
+				nextIndex = (nextIndex + 1) % orderArray.length;
+			}
+
 			// Imposta il nuovo currentPlayer
 			currentPlayer = players.get(orderArray[nextIndex]);
 			listenersHandler.notify_nextTurn(this);
@@ -629,7 +641,6 @@ public class Game {
 	}
 
 
-
 	/**
 	 * @param nick player to set as disconnected
 	 */
@@ -640,7 +651,7 @@ public class Game {
 		if (getNumOfOnlinePlayers() != 0) {
 			listenersHandler.notify_playerDisconnected(this, nick);
 
-			if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
+			if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) { //TODO CONTROLLARE TURNI
 				try {
 					int currentIndex = -1;
 					for (int i = 0; i < this.getOrderArray().length; i++) {
@@ -659,6 +670,9 @@ public class Game {
 				listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
 			}
 		}//else the game is empty
+		else{ //TODO CONTROLLA
+			setStatus(GameStatus.ENDED);
+		}
 	}
 
 	/**

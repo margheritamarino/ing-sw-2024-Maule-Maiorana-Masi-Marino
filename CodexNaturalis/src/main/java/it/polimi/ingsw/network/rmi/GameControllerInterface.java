@@ -4,13 +4,11 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.listener.GameListenerInterface;
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-//Interfaccia Remota che definisce i metodi che possono essere invocati dal Client sul Server
 /**
  * This interface contains all the action a player can do in a single game */
 

@@ -5,7 +5,10 @@ import it.polimi.ingsw.view.GUI.controllers.ControllerGUI;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import javafx.scene.Scene;
 
-//classe usata per gestire le informazioni riguardo le scene
+/**
+ * Represents information about a scene in the GUI, including the scene itself,
+ * its type, and the associated controller.
+ */
 public class SceneInformation {
 
     private Scene scene;
@@ -25,20 +28,39 @@ public class SceneInformation {
         this.controller = controller;
     }
 
-    //restituisce l'istanza della scena
+    /**
+     * Retrieves the JavaFX Scene instance associated with this scene information.
+     *
+     * @return The Scene object representing the graphical scene.
+     */
     public Scene getScene() {
         return scene;
     }
 
+    /**
+     * Retrieves the SceneType enum value that categorizes the type of the scene.
+     *
+     * @return The SceneType enum value associated with this scene.
+     */
     public SceneType getSceneType(){
         return sceneType;
     }
 
+    /**
+     * Retrieves the ControllerGUI instance associated with managing this scene.
+     *
+     * @return The ControllerGUI instance handling interactions with this scene.
+     */
     public ControllerGUI getControllerGUI(){
         return controller;
     }
 
-    //imposta l'inputGUI per il controller associato alla scena
+    /**
+     * Sets the InputGUI instance for the ControllerGUI associated with this scene.
+     * This allows setting user input handling for the scene's controller.
+     *
+     * @param inputGUI The InputGUI instance to be set for the controller.
+     */
     public void setInputGUI(InputGUI inputGUI){
         if(controller!=null){
             controller.setInputGUI(inputGUI);

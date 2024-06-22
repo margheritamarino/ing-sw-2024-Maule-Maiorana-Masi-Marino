@@ -8,8 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Objects;
 
+/**
+ * Controller class for managing the lobby of the game
+ * This controller handles setting player nicknames, game ID, player images, and controlling the ready button.
+ */
 public class LobbyController extends ControllerGUI{
     @FXML
     private Text nick1;
@@ -77,6 +80,13 @@ public class LobbyController extends ControllerGUI{
     public void setVisibleBtnReady(boolean visibility){
         btnReady.setVisible(visibility);
     }
+
+    /**
+     * Sets the player image for the specified player index.
+     *
+     * @param imagePath   the path to the image file
+     * @param indexPlayer the index of the player (0 to 3)
+     */
     public void setPlayerImage(String imagePath, int indexPlayer) {
         Image image = new Image(imagePath);
         switch (indexPlayer) {

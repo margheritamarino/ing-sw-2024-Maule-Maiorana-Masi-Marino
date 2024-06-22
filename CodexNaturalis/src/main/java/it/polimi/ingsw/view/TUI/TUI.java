@@ -22,32 +22,37 @@ import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
 
-
+/**
+ * TUI (Textual User Interface) class extending the UI class.
+ */
 public class TUI extends UI {
 
     private String nickname;
     private boolean alreadyShowedLobby;
 
-
     /**
      * Constructor
+     * Initializes the TUI instance and calls the init method.
      */
     public TUI(){
         init();
     }
 
-
-
+    /**
+     * Initializes the TUI instance by setting up the ANSI console and initializing the eventsToShow list.
+     */
     @Override
     public void init() {
         AnsiConsole.systemInstall();
         eventsToShow = new ArrayList<>();
     }
 
-
-
+    /**
+     * Displays a welcome message to the user with their nickname.
+     *
+     * @param nick the nickname of the user
+     */
     public void show_welcome(String nick) {
-        // Pausa di 1 sec
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -56,9 +61,12 @@ public class TUI extends UI {
         printAsync("*** WELCOME " + nick + "!***");
     }
 
-
+    /**
+     * Displays all players' information.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     public void show_allPlayers(GameImmutable model) {
-        // Pausa di 0.5 secondo
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -67,6 +75,12 @@ public class TUI extends UI {
         printAsync( model.toStringListPlayers());
 
     }
+
+    /**
+     * Displays the order of the players.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     public void show_OrderPlayers(GameImmutable model) {
         try {
             Thread.sleep(500);
@@ -77,16 +91,24 @@ public class TUI extends UI {
 
     }
 
+
+    /**
+     * Continuously displays the player's deck and book.
+     *
+     * @param model the GameImmutable instance containing game data
+     * @param nick the nickname of the player
+     */
     public void show_alwaysShow(GameImmutable model, String nick) {
         show_playerDeck(model, nick);
         show_playerBook(model);
     }
 
+    /**
+     * Displays the publisher information.
+     */
     @Override
     public void show_publisher(){
         clearScreen();
-
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -129,9 +151,11 @@ public class TUI extends UI {
 
     }
 
-
-
-
+    /**
+     * Displays the score track of the game.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
     public void show_scoretrack(GameImmutable model) {
         try {
@@ -142,6 +166,11 @@ public class TUI extends UI {
         printAsync(model.getScoretrack().toString());
     }
 
+    /**
+     * Displays the current state of the game board.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
     public void show_board(GameImmutable model) {
         try {
@@ -157,11 +186,10 @@ public class TUI extends UI {
         System.out.print("\n");
 
         // GOLDCARDS
-        System.out.print(boldStart +"***GOLDCARDS***: \n" + boldEnd);
+        System.out.print(boldStart + "***GOLDCARDS***: \n" + boldEnd);
         System.out.print("\n");
         System.out.print(model.getBoard().cardsGoldToString());
         System.out.print("\n");
-
 
         // RESOURCECARDS
         System.out.print(boldStart + "***RESOURCECARDS***: \n" + boldEnd);
@@ -176,9 +204,13 @@ public class TUI extends UI {
         System.out.print("\n");
     }
 
-
+    /**
+     * Displays the player's book.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
-    public void show_playerBook(GameImmutable model){
+    public void show_playerBook(GameImmutable model) {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -187,6 +219,12 @@ public class TUI extends UI {
         printAsync(model.getCurrentPlayer().getPlayerBook().toString());
     }
 
+    /**
+     * Displays the player's deck.
+     *
+     * @param model the GameImmutable instance containing game data
+     * @param nick the nickname of the player
+     */
     @Override
     public void show_playerDeck(GameImmutable model, String nick) {
         try {
@@ -204,6 +242,13 @@ public class TUI extends UI {
         printAsync(p.getPlayerDeck().toString());
     }
 
+    /**
+     * Displays a message asking for a number input.
+     *
+     * @param msg the message to display
+     * @param model the GameImmutable instance containing game data
+     * @param nickname the nickname of the player
+     */
     @Override
     public void show_askNum(String msg, GameImmutable model, String nickname) {
         try {
@@ -214,6 +259,9 @@ public class TUI extends UI {
         printAsync(msg);
     }
 
+    /**
+     * Displays a message asking for the number of players in the game.
+     */
     @Override
     public void show_askNumPlayersMessage(){
         try {
@@ -224,6 +272,9 @@ public class TUI extends UI {
         printAsync("Insert the number of the players in the Game: ");
     }
 
+    /**
+     * Displays a message asking for the game ID.
+     */
     @Override
     public void show_askGameIDMessage(){
         try {
@@ -233,6 +284,10 @@ public class TUI extends UI {
         }
         printAsync("Insert the GameID: ");
     }
+
+    /**
+     * Displays a message indicating that the input is not valid.
+     */
     @Override
     public void show_notValidMessage(){
         try {
@@ -243,6 +298,13 @@ public class TUI extends UI {
         printAsync("Not valid input. Please try again. ");
     }
 
+    /**
+     * Displays a message indicating that a player has joined the game.
+     *
+     * @param gameModel the GameImmutable instance containing game data
+     * @param nick the nickname of the player who joined
+     * @param color the color associated with the player
+     */
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
         try {
@@ -259,13 +321,14 @@ public class TUI extends UI {
         }else{
             add_newPlayer(gameModel);
         }
-
-
-
         System.out.flush();
     }
 
-
+    /**
+     * Adds a new player to the list of players displayed.
+     *
+     * @param gameModel the GameImmutable instance containing game data
+     */
     private void add_newPlayer(GameImmutable gameModel) {
         Player newPlayer = gameModel.getLastPlayer();
         if (newPlayer != null) {
@@ -273,6 +336,12 @@ public class TUI extends UI {
         }
     }
 
+    /**
+     * Displays a message indicating that the player is ready to start the game.
+     *
+     * @param gameModel the GameImmutable instance containing game data
+     * @param nickname the nickname of the player
+     */
     @Override
     public void show_readyToStart(GameImmutable gameModel, String nickname) {
         try {
@@ -288,6 +357,11 @@ public class TUI extends UI {
         printAsync("Press y if you are ready to start the game");
     }
 
+    /**
+     * Displays a message indicating that the player is ready to start the game and shows the players ready in the lobby.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
     public void show_youAreReady(GameImmutable model){
         printAsync("You are ready to start the game!\n PLAYERS READY in the LOBBY:");
@@ -295,7 +369,9 @@ public class TUI extends UI {
 
     }
 
-
+    /**
+     * Displays a message indicating that the selection is invalid.
+     */
     @Override
     public void show_wrongSelectionMsg() {
         try {
@@ -306,6 +382,9 @@ public class TUI extends UI {
         printAsync("Invalid selection. Please choose 0 or 1.");
     }
 
+    /**
+     * Displays a message indicating that the card selection is invalid.
+     */
     @Override
     public void show_wrongCardSelMsg() {
         try {
@@ -316,6 +395,9 @@ public class TUI extends UI {
         printAsync("Invalid selection. Please choose a number between 0 and 6.");
     }
 
+    /**
+     * Displays a message indicating that the cell selection is invalid.
+     */
     @Override
     public void show_wrongCellSelMsg() {
         try {
@@ -326,7 +408,12 @@ public class TUI extends UI {
         printAsync("Invalid selection. Please choose a number between: "+ DefaultValue.BookSizeMin+ " and " + DefaultValue.BookSizeMax);
     }
 
-
+    /**
+     * Displays the personal objective of a player.
+     *
+     * @param model the GameImmutable instance containing game data
+     * @param indexPlayer the index of the player
+     */
     @Override
     public void show_personalObjective(GameImmutable model, int indexPlayer){
         try {
@@ -352,15 +439,12 @@ public class TUI extends UI {
         }
     }
 
-    public void show_gameId(GameImmutable gameModel) {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        printAsync(ansi().fg(DEFAULT).a("Game with id: [" + gameModel.getGameId() + "]"));
-    }
-
+    /**
+     * Displays a message indicating that the current player should wait for their turn.
+     *
+     * @param model the GameImmutable instance containing game data
+     * @param nickname the nickname of the player who should wait
+     */
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
         try {
@@ -371,6 +455,12 @@ public class TUI extends UI {
         printAsync("WAIT! It's "+ model.getCurrentPlayer().getNickname()+" TURN\n");
 
     }
+
+    /**
+     * Displays a message indicating that it is the player's turn.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
     public void show_CurrentTurnMsg(GameImmutable model){
         try {
@@ -380,6 +470,12 @@ public class TUI extends UI {
         }
         printAsync("It's your TURN!\n");
     }
+
+    /**
+     * Displays a message indicating that the game has started.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
     public void show_gameStarted(GameImmutable model) {
         this.clearScreen();
@@ -395,6 +491,11 @@ public class TUI extends UI {
         show_scoretrack(model);
     }
 
+    /**
+     * Displays a message asking the player to place a card.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model){
         try {
@@ -405,6 +506,11 @@ public class TUI extends UI {
         printAsync("It's your turn to PLACE A CARD" );
     }
 
+    /**
+     * Displays a message asking the player to pick a card.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
     public void show_PickCardMsg(GameImmutable model){
         try {
@@ -416,6 +522,12 @@ public class TUI extends UI {
         show_board(model);
     }
 
+    /**
+     * Displays a message asking the player to choose the type of card to pick.
+     *
+     * @param model the GameImmutable instance containing game data
+     * @param nickname the nickname of the player
+     */
     @Override
     public void show_askCardType(GameImmutable model, String nickname){
         try {
@@ -426,6 +538,12 @@ public class TUI extends UI {
         printAsync("Which card do you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card:" );
     }
 
+    /**
+     * Displays a message asking the player if they want to draw from the deck.
+     *
+     * @param model the GameImmutable instance containing game data
+     * @param nickname the nickname of the player
+     */
     @Override
     public void show_askDrawFromDeck(GameImmutable model, String nickname){
         try {
@@ -436,6 +554,11 @@ public class TUI extends UI {
         printAsync("Press Y if you want to draw from deck or N if you want a visible card:" );
     }
 
+    /**
+     * Displays a message asking the player to choose a cell in the book to place the card.
+     *
+     * @param model the GameImmutable instance containing game data
+     */
     @Override
     public void show_askWhichCellMsg(GameImmutable model){
         try {
@@ -446,6 +569,13 @@ public class TUI extends UI {
         printAsync("Choose a Cell in the book to place the card:" );
     }
 
+    /**
+     * Notifies the player that they need to choose again and displays an error message.
+     *
+     * @param model   the immutable game model containing the current state of the game
+     * @param nickname the nickname of the player who needs to choose again
+     * @param msg     the error message to be displayed
+     */
     @Override
     public void show_playerHasToChooseAgain(GameImmutable model, String nickname, String msg){
         try {
@@ -457,6 +587,11 @@ public class TUI extends UI {
 
     }
 
+    /**
+     * Displays a message indicating that the current player has placed a card.
+     *
+     * @param model the immutable game model containing the current state of the game
+     */
     @Override
     public void show_cardPlacedMsg(GameImmutable model){
         try {
@@ -467,6 +602,11 @@ public class TUI extends UI {
         printAsync( model.getCurrentPlayer().getNickname() + " has placed a card!\n" );
     }
 
+    /**
+     * Displays a message indicating that it is the next player's turn.
+     *
+     * @param model the immutable game model containing the current state of the game
+     */
     @Override
     public void show_nextTurnMsg(GameImmutable model){
         try {
@@ -477,6 +617,12 @@ public class TUI extends UI {
         printAsync("Next turn: " + model.getCurrentPlayer().getNickname());
     }
 
+    /**
+     * Displays a message indicating the card drawn by the player.
+     *
+     * @param model    the immutable game model containing the current state of the game
+     * @param nickname the nickname of the player who drew the card
+     */
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname){
         try {
@@ -489,6 +635,12 @@ public class TUI extends UI {
 
     }
 
+    /**
+     * Displays a message indicating that points have been added to a player's score.
+     *
+     * @param model    the immutable game model containing the current state of the game
+     * @param nickname the nickname of the player who scored points
+     */
     @Override
     public void show_pointsAddedMsg(GameImmutable model, String nickname){
         try {
@@ -504,6 +656,12 @@ public class TUI extends UI {
         show_scoretrack(model);
     }
 
+    /**
+     * Displays a message indicating that a player is trying to join a game.
+     *
+     * @param nickname the nickname of the player attempting to join
+     * @param color    the color associated with the player
+     */
     @Override
     public void show_joiningToGameMsg(String nickname, Color color){
         try {
@@ -514,7 +672,11 @@ public class TUI extends UI {
         printAsync("Trying to join a game...\n");
     }
 
-
+    /**
+     * Adds an important event to the list and displays all important events.
+     *
+     * @param input the important event to add
+     */
     @Override
     public void addImportantEvent(String input) {
         if (eventsToShow.size() + 1 >= DefaultValue.MaxEventToShow) {
@@ -524,6 +686,9 @@ public class TUI extends UI {
         show_important_events();
     }
 
+    /**
+     * Resets the list of important events and clears the nickname.
+     */
     @Override
     public void resetImportantEvents() {
         this.eventsToShow = new ArrayList<>();
@@ -533,7 +698,6 @@ public class TUI extends UI {
     /**
      * Shows the important events
      */
-
     public void show_important_events() {
         StringBuilder ris = new StringBuilder();
         int longestImportantEvent = eventsToShow.stream().map(String::length).reduce(0, (a, b) -> a > b ? a : b);
@@ -549,6 +713,9 @@ public class TUI extends UI {
         printAsync(ris);
     }
 
+    /**
+     * Displays a message prompting the user to insert their nickname.
+     */
     @Override
     public void show_insertNicknameMessage(){
         try {
@@ -559,6 +726,12 @@ public class TUI extends UI {
         printAsync("Insert your nickname: \n");
     }
 
+
+    /**
+     * Displays a message showing the chosen nickname.
+     *
+     * @param nickname the nickname chosen by the user
+     */
     @Override
     public void show_chosenNickname(String nickname) {
         try {
@@ -569,6 +742,11 @@ public class TUI extends UI {
         printAsync("Your nickname is " + nickname );
     }
 
+    /**
+     * Displays a message indicating that the game has ended and resets the screen.
+     *
+     * @param model the immutable game model containing the current state of the game
+     */
     @Override
     public void show_gameEnded(GameImmutable model) {
         try {
@@ -582,6 +760,9 @@ public class TUI extends UI {
 
     }
 
+    /**
+     * Displays a message indicating that the user has returned to the menu.
+     */
     @Override
     public void show_returnToMenuMsg() {
         try {
@@ -592,7 +773,12 @@ public class TUI extends UI {
         printAsync("You are back in the menu!\n");
     }
 
-
+    /**
+     * Displays the temporary initial cards for a player and prompts them to choose one.
+     *
+     * @param model       the immutable game model containing the current state of the game
+     * @param indexPlayer the index of the player whose initial cards are being shown
+     */
     @Override
     public void show_temporaryInitialCards(GameImmutable model, int indexPlayer) {
         try {
@@ -642,6 +828,13 @@ public class TUI extends UI {
 
         printAsync(result.toString());
     }
+
+    /**
+     * Displays the objective cards for a player and prompts them to choose one.
+     *
+     * @param model       the immutable game model containing the current state of the game
+     * @param indexPlayer the index of the player whose objective cards are being shown
+     */
     @Override
     public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
         try {
@@ -777,7 +970,9 @@ public class TUI extends UI {
 
  */
 
-
+    /**
+     * Displays an error message indicating that the connection to the server was lost and exits the application.
+     */
     @Override
     public void show_noConnectionError() {
         printAsync("CONNECTION TO SERVER LOST!\n");
@@ -789,6 +984,12 @@ public class TUI extends UI {
         System.exit(-1);
     }
 
+    /**
+     * Displays the visible cards on the board based on the specified card type.
+     *
+     * @param model    the immutable game model containing the current state of the game
+     * @param cardType the type of cards to be displayed (ResourceCard or GoldCard)
+     */
     @Override
     public void show_visibleCardsBoard(GameImmutable model, CardType cardType){
         try {
@@ -805,10 +1006,12 @@ public class TUI extends UI {
 
     }
 
-
-
-    //*****CHAT******
-
+    /**
+     * Displays instructions for using the chat during the game, including how to send public or private messages and how to exit the game.
+     *
+     * @param model the immutable game model containing the current state of the game
+     * @param nick  the nickname of the player
+     */
     public void show_askForChat(GameImmutable model, String nick){
         try {
             Thread.sleep(500);
@@ -827,16 +1030,41 @@ public class TUI extends UI {
 
     }
 
+    /**
+     * Displays the latest chat messages.
+     *
+     * @param model the immutable game model containing the current state of the game
+     */
     public void show_messages(GameImmutable model){
         String ris = "Latest Messages:\n" + model.getChat().toString(this.nickname);
         printAsync(ris);
     }
 
+    /**
+     * Adds a message to the chat and displays the latest messages.
+     *
+     * @param msg   the message to add
+     * @param model the immutable game model containing the current state of the game
+     */
     @Override
     public void addMessage(Message msg, GameImmutable model) {
         show_messages(model);
     }
 
+    /**
+     * Displays the messages sent by a specific user.
+     *
+     * @param model    the immutable game model containing the current state of the game
+     * @param nickname the nickname of the player whose messages are being shown
+     */
+    @Override
+    public void show_sentMessage(GameImmutable model, String nickname) {
+        this.show_alwaysShow(model, nickname);
+    }
+
+    /**
+     * Closes any active wait pop-up
+     */
     @Override
     public void closeWaitPopUp() {
 
@@ -848,22 +1076,25 @@ public class TUI extends UI {
      * @param nick of the reconnected player
      */
     @Override
-    public void show_PlayerReconnectedMsg(GameImmutable model, String nick) {
+    public void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected) {
         // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("Player" + nick + "is back in the game! \n");
+        if(nick.equals(lastPlayerReconnected)){
+            printAsync("You are back in the game! \n");
+        }
+        else
+            printAsync("Player" + nick + "is back in the game! \n");
     }
 
-    //mostra i messaggi inviati da un utente specifico
-    @Override
-    public void show_sentMessage(GameImmutable model, String nickname) {
-        this.show_alwaysShow(model, nickname);
-    }
-
+    /**
+     * Shows a message indicating that a player failed to reconnect to the game.
+     *
+     * @param nick the nickname of the player who failed to reconnect
+     */
     @Override
     public void show_failedReconnectionMsg( String nick){
         // Pausa di 1 secondo

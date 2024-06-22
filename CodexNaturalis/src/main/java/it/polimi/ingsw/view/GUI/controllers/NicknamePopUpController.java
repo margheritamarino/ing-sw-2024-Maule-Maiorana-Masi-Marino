@@ -1,10 +1,13 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.scene.control.TextField;
+
+
+/**
+ * Controller class for managing the nickname popup.
+ */
 public class NicknamePopUpController extends ControllerGUI{
     @FXML
     private Text nicknameLable;
@@ -12,6 +15,7 @@ public class NicknamePopUpController extends ControllerGUI{
     private Text textLable;
     @FXML
     private ImageView playerImageView;
+
     /**
      * Method to show the nickname and the text.
      * @param nickname the nickname
@@ -22,7 +26,6 @@ public class NicknamePopUpController extends ControllerGUI{
         textLable.setText(txt);
 
     }
-
 
 
 }

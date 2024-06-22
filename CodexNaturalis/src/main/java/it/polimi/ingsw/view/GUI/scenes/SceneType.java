@@ -7,7 +7,7 @@ public enum SceneType {
     PUBLISHER("/it.polimi.ingsw.view.GUI/fxml/Publisher.fxml"),
     NICKNAME("/it.polimi.ingsw.view.GUI/fxml/Nickname.fxml"),
     NICKNAME_POPUP("/it.polimi.ingsw.view.GUI/fxml/NicknamePopUp.fxml"),
-    LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"), //popup with nickname
+    LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"),
     MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml"),
     INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml"),
     MAINSCENE("/it.polimi.ingsw.view.GUI/fxml/MainScene.fxml"),
@@ -19,16 +19,24 @@ public enum SceneType {
 
     RECONNECT_POPUP("/it.polimi.ingsw.view.GUI/fxml/ReconnectionPopUp.fxml");
 
-    private final String path; //contiene il percorso dei file FXML associati alle scene
+    private final String path;
 
-    //costruttore
+    /**
+     * Constructor for SceneType enum.
+     *
+     * @param path The path of the corresponding FXML file for the scene.
+     */
     SceneType(final String path){
         this.path = path;
     }
 
-
-    //metodo per restituire il percorso del file FXML
-    public String path(){
+    /**
+     * Get the file path of the FXML file associated with the SceneType.
+     *
+     * @return The file path as a String.
+     */
+    public String path() {
         return path;
     }
+
 }

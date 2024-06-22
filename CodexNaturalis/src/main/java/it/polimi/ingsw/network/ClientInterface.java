@@ -35,6 +35,7 @@ public interface ClientInterface  {
      * @throws NotBoundException If the server is not bound or available.
      */
     void leave(String nick) throws IOException, NotBoundException;
+
     /**
      * Sets the player identified by the nickname as ready.
      *
@@ -43,15 +44,7 @@ public interface ClientInterface  {
      */
     void setAsReady(String nickname) throws IOException;
 
-    /*
     /**
-     * Pings the server
-     *
-     * @throws RemoteException
-
-    void ping() throws RemoteException;
-
-*/    /**
      * Places a card in the player's book at the specified position.
      *
      * @param chosenCard  The index of the chosen card to place.
@@ -60,6 +53,7 @@ public interface ClientInterface  {
      * @throws IOException If there is an I/O error during communication.
      */
     void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException;
+
     /**
      * Sets up the game with the specified number of players, game ID, and player's nickname.
      *
@@ -69,6 +63,7 @@ public interface ClientInterface  {
      * @throws IOException If there is an I/O error during communication.
      */
     void settingGame(int numPlayers, int GameID, String nick)throws IOException;
+
     /**
      * Sets the initial card for the player with the specified index.
      *
@@ -77,6 +72,7 @@ public interface ClientInterface  {
      * @throws IOException If there is an I/O error during communication.
      */
     void setInitialCard(int index, String nickname) throws IOException;
+
     /**
      * Sets the goal card for the player with the specified index.
      *
@@ -86,7 +82,6 @@ public interface ClientInterface  {
      * @throws NotPlayerTurnException If it's not the player's turn to set the goal card.
      */
     void setGoalCard(int index, String nickname) throws IOException, NotPlayerTurnException;
-
 
     /**
      * Picks a card from the board for the player.
@@ -98,16 +93,12 @@ public interface ClientInterface  {
      */
     void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException;
 
-
     /**
      * Sends a ping to the server to check connectivity.
      *
      * @throws RemoteException If there is an error in remote communication.
      */
     void ping () throws RemoteException;
-
-
-    //void makeGameStart(String nick)throws IOException;
 
     /**
      * Sends a message to the server.
@@ -124,7 +115,6 @@ public interface ClientInterface  {
      * @throws IOException If there is an I/O error during communication.
      */
     void makeGameStart(String nickname)throws IOException;
-
 
     /**
      * Reconnect the player to the game

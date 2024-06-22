@@ -5,13 +5,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
+/**
+ * Controller class for handling generic error messages in the GUI.
+ * This controller manages displaying an error message and optionally exiting the application.
+ */
 public class GenericErrorController extends ControllerGUI {
 
     @FXML
-    private TextArea message; //area di testo che mostra il messaggio d'errore
+    private TextArea message;
     @FXML
-    private Button button; //per chiudere l'app o ritornare alla schermata insert nickname per entrare in un nuovo gioco
-    private boolean needToExitApp; //variabile per definire se l'applicazione deve essere chiusa quando il pulsante viene premuto
+    private Button button;
+    private boolean needToExitApp;
 
     /**
      * Method to control the action
@@ -21,7 +25,6 @@ public class GenericErrorController extends ControllerGUI {
         if(!needToExitApp) {
             getInputGUI().addTxt("a");
         }else{
-            //chiude l'applicazione
             System.exit(-1);
         }
     }
@@ -29,9 +32,10 @@ public class GenericErrorController extends ControllerGUI {
 
 
     /**
-     * Method to set the message
-     * @param msg the error message
-     * @param needToExitApp true if the app needs to be closed
+     * Sets the error message and determines whether the application should be closed.
+     *
+     * @param msg           the error message to display
+     * @param needToExitApp true if the application should be closed, false otherwise
      */
     public void setMsg(String msg, boolean needToExitApp){
         this.message.setText(msg);

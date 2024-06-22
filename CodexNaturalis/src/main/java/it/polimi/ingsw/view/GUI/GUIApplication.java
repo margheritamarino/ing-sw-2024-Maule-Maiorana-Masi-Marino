@@ -30,13 +30,12 @@ import javafx.stage.StageStyle;
 /**
  * This class is the main class of the GUI, it extends Application and it is used to start the GUI. It contains all the
  * methods to change the scene and to get the controller of a specific scene.
- *
  */
 public class GUIApplication extends Application {
 
     private GameFlow gameFlow;
     private Stage primaryStage, popUpStage;
-    private StackPane root; //radice dell'interfaccia utente
+    private StackPane root;
     private ArrayList<SceneInformation> scenes;
     private boolean resizing=true;
     private double widthOld, heightOld;
@@ -55,21 +54,20 @@ public class GUIApplication extends Application {
 
         if (unnamedParams == null || unnamedParams.isEmpty()) {
             System.err.println("No parameteres for ConnectionType. Used SOCKET.");
-            connectionType = ConnectionType.SOCKET; // Valore predefinito
+            connectionType = ConnectionType.SOCKET;
         } else {
             String firstParam = unnamedParams.getFirst();
             try {
                 connectionType = ConnectionType.valueOf(firstParam);
             } catch (IllegalArgumentException e) {
                 System.err.println("Parameter not valid for ConnectionType: " + firstParam + ". Used SOCKET.");
-                connectionType = ConnectionType.SOCKET; // Valore predefinito in caso di errore
+                connectionType = ConnectionType.SOCKET;
             }
         }
 
-        // Crea GameFlow con il ConnectionType
         gameFlow = new GameFlow(this, connectionType);
 
-        loadScenes(); //carica le scene
+        loadScenes();
 
         this.primaryStage.setTitle("Codex Naturalis");
         root = new StackPane();
@@ -79,27 +77,24 @@ public class GUIApplication extends Application {
 
     }
 
-
-
     /**
      * This method use the FXMLLoader to load the scene and the controller of the scene.
      */
     private void loadScenes() {
         scenes = new ArrayList<>();
-        FXMLLoader loader; //formato per definire l'interfaccia utente dell'applicazione JavaFX in modo dichiarativo e che associa un controller ad ogni vista caricata
+        FXMLLoader loader;
         Parent root;
         ControllerGUI controller;
 
         for (SceneType sceneType : SceneType.values()) {
             String path = sceneType.path();
-            System.out.println("Loading FXML file: " + path); // Messaggio di debug
+            System.out.println("Loading FXML file: " + path);
             loader = new FXMLLoader(getClass().getResource(path));
             try {
                 root = loader.load();
                 controller = loader.getController();
                 Scene scene = new Scene(root);
 
-                // Imposta il controller come UserData della scena
                 scene.setUserData(controller);
 
                 scenes.add(new SceneInformation(scene, sceneType, controller));
@@ -109,7 +104,6 @@ public class GUIApplication extends Application {
             }
         }
     }
-
 
     /**
      * This method set the input reader GUI to all the controllers.
@@ -135,7 +129,12 @@ public class GUIApplication extends Application {
         return null;
     }
 
-    //ritorna l'indice di quella scena nell'elenco delle scene
+    /**
+     * Returns the index of the specified scene in the list of scenes.
+     *
+     * @param scene The SceneType to find the index of.
+     * @return The index of the specified scene, or -1 if the scene is not found.
+     */
     private int getSceneIndex(SceneType scene) {
         for (int i = 0; i < scenes.size(); i++) {
             if (scenes.get(i).getSceneType().equals(scene))
@@ -149,16 +148,12 @@ public class GUIApplication extends Application {
      * @param scene the scene {@link SceneType}
      */
     public void setActiveScene(SceneType scene) {
-        this.primaryStage.setTitle("Codex Naturalis - " + scene.name()); //imposta il titolo della finestra principale aggiungendo il nome della scena attiva
-        resizing = false; //disabilità la possibilità di ridimensionare la finestra durante il cambio di scena
-        int index = getSceneIndex(scene); //indice della scena
+        this.primaryStage.setTitle("Codex Naturalis - " + scene.name());
+        resizing = false;
+        int index = getSceneIndex(scene);
         if (index != -1) {
             SceneInformation s = scenes.get(index);
             switch (scene) {
-                /*case GENERIC_ERROR -> {
-                    this.closePopUpStage();
-                }*/
-
                 case PUBLISHER -> {
                     this.primaryStage.setAlwaysOnTop(true);
                     this.primaryStage.centerOnScreen();
@@ -182,13 +177,7 @@ public class GUIApplication extends Application {
 
                     return;
                 }
-                case MENU, INITIALIZE_CARDS, GAMEENDED -> {
-                    this.primaryStage.centerOnScreen();
-                    this.primaryStage.setAlwaysOnTop(false);
-                }
-                case MAINSCENE -> {
-                   /* this.closePopUpStage();
-                    MainSceneController controller = (MainSceneController) s.getControllerGUI();*/
+                case MENU, INITIALIZE_CARDS, GAMEENDED, MAINSCENE -> {
                     this.primaryStage.centerOnScreen();
                     this.primaryStage.setAlwaysOnTop(false);
                 }
@@ -200,8 +189,6 @@ public class GUIApplication extends Application {
             }
             this.primaryStage.setScene(s.getScene());
             this.primaryStage.show();
-           /* root.getChildren().clear();
-            root.getChildren().add(s.getScene().getRoot());*/
         }
 
         widthOld=primaryStage.getScene().getWidth();
@@ -212,7 +199,6 @@ public class GUIApplication extends Application {
 
         this.primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> rescale(widthOld,(double)newVal-39));
         resizing=true;
-        // Cambia il contenuto del root StackPane per mostrare la nuova scena
 
     }
 
@@ -225,8 +211,8 @@ public class GUIApplication extends Application {
             double heightWindow = heigh;
 
 
-            double w = widthWindow / widthOld;  // your window width
-            double h = heightWindow / heightOld;  // your window height
+            double w = widthWindow / widthOld;
+            double h = heightWindow / heightOld;
 
             widthOld = widthWindow;
             heightOld = heightWindow;
@@ -239,12 +225,8 @@ public class GUIApplication extends Application {
                 System.err.println("Nodo con ID 'content' non trovato.");
             }
 
-            //primaryStage.getScene().getRoot().getTransforms().add(scale);
-            //primaryStage.getScene().lookup("#content").getTransforms().add(scale);
         }
     }
-
-
 
     /**
      * This method is used to open the popup.
@@ -272,20 +254,19 @@ public class GUIApplication extends Application {
             popUpStage.hide();
     }
 
+    /**
+     * Creates a new window using the current primary stage's scene, closes the current primary stage,
+     * and sets the new stage as the primary stage. The new stage is centered on the screen and set
+     * to always stay on top. Additionally, it sets an action to exit the application when the new
+     * stage is closed.
+     */
     public void createNewWindowWithStyle() {
-        // Crea una nuova finestra con lo stile desiderato
         Stage newStage = new Stage();
 
-        // Copia la scena dalla finestra precedente
         newStage.setScene(this.primaryStage.getScene());
-
-        // Mostra la nuova finestra
         newStage.show();
-
-        // Chiudi la finestra precedente
         this.primaryStage.close();
 
-        // Imposta la nuova finestra come primaryStage
         this.primaryStage = newStage;
         this.primaryStage.centerOnScreen();
         this.primaryStage.setAlwaysOnTop(true);
@@ -297,19 +278,22 @@ public class GUIApplication extends Application {
         });
     }
 
-
-    public void showGenericError(String message){
-        GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneType.GENERIC_ERROR)).getControllerGUI();
-        controller.setMsg(message, false);
-    }
-
+    /**
+     * Shows a generic error message using the GenericErrorController.
+     *
+     * @param msg The message to display.
+     * @param needToExitApp Indicates whether the application needs to exit after showing the error.
+     */
     public void showErrorGeneric(String msg, boolean needToExitApp) {
         GenericErrorController controller = (GenericErrorController) scenes.get(getSceneIndex(SceneType.GENERIC_ERROR)).getControllerGUI();
         controller.setMsg(msg,needToExitApp);
     }
 
-
-
+    /**
+     * Updates the lobby UI with player information from the provided game model.
+     *
+     * @param model The game model containing player information.
+     */
     public void showPlayerToLobby(GameImmutable model) {
         hidePanesInLobby();
         int i = 0;
@@ -318,9 +302,16 @@ public class GUIApplication extends Application {
             i++;
         }
     }
+
+    /**
+     * Adds a player to the lobby, setting their username, player image, and ready indicator.
+     *
+     * @param nick The nickname of the player to add.
+     * @param indexPlayer The index of the player in the lobby UI.
+     * @param isReady Indicates whether the player is ready to start the game.
+     * @param color The color associated with the player.
+     */
     private void addLobbyPanePlayer(String nick, int indexPlayer, boolean isReady, Color color) {
-        // Recupera il controller dalla scena attiva
-        //LobbyController controller = (LobbyController) this.primaryStage.getScene().getUserData();
         LobbyController controller = (LobbyController) this.getController(SceneType.LOBBY);
         if (controller != null) {
             controller.setUsername(nick, indexPlayer);
@@ -334,11 +325,23 @@ public class GUIApplication extends Application {
             System.err.println("LobbyController is null or invalid");
         }
     }
+
+    /**
+     * Sets the visibility of the ready indicator pane for a specific player in the lobby.
+     *
+     * @param indexPlayer The index of the player whose ready indicator pane to update.
+     * @param isReady Indicates whether the player is ready.
+     */
     public void setPaneReady(int indexPlayer, boolean isReady){
         Pane paneReady = (Pane) this.primaryStage.getScene().lookup("#ready" + indexPlayer);
         paneReady.setVisible(isReady);
     }
 
+    /**
+     * Hides player panes and ready indicators in the lobby UI.
+     * Iterates through all possible player indices (0 to 3) and sets their corresponding
+     * panes to invisible.
+     */
     private void hidePanesInLobby() {
         for (int i = 0; i < 4; i++) {
             Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup("#pane" + i);
@@ -348,11 +351,21 @@ public class GUIApplication extends Application {
             paneReady.setVisible(false);
         }
     }
+
+    /**
+     * Disables the "Ready to Start" button in the lobby UI.
+     */
     public void disableBtnReadyToStart() {
-        //I set not visible the btn "Ready to start"
         ((LobbyController) scenes.get(getSceneIndex(SceneType.LOBBY)).getControllerGUI()).setVisibleBtnReady(false);
     }
 
+    /**
+     * Sets up the initialization scene for either choosing personal goals or initial cards.
+     *
+     * @param model The game model containing relevant initialization data.
+     * @param initial Indicates whether it's for initial cards (true) or personal goals (false).
+     * @param indexPlayer The index of the player for whom the initialization scene is set.
+     */
     public void setInitializationScene(GameImmutable model, boolean initial, int indexPlayer){
         InitializeCardsController controller = (InitializeCardsController) scenes.get(getSceneIndex(SceneType.INITIALIZE_CARDS)).getControllerGUI();
 
@@ -374,6 +387,14 @@ public class GUIApplication extends Application {
     }
 
     //MAIN SCENE
+
+    /**
+     * Displays the main game scene with updated information.
+     *
+     * @param model The immutable game model containing current game state.
+     * @param nickname The nickname of the local player.
+     * @param gui The GUI instance controlling the application.
+     */
     public void showMainScene(GameImmutable model, String nickname, GUI gui){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setGUI(gui, model);
@@ -388,23 +409,49 @@ public class GUIApplication extends Application {
         for (Player player : players) {
             playerNames.add(player.getNickname());
         }
-        // Popola la ComboBox dei giocatori con i nomi dei giocatori disponibili
         controller.setPlayerComboBoxItems(playerNames);
     }
+
+    /**
+     * Updates and displays the book pane in the main game scene.
+     *
+     * @param model The immutable game model containing current game state.
+     * @param nickname The nickname of the local player.
+     */
     public void showBook(GameImmutable model, String nickname){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.updateBookPane(model, nickname);
     }
+
+    /**
+     * Highlights the cell selection in the book pane in the main game scene.
+     *
+     * @param model The immutable game model containing current game state.
+     * @param nickname The nickname of the local player.
+     */
     public void showBookChooseCell(GameImmutable model, String nickname){
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.highlightChooseCell(model, nickname);
     }
+
+    /**
+     * Updates the message displayed on the main scene.
+     *
+     * @param msg The message to display.
+     * @param success Specifies if the message indicates a success (true) or an error (false).
+     */
     public void changeLabelMessage(String msg, Boolean success) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setMsgToShow(msg, success);
 
     }
 
+    /**
+     * Displays chat messages in the main game scene.
+     *
+     * @param model The immutable game model containing current game state and chat messages.
+     * @param myNickname The nickname of the local player.
+     */
     public void showMessages(GameImmutable model, String myNickname) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setMessage(model.getChat().getMsgs(), myNickname);
@@ -418,22 +465,44 @@ public class GUIApplication extends Application {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.setImportantEvents(importantEvents);
     }
+
+    /**
+     * Enlarges and highlights the player's deck pane in the main game scene.
+     *
+     * @param model The immutable game model containing current game state.
+     * @param nickname The nickname of the local player.
+     */
     public void showPlayerDeck(GameImmutable model, String nickname) {
         MainSceneController controller = (MainSceneController) scenes.get(getSceneIndex(SceneType.MAINSCENE)).getControllerGUI();
         controller.enlargeAndHighlightPlayerDeckPane(model, nickname);
     }
 
+    /**
+     * Sets the board model and optionally enables the pick card turn in the board popup scene.
+     *
+     * @param model The immutable game model containing current game state.
+     * @param enablePickCardTurn Flag indicating whether to enable pick card turn.
+     */
     public void showBoard(GameImmutable model, boolean enablePickCardTurn){
         BoardPopUpController controller = (BoardPopUpController) scenes.get(getSceneIndex(SceneType.BOARD_POPUP)).getControllerGUI();
         controller.setBoard(model);
         controller.enlargeAndHighlightBoardPane(enablePickCardTurn);
     }
 
+    /**
+     * Displays the final board scene with the given game model.
+     *
+     * @param model The immutable game model containing final game state.
+     * @throws NoPlayersException If there are no players in the game.
+     */
     public void showFinalBoard(GameImmutable model) throws NoPlayersException {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneType.GAMEENDED)).getControllerGUI();
         controller.showFinal(model);
     }
 
+    /**
+     * Displays the button to return to the main menu in the game ended scene.
+     */
     public void showBtnReturnToMenu() {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneType.GAMEENDED)).getControllerGUI();
         controller.showBtnReturnToMenu();

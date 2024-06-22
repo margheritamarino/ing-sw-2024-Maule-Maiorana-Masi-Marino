@@ -20,10 +20,7 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
  * Handle all the incoming network requests that clients can require to join or leave a game
  * by the RMI Network protocol
  */
-
-// implementa l'Interfaccia GameControllerInterface, contenete i metodi che il Client può invocare sul Server
-// Chiamando metodi della GameListenerInterface il Server può notificare al Client degli eventi di gioco (poi il Client reagirà di conseguenza)
-public class ServerRMI extends UnicastRemoteObject implements GameControllerInterface { //Provo a togliere che implementa GameControllerInterface (lo faccio implementare dal solo GameController)
+public class ServerRMI extends UnicastRemoteObject implements GameControllerInterface {
     /**
      * ServerRMI object
      */
@@ -48,15 +45,13 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         try {
             serverObject = new ServerRMI();
 
-           // Prova a recuperare il registro esistente, se non esiste creane uno nuovo
             try {
                 registry = LocateRegistry.getRegistry(DefaultValue.Default_port_RMI);
-                registry.list(); // Chiamata per verificare se il registro è effettivamente accessibile
+                registry.list();
             } catch (RemoteException e) {
                 registry = LocateRegistry.createRegistry(DefaultValue.Default_port_RMI);
             }
 
-            // Registra l'oggetto remoto nel registro
             getRegistry().rebind(DefaultValue.Default_servername_RMI, serverObject);
 
             System.out.println("RMI server started on port " + DefaultValue.Default_port_RMI + ".");
@@ -65,7 +60,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         } catch (RemoteException e) {
             e.printStackTrace();
             System.err.println("[ERROR] STARTING RMI SERVER: \n\tServer RMI exception: " + e);
-            throw e; // Rilancia l'eccezione per assicurare che il chiamante sia a conoscenza del fallimento
+            throw e;
         }
         return getInstance();
     }
@@ -100,7 +95,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      * @throws RemoteException
      */
     public ServerRMI() throws RemoteException {
-        super(); //tolto 0
+        super();
         gameController= GameController.getInstance();
     }
 

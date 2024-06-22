@@ -1,20 +1,19 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
-import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import java.awt.*;
 import java.io.IOException;
-
 import javafx.scene.control.TextField;
+
+
 /**
  * NicknameController class.
  */
 public class NicknameController extends ControllerGUI {
 
     @FXML
-    TextField nicknameTextField; //campo in cui l'utente inserisce il proprio nome
+    TextField nicknameTextField;
 
     /**
      * Method to control the nickname.
@@ -27,9 +26,13 @@ public class NicknameController extends ControllerGUI {
         }
 
     }
+
+    /**
+     * Initializes the controller after its root element has been completely processed.
+     * Sets an action listener on the nicknameTextField to handle enter key presses.
+     */
     @FXML
     private void initialize() {
-        // Configura il TextField per catturare l'evento di pressione del tasto ENTER
         nicknameTextField.setOnAction(event -> {
             try {
                 actionEnter(new ActionEvent());
