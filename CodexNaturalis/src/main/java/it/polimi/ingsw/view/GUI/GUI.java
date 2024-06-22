@@ -274,8 +274,18 @@ public class GUI extends UI {
      */
     @Override
     public void show_joiningToGameMsg(String nick, Color color) {
-        show_popupInfoAndNickname(nickname, "Trying to join a Game...");
+        // Mostra il pop-up con il messaggio
+        show_popupInfoAndNickname(nick, "Trying to join a Game...");
+
+        // Imposta una transizione di pausa per 3 secondi
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(event -> {
+            // Chiudi automaticamente il pop-up
+            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+        });
+        pause.play();
     }
+
 
     /**
      * Shows the MainScene and initializes it with the game model and player information.
@@ -708,12 +718,16 @@ public class GUI extends UI {
      */
     @Override
     public void show_askForReconnection(){
-        callPlatformRunLater(() -> {
-            this.guiApplication.setActiveScene(SceneType.RECONNECT_POPUP);
+       callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.RECONNECT_POPUP));
 
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
-        });
+        //callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+
     }
+
+
+
+
+
 
     /**
      * Adds a message to the chat and updates the GUI accordingly.
