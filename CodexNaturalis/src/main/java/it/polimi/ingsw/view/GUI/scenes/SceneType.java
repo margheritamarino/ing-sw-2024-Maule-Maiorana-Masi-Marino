@@ -4,20 +4,20 @@ package it.polimi.ingsw.view.GUI.scenes;
  * SceneType class. It is used to store the paths of the FXML files of the scenes.
  */
 public enum SceneType {
-    PUBLISHER("/it.polimi.ingsw.view.GUI/fxml/Publisher.fxml"),
-    NICKNAME("/it.polimi.ingsw.view.GUI/fxml/Nickname.fxml"),
-    NICKNAME_POPUP("/it.polimi.ingsw.view.GUI/fxml/NicknamePopUp.fxml"),
-    LOBBY("/it.polimi.ingsw.view.GUI/fxml/Lobby.fxml"),
-    MENU("/it.polimi.ingsw.view.GUI/fxml/Menu.fxml"),
-    INITIALIZE_CARDS("/it.polimi.ingsw.view.GUI/fxml/InitializeCards.fxml"),
-    MAINSCENE("/it.polimi.ingsw.view.GUI/fxml/MainScene.fxml"),
-    BOARD_POPUP("/it.polimi.ingsw.view.GUI/fxml/BoardPopUp.fxml"),
-    SCORETRACK_POPUP("/it.polimi.ingsw.view.GUI/fxml/ScoretrackPopUp.fxml"),
-    WAITING_POPUP("/it.polimi.ingsw.view.GUI/fxml/WaitingPopUp.fxml"),
-    GAMEENDED("/it.polimi.ingsw.view.GUI/fxml/GameEnded.fxml"),
-    GENERIC_ERROR("/it.polimi.ingsw.view.GUI/fxml/GenericError.fxml"),
+    PUBLISHER("/it/polimi/ingsw/Publisher.fxml"),
+    NICKNAME("/it/polimi/ingsw/Nickname.fxml"),
+    NICKNAME_POPUP("/it/polimi/ingsw/NicknamePopUp.fxml"),
+    LOBBY("/it/polimi/ingsw/Lobby.fxml"),
+    MENU("/it/polimi/ingsw/Menu.fxml"),
+    INITIALIZE_CARDS("/it/polimi/ingsw/InitializeCards.fxml"),
+    MAINSCENE("/it/polimi/ingsw/MainScene.fxml"),
+    BOARD_POPUP("/it/polimi/ingsw/BoardPopUp.fxml"),
+    SCORETRACK_POPUP("/it/polimi/ingsw/ScoretrackPopUp.fxml"),
+    WAITING_POPUP("/it/polimi/ingsw/WaitingPopUp.fxml"),
+    GAMEENDED("/it/polimi/ingsw/GameEnded.fxml"),
+    GENERIC_ERROR("/it/polimi/ingsw/GenericError.fxml"),
 
-    RECONNECT_POPUP("/it.polimi.ingsw.view.GUI/fxml/ReconnectionPopUp.fxml");
+    RECONNECT_POPUP("/it/polimi/ingsw/ReconnectionPopUp.fxml");
 
     private final String path;
 

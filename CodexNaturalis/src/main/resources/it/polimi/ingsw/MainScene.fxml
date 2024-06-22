@@ -37,7 +37,7 @@
             <ListView fx:id="chatList" layoutX="18.0" layoutY="13.0" prefHeight="68.0" prefWidth="200.0" styleClass="BoardStyle" stylesheets="@styleCodex.css" />
             <ImageView fx:id="actionSendMessage" fitHeight="26.0" fitWidth="25.0" layoutX="185.0" layoutY="94.0" onKeyPressed="#chatOnClick" onMouseClicked="#actionSendMessage" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/arrow.png" />
+                  <Image url="@../../../img/arrow.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -65,7 +65,7 @@
       </AnchorPane>
       <ImageView fitHeight="22.0" fitWidth="26.0" layoutX="94.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../img/speech_balloon.png" />
+            <Image url="@../../../img/speech_balloon.png" />
          </image>
       </ImageView>
       <Text fx:id="nicknameTextField" layoutX="33.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="glow-button" text="Text">
@@ -163,7 +163,7 @@
       </Pane>
       <ImageView fitHeight="226.0" fitWidth="209.0" layoutX="30.0" layoutY="15.0" opacity="0.95" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../img/magicianCodexNaturalis.jpg" />
+            <Image url="@../../../img/magicianCodexNaturalis.jpg" />
          </image>
          <styleClass>
             <String fx:value="BoardStyle" />
@@ -172,7 +172,7 @@
       </ImageView>
       <ImageView fitHeight="48.0" fitWidth="42.0" layoutX="962.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../img/goal.jpg" />
+            <Image url="@../../../img/goal.jpg" />
          </image>
          <styleClass>
             <String fx:value="BoardStyle" />

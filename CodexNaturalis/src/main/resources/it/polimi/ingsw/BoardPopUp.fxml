@@ -33,7 +33,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../img/Cards/ObjectiveCards/ObjectiveBack.png" />
+                        <Image url="@../../../img/Cards/ObjectiveCards/ObjectiveBack.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="imgObjective0" fitHeight="150.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" />

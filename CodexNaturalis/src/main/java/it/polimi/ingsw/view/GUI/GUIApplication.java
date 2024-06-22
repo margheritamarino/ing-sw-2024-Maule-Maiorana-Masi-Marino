@@ -23,6 +23,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class GUIApplication extends Application {
     /**
      * This method use the FXMLLoader to load the scene and the controller of the scene.
      */
-    private void loadScenes() {
+    /*private void loadScenes() {
         scenes = new ArrayList<>();
         FXMLLoader loader;
         Parent root;
@@ -103,7 +104,38 @@ public class GUIApplication extends Application {
                 throw new RuntimeException("Failed to load FXML file: " + path, e);
             }
         }
+    }*/
+    private void loadScenes() {
+        scenes = new ArrayList<>();
+        FXMLLoader loader;
+        Parent root;
+        ControllerGUI controller;
+
+        for (SceneType sceneType : SceneType.values()) {
+            String path = sceneType.path();
+            System.out.println("Loading FXML file: " + path);
+            URL fxmlLocation = getClass().getResource(path);
+
+            if (fxmlLocation == null) {
+                throw new RuntimeException("FXML file not found: " + path);
+            }
+
+            loader = new FXMLLoader(fxmlLocation);
+
+            try {
+                root = loader.load();
+                controller = loader.getController();
+                Scene scene = new Scene(root);
+                scene.setUserData(controller);
+
+                scenes.add(new SceneInformation(scene, sceneType, controller));
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to load FXML file: " + path, e);
+            }
+        }
     }
+
 
     /**
      * This method set the input reader GUI to all the controllers.

@@ -24,7 +24,7 @@
             </Text>
             <ImageView fitHeight="124.0" fitWidth="119.0" layoutX="78.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" styleClass="BoardStyle">
                <image>
-                  <Image url="@../../img/wait.png" />
+                  <Image url="@../../../img/wait.png" />
                </image>
             </ImageView>
          </children>
