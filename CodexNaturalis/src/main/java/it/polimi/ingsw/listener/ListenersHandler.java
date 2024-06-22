@@ -188,6 +188,7 @@ public class ListenersHandler {
      * @param model the game model to pass as a new GameModelImmutable
      */
     public void notify_nextTurn(Game model) { //tolgo SYNCHRONIZED
+        System.out.println("ListenersHandler - notify_nextTurn \n ");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -207,6 +208,7 @@ public class ListenersHandler {
      * @param nick      the nickname of the player who disconnected
      */
     public void notify_playerDisconnected(Game gamemodel, String nick) { //tolgo SYNCHRONIZED
+        System.out.println("ListenersHandler - notify_playerDisconnected() \n");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -289,6 +291,7 @@ public class ListenersHandler {
      * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
      */
     public void notify_playerReconnected(Game model, String nickPlayerReconnected) {
+        System.out.println("ListenersHandler - notify_PlayerReconnected() \n");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -320,6 +323,7 @@ public class ListenersHandler {
      * @param model the current game model to pass as a new GameModelImmutable {@link GameImmutable}
      */
     public void notify_AskForReconnection(GameListenerInterface lis, Player triedToJoin, Game model ){
+        System.out.println("ListenersHandler - notify_AskForReconnection() \n");
         try {
             lis.AskForReconnection(triedToJoin,new GameImmutable(model));
         } catch (RemoteException e) {

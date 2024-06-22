@@ -80,6 +80,7 @@ public class Player implements Serializable {
      * @param connected sets the player's connection
      */
     public void setConnected(boolean connected) {
+        System.out.println("Player - setConnected( " + connected + " ) \n");
         this.connected = connected;
     }
 

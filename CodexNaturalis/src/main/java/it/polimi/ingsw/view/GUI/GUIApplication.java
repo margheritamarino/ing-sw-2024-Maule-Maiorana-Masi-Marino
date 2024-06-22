@@ -160,10 +160,12 @@ public class GUIApplication extends Application {
 
                 }
 
-                case NICKNAME_POPUP, WAITING_POPUP, GENERIC_ERROR, RECONNECT_POPUP-> {
+                case NICKNAME_POPUP, WAITING_POPUP, GENERIC_ERROR, RECONNECT_POPUP -> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
+
+
                 case BOARD_POPUP-> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     BoardPopUpController controller = (BoardPopUpController) s.getControllerGUI();
@@ -488,6 +490,9 @@ public class GUIApplication extends Application {
         controller.setBoard(model);
         controller.enlargeAndHighlightBoardPane(enablePickCardTurn);
     }
+
+
+
 
     /**
      * Displays the final board scene with the given game model.

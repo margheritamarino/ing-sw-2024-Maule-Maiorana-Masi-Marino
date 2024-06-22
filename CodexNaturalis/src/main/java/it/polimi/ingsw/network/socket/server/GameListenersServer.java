@@ -274,6 +274,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void playerDisconnected(GameImmutable model, String nickname) throws RemoteException {
+        System.out.println("GameListenerServer - playerDisconnected()  \n");
         try {
             out.writeObject(new msgPlayerDisconnected(model,nickname));
             finishSending();

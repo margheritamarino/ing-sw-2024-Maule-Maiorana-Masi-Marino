@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.GUI.controllers;
 
+import it.polimi.ingsw.view.GUI.GUIApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +15,9 @@ public class ReconnectPopUpController extends ControllerGUI{
     @FXML
     Button YesBtn;
 
+
+
+
     /**
      * Handles the action when the user clicks the return button.
      *
@@ -21,6 +25,7 @@ public class ReconnectPopUpController extends ControllerGUI{
      */
     public void ReturnOnClick(ActionEvent actionEvent) {
         getInputGUI().addTxt("return");
+
     }
 
     /**
