@@ -574,9 +574,8 @@ public class Game {
 	public int placeCardTurn( Player p, int chosenCard, int rowCell, int colCell)  {
 		try {
 			currentCardPoints=  p.placeCard(chosenCard, rowCell, colCell);
-			//p.notify_CardPlaced(this);
 			return currentCardPoints;
-		}catch(PlacementConditionViolated | IndexOutOfBoundsException| CellNotAvailableException e   ){
+		}catch(PlacementConditionViolated | CellNotAvailableException e   ){
 			String msg = e.getMessage();
 			p.notify_NotCorrectChosenCard(this, msg);
 			return -1;

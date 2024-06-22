@@ -173,7 +173,7 @@ public class Player implements Serializable {
      * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
      * @return the victoryPoints of the placed card
      */
-    public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, IndexOutOfBoundsException, CellNotAvailableException {
+    public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, CellNotAvailableException {
         ArrayList<Cell> availableCells = this.playerBook.showAvailableCells();
         Cell chosenCell = null;
         PlayableCard chosenCard;
@@ -207,8 +207,8 @@ public class Player implements Serializable {
                 points = playerBook.addCard(chosenCard, chosenCell);
                 playerDeck.removeCard(posCard);
             }
-        }catch (PlacementConditionViolated e){
-            throw new PlacementConditionViolated("You don't have enough resources on the book! Choose another CARD");
+        }catch (PlacementConditionViolated | CellNotAvailableException e){
+            throw e;
         }
         return points;
     }

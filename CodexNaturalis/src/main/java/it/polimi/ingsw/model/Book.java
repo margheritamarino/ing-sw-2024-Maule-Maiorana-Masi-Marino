@@ -172,7 +172,7 @@ public class Book implements Serializable {
         int numPoints;
 
         if (!checkPlacementCondition(goldCard)) {
-            throw new PlacementConditionViolated("you don't have enough resources on the book!");
+            throw new PlacementConditionViolated("You don't have enough resources on the book! Choose another CARD");
         }
 
         if (!cell.isAvailable()) {
