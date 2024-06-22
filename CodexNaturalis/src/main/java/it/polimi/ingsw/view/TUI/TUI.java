@@ -382,30 +382,18 @@ public class TUI extends UI {
         printAsync("Invalid selection. Please choose 0 or 1.");
     }
 
-    /**
-     * Displays a message indicating that the card selection is invalid.
-     */
-    @Override
-    public void show_wrongCardSelMsg() {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        printAsync("Invalid selection. Please choose a number between 0 and 6.");
-    }
 
     /**
-     * Displays a message indicating that the cell selection is invalid.
+     * Displays a message indicating that the cell or card selection is invalid.
      */
     @Override
-    public void show_wrongCellSelMsg() {
+    public void show_wrongSelMsg(int min, int max) {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        printAsync("Invalid selection. Please choose a number between: "+ DefaultValue.BookSizeMin+ " and " + DefaultValue.BookSizeMax);
+        printAsync("Invalid selection. Please choose a number between: "+ min + " and " + max);
     }
 
     /**

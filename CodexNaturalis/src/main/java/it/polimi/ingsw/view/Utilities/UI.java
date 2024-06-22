@@ -212,14 +212,9 @@ public abstract class UI {
     public abstract void show_returnToMenuMsg();
 
     /**
-     * Shows a message indicating a wrong card selection.
+     * Shows a message indicating a wrong card or cell selection.
      */
-    public abstract void show_wrongCardSelMsg();
-
-    /**
-     * Shows a message indicating a wrong cell selection.
-     */
-    public abstract void show_wrongCellSelMsg();
+    public abstract void show_wrongSelMsg(int min, int max);
 
     /**
      * Shows a message asking for a number input.

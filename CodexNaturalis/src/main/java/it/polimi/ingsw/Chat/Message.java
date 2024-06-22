@@ -102,7 +102,7 @@ public class Message implements Serializable {
      */
     public String toString(int i, int len, boolean isPrivate) {
         String padding = " ".repeat(Math.max(0, (len - text.length())));
-        String priv = isPrivate ? " " : "";
+        String priv = isPrivate ? "[PRIVATE]: " : "";
         String timestamp = String.format("[%02d:%02d:%02d] ", time.getHour(), time.getMinute(), time.getSecond());
         String nickname = sender.getNickname().length() > 4 ? sender.getNickname().substring(0, 4) + "." : sender.getNickname();
         return priv + timestamp + nickname + ": " + text + padding;

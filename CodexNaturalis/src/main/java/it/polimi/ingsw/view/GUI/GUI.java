@@ -417,30 +417,13 @@ public class GUI extends UI {
         callPlatformRunLater(() -> this.guiApplication.showBtnReturnToMenu());
     }
 
-    /**
-     * Shows a message indicating an invalid card selection.
-     */
-    @Override
-    public void show_wrongCardSelMsg() {
-        String errorMessage = "Invalid selection. Please choose a number between 0 and 6.";
-        callPlatformRunLater(() -> {
-            this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
-            this.guiApplication.showErrorGeneric(errorMessage, false);
-
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.setOnFinished(event -> {
-                this.guiApplication.closePopUpStage();
-            });
-            pause.play();
-        });
-    }
 
     /**
      * Shows a message indicating an invalid cell selection.
      */
     @Override
-    public void show_wrongCellSelMsg() {
-        String errorMessage = "Invalid cell selection. Please choose an empty cell with a valid coordinate!";
+    public void show_wrongSelMsg(int min, int max) {
+        String errorMessage = "Invalid selection. Please choose a number between "+min+ " and " + max;
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR);
             this.guiApplication.showErrorGeneric(errorMessage, false);

@@ -186,9 +186,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 ui.show_youAreReady(event.getModel());
                 ui.show_askForChat(event.getModel(), nickname);
             }
-            case CARDS_READY -> {
-                makeGameStart(nickname);
-            }
+            case CARDS_READY -> makeGameStart(nickname);
         }
     }
 
@@ -241,20 +239,16 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                 if (event.getModel().getNicknameCurrentPlaying().equals(nickname)){
                     askPickCard(event.getModel());
                 }else
-                    ui.closeWaitPopUp();;
+                    ui.closeWaitPopUp();
 
             }
-            case SENT_MESSAGE -> {
-                ui.show_sentMessage(event.getModel(), nickname);
-            }
+            case SENT_MESSAGE -> ui.show_sentMessage(event.getModel(), nickname);
 
             case CARD_PLACED_NOT_CORRECT -> {
                 ui.show_playerHasToChooseAgain(event.getModel(), nickname, this.msgNotCorrect);
                 askPlaceCards(event.getModel(), nickname);
             }
-            case CARD_DRAWN -> {
-                ui.show_cardDrawnMsg(event.getModel(), nickname);
-            }
+            case CARD_DRAWN -> ui.show_cardDrawnMsg(event.getModel(), nickname);
 
         }
 
@@ -589,55 +583,52 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String temp;
         ui.show_askPlaceCardsMainMsg(model);
         ui.show_alwaysShow(model, nickname);
-        int posChosenCard;
-        do {
-            try {
-                ui.show_askNum("Choose which CARD you want to place:", model, nickname);
-                temp = this.inputController.getUnprocessedData().popInputData();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            posChosenCard = Integer.parseInt(temp);
-            if (posChosenCard < 0 || posChosenCard > 6) {
-                ui.show_wrongCardSelMsg();
-                posChosenCard = -1;
-            }
-        }while (posChosenCard<0);
 
-        int rowCell;
+        ui.show_askNum("Choose which CARD you want to place:", model, nickname);
+        int posChosenCard=getIndex(true);
+
         ui.show_askWhichCellMsg(model);
         ui.show_askNum("Choose the ROW of the cell:", model, nickname);
-        do {
-            try {
-                temp = this.inputController.getUnprocessedData().popInputData();
+        int rowCell = getIndex(false);
 
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            rowCell = Integer.parseInt(temp);
-            if (rowCell < DefaultValue.BookSizeMin || rowCell > DefaultValue.BookSizeMax) {
-                ui.show_wrongCellSelMsg();
-                rowCell = -1;
-            }
-        }while (rowCell<0);
 
-        int colCell=-1;
         ui.show_askNum("Choose the COLUMN of the cell:", model, nickname);
-        do {
-            try {
-                temp = this.inputController.getUnprocessedData().popInputData();
-
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            colCell = Integer.parseInt(temp);
-            if (colCell < DefaultValue.BookSizeMin || colCell > DefaultValue.BookSizeMax) {
-                ui.show_wrongCellSelMsg();
-                colCell = -1;
-            }
-        }while (colCell<0);
+        int colCell = getIndex(false);
 
         placeCardInBook(posChosenCard, rowCell, colCell );
+    }
+
+    /**
+     * Gets the index for either a card or a cell position based on user input.
+     *
+     * @param card boolean indicating if the index is for a card (true) or for a cell (false).
+     * @return the index entered by the user.
+     */
+    private int getIndex(boolean card) {
+        String temp;
+        int min, max;
+        int index;
+        if(card){
+            min=0;
+            max=6;
+        }else{
+            min=DefaultValue.BookSizeMin ;
+            max= DefaultValue.BookSizeMax;
+        }
+        do {
+            try {
+                temp = this.inputController.getUnprocessedData().popInputData();
+
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            index = Integer.parseInt(temp);
+            if (index < min || index > max) {
+                ui.show_wrongSelMsg(min, max);
+                index = -1;
+            }
+        }while (index<0);
+        return index;
     }
 
     /**
@@ -1159,22 +1150,12 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
         System.out.println("in GameFlow --> RECONNECT()");
-
         //ui.show_joiningToGameMsg(nick, color);
         try {
             clientActions.reconnect(nickname, idGame);
         } catch (IOException | InterruptedException | NotBoundException e) {
             noConnectionError();
         }
-        /*
-        ui.show_failedReconnectionMsg(nick);
-        try {
-            this.inputController.getUnprocessedData().popInputData(); //rimuovo il dato non elaborato dal buffer
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        events.add(null,BACK_TO_MENU);
-         */
     }
 
     /**
@@ -1244,7 +1225,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         if (msg.whoIsReceiver().equals("*") || msg.whoIsReceiver().equalsIgnoreCase(nickname) || msg.getSender().getNickname().equalsIgnoreCase(nickname)) {
             ui.addMessage(msg, model);
             events.add(model, EventType.SENT_MESSAGE);
-            msg.setText("[PRIVATE]: " + msg.getText());
+            msg.setText(msg.getText());
         }
     }
 
