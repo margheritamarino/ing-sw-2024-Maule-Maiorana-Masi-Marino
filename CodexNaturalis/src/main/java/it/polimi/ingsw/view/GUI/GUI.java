@@ -4,6 +4,7 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NoPlayersException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
+import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.view.GUI.controllers.*;
@@ -713,6 +714,7 @@ public class GUI extends UI {
 
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
         });
+
     }
 
     /**
