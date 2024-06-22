@@ -711,7 +711,7 @@ public class GUI extends UI {
         callPlatformRunLater(() -> {
             this.guiApplication.setActiveScene(SceneType.RECONNECT_POPUP);
 
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            //callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
         });
     }
 
