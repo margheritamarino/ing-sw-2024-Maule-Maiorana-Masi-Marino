@@ -28,7 +28,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class TUI extends UI {
 
     private String nickname;
-    private boolean alreadyShowedLobby;
+    private boolean alreadyShowedLobby=false;
 
     /**
      * Constructor
@@ -56,7 +56,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("*** WELCOME " + nick + "!***");
     }
@@ -70,7 +70,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync( model.toStringListPlayers());
 
@@ -85,7 +85,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("The ORDER of the players is: \n" + model.toStringListOrderArray());
 
@@ -112,7 +112,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         printAsync (ColorConsole.YELLOW.getCode() +
@@ -136,7 +136,7 @@ public class TUI extends UI {
          try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+             Thread.currentThread().interrupt();
         }
         printAsync(ColorConsole.GREEN_BRIGHT.getCode()+
 
@@ -161,7 +161,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync(model.getScoretrack().toString());
     }
@@ -176,7 +176,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         String boldStart = "\u001B[1m";
@@ -214,7 +214,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync(model.getCurrentPlayer().getPlayerBook().toString());
     }
@@ -230,7 +230,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         String boldStart = "\u001B[1m";
@@ -254,7 +254,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync(msg);
     }
@@ -267,7 +267,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Insert the number of the players in the Game: ");
     }
@@ -280,7 +280,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Insert the GameID: ");
     }
@@ -293,7 +293,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Not valid input. Please try again. ");
     }
@@ -305,12 +305,13 @@ public class TUI extends UI {
      * @param nick the nickname of the player who joined
      * @param color the color associated with the player
      */
+
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         if (!alreadyShowedLobby) {
             clearScreen();
@@ -318,6 +319,7 @@ public class TUI extends UI {
             printAsync("GameID: [" + gameModel.getGameId().toString() + "]");
             printAsync("Players in the LOBBY:");
             show_allPlayers(gameModel);
+            alreadyShowedLobby = true;
         }else{
             add_newPlayer(gameModel);
         }
@@ -347,12 +349,12 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Press y if you are ready to start the game");
     }
@@ -377,7 +379,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Invalid selection. Please choose 0 or 1.");
     }
@@ -391,7 +393,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Invalid selection. Please choose a number between: "+ min + " and " + max);
     }
@@ -407,7 +409,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -423,7 +425,7 @@ public class TUI extends UI {
                 System.out.flush();
             }
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -438,7 +440,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("WAIT! It's "+ model.getCurrentPlayer().getNickname()+" TURN\n");
 
@@ -454,7 +456,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("It's your TURN!\n");
     }
@@ -471,7 +473,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync(ansi().fg(DEFAULT).a("***GAME STARTED!***"));
         show_OrderPlayers(model);
@@ -489,7 +491,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("It's your turn to PLACE A CARD" );
     }
@@ -504,7 +506,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("It's your turn to PICK A CARD " );
         show_board(model);
@@ -521,7 +523,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Which card do you want to pick? Press R(r) if you want a Resource card or G(g) if you want a Gold card:" );
     }
@@ -537,7 +539,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Press Y if you want to draw from deck or N if you want a visible card:" );
     }
@@ -552,7 +554,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Choose a Cell in the book to place the card:" );
     }
@@ -569,7 +571,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("ERROR: " + msg );
 
@@ -585,7 +587,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync( model.getCurrentPlayer().getNickname() + " has placed a card!\n" );
     }
@@ -600,7 +602,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Next turn: " + model.getCurrentPlayer().getNickname());
     }
@@ -616,7 +618,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
        ArrayList<PlayableCard[]> minideck= model.getCurrentPlayer().getPlayerDeck().getMiniDeck();
         printAsync( "This is your drawn card:\n" + minideck.get(2)[0].toString() + minideck.get(2)[1].toString());
@@ -634,9 +636,9 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
-        if(model.getCurrentPlayer().equals(nickname) )
+        if(model.getCurrentPlayer().getNickname().equals(nickname) )
             printAsync("You scored " + model.getCurrentCardPoints()+ "points!");
         else
             printAsync(model.getCurrentPlayer().getNickname() + " scored " + model.getCurrentCardPoints()+ " points!");
@@ -655,7 +657,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Trying to join a game...\n");
     }
@@ -692,7 +694,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         ris.append(ansi().fg(GREEN).bold().a("Latest Events:").fg(DEFAULT).boldOff());
         for (String s : eventsToShow) {
@@ -709,7 +711,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Insert your nickname: \n");
     }
@@ -725,7 +727,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Your nickname is " + nickname );
     }
@@ -740,7 +742,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         clearScreen();
         show_titleCodexNaturalis();
@@ -756,7 +758,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("You are back in the menu!\n");
     }
@@ -772,7 +774,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         printAsync("> Choose the front[0] or the back[1] of the following initial card to place it at the center of your book:");
@@ -828,7 +830,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Set your GOAL for the Game:\n> Choose one between these objective cards:");
 
@@ -983,7 +985,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         if(cardType.equals(CardType.ResourceCard)){
             printAsync(model.getBoard().cardsVisibleResourceToString());
@@ -1004,7 +1006,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("\nIf during the game you want to send a public message, a private message or you want to exit from the game, you can write one of this following commands:\n ");
         printAsyncNoCursorReset(ansi().a("""
@@ -1080,7 +1082,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         if(nick.equals(lastPlayerReconnected)){
             printAsync("You are back in the game! \n");
@@ -1100,7 +1102,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Failed to reconnect " + nick + " to the game! \n");
     }
@@ -1114,7 +1116,7 @@ public class TUI extends UI {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         printAsync("Press YES if you are trying to RECONNECT to the game \n");
 
