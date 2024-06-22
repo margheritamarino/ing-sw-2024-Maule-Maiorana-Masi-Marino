@@ -410,7 +410,6 @@ public class Game {
 			int nextIndex = currentIndex;
 			if (getNumOfOnlinePlayers() >1) {
 				//I skip the disconnected players and I let play only the connected ones
-
 				do {
 					// Calcola l'indice del giocatore successivo
 					 nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
