@@ -367,4 +367,10 @@ public abstract class UI {
      */
     public abstract void show_askForReconnection();
 
+    /**
+     * Shows a message in case there a player disconnectes and there is
+     * only one player still connected
+     * @param secondsToWaitUntilGameEnded the seconds setted for reconnection timer
+     */
+    public abstract void show_onlyOnePlayerConnected(int secondsToWaitUntilGameEnded) ;
 }

@@ -277,13 +277,13 @@ public class GUI extends UI {
         // Mostra il pop-up con il messaggio
         show_popupInfoAndNickname(nick, "Trying to join a Game...");
 
-        // Imposta una transizione di pausa per 3 secondi
+        /* Imposta una transizione di pausa per 3 secondi
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(event -> {
             // Chiudi automaticamente il pop-up
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
         });
-        pause.play();
+        pause.play();*/
     }
 
 
@@ -710,7 +710,7 @@ public class GUI extends UI {
     @Override
     public void show_failedReconnectionMsg(String nick){
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.GENERIC_ERROR));
-        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Failed to recconnect to the game!", true));
+        callPlatformRunLater(() -> this.guiApplication.showErrorGeneric("Failed to reconnect to the game!", true));
     }
 
     /**
@@ -718,13 +718,22 @@ public class GUI extends UI {
      */
     @Override
     public void show_askForReconnection(){
+        callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.RECONNECT_POPUP));
-
-        //callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
 
     }
 
-
+    /**
+     * Shows a message in case a player disconnectes
+     * and only one player is connected indicating
+     *  the game will end after a specified waiting period
+     * @param secondsToWaitUntilGameEnded the seconds setted for reconnection timer
+     */
+    @Override
+    public void show_onlyOnePlayerConnected(int secondsToWaitUntilGameEnded){
+        String msg= "Only one player is connected, waiting " + secondsToWaitUntilGameEnded + " seconds before calling Game Ended!";
+        callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg,false));
+    }
 
 
 

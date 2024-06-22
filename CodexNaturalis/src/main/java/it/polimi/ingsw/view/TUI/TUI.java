@@ -1071,6 +1071,17 @@ public class TUI extends UI {
     }
 
     /**
+     * Shows a message in case there a player disconnectes and there is
+     * only one player still connected
+     * @param secondsToWaitUntilGameEnded the seconds setted for reconnection timer
+     */
+    @Override
+    public void show_onlyOnePlayerConnected(int secondsToWaitUntilGameEnded){
+        String msg= "Only one player is connected, waiting " + secondsToWaitUntilGameEnded + " seconds before calling Game Ended!";
+        printAsync(msg);
+    }
+
+    /**
      * Shows a message for the next turn or when a player reconnects
      * @param model model where events happen
      * @param nick of the reconnected player

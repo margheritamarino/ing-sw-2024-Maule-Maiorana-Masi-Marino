@@ -303,7 +303,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
          Player disconnectedPlayer;
 
          disconnectedPlayer = model.getPlayerByNickname(nick);
-                //The game exists, check if nickname exists
+          //The game exists, check if nickname exists
          if(disconnectedPlayer!=null) {
              disconnectedPlayer.addListener(lis);
              model.addListener(lis);

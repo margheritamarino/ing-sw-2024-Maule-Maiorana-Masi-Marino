@@ -274,7 +274,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
             case BACK_TO_MENU -> {
                 if(ended)
                     ui.show_returnToMenuMsg();
-
                 else{
                         askNickname();
                         joinGame(nickname);
@@ -329,12 +328,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     /**
      * If a Client connected and inserted a name that is already in the game, we ask if it's a Reconnection
      * @return true if he's trying to reconnect
-     * @throws NotBoundException       If a binding exception occurs.
-     * @throws IOException             If an I/O error occurs.
-     * @throws InterruptedException    If the thread is interrupted.
      *
      */
-    public boolean askingForReconnection() throws NotBoundException, IOException, InterruptedException {
+    public boolean askingForReconnection()  {
         String isReconnection; // salvo l'input del Client (se sta tentando una riconnessione oppure no)
         ui.show_askForReconnection();
         this.inputController.getUnprocessedData().popAllData();
@@ -1233,7 +1229,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void onlyOnePlayerConnected(GameImmutable gameModel, int secondsToWaitUntilGameEnded) {
-        ui.addImportantEvent("Only one player is connected, waiting " + secondsToWaitUntilGameEnded + " seconds before calling Game Ended!");
+        ui.show_onlyOnePlayerConnected(secondsToWaitUntilGameEnded);
     }
 
     /**
