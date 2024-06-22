@@ -138,38 +138,6 @@ public class ClientRMI implements ClientInterface {
 
     }
 
-   /* //CAPISCI SE SERVE:
-    /**
-     * Send pings to the RMI server
-     * If sending a message takes more than {@link DefaultValue#timeoutConnection_millis} millis, the client
-     * will be considered no longer connected to the server
-     */
-/*
-@SuppressWarnings("BusyWait") //CAPISCI SE LASCIARE
-public void run() {
-    //For the ping
-    while (!Thread.interrupted()) {
-        try {
-            Timer timer = new Timer();
-            TimerTask task = new TaskOnNetworkDisconnection(flow);
-            timer.schedule(task, DefaultValue.timeoutConnection_millis);
-
-            //send ping so the server knows I am still online
-            ping();
-
-            timer.cancel();
-        } catch (RemoteException e) {
-            return;
-        }
-        try {
-            Thread.sleep(DefaultValue.secondToWaitToSend_ping);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-}
-
-*/
 
     /**
      * Comunicate to server the chosen initial card

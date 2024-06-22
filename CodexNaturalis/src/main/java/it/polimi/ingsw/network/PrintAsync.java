@@ -41,9 +41,6 @@ public class PrintAsync {
      *
      * @param msg The string message to print.
      */
-    public static void printAsyncNoLine(String msg){
-        System.out.print(msg);
-    }
 }
 
 

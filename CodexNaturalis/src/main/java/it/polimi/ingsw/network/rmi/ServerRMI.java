@@ -122,14 +122,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         return getInstance();
     }
 
-   /* @Override
-    public void joinGame(GameListenerInterface lis, String nick, Color color) throws RemoteException {
-        //gameController.joinGame(lis, nick, color);
-         serverObject.gameController.joinGame(lis, nick, color); //TRY
-
-        printAsync("[RMI] " + nick + " joined to game");
-    }*/
-
     /**
      * Requests to join the game with the specified nickname and attaches the provided listener for game events.
      *
@@ -161,6 +153,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //gameController.leave(lis, nick);
         serverObject.gameController.leave(lis, nick);
     }
+
+
     /**
      * Requests to reconnect the player with the specified listener and nickname to the current game session.
      *
@@ -172,6 +166,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     public void reconnect(GameListenerInterface lis, String nick) throws RemoteException{
         serverObject.gameController.reconnect(lis,nick);
     }
+
+
     /**
      * Checks if the player associated with the provided listener and nickname is ready to start the game.
      *
@@ -186,6 +182,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
          return serverObject.gameController.playerIsReadyToStart(lis, p);
         //return false;
     }
+
+
     /**
      * Checks if it is the turn of the player associated with the provided nickname.
      *
@@ -198,6 +196,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //return gameController.isThisMyTurn(nick);
         return serverObject.gameController.isThisMyTurn(nick);
     }
+
+
     /**
      * Requests to disconnect the player associated with the provided nickname and listener from the game.
      *
@@ -210,6 +210,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //gameController.disconnectPlayer(nick, listener);
        serverObject.gameController.disconnectPlayer(nick, listener);
     }
+
+
     /**
      * Retrieves the ID of the current game session.
      *
@@ -221,6 +223,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //return gameController.getGameId();
         return serverObject.gameController.getGameId();
     }
+
+
     //TODO DA CONTROLLARE PING:
     /**
      * Sends a ping message to the server to maintain the connection and check responsiveness.
@@ -248,6 +252,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //gameController.setInitialCard(nickname,index);
         serverObject.gameController.setInitialCard(nickname,index);
     }
+
+
     /**
      * Informs the server to set the goal card for the specified player.
      *
@@ -261,6 +267,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //gameController.setGoalCard(nickname,index);
         serverObject.gameController.setGoalCard(nickname,index);
     }
+
+
     /**
      * Informs the server to place a card in the player's book at the specified position.
      *
@@ -290,6 +298,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
         serverObject.gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
+
+
     /**
      * Informs the server to set up the game with the specified number of players, game ID, and nickname.
      *
@@ -304,6 +314,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //gameController.settingGame(lis, numPlayers, gameID, nickname, color);
         serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname);
     }
+
+
     /**
      * Informs the server to start the game for the specified player.
      *
@@ -317,6 +329,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         //return gameController.makeGameStart(lis, nickname);
        return serverObject.gameController.makeGameStart(lis, nickname);
     }
+
+
     /**
      * Sends a message to the server to be distributed to other players or processed as required.
      *
