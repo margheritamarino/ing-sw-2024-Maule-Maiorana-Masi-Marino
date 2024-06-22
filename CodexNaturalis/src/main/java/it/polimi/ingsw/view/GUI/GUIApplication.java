@@ -497,7 +497,7 @@ public class GUIApplication extends Application {
         controller.enlargeAndHighlightBoardPane(enablePickCardTurn);
     }
 
-    public void showReconnection(GameImmutable model){
+    public void showReconnection(){
 
     }
 
