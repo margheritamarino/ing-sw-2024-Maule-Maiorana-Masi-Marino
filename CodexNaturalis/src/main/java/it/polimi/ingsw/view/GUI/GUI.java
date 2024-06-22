@@ -719,7 +719,6 @@ public class GUI extends UI {
     @Override
     public void show_askForReconnection(){
        callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.RECONNECT_POPUP));
-        callPlatformRunLater(() -> this.guiApplication.showReconnection();
 
         //callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
 

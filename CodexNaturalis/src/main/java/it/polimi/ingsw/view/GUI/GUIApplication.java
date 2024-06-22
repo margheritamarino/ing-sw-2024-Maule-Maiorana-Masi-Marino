@@ -160,18 +160,12 @@ public class GUIApplication extends Application {
 
                 }
 
-                case NICKNAME_POPUP, WAITING_POPUP, GENERIC_ERROR -> {
+                case NICKNAME_POPUP, WAITING_POPUP, GENERIC_ERROR, RECONNECT_POPUP -> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     return;
                 }
 
-                 case RECONNECT_POPUP-> {
-                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
-                     ReconnectPopUpController controller = (ReconnectPopUpController) s.getControllerGUI();
-                     controller.setGUIApplication(this);
 
-                    return;
-                 }
                 case BOARD_POPUP-> {
                     openPopup(scenes.get(getSceneIndex(scene)).getScene());
                     BoardPopUpController controller = (BoardPopUpController) s.getControllerGUI();
@@ -497,9 +491,7 @@ public class GUIApplication extends Application {
         controller.enlargeAndHighlightBoardPane(enablePickCardTurn);
     }
 
-    public void showReconnection(){
 
-    }
 
 
     /**

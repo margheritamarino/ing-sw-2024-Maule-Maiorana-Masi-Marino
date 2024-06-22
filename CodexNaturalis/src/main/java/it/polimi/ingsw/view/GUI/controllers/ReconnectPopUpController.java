@@ -15,16 +15,7 @@ public class ReconnectPopUpController extends ControllerGUI{
     @FXML
     Button YesBtn;
 
-    private GUIApplication guiApplication;
 
-    /**
-     * Sets the GUIApplication instance for handling popup stage operations.
-     *
-     * @param guiApplication the GUIApplication instance
-     */
-    public void setGUIApplication(GUIApplication guiApplication) {
-        this.guiApplication = guiApplication;
-    }
 
 
     /**
@@ -34,7 +25,6 @@ public class ReconnectPopUpController extends ControllerGUI{
      */
     public void ReturnOnClick(ActionEvent actionEvent) {
         getInputGUI().addTxt("return");
-        guiApplication.closePopUpStage();
 
     }
 
@@ -45,6 +35,5 @@ public class ReconnectPopUpController extends ControllerGUI{
      */
     public void ReconnectOnClick(ActionEvent actionEvent) {
         getInputGUI().addTxt("YES");
-        guiApplication.closePopUpStage();
     }
 }
