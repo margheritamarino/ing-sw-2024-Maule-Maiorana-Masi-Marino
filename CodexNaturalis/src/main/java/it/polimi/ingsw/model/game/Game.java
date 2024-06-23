@@ -453,8 +453,10 @@ public class Game {
 					// Calcola l'indice del giocatore successivo
 					 nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
 
-					if(getIndexPlayer(getPlayerByNickname(disconnectedPlayer))==nextIndex){ //salto il giocatore disconnesso
-						nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
+					if(!(Objects.equals(getDisconnectedPlayer(), " "))) {
+						if (getIndexPlayer(getPlayerByNickname(disconnectedPlayer)) == nextIndex) { //salto il giocatore disconnesso
+							nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
+						}
 					}
 				} while (!players.get(nextIndex).getConnected());
 			} else {
