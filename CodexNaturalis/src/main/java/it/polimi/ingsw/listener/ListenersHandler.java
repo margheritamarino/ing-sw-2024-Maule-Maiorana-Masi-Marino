@@ -207,7 +207,7 @@ public class ListenersHandler {
      * @param gamemodel the game model to pass as a new GameModelImmutable
      * @param nick      the nickname of the player who disconnected
      */
-    public void notify_playerDisconnected(Game gamemodel, String nick) { //tolgo SYNCHRONIZED
+    public void notify_playerDisconnected(Game gamemodel, String nick) {
         System.out.println("ListenersHandler - notify_playerDisconnected() \n");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {

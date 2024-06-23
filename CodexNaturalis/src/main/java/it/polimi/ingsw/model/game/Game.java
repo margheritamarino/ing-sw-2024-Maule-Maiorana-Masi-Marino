@@ -750,9 +750,9 @@ public class Game {
 	 */
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
 		//Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
-
+		System.out.println("Game- reconnectPlayer()\n ");
 		if(!p.getConnected()){
-			System.out.println("RECONNECTED PLAYER");
+			System.out.println("RECONNECTED PLAYER \n");
 			p.setConnected(true);
 			listenersHandler.notify_playerReconnected(this, p.getNickname());
 

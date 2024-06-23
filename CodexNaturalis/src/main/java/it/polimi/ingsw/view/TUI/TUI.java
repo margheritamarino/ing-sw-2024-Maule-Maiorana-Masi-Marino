@@ -1088,7 +1088,7 @@ public class TUI extends UI {
             printAsync("You are back in the game! \n");
         }
         else
-            printAsync("Player" + nick + "is back in the game! \n");
+            printAsync("Player" + lastPlayerReconnected + "is back in the game! \n");
     }
 
     /**

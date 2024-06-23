@@ -300,7 +300,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public synchronized void reconnect(GameListenerInterface lis, String nick) throws RemoteException {
-         Player disconnectedPlayer;
+        System.out.println("In GameController - reconnect() \n");
+        Player disconnectedPlayer;
 
          disconnectedPlayer = model.getPlayerByNickname(nick);
           //The game exists, check if nickname exists
@@ -369,6 +370,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @param p Player that want to reconnect
      */
     public void reconnectPlayer(GameListenerInterface lis, Player p) {
+        System.out.println("In GameController - reconnectPlayer() \n");
         boolean outputres = model.reconnectPlayer(lis, p);
 
         if (outputres && getNumOfOnlinePlayers() > 1) {
