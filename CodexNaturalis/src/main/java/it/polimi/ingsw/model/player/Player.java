@@ -21,6 +21,13 @@ import java.io.Serializable;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
+/**
+ * Represents a player in the game.
+ * <p>
+ * This class encapsulates the attributes and behaviors of a player participating in the game.
+ * It manages the player's nickname, state, deck, book, objective card, connection status, and listeners for game events.
+ * </p>
+ */
 public class Player implements Serializable {
 
     private final String nickname;
@@ -32,6 +39,13 @@ public class Player implements Serializable {
     private boolean readyToStart = false;
     private final transient ArrayList<GameListenerInterface>listeners;
     private final Color playerColor;
+
+    /**
+     * Constructs a player with a specified nickname and color.
+     *
+     * @param nickname the nickname of the player
+     * @param color    the color assigned to the player
+     */
     public Player(String nickname, Color color) {
         this.nickname = nickname;
         this.playerGoal = null;
@@ -43,6 +57,11 @@ public class Player implements Serializable {
         this.playerColor=color;
 
     }
+    /**
+     * Retrieves the list of listeners registered for this player.
+     *
+     * @return the list of listeners
+     */
     public ArrayList<GameListenerInterface> getListeners(){
         return this.listeners;
     }
@@ -133,45 +152,16 @@ public class Player implements Serializable {
         return this.playerColor;
     }
 
-    /**
-     * @return an ObjectiveCardIC, the personal goal of the player, an interface
-     * that we send to the clients to make the model immutable
-     *//*
-    public ObjectiveCardIC getGoalIC() {
-        return (ObjectiveCardIC) playerGoal; //controlla sia giusto fare il cast o se serve fare una COPIA
-    }*/
-
-
-    /**
-     * @return a BookIC of the player, an interface
-     * that we send to the clients to make the model immutable
-     */
-     // public BookIC getPlayerBookIC() {
-      //  return (BookIC) playerBook;
-     // }
-
-    /**
-     * @return the list of PlayableCardIC of the player deck, an interface
-     * that we send to the clients to make the model immutable
-     *//*
-    public List<PlayableCardIC> getPlayerDeckIC() {
-        List<PlayableCardIC> deckIC = new ArrayList<>();
-        deckIC.addAll(playerDeck.miniDeck);
-        return deckIC;
-    }*/
-
-
-    /**
-
 
     /**
      * Places a card at the specified position in the player's book.
-     * taking the reference to the cell and card of the playerDeck chosen
-
-     * @param rowCell the row of the cell in the book where the card should be placed.
-     * @param rowCol  the column of the cell in the book where the card should be placed.
-     * @param posCard the position of the card in the player's deck chosen to be placed on the chosen cell.
-     * @return the victoryPoints of the placed card
+     *
+     * @param posCard the position of the card in the player's deck to be placed
+     * @param rowCell the row index of the cell in the book where the card should be placed
+     * @param rowCol  the column index of the cell in the book where the card should be placed
+     * @return the victory points earned by placing the card
+     * @throws PlacementConditionViolated if the placement conditions are violated
+     * @throws CellNotAvailableException  if the specified cell is not available for placing the card
      */
     public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, CellNotAvailableException {
         ArrayList<Cell> availableCells = this.playerBook.showAvailableCells();
@@ -212,9 +202,11 @@ public class Player implements Serializable {
         }
         return points;
     }
+
     /**
-     * The notify_CardDrawn method notifies that a card has been drawn
-     * @param model is the Game to pass as a new GameModelImmutable
+     * Notifies listeners that a card has been drawn.
+     *
+     * @param model the game model to pass as a new immutable game model
      */
     public void notify_CardDrawn(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -229,6 +221,12 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * Notifies listeners that initial setup is required.
+     *
+     * @param model the game model to pass as a new immutable game model
+     * @param index the index indicating the specific requirement
+     */
     public void notify_requireInitial( Game model, int index){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
@@ -241,6 +239,12 @@ public class Player implements Serializable {
             }
         }
     }
+
+    /**
+     * Notifies listeners that the player is ready to start the game.
+     *
+     * @param model the game model to pass as a new immutable game model
+     */
   public void notify_playerReady( Game model){
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
@@ -254,6 +258,12 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * Notifies listeners that goals setup is required.
+     *
+     * @param model the game model to pass as a new immutable game model
+     * @param index the index indicating the specific requirement
+     */
     public void notify_requireGoals( Game model, int index){
         System.out.println("Player: notify_requireGoals");
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -268,6 +278,12 @@ public class Player implements Serializable {
             }
         }
     }
+
+    /**
+     * Notifies listeners that the player's cards are ready.
+     *
+     * @param model the game model to pass as a new immutable game model
+     */
     public void notify_cardsReady( Game model){
         System.out.println("Player: notify_requireGoals");
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -299,6 +315,12 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * Notifies listeners that a message has been sent.
+     *
+     * @param gameModel the game model to pass as a new immutable game model
+     * @param msg       the message that has been sent
+     */
     public void notify_SentMessage(Game gameModel, Message msg) {
         System.out.println("Notifying listeners of new message: " + msg.getText());
         Iterator<GameListenerInterface> i = listeners.iterator();
@@ -314,6 +336,12 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * Compares this player to another object for equality.
+     *
+     * @param obj the object to compare with
+     * @return {@code true} if the objects are equal, {@code false} otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -322,11 +350,22 @@ public class Player implements Serializable {
         return Objects.equals(nickname, player.nickname);
     }
 
+    /**
+     * Returns the hash code of this player.
+     *
+     * @return the hash code of this player
+     */
     @Override
     public int hashCode() {
         return Objects.hash(nickname);
     }
 
+
+    /**
+     * Removes a listener from the player's list of listeners.
+     *
+     * @param lis the listener to remove
+     */
     public void removeListener(GameListenerInterface lis) {
         listeners.remove(lis);
     }

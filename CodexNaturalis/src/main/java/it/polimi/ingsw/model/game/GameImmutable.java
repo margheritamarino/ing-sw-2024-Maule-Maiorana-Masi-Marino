@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-// TUTOR DICE: basta un GameImmutable (copia del Game) che viene inviato sulla rete,
-// poi si ricava tutto il resto da questo tramite i metodi GETTER
 
 /**
  * A different implementation of the GameModel class, this is the one we send to the CLIENTS
@@ -28,6 +26,24 @@ import java.util.NoSuchElementException;
  * the client one, on the other hand, only has getter methods, named differently that the server one,
  * so that the client can only get the object, and doesn't know the names of the setter methods
  * */
+
+/**
+ * Represents an immutable version of the Game model specifically designed
+ * for transmission to clients over the network.
+ *
+ * This class ensures that all objects contained within are immutable, preventing
+ * clients from modifying the game state. To achieve this, a Strategy Pattern is
+ * employed:
+ *
+ * - Two interfaces are implemented for each mutable object:
+ *   - One interface for the server (which mirrors the mutable class).
+ *   - One interface for the client, which exposes only getter methods.
+ *
+ * By implementing these interfaces, the client only has access to getter methods
+ * and cannot invoke setter methods, thereby maintaining the immutability of the
+ * game state throughout its transmission.
+ */
+
 public class GameImmutable implements Serializable {
 
     private final Integer gameID;
@@ -205,6 +221,12 @@ public class GameImmutable implements Serializable {
         return ris.toString();
     }
 
+    /**
+     * Generates a string representation of the order array, listing each player's nickname
+     * along with their position in the order array.
+     *
+     * @return A string representation of the order array.
+     */
     public String toStringListOrderArray() {
         StringBuilder ris = new StringBuilder();
 

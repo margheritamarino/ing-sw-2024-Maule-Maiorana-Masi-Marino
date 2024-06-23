@@ -42,6 +42,18 @@ public class Book implements Serializable {
         placementOrderBook = -1;
     }
 
+    /**
+     * Initializes the matrix used for printing.
+     * <p>
+     * This method sets up a two-dimensional array of strings with dimensions
+     * specified by the constant {@code DefaultValue.BookSizeMax}. Each element
+     * of the array is initialized to a single space character (" ").
+     * </p>
+     * <p>
+     * The matrix is a square array with both rows and columns equal to
+     * {@code DefaultValue.BookSizeMax}.
+     * </p>
+     */
     public void initializePrintMatrix(){
         this.matrix = new String[DefaultValue.BookSizeMax][DefaultValue.BookSizeMax];
         for (int i = 0; i < DefaultValue.BookSizeMax; i++) {
@@ -52,6 +64,20 @@ public class Book implements Serializable {
     }
 
 
+    /**
+     * Initializes the maps used for tracking resources and symbols.
+     * <p>
+     * This method sets up two HashMaps: {@code resourceMap} and {@code symbolMap}.
+     * </p>
+     * <p>
+     * The {@code resourceMap} is initialized with keys from the {@code ResourceType}
+     * enum (Animal, Fungi, Insect, Plant) and their corresponding values are set to 0.
+     * </p>
+     * <p>
+     * The {@code symbolMap} is initialized with keys from the {@code SymbolType}
+     * enum (Ink, Quill, Manuscript) and their corresponding values are set to 0.
+     * </p>
+     */
     public void initializeMaps(){
         this.resourceMap = new HashMap<>();
         resourceMap.put(ResourceType.Animal,0);
@@ -64,6 +90,19 @@ public class Book implements Serializable {
         symbolMap.put(SymbolType.Quill,0);
         symbolMap.put(SymbolType.Manuscript,0);
     }
+
+
+    /**
+     * Retrieves a cell from the matrix that matches the specified cell.
+     * <p>
+     * This method searches through the {@code bookMatrix} for a cell that is
+     * equal to the specified {@code findCell}. If a matching cell is found, it
+     * is returned. If no matching cell is found, {@code null} is returned.
+     * </p>
+     *
+     * @param findCell the cell to find in the matrix
+     * @return the matching cell if found, otherwise {@code null}
+     */
     public Cell getCellinMatrix(Cell findCell) {
         for (int row = 0; row < bookMatrix.length; row++) {
             for (int col = 0; col < bookMatrix[row].length; col++) {
@@ -93,6 +132,18 @@ public class Book implements Serializable {
     public PlayableCard getInitialCard(){
         return this.initialCard;
     }
+
+    /**
+     * Adds the initial playable card to a specific cell in the matrix.
+     * <p>
+     * This method places the initial card in the cell located at position (35, 35)
+     * in the {@code bookMatrix}. It updates the cell's availability, sets the card
+     * pointer, and marks the cell as occupied and as a wall. The method also updates
+     * the resource map and the book based on the initial card's properties.
+     * </p>
+     *
+     * @param initialCard the initial playable card to be placed in the matrix
+     */
     public void addInitial(PlayableCard initialCard){ //cella 35x35
         //int dim= dimension %2; Se mi serve prendere in ingresso la dimensione della matrice
         //Cell initialCell = bookMatrix[dim][dim];
@@ -742,6 +793,21 @@ public class Book implements Serializable {
             return count * 2;
         }
 
+    /**
+     * Determines whether to skip the specified indexes based on their value.
+     * <p>
+     * This method checks the value at the specified indexes in the given 2D array.
+     * If the value is 1, the method returns {@code true}, indicating that the
+     * indexes should be skipped. Otherwise, it returns {@code false}.
+     * This function is used in other methods of the class to avoid going out of
+     * the bounds of the {@code bookMatrix}.
+     * </p>
+     *
+     * @param indexes the 2D array of indexes to check
+     * @param i the row index to check
+     * @param j the column index to check
+     * @return {@code true} if the value at the specified indexes is 1, otherwise {@code false}
+     */
         public boolean skipIndexes(int[][] indexes,int i, int j){
             boolean skip;
             if(indexes[i][j] == 1){
@@ -852,6 +918,16 @@ public class Book implements Serializable {
         return bookMatrix;
     }
 
+    /**
+     * Displays the current state of the resource and symbol maps.
+     * <p>
+     * This method iterates through the {@code resourceMap} and {@code symbolMap},
+     * building a string representation of each map. The resulting string shows
+     * the names and quantities of each resource and symbol present in the game.
+     * </p>
+     *
+     * @return a string representation of the resource and symbol maps
+     */
     public String showMaps(){
         StringBuilder result = new StringBuilder();
         result.append("*******RESOURCEMAP*******: \n");
@@ -948,6 +1024,26 @@ public class Book implements Serializable {
 
         return result.toString();
     }*/
+    /**
+     * Generates a string representation of the book matrix.
+     * <p>
+     * This method constructs a detailed string representation of the book matrix, including
+     * row and column indices. It highlights available cells in green and includes the contents
+     * of each cell, whether it contains a card or is empty. The method also appends the
+     * current state of the resource and symbol maps at the end.
+     * </p>
+     * <p>
+     * The matrix display includes:
+     * <ul>
+     * <li>Row and column indices</li>
+     * <li>Cell contents or placeholders for empty cells</li>
+     * <li>Green highlighting for available cells</li>
+     * <li>Resource and symbol maps at the bottom</li>
+     * </ul>
+     * </p>
+     *
+     * @return a string representation of the book matrix and the resource/symbol maps
+     */
   @Override
   public String toString() {
       final String GREEN = "\033[0;32m";
@@ -1032,6 +1128,16 @@ public class Book implements Serializable {
       return result.toString();
   }
 
+    /**
+     * Generates a string representation of an empty card.
+     * <p>
+     * This method constructs a string that represents an empty card with a specified
+     * width and height, enclosed within a border. The interior of the card is filled
+     * with spaces.
+     * </p>
+     *
+     * @return a string representation of an empty card
+     */
     public String nullCardPrint() {
         StringBuilder result = new StringBuilder();
         int maxWidth = DefaultValue.printLenght;
@@ -1078,6 +1184,20 @@ public class Book implements Serializable {
 */
 
 
+    /**
+     * Determines the smallest submatrix that contains all the cards in the book matrix.
+     * <p>
+     * This method searches through the {@code bookMatrix} to find the smallest rectangular
+     * submatrix that includes all cells containing cards. It returns the limits of this
+     * submatrix, including a border of one cell around the cards if possible.
+     * </p>
+     *
+     * @return an array of four integers representing the limits of the submatrix:
+     *         - limits[0]: minimum row index (inclusive)
+     *         - limits[1]: minimum column index (inclusive)
+     *         - limits[2]: maximum row index (inclusive)
+     *         - limits[3]: maximum column index (inclusive)
+     */
     public int[] findSubMatrix() {
         int[] limits = new int[4];
         int minI = bookMatrix.length;

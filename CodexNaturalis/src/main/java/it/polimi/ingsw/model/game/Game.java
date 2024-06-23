@@ -22,12 +22,9 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.view.PrintAsync.printAsync;
 
 /**
- * Game model
- *  GameModel is the class that represents the game, it contains all the information about the game, and it's based on a MVC pattern
- *  It manages the game state, including players, cards, decks, and game progression
- *   It also contains the current player that is playing
- *   It also contains the listenersHandler that handles the listeners
- * It implements the singleton pattern to ensure only one instance of the game exists.
+ * Represents a game instance in the application.
+ * This class manages the game state, including players, cards, board setup, and game progression.
+ * It follows the MVC (Model-View-Controller) pattern where it serves as the central model component.
  */
 public class Game {
 
@@ -52,9 +49,9 @@ public class Game {
 	private Chat chat;
 
 	/**
-	 * Private Constructor
+	 * Constructs a new Game instance with a specified number of players.
+	 *
 	 * @param playersNumber The number of players in the game.
-	 * @throws IllegalArgumentException If the number of players is not between 1 and 4.
 	 */
 	public Game(int playersNumber) {
 		this.playersNumber = playersNumber;
@@ -117,6 +114,11 @@ public class Game {
 	public boolean isEnded(){
 		return gameEnded;
 	}
+	/**
+	 * Retrieves the score track of the game.
+	 *
+	 * @return The score track object representing player scores.
+	 */
 	public ScoreTrack getScoretrack(){
 		return this.scoretrack;
 	}
@@ -136,6 +138,11 @@ public class Game {
 		return players.stream().filter(Player::getConnected).toList().size();
 	}
 
+	/**
+	 * Retrieves the list of players participating in the game.
+	 *
+	 * @return An ArrayList of Player objects.
+	 */
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
@@ -164,6 +171,11 @@ public class Game {
 		this.gameID = gameID;
 	}
 
+	/**
+	 * Sets the number of players for the game.
+	 *
+	 * @param playersNumber The number of players to set for the game.
+	 */
 	public void setPlayersNumber(int playersNumber) {
 		this.playersNumber = playersNumber;
 		System.out.println("Model: method setGameId()");
@@ -189,8 +201,6 @@ public class Game {
 	public void removeListener(GameListenerInterface listener) {
 		listenersHandler.removeListener(listener);
 	}
-
-
 
 	/**
 	 * @param player is set as ready, then everyone is notified
@@ -222,13 +232,26 @@ public class Game {
 		}
 		return false;
 	}
+	/**
+	 * Creates a new game instance with the specified listener and nickname.
+	 * Notifies listeners about the requirement of the number of players and game ID.
+	 *
+	 * @param lis      The listener to notify about game events.
+	 * @param nickname The nickname associated with the player creating the game.
+	 */
 	public void createGame( GameListenerInterface lis, String nickname){
 		listenersHandler.notify_requireNumPlayersGameID(lis, this);
 	}
+
 	/**
-	 * Adds a new player to the game.
-	 * after checking if there is space in the match and if the nickname is available
-	 * @param nickname the nickname of the player to be added.
+	 * Adds a new player to the game with the specified nickname and player color.
+	 * Notifies listeners about the player's addition and handles various scenarios
+	 * such as game being full or nickname already taken.
+	 *
+	 * @param lis          The GameListenerInterface to notify.
+	 * @param nickname     The nickname of the player to add.
+	 * @param playerColor  The color of the player.
+	 * @return true if the player was successfully added, false otherwise.
 	 */
 	public boolean addPlayer(GameListenerInterface lis, String nickname, Color playerColor) {
 		System.out.println("Game - addPlayer");
@@ -278,10 +301,9 @@ public class Game {
 
 
 	/**
-	 * Chooses a random first player from the array of players, assigns them to currentPlayer,
-	 * and saves the order of players for the next turns starting from the first player.
+	 * Randomly selects a player to start the game and determines the order of players.
+	 * Updates the current player and order of players array accordingly.
 	 */
-	//ORDINE DEI GIOCATORI: scelgo a caso il primo, gli altri sONO QUELLI SUCCESSIVI AL PRIMO in ordine di inserimento
 	public void chooseOrderPlayers() {
 
 		Random random = new Random();
@@ -311,8 +333,6 @@ public class Game {
 			this.setStatus(GameStatus.ENDED);
 		}
 	}
-
-
 
 	/**
 	 * @return true if there are enough players to start, and if every one of them is ready
@@ -363,6 +383,12 @@ public class Game {
 			System.err.println("Error during Board setup: " + e.getMessage());
 		}
 	}
+
+	/**
+	 * Checks if all players in the game have chosen their goals.
+	 *
+	 * @return true if all players have chosen goals, false otherwise
+	 */
 	public boolean allPlayersHaveChosenGoals() {
 		return players.stream().allMatch(player -> player.getGoal() != null);
 	}
@@ -402,6 +428,15 @@ public class Game {
 	}
 
 
+	/**
+	 * Advances the game to the next turn based on the current player index.
+	 * Throws GameEndedException if it's the last circle and the current player index
+	 * is the last player index.
+	 *
+	 * @param currentIndex the index of the current player
+	 * @throws GameEndedException if it's the last circle and the current player index
+	 * is the last player index
+	 */
 	public void nextTurn(int currentIndex) throws GameEndedException {
 		if(currentIndex == playersNumber- 1 && status.equals(GameStatus.LAST_CIRCLE) ){
 			throw new GameEndedException();
@@ -445,10 +480,15 @@ public class Game {
 
 	}
 
-	//risale al playerbook del giocatore corrente e
-	//chiama il metodo checkGoal del giocatore corrente per aggiungere i punti
+	/**
+	 * Checks the given objective card against the current player's book to add points.
+	 *
+	 * @param goalToCheck the objective card to check against the player's book
+	 */
 	public void checkGoal(ObjectiveCard goalToCheck)  {
+		// Retrieve the current player's book
 		Book currentBook = currentPlayer.getPlayerBook();
+		// Check the goal against the player's book and add points to the scoretrack
 		int goalPoints = currentBook.checkGoal(goalToCheck);
 		scoretrack.addPoints(currentPlayer, goalPoints);
 	}
@@ -507,6 +547,12 @@ public class Game {
 		Book playerBook= player.getPlayerBook();
 		playerBook.addInitial(chosenInitialCard);
 	}
+	/**
+	 * Retrieves the index of the specified player in the list of players.
+	 *
+	 * @param p the player whose index needs to be retrieved
+	 * @return the index of the player if found; otherwise, -1
+	 */
 	public int getIndexPlayer(Player p){
 		for(int i=0; i< playersNumber; i++){
 			if(players.get(i).equals(p))
@@ -582,16 +628,39 @@ public class Game {
 		}
 
 	}
+
+	/**
+	 * Retrieves the current points associated with the current card in the game.
+	 *
+	 * @return the current points of the current card
+	 */
 	public int getCurrentCardPoints(){
 		return this.currentCardPoints;
 
 	}
+
+	/**
+	 * Adds points to the specified player and notifies listeners about the points added.
+	 *
+	 * @param p      the player to whom points will be added
+	 * @param points the points to add to the player
+	 */
 	public void addPoints(Player p, int points) {
 		scoretrack.addPoints(p, points);
 		listenersHandler.notify_PointsAdded(p.getListeners(), this);
 	}
 
 
+	/**
+	 * Allows a player to pick a card from the board and add it to their deck.
+	 * Notifies listeners about the card drawn or if the game ends due to an empty deck.
+	 *
+	 * @param p           the player picking the card
+	 * @param cardType    the type of card to pick (Treasure or Hazard)
+	 * @param drawFromDeck true if drawing from the deck, false if from the discard pile
+	 * @param pos         position on the board or deck from which to pick the card
+	 * @throws RuntimeException if the player's deck is full
+	 */
 	public void pickCardTurn(Player p, CardType cardType, boolean drawFromDeck, int pos)  {
 		try{
 			PlayableCard[] newCard = board.takeCardfromBoard(cardType, drawFromDeck, pos);
@@ -613,8 +682,6 @@ public class Game {
 	public Board getBoard(){
 		return this.board;
 	}
-
-
 	public ArrayList<PlayableCard[]> getTemporaryInitialCardsDeck() {
 		return temporaryInitialCard;
 	}
@@ -674,8 +741,12 @@ public class Game {
 	}
 
 	/**
-	 * @param p player is reconnected
-
+	 * Attempts to reconnect a player who was previously disconnected.
+	 * Notifies listeners about the reconnection status and handles game progression if necessary.
+	 *
+	 * @param lis the listener interface for the reconnected player
+	 * @param p   the player to reconnect
+	 * @return true if the reconnection is successful, false otherwise
 	 */
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
 		//Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
@@ -725,6 +796,13 @@ public class Game {
 		return this.chat;
 	}
 
+
+	/**
+	 * Receives a message from a player, adds it to the chat, and notifies listeners about the message.
+	 *
+	 * @param msg the message object containing sender and text
+	 * @throws ActionByAPlayerNotInTheGameException if the sender of the message is not a participant in the game
+	 */
 	public void sentMessage(Message msg){
 		Player sender = msg.getSender();
 		System.out.println("Game received message from player: " + sender.getNickname());
