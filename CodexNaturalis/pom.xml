@@ -82,8 +82,9 @@
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.2.4</version>
         <executions>
+
           <execution>
-            <id>main-jar</id>
+            <id>server-jar</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
@@ -99,7 +100,7 @@
           </execution>
 
           <execution>
-            <id>main-jar</id>
+            <id>client-jar</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
@@ -137,7 +138,7 @@
         <executions> <execution>
 
           <!-- Default configuration for running  -->
-          <!-- Usage: mvn clean javafx:run --> <id>default -cli</id>
+          <!-- Usage: mvn clean javafx:run --> <id>default-cli</id>
           <configuration> <mainClass>it.polimi.ingsw.view.GUI.GUIApplication</mainClass>
           </configuration>
         </execution> </executions>
