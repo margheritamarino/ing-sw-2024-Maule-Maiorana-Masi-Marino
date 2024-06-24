@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
+import org.fusesource.jansi.Ansi;
 
 import java.io.Serializable;
 import java.util.*;
@@ -117,15 +118,15 @@ public class ResourceCard extends PlayableCard implements Serializable {
     * @throws IllegalArgumentException If an invalid corner label is provided.
     */
    public String getCornerContentString(CornerLabel cornerLabel, int i) {
-       return switch (cornerLabel) {
-           case Empty -> "Empty";
-           case WithResource ->
-                   resourceList.get(i).toString();
-           case WithSymbol ->
-                   symbol.toString();
-           case NoCorner -> "NoCorner";
-           default -> throw new IllegalArgumentException();
-       };
+      return switch (cornerLabel) {
+         case Empty -> "Empty";
+         case WithResource ->
+                 resourceList.get(i).toString();
+         case WithSymbol ->
+                 symbol.toString();
+         case NoCorner -> "NoCorner";
+         default -> throw new IllegalArgumentException();
+      };
    }
 
    /**
@@ -231,62 +232,77 @@ public class ResourceCard extends PlayableCard implements Serializable {
 
       int width = DefaultValue.printLenght;
       int height = DefaultValue.printHeight;
-      String border = "+" + "-".repeat(width) + "+";
+
+      // Map ANSI colors
+      Map<Ansi.Color, String> ansiColorMap = new HashMap<>();
+      ansiColorMap.put(Ansi.Color.RED, "\u001B[31m");
+      ansiColorMap.put(Ansi.Color.MAGENTA, "\u001B[35m");
+      ansiColorMap.put(Ansi.Color.GREEN, "\u001B[32m");
+      ansiColorMap.put(Ansi.Color.CYAN, "\u001B[36m");
+      ansiColorMap.put(Ansi.Color.DEFAULT, "\u001B[0m");
+
+      // Get the color based on the main resource
+      Ansi.Color textColor = getColorForResource(getMainResource());
+
+      // Define the ANSI color codes
+      String colorCode = ansiColorMap.getOrDefault(textColor, "\u001B[0m");
+      String resetCode = "\u001B[0m";
+
+      // Apply color to the border
+      String border = colorCode + "+" + "-".repeat(width) + "+" + resetCode;
 
       int contentRows = 4;
 
       result.append(border).append("\n");
 
       int paddingVictoryPoints = Math.max(0, (width - victoryPoints.length() - 8) / 2);
-      result.append("|")
+      result.append(colorCode + "|")
               .append(topLeft)
-              .append(" ".repeat(Math.max(0, paddingVictoryPoints)))
+              .append(" ".repeat(paddingVictoryPoints))
               .append(victoryPoints)
               .append(" ".repeat(Math.max(0, width - paddingVictoryPoints - victoryPoints.length() - 8)))
               .append(topRight)
-              .append("|\n");
+              .append("|\n" + resetCode);
 
       String cardTypeLine = cardTypeName;
       int paddingType = Math.max(0, (width - cardTypeLine.length()) / 2);
-      result.append("|")
-              .append(" ".repeat(Math.max(0, paddingType)))
+      result.append(colorCode + "|")
+              .append(" ".repeat(paddingType))
               .append(cardTypeLine)
               .append(" ".repeat(Math.max(0, width - paddingType - cardTypeLine.length())))
-              .append("|\n");
+              .append("|\n" + resetCode);
 
       String faceLine = "(" + FoB + ")";
       int paddingFace = Math.max(0, (width - faceLine.length()) / 2);
-      result.append("|")
-              .append(" ".repeat(Math.max(0, paddingFace)))
+      result.append(colorCode + "|")
+              .append(" ".repeat(paddingFace))
               .append(faceLine)
               .append(" ".repeat(Math.max(0, width - paddingFace - faceLine.length())))
-              .append("|\n");
-
+              .append("|\n" + resetCode);
 
       String mainResource = convertToEmoji(getMainResource().toString());
       int paddingMainResource = Math.max(0, (width - calculateEmojiWidth(mainResource)) / 2);
-      result.append("|")
-              .append(" ".repeat(Math.max(0, paddingMainResource)))
+      result.append(colorCode + "|")
+              .append(" ".repeat(paddingMainResource))
               .append(mainResource)
               .append(" ".repeat(Math.max(0, width - paddingMainResource - calculateEmojiWidth(mainResource))))
-              .append("|\n");
+              .append("|\n" + resetCode);
 
       int remainingHeight = height - (contentRows + 2);
       for (int i = 0; i < remainingHeight; i++) {
-         result.append("|").append(" ".repeat(Math.max(0, width))).append("|\n");
+         result.append(colorCode + "|").append(" ".repeat(width)).append("|\n" + resetCode);
       }
 
-      result.append("|")
+      result.append(colorCode + "|")
               .append(bottomLeft)
-              .append(" ".repeat(Math.max(0, width - 8)))
+              .append(" ".repeat(width - 8))
               .append(bottomRight)
-              .append("|\n");
+              .append("|\n" + resetCode);
 
       result.append(border).append("\n");
 
       return result.toString();
    }
-
 
    /**
     * Calculates the width of a given string containing emojis.
@@ -322,6 +338,23 @@ public class ResourceCard extends PlayableCard implements Serializable {
       return "[" + content + " ".repeat(padding) + "]";
    }
 
+   /**
+    * Returns the ANSI color based on the main resource.
+    *
+    * @param mainResource the main resource of the card
+    * @return the ANSI color
+    */
+   public Ansi.Color getColorForResource(ResourceType mainResource) {
+      return switch (mainResource) {
+         case Fungi -> Ansi.Color.RED;
+         case Insect -> Ansi.Color.MAGENTA;
+         case Plant -> Ansi.Color.GREEN;
+         case Animal -> Ansi.Color.CYAN;
+         default -> Ansi.Color.DEFAULT;
+      };
+   }
+
 
 
 }
+
