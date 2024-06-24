@@ -773,7 +773,7 @@ public class Game {
 	 */
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
 		System.out.println("Game- reconnectPlayer()\n ");
-
+		setDisconnectedPlayer(" ");
 		if(!p.getConnected()){
 			System.out.println("RECONNECTED PLAYER \n");
 
