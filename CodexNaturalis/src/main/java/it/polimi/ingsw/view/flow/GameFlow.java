@@ -971,11 +971,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      *
      * @param model The game model {@link GameImmutable}.
      * @param indexPlayer The index of the player making the initial card selection.
-     * @throws IOException If an I/O error occurs.
-     * @throws FileReadException If there is an issue reading a file.
+
      */
     @Override
-    public void requireInitialReady(GameImmutable model, int indexPlayer) throws IOException, FileReadException {
+    public void requireInitialReady(GameImmutable model, int indexPlayer) {
 
         ui.show_temporaryInitialCards(model, indexPlayer);
         Integer index;
@@ -1162,7 +1161,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws NotBoundException If the game is not bound.
      */
     @Override
-    public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException {
+    public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException{
         System.out.println("in GameFlow --> RECONNECT()");
         //ui.show_joiningToGameMsg(nick, color);
         try {

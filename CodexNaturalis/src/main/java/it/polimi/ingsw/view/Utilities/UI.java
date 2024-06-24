@@ -264,10 +264,8 @@ public abstract class UI {
      *
      * @param model the game model
      * @param indexPlayer the index of the player
-     * @throws FileNotFoundException if the file is not found
-     * @throws FileReadException if there is an error reading the file
      */
-    public abstract void show_temporaryInitialCards(GameImmutable model, int indexPlayer) throws FileNotFoundException, FileReadException;
+    public abstract void show_temporaryInitialCards(GameImmutable model, int indexPlayer) ;
 
     /**
      * Shows the objective cards for a player.
