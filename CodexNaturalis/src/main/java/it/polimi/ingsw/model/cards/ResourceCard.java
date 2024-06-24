@@ -118,15 +118,15 @@ public class ResourceCard extends PlayableCard implements Serializable {
     * @throws IllegalArgumentException If an invalid corner label is provided.
     */
    public String getCornerContentString(CornerLabel cornerLabel, int i) {
-      return switch (cornerLabel) {
-         case Empty -> "Empty";
-         case WithResource ->
-                 resourceList.get(i).toString();
-         case WithSymbol ->
-                 symbol.toString();
-         case NoCorner -> "NoCorner";
-         default -> throw new IllegalArgumentException();
-      };
+       return switch (cornerLabel) {
+           case Empty -> "Empty";
+           case WithResource ->
+                   resourceList.get(i).toString();
+           case WithSymbol ->
+                   symbol.toString();
+           case NoCorner -> "NoCorner";
+           default -> throw new IllegalArgumentException();
+       };
    }
 
    /**
@@ -353,8 +353,5 @@ public class ResourceCard extends PlayableCard implements Serializable {
          default -> Ansi.Color.DEFAULT;
       };
    }
-
-
-
 }
 

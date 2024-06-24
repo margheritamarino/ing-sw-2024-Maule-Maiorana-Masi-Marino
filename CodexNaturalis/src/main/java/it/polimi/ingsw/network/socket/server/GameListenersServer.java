@@ -316,7 +316,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void playerReconnected(GameImmutable gamemodel, String nickPlayerReconnected) throws RemoteException {
-        //System.out.println(nickNewPlayer +" by socket");
         try {
             out.writeObject(new msgPlayerReconnected(gamemodel, nickPlayerReconnected));
             finishSending();

@@ -369,4 +369,22 @@ public class Player implements Serializable {
     public void removeListener(GameListenerInterface lis) {
         listeners.remove(lis);
     }
+
+    /**
+     *  Notifies the player's listener that an attempt of reconnection has failed.
+     * @param msg the message to show in the view
+     */
+    public void notify_ReconnectionFailed(String msg) {
+        Iterator<GameListenerInterface> i = listeners.iterator();
+        while (i.hasNext()) {
+            GameListenerInterface l = i.next();
+            try {
+                l.errorReconnecting(msg);
+            } catch (RemoteException e) {
+                printAsync("During notification of notify_ReconnectionFailed, a disconnection has been detected before ping");
+                i.remove();
+            }
+        }
+    }
+
 }
