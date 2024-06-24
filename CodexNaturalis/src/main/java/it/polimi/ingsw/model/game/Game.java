@@ -453,11 +453,11 @@ public class Game {
 					// Calcola l'indice del giocatore successivo
 					 nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
 
-					if(!(Objects.equals(getDisconnectedPlayer(), " "))) {
+					/*if(!(Objects.equals(getDisconnectedPlayer(), " "))) {
 						if (getIndexPlayer(getPlayerByNickname(disconnectedPlayer)) == nextIndex) { //salto il giocatore disconnesso
 							nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
 						}
-					}
+					}*/
 				} while (!players.get(nextIndex).getConnected());
 			} else {
 				//Only one player connected, I set the nextTurn to the next player of the one online
@@ -768,15 +768,15 @@ public class Game {
 	 * @return true if the reconnection is successful, false otherwise
 	 */
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
-		//Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
 		System.out.println("Game- reconnectPlayer()\n ");
-		setDisconnectedPlayer(" "); //ho riconnesso il giocatore
+
 		if(!p.getConnected()){
 			System.out.println("RECONNECTED PLAYER \n");
-			p.setConnected(true);
+
 			listenersHandler.notify_playerReconnected(this, p.getNickname());
 
 			if (!isTheCurrentPlayerOnline()) {
+				//oppure if(disconnectedPlayer.equals(currentPlayer)
 				int currentIndex = -1;
 				for (int i = 0; i < this.getOrderArray().length; i++) {
 					if (this.getPlayers().get(this.getOrderArray()[i]).equals(this.getCurrentPlayer())) {
@@ -787,22 +787,28 @@ public class Game {
 				try {
 					nextTurn(currentIndex);
 				} catch (GameEndedException e) {
+					p.notify_ReconnectionFailed("ERROR: Trying to reconnect but GAME ENDED!");
 					removeListener(lis);
 					p.removeListener(lis);
 					printAsync("Reconnection FAILED because GAME ENDED");
 					setStatus(GameStatus.ENDED); //TODO: CONTROLLARE!!!
-					//listenersHandler.notify_ReconnectionFailed("ERROR: Trying to reconnect but GAME ENDED!");
+
 				}
 			}
+			p.setConnected(true);
+			setDisconnectedPlayer(" "); //ho riconnesso il giocatore
 			return true;
 		}else {
+			p.notify_ReconnectionFailed("ERROR: Trying to reconnect a player not offline!");
 			removeListener(lis);
 			p.removeListener(lis);
-			//listenersHandler.notify_ReconnectionFailed("ERROR: Trying to reconnect a player not offline!");*/
+
 			System.out.println("ERROR: Trying to reconnect a player not offline!");
 			return false;
 		}
+
 	}
+
 
 
 	/**
