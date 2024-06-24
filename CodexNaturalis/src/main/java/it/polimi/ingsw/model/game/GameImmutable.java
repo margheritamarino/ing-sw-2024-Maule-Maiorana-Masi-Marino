@@ -276,5 +276,26 @@ public class GameImmutable implements Serializable {
         return chat;
     }
 
+    // Implementazione del metodo isBoardUpdated
+    public boolean isBoardUpdated() {
+        // Controlla se ci sono almeno 2 carte d'oro sul board
+        if (board.getGoldCards() == null || board.getGoldCards().size() < 2) {
+            return false;
+        }
 
+        // Controlla se ci sono almeno 2 carte risorsa sul board
+        if (board.getResourceCards() == null || board.getResourceCards().size() < 2) {
+            return false;
+        }
+
+
+        // Verifica che i mazzi non siano vuoti
+        if (board.getGoldCardsDeck().checkEndDeck() || board.getResourcesCardsDeck().checkEndDeck()) {
+            return false;
+        }
+
+        // Se tutti i controlli sono passati, la board è aggiornata
+        return true;
+    }
 }
+
