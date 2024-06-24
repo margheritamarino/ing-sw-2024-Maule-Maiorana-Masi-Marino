@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.95" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundWall" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.MainSceneController">
+   <children>
+      <Pane fx:id="actionPane" layoutX="297.0" layoutY="14.0" prefHeight="87.0" prefWidth="750.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css">
+         <children>
+            <Text fx:id="labelMessage" layoutX="26.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="698.2000732421875">
+               <font>
+                  <Font name="Arial Black" size="26.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="BoardStyle" />
+                  <String fx:value="glow-button" />
+               </styleClass>
+            </Text>
+         </children>
+         <styleClass>
+            <String fx:value="BoardStyle" />
+            <String fx:value="backgroundMainScene" />
+         </styleClass>
+      </Pane>
+      <Text fx:id="GameIDTextField" fill="WHITE" layoutX="33.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="Arial Black" size="24.0" />
+         </font>
+      </Text>
+      <Pane layoutX="22.0" layoutY="563.0" opacity="0.8" prefHeight="136.0" prefWidth="235.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" styleClass="backgroundLobby">
+         <children>
+            <TextField fx:id="messageText" layoutX="69.0" layoutY="91.0" onKeyPressed="#handleKeyPressed" prefHeight="31.0" prefWidth="94.0" style="-fx-border-width: 2; -fx-border-color: black;" />
+            <ListView fx:id="chatList" layoutX="18.0" layoutY="13.0" prefHeight="68.0" prefWidth="200.0" styleClass="BoardStyle" stylesheets="@styleCodex.css" />
+            <ImageView fx:id="actionSendMessage" fitHeight="26.0" fitWidth="25.0" layoutX="185.0" layoutY="94.0" onKeyPressed="#chatOnClick" onMouseClicked="#actionSendMessage" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/arrow.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ComboBox fx:id="boxMessage" layoutX="8.0" layoutY="91.0" prefHeight="25.0" prefWidth="56.0" stylesheets="@styleCodex.css" />
+         </children>
+      </Pane>
+      <Label layoutX="17.0" layoutY="527.0" styleClass="BoardStyle" stylesheets="@styleCodex.css" text="CHAT" textFill="#e15e1c">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="PlayerDeckPane" layoutX="305.0" layoutY="549.0" opacity="0.8" prefHeight="143.0" prefWidth="489.0" style="-fx-background-color: white;" stylesheets="@styleCodex.css">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-width: 2; -fx-border-color: BLACK;" styleClass="backgroundMainScene">
+               <children>
+                  <ImageView fx:id="deckImg0" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="deckImg1" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="deckImg2" fitHeight="150.0" fitWidth="202.0" onMouseClicked="#chooseCardClick" pickOnBounds="true" preserveRatio="true" />
+                  <Pane prefHeight="210.0" prefWidth="625.0" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="22.0" fitWidth="26.0" layoutX="94.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/speech_balloon.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="nicknameTextField" layoutX="33.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="glow-button" text="Text">
+         <font>
+            <Font name="Arial Black" size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="turnbtn0" layoutX="372.0" layoutY="693.0" mnemonicParsing="false" onAction="#turnCard" prefHeight="20.0" prefWidth="42.0" stylesheets="@styleCodex.css" text="turn">
+         <styleClass>
+            <String fx:value="round-red" />
+            <String fx:value="glow-button" />
+         </styleClass></Button>
+      <Button fx:id="turnbtn1" layoutX="580.0" layoutY="693.0" mnemonicParsing="false" onAction="#turnCard" prefHeight="20.0" prefWidth="42.0" stylesheets="@styleCodex.css" text="turn">
+         <styleClass>
+            <String fx:value="round-red" />
+            <String fx:value="glow-button" />
+         </styleClass></Button>
+      <Button fx:id="turnbtn2" layoutX="788.0" layoutY="693.0" mnemonicParsing="false" onAction="#turnCard" prefHeight="20.0" prefWidth="42.0" stylesheets="@styleCodex.css" text="turn">
+         <styleClass>
+            <String fx:value="round-red" />
+            <String fx:value="glow-button" />
+         </styleClass></Button>
+      <Text fill="#e15e1c" layoutX="1011.0" layoutY="548.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="record-sales" text="PERSONAL GOAL">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="personalObjective" fitHeight="150.0" fitWidth="261.0" layoutX="1004.0" layoutY="556.0" pickOnBounds="true" preserveRatio="true" styleClass="BoardStyle" />
+      <ImageView fx:id="initialCardImg" fitHeight="150.0" fitWidth="200.0" layoutX="401.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="showBoardBtn" layoutX="1115.0" layoutY="251.0" mnemonicParsing="false" onAction="#showBoardPopUp" prefHeight="25.0" prefWidth="131.0" stylesheets="@styleCodex.css" text="BOARD">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+         <styleClass>
+            <String fx:value="record-sales" />
+            <String fx:value="glow-button" />
+         </styleClass>
+      </Button>
+      <Button fx:id="showScoretrackBtn" layoutX="1095.0" layoutY="332.0" mnemonicParsing="false" onAction="#showScoretrackPopUp" prefHeight="31.0" prefWidth="172.0" stylesheets="@styleCodex.css" text="SCORETRACK">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+         <styleClass>
+            <String fx:value="glow-button" />
+            <String fx:value="record-sales" />
+         </styleClass>
+      </Button>
+      <ListView fx:id="EventsList" layoutX="22.0" layoutY="300.0" opacity="0.75" prefHeight="236.0" prefWidth="235.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css">
+         <styleClass>
+            <String fx:value="backgroundGame" />
+            <String fx:value="BoardStyle" />
+            <String fx:value="list-view" />
+         </styleClass></ListView>
+      <AnchorPane fx:id="rootPane" layoutX="297.0" layoutY="137.0" minHeight="0.0" minWidth="0.0" prefHeight="380.0" prefWidth="750.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@styleCodex.css">
+         <children>
+            <ScrollPane fx:id="bookScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="380.0" prefWidth="750.0" style="-fx-background-color: white;">
+               <content>
+                  <AnchorPane fx:id="bookPane" prefHeight="380.0" prefWidth="718.0" style="-fx-background-color: white;" styleClass="backgroundMainScene" stylesheets="@styleCodex.css" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <Pane id="orderPlayersPane" fx:id="orderPlayersPane" layoutX="1068.0" layoutY="19.0" opacity="0.75" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" stylesheets="@styleCodex.css">
+         <children>
+            <Text layoutX="34.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDER PLAYERS">
+               <font>
+                  <Font name="Arial Black" size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="player0" layoutX="83.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="16.0" />
+               </font>
+            </Text>
+            <Text fx:id="player1" layoutX="87.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="16.0" />
+               </font>
+            </Text>
+            <Text fx:id="player2" layoutX="83.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="16.0" />
+               </font>
+            </Text>
+            <Text fx:id="player3" layoutX="82.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="16.0" />
+               </font>
+            </Text>
+         </children>
+         <styleClass>
+            <String fx:value="BoardStyle" />
+            <String fx:value="backgroundGame" />
+         </styleClass>
+      </Pane>
+      <ImageView fitHeight="226.0" fitWidth="209.0" layoutX="30.0" layoutY="15.0" opacity="0.95" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/magicianCodexNaturalis.jpg" />
+         </image>
+         <styleClass>
+            <String fx:value="BoardStyle" />
+            <String fx:value="glow-pane" />
+         </styleClass>
+      </ImageView>
+      <ImageView fitHeight="48.0" fitWidth="42.0" layoutX="962.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/goal.jpg" />
+         </image>
+         <styleClass>
+            <String fx:value="BoardStyle" />
+            <String fx:value="glow-button" />
+         </styleClass>
+      </ImageView>
+
+   </children>
+</AnchorPane>

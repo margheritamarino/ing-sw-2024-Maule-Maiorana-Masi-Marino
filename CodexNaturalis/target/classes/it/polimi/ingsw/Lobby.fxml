@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.9" prefHeight="750.0" prefWidth="1320.0" styleClass="backgroundLobby" stylesheets="@styleCodex.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.controllers.LobbyController">
+   <children>
+      <Pane layoutX="61.0" layoutY="37.0" opacity="0.8" prefHeight="600.0" prefWidth="1250.0" style="-fx-background-color: black;">
+         <children>
+            <Pane fx:id="pane0" layoutX="64.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
+               <children>
+                  <ImageView fx:id="imgPlayer0" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane fx:id="ready0" layoutX="25.0" layoutY="293.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
+                     <children>
+                        <Text fill="#ff1b00f5" layoutX="42.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READY">
+                           <font>
+                              <Font name="Berlin Sans FB Demi Bold" size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="pane1" layoutX="351.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
+               <children>
+                  <ImageView fx:id="imgPlayer1" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane fx:id="ready1" layoutX="25.0" layoutY="293.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
+                     <children>
+                        <Text fill="#ff1b00f5" layoutX="42.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READY">
+                           <font>
+                              <Font name="Berlin Sans FB Demi Bold" size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="pane2" layoutX="641.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
+               <children>
+                  <ImageView fx:id="imgPlayer2" fitHeight="250.0" fitWidth="200.0" layoutX="24.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane fx:id="ready2" layoutX="24.0" layoutY="295.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
+                     <children>
+                        <Text fill="#ff1b00f5" layoutX="42.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READY">
+                           <font>
+                              <Font name="Berlin Sans FB Demi Bold" size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="pane3" layoutX="934.0" layoutY="100.0" opacity="0.95" prefHeight="380.0" prefWidth="250.0" style="-fx-background-color: white;">
+               <children>
+                  <ImageView fx:id="imgPlayer3" fitHeight="250.0" fitWidth="200.0" layoutX="25.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane fx:id="ready3" layoutX="25.0" layoutY="298.0" prefHeight="60.0" prefWidth="200.0" styleClass="record-sales5">
+                     <children>
+                        <Text fill="#ff1b00f5" layoutX="42.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READY">
+                           <font>
+                              <Font name="Berlin Sans FB Demi Bold" size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Text fx:id="GameIDTextField" fill="#fcfcfc" layoutX="444.0" layoutY="555.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="362.2792968749999">
+               <font>
+                  <Font name="Berlin Sans FB" size="36.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnReady" layoutX="1000.0" layoutY="509.0" mnemonicParsing="false" onAction="#actionReady" stylesheets="@styleCodex.css" text="READY">
+               <font>
+                  <Font name="Berlin Sans FB" size="24.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="record-sales5" />
+                  <String fx:value="glow-button" />
+               </styleClass>
+            </Button>
+            <Text fill="#ff9000" layoutX="450.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are in the lobby">
+               <font>
+                  <Font name="Arial Black" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick0" fill="#fffefe" layoutX="131.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="124.10546875">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick2" fill="WHITE" layoutX="704.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="124.10546875">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick3" fill="WHITE" layoutX="1005.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="108.10546875">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="nick1" fill="WHITE" layoutX="418.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="116.27929687499994">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

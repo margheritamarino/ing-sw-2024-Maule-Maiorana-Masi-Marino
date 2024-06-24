@@ -1,0 +1,14 @@
+it/polimi/ingsw/model/PingTest.class
+it/polimi/ingsw/model/GameTest.class
+it/polimi/ingsw/model/ObjectiveDeckTest.class
+it/polimi/ingsw/model/BookTest.class
+it/polimi/ingsw/AppTest.class
+it/polimi/ingsw/model/DeckTest.class
+it/polimi/ingsw/model/PlayableCardTest.class
+it/polimi/ingsw/model/ScoretrackTest.class
+it/polimi/ingsw/model/PlayerDeckTest.class
+it/polimi/ingsw/ChatTest.class
+it/polimi/ingsw/model/BoardTest.class
+it/polimi/ingsw/model/CellTest.class
+it/polimi/ingsw/model/PlayerTest.class
+it/polimi/ingsw/model/ObjectiveCardTest.class
