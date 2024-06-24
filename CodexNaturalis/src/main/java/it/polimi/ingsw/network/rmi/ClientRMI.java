@@ -265,6 +265,7 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void reconnect(String nick, int idGame) throws IOException, NotBoundException {
+        System.out.println("ClientRMI- reconnect()\n ");
         registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
         gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
         gameController.reconnect(modelInvokedEvents, nick);

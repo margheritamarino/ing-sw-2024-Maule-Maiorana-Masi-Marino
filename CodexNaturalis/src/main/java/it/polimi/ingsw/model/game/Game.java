@@ -48,6 +48,10 @@ public class Game {
 	private int currentCardPoints;
 	private Chat chat;
 
+	private String disconnectedPlayer= " "; //salvo il nome del giocatore che si disconnette
+
+
+
 	/**
 	 * Constructs a new Game instance with a specified number of players.
 	 *
@@ -448,6 +452,12 @@ public class Game {
 				do {
 					// Calcola l'indice del giocatore successivo
 					 nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
+
+					if(!(Objects.equals(getDisconnectedPlayer(), " "))) {
+						if (getIndexPlayer(getPlayerByNickname(disconnectedPlayer)) == nextIndex) { //salto il giocatore disconnesso
+							nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
+						}
+					}
 				} while (!players.get(nextIndex).getConnected());
 			} else {
 				//Only one player connected, I set the nextTurn to the next player of the one online
@@ -712,6 +722,7 @@ public class Game {
 	public void setAsDisconnected(String nick) {
 		System.out.println("in Game- setAsDisconnected ");
 		getPlayerByNickname(nick).setConnected(false);
+		setDisconnectedPlayer(nick); //salvo nome del giocatore disconnesso
 		getPlayerByNickname(nick).setNotReadyToStart();
 		if (getNumOfOnlinePlayers() != 0) {
 			listenersHandler.notify_playerDisconnected(this, nick);
@@ -740,6 +751,14 @@ public class Game {
 		}
 	}
 
+	public String getDisconnectedPlayer() {
+		return disconnectedPlayer;
+	}
+
+	public void setDisconnectedPlayer(String disconnectedPlayer) {
+		this.disconnectedPlayer = disconnectedPlayer;
+	}
+
 	/**
 	 * Attempts to reconnect a player who was previously disconnected.
 	 * Notifies listeners about the reconnection status and handles game progression if necessary.
@@ -750,9 +769,10 @@ public class Game {
 	 */
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
 		//Player pIn = players.stream().filter(x -> x.equals(p)).toList().get(0);
-
+		System.out.println("Game- reconnectPlayer()\n ");
+		setDisconnectedPlayer(" "); //ho riconnesso il giocatore
 		if(!p.getConnected()){
-			System.out.println("RECONNECTED PLAYER");
+			System.out.println("RECONNECTED PLAYER \n");
 			p.setConnected(true);
 			listenersHandler.notify_playerReconnected(this, p.getNickname());
 

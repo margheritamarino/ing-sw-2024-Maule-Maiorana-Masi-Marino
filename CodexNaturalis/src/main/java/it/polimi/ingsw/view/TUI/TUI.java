@@ -1084,11 +1084,10 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        if(nick.equals(lastPlayerReconnected)){
+        if (nick.equals(lastPlayerReconnected)) {
             printAsync("You are back in the game! \n");
-        }
-        else
-            printAsync("Player" + nick + "is back in the game! \n");
+        } else
+            printAsync("Player" + lastPlayerReconnected + "is back in the game! \n");
     }
 
     /**
@@ -1111,7 +1110,7 @@ public class TUI extends UI {
      * Asks if the player is trying to reconnect
      */
     @Override
-    public void show_askForReconnection(){ //Show mostrata al solo giocatore che sta provando a riconnettersi
+    public void show_askForReconnection(){ //Mostrata al giocatore che sta provando a riconnettersi
         // Pausa di 1 secondo
         try {
             Thread.sleep(1000);

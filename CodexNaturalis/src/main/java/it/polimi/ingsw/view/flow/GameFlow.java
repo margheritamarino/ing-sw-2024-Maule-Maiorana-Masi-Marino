@@ -54,10 +54,18 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     private String lastPlayerReconnected;
 
+
+    /**
+     * Nickname of the disconnected player
+     */
+    private String playerDisconnected;
+
     /**
      * FileDisconnection {@link FileDisconnection} to handle the disconnection
      */
     private final FileDisconnection fileDisconnection;
+
+
 
 
     /**
@@ -1116,6 +1124,8 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
         ui.addImportantEvent("Player " + nick + " has just disconnected");
+        this.setPlayerDisconnected(nick); //to save the nickname of the disconnected player
+
         //Print also here because: If a player is in askReadyToStart is blocked and cannot showPlayerJoined by watching the events
         if (model.getStatus().equals(GameStatus.WAIT)) {
             Color colorP = model.getPlayerByNickname(nick).getPlayerColor();
@@ -1132,6 +1142,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException{
+        System.out.println("GameFlow - playerReconnected ()");
         lastPlayerReconnected = nickPlayerReconnected;
         events.add(model, PLAYER_RECONNECTED);
         ui.addImportantEvent("[EVENT]: Player reconnected!");
@@ -1183,7 +1194,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @param nick The nickname of the player.
      * @param gameId The ID of the game to save.
      */
-    protected void saveGameId(FileDisconnection fileDisconnection, String nick, int gameId) {
+    public void saveGameId(FileDisconnection fileDisconnection, String nick, int gameId) {
         fileDisconnection.setLastGameId(nick, gameId);
     }
 
@@ -1245,6 +1256,20 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         }
     }
 
+    /**
+     * Getter of getPlayerDisconnected()
+     * @return the disconnected player
+     */
+    public String getPlayerDisconnected() {
+        return playerDisconnected;
+    }
+
+    /**
+     * Sets the nickname of disconnected player
+     */
+    public void setPlayerDisconnected(String playerDisconnected) {
+        this.playerDisconnected = playerDisconnected;
+    }
 
 
 
