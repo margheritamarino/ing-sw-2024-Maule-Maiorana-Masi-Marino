@@ -27,7 +27,7 @@ public class GUI extends UI {
 
     private String nickname;
     boolean showedPublisher = false;
-    private boolean alreadyShowedLobby = false;
+    public boolean alreadyShowedLobby = false;
 
     /**
      * Constructor of the class.
@@ -315,6 +315,7 @@ public class GUI extends UI {
                 throw new RuntimeException(e);
             }
         });
+        alreadyShowedLobby=false;
     }
 
     /**

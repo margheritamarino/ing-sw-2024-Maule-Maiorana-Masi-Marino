@@ -374,6 +374,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     public void playerLeftForGameEnded(){
         ended = true;
+
         ui.resetImportantEvents();
         events.add(null,EventType.BACK_TO_MENU);
 
