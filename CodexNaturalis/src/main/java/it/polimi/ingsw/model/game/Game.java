@@ -471,6 +471,10 @@ public class Game {
 		}
 	}
 
+	/*
+	 * while ( (getPlayers().get(nextIndex).getNickname()).equals(getDisconnectedPlayer()));
+	 */
+
 	/**
 	 * Checks the personal goal and common goals of the currentPlayer.
 	 * This method first checks the personal goal of the current player, and then
