@@ -666,7 +666,7 @@ public class GUI extends UI {
      */
     @Override
     public void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected) {
-        if(nick.equals(lastPlayerReconnected)){
+        if(nick.equals(lastPlayerReconnected)){ //TODO: NON serve metterlo dato che l'evento è aggiunto solo al giocattore
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
             callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
@@ -678,10 +678,10 @@ public class GUI extends UI {
             String msg= "YOU are back in the game!";
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
 
-        }else{
+        }/*else{
             String msg= "Player" + nick + "is back in the game!";
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
-        }
+        }*/
 
     }
 
