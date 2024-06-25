@@ -222,7 +222,7 @@ public class Game {
 	 * @return true if the game is full (i.e., there are already 4 players),
 	 */
 	public boolean isFull() {
-		return playersNumber == DefaultValue.MaxNumOfPlayer;
+		return players.size() == DefaultValue.MaxNumOfPlayer;
 	}
 	/**
 	 * @param nickname nickname to check
@@ -261,7 +261,7 @@ public class Game {
 		System.out.println("Game - addPlayer");
 		// Check if the game is not full and the nickname is not taken
 		// Check if the game is not full
-		if (isFull()) {
+		if(isFull()) {
 			// Game is full
 			listenersHandler.notify_JoinUnableGameFull(lis, getPlayerByNickname(nickname), this);
 			return false;
