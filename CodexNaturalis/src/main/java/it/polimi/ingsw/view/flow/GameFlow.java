@@ -543,7 +543,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void makeGameStart(String nickname){
         try {
             clientActions.makeGameStart(nickname);
-
         } catch (IOException e){
             noConnectionError();
         }

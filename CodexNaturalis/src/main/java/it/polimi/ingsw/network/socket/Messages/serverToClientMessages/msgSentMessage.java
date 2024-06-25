@@ -6,6 +6,7 @@ import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class msgSentMessage extends ServerGenericMessage {
 
@@ -17,7 +18,7 @@ public class msgSentMessage extends ServerGenericMessage {
         this.msg = msg;
     }
     @Override
-    public void execute(GameListenerInterface lis) throws IOException, InterruptedException, FileReadException {
+    public void execute(GameListenerInterface lis) throws RemoteException {
         lis.sentMessage(model, msg);
     }
 }

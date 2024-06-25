@@ -4,6 +4,7 @@ import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class msgWrongChooseCard extends ServerGenericMessage{
     private GameImmutable model;
@@ -19,7 +20,7 @@ public class msgWrongChooseCard extends ServerGenericMessage{
     }
 
     @Override
-    public void execute(GameListenerInterface lis) throws IOException, InterruptedException {
+    public void execute(GameListenerInterface lis) throws RemoteException {
         lis.wrongChooseCard(model, msg);
     }
 }

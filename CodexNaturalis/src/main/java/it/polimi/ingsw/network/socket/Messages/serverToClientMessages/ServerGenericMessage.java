@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socket.Messages.serverToClientMessages;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.listener.GameListenerInterface;
@@ -18,6 +19,6 @@ public abstract class ServerGenericMessage implements Serializable {
      * @throws IOException if there is an IO exception
      * @throws InterruptedException if the execution is interrupted
      */
-    public abstract void execute(GameListenerInterface lis) throws IOException, InterruptedException, FileReadException;
+    public abstract void execute(GameListenerInterface lis) throws IOException, InterruptedException;
 
 }
