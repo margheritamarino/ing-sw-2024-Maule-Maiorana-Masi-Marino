@@ -40,7 +40,6 @@ public class DefaultValue implements Serializable {
     public final static int twelveHS = 43200;
 
     public final static int timeoutConnection_millis =20000; //20s
-    public final static int secondToWaitToSend_heartbeat =500;
     public final static Long timeout_for_detecting_disconnection = 4000L;
 
     public final static int maxAttemptsBeforeGiveUp= 5;

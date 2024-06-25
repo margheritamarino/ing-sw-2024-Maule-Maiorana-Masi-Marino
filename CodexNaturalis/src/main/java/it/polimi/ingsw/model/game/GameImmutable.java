@@ -302,8 +302,20 @@ public class GameImmutable implements Serializable {
         return players.size() == getNumPlayers();
     }
 
-    public boolean isDeckUpdated(){
-    return false;
+    public boolean isDeckUpdated(String nick){
+        Player p= getPlayerByNickname(nick);
+        return (p.getPlayerDeck().getMiniDeck().size()==3 && checkPlayerDeck(p.getPlayerDeck().getMiniDeck()));
+
+    }
+    private boolean checkPlayerDeck(ArrayList<PlayableCard[]> deck){
+        for (PlayableCard[] cardArray : deck) {
+            for (PlayableCard card : cardArray) {
+                if (card == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 

@@ -1208,16 +1208,10 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         ui.show_noConnectionError();
     }
 
-    /**
-     * This method is intended to verify the connectivity status between the client and server.
-     */
+
     @Override
     public void ping()  {
-        try {
-            clientActions.ping();
-        } catch (RemoteException e) {
-            noConnectionError();
-        }
+
     }
 
     /**

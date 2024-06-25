@@ -294,6 +294,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                out.writeObject(new ClientMsgPing(nickname));
                 finishSending();
             } catch (IOException e) {
+                flow.noConnectionError();
                 printAsync("Connection lost to the server! Impossible to send ping()...");
             }
         }
@@ -330,7 +331,6 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void sendMessage(Message msg)throws IOException  {
-
         System.out.println("ClientSocket sending message: " + msg.getText());
         out.writeObject(new ClientMsgNewChatMessage(msg));
         finishSending();

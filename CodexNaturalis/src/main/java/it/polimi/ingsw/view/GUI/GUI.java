@@ -588,7 +588,7 @@ public class GUI extends UI {
      */
     @Override
     public void show_playerDeck(GameImmutable model, String nickname) {
-        while (!model.isDeckUpdated()) {
+        while (!model.isDeckUpdated(nickname)) {
             try {
                 Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
             } catch (InterruptedException e) {

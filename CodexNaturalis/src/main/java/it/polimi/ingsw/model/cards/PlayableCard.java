@@ -103,8 +103,7 @@ public abstract class PlayableCard implements Serializable {
 
         if(typeTemp.equals("InitialCard")){
             path= "/img/Cards/initialCards/"+ idTemp+ "_Initial"+ sideTemp+ ".png";
-        } else {
-
+        }else {
             switch (typeTemp) {
                 case "GoldCard":
                     typeTemp = "Gold";

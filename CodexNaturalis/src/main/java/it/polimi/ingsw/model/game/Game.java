@@ -730,6 +730,7 @@ public class Game {
 		getPlayerByNickname(nick).setConnected(false);
 		setDisconnectedPlayer(nick); //salvo nome del giocatore disconnesso
 		getPlayerByNickname(nick).setNotReadyToStart();
+
 		if (getNumOfOnlinePlayers() != 0) {
 			listenersHandler.notify_playerDisconnected(this, nick);
 
@@ -779,8 +780,6 @@ public class Game {
 		if(!p.getConnected()){
 			System.out.println("RECONNECTED PLAYER \n");
 
-			listenersHandler.notify_playerReconnected(this, p.getNickname());
-
 			if (!isTheCurrentPlayerOnline()) {
 				//oppure if(disconnectedPlayer.equals(currentPlayer)
 				int currentIndex = -1;
@@ -803,6 +802,8 @@ public class Game {
 			}
 			p.setConnected(true);
 			setDisconnectedPlayer(" "); //ho riconnesso il giocatore
+			listenersHandler.notify_playerReconnected(this, p.getNickname());
+
 			return true;
 		}else {
 			p.notify_ReconnectionFailed("ERROR: Trying to reconnect a player not offline!");
