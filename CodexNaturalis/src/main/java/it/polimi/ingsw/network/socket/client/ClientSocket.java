@@ -251,7 +251,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMsgReconnect(this.nickname));
         finishSending();
         if(pingSender.isAlive()) {
-            pingSender.interrupt();
+            pingSender.start();
         }
 
     }
@@ -329,14 +329,11 @@ public class ClientSocket extends Thread implements ClientInterface {
      * @throws RuntimeException If there is an I/O error while sending the message.
      */
     @Override
-    public void sendMessage(Message msg){
-        try {
-            System.out.println("ClientSocket sending message: " + msg.getText());
-            out.writeObject(new ClientMsgNewChatMessage(msg));
-            finishSending();
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        }
+    public void sendMessage(Message msg)throws IOException  {
+
+        System.out.println("ClientSocket sending message: " + msg.getText());
+        out.writeObject(new ClientMsgNewChatMessage(msg));
+        finishSending();
     }
 
 

@@ -347,6 +347,7 @@ public class ResourceCard extends PlayableCard implements Serializable {
    public Ansi.Color getColorForResource(ResourceType mainResource) {
       return switch (mainResource) {
          case Fungi -> Ansi.Color.RED;
+         
          case Insect -> Ansi.Color.MAGENTA;
          case Plant -> Ansi.Color.GREEN;
          case Animal -> Ansi.Color.CYAN;

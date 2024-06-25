@@ -106,7 +106,7 @@ public interface ClientInterface  {
      * @param msg The message to be sent.
      * @throws RemoteException If there is an error in remote communication.
      */
-    void sendMessage(Message msg) throws RemoteException;
+    void sendMessage(Message msg) throws RemoteException, IOException;
 
     /**
      * Notifies the server to start the game with the specified nickname.

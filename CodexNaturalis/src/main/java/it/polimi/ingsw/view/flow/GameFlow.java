@@ -1248,7 +1248,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @param msg The message to send.
      */
     @Override
-    public void sendMessage(Message msg) {
+    public void sendMessage(Message msg) throws IOException {
         try {
             clientActions.sendMessage(msg);
             System.out.println("Message sent: " + msg.getText());

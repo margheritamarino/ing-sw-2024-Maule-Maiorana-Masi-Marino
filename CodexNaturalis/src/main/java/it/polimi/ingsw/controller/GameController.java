@@ -128,7 +128,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                             } catch (RemoteException e) {
                                 throw new RuntimeException(e);
                             }
-
                             pingIter.remove();
                         }
                     }
