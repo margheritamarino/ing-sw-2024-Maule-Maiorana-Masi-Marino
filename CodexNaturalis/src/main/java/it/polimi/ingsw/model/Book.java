@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.cards.*;
 import java.io.Serializable;
 import java.util.*;
 
+//prova
 
 // BOOK: disposizione delle carte di ogni player
 public class Book implements Serializable {
