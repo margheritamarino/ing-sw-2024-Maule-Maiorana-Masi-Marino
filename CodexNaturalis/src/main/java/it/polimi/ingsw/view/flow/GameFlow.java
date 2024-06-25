@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static it.polimi.ingsw.view.events.EventType.*;
+import static it.polimi.ingsw.view.events.EventType.PLAYER_RECONNECTED;
 
 /**
  * Manages the flow of the game and interaction between client and server.
@@ -220,15 +221,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     ui.show_WaitTurnMsg(event.getModel(), nickname);
                 }
             }
-            case NEXT_TURN, PLAYER_RECONNECTED -> {
-
-                if (event.getType().equals(PLAYER_RECONNECTED)){
-                    ui.show_PlayerReconnectedMsg(event.getModel(), nickname, lastPlayerReconnected);
-                    if(lastPlayerReconnected.equals(nickname)) {
-                        this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
-                        this.inputController.setGameID(event.getModel().getGameId());
-                    }
-                }
+            case NEXT_TURN->{
                 ui.show_nextTurnMsg(event.getModel());
                 if(event.getModel().getCurrentPlayer().getNickname().equals(nickname)){
                     ui.show_CurrentTurnMsg(event.getModel());
@@ -238,7 +231,14 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     ui.show_WaitTurnMsg(event.getModel(), nickname);
                 }
             }
+            case PLAYER_RECONNECTED -> {
+                ui.show_PlayerReconnectedMsg(event.getModel(), nickname, lastPlayerReconnected);
+                if(lastPlayerReconnected.equals(nickname)) {
+                    this.inputController.setPlayer(event.getModel().getPlayerByNickname(nickname));
+                    this.inputController.setGameID(event.getModel().getGameId());
+                }
 
+            }
 
             case CARD_PLACED ->{
                 ui.show_cardPlacedMsg(event.getModel());
@@ -1144,7 +1144,9 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException{
         System.out.println("GameFlow - playerReconnected ()");
         lastPlayerReconnected = nickPlayerReconnected;
-        events.add(model, PLAYER_RECONNECTED);
+        if(lastPlayerReconnected.equals(nickname)) {
+            events.add(model, PLAYER_RECONNECTED);
+        }
         ui.addImportantEvent("[EVENT]: Player reconnected!");
     }
 
