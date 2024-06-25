@@ -588,6 +588,13 @@ public class GUI extends UI {
      */
     @Override
     public void show_playerDeck(GameImmutable model, String nickname) {
+        while (!model.isDeckUpdated()) {
+            try {
+                Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
+            }
+        }
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setPlayerDeck(model, nickname));
     }
 
