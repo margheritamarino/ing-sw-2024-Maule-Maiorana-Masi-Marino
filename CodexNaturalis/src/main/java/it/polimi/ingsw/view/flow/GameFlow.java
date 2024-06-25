@@ -1213,6 +1213,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void ping()  {
+        try {
+            clientActions.ping();
+        } catch (RemoteException e) {
+            noConnectionError();
+        }
     }
 
     /**
