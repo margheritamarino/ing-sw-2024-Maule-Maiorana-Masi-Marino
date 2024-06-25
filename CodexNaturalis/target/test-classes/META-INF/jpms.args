@@ -1,4 +1,0 @@
---patch-module
-PSP24=_
---add-reads
-PSP24=ALL-UNNAMED

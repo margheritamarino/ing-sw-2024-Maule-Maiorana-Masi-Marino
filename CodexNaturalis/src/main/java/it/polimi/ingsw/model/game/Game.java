@@ -471,6 +471,10 @@ public class Game {
 		}
 	}
 
+	/*
+	 * while ( (getPlayers().get(nextIndex).getNickname()).equals(getDisconnectedPlayer()));
+	 */
+
 	/**
 	 * Checks the personal goal and common goals of the currentPlayer.
 	 * This method first checks the personal goal of the current player, and then
@@ -769,7 +773,7 @@ public class Game {
 	 */
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
 		System.out.println("Game- reconnectPlayer()\n ");
-
+		setDisconnectedPlayer(" ");
 		if(!p.getConnected()){
 			System.out.println("RECONNECTED PLAYER \n");
 
@@ -846,6 +850,7 @@ public class Game {
 			throw new ActionByAPlayerNotInTheGameException();
 		}
 	}
+
 
 }
 

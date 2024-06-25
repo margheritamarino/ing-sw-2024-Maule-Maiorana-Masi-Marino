@@ -86,6 +86,7 @@ public abstract class PlayableCard implements Serializable {
      * This method is used for the GUI
      * @return the path for the specific istance of Card (contained in the package resources-->img)
      */
+
     public String getImagePath(){
         final String path;
         int idTemp = this.getCardID();
@@ -112,7 +113,8 @@ public abstract class PlayableCard implements Serializable {
                     typeTemp = "Resource";
                     break;
                 default:
-                    throw new IllegalArgumentException("Card type not recognized: " + typeTemp);
+                    typeTemp = "Resource";
+                    break;
             }
             if (sideTemp.equals("Front")) {
                 path="/img/Cards/"+ typeTemp+"Cards/"+ idTemp+ "_"+ typeTemp+ "Front.png";
@@ -122,7 +124,25 @@ public abstract class PlayableCard implements Serializable {
                 path="/img/Cards/"+ typeTemp+"Cards/"+ typeTemp+ mainResource+ "Back.png";
             }
         }
-        return Objects.requireNonNull(getClass().getResource(path)).toExternalForm();
+        try {
+            String resourcePath = getClass().getResource(path) != null ? getClass().getResource(path).toExternalForm() : null;
+
+            if (resourcePath != null) {
+                return resourcePath;
+            } else {
+                // Percorso dell'immagine predefinito se l'immagine specificata non esiste
+                if (typeTemp.equals("Resource")) {
+                    return getClass().getResource("/img/Cards/0_ResourceFront.png").toExternalForm();
+                } else {
+                    return getClass().getResource("/img/Cards/0_GoldFront.png").toExternalForm();
+                }
+            }
+        } catch (Exception e) {
+            if(typeTemp.equals("Resource"))
+                return getClass().getResource("/img/Cards/0_ResourceFront.png").toExternalForm(); // percorso dell'immagine di default
+            else
+                return getClass().getResource("/img/Cards/0_GoldFront.png").toExternalForm();
+        }
     }
 
     /**

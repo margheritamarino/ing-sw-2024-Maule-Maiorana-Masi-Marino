@@ -271,6 +271,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             if (model.getStatus().equals(GameStatus.WAIT)) {
                 //The game is in Wait (game not started yet), the player disconnected, so I remove him from the game)
                 model.removePlayer(nick); //remove Player from the Game
+                 if (model.getStatus().equals(GameStatus.WAIT) && model.getNumPlayers()==0){
+                    setGameCreated(false);
+                 }
             } else {
                 //Tha game is running, so I set him as disconnected (He can reconnect soon)
                 model.setAsDisconnected(p.getNickname());
