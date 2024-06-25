@@ -351,6 +351,8 @@ public class Game {
 		}
 		return numReady == playersNumber;
 	}
+
+
 	/**
 	 * @return the game status
 	 */

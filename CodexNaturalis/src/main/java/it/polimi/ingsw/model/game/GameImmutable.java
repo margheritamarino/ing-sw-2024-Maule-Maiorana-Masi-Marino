@@ -297,5 +297,9 @@ public class GameImmutable implements Serializable {
         // Se tutti i controlli sono passati, la board è aggiornata
         return true;
     }
+
+    public boolean arePlayersEnough(){
+        return players.size() == getNumPlayers();
+    }
 }
 

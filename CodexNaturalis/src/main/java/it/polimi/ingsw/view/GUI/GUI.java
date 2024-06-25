@@ -364,6 +364,13 @@ public class GUI extends UI {
      */
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
+        while (!gameModel.arePlayersEnough()) {
+            try {
+                Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
+            }
+        }
         if (!alreadyShowedLobby) {
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(event -> {

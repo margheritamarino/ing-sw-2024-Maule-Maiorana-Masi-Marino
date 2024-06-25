@@ -5,6 +5,8 @@ import it.polimi.ingsw.Chat.MessagePrivate;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.flow.GameFlow;
 
+import java.io.IOException;
+
 
 /**
  * Manages user input and coordinates message sending within the game.
@@ -51,11 +53,21 @@ public class InputController extends Thread{
                 if(inputData.contains(" ")){
                     String receiver = inputData.substring(0, inputData.indexOf(" "));
                     String msg = inputData.substring(receiver.length() + 1);
-                    gameFlow.sendMessage(new MessagePrivate(msg, player, receiver));
+                    try {
+                        gameFlow.sendMessage(new MessagePrivate(msg, player, receiver));
+                    } catch (IOException e) {
+                        System.err.println("Failed to send message: " + e.getMessage());
+                        e.printStackTrace();
+                    }
                 }
             } else if (player != null && inputData.startsWith("/c")) {
                 inputData = inputData.charAt(2) == ' ' ? inputData.substring(3) : inputData.substring(2);
-                gameFlow.sendMessage(new Message(inputData, player));
+                try {
+                    gameFlow.sendMessage(new Message(inputData, player));
+                } catch (IOException e) {
+                    System.err.println("Failed to send message: " + e.getMessage());
+                    e.printStackTrace();
+                }
 
             } else if (inputData.startsWith("/quit")) {
                 assert player != null;
