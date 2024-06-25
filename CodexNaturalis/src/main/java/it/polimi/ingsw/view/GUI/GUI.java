@@ -27,7 +27,7 @@ public class GUI extends UI {
 
     private String nickname;
     boolean showedPublisher = false;
-    private boolean alreadyShowedLobby = false;
+    public boolean alreadyShowedLobby = false;
 
     /**
      * Constructor of the class.
@@ -220,7 +220,17 @@ public class GUI extends UI {
      */
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname) {
-        callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
+        BoardPopUpController controller = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
+
+        while (!model.isBoardUpdated()) { //TODO CONTROLLARE
+            try {
+                Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
+            }
+        }
+        controller.setBoard(model);
+
         PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
         pause2.setOnFinished(event2 -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
@@ -315,6 +325,7 @@ public class GUI extends UI {
                 throw new RuntimeException(e);
             }
         });
+        alreadyShowedLobby=false;
     }
 
     /**
@@ -354,7 +365,7 @@ public class GUI extends UI {
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
         if (!alreadyShowedLobby) {
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(event -> {
                 callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
 
@@ -602,8 +613,18 @@ public class GUI extends UI {
      */
     @Override
     public void show_board(GameImmutable model) {
-        callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
-        ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).enablePickCardTurn();
+        BoardPopUpController controller = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
+
+        while (!model.isBoardUpdated()) { //TODO CONTROLLARE
+            try {
+                Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
+            }
+        }
+
+        controller.setBoard(model);
+        controller.enablePickCardTurn();
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
     }
 
@@ -672,7 +693,17 @@ public class GUI extends UI {
             callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
 
             callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
-            callPlatformRunLater(() -> ((BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP)).setBoard(model));
+
+            BoardPopUpController controller = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
+            while (!model.isBoardUpdated()) { //TODO CONTROLLARE
+                try {
+                    Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
+                }
+            }
+            controller.setBoard(model);
+
             show_playerBook(model);
 
             String msg= "YOU are back in the game!";
