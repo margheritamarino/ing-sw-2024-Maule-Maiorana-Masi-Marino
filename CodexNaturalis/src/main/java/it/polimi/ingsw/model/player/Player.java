@@ -168,7 +168,7 @@ public class Player implements Serializable {
      * @throws PlacementConditionViolated if the placement conditions are violated
      * @throws CellNotAvailableException  if the specified cell is not available for placing the card
      */
-    public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, CellNotAvailableException {
+    public int placeCard(int posCard, int rowCell, int rowCol) throws PlacementConditionViolated, CellNotAvailableException,IndexOutOfBoundsException {
         ArrayList<Cell> availableCells = this.playerBook.showAvailableCells();
         Cell chosenCell = null;
         PlayableCard chosenCard;
@@ -195,7 +195,7 @@ public class Player implements Serializable {
                 case 4 -> miniDeck.get(2)[0];
                 case 5 -> miniDeck.get(2)[1];
 
-                default -> throw new IllegalStateException("Unexpected value: " + posCard);
+                default -> throw new IndexOutOfBoundsException("Unexpected value: " + posCard);
             };
 
             if (chosenCard != null){

@@ -109,7 +109,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             //checks all the ping messages to detect disconnections
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
-                    System.out.println("in GameController - run() --> synchronized (receivedPings)\n");
+                    //System.out.println("in GameController - run() --> synchronized (receivedPings)\n");
                     // cerca nella mappa
                     Iterator<Map.Entry<GameListenerInterface, Ping>> pingIter = receivedPings.entrySet().iterator();
                     // Itera attraverso tutte le coppie chiave-valore nella mappa

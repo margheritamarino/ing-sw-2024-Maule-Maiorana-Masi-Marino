@@ -640,7 +640,7 @@ public class Game {
 		try {
 			currentCardPoints=  p.placeCard(chosenCard, rowCell, colCell);
 			return currentCardPoints;
-		}catch(PlacementConditionViolated | CellNotAvailableException e   ){
+		}catch(PlacementConditionViolated | CellNotAvailableException | IndexOutOfBoundsException e   ){
 			String msg = e.getMessage();
 			p.notify_NotCorrectChosenCard(this, msg);
 			return -1;
