@@ -377,8 +377,6 @@ public class GUI extends UI {
 
 
 
-        System.out.println("sono nel metodo show_playerJoined");
-        System.out.println("alreadyShoweLobby: " + alreadyShowedLobby);
         // Controlla se la lobby è già stata mostrata
         if (!alreadyShowedLobby) {
             System.out.println("Mostrando la lobby per la prima volta.");

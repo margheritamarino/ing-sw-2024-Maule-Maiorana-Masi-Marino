@@ -13,7 +13,6 @@ import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Node;
@@ -240,10 +239,11 @@ public class GUIApplication extends Application {
     /**
      * This method is used to rescale the scene.
      */
-    public void rescale(double width, double height) {
-        if (resizing) {
+    public void rescale(double width, double heigh) {
+        if(resizing) {
             double widthWindow = width;
-            double heightWindow = height;
+            double heightWindow = heigh;
+
 
             double w = widthWindow / widthOld;
             double h = heightWindow / heightOld;
@@ -252,22 +252,15 @@ public class GUIApplication extends Application {
             heightOld = heightWindow;
             Scale scale = new Scale(w, h, 0, 0);
 
-            Platform.runLater(() -> {
-                Scene scene = primaryStage.getScene();
-                if (scene != null) {
-                    Node contentNode = scene.lookup("#content");
-                    if (contentNode != null) {
-                        contentNode.getTransforms().add(scale);
-                    } else {
-                        System.err.println("Nodo con ID 'content' non trovato nella scena.");
-                    }
-                } else {
-                    System.err.println("Scena non trovata.");
-                }
-            });
+            Node contentNode = primaryStage.getScene().lookup("#content");
+            if (contentNode != null) {
+                contentNode.getTransforms().add(scale);
+            } else {
+                System.err.println("Nodo con ID 'content' non trovato.");
+            }
+
         }
     }
-
 
     /**
      * This method is used to open the popup.
