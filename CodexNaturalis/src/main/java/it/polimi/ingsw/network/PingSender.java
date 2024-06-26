@@ -48,9 +48,9 @@ public class PingSender extends Thread{
             } catch (RemoteException e) {
                 flow.noConnectionError();
                 printAsync("Connection to server lost! Impossible to send ping ...");
+                interrupt();
             }
             timer.cancel();
-
             try {
                 Thread.sleep(DefaultValue.secondToWaitToSend_ping); //thread dorme per 500 ms
             } catch (InterruptedException ignored) {}

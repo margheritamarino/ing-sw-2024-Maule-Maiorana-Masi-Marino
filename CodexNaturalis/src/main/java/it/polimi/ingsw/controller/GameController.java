@@ -158,7 +158,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         if (model.arePlayersReadyToStartAndEnough()){
             ArrayList<Player> players= model.getPlayers();
             for(int i=0; i<players.size(); i++){
-                model.initializeCards( lis, players.get(i), i);
+                if(!players.get(i).isInitialized())
+                    model.initializeCards( lis, players.get(i), i);
             }
             return true;
 

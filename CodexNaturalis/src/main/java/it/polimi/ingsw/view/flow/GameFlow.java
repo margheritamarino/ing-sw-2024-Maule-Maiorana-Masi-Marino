@@ -629,14 +629,17 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         do {
             try {
                 temp = this.inputController.getUnprocessedData().popInputData();
-
+                index = Integer.parseInt(temp);
+                if (index < min || index > max ) {
+                    ui.show_wrongSelMsg(min, max);
+                    index = -1;
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
-            }
-            index = Integer.parseInt(temp);
-            if (index < min || index > max) {
+            }catch (NumberFormatException e) {
+                // Gestione dell'input non numerico
                 ui.show_wrongSelMsg(min, max);
-                index = -1;
+                index = -1; // Garantisce che il ciclo continui
             }
         }while (index<0);
         return index;
@@ -1122,7 +1125,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws RemoteException If there is a network issue.
      */
     @Override
-    public void playerDisconnected(GameImmutable model, String nick) {
+    public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
         ui.addImportantEvent("Player " + nick + " has just disconnected");
         this.setPlayerDisconnected(nick); //to save the nickname of the disconnected player
 

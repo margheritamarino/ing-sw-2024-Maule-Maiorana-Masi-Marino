@@ -132,11 +132,16 @@ public class Player implements Serializable {
      *
      * @param chosenCard is the objective card chosen between 2 Objective Cards
      */
+
+    public boolean initialized=false;
     public void setGoal(ObjectiveCard chosenCard) {
         this.playerGoal = chosenCard;
+        initialized=true;
         System.out.println("Goal setted: " +chosenCard.getCardID());
     }
-
+    public boolean isInitialized(){
+            return this.initialized;
+    }
     public ObjectiveCard getGoal() {
         return this.playerGoal;
     }
@@ -228,6 +233,7 @@ public class Player implements Serializable {
      * @param index the index indicating the specific requirement
      */
     public void notify_requireInitial( Game model, int index){
+
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
