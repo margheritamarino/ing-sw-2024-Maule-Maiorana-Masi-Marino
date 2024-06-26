@@ -868,8 +868,6 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     public void playerLeft(GameImmutable gameImmutable, String nickname) throws RemoteException {
         System.out.println("In GameFlow - Player Left \n ");
          ui.addImportantEvent("[EVENT]: Player " + nickname + " decided to leave the game!");
-         gameImmutable.getPlayerByNickname(nickname).setConnected(false); //aggiunto
-
     }
 
     /**

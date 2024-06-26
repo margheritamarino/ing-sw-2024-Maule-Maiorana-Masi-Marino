@@ -330,7 +330,9 @@ public class Game {
 	 * @param nickname is the nickname of the Player that you want to remove from the game.
 	 */
 	public void removePlayer(String nickname) {
+		getPlayerByNickname(nickname).setConnected(false);
 		players.remove(players.stream().filter(x -> x.getNickname().equals(nickname)).toList().getFirst());
+
 		listenersHandler.notify_PlayerLeft(this, nickname);
 
 		if (this.status.equals(GameStatus.RUNNING) && players.stream().filter(Player::getConnected).toList().size() <= 1) {
