@@ -55,6 +55,5 @@ public class PingSender extends Thread{
                 Thread.sleep(DefaultValue.secondToWaitToSend_ping); //thread dorme per 500 ms
             } catch (InterruptedException ignored) {}
         }
-
     }
 }
