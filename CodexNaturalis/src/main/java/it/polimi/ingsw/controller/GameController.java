@@ -90,7 +90,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @param me the client who sends ping messages
      */
     @Override
-    public synchronized void ping(String nickname, GameListenerInterface me) throws RemoteException {
+    public void ping(String nickname, GameListenerInterface me) throws RemoteException { //TODO CONTROLLARE SYNCHRONIZED
+        System.out.println("metodo Ping del GameController");
         synchronized (receivedPings) {
             receivedPings.put(me, new Ping(System.currentTimeMillis(), nickname));
         }
@@ -109,10 +110,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             //checks all the ping messages to detect disconnections
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
-                    System.out.println("in GameController - run() --> synchronized (receivedPings)\n");
-                    // cerca nella mappa
+
                     Iterator<Map.Entry<GameListenerInterface, Ping>> pingIter = receivedPings.entrySet().iterator();
-                    // Itera attraverso tutte le coppie chiave-valore nella mappa
+
                     while (pingIter.hasNext()) {
                         Map.Entry<GameListenerInterface, Ping> el = pingIter.next();
                         if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
@@ -125,7 +125,6 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                                     if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.WAIT)) {
                                         model.setStatus(GameStatus.ENDED);
                                     }
-                                    //GameController.getInstance().deleteGame();--> NON serve avendo quell'unico Game
                                     return;
                                 }
                             } catch (RemoteException e) {
