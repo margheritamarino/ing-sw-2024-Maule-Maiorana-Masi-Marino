@@ -364,14 +364,18 @@ public class GUI extends UI {
      */
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
+
         // Attendi che il numero di giocatori sia sufficiente
-        while (!gameModel.arePlayersEnough()) {
+        //while (!gameModel.arePlayersEnough()) {
+
             try {
                 Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
             }
-        }
+        //}
+
+
 
         System.out.println("sono nel metodo show_playerJoined");
         System.out.println("alreadyShoweLobby: " + alreadyShowedLobby);
