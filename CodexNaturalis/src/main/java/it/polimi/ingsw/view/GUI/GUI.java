@@ -365,32 +365,18 @@ public class GUI extends UI {
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
 
-        // Attendi che il numero di giocatori sia sufficiente
-        //while (!gameModel.arePlayersEnough()) {
-
-            try {
-                Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
-            }
-        //}
-
-
 
         // Controlla se la lobby è già stata mostrata
         if (!alreadyShowedLobby) {
-            System.out.println("Mostrando la lobby per la prima volta.");
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(event -> {
                 // Chiudi la finestra pop-up
                 callPlatformRunLater(() -> {
-                    System.out.println("Chiudendo il pop-up stage.");
                     this.guiApplication.closePopUpStage();
 
                     // Configura e mostra la lobby
                     LobbyController lobbyController = (LobbyController) this.guiApplication.getController(SceneType.LOBBY);
                     if (lobbyController != null) {
-                        System.out.println("Configurando la lobby.");
                         lobbyController.setGameid(gameModel.getGameId());
                         lobbyController.setVisibleBtnReady(true);
                         this.guiApplication.setActiveScene(SceneType.LOBBY);
@@ -403,7 +389,6 @@ public class GUI extends UI {
             });
             pause.play();
         } else {
-            System.out.println("Mostrando il giocatore nella lobby.");
             // Mostra il giocatore nella lobby
             callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
         }
