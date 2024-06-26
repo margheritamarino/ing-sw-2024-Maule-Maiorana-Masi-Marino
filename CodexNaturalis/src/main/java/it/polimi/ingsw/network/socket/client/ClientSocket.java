@@ -85,6 +85,8 @@ public class ClientSocket extends Thread implements ClientInterface {
                     throw new RuntimeException(ex);
                 }
                 System.exit(-1);
+            } catch (FileReadException e) {
+                throw new RuntimeException(e);
             }
         }
     }
