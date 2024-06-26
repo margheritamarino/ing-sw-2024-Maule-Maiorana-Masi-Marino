@@ -335,6 +335,7 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void ping() throws RemoteException {
+        System.out.println("metodo Ping di CLIENT RMI!!");
         if (gameController != null) {
             gameController.ping(nickname, modelInvokedEvents);
         }

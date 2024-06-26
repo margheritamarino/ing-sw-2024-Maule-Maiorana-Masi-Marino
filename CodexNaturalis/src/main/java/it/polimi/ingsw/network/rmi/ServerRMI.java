@@ -236,6 +236,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     @Override
     public void ping(String nickname, GameListenerInterface me) throws RemoteException {
         //gameController.ping(nickname, me);
+        System.out.println("Sono in Ping ServerRMI (PERCHE'???)");
         serverObject.gameController.ping(nickname, me);
     }
 
