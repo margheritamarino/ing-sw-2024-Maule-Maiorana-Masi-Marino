@@ -185,6 +185,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
         String nicknameLastPlayer = event.getModel().getLastPlayer().getNickname();
         switch (event.getType()) {
             case PLAYER_JOINED -> {
+                System.out.println("sono entrato nel metodo statusWAIT case PLAYER_JOINED");
                 ui.show_playerJoined(event.getModel(), this.nickname, this.color);
                 if (nicknameLastPlayer.equals(nickname)) {
                     saveGameId(fileDisconnection, nickname, event.getModel().getGameId());
