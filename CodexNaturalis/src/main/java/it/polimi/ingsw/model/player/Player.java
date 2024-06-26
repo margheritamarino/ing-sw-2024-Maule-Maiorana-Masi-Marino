@@ -236,8 +236,6 @@ public class Player implements Serializable {
             } catch (IOException | FileReadException e) {
                 printAsync("During notification of notify_requireInitial, a disconnection has been detected before ping");
                 i.remove();
-            } catch (FileReadException e) {
-                throw new RuntimeException(e);
             }
         }
     }
