@@ -295,8 +295,9 @@ public class ClientSocket extends Thread implements ClientInterface {
             } catch (IOException e) {
                 flow.noConnectionError();
                 printAsync("Connection lost to the server! Impossible to send ping()...");
-                // Log the exception for debugging purposes
-                e.printStackTrace();
+                if(pingSender.isAlive()) {
+                    pingSender.interrupt();
+                }
             }
         }
     }
