@@ -16,6 +16,7 @@ import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static it.polimi.ingsw.view.PrintAsync.printAsync;
 
@@ -40,6 +41,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     private static GameController instance = null;
     private boolean gameCreated;
+
     private final transient Map<GameListenerInterface, Ping> receivedPings;
 
     /**
@@ -54,7 +56,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public GameController()  {
         model = new Game();
-        receivedPings = new HashMap<>();
+        receivedPings = new ConcurrentHashMap<>(); //MODIFIED
         this.gameCreated= false;
 
         new Thread(this).start();
@@ -103,23 +105,24 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public void run() {
-        while (!Thread.interrupted()) {
+        //while (!Thread.interrupted()) {
             //checks all the ping messages to detect disconnections
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
+                    System.out.println("in GameController - run() --> synchronized (receivedPings)\n");
                     // cerca nella mappa
                     Iterator<Map.Entry<GameListenerInterface, Ping>> pingIter = receivedPings.entrySet().iterator();
                     // Itera attraverso tutte le coppie chiave-valore nella mappa
                     while (pingIter.hasNext()) {
-                        Map.Entry<GameListenerInterface, Ping> el =  pingIter.next();
+                        Map.Entry<GameListenerInterface, Ping> el = pingIter.next();
                         if (System.currentTimeMillis() - el.getValue().getBeat() > DefaultValue.timeout_for_detecting_disconnection) {
                             try {
                                 this.disconnectPlayer(el.getValue().getNick(), el.getKey());
-                                printAsync("Disconnection detected by Ping of player: "+el.getValue().getNick());
+                                printAsync("Disconnection detected by Ping of player: " + el.getValue().getNick());
 
                                 if (model.getNumOfOnlinePlayers() == 0) {
                                     stopReconnectionTimer();
-                                    if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE)|| model.getStatus().equals(GameStatus.WAIT) ) {
+                                    if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.WAIT)) {
                                         model.setStatus(GameStatus.ENDED);
                                     }
                                     //GameController.getInstance().deleteGame();--> NON serve avendo quell'unico Game
@@ -131,7 +134,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                             pingIter.remove();
                         }
                     }
-                }
+                //}
             }
             try {
                 Thread.sleep(500);
