@@ -298,7 +298,7 @@ public class GameImmutable implements Serializable {
         return true;
     }
 
-    public boolean arePlayersEnough(){
+    public synchronized boolean arePlayersEnough(){
         return players.size() == getNumPlayers();
     }
 
