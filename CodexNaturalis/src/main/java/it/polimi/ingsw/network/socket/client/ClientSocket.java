@@ -249,7 +249,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         nickname = nick;
         out.writeObject(new ClientMsgReconnect(this.nickname));
         finishSending();
-        if(pingSender.isAlive()) {
+        if(!pingSender.isAlive()) {
             pingSender.start();
         }
 
