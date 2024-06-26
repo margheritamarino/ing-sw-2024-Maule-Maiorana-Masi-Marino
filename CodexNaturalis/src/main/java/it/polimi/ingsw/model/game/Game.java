@@ -229,6 +229,7 @@ public class Game {
 	 * @return true if already exist
 	 */
 	public boolean checkNickname(String nickname)  {
+		System.out.println("Game- checkNickname()- Checking for nickname \n");
 		for(Player p : this.players) {
 			if(nickname.equals(p.getNickname())) {
 				return true;
@@ -269,7 +270,7 @@ public class Game {
 
 		// Check if the nickname is already taken
 		if (checkNickname(nickname)) {
-			if(!getPlayerByNickname(nickname).getConnected()){
+			if(!getPlayerByNickname(nickname).getConnected() || Objects.equals(nickname, disconnectedPlayer)){
 				System.out.println("Game - addPlayer: sending notify_AskForReconnection ");
 				listenersHandler.notify_AskForReconnection(lis, getPlayerByNickname(nickname), this); //chiede se sta provando a riconnettersi
 			} else {
@@ -280,7 +281,7 @@ public class Game {
 		}else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname, playerColor);
-			System.out.println("player added: "+nickname+playerColor);
+			System.out.println("player added: "+nickname" "+playerColor);
 			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
 			newPlayer.setConnected(true);
@@ -752,8 +753,8 @@ public class Game {
 			if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
 				listenersHandler.notify_onlyOnePlayerConnected(this, DefaultValue.secondsToWaitReconnection);
 			}
-		}//else the game is empty
-		else{ //TODO CONTROLLA
+		}//else the game is empty --> no client and no listeners
+		else{
 			setStatus(GameStatus.ENDED);
 		}
 	}

@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.network.PingSender;
+import it.polimi.ingsw.network.TaskOnNetworkDisconnection;
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -17,6 +18,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 
@@ -138,6 +142,34 @@ public class ClientRMI implements ClientInterface {
 
     }
 
+    /**
+     * Send pings to the RMI server
+     * If sending a message takes more than {@link DefaultValue#timeoutConnection_millis} millis, the client
+     * will be considered no longer connected to the server
+     */
+    public void run() {
+        //For the heartbeat
+        while (!Thread.interrupted()) {
+            try {
+                Timer timer = new Timer();
+                TimerTask task = new TaskOnNetworkDisconnection(flow);
+                timer.schedule( task, DefaultValue.timeoutConnection_millis);
+
+                //send ping so the server knows I am still online
+                ping();
+
+                timer.cancel();
+            } catch (RemoteException e) {
+                return;
+            }
+            try {
+                Thread.sleep(DefaultValue.secondToWaitToSend_ping);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
     /**
      * Comunicate to server the chosen initial card
@@ -229,6 +261,7 @@ public class ClientRMI implements ClientInterface {
     @Override
     public void joinGame(String nick) throws IOException, NotBoundException {
 
+        System.out.println("in ClientRMI - JoinGame\n");
         try {
             System.out.println("Attempting to get the registry...");
             registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);

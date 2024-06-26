@@ -278,6 +278,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
                     ui.show_returnToMenuMsg();
                 else{
                         askNickname();
+                        System.out.println("Nickname correctly asked and returned to GameFlow\n");
                         joinGame(nickname);
                 }
             }
@@ -1121,7 +1122,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      * @throws RemoteException If there is a network issue.
      */
     @Override
-    public void playerDisconnected(GameImmutable model, String nick) throws RemoteException {
+    public void playerDisconnected(GameImmutable model, String nick) {
         ui.addImportantEvent("Player " + nick + " has just disconnected");
         this.setPlayerDisconnected(nick); //to save the nickname of the disconnected player
 
