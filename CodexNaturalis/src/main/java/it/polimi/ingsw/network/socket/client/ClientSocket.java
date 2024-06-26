@@ -77,7 +77,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 ServerGenericMessage msg = (ServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
 
-            } catch (IOException | ClassNotFoundException | InterruptedException | FileReadException e) {
+            } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 printAsync("[ERROR] Connection to server lost! " + e);
                 try {
                     System.in.read();
