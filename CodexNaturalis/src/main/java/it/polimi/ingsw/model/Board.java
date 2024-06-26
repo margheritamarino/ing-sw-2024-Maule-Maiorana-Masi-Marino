@@ -210,33 +210,7 @@ public class Board implements Serializable {
         return objectiveCards.length == 2;
     }
 
-    /**
-     * Verify the number of Gold cards on the GoldDeck
-     * @return TRUE if there's a correct number of Gold Cards on the Board
-     * @param playersNumber to calculate the right number of Cards
-     */
-    public boolean verifyGoldDeckSize(int playersNumber) {
-        return (goldCardsDeck.getNumCards())  == DefaultValue.NumOfGoldCards- 2 - playersNumber; //su Deck numCards va da 0 a 40
-    }
 
-    /**
-     * Verify the number of Resource cards in the relative Deck
-     * @return TRUE if there's a correct number of Resource Cards in the Deck on the Board
-     * @param playersNumber to calculate the right number of Cards
-     */
-    public boolean verifyResourceDeckSize(int playersNumber) {
-        return (resourcesCardsDeck.getNumCards())  == DefaultValue.NumOfResourceCards- 2 - (2* playersNumber); //su Deck numCards va da 0 a 40
-
-    }
-
-    /**
-     * Verify the number of Objective cards in the relative Deck
-     * @return TRUE if there's a correct number of Objective Cards in the Deck on the Board
-     * @param playersNumber to calculate the right number of Cards
-     */
-    public boolean verifyObjectiveDeckSize(int playersNumber) {
-        return objectiveCardsDeck.getNumCards() == DefaultValue.NumOfObjectiveCards - 2 - playersNumber;
-    }
 
     /**
      * Generates a string representation of the board, including the current state of gold cards, resource cards,

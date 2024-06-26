@@ -427,9 +427,9 @@ public class Game {
 		if (!(board.verifyGoldCardsNumber() &&
 				board.verifyResourceCardsNumber() &&
 				board.verifyObjectiveCardsNumber()) &&
-				board.verifyGoldDeckSize(playersNumber) &&
-				board.verifyResourceDeckSize(playersNumber) &&
-				board.verifyObjectiveDeckSize(playersNumber)) {
+				board.getGoldCardsDeck().checkEndDeck() &&
+				board.getResourcesCardsDeck().checkEndDeck() &&
+				board.getResourcesCardsDeck().checkEndDeck()) {
 			throw new BoardSetupException("Board setup is incorrect");
 		}
 		// All verifications passed, return true
@@ -780,8 +780,8 @@ public class Game {
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
 		System.out.println("Game- reconnectPlayer()\n ");
 		setDisconnectedPlayer(" ");
+
 		if(!p.getConnected()){
-			System.out.println("RECONNECTED PLAYER \n");
 
 			if (!isTheCurrentPlayerOnline()) {
 				//oppure if(disconnectedPlayer.equals(currentPlayer)
@@ -819,6 +819,38 @@ public class Game {
 
 	}
 
+	/**
+	 *  Checks the status of the reconnected player and
+	 *  ensures that their deck and the board have the correct number of cards
+	 *  in case they were lost during the disconnection
+	 *  * @param p The player whose status is being checked.
+	 */
+	public void checkPlayerStatus(Player p){
+		if(p.getPlayerDeck().getMiniDeck().size()!=3) {
+            PlayableCard[] newCard ;
+            try {
+                newCard = board.takeCardfromBoard(CardType.ResourceCard, true, 0);
+				p.getPlayerDeck().addCard(newCard);
+            } catch (DeckEmptyException e) {
+				p.notify_ReconnectionFailed("ERROR: Trying to reconnect but no more Cards!");
+            }catch (DeckFullException ignored){	}
+        }
+
+		if(!board.verifyGoldCardsNumber()){
+            try {
+                board.updateArray(board.getGoldCards(), CardType.GoldCard);
+            } catch (DeckEmptyException e) {
+				p.notify_ReconnectionFailed("ERROR: Trying to reconnect but no more Cards!");
+            }
+        }
+		if(!board.verifyResourceCardsNumber()){
+			try {
+				board.updateArray(board.getResourceCards(), CardType.ResourceCard);
+			} catch (DeckEmptyException e) {
+				p.notify_ReconnectionFailed("ERROR: Trying to reconnect but no more Cards!");
+			}
+		}
+    }
 
 
 	/**

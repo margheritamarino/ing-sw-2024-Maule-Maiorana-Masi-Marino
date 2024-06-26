@@ -157,7 +157,10 @@ public class GameController implements GameControllerInterface, Serializable, Ru
     @Override
     public synchronized boolean playerIsReadyToStart(GameListenerInterface lis, String player) { //tolto synchronized
         System.out.println("in GameController- playerIsReadyToStart");
-        model.playerIsReadyToStart(model.getPlayerByNickname(player));
+        if(model.getPlayerByNickname(player)!=null)
+            model.playerIsReadyToStart(model.getPlayerByNickname(player));
+        else
+            System.err.println("Exception getPlayerByNickname in playerIsReady");
         if (model.arePlayersReadyToStartAndEnough()){
             ArrayList<Player> players= model.getPlayers();
             for(int i=0; i<players.size(); i++){
@@ -379,6 +382,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public void reconnectPlayer(GameListenerInterface lis, Player p) {
         System.out.println("In GameController - reconnectPlayer() \n");
+        model.checkPlayerStatus(p);
         boolean outputres = model.reconnectPlayer(lis, p);
 
         if (outputres && getNumOfOnlinePlayers() > 1) {
