@@ -892,6 +892,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
      */
     @Override
     public void joinUnableNicknameAlreadyIn(Player triedToJoin, GameImmutable gameModel) throws RemoteException {
+
+            if(triedToJoin.equals(this.getPlayerDisconnected())){ //to solve the Reconnection in RMI
+                events.add(null, EventType.NICKNAME_TO_RECONNECT);
+                return;
+            }
             events.add(null, EventType.NICKNAME_ALREADY_IN);
             System.out.println("in joinUnableNicknameAlreadyIn - CONNESSO --> nickname già presente \n");
     }
@@ -1164,6 +1169,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException{
         System.out.println("in GameFlow --> RECONNECT()");
+        setPlayerDisconnected(" ");
         //ui.show_joiningToGameMsg(nick, color);
         try {
             clientActions.reconnect(nickname, idGame);
