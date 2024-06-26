@@ -2,6 +2,7 @@ package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
@@ -115,7 +116,7 @@ public interface GameListenerInterface extends Remote {
      * @param model the game model
      * @throws RemoteException     if the reference could not be accessed
      */
-    void requireInitialReady(GameImmutable model, int index) throws IOException ;
+    void requireInitialReady(GameImmutable model, int index) throws IOException,FileReadException;
 
     /**
      * Notifies the listeners that objective cards are ready to be chosen.

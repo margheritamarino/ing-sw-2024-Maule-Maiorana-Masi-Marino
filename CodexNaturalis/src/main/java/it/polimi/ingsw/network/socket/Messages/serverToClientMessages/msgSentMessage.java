@@ -18,7 +18,7 @@ public class msgSentMessage extends ServerGenericMessage {
         this.msg = msg;
     }
     @Override
-    public void execute(GameListenerInterface lis) throws RemoteException {
+    public void execute(GameListenerInterface lis) throws IOException, InterruptedException, FileReadException {
         lis.sentMessage(model, msg);
     }
 }

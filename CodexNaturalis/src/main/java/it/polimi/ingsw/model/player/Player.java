@@ -233,7 +233,7 @@ public class Player implements Serializable {
             GameListenerInterface l = i.next();
             try {
                 l.requireInitialReady(new GameImmutable(model), index);
-            } catch (IOException e) {
+            } catch (FileReadException | IOException e) {
                 printAsync("During notification of notify_requireInitial, a disconnection has been detected before ping");
                 i.remove();
             }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.flow;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
+import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.DefaultValue;
@@ -973,7 +974,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
      */
     @Override
-    public void requireInitialReady(GameImmutable model, int indexPlayer) {
+    public void requireInitialReady(GameImmutable model, int indexPlayer) throws FileReadException {
 
         ui.show_temporaryInitialCards(model, indexPlayer);
         Integer index;
@@ -1211,7 +1212,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
 
     @Override
     public void ping()  {
-
+        try {
+            clientActions.ping();
+        } catch (RemoteException e) {
+            noConnectionError();
+        }
     }
 
     /**

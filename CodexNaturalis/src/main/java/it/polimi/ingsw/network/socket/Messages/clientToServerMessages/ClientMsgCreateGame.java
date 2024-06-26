@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.Messages.clientToServerMessages;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.network.rmi.GameControllerInterface;
@@ -29,7 +30,7 @@ public class ClientMsgCreateGame extends ClientGenericMessage {
 
 
     @Override
-    public void execute(GameControllerInterface gameController) throws RemoteException {
+    public void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException {
 
     }
 

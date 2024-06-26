@@ -19,6 +19,6 @@ public abstract class ServerGenericMessage implements Serializable {
      * @throws IOException if there is an IO exception
      * @throws InterruptedException if the execution is interrupted
      */
-    public abstract void execute(GameListenerInterface lis) throws IOException, InterruptedException;
+    public abstract void execute(GameListenerInterface lis) throws IOException, InterruptedException, FileReadException;
 
 }

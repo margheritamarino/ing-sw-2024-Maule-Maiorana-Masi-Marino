@@ -20,7 +20,7 @@ public class msgWrongChooseCard extends ServerGenericMessage{
     }
 
     @Override
-    public void execute(GameListenerInterface lis) throws RemoteException {
+    public void execute(GameListenerInterface lis) throws IOException, InterruptedException {
         lis.wrongChooseCard(model, msg);
     }
 }

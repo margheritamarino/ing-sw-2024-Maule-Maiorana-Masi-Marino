@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.server;
 
 import it.polimi.ingsw.Chat.Message;
+import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.game.GameImmutable;
@@ -140,7 +141,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      * @throws RemoteException if the connection fails
      */
     @Override
-    public void requireInitialReady(GameImmutable model, int index) throws RemoteException {
+    public void requireInitialReady(GameImmutable model, int index) throws RemoteException, FileReadException {
         try {
             out.writeObject(new msgRequireInitialReady(model, index));
             finishSending();

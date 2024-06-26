@@ -95,7 +95,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void requireInitialReady(GameImmutable model, int index) throws IOException {
+    public void requireInitialReady(GameImmutable model, int index) throws IOException, FileReadException {
         flow.requireInitialReady(model, index);
     }
 
@@ -159,7 +159,7 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     }
 
     @Override
-    public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
+    public void sentMessage(GameImmutable model, Message msg) throws RemoteException  {
         flow.sentMessage(model, msg);
     }
 
