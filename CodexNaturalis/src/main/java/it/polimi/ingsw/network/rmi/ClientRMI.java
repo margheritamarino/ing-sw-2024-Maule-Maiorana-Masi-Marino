@@ -74,7 +74,7 @@ public class ClientRMI implements ClientInterface {
     /**
      * to send Ping
      */
-    private final PingSender pingSender;
+    private PingSender pingSender;
 
 
     /**
@@ -87,9 +87,9 @@ public class ClientRMI implements ClientInterface {
         connect();
         this.flow = flow;
         pingSender = new PingSender(flow, this);
-        if(!pingSender.isAlive()) {
+        //if(!pingSender.isAlive()) {
            pingSender.start();
-        }
+        //}
     }
 
     /**
@@ -264,6 +264,9 @@ public class ClientRMI implements ClientInterface {
 
         System.out.println("in ClientRMI - JoinGame\n");
         try {
+            if(!pingSender.isAlive()) {
+                pingSender.start();
+            }
             System.out.println("Attempting to get the registry...");
             registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
             System.out.println("Registry obtained.");
@@ -305,6 +308,9 @@ public class ClientRMI implements ClientInterface {
         gameController.reconnect(modelInvokedEvents, nick);
 
         nickname = nick;
+        if(!pingSender.isAlive()) {
+            pingSender.start();
+        }
     }
 
 
@@ -332,6 +338,19 @@ public class ClientRMI implements ClientInterface {
         if (gameController != null) {
             gameController.ping(nickname, modelInvokedEvents);
         }
+        //vedi se aggiungere:
+        /*
+        try {
+               out.writeObject(new ClientMsgPing(nickname));
+                finishSending();
+            } catch (IOException e) {
+                flow.noConnectionError();
+                printAsync("Connection lost to the server! Impossible to send ping()...");
+                if(pingSender.isAlive()) {
+                    pingSender.interrupt();
+                }
+            }
+         */
     }
 
     /**
@@ -358,6 +377,10 @@ public class ClientRMI implements ClientInterface {
        gameController.leave(modelInvokedEvents, nick);
        gameController = null;
        nickname = null;
+
+       if(pingSender.isAlive()) {
+           pingSender.interrupt();
+       }
     }
 
     /**
