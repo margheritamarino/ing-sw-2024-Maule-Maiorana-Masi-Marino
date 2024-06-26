@@ -56,7 +56,8 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     public GameController()  {
         model = new Game();
-        receivedPings = new ConcurrentHashMap<>(); //MODIFIED
+        //receivedPings = new ConcurrentHashMap<>(); //MODIFIED
+        receivedPings = new HashMap<>();
         this.gameCreated= false;
 
         new Thread(this).start();
