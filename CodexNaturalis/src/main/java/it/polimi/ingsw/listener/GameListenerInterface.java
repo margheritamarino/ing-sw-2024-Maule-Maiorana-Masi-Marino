@@ -113,11 +113,9 @@ public interface GameListenerInterface extends Remote {
      * Notifies the listeners that initial cards are ready to be displayed.
      *
      * @param model the game model
-     * @throws IOException         if an I/O error occurs
-     * @throws FileReadException   if there is an error reading the file
      * @throws RemoteException     if the reference could not be accessed
      */
-    void requireInitialReady(GameImmutable model, int index) throws IOException, FileReadException;
+    void requireInitialReady(GameImmutable model, int index) throws IOException, FileReadException ;
 
     /**
      * Notifies the listeners that objective cards are ready to be chosen.
