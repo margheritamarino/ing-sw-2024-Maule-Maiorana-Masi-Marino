@@ -105,7 +105,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     @Override
     public void run() {
-        //while (!Thread.interrupted()) {
+        while (!Thread.interrupted()) {
             //checks all the ping messages to detect disconnections
             if (model.getStatus().equals(GameStatus.RUNNING) || model.getStatus().equals(GameStatus.LAST_CIRCLE) || model.getStatus().equals(GameStatus.ENDED) || model.getStatus().equals(GameStatus.WAIT)) {
                 synchronized (receivedPings) {
@@ -134,7 +134,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
                             pingIter.remove();
                         }
                     }
-                //}
+                }
             }
             try {
                 Thread.sleep(500);
