@@ -76,7 +76,6 @@ public class ClientSocket extends Thread implements ClientInterface {
             try {
                 ServerGenericMessage msg = (ServerGenericMessage) in.readObject();
                 msg.execute(modelInvokedEvents);
-
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 printAsync("[ERROR] Connection to server lost! " + e);
                 try {
@@ -85,8 +84,6 @@ public class ClientSocket extends Thread implements ClientInterface {
                     throw new RuntimeException(ex);
                 }
                 System.exit(-1);
-            } catch (FileReadException e) {
-                throw new RuntimeException(e);
             }
         }
     }
@@ -298,6 +295,8 @@ public class ClientSocket extends Thread implements ClientInterface {
             } catch (IOException e) {
                 flow.noConnectionError();
                 printAsync("Connection lost to the server! Impossible to send ping()...");
+                // Log the exception for debugging purposes
+                e.printStackTrace();
             }
         }
     }

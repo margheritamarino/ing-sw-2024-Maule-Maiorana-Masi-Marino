@@ -23,7 +23,7 @@ public class ClientMsgNewChatMessage extends ClientGenericMessage{
     }
 
     @Override
-    public void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException {
+    public void execute(GameControllerInterface gameController) throws RemoteException {
         gameController.sentMessage(msg);
     }
 }

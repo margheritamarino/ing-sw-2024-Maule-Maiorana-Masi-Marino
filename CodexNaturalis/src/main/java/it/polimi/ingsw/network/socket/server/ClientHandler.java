@@ -108,7 +108,7 @@ public class ClientHandler extends Thread{
                     temp.execute(gameListenersServer, GameController.getInstance());
                 } else temp.execute(GameController.getInstance());
             }
-        } catch (RemoteException | GameEndedException e) {
+        } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException ignored) {}
     }

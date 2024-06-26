@@ -32,7 +32,7 @@ public abstract class ClientGenericMessage implements Serializable{
      * @throws RemoteException if there is a remote exception
      * @throws GameEndedException if the game has ended
      */
-    public abstract void execute(GameControllerInterface gameController) throws RemoteException, GameEndedException;
+    public abstract void execute(GameControllerInterface gameController) throws RemoteException;
 
     /**
      * Returns the nickname associated with the message.
