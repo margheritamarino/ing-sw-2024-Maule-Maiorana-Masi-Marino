@@ -281,7 +281,7 @@ public class Game {
 		}else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname, playerColor);
-			System.out.println("player added: "+nickname" "+playerColor);
+			System.out.println("player added: "+nickname+" "+playerColor);
 			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
 			players.add(newPlayer);
 			newPlayer.setConnected(true);
