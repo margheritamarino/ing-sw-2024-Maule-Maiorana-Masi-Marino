@@ -133,7 +133,7 @@ public class Player implements Serializable {
      * @param chosenCard is the objective card chosen between 2 Objective Cards
      */
 
-    public boolean initialized=false;
+    private boolean initialized=false;
     public void setGoal(ObjectiveCard chosenCard) {
         this.playerGoal = chosenCard;
         initialized=true;
