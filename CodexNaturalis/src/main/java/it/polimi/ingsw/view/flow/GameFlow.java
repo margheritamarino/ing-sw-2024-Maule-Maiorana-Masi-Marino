@@ -59,7 +59,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     /**
      * Nickname of the disconnected player
      */
-    private String playerDisconnected;
+    private String playerDisconnected =" ";
 
     /**
      * FileDisconnection {@link FileDisconnection} to handle the disconnection
@@ -1143,6 +1143,7 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException{
         System.out.println("GameFlow - playerReconnected ()");
+        this.setPlayerDisconnected(" ");
         lastPlayerReconnected = nickPlayerReconnected;
         if(lastPlayerReconnected.equals(nickname)) {
             events.add(model, PLAYER_RECONNECTED);
