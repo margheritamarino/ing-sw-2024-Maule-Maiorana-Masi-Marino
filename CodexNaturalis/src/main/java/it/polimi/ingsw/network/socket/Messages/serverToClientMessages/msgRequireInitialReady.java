@@ -22,7 +22,7 @@ public class msgRequireInitialReady extends ServerGenericMessage {
      * @throws RemoteException if there is a remote exception
      */
     @Override
-    public void execute(GameListenerInterface lis) throws RemoteException {
+    public void execute(GameListenerInterface lis) throws IOException, FileReadException {
         lis.requireInitialReady(model, index);
     }
 }
