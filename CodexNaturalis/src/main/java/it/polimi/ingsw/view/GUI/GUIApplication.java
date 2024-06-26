@@ -13,6 +13,7 @@ import it.polimi.ingsw.view.GUI.scenes.SceneType;
 import it.polimi.ingsw.view.Utilities.InputGUI;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Node;
@@ -329,12 +330,20 @@ public class GUIApplication extends Application {
      * @param model The game model containing player information.
      */
     public void showPlayerToLobby(GameImmutable model) {
-        hidePanesInLobby();
-        int i = 0;
-        for (Player p : model.getPlayers()) {
-            addLobbyPanePlayer(p.getNickname(), i, p.getReadyToStart(), p.getPlayerColor());
-            i++;
-        }
+        Platform.runLater(() -> {
+            try {
+                hidePanesInLobby();
+                int i = 0;
+                for (Player p : model.getPlayers()) {
+                    addLobbyPanePlayer(p.getNickname(), i, p.getReadyToStart(), p.getPlayerColor());
+                    i++;
+                }
+            } catch (Exception e) {
+                // Gestione dell'eccezione generale
+                System.err.println("An error occurred while showing players in the lobby: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -346,17 +355,26 @@ public class GUIApplication extends Application {
      * @param color The color associated with the player.
      */
     private void addLobbyPanePlayer(String nick, int indexPlayer, boolean isReady, Color color) {
-        LobbyController controller = (LobbyController) this.getController(SceneType.LOBBY);
-        if (controller != null) {
-            controller.setUsername(nick, indexPlayer);
-            Pane panePlayerLobby = (Pane) this.primaryStage.getScene().lookup("#pane" + indexPlayer);
-            panePlayerLobby.setVisible(true);
-            String imagePath= color.getPath();
-            controller.setPlayerImage(imagePath, indexPlayer);
-            setPaneReady( indexPlayer , isReady);
-
-        } else {
-            System.err.println("LobbyController is null or invalid");
+        try {
+            LobbyController controller = (LobbyController) this.getController(SceneType.LOBBY);
+            if (controller != null) {
+                controller.setUsername(nick, indexPlayer);
+                Pane panePlayerLobby = (Pane) this.primaryStage.getScene().lookup("#pane" + indexPlayer);
+                if (panePlayerLobby != null) {
+                    panePlayerLobby.setVisible(true);
+                    String imagePath = color.getPath();
+                    controller.setPlayerImage(imagePath, indexPlayer);
+                    setPaneReady(indexPlayer, isReady);
+                } else {
+                    System.err.println("Pane for player index " + indexPlayer + " not found.");
+                }
+            } else {
+                System.err.println("LobbyController is null or invalid.");
+            }
+        } catch (Exception e) {
+            // Gestione dell'eccezione generale
+            System.err.println("An error occurred while adding a player to the lobby: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -379,10 +397,18 @@ public class GUIApplication extends Application {
     private void hidePanesInLobby() {
         for (int i = 0; i < 4; i++) {
             Pane panePlayerLobby = (Pane) this.primaryStage.getScene().getRoot().lookup("#pane" + i);
-            panePlayerLobby.setVisible(false);
+            if (panePlayerLobby != null) {
+                panePlayerLobby.setVisible(false);
+            } else {
+                System.err.println("Pane for player index " + i + " not found.");
+            }
 
             Pane paneReady = (Pane) this.primaryStage.getScene().getRoot().lookup("#ready" + i);
-            paneReady.setVisible(false);
+            if (paneReady != null) {
+                paneReady.setVisible(false);
+            } else {
+                System.err.println("Ready pane for player index " + i + " not found.");
+            }
         }
     }
 

@@ -335,23 +335,20 @@ public class ClientRMI implements ClientInterface {
      */
     @Override
     public void ping() throws RemoteException {
-        System.out.println("metodo Ping di CLIENT RMI!!");
-        if (gameController != null) {
-            gameController.ping(nickname, modelInvokedEvents);
-        }
-        //vedi se aggiungere:
-        /*
+        //System.out.println("metodo Ping di CLIENT RMI!!");
         try {
-               out.writeObject(new ClientMsgPing(nickname));
-                finishSending();
-            } catch (IOException e) {
-                flow.noConnectionError();
-                printAsync("Connection lost to the server! Impossible to send ping()...");
-                if(pingSender.isAlive()) {
-                    pingSender.interrupt();
-                }
+            if (gameController != null) {
+                gameController.ping(nickname, modelInvokedEvents);
             }
-         */
+        } catch (RemoteException e) {
+            flow.noConnectionError();
+            printAsync("Connection lost to the server! Impossible to send ping()...");
+            if (pingSender != null && pingSender.isAlive()) {
+                pingSender.interrupt();
+            }
+            throw e;
+        }
+
     }
 
     /**

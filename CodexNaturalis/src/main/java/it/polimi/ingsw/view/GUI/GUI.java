@@ -133,7 +133,7 @@ public class GUI extends UI {
      */
     @Override
     public void show_askPlaceCardsMainMsg(GameImmutable model) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(4));
         pause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PLACE", null));
@@ -150,11 +150,11 @@ public class GUI extends UI {
      */
     @Override
     public void show_PickCardMsg(GameImmutable model) {
-        PauseTransition showMessagePause = new PauseTransition(Duration.seconds(5));
+        PauseTransition showMessagePause = new PauseTransition(Duration.seconds(3));
         showMessagePause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
-            PauseTransition activateScenePause = new PauseTransition(Duration.seconds(3));
+            PauseTransition activateScenePause = new PauseTransition(Duration.seconds(1));
             activateScenePause.setOnFinished(event2 -> {
                 callPlatformRunLater(() -> {
                     this.guiApplication.setActiveScene(SceneType.BOARD_POPUP);
@@ -220,23 +220,24 @@ public class GUI extends UI {
      */
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname) {
-        BoardPopUpController controller = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
 
-        while (!model.isBoardUpdated()) { //TODO CONTROLLARE
+        /*while (!model.isBoardUpdated()) { //TODO CONTROLLARE
             try {
                 Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
             }
-        }
-        controller.setBoard(model);
-
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
+        }*/
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
         pause2.setOnFinished(event2 -> {
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
+            //callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("This is your drawn card", true));
             show_playerDeck(model,nickname);
             callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setGUI(this, model));
+
+            //updates the board
+            BoardPopUpController controller = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
+            controller.setBoard(model);
         });
         pause2.play();
     }
@@ -264,7 +265,6 @@ public class GUI extends UI {
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
             if (model.getCurrentPlayer().getNickname().equals(nickname)) {
-
                 callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("You scored some points!", true));
 
             } else {
@@ -365,29 +365,25 @@ public class GUI extends UI {
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
 
-
         // Controlla se la lobby è già stata mostrata
         if (!alreadyShowedLobby) {
-            PauseTransition pause = new PauseTransition(Duration.seconds(1));
-            pause.setOnFinished(event -> {
-                // Chiudi la finestra pop-up
-                callPlatformRunLater(() -> {
-                    this.guiApplication.closePopUpStage();
+            // Chiudi la finestra pop-up
+            callPlatformRunLater(() -> {
+                this.guiApplication.closePopUpStage();
 
-                    // Configura e mostra la lobby
-                    LobbyController lobbyController = (LobbyController) this.guiApplication.getController(SceneType.LOBBY);
-                    if (lobbyController != null) {
-                        lobbyController.setGameid(gameModel.getGameId());
-                        lobbyController.setVisibleBtnReady(true);
-                        this.guiApplication.setActiveScene(SceneType.LOBBY);
-                        this.guiApplication.showPlayerToLobby(gameModel);
-                        alreadyShowedLobby = true;
-                    } else {
-                        System.err.println("LobbyController is null or invalid");
-                    }
-                });
+                // Configura e mostra la lobby
+                LobbyController lobbyController = (LobbyController) this.guiApplication.getController(SceneType.LOBBY);
+                if (lobbyController != null) {
+                    lobbyController.setGameid(gameModel.getGameId());
+                    lobbyController.setVisibleBtnReady(true);
+                    this.guiApplication.showPlayerToLobby(gameModel);
+                    this.guiApplication.setActiveScene(SceneType.LOBBY);
+                    alreadyShowedLobby = true;
+                } else {
+                    System.err.println("LobbyController is null or invalid");
+                }
             });
-            pause.play();
+
         } else {
             // Mostra il giocatore nella lobby
             callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
@@ -626,17 +622,15 @@ public class GUI extends UI {
     @Override
     public void show_board(GameImmutable model) {
         BoardPopUpController controller = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
-
-        while (!model.isBoardUpdated()) { //TODO CONTROLLARE
+        while (!model.isBoardUpdated()) {
             try {
                 Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
             }
         }
-
         controller.setBoard(model);
-        controller.enablePickCardTurn();
+        //controller.enablePickCardTurn();
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
     }
 
@@ -648,7 +642,7 @@ public class GUI extends UI {
      */
     @Override
     public void show_WaitTurnMsg(GameImmutable model, String nickname) {
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
         pause2.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             String msg= "WAIT! It's "+ model.getCurrentPlayer().getNickname()+" Turn";

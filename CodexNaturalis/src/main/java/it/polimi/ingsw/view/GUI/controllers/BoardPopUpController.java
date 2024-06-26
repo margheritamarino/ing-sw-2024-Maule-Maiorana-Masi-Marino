@@ -163,6 +163,7 @@ public class BoardPopUpController extends ControllerGUI{
                     getInputGUI().addTxt(String.valueOf(pos));
                 }
                 clearCardImage(selectedIndex);
+                this.guiApplication.closePopUpStage();
                 pickCardTurn=false;
             }
         }
