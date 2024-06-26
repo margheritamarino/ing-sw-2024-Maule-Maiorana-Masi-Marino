@@ -90,7 +90,7 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      * @param me the client who sends ping messages
      */
     @Override
-    public synchronized void ping(String nickname, GameListenerInterface me) throws RemoteException {
+    public void ping(String nickname, GameListenerInterface me) throws RemoteException {
         synchronized (receivedPings) {
             receivedPings.put(me, new Ping(System.currentTimeMillis(), nickname));
         }

@@ -1151,11 +1151,11 @@ public class GameFlow extends Flow implements Runnable, ClientInterface {
     @Override
     public void playerReconnected(GameImmutable model, String nickPlayerReconnected) throws RemoteException{
         System.out.println("GameFlow - playerReconnected ()");
-        this.setPlayerDisconnected(" ");
+        //this.setPlayerDisconnected(" ");
         lastPlayerReconnected = nickPlayerReconnected;
-        if(lastPlayerReconnected.equals(nickname)) {
+        //if(lastPlayerReconnected.equals(nickname)) { //PROVA
             events.add(model, PLAYER_RECONNECTED);
-        }
+        //}
         ui.addImportantEvent("[EVENT]: Player reconnected!");
     }
 

@@ -142,12 +142,12 @@ public class ClientRMI implements ClientInterface {
 
     }
 
-    /*
+
     /**
      * Send pings to the RMI server
      * If sending a message takes more than {@link DefaultValue#timeoutConnection_millis} millis, the client
      * will be considered no longer connected to the server
-     *//*
+     */
     public void run() {
         //For the heartbeat
         while (!Thread.interrupted()) {
@@ -169,7 +169,7 @@ public class ClientRMI implements ClientInterface {
                 throw new RuntimeException(e);
             }
         }
-    }*/
+    }
 
 
     /**
