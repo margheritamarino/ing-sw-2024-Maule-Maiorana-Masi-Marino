@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.socket.client;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.PingSender;
@@ -13,8 +12,6 @@ import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
 import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -93,7 +90,6 @@ public class ClientSocket extends Thread implements ClientInterface {
             }
         }
     }
-
 
     /**
      * Start the Connection to the Socket Server
@@ -256,7 +252,6 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void reconnect(String nick, int idGame) throws IOException {
-        System.out.println("ClientSocket- reconnect()\n ");
         nickname = nick;
         out.writeObject(new ClientMsgReconnect(this.nickname));
         finishSending();
@@ -289,7 +284,6 @@ public class ClientSocket extends Thread implements ClientInterface {
             pingSender.interrupt();
         }
     }
-
 
     /**
      * Sends a ping message to the server to maintain the connection and check its status.
@@ -344,7 +338,6 @@ public class ClientSocket extends Thread implements ClientInterface {
      */
     @Override
     public void sendMessage(Message msg)throws IOException  {
-        System.out.println("ClientSocket sending message: " + msg.getText());
         out.writeObject(new ClientMsgNewChatMessage(msg));
         finishSending();
     }

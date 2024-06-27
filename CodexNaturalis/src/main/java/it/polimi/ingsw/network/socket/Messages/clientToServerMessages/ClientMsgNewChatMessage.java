@@ -11,6 +11,10 @@ import java.rmi.RemoteException;
 public class ClientMsgNewChatMessage extends ClientGenericMessage{
     private Message msg;
 
+    /**
+     * Constructor of the class.
+     * @param msg the message to send
+     */
     public ClientMsgNewChatMessage(Message msg){
         this.msg = msg;
         this.nickname = msg.getSender().getNickname();

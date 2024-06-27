@@ -4,7 +4,6 @@ import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.flow.Flow;
@@ -12,30 +11,22 @@ import it.polimi.ingsw.view.flow.Flow;
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 /**
- * This class implements the {@link GameListenerInterface} and serves as a client-side listener
- * for game events received from the server. It forwards these events to the provided {@link Flow}
- * instance for handling.
+ * This class implements the {@link GameListenerInterface} and acts as a client-side listener for game events from the server.
+ * It forwards these events to the provided {@link Flow} instance for handling.
  *
- * <p>Instances of this class are used to receive various game-related events, such as player actions,
- * game state changes, and messages, and then delegate these events to the corresponding methods
- * in the {@link Flow} object, which typically represents the user interface or application flow
- * control logic.
+ * <p>Instances of this class receive various game events, such as player actions, game state changes, and messages.
+ * These events are then delegated to corresponding methods in the {@link Flow} object, which usually manages the user interface or application flow.
  *
- * <p>Methods in this class are designed to handle remote method calls from the server side of the
- * application. Each method corresponds to a specific event or action in the game that triggers a
- * response from the client interface.
+ * <p>Methods in this class handle remote method calls from the server, each corresponding to a specific game event that triggers a client response.
  *
- * <p>Examples of events handled include player joining and leaving the game, game starting and ending,
- * card actions (placement and drawing), player readiness status, reconnection requests, and error notifications.
- * For each event, the corresponding method in the {@link Flow} object is invoked to update the client
- * interface or application state accordingly.
+ * <p>Events handled include player join/leave, game start/end, card actions, player readiness, reconnection requests, and error notifications.
+ * For each event, the relevant method in the {@link Flow} object is called to update the client interface or state.
  *
- * <p>Instances of this class are typically created and maintained by the client-side application to manage
- * real-time updates and interactions with the game server.
+ * <p>Instances of this class are created and managed by the client-side application to handle real-time updates and interactions with the game server.
  */
+
 public class GameListenersClient implements GameListenerInterface, Serializable {
 
 
@@ -55,11 +46,11 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     public void requireNumPlayersGameID(GameImmutable model)throws RemoteException{
             flow.requireNumPlayersGameID(model);
     }
+
     @Override
     public void wrongChooseCard(GameImmutable model, String msg) throws RemoteException{
         flow.wrongChooseCard(model, msg);
     }
-
 
     @Override
     public void playerLeft(GameImmutable model, String nickname) throws RemoteException {
@@ -81,7 +72,6 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
     public void AskForReconnection (Player triedToJoin, GameImmutable gameModel) throws RemoteException {
         flow. AskForReconnection(triedToJoin, gameModel);
     }
-
 
 
     @Override
@@ -129,7 +119,6 @@ public class GameListenersClient implements GameListenerInterface, Serializable 
 
     @Override
     public void playerDisconnected(GameImmutable model, String nickname) throws RemoteException {
-        System.out.println("GameListenersClient - playerDisconnected() ");
         flow.playerDisconnected(model, nickname);
     }
 

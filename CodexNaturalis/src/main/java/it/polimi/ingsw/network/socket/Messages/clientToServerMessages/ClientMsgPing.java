@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import java.rmi.RemoteException;
 
 public class ClientMsgPing extends ClientGenericMessage{
+
     public ClientMsgPing(String nick) {
         this.nickname = nick;
         this.isPing=true;
@@ -16,7 +17,6 @@ public class ClientMsgPing extends ClientGenericMessage{
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
 
     }
-
 
 
     @Override

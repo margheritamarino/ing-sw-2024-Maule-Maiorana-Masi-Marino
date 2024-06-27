@@ -5,7 +5,7 @@ import it.polimi.ingsw.listener.GameListenerInterface;
 import java.rmi.RemoteException;
 
 /**
- * msgGenericErrorWhenEntryingGame class.
+ * msgGenericErrorWhenEnteringGame class.
  * Extends SocketServerGenericMessage and is used to send a generic error message to the client
  * when entering a game.
  */

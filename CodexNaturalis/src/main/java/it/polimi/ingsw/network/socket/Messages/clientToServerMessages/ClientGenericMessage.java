@@ -13,15 +13,15 @@ import java.rmi.RemoteException;
  * An abstract class that represents a generic message to be sent from the client to the server.
  */
 public abstract class ClientGenericMessage implements Serializable{
-    protected String nickname; //soprannome associato al messaggio
+
+    protected String nickname; //nickname associated to the message
     protected boolean isPing =false;
-    boolean isJoinGame= false; //attributo per il primo messaggio di creazione del gioco (JoinGame)
+    boolean isJoinGame= false; //attribute for the first message of joining the game (JoinGame)
 
     /**
      * Executes the corresponding action for the message.
      * @param lis the game listener
-     * @param gameController the main controller interface
-     * @return the game controller interface
+     * @param gameController the controller interface
      * @throws RemoteException if there is a remote exception
      */
     public abstract void execute(GameListenerInterface lis, GameController gameController) throws RemoteException;
