@@ -150,7 +150,7 @@ public class GUI extends UI {
      */
     @Override
     public void show_PickCardMsg(GameImmutable model) {
-        PauseTransition showMessagePause = new PauseTransition(Duration.seconds(3));
+        PauseTransition showMessagePause = new PauseTransition(Duration.seconds(5)); //TODO CONTROLLARE
         showMessagePause.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("CHOOSE A CARD TO PICK", null));
