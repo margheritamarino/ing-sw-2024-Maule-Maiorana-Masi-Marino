@@ -29,7 +29,6 @@ public class ResourceCard extends PlayableCard implements Serializable {
       return mainResource;
    }
 
-
    /**
     * Gets the number of victory points the card provides.
     *
@@ -241,14 +240,11 @@ public class ResourceCard extends PlayableCard implements Serializable {
       ansiColorMap.put(Ansi.Color.CYAN, "\u001B[36m");
       ansiColorMap.put(Ansi.Color.DEFAULT, "\u001B[0m");
 
-      // Get the color based on the main resource
       Ansi.Color textColor = getColorForResource(getMainResource());
 
-      // Define the ANSI color codes
       String colorCode = ansiColorMap.getOrDefault(textColor, "\u001B[0m");
       String resetCode = "\u001B[0m";
 
-      // Apply color to the border
       String border = colorCode + "+" + "-".repeat(width) + "+" + resetCode;
 
       int contentRows = 4;

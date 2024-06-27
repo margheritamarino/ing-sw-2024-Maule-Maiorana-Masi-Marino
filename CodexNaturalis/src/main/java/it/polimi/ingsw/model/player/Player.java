@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.lang.IllegalStateException;
 import java.rmi.RemoteException;
 import java.util.*;
-
-
-import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.Book;
@@ -23,22 +20,20 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
 
 /**
  * Represents a player in the game.
- * <p>
  * This class encapsulates the attributes and behaviors of a player participating in the game.
  * It manages the player's nickname, state, deck, book, objective card, connection status, and listeners for game events.
- * </p>
  */
 public class Player implements Serializable {
 
     private final String nickname;
-    private PlayerState state;
     private final PlayerDeck playerDeck;
     private final Book playerBook;
-    private ObjectiveCard playerGoal; //identifica l'obbiettivo che ha il player
+    private ObjectiveCard playerGoal;
     private boolean connected;
     private boolean readyToStart = false;
     private final transient ArrayList<GameListenerInterface>listeners;
     private final Color playerColor;
+    private boolean initialized=false;
 
     /**
      * Constructs a player with a specified nickname and color.
@@ -49,14 +44,14 @@ public class Player implements Serializable {
     public Player(String nickname, Color color) {
         this.nickname = nickname;
         this.playerGoal = null;
-        this.state = PlayerState.Start; // Imposta lo stato iniziale a "Start"
-        this.playerBook = new Book(40, 40); //ho messo 40 x 40 solo per verificare la correttezza del metodo, questo valore dobbiamo poi renderlo variabile in base al numero di giocatori
+        this.playerBook = new Book(40, 40);
         this.playerDeck = new PlayerDeck();
         this.connected = false;
         this.listeners= new ArrayList<>();
         this.playerColor=color;
 
     }
+
     /**
      * Retrieves the list of listeners registered for this player.
      *
@@ -65,6 +60,7 @@ public class Player implements Serializable {
     public ArrayList<GameListenerInterface> getListeners(){
         return this.listeners;
     }
+
     /**
      * Adds a listener to the list
      * @param lis listener to add
@@ -72,6 +68,7 @@ public class Player implements Serializable {
     public void addListener(GameListenerInterface lis) {
         listeners.add(lis);
     }
+
     /**
      * Retrieves the nickname of the player.
      *
@@ -117,46 +114,61 @@ public class Player implements Serializable {
         this.readyToStart = true;
     }
 
-
-    /**
-     * Retrieves the state of the player.
-     *
-     * @return The state of the player.
-     */
-    public PlayerState getPlayerState() {
-        return this.state;
-    }
-
     /**
      * Sets the player's Objective card rapresenting the player's goal.
      *
      * @param chosenCard is the objective card chosen between 2 Objective Cards
      */
-
-    private boolean initialized=false;
     public void setGoal(ObjectiveCard chosenCard) {
         this.playerGoal = chosenCard;
         initialized=true;
         System.out.println("Goal setted: " +chosenCard.getCardID());
     }
+
+    /**
+     * Returns whether the board is initialized.
+     *
+     * @return true if the board is initialized, false otherwise
+     */
     public boolean isInitialized(){
             return this.initialized;
     }
+
+    /**
+     * Returns the objective card associated with the player.
+     *
+     * @return the player's objective card
+     */
     public ObjectiveCard getGoal() {
         return this.playerGoal;
     }
 
+    /**
+     * Returns the book associated with the player.
+     *
+     * @return the player's book
+     */
     public Book getPlayerBook() {
         return this.playerBook;
     }
 
+    /**
+     * Returns the deck associated with the player.
+     *
+     * @return the player's deck
+     */
     public PlayerDeck getPlayerDeck() {
         return this.playerDeck;
     }
+
+    /**
+     * Returns the color associated with the player.
+     *
+     * @return the player's color
+     */
     public Color getPlayerColor(){
         return this.playerColor;
     }
-
 
     /**
      * Places a card at the specified position in the player's book.
@@ -276,7 +288,6 @@ public class Player implements Serializable {
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                // Ottieni le carte obiettivo utilizzando il metodo drawObjectiveCards()
                 l.requireGoalsReady(new GameImmutable(model), index);
             } catch (RemoteException | IllegalStateException e) {
                 printAsync("During notification of notify_requireGoals, a disconnection has been detected before ping");
@@ -322,27 +333,6 @@ public class Player implements Serializable {
     }
 
     /**
-     * Notifies listeners that a message has been sent.
-     *
-     * @param gameModel the game model to pass as a new immutable game model
-     * @param msg       the message that has been sent
-     */
-    public void notify_SentMessage(Game gameModel, Message msg) {
-        System.out.println("Notifying listeners of new message: " + msg.getText());
-        Iterator<GameListenerInterface> i = listeners.iterator();
-        while (i.hasNext()) {
-            GameListenerInterface l = i.next();
-            try {
-                l.sentMessage(new GameImmutable(gameModel), msg);
-                System.out.println("Listener notified: " + l.toString());
-            } catch (RemoteException e) {
-                printAsync("During notification of notify_SentMessage, a disconnection has been detected before PING");
-                i.remove();
-            }
-        }
-    }
-
-    /**
      * Compares this player to another object for equality.
      *
      * @param obj the object to compare with
@@ -365,7 +355,6 @@ public class Player implements Serializable {
     public int hashCode() {
         return Objects.hash(nickname);
     }
-
 
     /**
      * Removes a listener from the player's list of listeners.

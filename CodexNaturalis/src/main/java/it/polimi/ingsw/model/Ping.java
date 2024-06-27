@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.view.flow.GameFlow;
-
 /**
  * Heartbeat class for RMI connection.
  * This class represents a heartbeat sent from the client to the server
@@ -11,7 +9,6 @@ import it.polimi.ingsw.view.flow.GameFlow;
 public class Ping {
     private final Long beat;
     private final String nick;
-
 
     /**
      * Constructs a Ping object with a heartbeat and nickname.

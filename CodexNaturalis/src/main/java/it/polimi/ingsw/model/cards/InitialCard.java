@@ -126,7 +126,6 @@ public class InitialCard extends PlayableCard implements Serializable {
         return cornerContent;
     }
 
-
     /**
      * Retrieves the string representation of the content of a corner.
      *
@@ -147,7 +146,6 @@ public class InitialCard extends PlayableCard implements Serializable {
                 throw new IllegalArgumentException();
         }
     }
-
 
     /**
      * Gets the list of resource types required for placement.
@@ -209,8 +207,6 @@ public class InitialCard extends PlayableCard implements Serializable {
         this.resourceList = resourceList;
     }
 
-
-    //TODO NE SERVONO 4
      /**
       * Provides a string representation of the {@code InitialCard} for display purposes.
       * This includes details such as card type, face direction, points, corners, and conditions.
@@ -220,8 +216,6 @@ public class InitialCard extends PlayableCard implements Serializable {
      @Override
      public String toString() {
          StringBuilder result = new StringBuilder();
-         //Ansi.Color bgColor = Ansi.Color.YELLOW;
-         //Ansi.Color textColor = Ansi.Color.WHITE;
          String cardTypeName = "InitialCard";
          String FoB = isFront() ? "Front" : "Back";
 
@@ -291,8 +285,6 @@ public class InitialCard extends PlayableCard implements Serializable {
                  .append("|\n");
 
          result.append(border).append("\n");
-
-         //String finalResult = ansi().fg(textColor).bg(bgColor).a(result.toString()).reset().toString();
          return result.toString();
      }
 

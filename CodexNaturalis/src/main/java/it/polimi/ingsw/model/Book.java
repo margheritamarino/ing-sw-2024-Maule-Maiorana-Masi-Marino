@@ -40,13 +40,12 @@ public class Book implements Serializable {
      * @param columns The number of columns in the book.
      */
     public Book(int rows, int columns){
-        // Inizializza le mappe di risorse e simboli
         initializeMaps();
 
         this.bookMatrix = new Cell[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                bookMatrix[i][j] = new Cell(i, j); // Costruttore che inizializza righe e colonne e imposta isAvailable a false
+                bookMatrix[i][j] = new Cell(i, j);
             }
         }
         initializePrintMatrix();
@@ -110,13 +109,11 @@ public class Book implements Serializable {
         for (int row = 0; row < bookMatrix.length; row++) {
             for (int col = 0; col < bookMatrix[row].length; col++) {
                 Cell currentCell = bookMatrix[row][col];
-                // Verifica se la cella corrente è uguale a findCell
                 if (currentCell.equals(findCell)) {
-                    return currentCell; // Restituisci la cella trovata
+                    return currentCell;
                 }
             }
         }
-        // Cell non found
         return null;
     }
 
@@ -150,10 +147,10 @@ public class Book implements Serializable {
         Cell initialCell = bookMatrix[35][35];
         initialCell.setAvailable(true);
         initialCell.setCardPointer(initialCard);
-        initialCell.setAvailable(false); //cell not available
+        initialCell.setAvailable(false);
         initialCell.setWall(true);
-        UpdateMapInitial(initialCard); //aggiorno la mappa delle risorse presenti sul book in base alle risorse presenti sugli angoli e o nel centro della initialCard
-        updateBook(initialCard, initialCell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata in base alla presenza o meno degli angoli
+        UpdateMapInitial(initialCard);
+        updateBook(initialCard, initialCell);
 
         placementOrderBook = 0;
         initialCell.setPlacementOrder(placementOrderBook);
@@ -194,11 +191,11 @@ public class Book implements Serializable {
         if(!cell.isAvailable()){
             throw new CellNotAvailableException("This Cell is not Available to Place the Card! Choose another CELL");
         }
-        cell.setCardPointer(resourceCard); //setto il puntatore della cella alla carta che ho appena piazzato
+        cell.setCardPointer(resourceCard);
         cell.setAvailable(false);
         cell.setWall(true);
-        updateMaps(resourceCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
-        updateBook(resourceCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
+        updateMaps(resourceCard, cell);
+        updateBook(resourceCard, cell);
         numPoints = resourceCard.getVictoryPoints();
         placementOrderBook++;
         cell.setPlacementOrder(placementOrderBook);
@@ -225,11 +222,11 @@ public class Book implements Serializable {
         if (!cell.isAvailable()) {
             throw new CellNotAvailableException("This Cell is not Available");
         }
-        cell.setCardPointer(goldCard); //setto il puntatore della cella alla carta che ho appena piazzato
-        cell.setAvailable(false); //setto disponibilità cella a false
+        cell.setCardPointer(goldCard);
+        cell.setAvailable(false);
         cell.setWall(true);
-        updateMaps(goldCard, cell); //aggiorna le mappe di simboli e risorse in base alle nuove risorse/simboli che si trovano sulla nuova carta appena piazzata e in base alle risorse/simboli che si trovano sugli angoli che vengono coperti dalla carta appena piazzata
-        updateBook(goldCard, cell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata
+        updateMaps(goldCard, cell);
+        updateBook(goldCard, cell);
         if (!goldCard.isPointsCondition()) {
             numPoints = goldCard.getVictoryPoints();
         } else {
@@ -250,13 +247,11 @@ public class Book implements Serializable {
      */
     public boolean checkPlacementCondition(PlayableCard goldCard){
         Map<ResourceType, Integer> conditionsMap = new HashMap<>();
-        //inizializzo la mappa conditionsMap
         conditionsMap.put(ResourceType.Animal,0);
         conditionsMap.put(ResourceType.Fungi,0);
         conditionsMap.put(ResourceType.Insect,0);
         conditionsMap.put(ResourceType.Plant,0);
         boolean check = true;
-        //realizzo una mappa che contiene la condizione di piazzamenoto di ogni risorsa recuperando la condizione dall'array di ResourceType
         for (ResourceType resource : goldCard.getPlacementCondition()) {
             conditionsMap.put(resource, conditionsMap.get(resource) + 1);
         }
@@ -494,9 +489,9 @@ public class Book implements Serializable {
      * @param card The PlayableCard to add to the book.
      * @param cell The cell where the card is placed.
      */
-    public void updateMaps(PlayableCard card, Cell cell){ //metodo per aggiornare la mappa dei simboli e la mappa delle risorse quando aggiungo una nuova carta
-        updateNewCardCorners(card); //Aggiunge Simboli e Risorse della Carta appena piazzata nel Book
-        updateCoveredCorners(cell); //Decrementa simboli e risorse che sono stati coperti dalla nuova carta piazzata
+    public void updateMaps(PlayableCard card, Cell cell){
+        updateNewCardCorners(card);
+        updateCoveredCorners(cell);
     }
 
     /**
@@ -542,15 +537,11 @@ public class Book implements Serializable {
      * Removes all cards from the book.
      * This method clears the book of all cards, leaving it empty.
      */
-    public void clear(){ //elimina tutte le carte dal book e setta le celle a
-        // Itera attraverso tutte le celle del book
+    public void clear(){
         for (int i = 0; i < bookMatrix.length; i++) {
             for (int j = 0; j < bookMatrix[i].length; j++) {
-                // Imposta il puntatore della carta della cella a null
                 bookMatrix[i][j].setCardPointer(null);
-                // Imposta la disponibilità della cella a true
                 bookMatrix[i][j].setAvailable(false);
-                // Imposta l'attributo wall delle celle a false
                 bookMatrix[i][j].setWall(false);
             }
         }
@@ -570,7 +561,7 @@ public class Book implements Serializable {
      * @param newCard The PlayableCard that has been placed.
      * @param cell The Cell where the card is placed.
      */
-    public void updateBook(PlayableCard newCard, Cell cell){ //metodo che imposta la disponibilità delle celle attorno alla carta appena piazzata,passata per parametro, mettendole a false se non è presente un angolo
+    public void updateBook(PlayableCard newCard, Cell cell){
         int i = cell.getRow();
         int j = cell.getColumn();
         boolean skip0 = false;
@@ -626,8 +617,6 @@ public class Book implements Serializable {
      */
     public ArrayList<Cell> showAvailableCells() {
         ArrayList<Cell> availableCellsList = new ArrayList<>();
-
-        // Scorre la matrice e aggiunge le celle disponibili alla lista
         for (int i = 0; i < bookMatrix.length; i++) {
             for (int j = 0; j < bookMatrix.length; j++) {
                 if (bookMatrix[i][j].isAvailable()){
@@ -702,7 +691,6 @@ public class Book implements Serializable {
                 int numInk = symbolMap.getOrDefault(SymbolType.Ink, 0);
                 int numManuscript = symbolMap.getOrDefault(SymbolType.Manuscript, 0);
                 int minSymbolCount = Math.min(numQuill, Math.min(numInk, numManuscript)); //gets the MINIMUM of the 3 symbols quantities
-                //int numTriplets = minSymbolCount;
                 return minSymbolCount * 3;
 
         }
@@ -729,10 +717,8 @@ public class Book implements Serializable {
             int columns = bookMatrix[0].length;
 
             if (direction == CornerType.BRCorner) {
-                // Scansione dalla riga 0 alla penultima e dalla colonna 0 alla penultima
                 for (int i = 0; i < rows - 2; i++) {
                     for (int j = 0; j < columns - 2; j++) {
-                        // Controllo se le tre celle consecutive sono diagonalmente disposte
                         if (!skipIndexes(indexes,i,j) && bookMatrix[i][j].getCard() != null &&
                                 bookMatrix[i + 1][j + 1].getCard() != null &&
                                 bookMatrix[i + 2][j + 2].getCard() != null &&
@@ -747,10 +733,8 @@ public class Book implements Serializable {
                     }
                 }
             } else if (direction == CornerType.BLCorner) {
-                // Scansione dalla riga 0 alla penultima e dalla colonna 2 alla ultima
                 for (int i = 0; i < rows - 2; i++) {
                     for (int j = 2; j < columns; j++) {
-                        // Controllo se le tre celle consecutive sono diagonalmente disposte
                         if (!skipIndexes(indexes,i,j) && bookMatrix[i][j].getCard() != null &&
                                 bookMatrix[i + 1][j - 1].getCard() != null &&
                                 bookMatrix[i + 2][j - 2].getCard() != null &&
@@ -765,8 +749,6 @@ public class Book implements Serializable {
                     }
                 }
             }
-
-            // Ritorna il numero di gruppi trovati moltiplicato per 2 (punti vittoria guadagnati per ogni tripletta in diagonale che doddisfa i requisiti
             return count * 2;
         }
 
@@ -804,7 +786,6 @@ public class Book implements Serializable {
          */
         public int checkLPlacement(ObjectiveCard objectiveCard) {
             int[][] indexes = new int[70][70];
-            //inizializza matrice indici
             for (int i = 0; i < indexes.length; i++) {
                 for (int j = 0; j < indexes[i].length; j++) {
                     indexes[i][j] = 0;
@@ -814,7 +795,7 @@ public class Book implements Serializable {
             ResourceType mainResource = objectiveCard.getMainResource();
             ResourceType secondResource = objectiveCard.getSecondResource();
 
-            switch (objectiveCard.getDirection()) { //i 4 possibili valori che può assumere 'direction' danno luogo alle 4 casistiche:
+            switch (objectiveCard.getDirection()) {
                 case TLCorner:
                     for (int i = 2; i < bookMatrix.length; i++) {
                         for (int j = 1; j < bookMatrix[i].length - 1; j++) {
@@ -832,7 +813,7 @@ public class Book implements Serializable {
                             }
                         }
                     }
-                    break; //capisci se togliere il break
+                    break;
                 case TRCorner:
                     for (int i = 3; i < bookMatrix.length; i++) {
                         for (int j = 0; j < bookMatrix[i].length - 2; j++) {
@@ -888,7 +869,6 @@ public class Book implements Serializable {
             return count*3;
         }
 
-
     public Cell[][] getBookMatrix() {
         return bookMatrix;
     }
@@ -906,26 +886,20 @@ public class Book implements Serializable {
     public String showMaps(){
         StringBuilder result = new StringBuilder();
         result.append("*******RESOURCEMAP*******: \n");
-        // Itera sulla mappa del numero delle risorse presenti nel gioco
         for (Map.Entry<ResourceType, Integer> entry : resourceMap.entrySet()) {
             ResourceType resource = entry.getKey();
             int num = entry.getValue();
-            // Aggiungi il nome della risorsa seguito dala sua quantità presente nel book
             result.append(resource.toString()).append(": ").append(num).append("\n");
         }
 
         result.append("*******SYMBOLMAP*******: \n");
-        // Itera sulla mappa del numero dei simboli presenti nel gioco
         for (Map.Entry<SymbolType, Integer> entry : symbolMap.entrySet()) {
             SymbolType symbol = entry.getKey();
             int num = entry.getValue();
-            // Aggiungi il nome del simbolo seguito dala sua quantità presente nel book
             result.append(symbol.toString()).append(": ").append(num).append("\n");
         }
         return result.toString();
     }
-
-
 
     /**
      * Generates a string representation of the book matrix.
@@ -962,37 +936,34 @@ public class Book implements Serializable {
 
       result.append("********************BOOK********************\n");
 
-      // Calcolare la larghezza massima delle colonne
-      int maxWidth = DefaultValue.printLenght + 2; // aggiungiamo 2 per lo spazio tra le colonne e i bordi
+      int maxWidth = DefaultValue.printLenght + 2;
 
-      // Aggiungere gli indici delle colonne
-      result.append("     "); // spazio per l'indice delle righe
+      result.append("     ");
       for (int j = minJ; j <= maxJ; j++) {
           result.append(String.format("%-" + maxWidth + "d", j));
       }
       result.append("\n");
 
-      // Lista per accumulare le stringhe delle righe
       ArrayList<ArrayList<String>> rows = new ArrayList<>();
 
-      for (int i = minI; i <= maxI; i++) { // righe
+      for (int i = minI; i <= maxI; i++) {
           ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
-          for (int k = 0; k < DefaultValue.printHeight + 2; k++) { // +2 per il bordo inferiore e la riga extra
+          for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
               rowBuilders.add(new StringBuilder());
           }
 
-          for (int j = minJ; j <= maxJ; j++) { // colonne
+          for (int j = minJ; j <= maxJ; j++) {
               String[] lines;
               if (bookMatrix[i][j].getCard() != null) {
                   lines = bookMatrix[i][j].getCard().toString().split("\n");
               } else if (bookMatrix[i][j].isAvailable()) {
                   lines = nullCardPrint().split("\n");
               } else {
-                  lines = new String[DefaultValue.printHeight + 2]; // +2 per il bordo inferiore e la riga extra
+                  lines = new String[DefaultValue.printHeight + 2];
                   Arrays.fill(lines, " ".repeat(maxWidth));
               }
 
-              // Se la cella è disponibile, colorala di verde
+
               boolean isAvailable = bookMatrix[i][j].isAvailable();
               String colorCode = isAvailable ? GREEN : RESET;
 
@@ -1011,14 +982,11 @@ public class Book implements Serializable {
           rows.add(rowStrings);
       }
 
-      // Stampa degli indici delle righe e dei contenuti
       for (int i = 0; i < rows.size(); i++) {
           for (int k = 0; k < rows.get(i).size(); k++) {
               if (k == 0) {
-                  // Aggiungere l'indice della riga solo una volta per cella
                   result.append(String.format("%-4d", minI + i)).append(rows.get(i).get(k)).append("\n");
               } else {
-                  // Stampare solo le righe successive
                   result.append("    ").append(rows.get(i).get(k)).append("\n");
               }
           }
@@ -1050,19 +1018,12 @@ public class Book implements Serializable {
 
         for (int i = 0; i < DefaultValue.printHeight; i++) {
             result.append("| ");
-            result.append(" ".repeat(maxWidth - 2)); // -2 per i bordi laterali "| |"
+            result.append(" ".repeat(maxWidth - 2));
             result.append(" |\n");
         }
-
         result.append(borderLine).append("\n");
-
         return result.toString();
     }
-
-
-
-
-
 
     /**
      * Determines the smallest submatrix that contains all the cards in the book matrix.
@@ -1096,7 +1057,6 @@ public class Book implements Serializable {
             }
         }
 
-        // Incrementa i limiti superiori per includere le celle adiacenti, se necessario
         if (minI > 0) minI--;
         if (minJ > 0) minJ--;
         if (maxI < bookMatrix.length - 1) maxI++;
@@ -1109,7 +1069,4 @@ public class Book implements Serializable {
 
         return limits;
     }
-
-
-
 }

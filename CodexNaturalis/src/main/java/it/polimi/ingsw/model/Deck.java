@@ -205,7 +205,6 @@ public class Deck implements Serializable {
         }
     }
 
-
     /**
      * Returns two cards from the deck at a random position (position = CardID).
      * Decreases the numCards attribute of the deck.
