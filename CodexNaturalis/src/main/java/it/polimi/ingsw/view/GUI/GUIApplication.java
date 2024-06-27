@@ -386,6 +386,10 @@ public class GUIApplication extends Application {
      */
     public void setPaneReady(int indexPlayer, boolean isReady){
         Pane paneReady = (Pane) this.primaryStage.getScene().lookup("#ready" + indexPlayer);
+        if (paneReady == null) {
+            System.out.println("Pane not found for player index: " + indexPlayer);
+            return;
+        }
         paneReady.setVisible(isReady);
     }
 
