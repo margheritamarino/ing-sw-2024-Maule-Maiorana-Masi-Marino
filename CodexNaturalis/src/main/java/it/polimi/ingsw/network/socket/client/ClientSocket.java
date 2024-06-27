@@ -27,30 +27,37 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
  * by the Socket Network Protocol
  */
 public class ClientSocket extends Thread implements ClientInterface {
+
     /**
      * Socket that represents the Client
      */
     private Socket clientSocket;
+
     /**
      * ObjectOutputStream out
      */
     private ObjectOutputStream out;
+
     /**
      * ObjectInputStream in
      */
     private ObjectInputStream in;
 
-
     /**
      * GameListener on which to perform all actions requested by the Socket Server
      */
     private final GameListenersClient modelInvokedEvents;
+
     /**
      * The nickname associated with the ClientSocket communication
      */
     private String nickname;
 
+    /**
+     * to send periodic "ping" messages
+     */
     private final PingSender pingSender;
+
     private final Flow flow;
 
     /**
@@ -64,7 +71,6 @@ public class ClientSocket extends Thread implements ClientInterface {
         modelInvokedEvents = new GameListenersClient(flow);
         this.start();
         pingSender = new PingSender(this.flow, this);
-
 
     }
 
@@ -172,6 +178,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMsgCreateGame( numPlayers, GameID, nickname));
         finishSending();
     }
+
     /**
      * Sends a message to the server to set the initial card for the specified player.
      *
@@ -184,6 +191,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMsgSetInitial(nickname, index));
         finishSending();
     }
+
     /**
      * Sends a message to the server to set the goal card for the specified player.
      *
@@ -196,6 +204,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMsgSetObjective(nickname, index));
         finishSending();
     }
+
     /**
      * Sends a message to the server to place a card in the player's book at the specified position.
      *
@@ -209,6 +218,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMsgPlaceCard(nickname, chosenCard, rowCell, columnCell));
         finishSending();
     }
+
     /**
      * Sends a message to the server to pick a card from the board for the specified player.
      *
@@ -222,6 +232,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         out.writeObject(new ClientMsgPickCard(nickname, cardType, drawFromDeck, pos));
         finishSending();
     }
+
     /**
      * Ask the Socket Server to join a specific game
      *
@@ -252,8 +263,8 @@ public class ClientSocket extends Thread implements ClientInterface {
         if(!pingSender.isAlive()) {
             pingSender.start();
         }
-
     }
+
     /**
      * Ask the Socket Server to set the player as ready
      * @throws IOException
