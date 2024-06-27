@@ -234,18 +234,30 @@ public class GameController implements GameControllerInterface, Serializable, Ru
             }
             if (currentIndex == model.getNumPlayers() - 1) { //se sono nell'ultimo giocatore del giro
                 if (!(model.getStatus().equals(GameStatus.LAST_CIRCLE))) {
+                    try{
+                        model.nextTurn(currentIndex);
+                    }catch (GameEndedException e){
+                        model.setStatus(GameStatus.ENDED);
+                    }
                     if (model.getScoretrack().checkTo20()) { //= true -> e un giocatore è arrivato alla fine (chiamo ultimo turno)
                         model.setStatus(GameStatus.LAST_CIRCLE);
                     }
-                } else { //se sono nell'ultimo giocatore nell'ultimo ciclo
+                }else { //se sono nell'ultimo giocatore nell'ultimo ciclo
                     model.lastTurnGoalCheck(); //controllo gli obbiettivo
+                    try{
+                        model.nextTurn(currentIndex);
+                    }catch (GameEndedException e){
+                        model.setStatus(GameStatus.ENDED);
+                    }
+                }
+            }else{
+                try{
+                    model.nextTurn(currentIndex);
+                }catch (GameEndedException e){
+                    model.setStatus(GameStatus.ENDED);
                 }
             }
-            try{
-                model.nextTurn(currentIndex);
-            }catch (GameEndedException e){
-                model.setStatus(GameStatus.ENDED);
-            }
+
         }
 
     }
