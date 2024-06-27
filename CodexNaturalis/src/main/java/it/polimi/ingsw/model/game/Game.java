@@ -439,7 +439,7 @@ public class Game {
 
 	/**
 	 * Advances the game to the next turn based on the current player index.
-	 * Throws GameEndedException if it's the last circle and the current player index
+	 * Throws  if it's thGameEndedExceptione last circle and the current player index
 	 * is the last player index.
 	 *
 	 * @param currentIndex the index of the current player
@@ -458,11 +458,6 @@ public class Game {
 					// Calcola l'indice del giocatore successivo
 					 nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
 
-					/*if(!(Objects.equals(getDisconnectedPlayer(), " "))) {
-						if (getIndexPlayer(getPlayerByNickname(disconnectedPlayer)) == nextIndex) { //salto il giocatore disconnesso
-							nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
-						}
-					}*/
 				} while (!players.get(nextIndex).getConnected());
 			} else {
 				//Only one player connected, I set the nextTurn to the next player of the one online
@@ -487,7 +482,6 @@ public class Game {
 	public void lastTurnGoalCheck(){ //
 		// Controlla l'obiettivo del giocatore corrente
 		checkGoal(currentPlayer.getGoal());
-
 		// Ottieni le carte degli obiettivi dal board e controlla gli obiettivi
 		ObjectiveCard[] commonGoals = board.getObjectiveCards();
 		for (ObjectiveCard commonGoal : commonGoals) {
