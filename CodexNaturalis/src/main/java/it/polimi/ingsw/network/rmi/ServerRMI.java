@@ -21,6 +21,7 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
  * by the RMI Network protocol
  */
 public class ServerRMI extends UnicastRemoteObject implements GameControllerInterface {
+
     /**
      * ServerRMI object
      */
@@ -134,11 +135,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
    public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
 
            serverObject.gameController.joinGame(lis, nick);
-           /*try {
-               UnicastRemoteObject.exportObject(serverObject.gameController,0);
-           } catch (RemoteException e) {
-               // Already exported, due to another RMI Client running on the same machine
-           }*/
            printAsync("[RMI] " + nick + " joined to game");
    }
 
@@ -151,8 +147,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void leave(GameListenerInterface lis, String nick) throws RemoteException {
-        //gameController.leave(lis, nick);
-        serverObject.gameController.leave(lis, nick);
+            serverObject.gameController.leave(lis, nick);
     }
 
 
@@ -179,9 +174,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     public boolean  playerIsReadyToStart(GameListenerInterface lis, String p) throws RemoteException { //siamo sicuri serva Server RMI? FORSE DEVI PASSARE DIRETTA AL GameController
         System.out.println("in ServerRMI- playerIsReadyToStart");
-        //return gameController.playerIsReadyToStart(lis, p);
          return serverObject.gameController.playerIsReadyToStart(lis, p);
-        //return false;
     }
 
 
@@ -194,7 +187,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public boolean isThisMyTurn(String nick) throws RemoteException {
-        //return gameController.isThisMyTurn(nick);
         return serverObject.gameController.isThisMyTurn(nick);
     }
 
@@ -208,8 +200,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException {
-        //gameController.disconnectPlayer(nick, listener);
-       serverObject.gameController.disconnectPlayer(nick, listener);
+         serverObject.gameController.disconnectPlayer(nick, listener);
     }
 
 
@@ -221,12 +212,10 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public int getGameId() throws RemoteException {
-        //return gameController.getGameId();
         return serverObject.gameController.getGameId();
     }
 
 
-    //TODO DA CONTROLLARE PING:
     /**
      * Sends a ping message to the server to maintain the connection and check responsiveness.
      *
@@ -236,7 +225,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void ping(String nickname, GameListenerInterface me) throws RemoteException {
-        //gameController.ping(nickname, me);
         System.out.println("Sono in Ping ServerRMI (PERCHE'???)");
         serverObject.gameController.ping(nickname, me);
     }
@@ -251,7 +239,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void setInitialCard(String nickname, int index) throws RemoteException {
-        //gameController.setInitialCard(nickname,index);
         serverObject.gameController.setInitialCard(nickname,index);
     }
 
@@ -266,7 +253,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException, NotPlayerTurnException {
-        //gameController.setGoalCard(nickname,index);
         serverObject.gameController.setGoalCard(nickname,index);
     }
 
@@ -282,7 +268,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell) throws RemoteException {
-        //gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell);
         serverObject.gameController.placeCardInBook(nickname, chosenCard, rowCell, columnCell);
     }
 
@@ -297,7 +282,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos) throws RemoteException {
-        //gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
         serverObject.gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
 
@@ -313,7 +297,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname) throws RemoteException {
-        //gameController.settingGame(lis, numPlayers, gameID, nickname, color);
         serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname);
     }
 
@@ -328,8 +311,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public boolean makeGameStart(GameListenerInterface lis, String nickname) throws RemoteException {
-        //return gameController.makeGameStart(lis, nickname);
-       return serverObject.gameController.makeGameStart(lis, nickname);
+         return serverObject.gameController.makeGameStart(lis, nickname);
     }
 
 
@@ -340,8 +322,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
     @Override
-    public void sentMessage(Message msg) throws RemoteException { //messaggi da sincronizzare (?) Se più giocatori insieme accedono alla risorsa
-        //gameController.sentMessage(msg);
+    public void sentMessage(Message msg) throws RemoteException {
         serverObject.gameController.sentMessage(msg);
     }
 

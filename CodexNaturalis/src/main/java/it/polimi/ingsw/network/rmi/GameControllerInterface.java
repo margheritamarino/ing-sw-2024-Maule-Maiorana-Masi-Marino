@@ -13,6 +13,7 @@ import java.rmi.RemoteException;
  * This interface contains all the action a player can do in a single game */
 
 public interface GameControllerInterface extends Remote {
+
     /**
      * This method is used to check if the player is ready to start
      *
@@ -72,7 +73,6 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
     void ping(String nickname, GameListenerInterface me) throws RemoteException;
-
 
 
 
