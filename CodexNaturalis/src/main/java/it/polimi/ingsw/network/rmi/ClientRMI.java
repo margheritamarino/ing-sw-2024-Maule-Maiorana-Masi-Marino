@@ -35,11 +35,6 @@ import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
 public class ClientRMI implements ClientInterface {
 
     /**
-     * The remote object returned by the registry that represents the main controller
-     */
-    //private static MainControllerInterface requests; //aggiunto
-
-    /**
      * The remote object returned by the registry that represents the game controller
      */
     private static GameControllerInterface gameController;
@@ -142,13 +137,13 @@ public class ClientRMI implements ClientInterface {
 
     }
 
-
+    /*
     /**
      * Send pings to the RMI server
      * If sending a message takes more than {@link DefaultValue#timeoutConnection_millis} millis, the client
      * will be considered no longer connected to the server
      */
-    public void run() {
+    /*public void run() {
         //For the heartbeat
         while (!Thread.interrupted()) {
             try {
@@ -169,7 +164,7 @@ public class ClientRMI implements ClientInterface {
                 throw new RuntimeException(e);
             }
         }
-    }
+    }*/
 
 
     /**

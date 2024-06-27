@@ -106,6 +106,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      *
      * @return RMI Server
      */
+    @Deprecated
     public static ServerRMI unbind() throws RemoteException{
         try {
             getRegistry().unbind(DefaultValue.Default_servername_RMI);
