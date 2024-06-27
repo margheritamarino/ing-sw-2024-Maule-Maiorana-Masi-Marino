@@ -87,78 +87,6 @@ public abstract class PlayableCard implements Serializable {
      * This method is used for the GUI
      * @return the path for the specific istance of Card (contained in the package resources-->img)
      */
-
-  /*  public String getImagePath(){
-        final String path;
-        int idTemp = this.getCardID();
-        String typeTemp= this.getCardType().toString(); //InitialCard, ResourceCard, GoldCard
-        String sideTemp;
-        String mainResource;
-
-        final String DEFAULT_RESOURCE_FRONT = "/img/Cards/ResourceCards/0_ResourceFront.png";
-        final String DEFAULT_GOLD_FRONT = "/img/Cards/GoldCards/0_GoldFront.png";
-        final String DEFAULT_INITIAL_FRONT = "/img/Cards/initialCards/InitialCards/0_InitialFront.png";
-        final String DEFAULT_INITIAL_BACK = "/img/Cards/initialCards/InitialCards/0_InitialBack.png";
-
-        if(this.isFront()){
-            sideTemp= "Front";
-        } else {
-            sideTemp= "Back";
-
-        }
-
-        if(typeTemp.equals("InitialCard")){
-            path= "/img/Cards/initialCards/"+ idTemp+ "_Initial"+ sideTemp+ ".png";
-        }else {
-            switch (typeTemp) {
-                case "GoldCard":
-                    typeTemp = "Gold";
-                    break;
-                case "ResourceCard":
-                    typeTemp = "Resource";
-                    break;
-                default:
-                    typeTemp = "Resource";
-                    break;
-            }
-            if (sideTemp.equals("Front")) {
-                path="/img/Cards/"+ typeTemp+"Cards/"+ idTemp+ "_"+ typeTemp+ "Front.png";
-
-            } else {
-                mainResource= this.getMainResource().toString(); //used only for Back img
-                path="/img/Cards/"+ typeTemp+"Cards/"+ typeTemp+ mainResource+ "Back.png";
-            }
-        }
-        try {
-            String resourcePath = getClass().getResource(path) != null ? getClass().getResource(path).toExternalForm() : null;
-
-            if (resourcePath != null) {
-                return resourcePath;
-            } else {
-                // Percorso dell'immagine predefinito se l'immagine specificata non esiste
-                if (typeTemp.equals("Resource")) {
-                    return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
-                } else if (typeTemp.equals("Gold")) {
-                    return getClass().getResource(DEFAULT_GOLD_FRONT).toExternalForm();
-                } else if (typeTemp.equals("InitialCard")) {
-                    return getClass().getResource(sideTemp.equals("Front") ? DEFAULT_INITIAL_FRONT : DEFAULT_INITIAL_BACK).toExternalForm();
-                } else {
-                    return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
-                }
-            }
-        } catch (Exception e) {
-            if (typeTemp.equals("Resource")) {
-                return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
-            } else if (typeTemp.equals("Gold")) {
-                return getClass().getResource(DEFAULT_GOLD_FRONT).toExternalForm();
-            } else if (typeTemp.equals("InitialCard")) {
-                return getClass().getResource(sideTemp.equals("Front") ? DEFAULT_INITIAL_FRONT : DEFAULT_INITIAL_BACK).toExternalForm();
-            } else {
-                return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
-            }
-        }
-    }*/
-
     public String getImagePath() {
         final String path;
         int idTemp = this.getCardID();
@@ -215,6 +143,12 @@ public abstract class PlayableCard implements Serializable {
         }
     }
 
+    /**
+     * Retrieves the external form of the URL for a given resource path.
+     *
+     * @param path the path of the resource to find
+     * @return the external form of the URL for the resource if found, otherwise null
+     */
     private String getResourcePath(String path) {
         try {
             URL resourceUrl = getClass().getResource(path);
@@ -229,7 +163,6 @@ public abstract class PlayableCard implements Serializable {
             return null;
         }
     }
-
 
     /**
      * Retrieves the content of the specified corner of a PlayableCard.
@@ -374,7 +307,6 @@ public abstract class PlayableCard implements Serializable {
         this.BRCorner = BRCorner;
         this.BLCorner = BLCorner;
     }
-
 
     /**
      * Retrieves a string representation of the card.
