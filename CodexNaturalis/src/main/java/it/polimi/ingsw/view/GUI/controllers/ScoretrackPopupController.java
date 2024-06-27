@@ -95,7 +95,6 @@ public class ScoretrackPopupController extends ControllerGUI {
     private Button btnPoints28;
     @FXML
     private Button btnPoints29;
-
     private List<Player> playersWithPoints;
     private GUIApplication guiApplication;
 
@@ -154,7 +153,6 @@ public class ScoretrackPopupController extends ControllerGUI {
             default -> System.out.println("Invalid player index: " + indexPlayer);
         }
     }
-
 
     /**
      * Sets the points for the player at the specified index.

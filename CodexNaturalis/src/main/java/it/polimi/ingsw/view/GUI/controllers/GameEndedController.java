@@ -22,7 +22,6 @@ public class GameEndedController extends ControllerGUI {
     private Label player2;
     @FXML
     private Label player3;
-
     @FXML
     private Button btnMenu;
 

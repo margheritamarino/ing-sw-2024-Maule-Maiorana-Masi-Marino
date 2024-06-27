@@ -1,12 +1,10 @@
 package it.polimi.ingsw.view.Utilities;
 
 import it.polimi.ingsw.Chat.Message;
-import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.game.GameImmutable;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 

@@ -24,18 +24,14 @@ public class LobbyController extends ControllerGUI{
     private Text nick0;
     @FXML
     private Button btnReady;
-
     @FXML
     private Text GameIDTextField;
     @FXML
     private ImageView imgPlayer1;
-
     @FXML
     private ImageView imgPlayer2;
-
     @FXML
     private ImageView imgPlayer3;
-
     @FXML
     private ImageView imgPlayer0;
 
