@@ -198,12 +198,15 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
         for (Player player : playersWithPoints) {
             int playerScore = scoretrack.getPlayerScore(player);
-            switch (player.getPlayerColor()) {
-                case YELLOW -> btnPoints[playerScore].getStyleClass().add("button-glow-yellow");
-                case RED -> btnPoints[playerScore].getStyleClass().add("button-glow-red");
-                case BLUE -> btnPoints[playerScore].getStyleClass().add("button-glow-blue");
-                case GREEN -> btnPoints[playerScore].getStyleClass().add("button-glow-green");
-                default -> {}
+            if(playerScore<=29) {
+                switch (player.getPlayerColor()) {
+                    case YELLOW -> btnPoints[playerScore].getStyleClass().add("button-glow-yellow");
+                    case RED -> btnPoints[playerScore].getStyleClass().add("button-glow-red");
+                    case BLUE -> btnPoints[playerScore].getStyleClass().add("button-glow-blue");
+                    case GREEN -> btnPoints[playerScore].getStyleClass().add("button-glow-green");
+                    default -> {
+                    }
+                }
             }
         }
     }
