@@ -121,15 +121,11 @@ public abstract class PlayableCard implements Serializable {
                 path = "/img/Cards/" + typeTemp + "Cards/" + typeTemp + mainResource + "Back.png";
             }
         }
-
-        System.out.println("Attempting to load image: " + path);
         String resourcePath = getResourcePath(path);
 
         if (resourcePath != null) {
             return resourcePath;
         } else {
-            System.err.println("Failed to load image: " + path);
-
             // Fallback to default images
             String defaultPath = typeTemp.equals("Resource") ? "/img/Cards/0_ResourceFront.png" : "/img/Cards/0_GoldFront.png";
             System.out.println("Attempting to load default image: " + defaultPath);
@@ -137,7 +133,6 @@ public abstract class PlayableCard implements Serializable {
             if (resourcePath != null) {
                 return resourcePath;
             } else {
-                System.err.println("Failed to load default image: " + defaultPath);
                 return null; // Or handle as needed
             }
         }
