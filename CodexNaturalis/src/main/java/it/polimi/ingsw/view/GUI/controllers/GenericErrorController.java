@@ -29,8 +29,6 @@ public class GenericErrorController extends ControllerGUI {
         }
     }
 
-
-
     /**
      * Sets the error message and determines whether the application should be closed.
      *
@@ -43,7 +41,6 @@ public class GenericErrorController extends ControllerGUI {
             button.setText("Close App");
         }
         this.needToExitApp=needToExitApp;
-
     }
 
 }

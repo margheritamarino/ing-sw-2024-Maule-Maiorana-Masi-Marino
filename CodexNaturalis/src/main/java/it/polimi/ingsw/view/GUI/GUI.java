@@ -24,7 +24,6 @@ public class GUI extends UI {
 
     private GUIApplication guiApplication;
     private  InputGUI inputGUI;
-
     private String nickname;
     boolean showedPublisher = false;
     public boolean alreadyShowedLobby = false;
@@ -41,7 +40,6 @@ public class GUI extends UI {
         nickname = null;
         init();
     }
-
 
     /**
      * The init method is used to initialize the GUI.
@@ -220,17 +218,8 @@ public class GUI extends UI {
      */
     @Override
     public void show_cardDrawnMsg(GameImmutable model, String nickname) {
-
-        /*while (!model.isBoardUpdated()) { //TODO CONTROLLARE
-            try {
-                Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
-            }
-        }*/
         PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
         pause2.setOnFinished(event2 -> {
-            //callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage("This is your drawn card", true));
             show_playerDeck(model,nickname);
             callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setGUI(this, model));
@@ -284,18 +273,8 @@ public class GUI extends UI {
      */
     @Override
     public void show_joiningToGameMsg(String nick, Color color) {
-        // Mostra il pop-up con il messaggio
         show_popupInfoAndNickname(nick, "Trying to join a Game...");
-
-        /* Imposta una transizione di pausa per 3 secondi
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(event -> {
-            // Chiudi automaticamente il pop-up
-            callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
-        });
-        pause.play();*/
     }
-
 
     /**
      * Shows the MainScene and initializes it with the game model and player information.
@@ -365,14 +344,10 @@ public class GUI extends UI {
      */
     @Override
     public void show_playerJoined(GameImmutable gameModel, String nick, Color color) {
-
-        // Controlla se la lobby è già stata mostrata
         if (!alreadyShowedLobby) {
-            // Chiudi la finestra pop-up
             callPlatformRunLater(() -> {
                 this.guiApplication.closePopUpStage();
 
-                // Configura e mostra la lobby
                 LobbyController lobbyController = (LobbyController) this.guiApplication.getController(SceneType.LOBBY);
                 if (lobbyController != null) {
                     lobbyController.setGameid(gameModel.getGameId());
@@ -386,7 +361,6 @@ public class GUI extends UI {
             });
 
         } else {
-            // Mostra il giocatore nella lobby
             callPlatformRunLater(() -> this.guiApplication.showPlayerToLobby(gameModel));
         }
     }
@@ -585,9 +559,9 @@ public class GUI extends UI {
     public void show_playerDeck(GameImmutable model, String nickname) {
         while (!model.isDeckUpdated(nickname)) {
             try {
-                Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
+                Thread.sleep(100);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
+                Thread.currentThread().interrupt();
             }
         }
         callPlatformRunLater(() -> ((MainSceneController) this.guiApplication.getController(SceneType.MAINSCENE)).setPlayerDeck(model, nickname));
@@ -625,13 +599,12 @@ public class GUI extends UI {
         BoardPopUpController controller = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
         while (!model.isBoardUpdated()) {
             try {
-                Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
+                Thread.sleep(100);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
+                Thread.currentThread().interrupt();
             }
         }
         controller.setBoard(model);
-        //controller.enablePickCardTurn();
         callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.BOARD_POPUP));
     }
 
@@ -694,7 +667,7 @@ public class GUI extends UI {
      */
     @Override
     public void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected) {
-        if(nick.equals(lastPlayerReconnected)){ //TODO: NON serve metterlo dato che l'evento è aggiunto solo al giocattore
+        if(nick.equals(lastPlayerReconnected)){
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
             callPlatformRunLater(() -> this.guiApplication.setActiveScene(SceneType.MAINSCENE));
             callPlatformRunLater(() -> this.guiApplication.showMainScene(model, nickname, this));
@@ -702,11 +675,11 @@ public class GUI extends UI {
             callPlatformRunLater(() -> ((ScoretrackPopupController) this.guiApplication.getController(SceneType.SCORETRACK_POPUP)).setScoreTrack(model));
 
             BoardPopUpController controller = (BoardPopUpController) this.guiApplication.getController(SceneType.BOARD_POPUP);
-            while (!model.isBoardUpdated()) { //TODO CONTROLLARE
+            while (!model.isBoardUpdated()) {
                 try {
-                    Thread.sleep(100); // Attendi 100 millisecondi prima di controllare di nuovo
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt(); // Ripristina lo stato di interruzione
+                    Thread.currentThread().interrupt();
                 }
             }
             controller.setBoard(model);
@@ -716,10 +689,7 @@ public class GUI extends UI {
             String msg= "YOU are back in the game!";
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
 
-        }/*else{
-            String msg= "Player" + nick + "is back in the game!";
-            callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, true));
-        }*/
+        }
 
     }
 
@@ -755,9 +725,6 @@ public class GUI extends UI {
         String msg= "Only one player is connected, waiting " + secondsToWaitUntilGameEnded + " seconds before calling Game Ended!";
         callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg,false));
     }
-
-
-
 
     /**
      * Adds a message to the chat and updates the GUI accordingly.

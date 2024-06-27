@@ -16,7 +16,6 @@ import javafx.scene.layout.HBox;
  */
 public class BoardPopUpController extends ControllerGUI{
 
-
     @FXML
     private ImageView imgDeckGold;
     @FXML
@@ -34,7 +33,13 @@ public class BoardPopUpController extends ControllerGUI{
     @FXML
     private ImageView imgObjective1;
     private GUIApplication guiApplication;
-
+    private boolean pickCardTurn=false;
+    @FXML
+    HBox resourceHbox;
+    @FXML
+    HBox objectiveHbox;
+    @FXML
+    HBox goldHbox;
 
     /**
      * Sets the GUI application instance for this controller.
@@ -90,14 +95,6 @@ public class BoardPopUpController extends ControllerGUI{
     private void handleCloseAction(ActionEvent event) {
         this.guiApplication.closePopUpStage();
     }
-
-    private boolean pickCardTurn=false;
-    @FXML
-    HBox resourceHbox;
-    @FXML
-    HBox objectiveHbox;
-    @FXML
-    HBox goldHbox;
 
     /**
      * Enlarges and highlights the board pane, enabling card selection.

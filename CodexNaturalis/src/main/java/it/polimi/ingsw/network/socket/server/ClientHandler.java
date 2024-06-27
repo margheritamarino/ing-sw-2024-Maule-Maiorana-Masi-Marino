@@ -9,11 +9,11 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import it.polimi.ingsw.exceptions.GameEndedException;
-import it.polimi.ingsw.network.rmi.GameControllerInterface;
 import it.polimi.ingsw.network.socket.Messages.clientToServerMessages.ClientGenericMessage;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import it.polimi.ingsw.controller.GameController;
+
 /**
  * ClientHandler Class<br>
  * Handle all the incoming network requests that clients can require to create,join,leave or reconnect to a game<br>
@@ -21,21 +21,30 @@ import it.polimi.ingsw.controller.GameController;
  */
 public class ClientHandler extends Thread{
 
+    /**
+     * Socket associated with the Client
+     */
     private final Socket clientSocket;
 
+    /**
+     * ObjectInputStream in
+     */
     private final ObjectInputStream in;
+
+    /**
+     * ObjectOutputStream out
+     */
     private final ObjectOutputStream out;
 
-    //private GameControllerInterface gameController; //controller associato alla partita
-
-    private GameListenersServer gameListenersServer;
     /**
      * The GameListener of the ClientSocket for notifications
      */
+    private GameListenersServer gameListenersServer;
 
-    private String nickname = null;
-
-    private final BlockingQueue<ClientGenericMessage> processingQueue = new LinkedBlockingQueue<>(); //coda bloccante per elaborare i messaggi in arrivo dal client.
+    /**
+     * Blocking queue to elaborate messages from the client
+     */
+    private final BlockingQueue<ClientGenericMessage> processingQueue = new LinkedBlockingQueue<>();
 
     /**
      * Handle all the network requests performed by a specific ClientSocket
@@ -60,22 +69,21 @@ public class ClientHandler extends Thread{
 
 
     /**
-     *  * This method runs in a separate thread and handles incoming messages,
-     *  * including ping messages, which are treated as special cases.
-     *  * If a ping message is received, it is handled by the game controller.
-     *  * All other messages are added to a processing queue for further handling.
-     *  */
-
+     * This method runs in a separate thread and handles incoming messages,
+     * including ping messages, which are treated as special cases.
+     * If a ping message is received, it is handled by the game controller.
+     * All other messages are added to a processing queue for further handling.
+     */
     @Override
     public void run() {
-        var th = new Thread(this::runGameLogic); //avvio thread
+        var th = new Thread(this::runGameLogic);
         th.start();
 
         try {
-            ClientGenericMessage temp; //si prepara a gestire qualsiasi messaggio che gli arriva dal Client(sottoclasse di ClientGenericMessage) durante il Thread
+            ClientGenericMessage temp; //preparing to manage any message received from Client during Thread
             while (!this.isInterrupted()) {
                 try {
-                    temp = (ClientGenericMessage) in.readObject(); //legge msg in arrivo dal Client
+                    temp = (ClientGenericMessage) in.readObject(); //to read messages sent from the client
 
                     //if it's a ping message I handle it as a "special message"
                     if (temp.isPing()) {
@@ -101,7 +109,6 @@ public class ClientHandler extends Thread{
 
         try {
             while (!this.isInterrupted()) {
-            //    System.out.println("Sono nel SERVER \n Sono dentro al metodo GameLogic di Client Handler");
                 temp = processingQueue.take();
 
                 if(temp.isJoinGame()){

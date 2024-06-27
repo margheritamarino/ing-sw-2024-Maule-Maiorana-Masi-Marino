@@ -35,13 +35,19 @@ public class GameController implements GameControllerInterface, Serializable, Ru
      */
     private final Game model;
 
-
     /**
      * Singleton Pattern, instance of the class
      */
     private static GameController instance = null;
+
+    /**
+     * To set if the game is created
+     */
     private boolean gameCreated;
 
+    /**
+     * To control the ping system for each listener of the game
+     */
     private final transient Map<GameListenerInterface, Ping> receivedPings;
 
     /**

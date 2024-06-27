@@ -42,8 +42,6 @@ public class GUIApplication extends Application {
     private boolean resizing=true;
     private double widthOld, heightOld;
 
-
-
     /**
      * Method to set the scene index
      * @param primaryStage the primary stage {@link Stage}
@@ -82,30 +80,6 @@ public class GUIApplication extends Application {
     /**
      * This method use the FXMLLoader to load the scene and the controller of the scene.
      */
-    /*private void loadScenes() {
-        scenes = new ArrayList<>();
-        FXMLLoader loader;
-        Parent root;
-        ControllerGUI controller;
-
-        for (SceneType sceneType : SceneType.values()) {
-            String path = sceneType.path();
-            System.out.println("Loading FXML file: " + path);
-            loader = new FXMLLoader(getClass().getResource(path));
-            try {
-                root = loader.load();
-                controller = loader.getController();
-                Scene scene = new Scene(root);
-
-                scene.setUserData(controller);
-
-                scenes.add(new SceneInformation(scene, sceneType, controller));
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Failed to load FXML file: " + path, e);
-            }
-        }
-    }*/
     private void loadScenes() {
         scenes = new ArrayList<>();
         FXMLLoader loader;
@@ -137,7 +111,6 @@ public class GUIApplication extends Application {
         }
     }
 
-
     /**
      * This method set the input reader GUI to all the controllers.
      * @param inputGUI the input reader GUI {@link InputGUI}
@@ -150,7 +123,7 @@ public class GUIApplication extends Application {
     }
 
     /**
-     * This method is use to get a controller of a specific scene.
+     * This method is used to get a controller of a specific scene.
      * @param scene the scene {@link SceneType}
      * @return the controller of the scene {@link ControllerGUI}
      */
@@ -339,7 +312,6 @@ public class GUIApplication extends Application {
                     i++;
                 }
             } catch (Exception e) {
-                // Gestione dell'eccezione generale
                 System.err.println("An error occurred while showing players in the lobby: " + e.getMessage());
                 e.printStackTrace();
             }
@@ -372,7 +344,6 @@ public class GUIApplication extends Application {
                 System.err.println("LobbyController is null or invalid.");
             }
         } catch (Exception e) {
-            // Gestione dell'eccezione generale
             System.err.println("An error occurred while adding a player to the lobby: " + e.getMessage());
             e.printStackTrace();
         }
@@ -451,7 +422,6 @@ public class GUIApplication extends Application {
     }
 
     //MAIN SCENE
-
     /**
      * Displays the main game scene with updated information.
      *
@@ -553,9 +523,6 @@ public class GUIApplication extends Application {
         controller.enlargeAndHighlightBoardPane(enablePickCardTurn);
     }
 
-
-
-
     /**
      * Displays the final board scene with the given game model.
      *
@@ -574,7 +541,5 @@ public class GUIApplication extends Application {
         GameEndedController controller = (GameEndedController) scenes.get(getSceneIndex(SceneType.GAMEENDED)).getControllerGUI();
         controller.showBtnReturnToMenu();
     }
-
-
 
 }

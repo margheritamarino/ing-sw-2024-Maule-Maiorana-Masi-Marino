@@ -60,13 +60,6 @@ public class Message implements Serializable {
         return sender;
     }
 
-    /**
-     * Sets the message's sender.
-     * @param sender the sender to set
-     */
-    public void setSender(Player sender) {
-        this.sender = sender;
-    }
 
     /**
      * Returns the time the message was sent.
@@ -76,13 +69,6 @@ public class Message implements Serializable {
         return time;
     }
 
-    /**
-     * Sets the message time to the parameter.
-     * @param time the time to set
-     */
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
 
     /**
      *

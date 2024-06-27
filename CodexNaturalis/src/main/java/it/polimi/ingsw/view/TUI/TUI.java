@@ -716,7 +716,6 @@ public class TUI extends UI {
         printAsync("Insert your nickname: \n");
     }
 
-
     /**
      * Displays a message showing the chosen nickname.
      *
@@ -873,8 +872,6 @@ public class TUI extends UI {
 
         printAsync(result.toString());
     }
-
-
 
     /**
      * Displays an error message indicating that the connection to the server was lost and exits the application.

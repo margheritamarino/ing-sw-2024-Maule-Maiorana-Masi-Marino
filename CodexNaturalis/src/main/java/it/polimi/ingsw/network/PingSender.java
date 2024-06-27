@@ -1,22 +1,14 @@
 package it.polimi.ingsw.network;
-
-//client manda al server in un thread separato il suo heartbeat per indicare che il client è ancora attivo.
-
-
 import it.polimi.ingsw.view.flow.Flow;
-
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Timer;
 import java.util.TimerTask;
 import it.polimi.ingsw.model.DefaultValue;
-import static it.polimi.ingsw.model.DefaultValue.secondToWaitToSend_ping;
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
-import it.polimi.ingsw.network.TaskOnNetworkDisconnection;
 
 
 /**
- * Thread responsible for sending periodic "ping" messages to the server to indicate that the client is still active.
+ * Thread responsible for sending periodic "ping" messages to the server (from each client) to indicate that the client is still active.
  */
 public class PingSender extends Thread{
     private final Flow flow;
@@ -25,7 +17,7 @@ public class PingSender extends Thread{
     /**
      * Constructs a PingSender instance with the specified Flow and ClientInterface.
      *
-     * @param flow         The flow instance for handling network errors.
+     * @param flow The flow instance for handling network errors.
      * @param clientSender The client interface used to send ping messages.
      */
     public PingSender(Flow flow, ClientInterface clientSender) {
@@ -46,7 +38,6 @@ public class PingSender extends Thread{
             try {
                 clientSender.ping();
             } catch (RemoteException e) {
-                //flow.noConnectionError();
                 printAsync("Connection to server lost! Impossible to send ping ...");
                 interrupt();
             }
