@@ -16,25 +16,11 @@ import java.util.NoSuchElementException;
 
 
 /**
- * A different implementation of the GameModel class, this is the one we send to the CLIENTS
- * As such, we need to make all the objects in this class immutable, so that the clients
- * cannot modify the course of the game.
- * To do so, a STRATEGY PATTERN was implemented.
- * The pattern consists of implementing for each mutable object two different interfaces,
- * one for the server, one for the client.
- * The server one has no changes from the class it's implemented by
- * the client one, on the other hand, only has getter methods, named differently that the server one,
- * so that the client can only get the object, and doesn't know the names of the setter methods
- * */
-
-/**
  * Represents an immutable version of the Game model specifically designed
  * for transmission to clients over the network.
  *
  * This class ensures that all objects contained within are immutable, preventing
- * clients from modifying the game state. To achieve this, a Strategy Pattern is
- * employed:
- *
+ * clients from modifying the game state.
  * - Two interfaces are implemented for each mutable object:
  *   - One interface for the server (which mirrors the mutable class).
  *   - One interface for the client, which exposes only getter methods.
@@ -61,7 +47,7 @@ public class GameImmutable implements Serializable {
 
     /**
      * Constructor
-     * @param modelToCopy is the model istance to copy
+     * @param modelToCopy is the model instance to copy
      */
     public GameImmutable(Game modelToCopy) {
         gameID = modelToCopy.getGameId();
