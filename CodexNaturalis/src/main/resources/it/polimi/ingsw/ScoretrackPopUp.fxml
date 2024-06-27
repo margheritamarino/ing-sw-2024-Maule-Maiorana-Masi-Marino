@@ -111,5 +111,14 @@
       <Button fx:id="btnPoints18" layoutX="254.0" layoutY="275.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="33.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
       <Button fx:id="btnPoints19" layoutX="254.0" layoutY="233.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="33.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
       <Button fx:id="btnPoints20" layoutX="184.0" layoutY="210.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints21" layoutX="110.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints22" layoutX="110.0" layoutY="187.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints23" layoutX="110.0" layoutY="147.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints24" layoutX="135.0" layoutY="107.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints25" layoutX="181.0" layoutY="107.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints26" layoutX="227.0" layoutY="107.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints27" layoutX="247.0" layoutY="147.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints28" layoutX="247.0" layoutY="187.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
+      <Button fx:id="btnPoints29" layoutX="181.0" layoutY="154.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button-circle" stylesheets="@styleCodex.css" />
    </children>
 </AnchorPane>
