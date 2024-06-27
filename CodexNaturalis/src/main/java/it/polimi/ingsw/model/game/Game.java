@@ -476,9 +476,6 @@ public class Game {
 		}
 	}
 
-	/*
-	 * while ( (getPlayers().get(nextIndex).getNickname()).equals(getDisconnectedPlayer()));
-	 */
 
 	/**
 	 * Checks the personal goal and common goals of the currentPlayer.
@@ -888,6 +885,8 @@ public class Game {
 			throw new ActionByAPlayerNotInTheGameException();
 		}
 	}
+
+	//FOR DISCONNECTION TEST:
 
 
 }
