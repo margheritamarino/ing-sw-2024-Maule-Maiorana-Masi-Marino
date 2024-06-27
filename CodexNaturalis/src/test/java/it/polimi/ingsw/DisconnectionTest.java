@@ -22,11 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DisconnectionTest {
     GameController gameController;
-    //IntRecord[] matrix2D = new IntRecord[29];
-    //IntRecord[] matrix3D = new IntRecord[36];
 
 
-    //Initialized like this because I don't want to show anything on TUI or GUI
+    //Initialization (showing nothing on TUI or GUI):
     GameListenerInterface lis1 = new GameListenerInterface() {
         @Override
         public void playerJoined(GameImmutable model, String nickname, Color playerColor) throws RemoteException {
