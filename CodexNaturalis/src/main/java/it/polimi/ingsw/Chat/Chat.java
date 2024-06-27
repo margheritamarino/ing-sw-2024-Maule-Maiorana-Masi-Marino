@@ -81,14 +81,7 @@ public class Chat implements Serializable {
         return msgs.get(msgs.size() - 1);
     }
 
-    /**
-     * Sets the list of messages
-     *
-     * @param msgs messages
-     */
-    public void setMsgs(List<Message> msgs) {
-        this.msgs = msgs;
-    }
+
 
     /**
      * @return the chat as a string

@@ -1,27 +1,16 @@
 package it.polimi.ingsw.network.socket.server;
-import it.polimi.ingsw.network.socket.server.ClientHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsync;
 
 
 /**
- * Server Class<br>
- * Handle all the incoming network requests and start for each one a specific {@link ClientHandler} that handle the single Socket Connection<br>
- * by the Socket Network protocol
+ * Server Class
+ * Handle all the incoming network requests and start for each one a specific {@link ClientHandler}
+ * that handle the single Socket Connection by the Socket Network protocol
  */
 public class ServerTCP extends Thread{
 
@@ -29,11 +18,11 @@ public class ServerTCP extends Thread{
      * The Socket that represents the Server
      */
     private ServerSocket serverSocket;
+
     /**
      * List of {@link ClientHandler} created associated with connections
      */
     private List<ClientHandler> handler;
-
 
     /**
      * Starts the Server that is the first Socket that each Client connects on the first connection

@@ -8,20 +8,25 @@ import it.polimi.ingsw.model.game.GameImmutable;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.socket.Messages.serverToClientMessages.*;
 
-
-
 import java.io.Serializable;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 
-public class GameListenersServer implements GameListenerInterface, Serializable {
-    private final ObjectOutputStream out; //per l'invio dei dati al Client
 
+/**
+ * Class used to pass the GameListener to the client via socket
+ * It has a private ObjectOutputStream where it writes the data
+ **/
+public class GameListenersServer implements GameListenerInterface, Serializable {
 
     /**
-     * This constructor creates a GameListenersHandlerSocket
+     * To send objects from the Server to the Client
+     */
+    private final ObjectOutputStream out;
+
+    /**
+     * Constructor to create a GameListenersHandlerSocket
      * @param out the ObjectOutputStream
      */
     public GameListenersServer(ObjectOutputStream out) {
@@ -43,12 +48,16 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send playerJoined message", e);
         }
     }
+
+    /**
+     * This method is used to write on the ObjectOutputStream the message that a player chose the gameID and the players number
+     * @param model is the game model {@link GameImmutable}
+     * @throws RemoteException if the connection fails
+     */
     @Override
     public void requireNumPlayersGameID(GameImmutable model) throws RemoteException {
-        System.out.println("GameListenersServer: requireNumPlayersGameID");
         try {
             out.writeObject(new MsgNumPlayersGameID(model));
-            System.out.println("Il messaggio PlayerJoined è stato inviato su ObjectOutputStream");
             finishSending();
         } catch (IOException e) {
             System.err.println("Error occurred while writing to ObjectOutputStream: " + e.getMessage());
@@ -56,6 +65,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
+    /**
+     * This method is used to notify the client that a player has to choose again the CARD
+     *
+     * @param model is the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
     public void wrongChooseCard(GameImmutable model, String msg) throws RemoteException{
         try {
@@ -66,9 +81,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send WrongChooseCard message", e);
         }
     }
-
-
-
 
     /**
      * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because it is full
@@ -87,7 +99,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-
     /**
      * This method is used to write on the ObjectOutputStream the message that a player is unable to join the game because the nickname is already in use
      * @param triedToJoin is the player that has tried to join the game {@link Player}
@@ -104,7 +115,13 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-
+    /**
+     * This method is used to notify the client to ask for reconnection if the player is trying to reconnect.
+     *
+     * @param triedToJoin the player who is trying to reconnect
+     * @param model the current state of the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
     public void AskForReconnection (Player triedToJoin, GameImmutable model) throws RemoteException {
         try {
@@ -116,7 +133,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-
     /**
      * This method is used to write on the ObjectOutputStream the game started
      * @param model is the game model {@link GameImmutable}
@@ -124,7 +140,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void gameStarted(GameImmutable model) throws RemoteException {
-        //System.out.println(gamemodel.getGameId() +" game started by socket");
         try {
             out.writeObject(new msgGameStarted(model));
             finishSending();
@@ -133,7 +148,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send gameStarted message", e);
         }
     }
-
 
     /**
      * This method is used to write on the ObjectOutputStream that the front and back of the initialCard are ready to be shown to the player
@@ -151,6 +165,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
+    /**
+     * Notifies the listeners that objective cards are ready to be chosen.
+     *
+     * @param model the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
     public void requireGoalsReady(GameImmutable model, int index) throws RemoteException {
         try {
@@ -161,6 +181,13 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send requireGoalsReady message", e);
         }
     }
+
+    /**
+     * Notifies the listeners that objective cards are chosen.
+     *
+     * @param model the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
     public void cardsReady(GameImmutable model) throws RemoteException {
         try {
@@ -172,7 +199,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-
+    /**
+     * Notifies the client that a card has been placed on the board.
+     *
+     * @param model the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
     public void cardPlaced(GameImmutable model) throws RemoteException {
         try {
@@ -183,6 +215,13 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send CardPlaced message", e);
         }
     }
+
+    /**
+     * Notifies the client that points have been added.
+     *
+     * @param model the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
     public void pointsAdded(GameImmutable model)throws RemoteException{
         try {
@@ -194,8 +233,12 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-
-
+    /**
+     * Notifies the client that a card has been drawn.
+     *
+     * @param model the game model
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
     public void cardDrawn(GameImmutable model) throws RemoteException {
         try {
@@ -222,6 +265,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send Next_Turn message", e);
         }
     }
+
     /**
      * This method is used to write on the ObjectOutputStream that the game ended
      * @param model is the game model {@link GameImmutable}
@@ -255,6 +299,13 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
+    /**
+     * Notifies the client that a player is ready.
+     *
+     * @param model the game model
+     * @param nickname      the nickname of the player who is ready
+     * @throws RemoteException if the reference could not be accessed
+     */
     @Override
     public void playerReady(GameImmutable model, String nickname) throws RemoteException {
         try {
@@ -275,7 +326,6 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
      */
     @Override
     public void playerDisconnected(GameImmutable model, String nickname) throws RemoteException {
-        System.out.println("GameListenerServer - playerDisconnected()  \n");
         try {
             out.writeObject(new msgPlayerDisconnected(model,nickname));
             finishSending();
@@ -284,6 +334,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send playerLeft message", e);
         }
     }
+
     /**
      * This method is used to write on the ObjectOutputStream the message that a player has left the game
      * @param model is the game model {@link GameImmutable}
@@ -300,6 +351,7 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
             throw new RemoteException("Failed to send playerLeft message", e);
         }
     }
+
     /**
      * Makes sure the message has been sent
      * @throws IOException
@@ -359,8 +411,14 @@ public class GameListenersServer implements GameListenerInterface, Serializable 
         }
     }
 
-
-        @Override
+    /**
+     * Sends a message to the client.
+     *
+     * @param model the game model
+     * @param msg   the message to send
+     * @throws RemoteException if the reference could not be accessed
+     */
+    @Override
     public void sentMessage(GameImmutable model, Message msg) throws RemoteException {
         try {
             out.writeObject(new msgSentMessage(model, msg));
