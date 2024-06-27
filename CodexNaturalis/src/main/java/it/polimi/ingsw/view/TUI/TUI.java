@@ -442,7 +442,7 @@ public class TUI extends UI {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        printAsync("WAIT! It's "+ model.getCurrentPlayer().getNickname()+" TURN\n");
+        printAsync("WAIT! It's "+ model.getCurrentPlayer().getNickname()+"'s TURN\n");
 
     }
 
