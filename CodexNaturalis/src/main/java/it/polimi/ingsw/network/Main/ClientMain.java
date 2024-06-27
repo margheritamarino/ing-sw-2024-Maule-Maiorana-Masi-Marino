@@ -6,12 +6,10 @@ import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.view.GUI.GUIApplication;
 import it.polimi.ingsw.view.flow.GameFlow;
 import javafx.application.Application;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -145,8 +143,6 @@ public class ClientMain {
         }
         return true;
     }
-
-
 }
 
 

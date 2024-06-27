@@ -7,12 +7,9 @@ import it.polimi.ingsw.network.socket.server.ServerTCP;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
-
 import java.util.List;
-
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static org.fusesource.jansi.Ansi.ansi;
-
 import java.rmi.RemoteException;
 
 
