@@ -525,5 +525,9 @@ public class GameController implements GameControllerInterface, Serializable, Ru
         model.sentMessage(msg);
     }
 
+    //FOR DISCONNECTION TEST:
 
+    public Game getModel() {
+        return model;
+    }
 }
