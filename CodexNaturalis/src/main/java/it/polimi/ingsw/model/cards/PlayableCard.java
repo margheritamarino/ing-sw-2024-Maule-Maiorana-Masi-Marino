@@ -19,7 +19,7 @@ public abstract class PlayableCard implements Serializable {
     private final CornerLabel TRCorner;
     private final CornerLabel BRCorner;
     private final CornerLabel BLCorner;
-    private String[][] cardMatrix = new String[2][3];
+
 
 
     /**

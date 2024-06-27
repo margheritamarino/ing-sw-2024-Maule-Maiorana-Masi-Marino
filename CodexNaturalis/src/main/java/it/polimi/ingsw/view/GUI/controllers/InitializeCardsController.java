@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 public class InitializeCardsController extends ControllerGUI {
     @FXML
     private ImageView imageView0;
-
     @FXML
     private ImageView imageView1;
     @FXML
@@ -88,7 +87,6 @@ public class InitializeCardsController extends ControllerGUI {
         dropShadow.setRadius(20);
         imageView.setEffect(dropShadow);
     }
-
 
     /**
      * Removes the highlight effect from the ImageView when the mouse exits.

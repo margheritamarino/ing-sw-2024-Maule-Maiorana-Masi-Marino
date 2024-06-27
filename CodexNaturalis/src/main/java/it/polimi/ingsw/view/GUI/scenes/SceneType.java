@@ -16,7 +16,6 @@ public enum SceneType {
     WAITING_POPUP("/it/polimi/ingsw/WaitingPopUp.fxml"),
     GAMEENDED("/it/polimi/ingsw/GameEnded.fxml"),
     GENERIC_ERROR("/it/polimi/ingsw/GenericError.fxml"),
-
     RECONNECT_POPUP("/it/polimi/ingsw/ReconnectionPopUp.fxml");
 
     private final String path;

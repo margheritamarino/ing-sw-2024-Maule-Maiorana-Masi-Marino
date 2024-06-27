@@ -158,25 +158,6 @@ public class ObjectiveCard implements Serializable {
     }
 
     /**
-     * @return a copy of the current objective Card
-     */
-    public ObjectiveCard copy(){
-        ObjectiveCard copiedCard = new ObjectiveCard(
-                this.cardID,
-                this.isFront,
-                this.goalType,
-                this.victoryPoints,
-                this.mainResource,
-                this.direction,
-                this.numResources,
-                this.numSymbols,
-                new ArrayList<>(this.symbols),
-                this.secondResource
-        );
-        return copiedCard;
-    }
-
-    /**
      * Provides a string representation of the {@code ObjectiveCard} for display purposes.
      * This includes details such as points and conditions.
      *
@@ -278,5 +259,4 @@ public class ObjectiveCard implements Serializable {
         }else output = input;
         return output;
     }
-
 }

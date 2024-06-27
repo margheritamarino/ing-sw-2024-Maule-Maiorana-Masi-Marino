@@ -54,11 +54,9 @@ public class MainSceneController extends ControllerGUI{
     @FXML
     private ImageView actionSendMessage;
 
-
     //PLAYER DECK
     @FXML
     private PlayerDeck playerDeck;
-
     @FXML
     private ImageView deckImg0;
     @FXML
@@ -73,19 +71,32 @@ public class MainSceneController extends ControllerGUI{
     private Button turnbtn2;
     @FXML
     private ImageView personalObjective;
-
     @FXML
     private Button showScoretrackBtn;
     @FXML
     private Button showBoardBtn;
     private GUI gui;
     private GameImmutable model;
+    private  ImageView clickedImageView = null;
 
     //EVENTS
     @FXML
     private ListView EventsList;
     @FXML
     private AnchorPane PlayerDeckPane;
+
+
+    @FXML
+    public Text player0;
+    @FXML
+    public Text player1;
+    @FXML
+    public Text player2;
+    @FXML
+    public Text player3;
+    @FXML
+    public Pane orderPlayersPane;
+    private Text[] playerTexts;
 
     /**
      * Sets the important events to display in the event log.
@@ -341,7 +352,6 @@ public class MainSceneController extends ControllerGUI{
         PlayerDeckPane.setScaleY(1.0);
         PlayerDeckPane.setEffect(null);
     }
-    private  ImageView clickedImageView = null;
 
     /**
      * Handles clicking on a card in the player deck for interaction.
@@ -431,18 +441,6 @@ public class MainSceneController extends ControllerGUI{
         }
     }
 
-    @FXML
-    public Text player0;
-    @FXML
-    public Text player1;
-    @FXML
-    public Text player2;
-    @FXML
-    public Text player3;
-    @FXML
-    public Pane orderPlayersPane;
-    private Text[] playerTexts;
-
     /**
      * Initializes the controller and sets up the player order pane.
      */
@@ -482,10 +480,6 @@ public class MainSceneController extends ControllerGUI{
         }
     }
 
-    public void playerReconnectedInGame(GameImmutable model) {
-    //TODO
-    }
-
     /**
      * Applies a visual highlight effect to the specified Text object using DropShadow and Glow effects.
      *
@@ -505,7 +499,7 @@ public class MainSceneController extends ControllerGUI{
         text.setEffect(dropShadow);
     }
 
-
+    //BOOK
     @FXML
     public ScrollPane bookScrollPane;
     @FXML
@@ -675,7 +669,6 @@ public class MainSceneController extends ControllerGUI{
                 }
             }
         }
-
         PlaceCardChooseCell = false;
     }
 
