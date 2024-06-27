@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.SymbolType;
 
 import java.io.Serializable;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -87,7 +88,7 @@ public abstract class PlayableCard implements Serializable {
      * @return the path for the specific istance of Card (contained in the package resources-->img)
      */
 
-    public String getImagePath(){
+  /*  public String getImagePath(){
         final String path;
         int idTemp = this.getCardID();
         String typeTemp= this.getCardType().toString(); //InitialCard, ResourceCard, GoldCard
@@ -156,7 +157,74 @@ public abstract class PlayableCard implements Serializable {
                 return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
             }
         }
+    }*/
+
+    public String getImagePath() {
+        final String path;
+        int idTemp = this.getCardID();
+        String typeTemp = this.getCardType().toString();
+        String sideTemp;
+        String mainResource;
+
+        if (this.isFront()) {
+            sideTemp = "Front";
+        } else {
+            sideTemp = "Back";
+        }
+
+        if (typeTemp.equals("InitialCard")) {
+            path = "/img/Cards/initialCards/" + idTemp + "_Initial" + sideTemp + ".png";
+        } else {
+            switch (typeTemp) {
+                case "GoldCard":
+                    typeTemp = "Gold";
+                    break;
+                case "ResourceCard":
+                    typeTemp = "Resource";
+                    break;
+                default:
+                    typeTemp = "Resource";
+                    break;
+            }
+            if (sideTemp.equals("Front")) {
+                path = "/img/Cards/" + typeTemp + "Cards/" + idTemp + "_" + typeTemp + "Front.png";
+            } else {
+                mainResource = this.getMainResource().toString(); // used only for Back img
+                path = "/img/Cards/" + typeTemp + "Cards/" + typeTemp + mainResource + "Back.png";
+            }
+        }
+
+        String resourcePath = getResourcePath(path);
+
+        if (resourcePath != null) {
+            return resourcePath;
+        } else {
+            // Fallback to default images
+            String defaultPath = typeTemp.equals("Resource") ? "/img/Cards/0_ResourceFront.png" : "/img/Cards/0_GoldFront.png";
+            resourcePath = getResourcePath(defaultPath);
+            if (resourcePath != null) {
+                return resourcePath;
+            } else {
+                System.err.println("Default image not found.");
+                return null; // Or handle as needed
+            }
+        }
     }
+
+    private String getResourcePath(String path) {
+        try {
+            URL resourceUrl = getClass().getResource(path);
+            if (resourceUrl != null) {
+                return resourceUrl.toExternalForm();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.err.println("Error finding resource: " + path + " - " + e.getMessage());
+            return null;
+        }
+    }
+
 
     /**
      * Retrieves the content of the specified corner of a PlayableCard.
