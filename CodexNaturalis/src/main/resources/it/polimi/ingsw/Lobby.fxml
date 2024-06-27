@@ -85,24 +85,24 @@
                   <Font name="Arial Black" size="36.0" />
                </font>
             </Text>
-            <Text fx:id="nick0" fill="#fffefe" layoutX="131.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="124.10546875">
+            <Text fx:id="nick0" fill="#fffefe" layoutX="131.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="124.10546875">
                <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+                  <Font name="Arial Black" size="24.0" />
                </font>
             </Text>
             <Text fx:id="nick2" fill="WHITE" layoutX="704.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="124.10546875">
                <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+                  <Font name="Arial Black" size="24.0" />
                </font>
             </Text>
             <Text fx:id="nick3" fill="WHITE" layoutX="1005.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="108.10546875">
                <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+                  <Font name="Arial Black" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="nick1" fill="WHITE" layoutX="418.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="116.27929687499994">
+            <Text fx:id="nick1" fill="WHITE" layoutX="418.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="116.27929687499994">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Arial Black" size="24.0" />
                </font>
             </Text>
          </children>

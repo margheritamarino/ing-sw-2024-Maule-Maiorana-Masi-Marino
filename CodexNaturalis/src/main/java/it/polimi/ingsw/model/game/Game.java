@@ -441,11 +441,14 @@ public class Game {
 	 * `InvalidPointsException` and `PlayerNotFoundException` will be thrown.
 	 */
 	public void lastTurnGoalCheck(){
-		checkGoal(currentPlayer.getGoal());
-		ObjectiveCard[] commonGoals = board.getObjectiveCards();
-		for (ObjectiveCard commonGoal : commonGoals) {
-			checkGoal(commonGoal);
+		for(Player p: players){
+			checkGoal(p, p.getGoal());
+			ObjectiveCard[] commonGoals = board.getObjectiveCards();
+			for (ObjectiveCard commonGoal : commonGoals) {
+				checkGoal(p, commonGoal);
+			}
 		}
+
 
 	}
 
@@ -453,13 +456,14 @@ public class Game {
 	 * Checks the given objective card against the current player's book to add points.
 	 *
 	 * @param goalToCheck the objective card to check against the player's book
+	 * @param p the player to check the goals
 	 */
-	public void checkGoal(ObjectiveCard goalToCheck)  {
+	public void checkGoal(Player p, ObjectiveCard goalToCheck)  {
 		// Retrieve the current player's book
-		Book currentBook = currentPlayer.getPlayerBook();
+		Book currentBook = p.getPlayerBook();
 		// Check the goal against the player's book and add points to the scoretrack
 		int goalPoints = currentBook.checkGoal(goalToCheck);
-		scoretrack.addPoints(currentPlayer, goalPoints);
+		scoretrack.addPoints(p, goalPoints);
 	}
 
 
