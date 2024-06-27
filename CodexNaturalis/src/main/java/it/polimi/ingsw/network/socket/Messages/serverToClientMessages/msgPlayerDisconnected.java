@@ -31,7 +31,6 @@ public class msgPlayerDisconnected extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        System.out.println("msgPlayerDisconnected - execute()  \n");
         lis.playerDisconnected(model,nickname);
     }
 }

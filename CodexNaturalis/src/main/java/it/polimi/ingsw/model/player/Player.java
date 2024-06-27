@@ -96,7 +96,6 @@ public class Player implements Serializable {
      * @param connected sets the player's connection
      */
     public void setConnected(boolean connected) {
-        System.out.println("Player - setConnected( " + connected + " ) \n");
         this.connected = connected;
     }
 
@@ -122,7 +121,6 @@ public class Player implements Serializable {
     public void setGoal(ObjectiveCard chosenCard) {
         this.playerGoal = chosenCard;
         initialized=true;
-        System.out.println("Goal setted: " +chosenCard.getCardID());
     }
 
     /**
@@ -283,7 +281,6 @@ public class Player implements Serializable {
      * @param index the index indicating the specific requirement
      */
     public void notify_requireGoals( Game model, int index){
-        System.out.println("Player: notify_requireGoals");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -302,7 +299,6 @@ public class Player implements Serializable {
      * @param model the game model to pass as a new immutable game model
      */
     public void notify_cardsReady( Game model){
-        System.out.println("Player: notify_requireGoals");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();

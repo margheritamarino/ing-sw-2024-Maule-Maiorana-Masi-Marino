@@ -1,15 +1,12 @@
 package it.polimi.ingsw.listener;
 
 import it.polimi.ingsw.Chat.Message;
-import it.polimi.ingsw.exceptions.DeckEmptyException;
-import it.polimi.ingsw.exceptions.FileReadException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameImmutable;
 
 import it.polimi.ingsw.model.player.Player;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,9 +33,8 @@ public class ListenersHandler {
      *
      * @param listener the listener to add
      */
-    public void addListener(GameListenerInterface listener){ //tolgo SYNCHRONIZED
+    public void addListener(GameListenerInterface listener){
         listeners.add(listener);
-        System.out.println("Client correttamente aggiunto come LISTENER del Server");
     }
 
     /**
@@ -47,8 +43,7 @@ public class ListenersHandler {
      * @param listener the listener to notify
      * @param model    the game model
      */
-    public void notify_requireNumPlayersGameID(GameListenerInterface listener,Game model ){ //tolgo SYNCHRONIZED
-        System.out.println("ListenersHandler: notify_requireNumPlayersGameID");
+    public void notify_requireNumPlayersGameID(GameListenerInterface listener,Game model ){
         try {
             listener.requireNumPlayersGameID(new GameImmutable(model));
         }catch (RemoteException e){
@@ -82,8 +77,7 @@ public class ListenersHandler {
      * @param nickname    the nickname of the player who joined
      * @param playerColor the color of the player who joined
      */
-    public void notify_PlayerJoined(Game model, String nickname, Color playerColor) { //tolgo synchronized
-        System.out.println("ListenersHandler: notify_PlayerJoined");
+    public void notify_PlayerJoined(Game model, String nickname, Color playerColor) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -102,7 +96,7 @@ public class ListenersHandler {
      * @param model    the game model to pass as a new GameModelImmutable
      * @param nickname the nickname of the player who left
      */
-    public void notify_PlayerLeft(Game model, String nickname) { //tolgo SYNCHRONIZED
+    public void notify_PlayerLeft(Game model, String nickname) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -122,7 +116,7 @@ public class ListenersHandler {
      * @param triedToJoin the player who wanted to join the game
      * @param model       the game model to pass as a new GameModelImmutable
      */
-    public void notify_JoinUnableGameFull(GameListenerInterface lis, Player triedToJoin, Game model) { //tolgo SYNCHRONIZED
+    public void notify_JoinUnableGameFull(GameListenerInterface lis, Player triedToJoin, Game model) {
         try {
             lis.joinUnableGameFull(triedToJoin, new GameImmutable(model));
         } catch (RemoteException e) {
@@ -137,7 +131,7 @@ public class ListenersHandler {
      * @param lis         the listener to notify
      * @param triedToJoin the player who wanted to join the game
      */
-    public void notify_JoinUnableNicknameAlreadyIn(GameListenerInterface lis, Player triedToJoin, Game model ) { //tolgo SYNCHRONIZED
+    public void notify_JoinUnableNicknameAlreadyIn(GameListenerInterface lis, Player triedToJoin, Game model ) {
         try {
             lis.joinUnableNicknameAlreadyIn(triedToJoin,new GameImmutable(model));
         } catch (RemoteException e) {
@@ -188,7 +182,6 @@ public class ListenersHandler {
      * @param model the game model to pass as a new GameModelImmutable
      */
     public void notify_nextTurn(Game model) {
-        System.out.println("ListenersHandler - notify_nextTurn \n ");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -208,7 +201,6 @@ public class ListenersHandler {
      * @param nick      the nickname of the player who disconnected
      */
     public void notify_playerDisconnected(Game gamemodel, String nick) {
-        System.out.println("ListenersHandler - notify_playerDisconnected() \n");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -226,7 +218,7 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public void notify_LastCircle(Game model) { //tolgo SYNCHRONIZED
+    public void notify_LastCircle(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -245,7 +237,7 @@ public class ListenersHandler {
      * @param currentPlayerLis the list of listeners for the current player
      * @param model            the game model to pass as a new GameModelImmutable
      */
-    public void notify_PointsAdded(ArrayList<GameListenerInterface> currentPlayerLis, Game model) { //tolgo SYNCHRONIZED
+    public void notify_PointsAdded(ArrayList<GameListenerInterface> currentPlayerLis, Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -270,7 +262,6 @@ public class ListenersHandler {
      * @param msg       the message that was sent
      */
     public synchronized void notify_SentMessage(Game gameModel, Message msg) {
-        System.out.println("Notifying listeners of new message: " + msg.getText());
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -291,7 +282,6 @@ public class ListenersHandler {
      * @param nickPlayerReconnected is the nickname of the player that has left the game and now is reconnected
      */
     public void notify_playerReconnected(Game model, String nickPlayerReconnected) {
-        System.out.println("ListenersHandler - notify_PlayerReconnected() \n");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -303,6 +293,12 @@ public class ListenersHandler {
             }
         }
     }
+
+    /**
+     * The notify_ReconnectionFailed method notifies the view that failed the reconnected to the game
+     *
+     * @param msg is the GameModel {@link Game} to pass as a new GameModelImmutable {@link GameImmutable}
+     */
     public void notify_ReconnectionFailed(String msg) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
@@ -315,6 +311,7 @@ public class ListenersHandler {
             }
         }
     }
+
     /**
      * Notifies the view to ask for reconnection if a player is trying to reconnect.
      *
@@ -323,7 +320,6 @@ public class ListenersHandler {
      * @param model the current game model to pass as a new GameModelImmutable {@link GameImmutable}
      */
     public void notify_AskForReconnection(GameListenerInterface lis, Player triedToJoin, Game model ){
-        System.out.println("ListenersHandler - notify_AskForReconnection() \n");
         try {
             lis.AskForReconnection(triedToJoin,new GameImmutable(model));
         } catch (RemoteException e) {

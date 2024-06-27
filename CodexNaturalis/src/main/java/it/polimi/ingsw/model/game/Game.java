@@ -162,7 +162,6 @@ public class Game {
 	 * @param gameID new game id
 	 */
 	public void setGameId(int gameID) {
-		System.out.println("Model: method setGameId()");
 		this.gameID = gameID;
 	}
 
@@ -173,7 +172,6 @@ public class Game {
 	 */
 	public void setPlayersNumber(int playersNumber) {
 		this.playersNumber = playersNumber;
-		System.out.println("Model: method setGameId()");
 	}
 
 	/**
@@ -821,7 +819,6 @@ public class Game {
 	 */
 	public void sentMessage(Message msg){
 		Player sender = msg.getSender();
-		System.out.println("Game received message from player: " + sender.getNickname());
 		System.out.println("Current players in the game: " + players.stream().map(Player::getNickname).collect(Collectors.joining(", ")));
 
 

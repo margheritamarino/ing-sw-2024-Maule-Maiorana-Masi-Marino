@@ -169,8 +169,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      * @return True if the player is ready to start the game; false otherwise.
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
-    public boolean  playerIsReadyToStart(GameListenerInterface lis, String p) throws RemoteException { //siamo sicuri serva Server RMI? FORSE DEVI PASSARE DIRETTA AL GameController
-        System.out.println("in ServerRMI- playerIsReadyToStart");
+    public boolean  playerIsReadyToStart(GameListenerInterface lis, String p) throws RemoteException {
          return serverObject.gameController.playerIsReadyToStart(lis, p);
     }
 
