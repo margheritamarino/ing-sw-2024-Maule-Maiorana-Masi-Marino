@@ -875,90 +875,6 @@ public class TUI extends UI {
     }
 
 
-    /* VERSIONE DA PROVARE:
-
-    public void show_ObjectiveCards(GameImmutable model, int indexPlayer) {
-    // Pausa di 0.5 secondi
-    try {
-        Thread.sleep(500);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-    printAsync("Set your GOAL for the Game:\n> Choose one between these objective cards:");
-
-    ObjectiveCard[] objectiveCards = model.getObjectiveCard().get(indexPlayer);
-
-    if (objectiveCards.length == 0) {
-        printAsync("Error: No objective cards found.");
-        return;
-    }
-
-    if (objectiveCards.length > 2) {
-        printAsync("Error: Expected at most 2 objective cards.");
-        return;
-    }
-
-    // Recupera le stringhe di rappresentazione delle carte obiettivo
-    String card0 = objectiveCards[0].toString();
-    String card1 = objectiveCards.length > 1 ? objectiveCards[1].toString() : "";
-
-    String[] lines0 = card0.split("\n");
-    String[] lines1 = card1.split("\n");
-
-    // Costruisce la stringa finale riga per riga
-    StringBuilder result = new StringBuilder();
-    int height = Math.max(lines0.length, lines1.length); // Altezza massima tra le due carte (assume che ci sia almeno una carta)
-
-    for (int i = 0; i < height; i++) {
-        if (i == 0) {
-            result.append("[0] ").append(lines0[i]);
-            if (lines1.length > 0) {
-                result.append("   [1] ").append(lines1[i]);
-            }
-            result.append("\n");
-        } else {
-            String line0 = lines0.length > i ? lines0[i] : "";
-            String line1 = lines1.length > i ? lines1[i] : "";
-
-            int maxLength = Math.max(line0.length(), line1.length());
-            line0 = line0 + " ".repeat(maxLength - line0.length());
-            line1 = line1 + " ".repeat(maxLength - line1.length());
-
-            result.append("    ").append(line0);
-            if (!line1.isEmpty()) {
-                result.append("   ").append(line1);
-            }
-            result.append("\n");
-        }
-    }
-
-    // Stampa il risultato
-    printAsync(result.toString());
-}
-
-     */
-
-/*
-    private String getColorCode(CardType cardType){
-        switch(cardType) {
-            case GoldCard: {
-                return ColorConsole.YELLOW_BACKGROUND_BRIGHT.getCode();
-            }
-            case ResourceCard: {
-                return ColorConsole.GREEN_BACKGROUND_BRIGHT.getCode();
-            }
-            case InitialCard: {
-                return ColorConsole.WHITE_BACKGROUND_BRIGHT.getCode();
-            }
-            //case ObjectiveCard: { --> AGGIUNGI ObjectiveCard IN CardType
-            //    return ColorConsole.RED_BACKGROUND_BRIGHT.getCode();
-            //}
-
-        }
-        return ColorConsole.RESET.getCode();
-    }
-
- */
 
     /**
      * Displays an error message indicating that the connection to the server was lost and exits the application.
@@ -1078,7 +994,6 @@ public class TUI extends UI {
      */
     @Override
     public void show_PlayerReconnectedMsg(GameImmutable model, String nick, String lastPlayerReconnected) {
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -1087,7 +1002,7 @@ public class TUI extends UI {
         if (nick.equals(lastPlayerReconnected)) {
             printAsync("You are back in the game! \n");
         } else
-            printAsync("Player" + lastPlayerReconnected + "is back in the game! \n");
+            printAsync("Player" + lastPlayerReconnected + " is back in the game! \n");
     }
 
     /**
@@ -1097,27 +1012,25 @@ public class TUI extends UI {
      */
     @Override
     public void show_failedReconnectionMsg( String nick){
-        // Pausa di 1 secondo
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        printAsync("Failed to reconnect " + nick + " to the game! \n");
+        printAsync("Failed to reconnect" + nick + " to the game! \n");
     }
 
     /**
      * Asks if the player is trying to reconnect
      */
     @Override
-    public void show_askForReconnection(){ //Mostrata al giocatore che sta provando a riconnettersi
-        // Pausa di 1 secondo
+    public void show_askForReconnection(){ //Shown to the player who's trying to reconnect
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        printAsync("Press YES if you are trying to RECONNECT to the game \n");
+        printAsync("Press yes (YES) if you are trying to RECONNECT to the game \n");
 
     }
 }

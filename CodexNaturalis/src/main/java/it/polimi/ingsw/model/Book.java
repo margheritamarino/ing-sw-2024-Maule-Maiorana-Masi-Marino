@@ -7,15 +7,26 @@ import it.polimi.ingsw.model.cards.*;
 import java.io.Serializable;
 import java.util.*;
 
-//prova
-
-// BOOK: disposizione delle carte di ogni player
+/**
+ * Book Class: contains the disposition of the cards of the player
+ */
 public class Book implements Serializable {
     private static final long serialVersionUID = 2959887351940112342L;
 
-    private final Cell[][] bookMatrix; //matrice di celle
-    private Map<ResourceType, Integer> resourceMap; //mappa di numero di risorse per tipo
-    private Map<SymbolType, Integer> symbolMap; //n° di simboli per tipo
+    /**
+     * matrix of cells
+     */
+    private final Cell[][] bookMatrix;
+
+    /**
+     * Map that contains the number of resources in the book, for each possible ResourceType
+     */
+    private Map<ResourceType, Integer> resourceMap;
+
+    /**
+     * Map that contains the number of symbols in the book, for each possible SymbolType
+     */
+    private Map<SymbolType, Integer> symbolMap;
     private String[][] matrix;
     private int placementOrderBook;
 
@@ -25,7 +36,6 @@ public class Book implements Serializable {
      * Initializes the resource and symbol maps and sets up the book matrix with Cell objects.
      * Each Cell object is initialized with its row and column indices and is marked as unavailable.
      *
-     * @author Margherita Marino
      * @param rows    The number of rows in the book.
      * @param columns The number of columns in the book.
      */
@@ -67,14 +77,9 @@ public class Book implements Serializable {
 
     /**
      * Initializes the maps used for tracking resources and symbols.
-     * <p>
      * This method sets up two HashMaps: {@code resourceMap} and {@code symbolMap}.
-     * </p>
-     * <p>
      * The {@code resourceMap} is initialized with keys from the {@code ResourceType}
      * enum (Animal, Fungi, Insect, Plant) and their corresponding values are set to 0.
-     * </p>
-     * <p>
      * The {@code symbolMap} is initialized with keys from the {@code SymbolType}
      * enum (Ink, Quill, Manuscript) and their corresponding values are set to 0.
      * </p>
@@ -95,12 +100,9 @@ public class Book implements Serializable {
 
     /**
      * Retrieves a cell from the matrix that matches the specified cell.
-     * <p>
      * This method searches through the {@code bookMatrix} for a cell that is
      * equal to the specified {@code findCell}. If a matching cell is found, it
      * is returned. If no matching cell is found, {@code null} is returned.
-     * </p>
-     *
      * @param findCell the cell to find in the matrix
      * @return the matching cell if found, otherwise {@code null}
      */
@@ -114,7 +116,7 @@ public class Book implements Serializable {
                 }
             }
         }
-        // Cella non trovata, restituisci null
+        // Cell non found
         return null;
     }
 
@@ -126,7 +128,6 @@ public class Book implements Serializable {
      * Then, the resource map is updated based on the resources present on the initial card, both on the corners
      * and in the central part, and the surrounding cells' availability is updated accordingly.
      *
-     * @author Margherita Marino
      * @param initialCard The initial card to add to the center of the book matrix.
      */
     private PlayableCard initialCard;
@@ -141,18 +142,15 @@ public class Book implements Serializable {
      * in the {@code bookMatrix}. It updates the cell's availability, sets the card
      * pointer, and marks the cell as occupied and as a wall. The method also updates
      * the resource map and the book based on the initial card's properties.
-     * </p>
      *
      * @param initialCard the initial playable card to be placed in the matrix
      */
-    public void addInitial(PlayableCard initialCard){ //cella 35x35
-        //int dim= dimension %2; Se mi serve prendere in ingresso la dimensione della matrice
-        //Cell initialCell = bookMatrix[dim][dim];
+    public void addInitial(PlayableCard initialCard){
         this.initialCard=initialCard;
         Cell initialCell = bookMatrix[35][35];
         initialCell.setAvailable(true);
         initialCell.setCardPointer(initialCard);
-        initialCell.setAvailable(false); //setto disponibilità cella a false
+        initialCell.setAvailable(false); //cell not available
         initialCell.setWall(true);
         UpdateMapInitial(initialCard); //aggiorno la mappa delle risorse presenti sul book in base alle risorse presenti sugli angoli e o nel centro della initialCard
         updateBook(initialCard, initialCell);//aggiorna il book, ovvero aggiorna la disponibilità delle celle attorno alla cella della carta appena piazzata in base alla presenza o meno degli angoli
@@ -167,7 +165,6 @@ public class Book implements Serializable {
      * This method evaluates the presence of resources in the initial card, which can have resources
      * both on the corners of the card and in the central part.
      *
-     * @author Margherita Marino
      * @param initialCard The initial card to update the resource map with.
      */
     public void UpdateMapInitial(PlayableCard initialCard){
@@ -187,7 +184,6 @@ public class Book implements Serializable {
     /**
      * Places a resource card onto a cell in the game and returns the points earned by that card.
      *
-     * @author Margherita Marino
      * @param resourceCard The resource card to be placed.
      * @param cell         The cell onto which the card will be placed.
      * @return The points earned by placing the card on the cell. Returns 0 if the card has no points.
@@ -214,7 +210,6 @@ public class Book implements Serializable {
     /**
      * Adds a gold card to the specified cell and calculates the number of points gained.
      *
-     * @author Margherita Marino
      * @param goldCard The gold card to be added.
      * @param cell The cell where the gold card will be placed.
      * @return The number of victory points gained by adding the gold card.
@@ -250,7 +245,6 @@ public class Book implements Serializable {
     /**
      * Checks if the placement condition of a given gold card is satisfied based on the available resources.
      *
-     * @author Margherita Marino
      * @param goldCard The gold card whose placement condition needs to be checked.
      * @return True if the placement condition is satisfied, false otherwise.
      */
@@ -279,9 +273,8 @@ public class Book implements Serializable {
     /**
      * Checks the points earned by a gold card based on its conditions.
      *
-     * @author Margherita Marino
      * @param goldCard The gold card to be checked.
-     * @param cell     The cell associated with the gold card.
+     * @param cell The cell associated with the gold card.
      * @return The number of points earned by the gold card.
      * @see #checkGoldCornerCondition(Cell)
      * @see #checkGoldSymbolCondition(PlayableCard)
@@ -300,7 +293,6 @@ public class Book implements Serializable {
      * Calculates the points obtained from a GoldCard with the "cornerCondition" by counting the corners covered.
      * Returns two points for each corner covered by the GoldCard.
      *
-     * @author Margherita Marino
      * @param cell The cell containing the GoldCard.
      * @return The points obtained from the GoldCard based on covered corners.
      */
@@ -327,7 +319,6 @@ public class Book implements Serializable {
     /**
      * Checks the gold symbol condition of a playable gold card.
      *
-     * @author Margherita Marino
      * @param goldCard The gold card to be checked.
      * @return The number of occurrences of the gold card's symbol condition in a symbol map.
      */
@@ -338,7 +329,6 @@ public class Book implements Serializable {
     /**
      * Adds a playable card to a cell and returns the number of points earned.
      *
-     * @author Margherita Marino
      * @param card The playable card to be added.
      * @param cell The cell to which the card will be added.
      * @return The number of points earned by adding the card to the cell.
@@ -357,7 +347,6 @@ public class Book implements Serializable {
      * If a neighboring cell contains a card and its corner is not empty,
      * the corresponding resource or symbol in the book's resource/symbol map is decremented.
      *
-     * @author Margherita Marino
      * @param cell The cell for which to update the covered corners of neighboring cards.
      * @return True if any corner was covered, false otherwise.
      */
@@ -406,7 +395,6 @@ public class Book implements Serializable {
      * Covers the resource or symbol of a specified corner on a PlayableCard.
      * Decreases the quantity of the corresponding resource or symbol in the book's resource/symbol map.
      *
-     * @author Margherita Marino
      * @param card    The PlayableCard for which the corner is to be covered.
      * @param corner  The type of corner to cover (0: TLCorner, 1: TRCorner, 2: BRCorner, 3: BLCorner).
      */
@@ -455,7 +443,6 @@ public class Book implements Serializable {
     /**
      * Decreases the quantity of the specified type of resource by one.
      *
-     * @author Margherita Marino
      * @param resourceType The type of resource to decrease.
      */
     public void decreaseResource(ResourceType resourceType){ //funzione che decrementa la risorsa passata per parametro
@@ -467,7 +454,6 @@ public class Book implements Serializable {
     /**
      * Decreases the quantity of the specified type of symbol by one.
      *
-     * @author Margherita Marino
      * @param symbolType The type of symbol to decrease.
      */
     public void decreaseSymbol(SymbolType symbolType){ //funzione che decrementa la risorsa passata per parametro
@@ -479,7 +465,6 @@ public class Book implements Serializable {
     /**
      * Increases the quantity of the specified type of resource by one.
      *
-     * @author Margherita Marino
      * @param resourceType The type of resource to increase.
      */
     public void increaseResource(ResourceType resourceType){ //funzione che incrementa la risorsa passata per parametro
@@ -491,7 +476,6 @@ public class Book implements Serializable {
     /**
      * Increases the quantity of the specified type of symbol by one.
      *
-     * @author Margherita Marino
      * @param symbolType The type of symbol to increase.
      */
     public void increaseSymbol(SymbolType symbolType){ //funzione che incrementa il simbolo passato per parametro
@@ -507,7 +491,6 @@ public class Book implements Serializable {
      * from the newly added card, and the {@link #updateCoveredCorners(Cell)} method to adjust
      * the resource and symbol counts based on the neighboring cards of the specified cell.
      *
-     * @author Margherita Marino
      * @param card The PlayableCard to add to the book.
      * @param cell The cell where the card is placed.
      */
@@ -520,7 +503,6 @@ public class Book implements Serializable {
      * Updates the resource and symbol maps with the symbols and/or resources present on a card
      * when it is placed in the book.
      *
-     * @author Margherita Marino
      * @param card The PlayableCard to update the resource and symbol maps with.
      */
     public void updateNewCardCorners(PlayableCard card) {
@@ -559,7 +541,6 @@ public class Book implements Serializable {
     /**
      * Removes all cards from the book.
      * This method clears the book of all cards, leaving it empty.
-     * @author Margherita Marino
      */
     public void clear(){ //elimina tutte le carte dal book e setta le celle a
         // Itera attraverso tutte le celle del book
@@ -641,7 +622,6 @@ public class Book implements Serializable {
      * Returns an array of available cells in the book matrix.
      * A cell is considered available if its 'isAvailable' attribute is set to true.
      *
-     * @author Margherita Marino
      * @return An array of Cell objects representing the available cells in the book matrix.
      */
     public ArrayList<Cell> showAvailableCells() {
@@ -681,7 +661,6 @@ public class Book implements Serializable {
      * @param objectiveCard Is the player's own ObjectiveCard.
      * @throws IllegalArgumentException If an invalid GoalType label is set on the objectiveCard attribute.
      * @return Victory Points obtained by the player reaching the goal required by his Objective card.
-     * @author Martina Maiorana
      */
     public int checkGoal(ObjectiveCard objectiveCard) {
         return switch (objectiveCard.getGoalType()) {
@@ -696,7 +675,6 @@ public class Book implements Serializable {
     /**
      * @return Victory Points obtained by the player reaching the Resource condition required by his Objective card.
      * @param objectiveCard The player's own ObjectiveCard.
-     * @author Martina Maiorana
      */
     public int checkResourceCondition(ObjectiveCard objectiveCard) {
 
@@ -710,7 +688,6 @@ public class Book implements Serializable {
     /**
      * @return Victory Points obtained by the player reaching the Symbol condition required by his Objective card.
      * @param objectiveCard The player's own ObjectiveCard.
-     * @author Martina Maiorana
      */
     public int checkSymbolCondition(ObjectiveCard objectiveCard) {
 
@@ -735,11 +712,10 @@ public class Book implements Serializable {
         /**
          * @return Victory Points obtained by the player reaching the diagonalPlacement condition required by his Objective card.
          * @param objectiveCard The player's own ObjectiveCard.
-         * @author Martina Maiorana
          */
         public int checkDiagonalPlacement(ObjectiveCard objectiveCard) {
             int[][] indexes = new int[70][70];
-            //inizializza matrice indici
+            //initialization of the matrix
             for (int i = 0; i < indexes.length; i++) {
                 for (int j = 0; j < indexes[i].length; j++) {
                     indexes[i][j] = 0;
@@ -822,11 +798,9 @@ public class Book implements Serializable {
 
 
 
-
         /**
          * @return Victory Points obtained by the player reaching the LPlacement condition required by his Objective card.
          * @param objectiveCard The player's own ObjectiveCard.
-         * @author Martina Maiorana
          */
         public int checkLPlacement(ObjectiveCard objectiveCard) {
             int[][] indexes = new int[70][70];
@@ -952,79 +926,7 @@ public class Book implements Serializable {
     }
 
 
-  /*  @Override
-    public String toString() {
-        final String GREEN = "\033[0;32m";
-        final String RESET = "\033[m";
 
-        StringBuilder result = new StringBuilder();
-        int[] limits = findSubMatrix();
-
-        int minI = limits[0];
-        int minJ = limits[1];
-        int maxI = limits[2];
-        int maxJ = limits[3];
-
-        result.append("********************BOOK********************\n");
-
-        // Calcolare la larghezza massima delle colonne
-        int maxWidth = DefaultValue.printLenght + 2; // aggiungiamo 2 per lo spazio tra le colonne e i bordi
-
-        // Aggiungere gli indici delle colonne
-        result.append("     "); // spazio per l'indice delle righe
-        for (int j = minJ; j <= maxJ; j++) {
-            result.append(String.format("%-" + maxWidth + "d", 0 + j));
-        }
-        result.append("\n");
-
-        // Lista per accumulare le stringhe delle righe
-        ArrayList<ArrayList<String>> rows = new ArrayList<>();
-
-        for (int i = minI; i <= maxI; i++) { // righe
-            ArrayList<StringBuilder> rowBuilders = new ArrayList<>();
-            for (int k = 0; k < DefaultValue.printHeight + 2; k++) {
-                rowBuilders.add(new StringBuilder());
-            }
-
-            for (int j = minJ; j <= maxJ; j++) { // colonne
-                String[] lines;
-                if (bookMatrix[i][j].getCard() != null) {
-                    lines = bookMatrix[i][j].getCard().toString().split("\n");
-                } else {
-                    lines = nullCardPrint().split("\n");
-                }
-
-                // Se la cella è disponibile, colorala di verde
-                boolean isAvailable = bookMatrix[i][j].isAvailable();
-                String colorCode = isAvailable ? GREEN : RESET;
-
-                for (int k = 0; k < lines.length; k++) {
-                    int spacesToAdd = Math.max(0, maxWidth - lines[k].length());
-                    rowBuilders.get(k).append(colorCode).append(lines[k]).append(" ".repeat(spacesToAdd)).append(RESET);
-                }
-            }
-
-            ArrayList<String> rowStrings = new ArrayList<>();
-            for (StringBuilder sb : rowBuilders) {
-                rowStrings.add(sb.toString());
-            }
-            rows.add(rowStrings);
-        }
-
-        for (int i = 0; i < rows.size(); i++) {
-            // Aggiungere l'indice della riga
-            result.append(String.format("%-4d", 0 + minI + i));
-            for (String line : rows.get(i)) {
-                result.append(line).append("\n");
-            }
-        }
-
-        result.append("\n");
-        result.append(showMaps());
-        result.append("\n");
-
-        return result.toString();
-    }*/
     /**
      * Generates a string representation of the book matrix.
      * <p>
@@ -1160,29 +1062,6 @@ public class Book implements Serializable {
 
 
 
-   /* public String nullCardPrint() {
-        StringBuilder result = new StringBuilder();
-
-        int maxWidth = DefaultValue.printLenght;
-
-        String borderLine = "+" + "-".repeat(maxWidth + 2) + "+"; // Usiamo dim[1] per la larghezza massima delle righe
-       result.append(borderLine).append("\n");
-
-        // Costruzione delle linee di contenuto con bordi laterali
-        for (int i = 0; i<DefaultValue.printHeight; i++) {
-            result.append("| ");
-            // Aggiungi spazi per allineare al massimo
-            result.append(" ".repeat(maxWidth));
-            result.append(" |\n");
-        }
-
-        // Costruzione del bordo inferiore
-        result.append(borderLine);
-
-
-        return result.toString();
-    }
-*/
 
 
     /**
