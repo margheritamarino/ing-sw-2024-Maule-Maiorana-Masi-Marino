@@ -2,17 +2,13 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.Chat.Message;
 import it.polimi.ingsw.exceptions.NotPlayerTurnException;
-import it.polimi.ingsw.listener.GameListenerInterface;
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.CardType;
-import it.polimi.ingsw.model.game.GameImmutable;
-
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 /**
- * Interface defining common actions that a client can perform in a game.
+ * ClientInterface defines common actions that a client can perform in a game.
  */
 public interface ClientInterface  {
 

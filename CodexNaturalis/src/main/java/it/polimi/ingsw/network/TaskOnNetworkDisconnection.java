@@ -7,7 +7,6 @@ import it.polimi.ingsw.view.flow.*;
 
 /**
  * Task scheduled to run when a network disconnection timeout occurs.
- * <p>
  * It invokes the {@code noConnectionError()} method on the provided {@link Flow} instance.
  */
 public class TaskOnNetworkDisconnection extends TimerTask {
@@ -21,6 +20,7 @@ public class TaskOnNetworkDisconnection extends TimerTask {
     public TaskOnNetworkDisconnection(Flow flow){
         this.flow=flow;
     }
+
     /**
      * Executes the task action by invoking {@code noConnectionError()} on the associated Flow instance.
      */
