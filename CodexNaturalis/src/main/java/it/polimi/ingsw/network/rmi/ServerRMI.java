@@ -67,10 +67,8 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
 
-
-
     /**
-     * @return the istance of the RMI Server
+     * @return the instance of the RMI Server
      */
     public synchronized static ServerRMI getInstance() {
         if(serverObject == null) {
@@ -92,7 +90,7 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     }
 
     /**
-     * Constructor that creates a RMI Server
+     * Constructor that creates an RMI Server
      * @throws RemoteException
      */
     public ServerRMI() throws RemoteException {
@@ -133,7 +131,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
    @Override
    public void joinGame(GameListenerInterface lis, String nick) throws RemoteException {
-
            serverObject.gameController.joinGame(lis, nick);
            printAsync("[RMI] " + nick + " joined to game");
    }
@@ -225,7 +222,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
      */
     @Override
     public void ping(String nickname, GameListenerInterface me) throws RemoteException {
-        System.out.println("Sono in Ping ServerRMI (PERCHE'???)");
         serverObject.gameController.ping(nickname, me);
     }
 
@@ -285,7 +281,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
         serverObject.gameController.PickCardFromBoard(nickname, cardType, drawFromDeck, pos);
     }
 
-
     /**
      * Informs the server to set up the game with the specified number of players, game ID, and nickname.
      *
@@ -299,7 +294,6 @@ public class ServerRMI extends UnicastRemoteObject implements GameControllerInte
     public void settingGame(GameListenerInterface lis, int numPlayers, int gameID, String nickname) throws RemoteException {
         serverObject.gameController.settingGame(lis, numPlayers, gameID, nickname);
     }
-
 
     /**
      * Informs the server to start the game for the specified player.

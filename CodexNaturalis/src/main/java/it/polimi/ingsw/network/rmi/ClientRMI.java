@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.model.DefaultValue;
 import it.polimi.ingsw.network.PingSender;
-import it.polimi.ingsw.network.TaskOnNetworkDisconnection;
 import it.polimi.ingsw.network.socket.client.GameListenersClient;
 import it.polimi.ingsw.view.flow.Flow;
 import java.io.*;
@@ -18,8 +17,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static it.polimi.ingsw.network.PrintAsync.printAsync;
 import static it.polimi.ingsw.view.TUI.PrintAsync.printAsyncNoLine;
@@ -38,7 +35,6 @@ public class ClientRMI implements ClientInterface {
      * The remote object returned by the registry that represents the game controller
      */
     private static GameControllerInterface gameController;
-
 
     /**
      * The remote object on which the server will invoke remote methods
@@ -71,7 +67,6 @@ public class ClientRMI implements ClientInterface {
      */
     private PingSender pingSender;
 
-
     /**
      * Create, start and connect a RMI Client to the server
      * @param flow for visualising network error messages
@@ -82,9 +77,8 @@ public class ClientRMI implements ClientInterface {
         connect();
         this.flow = flow;
         pingSender = new PingSender(flow, this);
-        //if(!pingSender.isAlive()) {
-           pingSender.start();
-        //}
+        pingSender.start();
+
     }
 
     /**
@@ -137,35 +131,6 @@ public class ClientRMI implements ClientInterface {
 
     }
 
-    /*
-    /**
-     * Send pings to the RMI server
-     * If sending a message takes more than {@link DefaultValue#timeoutConnection_millis} millis, the client
-     * will be considered no longer connected to the server
-     */
-    /*public void run() {
-        //For the heartbeat
-        while (!Thread.interrupted()) {
-            try {
-                Timer timer = new Timer();
-                TimerTask task = new TaskOnNetworkDisconnection(flow);
-                timer.schedule( task, DefaultValue.timeoutConnection_millis);
-
-                //send ping so the server knows I am still online
-                ping();
-
-                timer.cancel();
-            } catch (RemoteException e) {
-                return;
-            }
-            try {
-                Thread.sleep(DefaultValue.secondToWaitToSend_ping);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }*/
-
 
     /**
      * Comunicate to server the chosen initial card
@@ -183,11 +148,12 @@ public class ClientRMI implements ClientInterface {
     }
 
     /**
-     * Comunicate to server the chosen objective card
-     * @param index
-     * @param nickname
-     * @throws IOException
-     * @throws NotPlayerTurnException
+     * Sets the goal card for the player with the specified index.
+     *
+     * @param index The index of the goal card to be set.
+     * @param nickname The nickname of the player.
+     * @throws IOException If there is an I/O error during communication.
+     * @throws NotPlayerTurnException If it's not the player's turn to set the goal card.
      */
     @Override
     public void setGoalCard(int index, String nickname) throws IOException, NotPlayerTurnException {
@@ -199,11 +165,12 @@ public class ClientRMI implements ClientInterface {
     }
 
     /**
-     * Ask the server to place a card in client's book
-     * @param chosenCard
-     * @param rowCell
-     * @param columnCell
-     * @throws IOException
+     * Places a card in the player's book at the specified position.
+     *
+     * @param chosenCard  The index of the chosen card to place.
+     * @param rowCell     The row position in the book where the card will be placed.
+     * @param columnCell  The column position in the book where the card will be placed.
+     * @throws IOException If there is an I/O error during communication.
      */
     @Override
     public void placeCardInBook(int chosenCard, int rowCell, int columnCell) throws IOException {
@@ -215,15 +182,15 @@ public class ClientRMI implements ClientInterface {
     }
 
     /**
-     * Ask the server to set the game
-     * @param numPlayers
-     * @param GameID
-     * @param nick
-     * @throws IOException
+     * Sets up the game with the specified number of players, game ID, and player's nickname.
+     *
+     * @param numPlayers The number of players in the game.
+     * @param GameID The ID of the game.
+     * @param nick The nickname of the player setting up the game.
+     * @throws IOException If there is an I/O error during communication.
      */
     @Override
     public void settingGame(int numPlayers, int GameID, String nick) throws IOException {
-        System.out.println("ClientRMI- settingGame");
         try {
             gameController.settingGame(modelInvokedEvents, numPlayers, GameID, nick);
         } catch (RemoteException e) {
@@ -232,11 +199,12 @@ public class ClientRMI implements ClientInterface {
     }
 
     /**
-     * Ask the server to pick a card from board
-     * @param cardType
-     * @param drawFromDeck
-     * @param pos
-     * @throws IOException
+     * Picks a card from the board for the player.
+     *
+     * @param cardType     The type of card to pick.
+     * @param drawFromDeck Indicates whether the card is drawn from the deck or board.
+     * @param pos          The position of the card on the board.
+     * @throws IOException If there is an I/O error during communication.
      */
     @Override
     public void PickCardFromBoard(CardType cardType, boolean drawFromDeck, int pos) throws IOException {
@@ -249,15 +217,15 @@ public class ClientRMI implements ClientInterface {
 
 
     /**
-     * Ask the Socket Server to join a specific game
+     * Joins the game with the specified nickname.
      *
-     * @param nick of the player
-     * @throws IOException
+     * @param nick The nickname of the player joining the game.
+     * @throws IOException        If there is an I/O error during communication.
+     * @throws NotBoundException   If the server is not bound or available.
      */
     @Override
     public void joinGame(String nick) throws IOException, NotBoundException {
 
-        System.out.println("in ClientRMI - JoinGame\n");
         try {
             if(!pingSender.isAlive()) {
                 pingSender.start();
@@ -291,13 +259,14 @@ public class ClientRMI implements ClientInterface {
     }
 
     /**
-     * The client asks the server to reconnect the player @param nick to the current game
+     * Client asks the server to reconnect player the player to the game
      *
-     * @param nick   nickname of the player
+     * @param nick of the player who is trying to reconnect
+     * @throws IOException If there is an I/O error during communication.
+     * @throws NotBoundException If the server is not bound or available.
      */
     @Override
     public void reconnect(String nick, int idGame) throws IOException, NotBoundException {
-        System.out.println("ClientRMI- reconnect()\n ");
         registry = LocateRegistry.getRegistry(DefaultValue.serverIp, DefaultValue.Default_port_RMI);
         gameController = (GameControllerInterface) registry.lookup(DefaultValue.Default_servername_RMI);
         gameController.reconnect(modelInvokedEvents, nick);
@@ -310,12 +279,13 @@ public class ClientRMI implements ClientInterface {
 
 
     /**
-     * Client asks the Server to set the player as ready
-     * @throws IOException
+     * Sets the player identified by the nickname as ready.
+     *
+     * @param nickname The nickname of the player setting as ready.
+     * @throws IOException If there is an I/O error during communication.
      */
     @Override
     public void setAsReady(String nickname) throws IOException {
-        System.out.println("in ClientRMI - setAsReady");
         try {
             gameController.playerIsReadyToStart(modelInvokedEvents, nickname);
         } catch (RemoteException e) {
@@ -325,12 +295,12 @@ public class ClientRMI implements ClientInterface {
 
 
     /**
-     * Send a ping to the server
-     * @throws RemoteException
+     * Sends a ping to the server to check connectivity.
+     *
+     * @throws RemoteException If there is an error in remote communication.
      */
     @Override
     public void ping() throws RemoteException {
-        //System.out.println("metodo Ping di CLIENT RMI!!");
         try {
             if (gameController != null) {
                 gameController.ping(nickname, modelInvokedEvents);
@@ -347,9 +317,10 @@ public class ClientRMI implements ClientInterface {
     }
 
     /**
-     * Let the game begin
-     * @param nick of the player
-     * @throws IOException
+     * Notifies the server to start the game with the specified nickname.
+     *
+     * @param nick The nickname of the player requesting to start the game.
+     * @throws IOException If there is an I/O error during communication.
      */
     @Override
     public void makeGameStart(String nick) throws IOException {
@@ -357,9 +328,11 @@ public class ClientRMI implements ClientInterface {
     }
 
     /**
-     * Ask the  Server to leave the game
-     * @param nick of the player
-     * @throws IOException
+     * Leaves the game with the specified nickname.
+     *
+     * @param nick The nickname of the player leaving the game.
+     * @throws IOException      If there is an I/O error during communication.
+     * @throws NotBoundException If the server is not bound or available.
      */
    @Override
     public void leave(String nick) throws IOException, NotBoundException {
@@ -377,13 +350,13 @@ public class ClientRMI implements ClientInterface {
     }
 
     /**
-     * The Client wants to send a message to the Server
-     * @param msg message to send
-     * @throws RemoteException
+     * Sends a message to the server.
+     *
+     * @param msg The message to be sent.
+     * @throws RemoteException If there is an error in remote communication.
      */
     @Override
     public void sendMessage(Message msg) throws RemoteException {
-
         System.out.println("ClientRMI sending message from player: " + msg.getSender().getNickname());
         gameController.sentMessage(msg);
     }

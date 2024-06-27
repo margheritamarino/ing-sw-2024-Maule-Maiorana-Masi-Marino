@@ -18,11 +18,10 @@ public interface GameControllerInterface extends Remote {
      * This method is used to check if the player is ready to start
      *
      * @param p the nickname of the player
-     * @return
+     * @return true if the player is ready to start
      * @throws RemoteException if the connection fails
      */
     boolean playerIsReadyToStart(GameListenerInterface lis, String p ) throws RemoteException;
-
 
 
     /**
@@ -43,12 +42,10 @@ public interface GameControllerInterface extends Remote {
      */
     void disconnectPlayer(String nick, GameListenerInterface listener) throws RemoteException;
 
-
     /**
      * This method reconnects a player to a specific game
      * @param lis the GameListener of the player {@link GameListenerInterface}
      * @param nick the nickname of the player
-     * @return the GameControllerInterface of the game {@link GameControllerInterface}
      * @throws RemoteException if the connection fails
      */
     void reconnect(GameListenerInterface lis, String nick) throws RemoteException;
@@ -63,7 +60,6 @@ public interface GameControllerInterface extends Remote {
     int getGameId() throws RemoteException;
 
 
-
     /**
      * Sends a ping to the server to maintain the connection and confirm the client's presence.
      * This method is used to indicate to the server that the client is still online and active.
@@ -73,7 +69,6 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
     void ping(String nickname, GameListenerInterface me) throws RemoteException;
-
 
 
     /**
@@ -93,7 +88,8 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
      void setInitialCard(String nickname, int index)throws RemoteException ;
-    /**
+
+     /**
      * Informs the server to set the goal card for the specified player.
      *
      * @param nickname The nickname of the player.
@@ -102,7 +98,8 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException       If there is a communication-related issue during the remote method invocation.
      */
      void setGoalCard(String nickname, int index) throws NotPlayerTurnException, RemoteException ;
-    /**
+
+     /**
      * Informs the server to place a card in the player's book at the specified position.
      *
      * @param nickname    The nickname of the player.
@@ -112,7 +109,8 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
      void placeCardInBook(String nickname, int chosenCard, int rowCell, int columnCell)throws RemoteException;
-    /**
+
+     /**
      * Requests the server to join the game with the specified nickname and attaches the provided listener.
      *
      * @param lis  The listener interface for receiving game events.
@@ -120,7 +118,8 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
      void joinGame(GameListenerInterface lis, String nick) throws RemoteException;
-    /**
+
+     /**
      * Informs the server to pick a card from the board for the specified player.
      *
      * @param nickname     The nickname of the player.
@@ -130,6 +129,7 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
     void PickCardFromBoard(String nickname, CardType cardType, boolean drawFromDeck, int pos)throws RemoteException;
+
     /**
      * Informs the server to set up the game with the specified number of players, game ID, and nickname.
      *
@@ -148,6 +148,7 @@ public interface GameControllerInterface extends Remote {
      * @throws RemoteException If there is a communication-related issue during the remote method invocation.
      */
     void sentMessage(Message msg) throws RemoteException;
+
     /**
      * Informs the server to start the game for the specified player.
      *

@@ -12,7 +12,6 @@ import java.rmi.RemoteException;
  */
 public interface ClientInterface  {
 
-
     /**
      * Joins the game with the specified nickname.
      *
@@ -113,12 +112,12 @@ public interface ClientInterface  {
     void makeGameStart(String nickname)throws IOException;
 
     /**
-     * Reconnect the player to the game
+     * Client asks the server to reconnect player the player to the game
      *
-     * @param nick
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws NotBoundException
+     * @param nick of the player who is trying to reconnect
+     * @throws IOException If there is an I/O error during communication.
+     * @throws InterruptedException If the thread is interrupted while waiting.
+     * @throws NotBoundException If the server is not bound or available.
      */
     void reconnect(String nick, int idGame) throws IOException, InterruptedException, NotBoundException;
 
