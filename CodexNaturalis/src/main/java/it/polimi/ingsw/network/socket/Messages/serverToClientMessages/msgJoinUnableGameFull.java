@@ -32,6 +32,6 @@ public class msgJoinUnableGameFull extends ServerGenericMessage {
      */
     @Override
     public void execute(GameListenerInterface lis) throws RemoteException {
-        // lis.JoinUnableGameFull(player,model);
+
     }
 }

@@ -25,6 +25,13 @@ public class ClientMessageLeave extends ClientGenericMessage {
     }
 
 
+    /**
+     * Executes the corresponding action for the message.
+     * @param lis the game listener
+     * @param gameController the controller interface
+     * @return the game controller interface
+     * @throws RemoteException if there is a remote exception
+     */
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
         gameController.leave(lis, nickname);

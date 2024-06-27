@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.socket.Messages.serverToClientMessages;
 
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.exceptions.GameEndedException;
 import it.polimi.ingsw.listener.GameListenerInterface;
 import it.polimi.ingsw.model.game.GameImmutable;
 
@@ -12,6 +11,11 @@ public class msgRequireInitialReady extends ServerGenericMessage {
     private GameImmutable model;
     private int index;
 
+    /**
+     * Constructor of the class.
+     * @param model the immutable game model
+     * @param index of the choosen initial card
+     */
     public msgRequireInitialReady(GameImmutable model, int index) {
         this.model = model;
         this.index=index;

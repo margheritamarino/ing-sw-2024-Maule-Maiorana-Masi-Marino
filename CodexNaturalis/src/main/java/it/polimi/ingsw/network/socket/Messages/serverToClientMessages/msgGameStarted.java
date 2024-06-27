@@ -13,8 +13,6 @@ import java.rmi.RemoteException;
 public class msgGameStarted extends ServerGenericMessage {
     private GameImmutable model;
 
-
-
     /**
      * Constructor of the class.
      * @param model the immutable game model

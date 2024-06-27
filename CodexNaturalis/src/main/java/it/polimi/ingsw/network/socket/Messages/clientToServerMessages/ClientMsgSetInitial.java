@@ -15,7 +15,6 @@ public class ClientMsgSetInitial extends ClientGenericMessage {
         this.index = index;
     }
 
-
     @Override
     public void execute(GameListenerInterface lis, GameController gameController) throws RemoteException {
     }
