@@ -90,9 +90,14 @@ public abstract class PlayableCard implements Serializable {
     public String getImagePath(){
         final String path;
         int idTemp = this.getCardID();
-        String typeTemp= this.getCardType().toString();
+        String typeTemp= this.getCardType().toString(); //InitialCard, ResourceCard, GoldCard
         String sideTemp;
         String mainResource;
+
+        final String DEFAULT_RESOURCE_FRONT = "/img/Cards/ResourceCards/0_ResourceFront.png";
+        final String DEFAULT_GOLD_FRONT = "/img/Cards/GoldCards/0_GoldFront.png";
+        final String DEFAULT_INITIAL_FRONT = "/img/Cards/initialCards/InitialCards/0_InitialFront.png";
+        final String DEFAULT_INITIAL_BACK = "/img/Cards/initialCards/InitialCards/0_InitialBack.png";
 
         if(this.isFront()){
             sideTemp= "Front";
@@ -131,16 +136,25 @@ public abstract class PlayableCard implements Serializable {
             } else {
                 // Percorso dell'immagine predefinito se l'immagine specificata non esiste
                 if (typeTemp.equals("Resource")) {
-                    return getClass().getResource("/img/Cards/0_ResourceFront.png").toExternalForm();
+                    return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
+                } else if (typeTemp.equals("Gold")) {
+                    return getClass().getResource(DEFAULT_GOLD_FRONT).toExternalForm();
+                } else if (typeTemp.equals("InitialCard")) {
+                    return getClass().getResource(sideTemp.equals("Front") ? DEFAULT_INITIAL_FRONT : DEFAULT_INITIAL_BACK).toExternalForm();
                 } else {
-                    return getClass().getResource("/img/Cards/0_GoldFront.png").toExternalForm();
+                    return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
                 }
             }
         } catch (Exception e) {
-            if(typeTemp.equals("Resource"))
-                return getClass().getResource("/img/Cards/0_ResourceFront.png").toExternalForm(); // percorso dell'immagine di default
-            else
-                return getClass().getResource("/img/Cards/0_GoldFront.png").toExternalForm();
+            if (typeTemp.equals("Resource")) {
+                return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
+            } else if (typeTemp.equals("Gold")) {
+                return getClass().getResource(DEFAULT_GOLD_FRONT).toExternalForm();
+            } else if (typeTemp.equals("InitialCard")) {
+                return getClass().getResource(sideTemp.equals("Front") ? DEFAULT_INITIAL_FRONT : DEFAULT_INITIAL_BACK).toExternalForm();
+            } else {
+                return getClass().getResource(DEFAULT_RESOURCE_FRONT).toExternalForm();
+            }
         }
     }
 
