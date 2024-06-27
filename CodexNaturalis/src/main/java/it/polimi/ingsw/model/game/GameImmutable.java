@@ -115,21 +115,28 @@ public class GameImmutable implements Serializable {
     }
 
     /**
-     * @return the number of players of the game
+     * Retrieves the current player.
+     *
+     * @return the {@code Player} object representing the current player.
      */
-    public Integer getPlayersNumber() {
-        return playersNumber;
-    }
-
-
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Retrieves the current game board.
+     *
+     * @return the {@code Board} object representing the current game board.
+     */
     public Board getBoard(){
         return board;
     }
 
+    /**
+     * Retrieves the current status of the game.
+     *
+     * @return the {@code GameStatus} object representing the current status of the game.
+     */
     public GameStatus getStatus() {
         return status;
     }
@@ -142,6 +149,16 @@ public class GameImmutable implements Serializable {
     public Player getPlayerByNickname(String playerNickname) {
         return players.stream().filter(x -> x.getNickname().equals(playerNickname)).toList().getFirst();
     }
+
+    /**
+     * Retrieves the color associated with a player based on their nickname.
+     *
+     * This method finds the player by their nickname and returns the color associated
+     * with that player.
+     *
+     * @param playerNickname the nickname of the player whose color is to be retrieved.
+     * @return the {@code Color} object representing the player's color.
+     */
     public Color getPlayerColor(String playerNickname){
         return getPlayerByNickname(playerNickname).getPlayerColor();
     }
@@ -157,20 +174,6 @@ public class GameImmutable implements Serializable {
                 .orElseThrow(() -> new NoSuchElementException("Player not found"))
                 .getGoal();
     }
-
-    /**
-    * @param nickname nickname to check
-	 * @return true if already exist
-	 */
-    public boolean checkNickname(String nickname)  {
-        for(Player p : this.players) {
-            if(nickname.equals(p.getNickname())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * @return the list of players in string format
@@ -226,73 +229,98 @@ public class GameImmutable implements Serializable {
     }
 
     /**
-     * @return the number of players
+     * Retrieves the temporary deck of initial playable cards.
+     *
+     * This method returns an {@code ArrayList} of arrays containing {@code PlayableCard} objects,
+     * which represent the temporary initial cards deck.
+     *
+     * @return an {@code ArrayList} of {@code PlayableCard} arrays representing the temporary initial cards deck.
      */
-    public Integer getNumPlayers() {
-        return playersNumber;
-    }
-
-    /**
-     * @return the number of players connected
-     */
-    public int getNumPlayersOnline() {
-        int numplayers = 0;
-        for (Player player : players) {
-            if (player.getConnected()) {
-                numplayers++;
-            }
-        }
-        return numplayers;
-    }
-
-
     public ArrayList<PlayableCard[]> getInitialCard(){
         return temporaryInitialCard;
     }
 
+    /**
+     * Retrieves the temporary deck of objective cards.
+     *
+     * This method returns an {@code ArrayList} of arrays containing {@code ObjectiveCard} objects,
+     * which represent the temporary objective cards deck.
+     *
+     * @return an {@code ArrayList} of {@code ObjectiveCard} arrays representing the temporary objective cards deck.
+     */
     public ArrayList<ObjectiveCard[]> getObjectiveCard(){
         return temporaryObjectiveCards;
     }
 
+    /**
+     * Retrieves the current card points.
+     *
+     * This method returns the current points from the cards as an integer.
+     *
+     * @return the current card points.
+     */
     public int getCurrentCardPoints(){
          return currentCardPoints;
     }
 
+    /**
+     * Retrieves the current chat instance.
+     *
+     * This method returns the {@code Chat} object representing the current chat instance.
+     *
+     * @return the {@code Chat} object representing the current chat instance.
+     */
     public Chat getChat(){
         return chat;
     }
 
-    // Implementazione del metodo isBoardUpdated
+    /**
+     * Checks if the game board is updated.
+     *
+     * This method verifies several conditions to determine if the game board is in an updated state:
+     * - The gold cards list is not null and contains at least 2 cards.
+     * - The resource cards list is not null and contains at least 2 cards.
+     * - Neither the gold cards deck nor the resource cards deck is at the end of the deck.
+     *
+     * @return {@code true} if the board is updated and valid, {@code false} otherwise.
+     */
     public boolean isBoardUpdated() {
-        // Controlla se ci sono almeno 2 carte d'oro sul board
         if (board.getGoldCards() == null || board.getGoldCards().size() < 2) {
             return false;
         }
-
-        // Controlla se ci sono almeno 2 carte risorsa sul board
         if (board.getResourceCards() == null || board.getResourceCards().size() < 2) {
             return false;
         }
-
-
-        // Verifica che i mazzi non siano vuoti
         if (board.getGoldCardsDeck().checkEndDeck() || board.getResourcesCardsDeck().checkEndDeck()) {
             return false;
         }
-
-        // Se tutti i controlli sono passati, la board è aggiornata
         return true;
     }
 
-    public boolean arePlayersEnough(){
-        return players.size() == getNumPlayers();
-    }
-
+    /**
+     * Checks if the player's deck is updated.
+     *
+     * This method verifies if the player's mini deck has exactly 3 card arrays and if each card
+     * within these arrays is not null. It uses the player's nickname to find the player and
+     * their deck.
+     *
+     * @param nick the nickname of the player whose deck is to be checked.
+     * @return {@code true} if the player's mini deck is updated and valid, {@code false} otherwise.
+     */
     public boolean isDeckUpdated(String nick){
         Player p= getPlayerByNickname(nick);
         return (p.getPlayerDeck().getMiniDeck().size()==3 && checkPlayerDeck(p.getPlayerDeck().getMiniDeck()));
 
     }
+    /**
+     * Checks if the player deck is valid.
+     *
+     * This method iterates through the given deck and ensures that all card arrays and their
+     * contained cards are not null.
+     *
+     * @param deck the deck to be checked.
+     * @return {@code true} if all cards in the deck are not null, {@code false} otherwise.
+     */
     private boolean checkPlayerDeck(ArrayList<PlayableCard[]> deck){
         for (PlayableCard[] cardArray : deck) {
             for (PlayableCard card : cardArray) {

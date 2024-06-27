@@ -150,16 +150,16 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public void notify_GameStarted(Game model) { //tolgo SYNCHRONIZED
-        Iterator<GameListenerInterface> i = listeners.iterator(); //attraverso la lista e accedo agli elementi uno per volta
+    public void notify_GameStarted(Game model) {
+        Iterator<GameListenerInterface> i = listeners.iterator();
 
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
             try {
-                l.gameStarted(new GameImmutable(model)); //ogni listener riceve una copia immutabile del game model
+                l.gameStarted(new GameImmutable(model));
             } catch (RemoteException e) {
                 printAsync("During notification of notify_GameStarted, a disconnection has been detected before ping");
-                i.remove(); //metodo remove dell'iteratore che rimuove i listener che si sono disconnessi
+                i.remove();
             }
         }
     }
@@ -169,7 +169,7 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public void notify_GameEnded(Game model) { //tolgo SYNCHRONIZED
+    public void notify_GameEnded(Game model) {
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
             GameListenerInterface l = i.next();
@@ -187,7 +187,7 @@ public class ListenersHandler {
      *
      * @param model the game model to pass as a new GameModelImmutable
      */
-    public void notify_nextTurn(Game model) { //tolgo SYNCHRONIZED
+    public void notify_nextTurn(Game model) {
         System.out.println("ListenersHandler - notify_nextTurn \n ");
         Iterator<GameListenerInterface> i = listeners.iterator();
         while (i.hasNext()) {
@@ -348,8 +348,4 @@ public class ListenersHandler {
             }
         }
     }
-
-
-
-
 }

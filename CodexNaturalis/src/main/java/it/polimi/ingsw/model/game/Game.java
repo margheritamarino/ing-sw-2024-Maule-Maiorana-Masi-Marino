@@ -102,15 +102,6 @@ public class Game {
 		}
 	}
 
-
-	/**
-	 * Checks if the game is started.
-	 * @return True if the game is started
-	 */
-	public boolean isGamestarted(){
-		return gameStarted;
-	}
-
 	/**
 	 * Checks if the game is ended.
 	 * @return True if the game is ended
@@ -183,13 +174,6 @@ public class Game {
 	public void setPlayersNumber(int playersNumber) {
 		this.playersNumber = playersNumber;
 		System.out.println("Model: method setGameId()");
-	}
-
-	/**
-	 * * @return the list of listeners
-	 * */
-	public List<GameListenerInterface> getListeners() {
-		return listenersHandler.getListeners();
 	}
 
 	/**
@@ -652,12 +636,33 @@ public class Game {
 
 
 
+	/**
+	 * Retrieves the current game board.
+	 *
+	 * @return the {@code Board} object representing the current game board.
+	 */
 	public Board getBoard(){
 		return this.board;
 	}
+	/**
+	 * Retrieves the temporary deck of initial playable cards.
+	 *
+	 * This method returns an {@code ArrayList} of arrays containing {@code PlayableCard} objects
+	 * which represent the temporary initial cards deck.
+	 *
+	 * @return an {@code ArrayList} of {@code PlayableCard} arrays representing the temporary initial cards deck.
+	 */
 	public ArrayList<PlayableCard[]> getTemporaryInitialCardsDeck() {
 		return temporaryInitialCard;
 	}
+	/**
+	 * Retrieves the temporary deck of objective cards.
+	 *
+	 * This method returns an {@code ArrayList} of arrays containing {@code ObjectiveCard} objects
+	 * which represent the temporary objective cards deck.
+	 *
+	 * @return an {@code ArrayList} of {@code ObjectiveCard} arrays representing the temporary objective cards deck.
+	 */
 	public ArrayList<ObjectiveCard[]> getTemporaryObjectiveCardsDeck() {return temporaryObjectiveCards;}
 
 
@@ -709,11 +714,6 @@ public class Game {
 			setStatus(GameStatus.ENDED);
 		}
 	}
-
-	public String getDisconnectedPlayer() {
-		return disconnectedPlayer;
-	}
-
 	public void setDisconnectedPlayer(String disconnectedPlayer) {
 		this.disconnectedPlayer = disconnectedPlayer;
 	}
@@ -803,6 +803,11 @@ public class Game {
 		return this.getCurrentPlayer().getConnected();
 	}
 
+	/**
+	 * Retrieves the current chat instance.
+	 *
+	 * @return the {@code Chat} object representing the current chat instance.
+	 */
 	public Chat getChat(){
 		return this.chat;
 	}
@@ -830,7 +835,4 @@ public class Game {
 			throw new ActionByAPlayerNotInTheGameException();
 		}
 	}
-
 }
-
-
