@@ -19,30 +19,21 @@ public class DefaultValue implements Serializable {
     public final static int NumOfResourceCards = 40;
     public final static int NumOfInitialCards = 6;
     public final static int NumOfObjectiveCards = 16;
-
-
     public final static int NumOfColumnsBook = 70;
     public final static int NumOfRowsBook = 70;
-
     public final static int Default_port_RMI = 4321;
     public final static int Default_port_Socket = 4320;
     public static String serverIp = "127.0.0.1";
     public final static String Remote_ip = "127.0.0.1";
-
     public final static int time_publisher_showing_seconds = 5;
-
     public final static int MaxEventToShow = 3;
     public final static String Default_servername_RMI = "CodexNaturalis";
-
     public final static int secondsToWaitReconnection = 60;
     public final static String gameIdTime = "Created";
     public final static String gameIdData = "GameId";
     public final static int twelveHS = 43200;
-
     public final static int timeoutConnection_millis =20000; //20s
-    public final static Long timeout_for_detecting_disconnection = 2000L; // Cambiato da 4000L a 2000L
-    // altre costanti
-
+    public final static Long timeout_for_detecting_disconnection = 2000L;
     public final static int maxAttemptsBeforeGiveUp= 5;
     public final static int secondsToReconnection = 5;
     public static final int secondToWaitToSend_ping = 500;

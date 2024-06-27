@@ -162,7 +162,6 @@ public class Board implements Serializable {
         }
     }
 
-
     /**
      * Updates the array of cards on the board by drawing a new card from the respective deck.
      * @param cards The ArrayList of PlayableCard arrays representing the cards on the board to update.
@@ -184,7 +183,6 @@ public class Board implements Serializable {
         PlayableCard[] newCard = deck.returnCard();
         cards.add(newCard);
     }
-
 
     /**
      * Verify the number of Gold cards on the Board
@@ -209,8 +207,6 @@ public class Board implements Serializable {
     public boolean verifyObjectiveCardsNumber() {
         return objectiveCards.length == 2;
     }
-
-
 
     /**
      * Generates a string representation of the board, including the current state of gold cards, resource cards,
@@ -357,8 +353,8 @@ public class Board implements Serializable {
         }
 
         for (int i = 0; i < 2; i++) {
-            PlayableCard card = goldCards.get(i)[0]; // Assumiamo che goldCards contenga le carte da visualizzare
-            String[] lines = card.toString().split("\n"); // Otteniamo le linee della rappresentazione della carta
+            PlayableCard card = goldCards.get(i)[0];
+            String[] lines = card.toString().split("\n");
 
             int maxHeight = Math.min(lines.length, DefaultValue.printHeight + 2);
 
@@ -371,7 +367,7 @@ public class Board implements Serializable {
             }
 
             for (int k = maxHeight; k < DefaultValue.printHeight + 2; k++) {
-                rowBuilders.get(k).append(" ".repeat(lines[0].length() + 4)); // +4 per lo spazio di separazione
+                rowBuilders.get(k).append(" ".repeat(lines[0].length() + 4));
             }
         }
 
@@ -397,8 +393,8 @@ public class Board implements Serializable {
         }
 
        for (int i = 0; i < 2; i++) {
-            PlayableCard card = resourceCards.get(i)[0]; // Assumiamo che resourceCards contenga le carte da visualizzare
-            String[] lines = card.toString().split("\n"); // Otteniamo le linee della rappresentazione della carta
+            PlayableCard card = resourceCards.get(i)[0];
+            String[] lines = card.toString().split("\n");
 
             int maxHeight = Math.min(lines.length, DefaultValue.printHeight + 2);
 
@@ -411,7 +407,7 @@ public class Board implements Serializable {
             }
 
             for (int k = maxHeight; k < DefaultValue.printHeight + 2; k++) {
-                rowBuilders.get(k).append(" ".repeat(lines[0].length() + 4)); // +4 per lo spazio di separazione
+                rowBuilders.get(k).append(" ".repeat(lines[0].length() + 4));
             }
         }
         StringBuilder result = new StringBuilder();

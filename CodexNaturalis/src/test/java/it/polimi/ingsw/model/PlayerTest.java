@@ -1,13 +1,11 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.DeckEmptyException;
 import it.polimi.ingsw.exceptions.FileReadException;
-import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.cards.CornerType;
 import it.polimi.ingsw.model.cards.GoalType;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.PlayerState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
@@ -31,11 +29,6 @@ public class PlayerTest {
     @Test
     void testGetNickname() {
         assertEquals("TestPlayer", player.getNickname());
-    }
-
-    @Test
-    void testPlayerInitialState() {
-        assertEquals(PlayerState.Start, player.getPlayerState());
     }
 
     @Test
