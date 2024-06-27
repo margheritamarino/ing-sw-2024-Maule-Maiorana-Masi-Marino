@@ -48,7 +48,7 @@ public class Game {
 	private int currentCardPoints;
 	private Chat chat;
 
-	private String disconnectedPlayer= " "; //salvo il nome del giocatore che si disconnette
+	private String disconnectedPlayer= " ";
 
 
 
@@ -210,9 +210,7 @@ public class Game {
 	 * @param player is set as ready, then everyone is notified
 	 */
 	public void playerIsReadyToStart(Player player) {
-		System.out.println("in Game- playerIsReadyToStart");
 		player.setReadyToStart();
-		//listenersHandler.notify_PlayerIsReadyToStart(this, p.getNickname());
 		player.notify_playerReady(this);
 	}
 
@@ -229,7 +227,6 @@ public class Game {
 	 * @return true if already exist
 	 */
 	public boolean checkNickname(String nickname)  {
-		System.out.println("Game- checkNickname()- Checking for nickname \n");
 		for(Player p : this.players) {
 			if(nickname.equals(p.getNickname())) {
 				return true;
@@ -259,7 +256,6 @@ public class Game {
 	 * @return true if the player was successfully added, false otherwise.
 	 */
 	public boolean addPlayer(GameListenerInterface lis, String nickname, Color playerColor) {
-		System.out.println("Game - addPlayer");
 		// Check if the game is not full and the nickname is not taken
 		// Check if the game is not full
 		if(isFull()) {
@@ -271,34 +267,23 @@ public class Game {
 		// Check if the nickname is already taken
 		if (checkNickname(nickname)) {
 			if(!getPlayerByNickname(nickname).getConnected() || Objects.equals(nickname, disconnectedPlayer)){
-				System.out.println("Game - addPlayer: sending notify_AskForReconnection ");
 				listenersHandler.notify_AskForReconnection(lis, getPlayerByNickname(nickname), this); //chiede se sta provando a riconnettersi
 			} else {
-				System.out.println("Game - addPlayer: sending notify_JoinUnableNicknameAlreadyIn ");
 				listenersHandler.notify_JoinUnableNicknameAlreadyIn(lis, getPlayerByNickname(nickname), this);
 			}
 			return false;
 		}else{
 			// Create a new player with the given nickname
 			Player newPlayer = new Player(nickname, playerColor);
-			System.out.println("player added: "+nickname+" "+playerColor);
-			newPlayer.addListener(lis); //LISTENER DEL SINGOLO PLAYER
+			newPlayer.addListener(lis);
 			players.add(newPlayer);
 			newPlayer.setConnected(true);
-
-
-			System.out.println("Player " + nickname + " added to the game.");
-			System.out.println("Current players: " + players.stream().map(Player::getNickname).collect(Collectors.joining(", ")));
-
 			addListener(lis);
 
 			scoretrack.addPlayer(newPlayer);
-			System.out.println("Game: player added to the Scoretrack");
-
 
 			// Notify listeners that a player has joined the game
 			listenersHandler.notify_PlayerJoined(this, nickname, playerColor);
-			System.out.println("Game: sent notify_PlayerJoined");
 		}
 		return true;
 
@@ -421,9 +406,6 @@ public class Game {
 	 */
 	public boolean checkBoard() throws BoardSetupException {
 		// Verifying all conditions together
-		System.out.println("numero Gold="+ board.getGoldCards().size());
-		System.out.println("numero Resource="+ board.getResourceCards().size());
-		System.out.println("numero Objective="+ board.getObjectiveCards().length);
 		if (!(board.verifyGoldCardsNumber() &&
 				board.verifyResourceCardsNumber() &&
 				board.verifyObjectiveCardsNumber()) &&
@@ -455,7 +437,6 @@ public class Game {
 			if (getNumOfOnlinePlayers() >1) {
 				//I skip the disconnected players and I let play only the connected ones
 				do {
-					// Calcola l'indice del giocatore successivo
 					 nextIndex = (nextIndex + 1) % orderArray.length; //se è l'ultimo riparte dall'inizio
 
 				} while (!players.get(nextIndex).getConnected());
@@ -464,8 +445,6 @@ public class Game {
 				//when someone will reconnect, the nextTurn will be corrected
 				nextIndex = (nextIndex + 1) % orderArray.length;
 			}
-
-			// Imposta il nuovo currentPlayer
 			currentPlayer = players.get(orderArray[nextIndex]);
 			listenersHandler.notify_nextTurn(this);
 		}
@@ -479,10 +458,8 @@ public class Game {
 	 * checks, such as invalid points or player not found, the exceptions
 	 * `InvalidPointsException` and `PlayerNotFoundException` will be thrown.
 	 */
-	public void lastTurnGoalCheck(){ //
-		// Controlla l'obiettivo del giocatore corrente
+	public void lastTurnGoalCheck(){
 		checkGoal(currentPlayer.getGoal());
-		// Ottieni le carte degli obiettivi dal board e controlla gli obiettivi
 		ObjectiveCard[] commonGoals = board.getObjectiveCards();
 		for (ObjectiveCard commonGoal : commonGoals) {
 			checkGoal(commonGoal);
@@ -529,7 +506,7 @@ public class Game {
 			//OBJECTIVE CARDS
 			ObjectiveCard[] objective= drawObjectiveCards();
 			this.temporaryObjectiveCards.add(objective);
-			player.notify_requireGoals(this, index); //view richiede le 2 carte obbiettivo da mostrar con il metodo drawObjectiveCards()
+			player.notify_requireGoals(this, index);
 
 
 		} catch (DeckEmptyException e) {
@@ -539,10 +516,6 @@ public class Game {
             throw new RuntimeException(e);
         }
     }
-
-	public ArrayList<ObjectiveCard[]> getObjectiveCard(){
-		return temporaryObjectiveCards;
-	}
 
 	/**
 	 * Sets the initial card front or back chosen
@@ -582,9 +555,7 @@ public class Game {
 	public ObjectiveCard[] drawObjectiveCards() throws IllegalStateException, DeckEmptyException {
 		ObjectiveCard[] drawnCards = new ObjectiveCard[2];
 
-		// Controlla che il gioco sia in uno stato valido per pescare carte obiettivo
 		if (status.equals(GameStatus.WAIT)) {
-			// Pesca due carte obiettivo
 			for (int i = 0; i < 2; i++) {
 				drawnCards[i]=board.takeObjectiveCard();;
 			}
@@ -606,14 +577,6 @@ public class Game {
 		player.notify_cardsReady(this);
 	}
 
-
-	/** Determines the winner of the game based on the score thanks to the Board.
-	 * @return The player WINNER
-	 */
-	public Player getWinner() throws NoPlayersException {
-		return scoretrack.getWinner();
-
-	}
 
 	/**
 	 * Handles the player's turn to place a card on the board.
@@ -706,12 +669,9 @@ public class Game {
 		if (playerNickname == null) {
 			throw new IllegalArgumentException("Nickname cannot be null");
 		}
-		// Utilizza lo stream per cercare un giocatore con il nickname specificato
 		Optional<Player> optionalPlayer = players.stream()
 				.filter(player -> player.getNickname().equals(playerNickname))
 				.findFirst();
-
-		// Restituisce il giocatore se trovato, altrimenti lancia un'eccezione
 		return optionalPlayer.orElseThrow(() -> new NoSuchElementException("Player not found for nickname: " + playerNickname));
 	}
 
@@ -720,15 +680,14 @@ public class Game {
 	 * @param nick player to set as disconnected
 	 */
 	public void setAsDisconnected(String nick) {
-		System.out.println("in Game- setAsDisconnected ");
 		getPlayerByNickname(nick).setConnected(false);
-		setDisconnectedPlayer(nick); //salvo nome del giocatore disconnesso
+		setDisconnectedPlayer(nick);
 		getPlayerByNickname(nick).setNotReadyToStart();
 
 		if (getNumOfOnlinePlayers() != 0) {
 			listenersHandler.notify_playerDisconnected(this, nick);
 
-			if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) { //TODO CONTROLLARE TURNI
+			if (getNumOfOnlinePlayers() != 1 && !isTheCurrentPlayerOnline()) {
 				try {
 					int currentIndex = -1;
 					for (int i = 0; i < this.getOrderArray().length; i++) {
@@ -739,8 +698,7 @@ public class Game {
 					}
 					nextTurn(currentIndex);
 				}catch (GameEndedException e) {
-					System.err.println("setAsDisconnected Game - GameEndedException");
-					setStatus(GameStatus.ENDED); //TODO: CONTROLLARE!!!
+					setStatus(GameStatus.ENDED);
 				}
 			}
 			if ((this.status.equals(GameStatus.RUNNING) || this.status.equals(GameStatus.LAST_CIRCLE)) && getNumOfOnlinePlayers() == 1) {
@@ -769,13 +727,9 @@ public class Game {
 	 * @return true if the reconnection is successful, false otherwise
 	 */
 	public boolean reconnectPlayer(GameListenerInterface lis, Player p) {
-		System.out.println("Game- reconnectPlayer()\n ");
 		setDisconnectedPlayer(" ");
-
 		if(!p.getConnected()){
-
 			if (!isTheCurrentPlayerOnline()) {
-				//oppure if(disconnectedPlayer.equals(currentPlayer)
 				int currentIndex = -1;
 				for (int i = 0; i < this.getOrderArray().length; i++) {
 					if (this.getPlayers().get(this.getOrderArray()[i]).equals(this.getCurrentPlayer())) {
@@ -790,12 +744,11 @@ public class Game {
 					removeListener(lis);
 					p.removeListener(lis);
 					printAsync("Reconnection FAILED because GAME ENDED");
-					setStatus(GameStatus.ENDED); //TODO: CONTROLLARE!!!
-
+					setStatus(GameStatus.ENDED);
 				}
 			}
 			p.setConnected(true);
-			setDisconnectedPlayer(" "); //ho riconnesso il giocatore
+			setDisconnectedPlayer(" ");
 			listenersHandler.notify_playerReconnected(this, p.getNickname());
 
 			return true;
@@ -803,7 +756,6 @@ public class Game {
 			p.notify_ReconnectionFailed("ERROR: Trying to reconnect a player not offline!");
 			removeListener(lis);
 			p.removeListener(lis);
-
 			System.out.println("ERROR: Trying to reconnect a player not offline!");
 			return false;
 		}
@@ -868,7 +820,6 @@ public class Game {
 		System.out.println("Current players in the game: " + players.stream().map(Player::getNickname).collect(Collectors.joining(", ")));
 
 
-		//controllo se il mittente del messaggio è effettivamente un giocatore che partecipa alla partita
 		long count = players.stream().filter(x -> x.equals(sender)).count();
 		if (count == 1) {
 			chat.addMsg(msg);
@@ -879,9 +830,6 @@ public class Game {
 			throw new ActionByAPlayerNotInTheGameException();
 		}
 	}
-
-	//FOR DISCONNECTION TEST:
-
 
 }
 
