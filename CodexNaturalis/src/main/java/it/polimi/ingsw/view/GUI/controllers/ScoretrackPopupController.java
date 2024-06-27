@@ -77,6 +77,25 @@ public class ScoretrackPopupController extends ControllerGUI {
     private Button btnPoints19;
     @FXML
     private Button btnPoints20;
+    @FXML
+    private Button btnPoints21;
+    @FXML
+    private Button btnPoints22;
+    @FXML
+    private Button btnPoints23;
+    @FXML
+    private Button btnPoints24;
+    @FXML
+    private Button btnPoints25;
+    @FXML
+    private Button btnPoints26;
+    @FXML
+    private Button btnPoints27;
+    @FXML
+    private Button btnPoints28;
+    @FXML
+    private Button btnPoints29;
+
     private List<Player> playersWithPoints;
     private GUIApplication guiApplication;
 
@@ -163,7 +182,8 @@ public class ScoretrackPopupController extends ControllerGUI {
                 btnPoints5, btnPoints6, btnPoints7, btnPoints8, btnPoints9,
                 btnPoints10, btnPoints11, btnPoints12, btnPoints13, btnPoints14,
                 btnPoints15, btnPoints16, btnPoints17, btnPoints18, btnPoints19,
-                btnPoints20
+                btnPoints20, btnPoints21, btnPoints22, btnPoints23, btnPoints24,
+                btnPoints25, btnPoints26, btnPoints27, btnPoints28, btnPoints29
         };
     }
 
@@ -198,15 +218,12 @@ public class ScoretrackPopupController extends ControllerGUI {
         }
         for (Player player : playersWithPoints) {
             int playerScore = scoretrack.getPlayerScore(player);
-            if(playerScore<=29) {
-                switch (player.getPlayerColor()) {
-                    case YELLOW -> btnPoints[playerScore].getStyleClass().add("button-glow-yellow");
-                    case RED -> btnPoints[playerScore].getStyleClass().add("button-glow-red");
-                    case BLUE -> btnPoints[playerScore].getStyleClass().add("button-glow-blue");
-                    case GREEN -> btnPoints[playerScore].getStyleClass().add("button-glow-green");
-                    default -> {
-                    }
-                }
+            switch (player.getPlayerColor()) {
+                case YELLOW -> btnPoints[playerScore].getStyleClass().add("button-glow-yellow");
+                case RED -> btnPoints[playerScore].getStyleClass().add("button-glow-red");
+                case BLUE -> btnPoints[playerScore].getStyleClass().add("button-glow-blue");
+                case GREEN -> btnPoints[playerScore].getStyleClass().add("button-glow-green");
+                default -> {}
             }
         }
     }
