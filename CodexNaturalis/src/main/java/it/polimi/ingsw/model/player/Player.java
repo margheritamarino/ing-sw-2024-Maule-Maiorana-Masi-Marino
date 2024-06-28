@@ -21,7 +21,7 @@ import static it.polimi.ingsw.network.PrintAsync.printAsync;
 /**
  * Represents a player in the game.
  * This class encapsulates the attributes and behaviors of a player participating in the game.
- * It manages the player's nickname, state, deck, book, objective card, connection status, and listeners for game events.
+ * It manages the player's nickname, color, deck, book, objective card, connection status, and listeners for game events.
  */
 public class Player implements Serializable {
 

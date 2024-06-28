@@ -128,7 +128,6 @@ public abstract class PlayableCard implements Serializable {
         } else {
             // Fallback to default images
             String defaultPath = typeTemp.equals("Resource") ? "/img/Cards/0_ResourceFront.png" : "/img/Cards/0_GoldFront.png";
-            System.out.println("Attempting to load default image: " + defaultPath);
             resourcePath = getResourcePath(defaultPath);
             if (resourcePath != null) {
                 return resourcePath;
@@ -150,11 +149,9 @@ public abstract class PlayableCard implements Serializable {
             if (resourceUrl != null) {
                 return resourceUrl.toExternalForm();
             } else {
-                System.err.println("Resource not found: " + path);
                 return null;
             }
         } catch (Exception e) {
-            System.err.println("Error finding resource: " + path + " - " + e.getMessage());
             return null;
         }
     }
