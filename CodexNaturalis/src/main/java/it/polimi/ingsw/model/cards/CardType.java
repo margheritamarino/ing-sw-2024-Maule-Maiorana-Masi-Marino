@@ -7,5 +7,5 @@ import java.io.Serializable;
  * available in the game.
  */
 public enum CardType implements Serializable {
-    InitialCard, ResourceCard, GoldCard;
+    InitialCard, ResourceCard, GoldCard
 }

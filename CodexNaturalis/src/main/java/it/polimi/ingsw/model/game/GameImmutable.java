@@ -21,9 +21,6 @@ import java.util.NoSuchElementException;
  *
  * This class ensures that all objects contained within are immutable, preventing
  * clients from modifying the game state.
- * - Two interfaces are implemented for each mutable object:
- *   - One interface for the server (which mirrors the mutable class).
- *   - One interface for the client, which exposes only getter methods.
  *
  * By implementing these interfaces, the client only has access to getter methods
  * and cannot invoke setter methods, thereby maintaining the immutability of the

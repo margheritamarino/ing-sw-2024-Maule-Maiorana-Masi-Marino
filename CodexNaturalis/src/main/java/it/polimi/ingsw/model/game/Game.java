@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.view.PrintAsync.printAsync;
 
 /**
- * Represents a game instance in the application.
- * This class manages the game state, including players, cards, board setup, and game progression.
- * It follows the MVC (Model-View-Controller) pattern where it serves as the central model component.
+ * Game class represents a game instance in the application.
+ * It manages the game state, including players, cards, board setup, and game progression,
+ * and follows the MVC (Model-View-Controller) pattern where it serves as the central model component.
  */
 public class Game {
 
