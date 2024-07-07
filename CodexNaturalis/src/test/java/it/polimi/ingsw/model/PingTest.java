@@ -15,7 +15,7 @@ public class PingTest {
         Ping ping = new Ping(expectedBeat, nick);
 
         // Assertion
-        assertEquals(expectedBeat, ping.getBeat(), "getBeat() should return the correct heartbeat");
+        assertEquals(expectedBeat, ping.getBeat(), "getBeat() should return the correct ping");
     }
 
     @Test

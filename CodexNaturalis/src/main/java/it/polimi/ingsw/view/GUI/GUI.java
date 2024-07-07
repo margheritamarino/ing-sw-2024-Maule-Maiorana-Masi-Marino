@@ -619,7 +619,7 @@ public class GUI extends UI {
         PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
         pause2.setOnFinished(event -> {
             callPlatformRunLater(() -> this.guiApplication.closePopUpStage());
-            String msg= "WAIT! It's "+ model.getCurrentPlayer().getNickname()+" Turn";
+            String msg= "WAIT! It's "+ model.getCurrentPlayer().getNickname()+"'s Turn";
             callPlatformRunLater(() -> this.guiApplication.changeLabelMessage(msg, false));
         });
         pause2.play();

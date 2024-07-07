@@ -269,7 +269,7 @@ public class ListenersHandler {
                 l.sentMessage(new GameImmutable(gameModel), msg);
                 System.out.println("Listener notified: " + l.toString());
             } catch (RemoteException e) {
-                printAsync("During notification of notify_SentMessage, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_SentMessage, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -288,7 +288,7 @@ public class ListenersHandler {
             try {
                 l.playerReconnected(new GameImmutable(model), nickPlayerReconnected);
             } catch (RemoteException e) {
-                printAsync("During notification of notify_playerReconnected, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_playerReconnected, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -306,7 +306,7 @@ public class ListenersHandler {
             try {
                 l.errorReconnecting(msg);
             } catch (RemoteException e) {
-                printAsync("During notification of notify_ReconnectionFailed, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_ReconnectionFailed, a disconnection has been detected before ping");
                 i.remove();
             }
         }
@@ -339,7 +339,7 @@ public class ListenersHandler {
             try {
                 l.onlyOnePlayerConnected(new GameImmutable(model), secondsToWaitUntillGameEnded);
             } catch (RemoteException e) {
-                printAsync("During notification of notify_onlyOnePlayerConnected, a disconnection has been detected before heartbeat");
+                printAsync("During notification of notify_onlyOnePlayerConnected, a disconnection has been detected before ping");
                 i.remove();
             }
         }

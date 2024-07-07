@@ -43,7 +43,7 @@ public abstract class ClientGenericMessage implements Serializable{
     }
 
     /**
-     * @return if it's a heartbeat message
+     * @return if it's a ping message
      */
     public boolean isPing(){
         return isPing;

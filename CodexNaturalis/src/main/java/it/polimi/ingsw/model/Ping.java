@@ -2,8 +2,8 @@ package it.polimi.ingsw.model;
 
 
 /**
- * Heartbeat class for RMI connection.
- * This class represents a heartbeat sent from the client to the server
+ * Ping class for RMI connection.
+ * This class represents a ping sent from the client to the server
  * to indicate that the client is still connected.
  */
 public class Ping {
@@ -11,9 +11,9 @@ public class Ping {
     private final String nick;
 
     /**
-     * Constructs a Ping object with a heartbeat and nickname.
+     * Constructs a Ping object with a ping and nickname.
      *
-     * @param beat The heartbeat value.
+     * @param beat The ping value.
      * @param nick The nickname of the player pinging the server.
      */
     public Ping(Long beat, String nick) {
@@ -22,9 +22,9 @@ public class Ping {
     }
 
     /**
-     * Retrieves the heartbeat value.
+     * Retrieves the ping value.
      *
-     * @return The heartbeat value.
+     * @return The ping value.
      */
     public Long getBeat() {
         return beat;
