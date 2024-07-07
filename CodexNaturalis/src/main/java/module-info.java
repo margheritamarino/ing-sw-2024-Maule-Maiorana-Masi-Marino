@@ -1,6 +1,7 @@
 module PSP24 {
     requires javafx.controls;
     requires javafx.fxml;
+    //requires org.junit.jupiter.api;
     requires com.google.gson;
     requires java.rmi;
     requires org.fusesource.jansi;
