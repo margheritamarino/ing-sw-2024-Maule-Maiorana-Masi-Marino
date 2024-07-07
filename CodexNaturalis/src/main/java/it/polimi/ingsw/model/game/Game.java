@@ -434,11 +434,8 @@ public class Game {
 
 
 	/**
-	 * Checks the personal goal and common goals of the currentPlayer.
-	 * This method first checks the personal goal of the current player, and then
-	 * verifies the common goals present on the board. If any errors occur during the
-	 * checks, such as invalid points or player not found, the exceptions
-	 * `InvalidPointsException` and `PlayerNotFoundException` will be thrown.
+	 * Checks for each player of the game
+	 * his personal goal and the common goals.
 	 */
 	public void lastTurnGoalCheck(){
 		for(Player p: players){
@@ -453,7 +450,7 @@ public class Game {
 	}
 
 	/**
-	 * Checks the given objective card against the current player's book to add points.
+	 * Checks the given objective card against the player's book to add points.
 	 *
 	 * @param goalToCheck the objective card to check against the player's book
 	 * @param p the player to check the goals
@@ -471,8 +468,7 @@ public class Game {
 	 * Initializes the cards for the game.
 	 * Each player picks
 	 * Distributes initial cards, objective cards, resource cards, and gold cards to each player.
-	 * @param lis listener who has to be notified about model update
-	 * @param player that is involved in model update
+	 * @param player that is involved in the initialization and whose listeners are notified
 	 * @param index indexPlayer
 	 */
 	public void initializeCards(GameListenerInterface lis, Player player, int index) {
